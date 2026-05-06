@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2026-05-06.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-05-06"
+              "title": "README"
             }
           }
         ]
@@ -187,8 +187,9 @@
   "active": "c1d41ccf3979c231",
   "lastOpenFiles": [
     "测试测试.md",
-    "2026-05-06.md",
     "README.md",
+    "未命名.base",
+    "2026-05-06.md",
     "新建文本文档.txt"
   ]
 }
