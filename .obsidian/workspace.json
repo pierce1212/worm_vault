@@ -164,13 +164,23 @@
               "icon": "lucide-list",
               "title": "测试 的大纲"
             }
+          },
+          {
+            "id": "aca41f52110b7068",
+            "type": "leaf",
+            "state": {
+              "type": "gemini-agent-view",
+              "state": {},
+              "icon": "sparkles",
+              "title": "Agent Mode"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 329.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -181,15 +191,26 @@
       "templates:插入模板": false,
       "daily-notes:打开/创建今天的日记": false,
       "command-palette:打开命令面板": false,
-      "bases:新建数据库": false
+      "bases:新建数据库": false,
+      "gemini-scribe:Gemini Scribe: Agent Mode": false
     }
   },
-  "active": "c1d41ccf3979c231",
+  "active": "f0e5ffc069e90c89",
   "lastOpenFiles": [
+    "assets/README/file-20260507102035668.png",
+    "assets/README",
+    "assets",
+    "gemini-scribe/Prompts/example-expert.md",
+    "gemini-scribe/Scheduled-Tasks/scheduled-tasks-state.json",
+    "gemini-scribe/Scheduled-Tasks/Runs",
+    "gemini-scribe/Scheduled-Tasks",
+    "gemini-scribe/Skills",
+    "gemini-scribe/Prompts",
+    "gemini-scribe/Background-Tasks",
+    "gemini-scribe/Agent-Sessions",
+    "gemini-scribe",
     "测试测试.md",
     "README.md",
-    "未命名.base",
-    "2026-05-06.md",
-    "新建文本文档.txt"
+    "2026-05-06.md"
   ]
 }
