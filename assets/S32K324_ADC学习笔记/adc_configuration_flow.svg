@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="800" viewBox="0 0 1300 800">
+  <defs>
+    <style>
+      .bg { fill: #0b1020; }
+      .box { fill: #1e293b; stroke: #60a5fa; stroke-width: 2; rx: 16; ry: 16; }
+      .box2 { fill: #0f172a; stroke: #34d399; stroke-width: 2; rx: 16; ry: 16; }
+      .box3 { fill: #3b0764; stroke: #c084fc; stroke-width: 2; rx: 16; ry: 16; }
+      .warn { fill: #7f1d1d; stroke: #f87171; stroke-width: 2; rx: 16; ry: 16; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1300" height="800"/>
+  <text class="txt" x="60" y="60">ADC 配置流程与检查点</text>
+
+  <rect class="box" x="60" y="140" width="220" height="110"/>
+  <text class="txt" x="95" y="195">确认原理图</text>
+  <text class="small" x="85" y="225">输入、电阻、滤波、VREF</text>
+
+  <rect class="box2" x="340" y="140" width="220" height="110"/>
+  <text class="txt" x="395" y="195">引脚复用</text>
+  <text class="small" x="385" y="225">模拟输入使能</text>
+
+  <rect class="box3" x="620" y="140" width="220" height="110"/>
+  <text class="txt" x="675" y="195">ADC 参数</text>
+  <text class="small" x="645" y="225">分辨率 / 采样时间</text>
+
+  <rect class="box" x="900" y="140" width="280" height="110"/>
+  <text class="txt" x="940" y="195">触发 / 中断 / DMA</text>
+  <text class="small" x="940" y="225">硬件触发优先考虑</text>
+
+  <path class="line" d="M280 195 L340 195"/>
+  <path class="line" d="M560 195 L620 195"/>
+  <path class="line" d="M840 195 L900 195"/>
+
+  <rect class="box" x="140" y="360" width="220" height="110"/>
+  <text class="txt" x="180" y="415">单通道验证</text>
+  <text class="small" x="175" y="445">先轮询读原始值</text>
+
+  <rect class="box2" x="420" y="360" width="220" height="110"/>
+  <text class="txt" x="465" y="415">多通道扫描</text>
+  <text class="small" x="455" y="445">关注串扰与顺序</text>
+
+  <rect class="warn" x="700" y="360" width="220" height="110"/>
+  <text class="txt" x="735" y="415">异常排查</text>
+  <text class="small" x="710" y="445">0 / 满量程 / 抖动</text>
+
+  <rect class="box3" x="980" y="360" width="220" height="110"/>
+  <text class="txt" x="1015" y="415">滤波与诊断</text>
+  <text class="small" x="1000" y="445">均值 / 中值 / IIR</text>
+
+  <path class="line" d="M250 250 C250 300, 250 310, 250 360"/>
+  <path class="line" d="M530 250 C530 300, 530 310, 530 360"/>
+  <path class="line" d="M810 250 C810 300, 810 310, 810 360"/>
+  <path class="line" d="M1090 250 C1090 300, 1090 310, 1090 360"/>
+
+  <text class="small" x="60" y="570">建议：先跑通“单通道 + 原始码值”，再逐步增加触发、中断、DMA、滤波，不要一口气全开。</text>
+</svg>

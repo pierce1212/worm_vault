@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="760" viewBox="0 0 1300 760">
+  <defs>
+    <style>
+      .bg { fill: #111827; }
+      .box { fill: #1f2937; stroke: #60a5fa; stroke-width: 2; rx: 16; ry: 16; }
+      .box2 { fill: #064e3b; stroke: #34d399; stroke-width: 2; rx: 16; ry: 16; }
+      .box3 { fill: #3b0764; stroke: #c084fc; stroke-width: 2; rx: 16; ry: 16; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1300" height="760"/>
+  <text class="txt" x="60" y="60">ADC 触发链路</text>
+
+  <rect class="box" x="70" y="160" width="210" height="120"/>
+  <text class="txt" x="110" y="220">eMIOS / 定时器</text>
+  <text class="small" x="105" y="250">周期事件 / 比较事件</text>
+
+  <rect class="box2" x="350" y="160" width="210" height="120"/>
+  <text class="txt" x="395" y="220">TRGMUX</text>
+  <text class="small" x="385" y="250">触发路由</text>
+
+  <rect class="box3" x="630" y="160" width="210" height="120"/>
+  <text class="txt" x="685" y="220">ADC</text>
+  <text class="small" x="664" y="250">开始采样</text>
+
+  <rect class="box" x="910" y="160" width="220" height="120"/>
+  <text class="txt" x="955" y="220">结果寄存器</text>
+  <text class="small" x="940" y="250">完成后写入</text>
+
+  <rect class="box2" x="350" y="430" width="210" height="120"/>
+  <text class="txt" x="412" y="490">中断</text>
+  <text class="small" x="395" y="520">通知 CPU</text>
+
+  <rect class="box3" x="630" y="430" width="210" height="120"/>
+  <text class="txt" x="690" y="490">DMA</text>
+  <text class="small" x="670" y="520">自动搬运</text>
+
+  <path class="line" d="M280 220 L350 220"/>
+  <path class="line" d="M560 220 L630 220"/>
+  <path class="line" d="M840 220 L910 220"/>
+  <path class="line" d="M735 280 L455 430"/>
+  <path class="line" d="M735 280 L735 430"/>
+  <path class="line" d="M1020 280 C1020 365, 840 390, 735 430"/>
+
+  <text class="small" x="70" y="620">工程上最重要的是触发时序稳定：采样点要和 PWM / 控制周期对齐，才能得到稳定可靠的数据。</text>
+</svg>

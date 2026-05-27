@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="850" viewBox="0 0 1600 850">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .box2{fill:#eef6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .box3{fill:#fff7ed; stroke:#ea580c; stroke-width:2; rx:8}
+      .box4{fill:#f0fdf4; stroke:#16a34a; stroke-width:2; rx:8}
+      .box5{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .label{font:600 20px Arial, sans-serif; fill:#111827}
+      .small{font:400 16px Arial, sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, monospace; fill:#334155}
+      .code{font:400 16px Consolas, monospace; fill:#0f172a}
+      .wire{stroke:#334155; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:8 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">SIUL2 总体位置</text>
+      <text x="56" y="92" class="sub">System Integration Unit Lite2 负责 pad 电气控制、复用、GPIO 数据、外部中断/DMA 请求。</text>
+      
+  <rect x="80" y="170" width="280" height="130" class="box3"/>
+  <text x="98" y="204" class="label">Pad / Pin</text>
+  <text x="98" y="234" class="small">芯片外部引脚</text>
+<text x="98" y="258" class="small">PTA/PTB/PTC...</text>
+  
+      
+  <rect x="470" y="120" width="620" height="500" class="box2"/>
+  <text x="488" y="154" class="label">SIUL2</text>
+  <text x="488" y="184" class="small">MSCR: 每个 pad 的输出复用和电气属性</text>
+<text x="488" y="208" class="small">IMCR: 外设输入信号从哪个 pad 进来</text>
+<text x="488" y="232" class="small">GPDO/GPDI: 单 bit GPIO 输出/输入</text>
+<text x="488" y="256" class="small">PGPDO/PGPDI: 16-bit 端口访问</text>
+<text x="488" y="280" class="small">MPGPDO: mask + data 原子写</text>
+  
+      
+  <rect x="1220" y="160" width="260" height="120" class="box4"/>
+  <text x="1238" y="194" class="label">IP Modules</text>
+  <text x="1238" y="224" class="small">CAN / LPSPI / ADC</text>
+<text x="1238" y="248" class="small">eMIOS / LPI2C ...</text>
+  
+      
+  <rect x="1220" y="360" width="260" height="120" class="box5"/>
+  <text x="1238" y="394" class="label">Interrupt / DMA</text>
+  <text x="1238" y="424" class="small">EIRQ0..31</text>
+<text x="1238" y="448" class="small">DIRER/DISR/DIRSR</text>
+  
+      
+  <rect x="1220" y="560" width="260" height="120" class="box"/>
+  <text x="1238" y="594" class="label">CPU / MCAL</text>
+  <text x="1238" y="624" class="small">Port_Init()</text>
+<text x="1238" y="648" class="small">Dio_Read/Write</text>
+  
+      <path d="M360,235 L470,235" class="wire"/>
+      <path d="M1090,220 L1220,220" class="wire"/>
+      <path d="M1090,420 L1220,420" class="wire"/>
+      <path d="M1220,620 L1090,520" class="wire"/>
+      <path d="M470,520 L360,235" class="wire"/>
+      <text x="98" y="705" class="small">一句话：SIUL2 是“引脚矩阵 + GPIO 寄存器 + 外部中断前端”。</text>
+      
+</svg>

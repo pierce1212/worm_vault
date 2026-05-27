@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .box2{fill:#eef6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .box3{fill:#fff7ed; stroke:#ea580c; stroke-width:2; rx:8}
+      .box4{fill:#f0fdf4; stroke:#16a34a; stroke-width:2; rx:8}
+      .box5{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .label{font:600 20px Arial, sans-serif; fill:#111827}
+      .small{font:400 16px Arial, sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, monospace; fill:#334155}
+      .code{font:400 16px Consolas, monospace; fill:#0f172a}
+      .wire{stroke:#334155; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:8 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">MSCR 关键位速记</text>
+      <text x="56" y="92" class="sub">以下字段以 S32K324_SIUL2.h 中的 bit mask 为依据；具体支持性仍以 IOMUX 和芯片章节说明为准。</text>
+      <rect x="70" y="160" width="1460" height="90" fill="#f8fafc" stroke="#334155" stroke-width="2" rx="8"/>
+      <text x="110" y="145" class="tiny">31</text><text x="218" y="145" class="tiny">24</text><text x="326" y="145" class="tiny">21</text><text x="434" y="145" class="tiny">19</text><text x="542" y="145" class="tiny">17</text><text x="650" y="145" class="tiny">16</text><text x="758" y="145" class="tiny">14</text><text x="866" y="145" class="tiny">13</text><text x="974" y="145" class="tiny">11</text><text x="1082" y="145" class="tiny">8</text><text x="1190" y="145" class="tiny">6</text><text x="1298" y="145" class="tiny">5</text><text x="1406" y="145" class="tiny">3..0</text>
+      
+  <rect x="85" y="290" width="330" height="100" class="box2"/>
+  <text x="103" y="324" class="label">OBE  bit 21</text>
+  <text x="103" y="354" class="small">输出缓冲</text>
+  
+  <rect x="455" y="290" width="330" height="100" class="box"/>
+  <text x="473" y="324" class="label">IBE  bit 19</text>
+  <text x="473" y="354" class="small">输入缓冲</text>
+  
+  <rect x="825" y="290" width="330" height="100" class="box2"/>
+  <text x="843" y="324" class="label">INV  bit 17</text>
+  <text x="843" y="354" class="small">输入/输出反相</text>
+  
+  <rect x="1195" y="290" width="330" height="100" class="box"/>
+  <text x="1213" y="324" class="label">PKE  bit 16</text>
+  <text x="1213" y="354" class="small">pull keep</text>
+  
+  <rect x="85" y="425" width="330" height="100" class="box2"/>
+  <text x="103" y="459" class="label">SRC  bit 14</text>
+  <text x="103" y="489" class="small">slew/边沿控制</text>
+  
+  <rect x="455" y="425" width="330" height="100" class="box"/>
+  <text x="473" y="459" class="label">PUE  bit 13</text>
+  <text x="473" y="489" class="small">pull 使能</text>
+  
+  <rect x="825" y="425" width="330" height="100" class="box2"/>
+  <text x="843" y="459" class="label">PUS  bit 11</text>
+  <text x="843" y="489" class="small">上拉/下拉选择</text>
+  
+  <rect x="1195" y="425" width="330" height="100" class="box"/>
+  <text x="1213" y="459" class="label">DSE  bit 8</text>
+  <text x="1213" y="489" class="small">驱动强度</text>
+  
+  <rect x="85" y="560" width="330" height="100" class="box2"/>
+  <text x="103" y="594" class="label">IFE  bit 6</text>
+  <text x="103" y="624" class="small">输入滤波</text>
+  
+  <rect x="455" y="560" width="330" height="100" class="box"/>
+  <text x="473" y="594" class="label">SMC  bit 5</text>
+  <text x="473" y="624" class="small">Safe mode</text>
+  
+  <rect x="825" y="560" width="330" height="100" class="box2"/>
+  <text x="843" y="594" class="label">SSS  bit 3..0</text>
+  <text x="843" y="624" class="small">输出源选择</text>
+  
+      
+</svg>

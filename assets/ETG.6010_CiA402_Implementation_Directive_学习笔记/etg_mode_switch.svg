@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="920" viewBox="0 0 1500 920">
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <text x="50" y="60" fill="#f9fafb" font-size="34" font-family="Arial, Microsoft YaHei">ETG.6010 重点：状态机、模式切换、远程控制</text>
+  <rect x="70" y="140" width="360" height="130" rx="20" fill="#1e293b" stroke="#60a5fa" stroke-width="3"/>
+  <text x="250" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">0x6040 控制字</text>
+  <text x="250" y="230" fill="#cbd5e1" font-size="18" text-anchor="middle" font-family="Arial, Microsoft YaHei">主站发命令：使能、复位、Halt、Quick stop</text>
+  <rect x="530" y="140" width="380" height="130" rx="20" fill="#064e3b" stroke="#34d399" stroke-width="3"/>
+  <text x="720" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">驱动器 FSA + 模式逻辑</text>
+  <text x="720" y="230" fill="#d1fae5" font-size="18" text-anchor="middle" font-family="Arial, Microsoft YaHei">状态机决定能否进入 Operation enabled</text>
+  <rect x="1010" y="140" width="360" height="130" rx="20" fill="#1e293b" stroke="#f59e0b" stroke-width="3"/>
+  <text x="1190" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">0x6041 / 0x6061</text>
+  <text x="1190" y="230" fill="#fde68a" font-size="18" text-anchor="middle" font-family="Arial, Microsoft YaHei">状态反馈 + 实际模式显示</text>
+  <path d="M430 205 L525 205" stroke="#93c5fd" stroke-width="6" marker-end="url(#arrow)"/>
+  <path d="M910 205 L1005 205" stroke="#86efac" stroke-width="6" marker-end="url(#arrow)"/>
+  <rect x="110" y="350" width="1280" height="210" rx="24" fill="#111827" stroke="#374151"/>
+  <text x="145" y="402" fill="#f9fafb" font-size="28" font-family="Arial, Microsoft YaHei">ETG 文档特别强调的工程点</text>
+  <text x="150" y="455" fill="#93c5fd" font-size="22" font-family="Arial, Microsoft YaHei">1. 0x6060 写入后，要检查 0x6061 是否真的切换成功</text>
+  <text x="150" y="500" fill="#86efac" font-size="22" font-family="Arial, Microsoft YaHei">2. 模式切换不会自动重配实时通信 PDO/COB</text>
+  <text x="150" y="545" fill="#fde68a" font-size="22" font-family="Arial, Microsoft YaHei">3. bit 9 Remote=1 才表示网络侧控制字正在生效</text>
+  <rect x="110" y="610" width="1280" height="220" rx="24" fill="#0b1220" stroke="#374151"/>
+  <text x="145" y="660" fill="#f9fafb" font-size="28" font-family="Arial, Microsoft YaHei">你可以把这份指南记成：先看状态，再看模式，再看实际显示</text>
+  <text x="150" y="715" fill="#e5e7eb" font-size="22" font-family="Arial, Microsoft YaHei">这比单纯记对象编号更接近真实调试流程</text>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+</svg>

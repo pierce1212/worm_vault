@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="950" viewBox="0 0 1500 950">
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <text x="50" y="60" fill="#f9fafb" font-size="34" font-family="Arial, Microsoft YaHei">CiA 402 状态机简图</text>
+  <g fill="#1f2937" stroke="#60a5fa" stroke-width="3" font-family="Arial, Microsoft YaHei" text-anchor="middle">
+    <rect x="80" y="140" width="200" height="90" rx="18"/>
+    <rect x="330" y="140" width="230" height="90" rx="18"/>
+    <rect x="620" y="140" width="220" height="90" rx="18"/>
+    <rect x="900" y="140" width="190" height="90" rx="18"/>
+    <rect x="1140" y="140" width="240" height="90" rx="18"/>
+    <rect x="1140" y="320" width="240" height="90" rx="18" fill="#3f1d1d" stroke="#f87171"/>
+    <rect x="900" y="320" width="190" height="90" rx="18" fill="#1f2937" stroke="#f59e0b"/>
+    <rect x="620" y="320" width="220" height="90" rx="18" fill="#064e3b" stroke="#34d399"/>
+  </g>
+  <g fill="#f9fafb" font-size="22" font-family="Arial, Microsoft YaHei" text-anchor="middle">
+    <text x="180" y="195">Start</text>
+    <text x="445" y="195">Not ready</text>
+    <text x="730" y="195">Switch on disabled</text>
+    <text x="995" y="195">Ready to switch on</text>
+    <text x="1260" y="195">Switched on</text>
+    <text x="1260" y="375">Fault</text>
+    <text x="995" y="375">Operation enabled</text>
+    <text x="730" y="375">Quick stop active</text>
+  </g>
+  <g stroke="#cbd5e1" stroke-width="5" fill="none" marker-end="url(#arrow)">
+    <path d="M280 185 L325 185"/>
+    <path d="M560 185 L615 185"/>
+    <path d="M840 185 L895 185"/>
+    <path d="M1090 185 L1135 185"/>
+    <path d="M1260 230 L1260 315"/>
+    <path d="M1140 365 L1030 365"/>
+    <path d="M900 365 L840 365"/>
+    <path d="M730 320 L730 235"/>
+  </g>
+  <g fill="#cbd5e1" font-size="18" font-family="Arial, Microsoft YaHei">
+    <text x="310" y="165">0</text>
+    <text x="595" y="165">1</text>
+    <text x="865" y="165">2 / 7</text>
+    <text x="1115" y="165">3 / 4</text>
+    <text x="1288" y="280">15</text>
+    <text x="1060" y="345">4 / 5</text>
+    <text x="845" y="345">11 / 12</text>
+  </g>
+  <rect x="100" y="500" width="1300" height="360" rx="22" fill="#111827" stroke="#374151"/>
+  <text x="130" y="550" fill="#f9fafb" font-size="28" font-family="Arial, Microsoft YaHei">状态机记忆法</text>
+  <text x="150" y="610" fill="#93c5fd" font-size="24" font-family="Arial, Microsoft YaHei">1. 先到 Ready to switch on</text>
+  <text x="150" y="660" fill="#86efac" font-size="24" font-family="Arial, Microsoft YaHei">2. 再到 Switched on</text>
+  <text x="150" y="710" fill="#fde68a" font-size="24" font-family="Arial, Microsoft YaHei">3. 最后 Enable operation</text>
+  <text x="150" y="760" fill="#fca5a5" font-size="24" font-family="Arial, Microsoft YaHei">4. Fault 需要 Fault reset 才能恢复</text>
+  <text x="150" y="815" fill="#e5e7eb" font-size="20" font-family="Arial, Microsoft YaHei">Quick stop、Fault reaction、Operation enabled 是理解伺服启动流程的关键节点</text>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+</svg>

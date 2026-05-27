@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="760" viewBox="0 0 1300 760">
+  <defs>
+    <style>
+      .bg { fill: #101827; }
+      .box { fill: #1f2937; stroke: #60a5fa; stroke-width: 2; rx: 14; ry: 14; }
+      .box2 { fill: #111827; stroke: #34d399; stroke-width: 2; rx: 14; ry: 14; }
+      .box3 { fill: #312e81; stroke: #a78bfa; stroke-width: 2; rx: 14; ry: 14; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .dline { stroke: #94a3b8; stroke-width: 3; stroke-dasharray: 8 8; fill: none; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1300" height="760"/>
+  <text class="txt" x="60" y="60">ADC 内部硬件结构</text>
+
+  <rect class="box" x="60" y="150" width="190" height="110"/>
+  <text class="txt" x="95" y="205">模拟输入</text>
+  <text class="small" x="95" y="235">ADCx_INn</text>
+
+  <rect class="box2" x="300" y="150" width="190" height="110"/>
+  <text class="txt" x="355" y="205">MUX</text>
+  <text class="small" x="320" y="235">通道选择</text>
+
+  <rect class="box3" x="540" y="140" width="220" height="130"/>
+  <text class="txt" x="600" y="198">S/H</text>
+  <text class="small" x="575" y="230">采样保持电路</text>
+
+  <rect class="box" x="810" y="140" width="220" height="130"/>
+  <text class="txt" x="865" y="198">SAR</text>
+  <text class="small" x="833" y="230">逐次逼近转换</text>
+
+  <rect class="box2" x="1080" y="140" width="160" height="130"/>
+  <text class="txt" x="1115" y="198">结果</text>
+  <text class="small" x="1098" y="230">寄存器</text>
+
+  <rect class="box" x="300" y="380" width="190" height="110"/>
+  <text class="txt" x="337" y="435">校准</text>
+  <text class="small" x="330" y="465">offset / gain</text>
+
+  <rect class="box3" x="540" y="380" width="220" height="110"/>
+  <text class="txt" x="590" y="435">中断 / DMA</text>
+  <text class="small" x="575" y="465">结果搬运路径</text>
+
+  <rect class="box2" x="810" y="380" width="220" height="110"/>
+  <text class="txt" x="865" y="435">CPU</text>
+  <text class="small" x="840" y="465">读取 / 处理</text>
+
+  <path class="line" d="M250 205 L300 205"/>
+  <path class="line" d="M490 205 L540 205"/>
+  <path class="line" d="M760 205 L810 205"/>
+  <path class="line" d="M1030 205 L1080 205"/>
+  <path class="line" d="M650 270 L400 380"/>
+  <path class="line" d="M650 270 L650 380"/>
+  <path class="line" d="M650 270 L920 380"/>
+
+  <path class="dline" d="M300 435 L250 435"/>
+  <path class="dline" d="M1080 435 L1030 435"/>
+
+  <text class="small" x="60" y="610">理解重点：ADC 采样链路中，MUX 选通道，S/H 负责抓住电压，SAR 完成转换，结果寄存器保存数值。</text>
+</svg>

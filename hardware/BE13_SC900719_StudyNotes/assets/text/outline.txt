@@ -1,0 +1,156 @@
+- Fully integrated electronic stability control/electronic stability program braking chip
+  - 1 Orderable parts
+  - 2 Internal block diagram
+  - 3 Pin connections
+    - 3.1 Pinout diagram
+    - 3.2 Pin definitions
+  - 4 General product characteristics
+    - 4.1 Maximum ratings
+    - 4.2 Thermal characteristics
+    - 4.3 Operating conditions
+    - 4.4 Digital I/Os characteristics
+    - 4.5 Valve characteristics
+  - 5 General description
+    - 5.1 Block diagram
+    - 5.2 Functional description
+    - 5.3 Features
+    - 5.4 Modes of operation
+      - 5.4.1 Regulator electrical characteristics
+      - 5.4.2 Configuration power-down
+      - 5.4.3 Supervision
+      - 5.4.4 Error handling
+  - 6 Functional block description
+    - 6.1 Current references
+      - 6.1.1 Introduction
+      - 6.1.2 Current reference electrical characteristics
+    - 6.2 Oscillator
+      - 6.2.1 Introduction
+      - 6.2.2 Oscillator electrical characteristics
+    - 6.3 Charge pump
+      - 6.3.1 Introduction
+      - 6.3.2 Charge pump electrical characteristics
+    - 6.4 Pre-linear voltage regulator VPRE
+      - 6.4.1 Introduction
+      - 6.4.2 VPRE electrical characteristics
+    - 6.5 DC/DC buck converter VCCA
+      - 6.5.1 Introduction
+      - 6.5.2 VCCA electrical characteristics
+    - 6.6 3.3 V linear regulator VCC3P3
+      - 6.6.1 Introduction
+      - 6.6.2 VCC3P3 electrical characteristics
+    - 6.7 5.0 V linear regulator VCC5
+      - 6.7.1 Introduction
+      - 6.7.2 VCC5 electrical characteristics
+    - 6.8 5.0 V external linear regulator VCC5_EXT
+      - 6.8.1 Introduction
+      - 6.8.2 VCC5_EXT electrical characteristics
+    - 6.9 Dual 5.0 V linear regulators VCCx_CAN
+      - 6.9.1 Introduction
+      - 6.9.2 VCCx_CAN electrical characteristics
+    - 6.10 Internal voltage regulators VINT_A and VINT_D
+      - 6.10.1 introduction
+      - 6.10.2 VINT_A and VINT_D electrical characteristics
+    - 6.11 DOSV digital output supply voltage
+      - 6.11.1 Introduction
+      - 6.11.2 DOSV electrical characteristics
+    - 6.12 Dual CAN interfaces (CAN1 and CAN2)
+      - 6.12.1 Introduction
+      - 6.12.2 CAN operating modes
+      - 6.12.3 CAN wake-up (CAN1 Only) (optional by part number)
+      - 6.12.4 TXDx failure detection
+      - 6.12.5 Overtemperature detection
+      - 6.12.6 CAN bus failure protection
+      - 6.12.7 Inductive short-circuit
+      - 6.12.8 CAN electrical characteristics
+    - 6.13 Pump motor pre-driver with active re-circulation
+      - 6.13.1 Introduction
+      - 6.13.2 Frequency modulation
+      - 6.13.3 Overcurrent protection
+      - 6.13.4 Overtemperature detection
+      - 6.13.5 Load dump protection
+      - 6.13.6 PD_D disconnect detection
+      - 6.13.7 ECU ground disconnection
+      - 6.13.8 Pump motor pre-driver electrical characteristics
+    - 6.14 High-side pre-driver for valve’s safe switch
+      - 6.14.1 Introduction
+      - 6.14.2 Overcurrent protection
+      - 6.14.3 Overtemperature detection
+      - 6.14.4 HD_S load leakage detection
+      - 6.14.5 HD_D disconnect detection
+      - 6.14.6 High-side pre-driver electrical characteristics
+    - 6.15 Low-side switches for valves control
+      - 6.15.1 Introduction
+      - 6.15.2 Digital valves
+      - 6.15.3 Current regulated valves
+      - 6.15.4 PWM control
+      - 6.15.5 Frequency modulation
+      - 6.15.6 Current regulation control
+      - 6.15.7 Protection and diagnostics
+      - 6.15.8 HSD, LSD electrical characteristics
+    - 6.16 Wheel speed sensor interfaces
+      - 6.16.1 Introduction
+      - 6.16.2 Open load and short-to-battery detection
+      - 6.16.3 Reverse current protection
+      - 6.16.4 Overcurrent detection
+      - 6.16.5 Overtemperature detection
+      - 6.16.6 Automatic retry mode
+      - 6.16.7 Overvoltage regulation
+      - 6.16.8 Short-circuit between 2 WSx_HS channels
+      - 6.16.9 WSx_HS electrical characteristics
+      - 6.16.10 Input signal conditioning description
+      - 6.16.11 Tracking leakage current
+      - 6.16.12 Wheel sensor additional information output WSAI
+      - 6.16.13 Input signal conditioning electrical characteristics
+      - 6.16.14 Counter description
+      - 6.16.15 WSAI electrical characteristics
+      - 6.16.16 Sensor decoding description
+      - 6.16.17 Type II sensor
+      - 6.16.18 Type III sensor
+      - 6.16.19 Type III sensor electrical characteristics
+    - 6.17 Vehicle speed output VSO
+      - 6.17.1 Introduction
+      - 6.17.2 Open load detection
+      - 6.17.3 Drain-to-source monitoring
+      - 6.17.4 Overcurrent detection
+      - 6.17.5 Overtemperature detection
+      - 6.17.6 VSO electrical characteristics
+    - 6.18 Dual warning lamp pre-drivers WLDx
+      - 6.18.1 Introduction
+      - 6.18.2 Open load detection
+      - 6.18.3 Drain-to-source monitoring
+      - 6.18.4 Overcurrent detection
+      - 6.18.5 Overtemperature detection
+      - 6.18.6 WLDx electrical characteristics
+    - 6.19 Analog to digital converter
+      - 6.19.1 Introduction
+      - 6.19.2 ADIN electrical characteristics
+    - 6.20 ISO K-line and second vehicle speed output
+      - 6.20.1 Introduction
+      - 6.20.2 Overcurrent detection
+      - 6.20.3 Overtemperature detection
+      - 6.20.4 Open load detection
+      - 6.20.5 Drain-to-source monitoring
+      - 6.20.6 ISOK electrical characteristics
+    - 6.21 32-bit SPI interface
+      - 6.21.1 Introduction
+      - 6.21.2 Watchdog
+      - 6.21.3 Watchdog functional mode
+      - 6.21.4 Watchdog fault mode
+      - 6.21.5 Watchdog disable mode
+      - 6.21.6 SPI integrity check
+      - 6.21.7 SPI mapping
+      - 6.21.8 Register address table
+      - 6.21.9 Details of register mapping
+      - 6.21.10 SPI fault reporting
+      - 6.21.11 SPI reset condition
+      - 6.21.12 SPI electrical characteristics
+    - 6.22 Built-in self test
+      - 6.22.1 LBIST
+      - 6.22.2 ABIST
+  - 7 Typical applications
+    - 7.1 Introduction
+      - 7.1.1 Application diagram
+      - 7.1.2 Bill of materials
+  - 8 Packaging
+    - 8.1 Package mechanical dimensions
+  - 9 Revision history

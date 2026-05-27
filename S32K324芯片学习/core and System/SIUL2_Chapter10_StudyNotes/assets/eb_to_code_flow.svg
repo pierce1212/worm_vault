@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .box2{fill:#eef6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .box3{fill:#fff7ed; stroke:#ea580c; stroke-width:2; rx:8}
+      .box4{fill:#f0fdf4; stroke:#16a34a; stroke-width:2; rx:8}
+      .box5{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .label{font:600 20px Arial, sans-serif; fill:#111827}
+      .small{font:400 16px Arial, sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, monospace; fill:#334155}
+      .code{font:400 16px Consolas, monospace; fill:#0f172a}
+      .wire{stroke:#334155; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:8 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">EB tresos / MCAL 配置到代码的链路</text>
+      <text x="56" y="92" class="sub">当前工程的配置源在 MCAL_Cfg/config，生成代码在 integration/mcal/src/gen。</text>
+      
+  <rect x="90" y="180" width="340" height="150" class="box3"/>
+  <text x="108" y="214" class="label">Port.xdm</text>
+  <text x="108" y="244" class="small">PortPinDirection</text>
+<text x="108" y="268" class="small">PortPinInitialMode</text>
+<text x="108" y="292" class="small">PortPinMode</text>
+<text x="108" y="316" class="small">PUE/PUS/DSE/IFE 等</text>
+  
+      
+  <rect x="90" y="450" width="340" height="130" class="box3"/>
+  <text x="108" y="484" class="label">Dio.xdm</text>
+  <text x="108" y="514" class="small">DioPort</text>
+<text x="108" y="538" class="small">DioChannel</text>
+<text x="108" y="562" class="small">DioChannelId</text>
+  
+      
+  <rect x="560" y="150" width="380" height="190" class="box2"/>
+  <text x="578" y="184" class="label">Port_Cfg.h / Port_PBcfg.c</text>
+  <text x="578" y="214" class="small">PortConf_PortPin_*</text>
+<text x="578" y="238" class="small">Port_ConfigType</text>
+<text x="578" y="262" class="small">MSCR/IMCR init arrays</text>
+<text x="578" y="286" class="small">Port_Init() 使用</text>
+  
+      
+  <rect x="560" y="440" width="380" height="160" class="box2"/>
+  <text x="578" y="474" class="label">Dio_Cfg.h / Dio_Cfg.c</text>
+  <text x="578" y="504" class="small">DioConf_DioChannel_*</text>
+<text x="578" y="528" class="small">Port/Channel mapping</text>
+<text x="578" y="552" class="small">可读/可写 pin mask</text>
+  
+      
+  <rect x="1080" y="260" width="360" height="200" class="box4"/>
+  <text x="1098" y="294" class="label">SIUL2 IP layer</text>
+  <text x="1098" y="324" class="small">Siul2_Port_Ip_PBcfg.c</text>
+<text x="1098" y="348" class="small">Siul2_Dio_Ip_Cfg.h</text>
+<text x="1098" y="372" class="small">IP_SIUL2-&gt;MSCR/IMCR</text>
+<text x="1098" y="396" class="small">IP_SIUL2-&gt;PGPDO/PGPDI</text>
+  
+      <path d="M430,255 L560,245" class="wire"/>
+      <path d="M430,515 L560,520" class="wire"/>
+      <path d="M940,245 L1080,330" class="wire"/>
+      <path d="M940,520 L1080,390" class="wire"/>
+      <text x="96" y="700" class="small">学习 SIUL2 时，推荐从 EB 的 PortPin/DioChannel 追到生成代码，再回看手册寄存器字段。</text>
+      
+</svg>

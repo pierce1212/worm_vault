@@ -1,7 +1,7 @@
 {
   "provider": "gemini",
   "ollamaBaseUrl": "http://localhost:11434",
-  "apiKeySecretName": "gemini123",
+  "apiKeySecretName": "gemini2",
   "chatModelName": "gemini-flash-latest",
   "summaryModelName": "gemini-flash-latest",
   "completionsModelName": "gemini-flash-lite-latest",
@@ -127,8 +127,18 @@
         "value": "gemini-3-pro-preview",
         "label": "Gemini 3 Pro Preview",
         "maxTemperature": 2
+      },
+      {
+        "value": "gemini-3.1-flash-lite",
+        "label": "Gemini 3.1 Flash Lite",
+        "maxTemperature": 2
+      },
+      {
+        "value": "gemini-3.5-flash",
+        "label": "Gemini 3.5 Flash",
+        "maxTemperature": 2
       }
     ],
-    "timestamp": 1778058035775
+    "timestamp": 1779790792370
   }
 }

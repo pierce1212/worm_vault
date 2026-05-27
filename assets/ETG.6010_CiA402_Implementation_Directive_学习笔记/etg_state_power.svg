@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="920" viewBox="0 0 1500 920">
+  <rect width="100%" height="100%" fill="#0b1220"/>
+  <text x="50" y="60" fill="#f9fafb" font-size="34" font-family="Arial, Microsoft YaHei">ETG.6010 状态机与电源层次图</text>
+  <rect x="80" y="140" width="320" height="110" rx="20" fill="#1e293b" stroke="#60a5fa" stroke-width="3"/>
+  <text x="240" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">Low-level power</text>
+  <text x="240" y="225" fill="#cbd5e1" font-size="18" text-anchor="middle" font-family="Arial, Microsoft YaHei">控制单元上电</text>
+  <rect x="460" y="140" width="340" height="110" rx="20" fill="#1e293b" stroke="#34d399" stroke-width="3"/>
+  <text x="630" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">High-level power</text>
+  <text x="630" y="225" fill="#d1fae5" font-size="18" text-anchor="middle" font-family="Arial, Microsoft YaHei">主功率上电</text>
+  <rect x="850" y="140" width="300" height="110" rx="20" fill="#1e293b" stroke="#f59e0b" stroke-width="3"/>
+  <text x="1000" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">Torque on motor</text>
+  <text x="1000" y="225" fill="#fde68a" font-size="18" text-anchor="middle" font-family="Arial, Microsoft YaHei">电机真正输出力矩</text>
+  <path d="M400 195 L455 195" stroke="#93c5fd" stroke-width="6" marker-end="url(#arrow)"/>
+  <path d="M800 195 L845 195" stroke="#86efac" stroke-width="6" marker-end="url(#arrow)"/>
+  <rect x="100" y="320" width="1300" height="250" rx="24" fill="#111827" stroke="#374151"/>
+  <text x="140" y="375" fill="#f9fafb" font-size="28" font-family="Arial, Microsoft YaHei">状态机关键节点</text>
+  <text x="150" y="430" fill="#93c5fd" font-size="22" font-family="Arial, Microsoft YaHei">Not ready to switch on → Switch on disabled → Ready to switch on</text>
+  <text x="150" y="480" fill="#86efac" font-size="22" font-family="Arial, Microsoft YaHei">Ready to switch on → Switched on → Operation enabled</text>
+  <text x="150" y="530" fill="#fca5a5" font-size="22" font-family="Arial, Microsoft YaHei">Fault reaction active → Fault；Fault reset 后再恢复</text>
+  <rect x="100" y="620" width="1300" height="220" rx="24" fill="#0f172a" stroke="#374151"/>
+  <text x="140" y="675" fill="#fde68a" font-size="28" font-family="Arial, Microsoft YaHei">这份指南的工程重点</text>
+  <text x="150" y="730" fill="#e5e7eb" font-size="22" font-family="Arial, Microsoft YaHei">1. 明确区分本地控制和网络控制</text>
+  <text x="150" y="775" fill="#e5e7eb" font-size="22" font-family="Arial, Microsoft YaHei">2. 模式切换不会自动重配通信</text>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+</svg>

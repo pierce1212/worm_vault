@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#f7fafc"/>
+  <text x="40" y="46" font-family="Arial, Microsoft YaHei, sans-serif" font-size="28" font-weight="800" fill="#1f2933" text-anchor="start"><tspan x="40" dy="0">单次转换、CL与多ADCCL</tspan></text>
+  
+  <g filter="url(#shadow)">
+    <g>
+    <rect x="70" y="130" width="380" height="185" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="70" y="130" width="7" height="185" rx="8" fill="#2563eb"/>
+    <text x="260" y="214.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="260" dy="0">Singleconversion</tspan></text>
+    <text x="260" y="246.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="260" dy="0">TRS=0</tspan><tspan x="260" dy="18">CHANNEL_VALUE_OR_LADDR=ADC</tspan><tspan x="260" dy="18">channel</tspan><tspan x="260" dy="18">只能选择一个ADC_SELx</tspan><tspan x="260" dy="18">多ADCmask会被硬件忽略</tspan></text>
+  </g>
+    <g>
+    <rect x="560" y="130" width="380" height="185" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="560" y="130" width="7" height="185" rx="8" fill="#16a34a"/>
+    <text x="750" y="214.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="750" dy="0">ConversionList(CL)</tspan></text>
+    <text x="750" y="246.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="750" dy="0">TRS=1</tspan><tspan x="750" dy="18">CHANNEL_VALUE_OR_LADDR=LIST起点</tspan><tspan x="750" dy="18">LISTCHR每个寄存器放2个元素</tspan><tspan x="750" dy="18">遇到LAST停止</tspan></text>
+  </g>
+    <g>
+    <rect x="1050" y="130" width="380" height="185" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1050" y="130" width="7" height="185" rx="8" fill="#7c3aed"/>
+    <text x="1240" y="214.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1240" dy="0">MultiADCCL</tspan></text>
+    <text x="1240" y="246.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1240" dy="0">只对LIST有意义</tspan><tspan x="1240" dy="18">一个触发可选择多个ADC_SELx</tspan><tspan x="1240" dy="18">BCTU等待目标ADC可用</tspan></text>
+  </g>
+    <g>
+    <rect x="70" y="450" width="290" height="110" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="70" y="450" width="7" height="110" rx="8" fill="#d97706"/>
+    <text x="215" y="497" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="215" dy="0">LISTCHR元素</tspan></text>
+    <text x="215" y="529" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="215" dy="0">ADC_CH</tspan><tspan x="215" dy="18">NEXT_CH_WAIT_ON_TRIG</tspan><tspan x="215" dy="18">LAST</tspan></text>
+  </g>
+    <g>
+    <rect x="455" y="430" width="250" height="150" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="455" y="430" width="7" height="150" rx="8" fill="#dc2626"/>
+    <text x="580" y="497" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="580" dy="0">暂停点</tspan></text>
+    <text x="580" y="529" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="580" dy="0">NEXT_CH_WAIT_ON_</tspan><tspan x="580" dy="18">TRIG=1</tspan><tspan x="580" dy="18">当前转换完成后暂停</tspan><tspan x="580" dy="18">同一trigger再次有效后继续</tspan></text>
+  </g>
+    <g>
+    <rect x="800" y="430" width="290" height="150" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="800" y="430" width="7" height="150" rx="8" fill="#2563eb"/>
+    <text x="945" y="497" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="945" dy="0">结果标记</tspan></text>
+    <text x="945" y="529" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="945" dy="0">ADCDR:LIST/LAST位</tspan><tspan x="945" dy="18">FIFO:TRG_SRC/CH/ADC_</tspan><tspan x="945" dy="18">NUM/DATA</tspan><tspan x="945" dy="18">用于追溯来源</tspan></text>
+  </g>
+    <g>
+    <rect x="1180" y="450" width="230" height="110" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1180" y="450" width="7" height="110" rx="8" fill="#0891b2"/>
+    <text x="1295" y="497" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1295" dy="0">项目现状</tspan></text>
+    <text x="1295" y="529" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1295" dy="0">NumListItems=0</tspan><tspan x="1295" dy="18">全部BCTU_IP_TRIG_</tspan><tspan x="1295" dy="18">TYPE_SINGLE</tspan></text>
+  </g>
+  </g>
+  <g>
+    <line x1="450" y1="220" x2="560" y2="220" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="940" y1="220" x2="1050" y2="220" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="360" y1="505" x2="455" y2="505" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="705" y1="505" x2="800" y2="505" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="1090" y1="505" x2="1180" y2="505" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+
+</svg>

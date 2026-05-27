@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="404" viewBox="0 0 1480 404">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .box2{fill:#eef6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .box3{fill:#fff7ed; stroke:#ea580c; stroke-width:2; rx:8}
+      .box4{fill:#f0fdf4; stroke:#16a34a; stroke-width:2; rx:8}
+      .box5{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .label{font:600 20px Arial, sans-serif; fill:#111827}
+      .small{font:400 16px Arial, sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, monospace; fill:#334155}
+      .code{font:400 16px Consolas, monospace; fill:#0f172a}
+      .wire{stroke:#334155; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:8 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+    <text x="48" y="48" class="title">S32K324_SIUL2.h：MSCR/IMCR 字段</text>
+    <rect x="48" y="76" width="1384" height="288" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" rx="8"/>
+    <text x="64" y="116" class="code">#define SIUL2_MSCR_SMC_MASK  (0x20U)</text>
+<text x="64" y="144" class="code">#define SIUL2_MSCR_IFE_MASK  (0x40U)</text>
+<text x="64" y="172" class="code">#define SIUL2_MSCR_DSE_MASK  (0x100U)</text>
+<text x="64" y="200" class="code">#define SIUL2_MSCR_PUS_MASK  (0x800U)</text>
+<text x="64" y="228" class="code">#define SIUL2_MSCR_PUE_MASK  (0x2000U)</text>
+<text x="64" y="256" class="code">#define SIUL2_MSCR_SRC_MASK  (0x4000U)</text>
+<text x="64" y="284" class="code">#define SIUL2_MSCR_PKE_MASK  (0x10000U)</text>
+<text x="64" y="312" class="code">#define SIUL2_MSCR_INV_MASK  (0x20000U)</text>
+<text x="64" y="340" class="code">#define SIUL2_MSCR_IBE_MASK  (0x80000U)</text>
+<text x="64" y="368" class="code">#define SIUL2_MSCR_OBE_MASK  (0x200000U)</text>
+<text x="64" y="396" class="code">#define SIUL2_IMCR_SSS_MASK  (0xFU)</text>
+    
+</svg>

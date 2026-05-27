@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="940" viewBox="0 0 1600 940">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">BE13 寄存器地图：按工程关注点分组</text>
+      <text x="56" y="92" class="sub">工程里定义最大状态寄存器数 74，对应 0x00..0x49，周期读取时逐个地址轮询。</text>
+      
+  <rect x="70" y="150" width="350" height="150" class="blue"/>
+  <text x="88" y="184" class="label">0x00..0x0F 配置/启动</text>
+  <text x="88" y="214" class="small">CHIPID, SVCFG_BIST</text>
+<text x="88" y="238" class="small">VCCA_CLCK, WSCFG1/2</text>
+<text x="88" y="262" class="small">VLVCLK, LSDxK, HSDCFG</text>
+<text x="88" y="286" class="small">PMDCLK, CAN_CFG, BIST flags</text>
+  
+      
+  <rect x="470" y="150" width="350" height="150" class="green"/>
+  <text x="488" y="184" class="label">0x10..0x23 控制</text>
+  <text x="488" y="214" class="small">WS_COUNT, WS_S2S</text>
+<text x="488" y="238" class="small">VLVEN</text>
+<text x="488" y="262" class="small">LSD1DC/LSD6DC/LSD7DC/LSD12DC</text>
+<text x="488" y="286" class="small">LSD2/3/4/5/8/9/10/11I</text>
+<text x="488" y="310" class="small">PMDCFG, WDCFG/WDSEED/WDMR/WDAR</text>
+  
+      
+  <rect x="870" y="150" width="350" height="150" class="amber"/>
+  <text x="888" y="184" class="label">0x24..0x34 ADC/测量</text>
+  <text x="888" y="214" class="small">AD_VPWR1 / AD_VPWR2</text>
+<text x="888" y="238" class="small">AD_VPRE / AD_VCC5</text>
+<text x="888" y="262" class="small">AD_VCC5EXT / AD_VCCA</text>
+<text x="888" y="286" class="small">AD_VCC3P3 / AD_LSDx</text>
+<text x="888" y="310" class="small">AD_DIETMP</text>
+  
+      
+  <rect x="270" y="405" width="350" height="150" class="red"/>
+  <text x="288" y="439" class="label">0x35..0x3B 故障主区</text>
+  <text x="288" y="469" class="small">INT1</text>
+<text x="288" y="493" class="small">LSD1_6_7_12F</text>
+<text x="288" y="517" class="small">LSD3_4_9_10F</text>
+<text x="288" y="541" class="small">LSD2_5_8_11F</text>
+<text x="288" y="565" class="small">VLV_PMDF</text>
+<text x="288" y="589" class="small">SVFLT / VREG_FLG</text>
+  
+      
+  <rect x="680" y="405" width="350" height="150" class="violet"/>
+  <text x="698" y="439" class="label">0x3C..0x42 传感/CAN/灯</text>
+  <text x="698" y="469" class="small">WSS12FLT / WSS34FLT</text>
+<text x="698" y="493" class="small">CAN_FLG</text>
+<text x="698" y="517" class="small">WLD12</text>
+<text x="698" y="541" class="small">ISOKVSO12</text>
+<text x="698" y="565" class="small">LVSAFEFLT</text>
+  
+      
+  <rect x="1090" y="405" width="350" height="150" class="box"/>
+  <text x="1108" y="439" class="label">0x43..0x49 电压/电流反馈</text>
+  <text x="1108" y="469" class="small">LSD1_6_7_12_VDS</text>
+<text x="1108" y="493" class="small">LSD2_5_8_11_VDS</text>
+<text x="1108" y="517" class="small">LSD3_4_9_10_VDS</text>
+<text x="1108" y="541" class="small">PMD_VDS / HSD_VDS</text>
+<text x="1108" y="565" class="small">VLV_VDS</text>
+  
+      <text x="92" y="680" class="label">读取链路</text>
+      <text x="92" y="718" class="small">CddBE13_L2_ReadState() 每次处理上一帧返回值，校验 Err/CRC/地址范围后，把 Data 写入对应输入寄存器指针，并给 L2_S_BE13RegState_Uls_G_aUni_CMP[addr].B.Flg 置 1。</text>
+      <text x="92" y="755" class="small">诊断函数只在对应 Flg=1 时消费一次，这样 SPI 轮询和诊断处理解耦。</text>
+      
+</svg>

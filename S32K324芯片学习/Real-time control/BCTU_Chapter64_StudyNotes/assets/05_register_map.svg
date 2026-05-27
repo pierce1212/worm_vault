@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#f7fafc"/>
+  <text x="40" y="46" font-family="Arial, Microsoft YaHei, sans-serif" font-size="28" font-weight="800" fill="#1f2933" text-anchor="start"><tspan x="40" dy="0">寄存器速查图</tspan></text>
+  
+  <text x="70" y="100" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="600" fill="#1f2933" text-anchor="start"><tspan x="70" dy="0">BCTUbaseaddress:0x4008_4000，所有寄存器32bit；8bit写允许，但软件要自己保证一致性。</tspan></text>
+  <g filter="url(#shadow)">
+    <g>
+    <rect x="80" y="145" width="300" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="80" y="145" width="7" height="85" rx="8" fill="#2563eb"/>
+    <text x="230" y="179.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="230" dy="0">MCR@0x000</tspan></text>
+    <text x="230" y="211.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="230" dy="0">MDIS/FRZ/GTRGEN</tspan><tspan x="230" dy="18">DMA/IRQenable</tspan></text>
+  </g>
+    <g>
+    <rect x="430" y="145" width="300" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="430" y="145" width="7" height="85" rx="8" fill="#16a34a"/>
+    <text x="580" y="179.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="580" dy="0">MSR@0x008</tspan></text>
+    <text x="580" y="211.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="580" dy="0">NDATA/DATAOVR/LIST_LAST</tspan><tspan x="580" dy="18">/TRGF</tspan><tspan x="580" dy="18">W1C清状态</tspan></text>
+  </g>
+    <g>
+    <rect x="780" y="145" width="340" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="780" y="145" width="7" height="85" rx="8" fill="#7c3aed"/>
+    <text x="950" y="179.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="950" dy="0">TRGCFG0..71@0x018</tspan></text>
+    <text x="950" y="211.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="950" dy="0">LOOP/DATA_DEST/TRIGEN/TRG_</tspan><tspan x="950" dy="18">FLAG</tspan><tspan x="950" dy="18">TRS/ADC_SEL/CHANNEL_OR_</tspan><tspan x="950" dy="18">LADDR</tspan></text>
+  </g>
+    <g>
+    <rect x="1170" y="145" width="260" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1170" y="145" width="7" height="85" rx="8" fill="#d97706"/>
+    <text x="1300" y="179.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1300" dy="0">WRPROT@0x228</tspan></text>
+    <text x="1300" y="211.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1300" dy="0">保护SFTRGR</tspan><tspan x="1300" dy="18">0x9一次写/0xA永久开</tspan></text>
+  </g>
+    <g>
+    <rect x="80" y="305" width="300" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="80" y="305" width="7" height="85" rx="8" fill="#dc2626"/>
+    <text x="230" y="339.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="230" dy="0">SFTRGR1..3</tspan></text>
+    <text x="230" y="371.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="230" dy="0">软件触发0..71</tspan><tspan x="230" dy="18">建议关闭对应硬触发</tspan></text>
+  </g>
+    <g>
+    <rect x="430" y="305" width="300" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="430" y="305" width="7" height="85" rx="8" fill="#2563eb"/>
+    <text x="580" y="339.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="580" dy="0">ADCDR0..2</tspan></text>
+    <text x="580" y="371.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="580" dy="0">TRG_SRC/CH/LIST/LAST/</tspan><tspan x="580" dy="18">ADC_DATA</tspan><tspan x="580" dy="18">直达结果寄存器</tspan></text>
+  </g>
+    <g>
+    <rect x="780" y="305" width="340" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="780" y="305" width="7" height="85" rx="8" fill="#16a34a"/>
+    <text x="950" y="339.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="950" dy="0">LISTSTAR+</tspan><tspan x="950" dy="25">LISTCHR0..15</tspan></text>
+    <text x="950" y="371.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="950" dy="0">CLsize=32elements</tspan><tspan x="950" dy="18">每个LISTCHR两个CL元素</tspan></text>
+  </g>
+    <g>
+    <rect x="1170" y="305" width="260" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1170" y="305" width="7" height="85" rx="8" fill="#dc2626"/>
+    <text x="1300" y="339.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1300" dy="0">FIFO1DR/</tspan><tspan x="1300" dy="25">FIFO2DR</tspan></text>
+    <text x="1300" y="371.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1300" dy="0">TRG_SRC/CH/ADC_NUM/</tspan><tspan x="1300" dy="18">ADC_DATA</tspan><tspan x="1300" dy="18">FIFO1=16,FIFO2=8</tspan></text>
+  </g>
+    <g>
+    <rect x="80" y="465" width="300" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="80" y="465" width="7" height="85" rx="8" fill="#d97706"/>
+    <text x="230" y="499.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="230" dy="0">FIFOCR</tspan></text>
+    <text x="230" y="531.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="230" dy="0">IEN_FIFOx/DMA_EN_FIFOx</tspan></text>
+  </g>
+    <g>
+    <rect x="430" y="465" width="300" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="430" y="465" width="7" height="85" rx="8" fill="#0891b2"/>
+    <text x="580" y="499.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="580" dy="0">FIFOWM</tspan></text>
+    <text x="580" y="531.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="580" dy="0">WM_FIFO1/WM_FIFO2</tspan><tspan x="580" dy="18">超过水位触发IRQ/DMA</tspan></text>
+  </g>
+    <g>
+    <rect x="780" y="465" width="340" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="780" y="465" width="7" height="85" rx="8" fill="#dc2626"/>
+    <text x="950" y="499.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="950" dy="0">FIFOERR</tspan></text>
+    <text x="950" y="531.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="950" dy="0">WM_INT/OVR_ERR/UNDR_ERR</tspan><tspan x="950" dy="18">W1C清除</tspan></text>
+  </g>
+    <g>
+    <rect x="1170" y="465" width="260" height="85" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1170" y="465" width="7" height="85" rx="8" fill="#2563eb"/>
+    <text x="1300" y="499.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1300" dy="0">FIFOSR/</tspan><tspan x="1300" dy="25">FIFOCNTR</tspan></text>
+    <text x="1300" y="531.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1300" dy="0">FULLflag</tspan><tspan x="1300" dy="18">当前有效entry数</tspan></text>
+  </g>
+  </g>
+  <text x="90" y="650" font-family="Arial, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#1f2933" text-anchor="start"><tspan x="90" dy="0">TRGCFG_a位段速记</tspan></text>
+  <g>
+    <rect x="90" y="680" width="1240" height="56" rx="8" fill="#ffffff" stroke="#9fb3c8"/>
+    <rect x="90" y="680" width="170" height="56" fill="#dbeafe"/><text x="175" y="715" font-size="16" font-family="Arial" text-anchor="middle" font-weight="700">31 LOOP</text>
+    <rect x="260" y="680" width="200" height="56" fill="#fef3c7"/><text x="360" y="715" font-size="16" font-family="Arial" text-anchor="middle" font-weight="700">30..28 DATA_DEST</text>
+    <rect x="460" y="680" width="160" height="56" fill="#dcfce7"/><text x="540" y="715" font-size="16" font-family="Arial" text-anchor="middle" font-weight="700">15 TRIGEN</text>
+    <rect x="620" y="680" width="170" height="56" fill="#fee2e2"/><text x="705" y="715" font-size="16" font-family="Arial" text-anchor="middle" font-weight="700">14 TRG_FLAG</text>
+    <rect x="790" y="680" width="130" height="56" fill="#f3e8ff"/><text x="855" y="715" font-size="16" font-family="Arial" text-anchor="middle" font-weight="700">13 TRS</text>
+    <rect x="920" y="680" width="170" height="56" fill="#e0f2fe"/><text x="1005" y="715" font-size="16" font-family="Arial" text-anchor="middle" font-weight="700">10..8 ADC_SEL</text>
+    <rect x="1090" y="680" width="240" height="56" fill="#f8fafc"/><text x="1210" y="715" font-size="16" font-family="Arial" text-anchor="middle" font-weight="700">6..0 CH or LADDR</text>
+  </g>
+
+</svg>

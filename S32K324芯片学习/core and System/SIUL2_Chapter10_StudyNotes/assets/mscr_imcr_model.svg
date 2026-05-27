@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .box2{fill:#eef6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .box3{fill:#fff7ed; stroke:#ea580c; stroke-width:2; rx:8}
+      .box4{fill:#f0fdf4; stroke:#16a34a; stroke-width:2; rx:8}
+      .box5{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .label{font:600 20px Arial, sans-serif; fill:#111827}
+      .small{font:400 16px Arial, sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, monospace; fill:#334155}
+      .code{font:400 16px Consolas, monospace; fill:#0f172a}
+      .wire{stroke:#334155; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:8 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">MSCR 与 IMCR 的职责分工</text>
+      <text x="56" y="92" class="sub">输出看 MSCR 的 SSS/OBE，输入外设还要配置 IMCR 的 SSS。</text>
+      
+  <rect x="90" y="210" width="300" height="130" class="box3"/>
+  <text x="108" y="244" class="label">Pad PTC8</text>
+  <text x="108" y="274" class="small">物理引脚</text>
+<text x="108" y="298" class="small">MSCR[72]</text>
+  
+      
+  <rect x="520" y="160" width="440" height="230" class="box2"/>
+  <text x="538" y="194" class="label">MSCR[n]</text>
+  <text x="538" y="224" class="small">SSS[3:0]: 选择输出源</text>
+<text x="538" y="248" class="small">OBE: 输出缓冲使能</text>
+<text x="538" y="272" class="small">IBE: 输入缓冲使能</text>
+<text x="538" y="296" class="small">PUE/PUS/PKE: 上下拉/保持</text>
+<text x="538" y="320" class="small">DSE/SRC: 驱动/边沿特性</text>
+  
+      
+  <rect x="1120" y="140" width="340" height="120" class="box4"/>
+  <text x="1138" y="174" class="label">外设输出</text>
+  <text x="1138" y="204" class="small">CAN1_TX</text>
+<text x="1138" y="228" class="small">eMIOS_CHx</text>
+<text x="1138" y="252" class="small">LPSPI_SOUT</text>
+  
+      
+  <rect x="1120" y="420" width="340" height="120" class="box4"/>
+  <text x="1138" y="454" class="label">外设输入</text>
+  <text x="1138" y="484" class="small">CAN1_RX</text>
+<text x="1138" y="508" class="small">LPSPI_SIN</text>
+<text x="1138" y="532" class="small">EIRQn</text>
+  
+      
+  <rect x="520" y="500" width="440" height="180" class="box"/>
+  <text x="538" y="534" class="label">IMCR[m]</text>
+  <text x="538" y="564" class="small">SSS[3:0]: 选择输入来源</text>
+<text x="538" y="588" class="small">IMCR 编号在手册 memory map 中独立编号</text>
+<text x="538" y="612" class="small">IOMUX/EB 常把 CR512+ 映射成 IMCR</text>
+  
+      <path d="M1120,200 L960,235" class="wire"/>
+      <path d="M520,275 L390,275" class="wire"/>
+      <path d="M390,275 L520,560" class="wire"/>
+      <path d="M960,590 L1120,480" class="wire"/>
+      <text x="105" y="725" class="small">输出路径：外设输出 -> MSCR.SSS -> pad。</text>
+      <text x="105" y="755" class="small">输入路径：pad -> MSCR.IBE -> IMCR.SSS -> 外设输入。</text>
+      <text x="105" y="785" class="small">纯 GPIO：MSCR 配为 GPIO，Dio 访问 GPDO/GPDI/PGPDO/PGPDI。</text>
+      
+</svg>

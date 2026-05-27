@@ -1,0 +1,2488 @@
+{
+  "generated_at": "2026-05-20T11:26:00",
+  "documents": [
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\AUTOSAR MCAL 的原理与实践.pdf",
+      "name": "AUTOSAR MCAL 的原理与实践.pdf",
+      "size_mb": 34.44,
+      "pages": 243,
+      "metadata": {
+        "format": "PDF 1.5",
+        "title": "14504464",
+        "creator": "Pdg2Pic",
+        "producer": "FreePic2Pdf_Lib - v3.14",
+        "creationDate": "D:20220803103038+08'00'",
+        "modDate": "D:20220803103038+08'00'"
+      },
+      "toc_source": "embedded",
+      "toc": [
+        {
+          "level": 1,
+          "title": "封面",
+          "page": 1
+        },
+        {
+          "level": 1,
+          "title": "书名",
+          "page": 2
+        },
+        {
+          "level": 1,
+          "title": "版权",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "前言",
+          "page": 4
+        },
+        {
+          "level": 1,
+          "title": "目录",
+          "page": 19
+        },
+        {
+          "level": 1,
+          "title": "1",
+          "page": 24
+        },
+        {
+          "level": 1,
+          "title": "2",
+          "page": 25
+        },
+        {
+          "level": 1,
+          "title": "3",
+          "page": 26
+        },
+        {
+          "level": 1,
+          "title": "4",
+          "page": 27
+        },
+        {
+          "level": 1,
+          "title": "5",
+          "page": 28
+        },
+        {
+          "level": 1,
+          "title": "6",
+          "page": 29
+        },
+        {
+          "level": 1,
+          "title": "7",
+          "page": 30
+        },
+        {
+          "level": 1,
+          "title": "8",
+          "page": 31
+        },
+        {
+          "level": 1,
+          "title": "9",
+          "page": 32
+        },
+        {
+          "level": 1,
+          "title": "10",
+          "page": 33
+        },
+        {
+          "level": 1,
+          "title": "11",
+          "page": 34
+        },
+        {
+          "level": 1,
+          "title": "12",
+          "page": 35
+        },
+        {
+          "level": 1,
+          "title": "13",
+          "page": 36
+        },
+        {
+          "level": 1,
+          "title": "14",
+          "page": 37
+        },
+        {
+          "level": 1,
+          "title": "15",
+          "page": 38
+        },
+        {
+          "level": 1,
+          "title": "16",
+          "page": 39
+        },
+        {
+          "level": 1,
+          "title": "17",
+          "page": 40
+        },
+        {
+          "level": 1,
+          "title": "18",
+          "page": 41
+        },
+        {
+          "level": 1,
+          "title": "19",
+          "page": 42
+        },
+        {
+          "level": 1,
+          "title": "20",
+          "page": 43
+        },
+        {
+          "level": 1,
+          "title": "21",
+          "page": 44
+        },
+        {
+          "level": 1,
+          "title": "22",
+          "page": 45
+        },
+        {
+          "level": 1,
+          "title": "23",
+          "page": 46
+        },
+        {
+          "level": 1,
+          "title": "24",
+          "page": 47
+        },
+        {
+          "level": 1,
+          "title": "25",
+          "page": 48
+        },
+        {
+          "level": 1,
+          "title": "26",
+          "page": 49
+        },
+        {
+          "level": 1,
+          "title": "27",
+          "page": 50
+        },
+        {
+          "level": 1,
+          "title": "28",
+          "page": 51
+        },
+        {
+          "level": 1,
+          "title": "29",
+          "page": 52
+        },
+        {
+          "level": 1,
+          "title": "30",
+          "page": 53
+        },
+        {
+          "level": 1,
+          "title": "31",
+          "page": 54
+        },
+        {
+          "level": 1,
+          "title": "32",
+          "page": 55
+        },
+        {
+          "level": 1,
+          "title": "33",
+          "page": 56
+        },
+        {
+          "level": 1,
+          "title": "34",
+          "page": 57
+        },
+        {
+          "level": 1,
+          "title": "35",
+          "page": 58
+        },
+        {
+          "level": 1,
+          "title": "36",
+          "page": 59
+        },
+        {
+          "level": 1,
+          "title": "37",
+          "page": 60
+        },
+        {
+          "level": 1,
+          "title": "38",
+          "page": 61
+        },
+        {
+          "level": 1,
+          "title": "39",
+          "page": 62
+        },
+        {
+          "level": 1,
+          "title": "40",
+          "page": 63
+        },
+        {
+          "level": 1,
+          "title": "41",
+          "page": 64
+        },
+        {
+          "level": 1,
+          "title": "42",
+          "page": 65
+        },
+        {
+          "level": 1,
+          "title": "43",
+          "page": 66
+        },
+        {
+          "level": 1,
+          "title": "44",
+          "page": 67
+        },
+        {
+          "level": 1,
+          "title": "45",
+          "page": 68
+        },
+        {
+          "level": 1,
+          "title": "46",
+          "page": 69
+        },
+        {
+          "level": 1,
+          "title": "47",
+          "page": 70
+        },
+        {
+          "level": 1,
+          "title": "48",
+          "page": 71
+        },
+        {
+          "level": 1,
+          "title": "49",
+          "page": 72
+        },
+        {
+          "level": 1,
+          "title": "50",
+          "page": 73
+        },
+        {
+          "level": 1,
+          "title": "51",
+          "page": 74
+        },
+        {
+          "level": 1,
+          "title": "52",
+          "page": 75
+        },
+        {
+          "level": 1,
+          "title": "53",
+          "page": 76
+        },
+        {
+          "level": 1,
+          "title": "54",
+          "page": 77
+        },
+        {
+          "level": 1,
+          "title": "55",
+          "page": 78
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        29,
+        49,
+        69,
+        89,
+        109,
+        129,
+        149,
+        169,
+        189,
+        209,
+        229
+      ],
+      "text_chars_in_sample": 0,
+      "first_lines": [],
+      "topic_scores": {},
+      "top_terms": [],
+      "snippets": []
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\AUTOSAR Overview.pdf",
+      "name": "AUTOSAR Overview.pdf",
+      "size_mb": 3.39,
+      "pages": 28,
+      "metadata": {
+        "format": "PDF 1.4",
+        "title": "S22C-6i23080208570",
+        "creator": "22C-6i",
+        "producer": "Develop ineo+ 226i",
+        "creationDate": "D:20230802090349+08'00'",
+        "modDate": "D:20230802090349+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27
+      ],
+      "text_chars_in_sample": 0,
+      "first_lines": [],
+      "topic_scores": {},
+      "top_terms": [],
+      "snippets": []
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\AUTOSAR_User_Manual_CAN_COM.pdf",
+      "name": "AUTOSAR_User_Manual_CAN_COM.pdf",
+      "size_mb": 4.53,
+      "pages": 61,
+      "metadata": {
+        "format": "PDF 1.7",
+        "author": "TAN Yang (ETAS/ERS-Sgh)",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20231128171603+08'00'",
+        "modDate": "D:20231128171603+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 3
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        14,
+        19,
+        24,
+        29,
+        34,
+        39,
+        44,
+        49,
+        54,
+        59
+      ],
+      "text_chars_in_sample": 29261,
+      "first_lines": [
+        "[page 1]",
+        "FREETECH DMS AUTOSAR Platform - 1p0",
+        "User Manual – CAN-COM",
+        "Status: Released",
+        "[page 2]",
+        "Copyright",
+        "The data in this document may not be altered or amended without special notification",
+        "from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu-",
+        "ment. The software described in it can only be used if the customer is in possession of a",
+        "general license agreement or single license. Using and copying is only allowed in concur-",
+        "rence with the specifications stipulated in the contract.",
+        "Under no circumstances may any part of this document be copied, reproduced, transmit-",
+        "ted, stored in a retrieval system or translated into another language without the express",
+        "written permission of ETAS GmbH.",
+        "© Copyright 2019 ETAS GmbH, Stuttgart",
+        "The names and designations used in this document are trademarks or brands belonging",
+        "to the respective owners.",
+        "[page 3]"
+      ],
+      "topic_scores": {
+        "COM通信栈": 145,
+        "AUTOSAR总览/架构": 65,
+        "PNC/网络管理": 59,
+        "存储/NvM/MemStack": 41,
+        "MCAL/EB tresos配置": 36,
+        "CAN/RH850/MCAN": 22,
+        "诊断UDS/DCM/DEM": 11,
+        "电机控制器软件": 1
+      },
+      "top_terms": [
+        [
+          "com",
+          96
+        ],
+        [
+          "nm",
+          41
+        ],
+        [
+          "ea",
+          38
+        ],
+        [
+          "autosar",
+          26
+        ],
+        [
+          "port",
+          20
+        ],
+        [
+          "rte",
+          19
+        ],
+        [
+          "bsw",
+          18
+        ],
+        [
+          "signal",
+          17
+        ],
+        [
+          "ipdu",
+          16
+        ],
+        [
+          "spi",
+          11
+        ],
+        [
+          "mailbox",
+          11
+        ],
+        [
+          "canif",
+          10
+        ],
+        [
+          "cannm",
+          9
+        ],
+        [
+          "dem",
+          8
+        ],
+        [
+          "comM",
+          8
+        ],
+        [
+          "hrh",
+          8
+        ],
+        [
+          "mcal",
+          3
+        ],
+        [
+          "can controller",
+          3
+        ],
+        [
+          "basic software",
+          2
+        ],
+        [
+          "pdur",
+          2
+        ],
+        [
+          "can communication",
+          2
+        ],
+        [
+          "communication stack",
+          2
+        ],
+        [
+          "diagnostic",
+          2
+        ],
+        [
+          "mcu",
+          2
+        ],
+        [
+          "dcm",
+          1
+        ]
+      ],
+      "snippets": [
+        {
+          "term": "com",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – CAN-COM Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or single license. Using"
+        },
+        {
+          "term": "nm",
+          "snippet": "....................................................... 48 Use Case 11: ComIPdu Callout and Checksum ................................................................. 49 3 CAN NM ................................................................................................................................ 52 Introduction ................................................................................................................... 52 CANNM Configuration generation .........................................................."
+        },
+        {
+          "term": "ea",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – CAN-COM Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or single license. Using and copying is"
+        },
+        {
+          "term": "autosar",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – CAN-COM Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general"
+        },
+        {
+          "term": "port",
+          "snippet": ".... 11 Introduction ................................................................................................................... 11 CAN configuration generation (DBC import) ..................................................................... 12 CAN configuration generation (ARXML file import) ............................................................ 17 CAN configuration generation (BSW configuration and generation).................................... 17 Use Case 1: Can Mailbox Multiplexing ......................"
+        },
+        {
+          "term": "rte",
+          "snippet": "....... 38 Figure 47 - ComNotification for RX Signal ............................................................................................. 38 Figure 48 - Com_CbkRxAck in Rte.c ....................................................................................................... 39 Figure 49 - Create the Nonqueued Receiver Com Spec ........................................................................ 40 Figure 50 - Update the Nonqueued Receiver Com Spec configuration ................................................ 40"
+        },
+        {
+          "term": "bsw",
+          "snippet": "............................. 12 CAN configuration generation (ARXML file import) ............................................................ 17 CAN configuration generation (BSW configuration and generation).................................... 17 Use Case 1: Can Mailbox Multiplexing .............................................................................. 19 Use Case 2: Can Transceiver (TJA1145) configuration ...................................................... 22 Use Case 3: CAN Bus-Off Callout and DEM Error Report"
+        },
+        {
+          "term": "signal",
+          "snippet": "......................................... 42 Use Case 9: Com Transmission Time Offset ..................................................................... 46 Use Case 10: ComSignal Update-Bit ................................................................................ 48 Use Case 11: ComIPdu Callout and Checksum ................................................................. 49 3 CAN NM ................................................................................................................................ 52"
+        },
+        {
+          "term": "ipdu",
+          "snippet": "................................................. 22 Use Case 3: CAN Bus-Off Callout and DEM Error Report ................................................... 24 Use Case 4: ComIPduGroup configuration and BswM Mode Control ................................... 28 Use Case 5: Com Transmission Call-backs........................................................................ 31 Use Case 6: Com Reception Call-backs (Acknowledge) ..................................................... 34 Use Case 7: Com Reception Call-backs (Timeout)"
+        },
+        {
+          "term": "spi",
+          "snippet": "..................... 23 Figure 20 - CanTrcvPartialNetwork configuration ................................................................................. 23 Figure 21 - CanTrcv SPI Channel configuration ..................................................................................... 24 Figure 22 - Configuration Diagram for Bus-Off Indication in BswM ...................................................... 25 Figure 23 - Create Ports for Bus-off indication ........................................................................"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\Can Communication Stack Training.pdf",
+      "name": "Can Communication Stack Training.pdf",
+      "size_mb": 4.04,
+      "pages": 30,
+      "metadata": {
+        "format": "PDF 1.4",
+        "title": "S22C-6i23080208460",
+        "creator": "22C-6i",
+        "producer": "Develop ineo+ 226i",
+        "creationDate": "D:20230802084914+08'00'",
+        "modDate": "D:20230802084914+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        29
+      ],
+      "text_chars_in_sample": 0,
+      "first_lines": [],
+      "topic_scores": {},
+      "top_terms": [],
+      "snippets": []
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\Diagnostic Stack.pdf",
+      "name": "Diagnostic Stack.pdf",
+      "size_mb": 3.79,
+      "pages": 36,
+      "metadata": {
+        "format": "PDF 1.4",
+        "title": "S22C-6i23080208430",
+        "creator": "22C-6i",
+        "producer": "Develop ineo+ 226i",
+        "creationDate": "D:20230802084606+08'00'",
+        "modDate": "D:20230802084606+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        36
+      ],
+      "text_chars_in_sample": 0,
+      "first_lines": [],
+      "topic_scores": {},
+      "top_terms": [],
+      "snippets": []
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\ETAS _RH850_MCAN_UserManul_1.0.pdf",
+      "name": "ETAS _RH850_MCAN_UserManul_1.0.pdf",
+      "size_mb": 1.06,
+      "pages": 11,
+      "metadata": {
+        "format": "PDF 1.7",
+        "title": "ETAS Manual",
+        "author": "ZHANG Yuan (ETAS/SAP-CN)",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20230815150926+08'00'",
+        "modDate": "D:20230815150926+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [
+        {
+          "level": 1,
+          "title": "3 | Contents",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "4 | Safety and Privacy Information",
+          "page": 4
+        },
+        {
+          "level": 1,
+          "title": "5 | Safety and Privacy Information",
+          "page": 5
+        },
+        {
+          "level": 1,
+          "title": "6 | Safety and Privacy Information",
+          "page": 6
+        },
+        {
+          "level": 1,
+          "title": "7 | Import CAN Configuration from BIP",
+          "page": 7
+        },
+        {
+          "level": 1,
+          "title": "8 | Import CAN Configuration from BIP",
+          "page": 8
+        },
+        {
+          "level": 1,
+          "title": "9 | Import CAN Configuration from BIP",
+          "page": 9
+        },
+        {
+          "level": 1,
+          "title": "10 | Import CAN Configuration from BIP",
+          "page": 10
+        },
+        {
+          "level": 1,
+          "title": "11 | Contact Information",
+          "page": 11
+        },
+        {
+          "level": 1,
+          "title": "70469 Stuttgart",
+          "page": 11
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "text_chars_in_sample": 8984,
+      "first_lines": [
+        "[page 1]",
+        "ETAS _RH850_MCAN_1.0",
+        "Import CAN Configuration from BIP",
+        "[page 2]",
+        "Copyright",
+        "The data in this document may not be altered or amended without special notification",
+        "from ETA S GmbH. ETAS GmbH undertakes no further obligation in relation to this docu-",
+        "ment. The software described in it can only be used if the customer is in possession of a",
+        "general license agreement or single license. Using and copying is only allowed in concur-",
+        "rence with the specifications stipulated in the contract.",
+        "Under no circumstances may any part of this document be copied, reproduced, transmit-",
+        "ted, stored in a retrieval system, or translated into another language without the express",
+        "written permission of ETAS GmbH.",
+        "© Copyright 2023 ETAS GmbH, Stuttgart",
+        "The names and designations used in this document are trademarks or brands belonging to",
+        "the respective owners.",
+        "ETAS _RH850_MCAN_1.0 – Import CAN Configuration from BIP R01 EN – July.2023",
+        "[page 3]"
+      ],
+      "topic_scores": {
+        "MCAL/EB tresos配置": 36,
+        "CAN/RH850/MCAN": 28,
+        "AUTOSAR总览/架构": 12,
+        "COM通信栈": 10,
+        "存储/NvM/MemStack": 8,
+        "PNC/网络管理": 6,
+        "诊断UDS/DCM/DEM": 3,
+        "电机控制器软件": 3
+      },
+      "top_terms": [
+        [
+          "port",
+          23
+        ],
+        [
+          "mcan",
+          14
+        ],
+        [
+          "rh850",
+          13
+        ],
+        [
+          "com",
+          10
+        ],
+        [
+          "mcal",
+          10
+        ],
+        [
+          "ea",
+          8
+        ],
+        [
+          "mcu",
+          6
+        ],
+        [
+          "autosar",
+          4
+        ],
+        [
+          "rte",
+          4
+        ],
+        [
+          "nm",
+          3
+        ],
+        [
+          "bsw",
+          2
+        ],
+        [
+          "basic software",
+          2
+        ],
+        [
+          "dem",
+          2
+        ],
+        [
+          "comM",
+          2
+        ],
+        [
+          "diagnostic",
+          1
+        ],
+        [
+          "network management",
+          1
+        ],
+        [
+          "mailbox",
+          1
+        ]
+      ],
+      "snippets": [
+        {
+          "term": "port",
+          "snippet": "[page 1] ETAS _RH850_MCAN_1.0 Import CAN Configuration from BIP [page 2] Copyright The data in this document may not be altered or amended without special notification from ETA S GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or single license."
+        },
+        {
+          "term": "mcan",
+          "snippet": "[page 1] ETAS _RH850_MCAN_1.0 Import CAN Configuration from BIP [page 2] Copyright The data in this document may not be altered or amended without special notification from ETA S GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or si"
+        },
+        {
+          "term": "rh850",
+          "snippet": "[page 1] ETAS _RH850_MCAN_1.0 Import CAN Configuration from BIP [page 2] Copyright The data in this document may not be altered or amended without special notification from ETA S GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement"
+        },
+        {
+          "term": "com",
+          "snippet": "ETAS _RH850_MCAN_1.0 | Import CAN Configuration from BIP ARP Address Resolution Protocol BSW Basic Software BswM Basic Software Mode Manager CAN Controller Area Network COM Communication DBC Database Container for CAN DEM Diagnostic Event Manager DHCP Dynamic Host Configuration Protocol ECU Electronic Control Unit EcuM Electronic Control Unit Mode Manager Eth Ethernet Controller EthIf Ethernet Interface EthSM Ethernet State Manager FIFO First In First Out HW Hardware ICMP Internet Control Message Pro"
+        },
+        {
+          "term": "mcal",
+          "snippet": "In First Out HW Hardware ICMP Internet Control Message Protocol Id Identifier IP Internet Protocol IPV4 Internet Protocol version 4 IPV6 Internet Protocol version 6 MCAL Microcontroller Abstraction Layer MCU Microcontroller Unit driver OS Operating System OSI Open Systems Interconnection Reference Model PDU Protocol Data Unit RTE Run Time Environment Sd Service Discovery SoAd Socket Adaptor SOMEIPXF Scalable Service-Oriented Middleware over IP Transformer SomeIpXf Adp SOMEIPXF Adapter SW Software S"
+        },
+        {
+          "term": "ea",
+          "snippet": "is user manual describes how to integrate XXX into an AUTOSAR platform, which derives from the customer requirement. However, this documents will not describe much about detail feature of the related module specifications. The detail specifications shall refer AUTOSAR specifications. 1.2 Target Group This document is prepared for software development engineer or system engineer who integrates and reworks the BIP to their ECU or redevelop and reconfigure based on this integration. [Note]: Screenshots in this document may not"
+        },
+        {
+          "term": "mcu",
+          "snippet": "net Control Message Protocol Id Identifier IP Internet Protocol IPV4 Internet Protocol version 4 IPV6 Internet Protocol version 6 MCAL Microcontroller Abstraction Layer MCU Microcontroller Unit driver OS Operating System OSI Open Systems Interconnection Reference Model PDU Protocol Data Unit RTE Run Time Environment Sd Service Discovery SoAd Socket Adaptor SOMEIPXF Scalable Service-Oriented Middleware over IP Transformer SomeIpXf Adp SOMEIPXF Adapter SW Software SWC Software Component TCP Transmission"
+        },
+        {
+          "term": "autosar",
+          "snippet": "nformation ETAS _RH850_MCAN_1.0 | Import CAN Configuration from BIP 1 Safety and Privacy Information 1.1 Intended Use This user manual describes how to integrate XXX into an AUTOSAR platform, which derives from the customer requirement. However, this documents will not describe much about detail feature of the related module specifications. The detail specifications shall refer AUTOSAR specifications. 1.2 Target Group This document is prepared for software development engineer or system engineer who integrates and reworks"
+        },
+        {
+          "term": "rte",
+          "snippet": "ion 6 MCAL Microcontroller Abstraction Layer MCU Microcontroller Unit driver OS Operating System OSI Open Systems Interconnection Reference Model PDU Protocol Data Unit RTE Run Time Environment Sd Service Discovery SoAd Socket Adaptor SOMEIPXF Scalable Service-Oriented Middleware over IP Transformer SomeIpXf Adp SOMEIPXF Adapter SW Software SWC Software Component TCP Transmission Control Protocol Trcv Transceiver UDP User Datagram Protocol UdpNm UDP Network Management XfrmAd Adapter Complex Driver [p"
+        },
+        {
+          "term": "nm",
+          "snippet": "ntroller Abstraction Layer MCU Microcontroller Unit driver OS Operating System OSI Open Systems Interconnection Reference Model PDU Protocol Data Unit RTE Run Time Environment Sd Service Discovery SoAd Socket Adaptor SOMEIPXF Scalable Service-Oriented Middleware over IP Transformer SomeIpXf Adp SOMEIPXF Adapter SW Software SWC Software Component TCP Transmission Control Protocol Trcv Transceiver UDP User Datagram Protocol UdpNm UDP Network Management XfrmAd Adapter Complex Driver [page 6] 6 | Safety an"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\ETAS_AUTOSAR_User_Manual_PNC.pdf",
+      "name": "ETAS_AUTOSAR_User_Manual_PNC.pdf",
+      "size_mb": 1.52,
+      "pages": 26,
+      "metadata": {
+        "format": "PDF 1.7",
+        "author": "TAN Yang (ETAS/ERS-Sgh)",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20220627155732+08'00'",
+        "modDate": "D:20220627155732+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "2 shows the layered architecture of these modules and the data flow of NM message, which",
+          "page": 9
+        },
+        {
+          "level": 1,
+          "title": "will be explained detailed in chapter 3.1.",
+          "page": 9
+        },
+        {
+          "level": 1,
+          "title": "layer for passing the changed PN information to Com module. This chapter explains how this",
+          "page": 10
+        },
+        {
+          "level": 1,
+          "title": "Partial Networking Information of the NM-PDU following NM PDU Filter Algorithm (Chapter",
+          "page": 10
+        },
+        {
+          "level": 1,
+          "title": "using RTA-BSW is introduced in Chapter 3.2.",
+          "page": 11
+        },
+        {
+          "level": 1,
+          "title": "with this. Please refer chapter 3.5):",
+          "page": 11
+        },
+        {
+          "level": 1,
+          "title": "If the PN is locally requested by the node (see Use Case 4 in Chapter 3.4), PN Control",
+          "page": 11
+        },
+        {
+          "level": 1,
+          "title": "In this chapter, the ComM functional regarding PNC management except PNC Gateway will",
+          "page": 12
+        },
+        {
+          "level": 1,
+          "title": "be introduced. In the last chapter we have learned that the PNC requests are transmitted by",
+          "page": 12
+        },
+        {
+          "level": 1,
+          "title": "behavior, please refer AUTOSAR_SWS_COMManager.pdf chapter 7.1.3.",
+          "page": 12
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25
+      ],
+      "text_chars_in_sample": 22379,
+      "first_lines": [
+        "[page 1]",
+        "ETAS AUTOSAR",
+        "User Manual – PNC",
+        "Status: Released",
+        "[page 2]",
+        "Copyright",
+        "The data in this document may not be altered or amended without special notification",
+        "from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu-",
+        "ment. The software described in it can only be used if the customer is in possession of a",
+        "general license agreement or single license. Using and copying is only allowed in concur-",
+        "rence with the specifications stipulated in the contract.",
+        "Under no circumstances may any part of this document be copied, reproduced, transmit-",
+        "ted, stored in a retrieval system or translated into another language without the express",
+        "written permission of ETAS GmbH.",
+        "© Copyright 2019 ETAS GmbH, Stuttgart",
+        "The names and designations used in this document are trademarks or brands belonging",
+        "to the respective owners.",
+        "[page 3]"
+      ],
+      "topic_scores": {
+        "PNC/网络管理": 322,
+        "COM通信栈": 171,
+        "AUTOSAR总览/架构": 57,
+        "存储/NvM/MemStack": 40,
+        "MCAL/EB tresos配置": 14,
+        "诊断UDS/DCM/DEM": 5,
+        "电机控制器软件": 2
+      },
+      "top_terms": [
+        [
+          "com",
+          133
+        ],
+        [
+          "comM",
+          93
+        ],
+        [
+          "pnc",
+          88
+        ],
+        [
+          "nm",
+          86
+        ],
+        [
+          "cannm",
+          42
+        ],
+        [
+          "ea",
+          40
+        ],
+        [
+          "bsw",
+          28
+        ],
+        [
+          "autosar",
+          24
+        ],
+        [
+          "partial network",
+          13
+        ],
+        [
+          "canif",
+          12
+        ],
+        [
+          "pdur",
+          10
+        ],
+        [
+          "port",
+          9
+        ],
+        [
+          "signal",
+          7
+        ],
+        [
+          "ipdu",
+          6
+        ],
+        [
+          "mcu",
+          4
+        ],
+        [
+          "rte",
+          2
+        ],
+        [
+          "basic software",
+          2
+        ],
+        [
+          "communication stack",
+          2
+        ],
+        [
+          "diagnostic",
+          2
+        ],
+        [
+          "dem",
+          2
+        ],
+        [
+          "spi",
+          2
+        ],
+        [
+          "service layer",
+          1
+        ],
+        [
+          "can communication",
+          1
+        ],
+        [
+          "dcm",
+          1
+        ],
+        [
+          "mcal",
+          1
+        ]
+      ],
+      "snippets": [
+        {
+          "term": "com",
+          "snippet": "............ 12 2.2.5 PN Timer ................................................................................................................... 12 PNC State Management with ComM ................................................................................ 12 2.3.1 PNC State Machine ..................................................................................................... 12 2.3.2 PNC, ComMUser and ComMChannel ............................................................................ 13 TJA1145 Selective Wa"
+        },
+        {
+          "term": "comM",
+          "snippet": "............ 12 2.2.5 PN Timer ................................................................................................................... 12 PNC State Management with ComM ................................................................................ 12 2.3.1 PNC State Machine ..................................................................................................... 12 2.3.2 PNC, ComMUser and ComMChannel ............................................................................ 13 TJA1145 Selective Wa"
+        },
+        {
+          "term": "pnc",
+          "snippet": "[page 1] ETAS AUTOSAR User Manual – PNC Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or single license. Using"
+        },
+        {
+          "term": "nm",
+          "snippet": "....................................... 9 Partial Networking overview .............................................................................................. 9 Handling NM PDUs with CanNm ...................................................................................... 10 2.2.1 NM PDU Structure ...................................................................................................... 10 2.2.2 RX: NM PDU Filter Algorithm ...................................................................................."
+        },
+        {
+          "term": "cannm",
+          "snippet": ".......................... 9 Partial Networking overview .............................................................................................. 9 Handling NM PDUs with CanNm ...................................................................................... 10 2.2.1 NM PDU Structure ...................................................................................................... 10 2.2.2 RX: NM PDU Filter Algorithm ....................................................................................... 11 2.2.3"
+        },
+        {
+          "term": "ea",
+          "snippet": "[page 1] ETAS AUTOSAR User Manual – PNC Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or single license. Using and copying is"
+        },
+        {
+          "term": "bsw",
+          "snippet": "gure 1 Partial Networking ..................................................................................................................... 9 Figure 2 Layered Architecture of BSW modules Related to PN ............................................................ 10 Figure 3 NM PDU Structure ................................................................................................................... 10 Figure 4 PNC State Machine ................................................................................................"
+        },
+        {
+          "term": "autosar",
+          "snippet": "[page 1] ETAS AUTOSAR User Manual – PNC Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement o"
+        },
+        {
+          "term": "partial network",
+          "snippet": "....................................... 7 Conventions ..................................................................................................................... 8 2 Partial Networking Introduction ................................................................................................ 9 Partial Networking overview .............................................................................................. 9 Handling NM PDUs with CanNm ........................................................................"
+        },
+        {
+          "term": "canif",
+          "snippet": "architecture of these modules and the data flow of NM message, which will be explained detailed in chapter 3.1. • CanTrcv: To use PN information for selective wakeup. To notify CanIf the availability of PN. • CanIf: To notify CanSM the availability of PN. To send/receive NM messages. • CanNm: To send/receive NM messages. To filter the received NM Message by checking if relevant partial network cluster (PNC) is set. • PduR: To receive the filtered user data of NM message from CanNm to Com. To transmit the user data set by C"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\Freetech_AUTOSAR_User_Manual_E2E.pdf",
+      "name": "Freetech_AUTOSAR_User_Manual_E2E.pdf",
+      "size_mb": 1.51,
+      "pages": 23,
+      "metadata": {
+        "format": "PDF 1.5",
+        "author": "TAO Sisi (ETAS/ERS-Sgh)",
+        "creator": "Microsoft® Word 2016",
+        "producer": "Microsoft® Word 2016",
+        "creationDate": "D:20210806153625+08'00'",
+        "modDate": "D:20230518153744+08'00'"
+      },
+      "toc_source": "embedded",
+      "toc": [
+        {
+          "level": 1,
+          "title": "1 Introduction",
+          "page": 6
+        },
+        {
+          "level": 2,
+          "title": "1.1 Who should read this document",
+          "page": 6
+        },
+        {
+          "level": 2,
+          "title": "1.2 How will you receive more information",
+          "page": 6
+        },
+        {
+          "level": 2,
+          "title": "1.3 Safety Notice",
+          "page": 6
+        },
+        {
+          "level": 2,
+          "title": "1.4 Definitions and Abbreviations",
+          "page": 7
+        },
+        {
+          "level": 2,
+          "title": "1.5 Conventions",
+          "page": 9
+        },
+        {
+          "level": 1,
+          "title": "2 E2E Protection Overview",
+          "page": 10
+        },
+        {
+          "level": 2,
+          "title": "2.1 E2E Library introduction",
+          "page": 10
+        },
+        {
+          "level": 2,
+          "title": "2.2 E2E profile Introduction",
+          "page": 11
+        },
+        {
+          "level": 2,
+          "title": "2.3 Implementation of E2E Library",
+          "page": 13
+        },
+        {
+          "level": 1,
+          "title": "3 E2E BSW Configuration",
+          "page": 14
+        },
+        {
+          "level": 1,
+          "title": "4 Use Case 1: E2E Protection Requirement in System Description",
+          "page": 16
+        },
+        {
+          "level": 1,
+          "title": "5 Use Case 2: E2E Wrapper Implementation",
+          "page": 17
+        },
+        {
+          "level": 1,
+          "title": "6 Use Case 3: DataTypeMapping and DataMapping for SignalGroup",
+          "page": 20
+        },
+        {
+          "level": 1,
+          "title": "7 ETAS Contact Addresses",
+          "page": 22
+        },
+        {
+          "level": 2,
+          "title": "ETAS HQ",
+          "page": 22
+        },
+        {
+          "level": 2,
+          "title": "ETAS Automotive Technology (Shanghai) Co., Ltd.",
+          "page": 22
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "text_chars_in_sample": 23942,
+      "first_lines": [
+        "[page 1]",
+        "FREETECH DMS AUTOSAR Platform - 1p0",
+        "User Manual – E2E",
+        "Status: Released",
+        "[page 2]",
+        "Copyright",
+        "The data in this document may not be altered or amended without special notification",
+        "from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu-",
+        "ment. The software described in it can only be used if the customer is in possession of a",
+        "general license agreement or single license. Using and copying is only allowed in concur-",
+        "rence with the specifications stipulated in the contract.",
+        "Under no circumstances may any part of this document be copied, reproduced, transmit-",
+        "ted, stored in a retrieval system or translated into another language without the express",
+        "written permission of ETAS GmbH.",
+        "© Copyright 2019 ETAS GmbH, Stuttgart",
+        "The names and designations used in this document are trademarks or brands belonging",
+        "to the respective owners.",
+        "[page 3]"
+      ],
+      "topic_scores": {
+        "E2E保护": 244,
+        "AUTOSAR总览/架构": 63,
+        "COM通信栈": 62,
+        "存储/NvM/MemStack": 51,
+        "PNC/网络管理": 21,
+        "MCAL/EB tresos配置": 11,
+        "诊断UDS/DCM/DEM": 5,
+        "电机控制器软件": 1
+      },
+      "top_terms": [
+        [
+          "e2e",
+          131
+        ],
+        [
+          "ea",
+          47
+        ],
+        [
+          "com",
+          41
+        ],
+        [
+          "crc",
+          41
+        ],
+        [
+          "autosar",
+          34
+        ],
+        [
+          "counter",
+          32
+        ],
+        [
+          "profile",
+          28
+        ],
+        [
+          "comM",
+          20
+        ],
+        [
+          "signal",
+          19
+        ],
+        [
+          "rte",
+          17
+        ],
+        [
+          "bsw",
+          10
+        ],
+        [
+          "data id",
+          9
+        ],
+        [
+          "port",
+          4
+        ],
+        [
+          "mcal",
+          3
+        ],
+        [
+          "alive counter",
+          3
+        ],
+        [
+          "basic software",
+          2
+        ],
+        [
+          "diagnostic",
+          2
+        ],
+        [
+          "dem",
+          2
+        ],
+        [
+          "mcu",
+          2
+        ],
+        [
+          "ipdu",
+          1
+        ],
+        [
+          "communication stack",
+          1
+        ],
+        [
+          "dcm",
+          1
+        ],
+        [
+          "nvm",
+          1
+        ],
+        [
+          "memif",
+          1
+        ],
+        [
+          "fee",
+          1
+        ]
+      ],
+      "snippets": [
+        {
+          "term": "e2e",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – E2E Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or single license. Using"
+        },
+        {
+          "term": "ea",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – E2E Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general license agreement or single license. Using and copying is"
+        },
+        {
+          "term": "com",
+          "snippet": "................................................. 22 [page 4] ETAS Figures FREETECH DMS AUTOSAR Platform - 1p0 User Manual – E2E 4 Figures Figure 1 - Source of faults in E2E communication ................................................................................. 10 Figure 2 - Timeout detection ................................................................................................................. 12 Figure 3 - Example Data layout of E2E Profile 1A/1B for One Signal Group ........................................"
+        },
+        {
+          "term": "crc",
+          "snippet": "...................... 12 Figure 4 - E2E Module configuration ..................................................................................................... 14 Figure 5 - Crc Module Configuration ..................................................................................................... 15 Figure 6 - EndToEndProtectionSet in AR Exploerer ............................................................................... 16 Figure 7 - E2E Protection Description in System Editor ........................................."
+        },
+        {
+          "term": "autosar",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – E2E Status: Released [page 2] 2 Copyright The data in this document may not be altered or amended without special notification from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this docu- ment. The software described in it can only be used if the customer is in possession of a general lice"
+        },
+        {
+          "term": "counter",
+          "snippet": "orms of input data to their own E2E Library functions. Profile 1A and Profile 2 are introduced as follows. 1) E2E profile 1A: - Protection mechanism: Mechanism Description Counter 4bit (explicitly sent) representing numbers from 0 to 14 incremented on every send request. Timeout Timeout is reported by E2E Library to the caller by means of the status flags in E2E_P01ReceiverStatusType Data ID 16 bit, unique number, both bytes of Data ID are included in the CRC calculation but not transmitted (implicit transmission) CRC"
+        },
+        {
+          "term": "profile",
+          "snippet": ".......................................... 10 E2E Library introduction ................................................................................................. 10 E2E profile Introduction .................................................................................................. 11 Implementation of E2E Library ........................................................................................ 13 3 E2E BSW Configuration ......................................................................................."
+        },
+        {
+          "term": "comM",
+          "snippet": "................................................. 22 [page 4] ETAS Figures FREETECH DMS AUTOSAR Platform - 1p0 User Manual – E2E 4 Figures Figure 1 - Source of faults in E2E communication ................................................................................. 10 Figure 2 - Timeout detection ................................................................................................................. 12 Figure 3 - Example Data layout of E2E Profile 1A/1B for One Signal Group ........................................"
+        },
+        {
+          "term": "signal",
+          "snippet": "16 5 Use Case 1: E2E Wrapper Implementation .............................................................................. 17 6 Use Case 2: DataTypeMapping and DataMapping for SignalGroup ............................................ 20 7 ETAS Contact Addresses ........................................................................................................ 22 ETAS HQ .............................................................................................................................. 22 ETAS Automotive Technolog"
+        },
+        {
+          "term": "rte",
+          "snippet": "R platform A for FREETECH DMS. It tells you how the DMS features are configured and deployed with ETAS AUTOSAR modules. AUTOSAR’s architecture is divided into application code, RTE, OS, BSW, IoHwAbs, CDD, MCAL, SafeTLib as well as lots of integration code. This document shows how to configure and integrate RTE, OS, BSW, IoHwAbs, CDD, MCAL, SafeTLib module based on the deliverable software which covers customer requirements. The ISOLAR-AB tool is used for making the component descriptions. Application code will not be mentioned"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\Freetech_AUTOSAR_User_Manual_NvBlock.pdf",
+      "name": "Freetech_AUTOSAR_User_Manual_NvBlock.pdf",
+      "size_mb": 2.0,
+      "pages": 12,
+      "metadata": {
+        "format": "PDF 1.7",
+        "author": "TAO Sisi (ETAS/ERS-Sgh)",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20230913151500+08'00'",
+        "modDate": "D:20230913151500+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 2
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "text_chars_in_sample": 4616,
+      "first_lines": [
+        "[page 1]",
+        "FREETECH DMS AUTOSAR Platform - 1p0",
+        "User Manual – NvBlock",
+        "Status: Released",
+        "[page 2]",
+        "Contents",
+        "1.",
+        "Create NvBlock SWC and NvBlock Descriptor ....................................................................................... 3",
+        "2.",
+        "Create DataTypes (IDT and ADT) for data elements ............................................................................ 3",
+        "3.",
+        "Create Interfaces ................................................................................................................................... 4",
+        "4.",
+        "Add ports in NvBlock SWC .................................................................................................................... 5",
+        "5.",
+        "Edit Internal Behavior in NvBlock SWC ................................................................................................. 5",
+        "6.",
+        "Edit NvDataMapping ............................................................................................................................. 7"
+      ],
+      "topic_scores": {
+        "存储/NvM/MemStack": 36,
+        "AUTOSAR总览/架构": 8,
+        "MCAL/EB tresos配置": 8,
+        "COM通信栈": 2
+      },
+      "top_terms": [
+        [
+          "ea",
+          28
+        ],
+        [
+          "port",
+          8
+        ],
+        [
+          "nvm",
+          6
+        ],
+        [
+          "rte",
+          5
+        ],
+        [
+          "bsw",
+          2
+        ],
+        [
+          "com",
+          2
+        ],
+        [
+          "nvram",
+          2
+        ],
+        [
+          "autosar",
+          1
+        ]
+      ],
+      "snippets": [
+        {
+          "term": "ea",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – NvBlock Status: Released [page 2] Contents 1. Create NvBlock SWC and NvBlock Descriptor ....................................................................................... 3 2. Create DataTypes (IDT and ADT) for data elements ............................................................................ 3 3. Create Interfaces .........................................."
+        },
+        {
+          "term": "port",
+          "snippet": "........... 3 3. Create Interfaces ................................................................................................................................... 4 4. Add ports in NvBlock SWC .................................................................................................................... 5 5. Edit Internal Behavior in NvBlock SWC ................................................................................................. 5 6. Edit NvDataMapping ....................................................."
+        },
+        {
+          "term": "nvm",
+          "snippet": "already exists. - Create DataTypeMappingSet and DataTypeMap: [page 4] 3. Create Interfaces - Create Nv Data Interface The type of interface which connects NvBlock SWC and NvM user SWC (Application SWC e.g. NvM_SWC) is Nv Data Interface. - Reference ADT to NvData under the Interface - Create ClientServerInterface for NvMNotifyJobFinished This one may already have been provided in example project. [page 5] 4. Add ports in NvBlock SWC - Add PR-Port of the Nv Data Interface - Add R-Port of the CS Interface 5. Ed"
+        },
+        {
+          "term": "rte",
+          "snippet": "............................... 9 10. BSW configuration and generation ................................................................................................. 10 11. RTE configuration and generation .................................................................................................. 11 [page 3] 1. Create NvBlock SWC and NvBlock Descriptor Firstly, an NvBlock SWC shall be created. In this SWC we create an NvBlock Descriptor standing for one block. 2. Create DataTypes (IDT and ADT) for data elements -"
+        },
+        {
+          "term": "bsw",
+          "snippet": "............... 9 9. Edit ROM Block ..................................................................................................................................... 9 10. BSW configuration and generation ................................................................................................. 10 11. RTE configuration and generation .................................................................................................. 11 [page 3] 1. Create NvBlock SWC and NvBlock Descriptor Firstly, an NvBlock SWC shall"
+        },
+        {
+          "term": "com",
+          "snippet": "rray -> Array Value Specification ▪ Structure -> Record Value Specification 10. BSW configuration and generation Like all other SWCs, you need to add NvBlock SWC in a system composition and map it to the target ECU. After doing ECU Extract, you can use conf-gen to generate NvM module configuration. Please edit some NvM configuration manually like NvMNvBlockLength. [page 11] 11. RTE configuration and generation - SWCs connection The NvBlock SWC shall be connected to user application SWC. So you should also add ports and Da"
+        },
+        {
+          "term": "nvram",
+          "snippet": "oints shall also be created. Please connect all ports between two SWCs in composition. [page 12] - Entity to Task Mapping Please map all runnable entities to tasks. - Add RteNvRamAllocations Please add RteNvRamAllocation in Rte module for all NvBlocks:"
+        },
+        {
+          "term": "autosar",
+          "snippet": "[page 1] FREETECH DMS AUTOSAR Platform - 1p0 User Manual – NvBlock Status: Released [page 2] Contents 1. Create NvBlock SWC and NvBlock Descriptor ....................................................................................... 3 2. Create DataTypes (IDT and ADT) for data elements ............................................................................ 3 3. Cr"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\How to deploy UDS Diag Stack by Dext in RTA_CAR9_2_1.pdf",
+      "name": "How to deploy UDS Diag Stack by Dext in RTA_CAR9_2_1.pdf",
+      "size_mb": 5.08,
+      "pages": 38,
+      "metadata": {
+        "format": "PDF 1.7",
+        "title": "ETAS Manual",
+        "author": "Nguyen Dang Tan (RBVH/ENG134)",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20230831153554+08'00'",
+        "modDate": "D:20230831153554+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "1.1 Scope",
+          "page": 4
+        },
+        {
+          "level": 1,
+          "title": "1.2 Sample project assumptions",
+          "page": 4
+        },
+        {
+          "level": 1,
+          "title": "1.2.1 UDS General Requirements",
+          "page": 4
+        },
+        {
+          "level": 1,
+          "title": "1.3 Definitions and Abbreviations",
+          "page": 4
+        },
+        {
+          "level": 1,
+          "title": "2.1 Background",
+          "page": 6
+        },
+        {
+          "level": 1,
+          "title": "2.2 Add configuration for Dext in ISOLAR A/B 9.2.1",
+          "page": 6
+        },
+        {
+          "level": 1,
+          "title": "In this chapter we are going to show how to:",
+          "page": 6
+        },
+        {
+          "level": 1,
+          "title": "2.2.1 Import the Dext file into the project",
+          "page": 7
+        },
+        {
+          "level": 1,
+          "title": "2.2.2 Replace ECU in Dext",
+          "page": 8
+        },
+        {
+          "level": 1,
+          "title": "2.2.3 Add Diagnostic Connection",
+          "page": 10
+        },
+        {
+          "level": 1,
+          "title": "2.2.4 Add Diagnostic Protocol",
+          "page": 11
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        36
+      ],
+      "text_chars_in_sample": 12648,
+      "first_lines": [
+        "[page 1]",
+        "ETAS RTA-CAR User Manual",
+        "How to configure UDS (ISO 14229)",
+        "[page 2]",
+        "Copyright",
+        "The data in this document may not be altered or amended without special notifica-",
+        "tion from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to",
+        "this document. The software described in it can only be used if the customer is in",
+        "possession of a general license agreement or single license. Using and copying is",
+        "only allowed in concurrence with the specifications stipulated in the contract.",
+        "Under no circumstances may any part of this document be copied, reproduced,",
+        "transmitted, stored in a retrieval system or translated into another language without",
+        "the express written permission of ETAS GmbH.",
+        "© Copyright 2023 ETAS GmbH, Stuttgart",
+        "The names and designations used in this document are trademarks or brands be-",
+        "longing to the respective owners.",
+        "Document V1.0 R01 EN – 2.2023",
+        "[page 3]"
+      ],
+      "topic_scores": {
+        "诊断UDS/DCM/DEM": 111,
+        "AUTOSAR总览/架构": 24,
+        "COM通信栈": 22,
+        "MCAL/EB tresos配置": 15,
+        "PNC/网络管理": 14,
+        "存储/NvM/MemStack": 13,
+        "电机控制器软件": 2,
+        "E2E保护": 1
+      },
+      "top_terms": [
+        [
+          "uds",
+          43
+        ],
+        [
+          "diagnostic",
+          29
+        ],
+        [
+          "com",
+          17
+        ],
+        [
+          "dcm",
+          17
+        ],
+        [
+          "dem",
+          15
+        ],
+        [
+          "bsw",
+          13
+        ],
+        [
+          "ea",
+          13
+        ],
+        [
+          "port",
+          13
+        ],
+        [
+          "comM",
+          11
+        ],
+        [
+          "autosar",
+          5
+        ],
+        [
+          "did",
+          5
+        ],
+        [
+          "rte",
+          4
+        ],
+        [
+          "nm",
+          3
+        ],
+        [
+          "basic software",
+          2
+        ],
+        [
+          "signal",
+          2
+        ],
+        [
+          "dtc",
+          2
+        ],
+        [
+          "mcu",
+          2
+        ],
+        [
+          "canif",
+          1
+        ],
+        [
+          "cantp",
+          1
+        ],
+        [
+          "communication stack",
+          1
+        ],
+        [
+          "mcal",
+          1
+        ],
+        [
+          "counter",
+          1
+        ],
+        [
+          "foc",
+          1
+        ]
+      ],
+      "snippets": [
+        {
+          "term": "uds",
+          "snippet": "[page 1] ETAS RTA-CAR User Manual How to configure UDS (ISO 14229) [page 2] Copyright The data in this document may not be altered or amended without special notifica- tion from ETAS GmbH. ETAS GmbH undertakes no further obligation in relation to this document. The software described in it can only be used if the customer is in possession of a general license agreement or single license. Using and copyin"
+        },
+        {
+          "term": "diagnostic",
+          "snippet": ".................................................... 7 2.2.2 Replace ECU in Dext .................................................................................. 8 2.2.3 Add Diagnostic Connection ....................................................................... 10 2.2.4 Add Diagnostic Protocol ............................................................................ 11 2.2.5 Add Diagnostic Ecu Instance Props ........................................................... 13 2.2.6 Add DiagnosticCommonPropsVariables for"
+        },
+        {
+          "term": "com",
+          "snippet": "................................................. 11 2.2.5 Add Diagnostic Ecu Instance Props ........................................................... 13 2.2.6 Add DiagnosticCommonPropsVariables for DcmContributionSet ................. 14 2.2.7 Add DiagnosticCommonPropsVariants for DemContributionSet................... 14 2.2.8 Add configuration items for PrimaryMemory ............................................... 15 2.2.9 Add related configuration items for Event ................................................... 15 2"
+        },
+        {
+          "term": "dcm",
+          "snippet": "........................ 11 2.2.5 Add Diagnostic Ecu Instance Props ........................................................... 13 2.2.6 Add DiagnosticCommonPropsVariables for DcmContributionSet ................. 14 2.2.7 Add DiagnosticCommonPropsVariants for DemContributionSet................... 14 2.2.8 Add configuration items for PrimaryMemory ............................................... 15 2.2.9 Add related configuration items for Event ................................................... 15 2.2.10 Add configuration"
+        },
+        {
+          "term": "dem",
+          "snippet": "nslated into another language without the express written permission of ETAS GmbH. © Copyright 2023 ETAS GmbH, Stuttgart The names and designations used in this document are trademarks or brands be- longing to the respective owners. Document V1.0 R01 EN – 2.2023 [page 3] ETAS Contents ETAS RTA-CAR User Manual 3 Contents 1 Introduction ................................................................................................. 4 1.1 Scope ................................................................................"
+        },
+        {
+          "term": "bsw",
+          "snippet": "rvice ......................................... 17 2.2.14 Execute ConfGen ..................................................................................... 17 2.3 Generate BSW Code .............................................................................................. 18 2.4 Create UdsUT and generate Rte code ..................................................................... 25 2.4.1 Create UdsUT .......................................................................................... 25 2.4.2 Integrate UdsUT"
+        },
+        {
+          "term": "ea",
+          "snippet": ".............................................. 17 2.3 Generate BSW Code .............................................................................................. 18 2.4 Create UdsUT and generate Rte code ..................................................................... 25 2.4.1 Create UdsUT .......................................................................................... 25 2.4.2 Integrate UdsUT SWC into Project ............................................................ 26 2.5 Generate Rte Code .........."
+        },
+        {
+          "term": "port",
+          "snippet": "...................................................... 6 2.2 Add configuration for Dext in ISOLAR A/B 9.2.1.......................................................... 6 2.2.1 Import the Dext file into the project .............................................................. 7 2.2.2 Replace ECU in Dext .................................................................................. 8 2.2.3 Add Diagnostic Connection ....................................................................... 10 2.2.4 Add Diagnostic Protocol ....."
+        },
+        {
+          "term": "comM",
+          "snippet": "................................................. 11 2.2.5 Add Diagnostic Ecu Instance Props ........................................................... 13 2.2.6 Add DiagnosticCommonPropsVariables for DcmContributionSet ................. 14 2.2.7 Add DiagnosticCommonPropsVariants for DemContributionSet................... 14 2.2.8 Add configuration items for PrimaryMemory ............................................... 15 2.2.9 Add related configuration items for Event ................................................... 15 2"
+        },
+        {
+          "term": "autosar",
+          "snippet": "troller Abstraction Layer MCU Microcontroller Unit driver OS Operating System OBD On-Board Diagnostics SW Software RTE Run Time Environment SWC Software Component AR AUTOSAR [page 5] ETAS Configure UDS ETAS RTA-CAR User Manual 5 CAN Controller Area Network CANIf Can Interface Layer CANTp Can Transport Layer COM Communication DBC One format that describes the data over a CAN bus. VFB Virtual Function BUS ECU Electronic control unit DLC Data Length Check UC Use Case DIAG Diagnostic DCM Diagnostic"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\LATE-017 SR5E1 How to configure MCAL with EB tresos studio Rev3.0 Jun 2024.pdf",
+      "name": "LATE-017 SR5E1 How to configure MCAL with EB tresos studio Rev3.0 Jun 2024.pdf",
+      "size_mb": 8.5,
+      "pages": 88,
+      "metadata": {
+        "format": "PDF 1.7",
+        "author": "Hu LING",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "D:20240705152636+08'00'",
+        "modDate": "D:20240705152636+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [
+        {
+          "level": 1,
+          "title": "Contents",
+          "page": 2
+        },
+        {
+          "level": 1,
+          "title": "1.1 创建新的配置工程",
+          "page": 11
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        16,
+        23,
+        30,
+        37,
+        44,
+        51,
+        58,
+        65,
+        72,
+        79,
+        86
+      ],
+      "text_chars_in_sample": 20491,
+      "first_lines": [
+        "[page 1]",
+        "如何使用 EB tresos 工具配置MCAL",
+        "本文档基于以下版本介绍EB tresos 对于Stellar E1 芯片MCAL 的配置。",
+        "MCAL_A20_SR5E1_0.1.00-EAR",
+        "AUTOSAR R20-11",
+        "Elektrobit Tresos Release 29.1.0 (b220609-0352)",
+        "SR5E1 eLQFP176 cut 1.0",
+        "HighTec clang version 8.1.0",
+        "参考文档：",
+        "1. RM0483 SR5E1 Reference manual Rev3 Nov 2023",
+        "2. DS13808 SR5E1 Datasheet Rev4 Oct 2023",
+        "3. TN1404 SR5E1x IO definition Rev3 Sep 2023",
+        "4. ES0597 SR5E1x devices errata (Cut1.0) Rev1 Mar 2023",
+        "5. MCAL 各模块 Integration Manual",
+        "6. MCAL 各模块User Manual",
+        "7. AUTOSAR 官方文档（https://www.autosar.org/）",
+        "SR5E1 How to configure MCAL",
+        "with EB tresos studio"
+      ],
+      "topic_scores": {
+        "MCAL/EB tresos配置": 141,
+        "存储/NvM/MemStack": 37,
+        "电机控制器软件": 31,
+        "AUTOSAR总览/架构": 12,
+        "诊断UDS/DCM/DEM": 3,
+        "COM通信栈": 1,
+        "E2E保护": 1,
+        "PNC/网络管理": 1
+      },
+      "top_terms": [
+        [
+          "mcu",
+          62
+        ],
+        [
+          "spi",
+          31
+        ],
+        [
+          "mcal",
+          26
+        ],
+        [
+          "ea",
+          17
+        ],
+        [
+          "fee",
+          15
+        ],
+        [
+          "port",
+          13
+        ],
+        [
+          "gpt",
+          10
+        ],
+        [
+          "rte",
+          8
+        ],
+        [
+          "dio",
+          7
+        ],
+        [
+          "icu",
+          7
+        ],
+        [
+          "fls",
+          5
+        ],
+        [
+          "adc",
+          5
+        ],
+        [
+          "autosar",
+          4
+        ],
+        [
+          "tresos",
+          4
+        ],
+        [
+          "pwm",
+          4
+        ],
+        [
+          "dem",
+          3
+        ],
+        [
+          "eb tresos",
+          3
+        ],
+        [
+          "com",
+          1
+        ],
+        [
+          "crc",
+          1
+        ],
+        [
+          "nm",
+          1
+        ]
+      ],
+      "snippets": [
+        {
+          "term": "mcu",
+          "snippet": "............................ 21 4.3 Resource 模块的配置 ....................................................................................................................... 22 4.4 Mcu 模块的配置 .............................................................................................................................. 22 4.4.1 外部晶振配置 ............................................................................................................................ 23 4.4.2 PLL0/1 配置 ............................................................."
+        },
+        {
+          "term": "spi",
+          "snippet": ".................... 41 6.3 PWM Channel 配置 .......................................................................................................................... 42 7、MCAL – Spi 模块配置 ........................................................................................................................ 44 7.1 SPI 时钟配置 .................................................................................................................................... 44 7.2 SPI Channel 配置 ........................................................."
+        },
+        {
+          "term": "mcal",
+          "snippet": "[page 1] 如何使用 EB tresos 工具配置MCAL 本文档基于以下版本介绍EB tresos 对于Stellar E1 芯片MCAL 的配置。 • MCAL_A20_SR5E1_0.1.00-EAR • AUTOSAR R20-11 • Elektrobit Tresos Release 29.1.0 (b220609-0352) • SR5E1 eLQFP176 cut 1.0 • HighTec clang version 8.1.0 参考文档： 1. RM0483 SR5E1 Reference manual Rev3 Nov 2023 2. DS13808 SR5E1 Datasheet Rev4 Oct 2023 3. TN1404 SR5E1x IO definition Rev3 Sep 20"
+        },
+        {
+          "term": "ea",
+          "snippet": "[page 1] 如何使用 EB tresos 工具配置MCAL 本文档基于以下版本介绍EB tresos 对于Stellar E1 芯片MCAL 的配置。 • MCAL_A20_SR5E1_0.1.00-EAR • AUTOSAR R20-11 • Elektrobit Tresos Release 29.1.0 (b220609-0352) • SR5E1 eLQFP176 cut 1.0 • HighTec clang version 8.1.0 参考文档： 1. RM0483 SR5E1 Reference manual Rev3 Nov 2023 2. DS13808 SR5E1 Datasheet Rev4 Oct 2023 3. TN1404 SR5E1x IO definition Rev3 Sep 2023 4. ES0597 SR5E1x devices errata (Cut1.0) Rev1 Mar 2023 5. MCAL 各模块 Integrati"
+        },
+        {
+          "term": "fee",
+          "snippet": "................. 82 13.3 API 调用示例 ................................................................................................................................. 83 14、MCAL – Fee 模块配置...................................................................................................................... 84 14.1 FeeConfigSet 配置 .......................................................................................................................... 84 14.2 FeeClusterGroup 配置 ........................................................."
+        },
+        {
+          "term": "port",
+          "snippet": "....... 28 [page 3] 3 4.4.7 Reset 配置 .................................................................................................................................. 28 4.5 Port 模块的配置 ............................................................................................................................... 30 4.6 Dio 模块的配置 ................................................................................................................................ 33 4.6.1 添加、修改 Dio Channel .............................................."
+        },
+        {
+          "term": "gpt",
+          "snippet": "................................ 35 4.6.3 配置 Dio Channel Group ........................................................................................................... 35 4.7 Gpt 模块的配置 ................................................................................................................................ 36 4.7.1 添加、修改 Gpt 配置 ................................................................................................................ 36 4.7.2 添加 GptChannelClkSrcRef 配置 ................................................."
+        },
+        {
+          "term": "rte",
+          "snippet": "❖ 在EAR 0.1.00 版本中，默认使用Lauterbach 调试器，如需使用Jlink 调试，需要在Ozon e 的新建工程界面进行如下配置，PLS 类似： [page 16] 16 3、导入、导出MCAL 配置模块 3.1 导入MCAL 配置到工程 3.1.1 导入.epc 文件 右键单击ECU ID，点击“Im- and Exporters…”打开导入/导出配置界面。 第一步： 第二步： Figure 11 打开配置导入、导出界面 点击“ ”创建一个新的 importer 或 exporter。 输入 importer 的名称，“Mode”选择“Import only”，点击“Next >”开始创建 importer。 第一步： 第二步： Figure 12 导入MCAL 配置 – 创建importer 选中创建好的 importer，点击“Run Importer”，完成 MCAL 配置的导入。 [page 23] 23 4.4.1 外部晶振配置 双击打开 Mcu 模块配置界面，在“Outline”窗口中打开“McuModuleConfiguration”，单击 “McuClockSe"
+        },
+        {
+          "term": "dio",
+          "snippet": "errata (Cut1.0) Rev1 Mar 2023 5. MCAL 各模块 Integration Manual 6. MCAL 各模块User Manual 7. AUTOSAR 官方文档（https://www.autosar.org/） SR5E1 How to configure MCAL with EB tresos studio [page 2] 2 目录 Contents 目录 .............................................................................................................................................................. 2 Notice ..........................................................................................................................................................."
+        },
+        {
+          "term": "icu",
+          "snippet": "............... 74 11.3 FlsGeneral 配置 .............................................................................................................................. 76 12、MCAL – Icu 模块配置 ...................................................................................................................... 77 12.1 Icu 时钟配置 ................................................................................................................................... 77 12.2 Icu 功能配置 ................................................................"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\Memory Stack.pdf",
+      "name": "Memory Stack.pdf",
+      "size_mb": 8.29,
+      "pages": 60,
+      "metadata": {
+        "format": "PDF 1.4",
+        "title": "S22C-6i23080208520",
+        "creator": "22C-6i",
+        "producer": "Develop ineo+ 226i",
+        "creationDate": "D:20230802085701+08'00'",
+        "modDate": "D:20230802085701+08'00'"
+      },
+      "toc_source": "scanned_first_pages",
+      "toc": [],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        14,
+        19,
+        24,
+        29,
+        34,
+        39,
+        44,
+        49,
+        54,
+        59
+      ],
+      "text_chars_in_sample": 0,
+      "first_lines": [],
+      "topic_scores": {},
+      "top_terms": [],
+      "snippets": []
+    },
+    {
+      "file": "C:\\Users\\nvtc140\\Downloads\\基于AUTOSAR规范的车用电机控制器软件开发.pdf",
+      "name": "基于AUTOSAR规范的车用电机控制器软件开发.pdf",
+      "size_mb": 35.26,
+      "pages": 206,
+      "metadata": {
+        "format": "PDF 1.5",
+        "title": "基于AUTOSAR规范的车用电机控制器软件开发",
+        "creator": "Pdg2Pic",
+        "producer": "FreePic2Pdf_Lib - v3.02",
+        "creationDate": "D:20190304010556+08'00'",
+        "modDate": "D:20190614162845+08'00'"
+      },
+      "toc_source": "embedded",
+      "toc": [
+        {
+          "level": 1,
+          "title": "封面",
+          "page": 1
+        },
+        {
+          "level": 1,
+          "title": "书名",
+          "page": 3
+        },
+        {
+          "level": 1,
+          "title": "版权",
+          "page": 4
+        },
+        {
+          "level": 1,
+          "title": "前言",
+          "page": 5
+        },
+        {
+          "level": 1,
+          "title": "目录",
+          "page": 9
+        },
+        {
+          "level": 1,
+          "title": "第1章 汽车电子的软件开发",
+          "page": 14
+        },
+        {
+          "level": 2,
+          "title": "1.1 汽车电子系统简介",
+          "page": 15
+        },
+        {
+          "level": 2,
+          "title": "1.2 汽车电子系统的开发",
+          "page": 18
+        },
+        {
+          "level": 2,
+          "title": "1.3 基于AUTOSAR自顶向下地开发电机控制器",
+          "page": 20
+        },
+        {
+          "level": 2,
+          "title": "1.4 汽车电子系统的安全性",
+          "page": 21
+        },
+        {
+          "level": 1,
+          "title": "第2章 多核单片机在汽车电子系统中的应用",
+          "page": 23
+        },
+        {
+          "level": 2,
+          "title": "2.1单核单片机在汽车电子系统中的应用及局限性",
+          "page": 23
+        },
+        {
+          "level": 2,
+          "title": "2.2多核单片机在汽车电子系统中的优势和软件开发中的挑战",
+          "page": 23
+        },
+        {
+          "level": 3,
+          "title": "2.2.1 多核处理器的优势",
+          "page": 23
+        },
+        {
+          "level": 3,
+          "title": "2.2.2 多核软件开发所面临的问题",
+          "page": 24
+        },
+        {
+          "level": 3,
+          "title": "2.2.3 AUTOSAR规范的应用",
+          "page": 24
+        },
+        {
+          "level": 2,
+          "title": "2.3英飞凌AURIX单片机的特点介绍",
+          "page": 25
+        },
+        {
+          "level": 3,
+          "title": "2.3.1 AURIX系列单片机简介",
+          "page": 25
+        },
+        {
+          "level": 3,
+          "title": "2.3.2 AURIX的整体架构",
+          "page": 26
+        },
+        {
+          "level": 3,
+          "title": "2.3.3 AURIX系列单片机特色模块介绍",
+          "page": 27
+        },
+        {
+          "level": 1,
+          "title": "第3章 AUTOSAR理论基础",
+          "page": 35
+        },
+        {
+          "level": 2,
+          "title": "3.1 AUTOSAR简介",
+          "page": 35
+        },
+        {
+          "level": 3,
+          "title": "3.1.1目标",
+          "page": 36
+        },
+        {
+          "level": 3,
+          "title": "3.1.2 方法论",
+          "page": 38
+        },
+        {
+          "level": 2,
+          "title": "3.2 AUTOSAR基础软件层",
+          "page": 40
+        },
+        {
+          "level": 3,
+          "title": "3.2.1 微控制器抽象层",
+          "page": 42
+        },
+        {
+          "level": 3,
+          "title": "3.2.2 ECU抽象层",
+          "page": 49
+        },
+        {
+          "level": 3,
+          "title": "3.2.3 服务层",
+          "page": 51
+        },
+        {
+          "level": 3,
+          "title": "3.2.4 AUTOSAR操作系统",
+          "page": 60
+        },
+        {
+          "level": 3,
+          "title": "3.2.5 复杂驱动",
+          "page": 68
+        },
+        {
+          "level": 2,
+          "title": "3.3AUTOSAR运行时环境",
+          "page": 70
+        },
+        {
+          "level": 2,
+          "title": "3.4 AUTOSAR应用层",
+          "page": 71
+        },
+        {
+          "level": 3,
+          "title": "3.4.1 AUTOSAR软件组件",
+          "page": 71
+        },
+        {
+          "level": 3,
+          "title": "3.4.2 AUTOSAR通信",
+          "page": 73
+        },
+        {
+          "level": 1,
+          "title": "第4章 新能源汽车电机控制器",
+          "page": 77
+        },
+        {
+          "level": 2,
+          "title": "4.1 新能源汽车及发展趋势",
+          "page": 77
+        },
+        {
+          "level": 2,
+          "title": "4.2 电机控制器的开发",
+          "page": 79
+        },
+        {
+          "level": 3,
+          "title": "4.2.1 控制算法",
+          "page": 80
+        },
+        {
+          "level": 3,
+          "title": "4.2.2 硬件结构",
+          "page": 80
+        },
+        {
+          "level": 3,
+          "title": "4.2.3 软件框架",
+          "page": 85
+        },
+        {
+          "level": 1,
+          "title": "第5章 使用DaVinci Developer开发电机控制器软件架构",
+          "page": 88
+        },
+        {
+          "level": 2,
+          "title": "5.1 Vector相关工具链介绍",
+          "page": 88
+        },
+        {
+          "level": 2,
+          "title": "5.2 DaVinci Developer简介",
+          "page": 89
+        },
+        {
+          "level": 2,
+          "title": "5.3 DaVinci Developer入门",
+          "page": 90
+        },
+        {
+          "level": 3,
+          "title": "5.3.1 DaVinci Developer安装方法",
+          "page": 90
+        },
+        {
+          "level": 3,
+          "title": "5.3.2 DaVinci Developer界面说明",
+          "page": 95
+        },
+        {
+          "level": 2,
+          "title": "5.4 使用DaVinci Developer配置SWC",
+          "page": 99
+        },
+        {
+          "level": 3,
+          "title": "5.4.1 软件组件设计",
+          "page": 99
+        },
+        {
+          "level": 3,
+          "title": "5.4.2 通信接口设计",
+          "page": 101
+        },
+        {
+          "level": 3,
+          "title": "5.4.3 通信端口设计",
+          "page": 103
+        },
+        {
+          "level": 3,
+          "title": "5.4.4 运行实体设计",
+          "page": 105
+        },
+        {
+          "level": 3,
+          "title": "5.4.5 函数间变量设计",
+          "page": 107
+        },
+        {
+          "level": 1,
+          "title": "第6章 使用Simulink开发应用层",
+          "page": 109
+        },
+        {
+          "level": 2,
+          "title": "6.1 MATLAB/Simulink和Embedded Coder工具链介绍",
+          "page": 109
+        },
+        {
+          "level": 3,
+          "title": "6.1.1 MATLAB/Simulink——基于模型的设计工具",
+          "page": 109
+        },
+        {
+          "level": 3,
+          "title": "6.1.2 Stateflow——建模和仿真决策工具",
+          "page": 110
+        },
+        {
+          "level": 3,
+          "title": "6.1.3 Embedded Coder——代码生成和优化工具",
+          "page": 111
+        },
+        {
+          "level": 2,
+          "title": "6.2 开发符合AUTOSAR规范的应用层",
+          "page": 112
+        },
+        {
+          "level": 3,
+          "title": "6.2.1 AUTOSAR客户端、服务器",
+          "page": 112
+        },
+        {
+          "level": 3,
+          "title": "6.2.2 AUTOSAR标定参数",
+          "page": 115
+        }
+      ],
+      "sample_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        26,
+        43,
+        60,
+        77,
+        94,
+        111,
+        128,
+        145,
+        162,
+        179,
+        196
+      ],
+      "text_chars_in_sample": 0,
+      "first_lines": [],
+      "topic_scores": {},
+      "top_terms": [],
+      "snippets": []
+    }
+  ]
+}

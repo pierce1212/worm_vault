@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg { fill: #0b1020; }
+      .axis { stroke: #94a3b8; stroke-width: 2; }
+      .box { fill: #172554; stroke: #60a5fa; stroke-width: 2; rx: 16; ry: 16; }
+      .box2 { fill: #064e3b; stroke: #34d399; stroke-width: 2; rx: 16; ry: 16; }
+      .box3 { fill: #3b0764; stroke: #c084fc; stroke-width: 2; rx: 16; ry: 16; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="700"/>
+  <text class="txt" x="60" y="60">ADC 关键参数：分辨率、参考电压、LSB</text>
+
+  <rect class="box" x="70" y="120" width="250" height="110"/>
+  <text class="txt" x="125" y="170">Vref = 3.3V</text>
+  <text class="small" x="110" y="200">满量程参考电压</text>
+
+  <rect class="box2" x="70" y="260" width="250" height="110"/>
+  <text class="txt" x="125" y="310">12-bit ADC</text>
+  <text class="small" x="100" y="340">输出范围 0~4095</text>
+
+  <rect class="box3" x="70" y="400" width="250" height="110"/>
+  <text class="txt" x="105" y="450">1 LSB ≈ 0.8059mV</text>
+  <text class="small" x="95" y="480">3.3 / 4095</text>
+
+  <line class="axis" x1="420" y1="120" x2="420" y2="590"/>
+  <line class="axis" x1="420" y1="590" x2="1120" y2="590"/>
+
+  <rect x="470" y="340" width="150" height="250" fill="#1d4ed8" opacity="0.85"/>
+  <rect x="650" y="430" width="150" height="160" fill="#22c55e" opacity="0.85"/>
+  <rect x="830" y="240" width="150" height="350" fill="#f97316" opacity="0.85"/>
+
+  <text class="txt" x="485" y="625">位数越高，量化更细</text>
+  <text class="small" x="470" y="660">但对噪声、采样时间、参考稳定性要求更高</text>
+
+  <text class="small" x="450" y="325">低分辨率</text>
+  <text class="small" x="635" y="415">中分辨率</text>
+  <text class="small" x="805" y="225">高分辨率</text>
+</svg>

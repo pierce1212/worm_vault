@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="840" viewBox="0 0 1600 840">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">当前工程的 AUTOSAR / CDD 集成关系</text>
+      <text x="56" y="92" class="sub">BE13 不是标准 MCAL 模块，配置主要落在 CDD、RTE/SWC arxml、SPI/DIO/DEM 依赖上。</text>
+      
+  <rect x="90" y="170" width="360" height="150" class="blue"/>
+  <text x="108" y="204" class="label">CDD_BE13 SWC arxml</text>
+  <text x="108" y="234" class="small">RE_CDD_BE13_Init</text>
+<text x="108" y="258" class="small">RE_CDD_BE13_1ms</text>
+<text x="108" y="282" class="small">RE_CDD_BE13_10ms</text>
+<text x="108" y="306" class="small">TimingEvent: 1ms / 10ms</text>
+  
+      
+  <rect x="560" y="170" width="360" height="150" class="green"/>
+  <text x="578" y="204" class="label">ASW SWC wrapper</text>
+  <text x="578" y="234" class="small">ASW/SWC/CDD_SWC/CDD_BE13</text>
+<text x="578" y="258" class="small">当前 runnable 里用户逻辑为空</text>
+<text x="578" y="282" class="small">实际调用需检查 OS/RTE 集成</text>
+  
+      
+  <rect x="1030" y="170" width="360" height="150" class="violet"/>
+  <text x="1048" y="204" class="label">L2_Cdd_BE13</text>
+  <text x="1048" y="234" class="small">Init/MainFunction</text>
+<text x="1048" y="258" class="small">SPI 报文和状态机</text>
+<text x="1048" y="282" class="small">阀/泵/反馈/诊断</text>
+  
+      
+  <rect x="250" y="455" width="330" height="150" class="amber"/>
+  <text x="268" y="489" class="label">MCAL 依赖</text>
+  <text x="268" y="519" class="small">SpiChannel_BE13</text>
+<text x="268" y="543" class="small">SpiSequence_BE13</text>
+<text x="268" y="567" class="small">DioChannel_PTE22_BIST_BE13</text>
+<text x="268" y="591" class="small">Port/clock/pin mux</text>
+  
+      
+  <rect x="700" y="455" width="330" height="150" class="red"/>
+  <text x="718" y="489" class="label">DEM/RTE 依赖</text>
+  <text x="718" y="519" class="small">Dem_SetEventStatus</text>
+<text x="718" y="543" class="small">DTC_0x4140xx</text>
+<text x="718" y="567" class="small">Rte_CDD_BE13.h</text>
+<text x="718" y="591" class="small">Interface_ASample.h</text>
+  
+      <path d="M450,245 L560,245" class="wire"/>
+      <path d="M920,245 L1030,245" class="wire"/>
+      <path d="M1190,320 L415,455" class="wire"/>
+      <path d="M1190,320 L865,455" class="wire"/>
+      <text x="92" y="720" class="small">配置检查顺序：CDD 寄存器参数 -> SPI 外部缓冲/序列 -> BIST/控制 DIO -> DEM event -> RTE runnable 是否真正调用 CddBE13_L2_*。</text>
+      
+</svg>

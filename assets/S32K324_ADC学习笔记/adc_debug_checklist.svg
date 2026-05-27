@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="780" viewBox="0 0 1300 780">
+  <defs>
+    <style>
+      .bg { fill: #0f172a; }
+      .good { fill: #14532d; stroke: #4ade80; stroke-width: 2; rx: 16; ry: 16; }
+      .bad { fill: #7f1d1d; stroke: #f87171; stroke-width: 2; rx: 16; ry: 16; }
+      .mid { fill: #1e293b; stroke: #60a5fa; stroke-width: 2; rx: 16; ry: 16; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1300" height="780"/>
+  <text class="txt" x="60" y="60">ADC 调试排查路径</text>
+
+  <rect class="mid" x="500" y="120" width="300" height="90"/>
+  <text class="txt" x="555" y="175">ADC 读数异常</text>
+
+  <rect class="bad" x="100" y="310" width="250" height="110"/>
+  <text class="txt" x="155" y="365">一直为 0</text>
+  <text class="small" x="130" y="395">引脚/通道/触发/VREF</text>
+
+  <rect class="bad" x="400" y="310" width="250" height="110"/>
+  <text class="txt" x="440" y="365">一直满量程</text>
+  <text class="small" x="430" y="395">悬空/拉高/通道错</text>
+
+  <rect class="bad" x="700" y="310" width="250" height="110"/>
+  <text class="txt" x="755" y="365">抖动很大</text>
+  <text class="small" x="725" y="395">噪声/源阻抗/采样短</text>
+
+  <rect class="bad" x="1000" y="310" width="250" height="110"/>
+  <text class="txt" x="1040" y="365">多通道串扰</text>
+  <text class="small" x="1025" y="395">顺序/残留/采样窗口</text>
+
+  <rect class="good" x="240" y="560" width="820" height="110"/>
+  <text class="txt" x="310" y="615">推荐顺序：先测 GND/VREF/固定电压 → 再测真实传感器 → 最后接控制算法。</text>
+  <text class="small" x="310" y="645">先确认硬件和原始码值，再怀疑软件换算和滤波。</text>
+
+  <path class="line" d="M650 210 L225 310"/>
+  <path class="line" d="M650 210 L525 310"/>
+  <path class="line" d="M650 210 L825 310"/>
+  <path class="line" d="M650 210 L1125 310"/>
+  <path class="line" d="M225 420 L650 560"/>
+  <path class="line" d="M525 420 L650 560"/>
+  <path class="line" d="M825 420 L650 560"/>
+  <path class="line" d="M1125 420 L650 560"/>
+</svg>

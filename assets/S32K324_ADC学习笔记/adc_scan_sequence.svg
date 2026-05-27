@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="720" viewBox="0 0 1300 720">
+  <defs>
+    <style>
+      .bg { fill: #111827; }
+      .box { fill: #1f2937; stroke: #60a5fa; stroke-width: 2; rx: 14; ry: 14; }
+      .box2 { fill: #064e3b; stroke: #34d399; stroke-width: 2; rx: 14; ry: 14; }
+      .warn { fill: #7f1d1d; stroke: #f87171; stroke-width: 2; rx: 14; ry: 14; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1300" height="720"/>
+  <text class="txt" x="60" y="60">多通道 ADC 扫描序列</text>
+
+  <rect class="box" x="80" y="170" width="180" height="100"/>
+  <text class="txt" x="125" y="230">CH0</text>
+
+  <rect class="box2" x="310" y="170" width="180" height="100"/>
+  <text class="txt" x="355" y="230">CH1</text>
+
+  <rect class="warn" x="540" y="170" width="180" height="100"/>
+  <text class="txt" x="585" y="230">CH2</text>
+
+  <rect class="box" x="770" y="170" width="180" height="100"/>
+  <text class="txt" x="815" y="230">CH3</text>
+
+  <rect class="box2" x="1000" y="170" width="180" height="100"/>
+  <text class="txt" x="1030" y="230">重复</text>
+
+  <path class="line" d="M260 220 L310 220"/>
+  <path class="line" d="M490 220 L540 220"/>
+  <path class="line" d="M720 220 L770 220"/>
+  <path class="line" d="M950 220 L1000 220"/>
+
+  <rect class="warn" x="270" y="410" width="760" height="120"/>
+  <text class="txt" x="320" y="465">注意：高阻信号、相邻通道电压差过大、采样时间太短，会导致串扰。</text>
+  <text class="small" x="320" y="500">解决：增大采样时间、调整通道顺序、增加空采样、加缓冲运放。</text>
+
+  <path class="line" d="M630 270 L630 410"/>
+
+  <text class="small" x="80" y="620">多通道扫描不是简单轮询，要关注每个通道的源阻抗、前一通道残留电荷和采样窗口。</text>
+</svg>

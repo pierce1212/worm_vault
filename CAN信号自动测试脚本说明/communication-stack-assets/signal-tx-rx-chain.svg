@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="520" viewBox="0 0 1180 520">
+  <defs>
+    <style>
+      .title{font:700 26px Arial, sans-serif;fill:#1f2937}
+      .box{rx:8;fill:#f8fafc;stroke:#334155;stroke-width:2}
+      .tx{fill:#eff6ff;stroke:#2563eb}
+      .rx{fill:#f0fdf4;stroke:#16a34a}
+      .label{font:600 17px Arial, sans-serif;fill:#111827}
+      .small{font:13px Arial, sans-serif;fill:#475569}
+      .arrow{stroke:#475569;stroke-width:2.4;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="1180" height="520" fill="#fff"/>
+  <text x="36" y="46" class="title">Normal Signal Communication: TX and RX</text>
+
+  <text x="40" y="95" class="label">TX path</text>
+  <rect x="40" y="125" width="145" height="70" class="box tx"/><text x="78" y="155" class="label">SWC</text><text x="58" y="178" class="small">application signal</text>
+  <rect x="230" y="125" width="165" height="70" class="box tx"/><text x="257" y="155" class="label">Com</text><text x="248" y="178" class="small">pack signal to I-PDU</text>
+  <rect x="440" y="125" width="165" height="70" class="box tx"/><text x="480" y="155" class="label">PduR</text><text x="465" y="178" class="small">route I-PDU</text>
+  <rect x="650" y="125" width="165" height="70" class="box tx"/><text x="690" y="155" class="label">CanIf</text><text x="672" y="178" class="small">map to L-PDU</text>
+  <rect x="860" y="125" width="165" height="70" class="box tx"/><text x="890" y="155" class="label">CanDrv</text><text x="880" y="178" class="small">Can_Write</text>
+  <rect x="1070" y="125" width="75" height="70" class="box tx"/><text x="1088" y="165" class="label">Bus</text>
+  <line x1="185" y1="160" x2="230" y2="160" class="arrow"/>
+  <line x1="395" y1="160" x2="440" y2="160" class="arrow"/>
+  <line x1="605" y1="160" x2="650" y2="160" class="arrow"/>
+  <line x1="815" y1="160" x2="860" y2="160" class="arrow"/>
+  <line x1="1025" y1="160" x2="1070" y2="160" class="arrow"/>
+  <text x="230" y="225" class="small">Com_SendSignal() / Com_MainFunctionTx()</text>
+  <text x="440" y="225" class="small">PduR_ComTransmit()</text>
+  <text x="650" y="225" class="small">CanIf_Transmit()</text>
+
+  <text x="40" y="305" class="label">RX path</text>
+  <rect x="40" y="335" width="75" height="70" class="box rx"/><text x="58" y="375" class="label">Bus</text>
+  <rect x="160" y="335" width="165" height="70" class="box rx"/><text x="190" y="365" class="label">CanDrv</text><text x="180" y="388" class="small">interrupt / polling</text>
+  <rect x="370" y="335" width="165" height="70" class="box rx"/><text x="410" y="365" class="label">CanIf</text><text x="392" y="388" class="small">filter, DLC check</text>
+  <rect x="580" y="335" width="165" height="70" class="box rx"/><text x="620" y="365" class="label">PduR</text><text x="605" y="388" class="small">route to upper</text>
+  <rect x="790" y="335" width="165" height="70" class="box rx"/><text x="830" y="365" class="label">Com</text><text x="805" y="388" class="small">unpack signals</text>
+  <rect x="1000" y="335" width="145" height="70" class="box rx"/><text x="1038" y="365" class="label">SWC</text><text x="1018" y="388" class="small">read signal</text>
+  <line x1="115" y1="370" x2="160" y2="370" class="arrow"/>
+  <line x1="325" y1="370" x2="370" y2="370" class="arrow"/>
+  <line x1="535" y1="370" x2="580" y2="370" class="arrow"/>
+  <line x1="745" y1="370" x2="790" y2="370" class="arrow"/>
+  <line x1="955" y1="370" x2="1000" y2="370" class="arrow"/>
+  <text x="370" y="435" class="small">CanIf_RxIndication()</text>
+  <text x="580" y="435" class="small">PduR_CanIfRxIndication()</text>
+  <text x="790" y="435" class="small">Com_RxIndication() / Com_MainFunctionRx()</text>
+</svg>

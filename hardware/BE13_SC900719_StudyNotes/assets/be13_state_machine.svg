@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">当前工程 BE13 CDD 状态机</text>
+      <text x="56" y="92" class="sub">L2_Cdd_BE13.c 初始进入 STARTSELFCHECK_STATE，自检结束后分三段初始化，最后进入 NORMAL_STATE 周期控制。</text>
+      
+  <rect x="90" y="180" width="310" height="125" class="violet"/>
+  <text x="108" y="214" class="label">STARTSELFCHECK</text>
+  <text x="108" y="244" class="small">写 SVCFG_BIST</text>
+<text x="108" y="268" class="small">LBIST_RUN/ABIST_RUN = 2</text>
+<text x="108" y="292" class="small">启动自检</text>
+  
+      
+  <rect x="500" y="180" width="310" height="125" class="violet"/>
+  <text x="518" y="214" class="label">JUDGESELFCHECK</text>
+  <text x="518" y="244" class="small">读 DIO PTE22_BIST_BE13</text>
+<text x="518" y="268" class="small">10 次中 &gt;=3 次高电平认为 OK</text>
+  
+      
+  <rect x="910" y="180" width="310" height="125" class="violet"/>
+  <text x="928" y="214" class="label">ENDSELFCHECK</text>
+  <text x="928" y="244" class="small">停止 BIST</text>
+<text x="928" y="268" class="small">LBIST_RUN/ABIST_RUN = 1</text>
+  
+      
+  <rect x="90" y="430" width="310" height="155" class="blue"/>
+  <text x="108" y="464" class="label">INIT_STATE1</text>
+  <text x="108" y="494" class="small">清故障寄存器</text>
+<text x="108" y="518" class="small">配置 VCCA / PMDCLK / VLVCLK</text>
+<text x="108" y="542" class="small">关闭再准备 VLVEN</text>
+<text x="108" y="566" class="small">配置 WSCFG</text>
+  
+      
+  <rect x="500" y="430" width="310" height="155" class="blue"/>
+  <text x="518" y="464" class="label">INIT_STATE2</text>
+  <text x="518" y="494" class="small">配置 LSD Kp/Ki</text>
+<text x="518" y="518" class="small">配置 HSD / CAN / PMD</text>
+<text x="518" y="542" class="small">写 WDSEED</text>
+<text x="518" y="566" class="small">VLVEN=0x1000</text>
+  
+      
+  <rect x="910" y="430" width="310" height="155" class="blue"/>
+  <text x="928" y="464" class="label">INIT_STATE3</text>
+  <text x="928" y="494" class="small">回读关键配置</text>
+<text x="928" y="518" class="small">保持 VLVEN=0x1000</text>
+<text x="928" y="542" class="small">进入正常态</text>
+  
+      
+  <rect x="500" y="695" width="410" height="145" class="green"/>
+  <text x="518" y="729" class="label">NORMAL_STATE</text>
+  <text x="518" y="759" class="small">读 ASW 指令</text>
+<text x="518" y="783" class="small">阀/泵/HSD 控制</text>
+<text x="518" y="807" class="small">轮询 0x00..0x49 状态</text>
+<text x="518" y="831" class="small">喂 watchdog</text>
+<text x="518" y="855" class="small">反馈/诊断</text>
+  
+      
+  <rect x="1270" y="430" width="250" height="145" class="red"/>
+  <text x="1288" y="464" class="label">FAILURE_STATE1</text>
+  <text x="1288" y="494" class="small">当前为空</text>
+<text x="1288" y="518" class="small">可扩展降级策略</text>
+  
+      <path d="M400,242 L500,242" class="wire"/>
+      <path d="M810,242 L910,242" class="wire"/>
+      <path d="M1065,305 L245,430" class="wire"/>
+      <path d="M400,508 L500,508" class="wire"/>
+      <path d="M810,508 L910,508" class="wire"/>
+      <path d="M1065,585 L705,695" class="wire"/>
+      <path d="M910,768 L1270,500" class="dash"/>
+      <text x="90" y="875" class="small">注意：FAILURE_STATE1/CALI_STATE1 目前几乎没有实际处理逻辑，排故时主要看 NORMAL_STATE 下的寄存器读取、CRC/ERR、诊断标志和 DEM 上报。</text>
+      
+</svg>

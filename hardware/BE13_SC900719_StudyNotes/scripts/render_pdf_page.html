@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      font-family: Arial, sans-serif;
+    }
+    #status {
+      position: fixed;
+      left: 16px;
+      top: 12px;
+      color: #334155;
+      font-size: 14px;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="status">Rendering PDF page...</div>
+  <canvas id="page"></canvas>
+  <script type="module">
+    import * as pdfjsLib from "file:///E:/github/.codex_tools/siul2_notes/node_modules/pdfjs-dist/legacy/build/pdf.mjs";
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "file:///E:/github/.codex_tools/siul2_notes/node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs";
+
+    const params = new URLSearchParams(location.search);
+    const pageNumber = Number(params.get("page") || "1");
+    const scale = Number(params.get("scale") || "1.7");
+    const pdfUrl = "file:///C:/Users/nvtc140/Zotero/storage/JYG22VSP/BE13-SC900719%202022Q1.pdf";
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
+    const pdf = await loadingTask.promise;
+    const page = await pdf.getPage(pageNumber);
+    const viewport = page.getViewport({ scale });
+    const canvas = document.getElementById("page");
+    const context = canvas.getContext("2d", { alpha: false });
+    canvas.width = Math.ceil(viewport.width);
+    canvas.height = Math.ceil(viewport.height);
+    document.body.style.width = `${canvas.width}px`;
+    document.body.style.height = `${canvas.height}px`;
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({ canvasContext: context, viewport }).promise;
+    document.getElementById("status").remove();
+    document.documentElement.dataset.ready = "true";
+  </script>
+</body>
+</html>

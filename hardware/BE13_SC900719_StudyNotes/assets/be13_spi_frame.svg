@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">BE13 SPI 32-bit 报文格式</text>
+      <text x="56" y="92" class="sub">工程中的发送报文使用 WR + 7-bit 地址 + 16-bit 数据 + CRC8；接收报文使用 ERR + 7-bit 地址 + 16-bit 数据 + CRC8。</text>
+      <rect x="90" y="180" width="1420" height="110" fill="#f8fafc" stroke="#334155" stroke-width="2" rx="8"/>
+      <rect x="90" y="180" width="120" height="110" class="red"/>
+      <rect x="210" y="180" width="300" height="110" class="blue"/>
+      <rect x="510" y="180" width="650" height="110" class="green"/>
+      <rect x="1160" y="180" width="350" height="110" class="amber"/>
+      <text x="132" y="238" class="label">bit31</text>
+      <text x="288" y="228" class="label">bit30..24</text>
+      <text x="772" y="228" class="label">bit23..8</text>
+      <text x="1292" y="228" class="label">bit7..0</text>
+      <text x="130" y="264" class="small">WR/ERR</text>
+      <text x="320" y="264" class="small">Addr[6:0]</text>
+      <text x="795" y="264" class="small">Data[15:0]</text>
+      <text x="1300" y="264" class="small">CRC8</text>
+      
+  <rect x="120" y="390" width="395" height="170" class="blue"/>
+  <text x="138" y="424" class="label">发送 merge</text>
+  <text x="138" y="454" class="small">READ_BE13=0 时直接查预计算读命令</text>
+<text x="138" y="478" class="small">WRITE_BE13=1 时重新计算 CRC</text>
+<text x="138" y="502" class="small">cmd = wr&lt;&lt;31 | addr&lt;&lt;24 | data&lt;&lt;8 | crc</text>
+  
+      
+  <rect x="610" y="390" width="395" height="170" class="green"/>
+  <text x="628" y="424" class="label">接收 split/check</text>
+  <text x="628" y="454" class="small">union: Crc / Data / Addr / Err</text>
+<text x="628" y="478" class="small">Err=0 后再校验 CRC</text>
+<text x="628" y="502" class="small">地址小于 74 才写入状态数组</text>
+  
+      
+  <rect x="1100" y="390" width="330" height="170" class="amber"/>
+  <text x="1118" y="424" class="label">工程依赖</text>
+  <text x="1118" y="454" class="small">Spi_SetupEB()</text>
+<text x="1118" y="478" class="small">Spi_AsyncTransmit()</text>
+<text x="1118" y="502" class="small">SpiSequence_BE13</text>
+  
+      <path d="M515,475 L610,475" class="wire"/>
+      <path d="M1005,475 L1100,475" class="wire"/>
+      
+</svg>

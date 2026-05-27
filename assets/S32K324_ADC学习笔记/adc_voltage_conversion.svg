@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg { fill: #0f172a; }
+      .axis { stroke: #94a3b8; stroke-width: 3; }
+      .line { stroke: #22c55e; stroke-width: 5; fill: none; }
+      .dash { stroke: #f59e0b; stroke-width: 3; stroke-dasharray: 8 8; fill: none; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .formula { fill: #1e293b; stroke: #60a5fa; stroke-width: 2; rx: 16; ry: 16; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="700"/>
+  <text class="txt" x="60" y="60">ADC 码值与电压换算</text>
+
+  <line class="axis" x1="120" y1="570" x2="1050" y2="570"/>
+  <line class="axis" x1="120" y1="570" x2="120" y2="120"/>
+  <path class="line" d="M120 570 L1050 140"/>
+
+  <text class="small" x="90" y="605">0</text>
+  <text class="small" x="980" y="605">4095</text>
+  <text class="small" x="60" y="145">3.3V</text>
+  <text class="small" x="60" y="575">0V</text>
+  <text class="small" x="520" y="630">ADC code</text>
+  <text class="small" x="35" y="350" transform="rotate(-90 35,350)">Vin</text>
+
+  <path class="dash" d="M585 570 L585 355 L120 355"/>
+  <text class="small" x="600" y="360">code=2048</text>
+  <text class="small" x="140" y="345">≈1.65V</text>
+
+  <rect class="formula" x="350" y="80" width="520" height="70"/>
+  <text class="txt" x="390" y="125">Vin = code / (2^N - 1) × Vref</text>
+
+  <text class="small" x="130" y="660">12 位 ADC，Vref=3.3V 时，1 LSB ≈ 3.3 / 4095 ≈ 0.8059 mV。</text>
+</svg>

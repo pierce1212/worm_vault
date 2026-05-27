@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    html, body { margin: 0; padding: 0; background: white; }
+    canvas { display: block; margin: 0 auto; background: white; }
+    #status { position: fixed; left: 16px; top: 12px; color: #334155; font: 14px Arial, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="status">Rendering PDF page...</div>
+  <canvas id="page"></canvas>
+  <script type="module">
+    import * as pdfjsLib from "/pdfjs/pdf.mjs";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.mjs";
+
+    const params = new URLSearchParams(location.search);
+    const pageNumber = Number(params.get("page") || "1");
+    const scale = Number(params.get("scale") || "1.9");
+    const pdf = await pdfjsLib.getDocument("/pdf").promise;
+    const page = await pdf.getPage(pageNumber);
+    const viewport = page.getViewport({ scale });
+    const canvas = document.getElementById("page");
+    const context = canvas.getContext("2d", { alpha: false });
+    canvas.width = Math.ceil(viewport.width);
+    canvas.height = Math.ceil(viewport.height);
+    document.documentElement.style.width = `${canvas.width}px`;
+    document.documentElement.style.height = `${canvas.height}px`;
+    document.body.style.width = `${canvas.width}px`;
+    document.body.style.height = `${canvas.height}px`;
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({ canvasContext: context, viewport }).promise;
+    document.getElementById("status").remove();
+    document.documentElement.dataset.ready = "true";
+  </script>
+</body>
+</html>

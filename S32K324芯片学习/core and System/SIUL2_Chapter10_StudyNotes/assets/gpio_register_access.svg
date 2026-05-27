@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="860" viewBox="0 0 1600 860">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .box2{fill:#eef6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .box3{fill:#fff7ed; stroke:#ea580c; stroke-width:2; rx:8}
+      .box4{fill:#f0fdf4; stroke:#16a34a; stroke-width:2; rx:8}
+      .box5{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .label{font:600 20px Arial, sans-serif; fill:#111827}
+      .small{font:400 16px Arial, sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, monospace; fill:#334155}
+      .code{font:400 16px Consolas, monospace; fill:#0f172a}
+      .wire{stroke:#334155; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:8 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">GPIO 数据寄存器访问模型</text>
+      <text x="56" y="92" class="sub">SIUL2 同时支持单 pad 字节访问、16-bit 端口访问，以及 mask 写。</text>
+      
+  <rect x="90" y="190" width="310" height="140" class="box2"/>
+  <text x="108" y="224" class="label">GPDO[n]</text>
+  <text x="108" y="254" class="small">单个 pad 输出</text>
+<text x="108" y="278" class="small">8/16/32-bit access</text>
+<text x="108" y="302" class="small">PDO_n 只占 bit0</text>
+  
+      
+  <rect x="90" y="430" width="310" height="140" class="box2"/>
+  <text x="108" y="464" class="label">GPDI[n]</text>
+  <text x="108" y="494" class="small">单个 pad 输入</text>
+<text x="108" y="518" class="small">read only</text>
+<text x="108" y="542" class="small">PDI_n 只占 bit0</text>
+  
+      
+  <rect x="520" y="170" width="360" height="180" class="box3"/>
+  <text x="538" y="204" class="label">PGPDO[x]</text>
+  <text x="538" y="234" class="small">16-bit parallel output</text>
+<text x="538" y="258" class="small">一个寄存器覆盖一组 16 个 pad</text>
+<text x="538" y="282" class="small">工程中 PTA_L_HALF -&gt; PGPDO0</text>
+<text x="538" y="306" class="small">PTA_H_HALF -&gt; PGPDO1</text>
+  
+      
+  <rect x="520" y="430" width="360" height="180" class="box3"/>
+  <text x="538" y="464" class="label">PGPDI[x]</text>
+  <text x="538" y="494" class="small">16-bit parallel input</text>
+<text x="538" y="518" class="small">Dio_ReadPort 可走这里</text>
+<text x="538" y="542" class="small">注意端口 bit 顺序可能反向</text>
+  
+      
+  <rect x="1020" y="260" width="420" height="220" class="box4"/>
+  <text x="1038" y="294" class="label">MPGPDO[x]</text>
+  <text x="1038" y="324" class="small">32-bit write only</text>
+<text x="1038" y="348" class="small">低 16 bit: 要写的数据</text>
+<text x="1038" y="372" class="small">高 16 bit: mask</text>
+<text x="1038" y="396" class="small">适合只改某几个 bit</text>
+<text x="1038" y="420" class="small">避免 read-modify-write</text>
+  
+      <path d="M400,260 L520,260" class="wire"/>
+      <path d="M400,500 L520,500" class="wire"/>
+      <path d="M880,260 L1020,340" class="wire"/>
+      <text x="96" y="715" class="small">本工程 Dio_Cfg.h 中 DIO_REVERSED_MAPPING_OF_PORT_BITS_OVER_PORT_PINS = STD_ON，读端口/写端口时要留意 bit 与 pin 的映射方向。</text>
+      
+</svg>

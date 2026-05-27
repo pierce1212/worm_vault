@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">BE13 诊断处理流</text>
+      <text x="56" y="92" class="sub">诊断不是简单把故障位原样上报，而是经过 Enable、Recover、DemEnable 三层开关。</text>
+      
+  <rect x="90" y="170" width="300" height="125" class="blue"/>
+  <text x="108" y="204" class="label">SPI 轮询状态寄存器</text>
+  <text x="108" y="234" class="small">INT1 / LSDxF / VLV_PMDF</text>
+<text x="108" y="258" class="small">SVFLT / VREG_FLG / AD_DIETMP</text>
+<text x="108" y="282" class="small">寄存器 Flg=1</text>
+  
+      
+  <rect x="505" y="170" width="300" height="125" class="green"/>
+  <text x="523" y="204" class="label">DiagTask</text>
+  <text x="523" y="234" class="small">每次先 DiagINT1()</text>
+<text x="523" y="258" class="small">再 0..5 分片处理</text>
+<text x="523" y="282" class="small">降低单周期负载</text>
+  
+      
+  <rect x="920" y="130" width="430" height="115" class="amber"/>
+  <text x="938" y="164" class="label">Enable mask</text>
+  <text x="938" y="194" class="small">L2_S_EnDiagBE13Reg*</text>
+<text x="938" y="218" class="small">决定该 bit 是否参与诊断</text>
+  
+      
+  <rect x="920" y="290" width="430" height="115" class="amber"/>
+  <text x="938" y="324" class="label">Recover mask</text>
+  <text x="938" y="354" class="small">L2_S_RecoverDiagBE13Reg*</text>
+<text x="938" y="378" class="small">决定故障消失后是否清除诊断状态</text>
+  
+      
+  <rect x="920" y="450" width="430" height="115" class="amber"/>
+  <text x="938" y="484" class="label">DEM enable mask</text>
+  <text x="938" y="514" class="small">L2_S_DemEnDiagBE13Reg*</text>
+<text x="938" y="538" class="small">决定是否调用 Dem_SetEventStatus</text>
+  
+      
+  <rect x="505" y="665" width="300" height="125" class="red"/>
+  <text x="523" y="699" class="label">诊断状态</text>
+  <text x="523" y="729" class="small">L2_S_DiagBE13Reg*</text>
+<text x="523" y="753" class="small">FAILED/PASSED</text>
+<text x="523" y="777" class="small">DTC table 映射</text>
+  
+      
+  <rect x="920" y="665" width="430" height="125" class="violet"/>
+  <text x="938" y="699" class="label">ASW/维修视角</text>
+  <text x="938" y="729" class="small">DTC: 0x4140xx</text>
+<text x="938" y="753" class="small">温度/电源/阀/泵/HSD 故障</text>
+<text x="938" y="777" class="small">反馈变量用于上层策略</text>
+  
+      <path d="M390,235 L505,235" class="wire"/>
+      <path d="M805,235 L920,190" class="wire"/>
+      <path d="M805,235 L920,350" class="wire"/>
+      <path d="M805,235 L920,510" class="wire"/>
+      <path d="M650,295 L650,665" class="wire"/>
+      <path d="M805,728 L920,728" class="wire"/>
+      
+</svg>

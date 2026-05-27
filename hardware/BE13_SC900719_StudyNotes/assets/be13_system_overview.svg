@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">BE13 / SC900719 在制动 ECU 中的位置</text>
+      <text x="56" y="92" class="sub">它不是 MCU 外设，而是一颗通过 SPI 管理电源、阀、泵、CAN、轮速和安全诊断的制动系统混合信号芯片。</text>
+      
+  <rect x="80" y="235" width="300" height="170" class="blue"/>
+  <text x="98" y="269" class="label">S32K324 MCU</text>
+  <text x="98" y="299" class="small">AUTOSAR CDD</text>
+<text x="98" y="323" class="small">SPI master</text>
+<text x="98" y="347" class="small">DIO: BIST/EN</text>
+<text x="98" y="371" class="small">DEM/RTE 接口</text>
+  
+      
+  <rect x="520" y="140" width="560" height="560" class="green"/>
+  <text x="538" y="174" class="label">BE13 / SC900719</text>
+  <text x="538" y="204" class="small">SPI 32-bit register interface</text>
+<text x="538" y="228" class="small">VREG: VPRE / VCC5 / VCC3P3 / VCCA</text>
+<text x="538" y="252" class="small">Dual CAN transceiver</text>
+<text x="538" y="276" class="small">Pump motor pre-driver</text>
+<text x="538" y="300" class="small">High-side safe switch driver</text>
+<text x="538" y="324" class="small">Low-side valve drivers LSD1..LSD12</text>
+<text x="538" y="348" class="small">Wheel speed sensor interfaces</text>
+<text x="538" y="372" class="small">ADC / die temperature / watchdog / BIST</text>
+  
+      
+  <rect x="1220" y="110" width="280" height="105" class="amber"/>
+  <text x="1238" y="144" class="label">Power</text>
+  <text x="1238" y="174" class="small">VBAT / VPWR</text>
+<text x="1238" y="198" class="small">外部电源网络</text>
+  
+      
+  <rect x="1220" y="245" width="280" height="105" class="box"/>
+  <text x="1238" y="279" class="label">CAN bus</text>
+  <text x="1238" y="309" class="small">CAN1 / CAN2</text>
+<text x="1238" y="333" class="small">wake / fault</text>
+  
+      
+  <rect x="1220" y="380" width="280" height="105" class="red"/>
+  <text x="1238" y="414" class="label">Hydraulic actuators</text>
+  <text x="1238" y="444" class="small">solenoid valves</text>
+<text x="1238" y="468" class="small">pump motor</text>
+  
+      
+  <rect x="1220" y="515" width="280" height="105" class="violet"/>
+  <text x="1238" y="549" class="label">Sensors / loads</text>
+  <text x="1238" y="579" class="small">wheel speed</text>
+<text x="1238" y="603" class="small">warning lamp / VSO</text>
+  
+      <path d="M380,305 L520,305" class="wire"/>
+      <path d="M520,345 L380,345" class="wire"/>
+      <path d="M1080,190 L1220,160" class="wire"/>
+      <path d="M1080,305 L1220,300" class="wire"/>
+      <path d="M1080,450 L1220,430" class="wire"/>
+      <path d="M1080,575 L1220,565" class="wire"/>
+      <text x="92" y="780" class="small">学习主线：数据手册功能块 -> SPI 寄存器 -> 当前工程 CDD 配置 -> ASW/RTE/DEM 交互。</text>
+      
+</svg>

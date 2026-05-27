@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg { fill: #0f172a; }
+      .box { fill: #1e293b; stroke: #60a5fa; stroke-width: 2; rx: 16; ry: 16; }
+      .box2 { fill: #082f49; stroke: #38bdf8; stroke-width: 2; rx: 16; ry: 16; }
+      .box3 { fill: #14532d; stroke: #4ade80; stroke-width: 2; rx: 16; ry: 16; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="700"/>
+  <text class="txt" x="60" y="60">ADC 转换流程</text>
+
+  <rect class="box" x="70" y="180" width="160" height="100"/>
+  <text class="txt" x="110" y="235">输入</text>
+
+  <rect class="box2" x="280" y="180" width="160" height="100"/>
+  <text class="txt" x="314" y="235">采样</text>
+
+  <rect class="box3" x="490" y="180" width="160" height="100"/>
+  <text class="txt" x="524" y="235">保持</text>
+
+  <rect class="box" x="700" y="180" width="160" height="100"/>
+  <text class="txt" x="738" y="235">转换</text>
+
+  <rect class="box2" x="910" y="180" width="160" height="100"/>
+  <text class="txt" x="948" y="235">结果</text>
+
+  <path class="line" d="M230 230 L280 230"/>
+  <path class="line" d="M440 230 L490 230"/>
+  <path class="line" d="M650 230 L700 230"/>
+  <path class="line" d="M860 230 L910 230"/>
+
+  <rect class="box" x="120" y="410" width="220" height="120"/>
+  <text class="txt" x="150" y="465">软件读取</text>
+  <text class="small" x="140" y="500">CPU / DMA / 中断</text>
+
+  <rect class="box3" x="430" y="410" width="220" height="120"/>
+  <text class="txt" x="470" y="465">换算</text>
+  <text class="small" x="455" y="500">code → 电压</text>
+
+  <rect class="box2" x="740" y="410" width="220" height="120"/>
+  <text class="txt" x="790" y="465">滤波</text>
+  <text class="small" x="777" y="500">均值 / 中值 / IIR</text>
+
+  <path class="line" d="M990 280 C990 350, 880 360, 850 410"/>
+  <path class="line" d="M850 530 C850 580, 640 600, 540 530"/>
+  <path class="line" d="M430 470 L340 470"/>
+
+  <text class="small" x="60" y="620">ADC 不只是转换，工程上更重要的是：采样时序、结果读取、换算与后处理。</text>
+</svg>

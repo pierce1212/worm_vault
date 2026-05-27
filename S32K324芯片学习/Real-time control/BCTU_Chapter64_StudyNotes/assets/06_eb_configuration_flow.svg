@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="920" viewBox="0 0 1500 920">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#f7fafc"/>
+  <text x="40" y="46" font-family="Arial, Microsoft YaHei, sans-serif" font-size="28" font-weight="800" fill="#1f2933" text-anchor="start"><tspan x="40" dy="0">EB配置到工程代码链路</tspan></text>
+  
+  <g filter="url(#shadow)">
+    <g>
+    <rect x="70" y="130" width="260" height="120" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="70" y="130" width="7" height="120" rx="8" fill="#2563eb"/>
+    <text x="200" y="182" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="200" dy="0">EBTresos/RTD</tspan></text>
+    <text x="200" y="214" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="200" dy="0">Adc.xdm</tspan><tspan x="200" dy="18">Mcl.xdm</tspan><tspan x="200" dy="18">Mcu/Rm/Platform</tspan></text>
+  </g>
+    <g>
+    <rect x="430" y="95" width="330" height="105" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="430" y="95" width="7" height="105" rx="8" fill="#16a34a"/>
+    <text x="595" y="139.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="595" dy="0">AdcConfigSet/</tspan><tspan x="595" dy="25">BctuHwUnit</tspan></text>
+    <text x="595" y="171.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="595" dy="0">BctuGlobalHwTriggers</tspan><tspan x="595" dy="18">BctuInternalTrigger</tspan><tspan x="595" dy="18">BctuResultFifos</tspan></text>
+  </g>
+    <g>
+    <rect x="430" y="235" width="330" height="100" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="430" y="235" width="7" height="100" rx="8" fill="#0891b2"/>
+    <text x="595" y="277" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="595" dy="0">AdcHwTrigger</tspan></text>
+    <text x="595" y="309" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="595" dy="0">BCTU_EMIOS_0_x</tspan><tspan x="595" dy="18">EXT_TRIG</tspan><tspan x="595" dy="18">BCTU_TRG23/47/71</tspan></text>
+  </g>
+    <g>
+    <rect x="430" y="375" width="330" height="110" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="430" y="375" width="7" height="110" rx="8" fill="#7c3aed"/>
+    <text x="595" y="422" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="595" dy="0">Mcl/TRGMUX</tspan></text>
+    <text x="595" y="454" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="595" dy="0">普通ADC外触发</tspan><tspan x="595" dy="18">或BCTU_TRG23/47/71</tspan><tspan x="595" dy="18">本项目PIT0_CH1-&gt;ADC12x</tspan></text>
+  </g>
+    <g>
+    <rect x="850" y="130" width="300" height="120" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="850" y="130" width="7" height="120" rx="8" fill="#d97706"/>
+    <text x="1000" y="182" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1000" dy="0">生成代码</tspan></text>
+    <text x="1000" y="214" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1000" dy="0">Bctu_Ip_PBcfg.c</tspan><tspan x="1000" dy="18">Adc_Ipw_PBcfg.c</tspan><tspan x="1000" dy="18">Adc_CfgDefines.h</tspan></text>
+  </g>
+    <g>
+    <rect x="850" y="330" width="300" height="120" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="850" y="330" width="7" height="120" rx="8" fill="#dc2626"/>
+    <text x="1000" y="382" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1000" dy="0">运行时API</tspan></text>
+    <text x="1000" y="414" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1000" dy="0">Adc_</tspan><tspan x="1000" dy="18">EnableCtuControlMode</tspan><tspan x="1000" dy="18">Adc_CtuEnableHwTrigger</tspan><tspan x="1000" dy="18">Adc_CtuStartConversion</tspan><tspan x="1000" dy="18">Adc_CtuReadConvResult</tspan></text>
+  </g>
+    <g>
+    <rect x="1220" y="225" width="220" height="120" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1220" y="225" width="7" height="120" rx="8" fill="#2563eb"/>
+    <text x="1330" y="277" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1330" dy="0">业务层</tspan></text>
+    <text x="1330" y="309" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1330" dy="0">Cdd_Adc.c</tspan><tspan x="1330" dy="18">BctuTriggerNotif</tspan><tspan x="1330" dy="18">ication</tspan><tspan x="1330" dy="18">AdcCfgAndUse初始化</tspan></text>
+  </g>
+    <g>
+    <rect x="70" y="590" width="300" height="120" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="70" y="590" width="7" height="120" rx="8" fill="#16a34a"/>
+    <text x="220" y="642" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="220" dy="0">本项目配置摘要</tspan></text>
+    <text x="220" y="674" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="220" dy="0">15个BCTUinternaltriggers</tspan><tspan x="220" dy="18">Trigger1..10,13,15..18</tspan></text>
+  </g>
+    <g>
+    <rect x="450" y="590" width="300" height="140" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="450" y="590" width="7" height="140" rx="8" fill="#0891b2"/>
+    <text x="600" y="652" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="600" dy="0">触发/结果模式</tspan></text>
+    <text x="600" y="684" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="600" dy="0">eMIOS0硬触发</tspan><tspan x="600" dy="18">SINGLE</tspan><tspan x="600" dy="18">DATA_DEST=ADC_DATA_REG</tspan></text>
+  </g>
+    <g>
+    <rect x="830" y="590" width="300" height="140" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="830" y="590" width="7" height="140" rx="8" fill="#d97706"/>
+    <text x="980" y="652" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="980" dy="0">FIFO配置</tspan></text>
+    <text x="980" y="684" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="980" dy="0">FIFO1WM=3+通知</tspan><tspan x="980" dy="18">FIFO2disabled</tspan><tspan x="980" dy="18">当前触发不写FIFO</tspan></text>
+  </g>
+    <g>
+    <rect x="1210" y="590" width="230" height="150" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1210" y="590" width="7" height="150" rx="8" fill="#dc2626"/>
+    <text x="1325" y="657" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1325" dy="0">复核点</tspan></text>
+    <text x="1325" y="689" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1325" dy="0">XDM中</tspan><tspan x="1325" dy="18">GlobalHwTriggers=</tspan><tspan x="1325" dy="18">false</tspan><tspan x="1325" dy="18">RTDinit仍写GTRGEN</tspan><tspan x="1325" dy="18">调试时读MCR确认</tspan></text>
+  </g>
+  </g>
+  <g>
+    <line x1="330" y1="190" x2="430" y2="145" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="330" y1="190" x2="430" y2="275" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="330" y1="190" x2="430" y2="405" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="750" y1="145" x2="850" y2="190" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="750" y1="275" x2="850" y2="190" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="750" y1="405" x2="850" y2="390" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="1150" y1="190" x2="1220" y2="265" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="1150" y1="390" x2="1220" y2="285" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    
+  </g>
+  <g>
+    <line x1="220" y1="250" x2="220" y2="590" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+    <text x="220" y="412" font-family="Arial, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#52616b" text-anchor="middle"><tspan x="220" dy="0">工程落点</tspan></text>
+  </g>
+
+</svg>

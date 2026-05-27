@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <style>
+      .bg { fill: #111827; }
+      .box { fill: #1f2937; stroke: #60a5fa; stroke-width: 2; rx: 14; ry: 14; }
+      .box2 { fill: #0f172a; stroke: #34d399; stroke-width: 2; rx: 14; ry: 14; }
+      .txt { fill: #e5e7eb; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 24px; }
+      .small { fill: #cbd5e1; font-family: Arial, 'Microsoft YaHei', sans-serif; font-size: 18px; }
+      .line { stroke: #f59e0b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="700"/>
+  <text class="txt" x="60" y="70">S32K324 ADC 系统位置</text>
+
+  <rect class="box" x="70" y="150" width="210" height="90"/>
+  <text class="txt" x="120" y="205">模拟信号</text>
+
+  <rect class="box2" x="340" y="130" width="230" height="130"/>
+  <text class="txt" x="385" y="185">S32K324 引脚</text>
+  <text class="small" x="370" y="220">Port / 模拟复用</text>
+
+  <rect class="box" x="650" y="130" width="230" height="130"/>
+  <text class="txt" x="695" y="185">ADC 模块</text>
+  <text class="small" x="685" y="220">通道 / 采样 / 转换</text>
+
+  <rect class="box2" x="960" y="130" width="180" height="130"/>
+  <text class="txt" x="995" y="185">结果</text>
+  <text class="small" x="985" y="220">寄存器 / 中断</text>
+
+  <rect class="box" x="320" y="430" width="250" height="110"/>
+  <text class="txt" x="355" y="485">TRGMUX / eMIOS</text>
+  <text class="small" x="360" y="515">触发源路由</text>
+
+  <rect class="box" x="650" y="430" width="230" height="110"/>
+  <text class="txt" x="690" y="485">CPU / DMA</text>
+  <text class="small" x="700" y="515">读取与处理</text>
+
+  <path class="line" d="M280 195 L340 195"/>
+  <path class="line" d="M570 195 L650 195"/>
+  <path class="line" d="M880 195 L960 195"/>
+  <path class="line" d="M435 430 L435 260"/>
+  <path class="line" d="M760 430 L760 260"/>
+  <path class="line" d="M1050 260 L765 430"/>
+
+  <text class="small" x="70" y="620">核心理解：ADC 不是单独工作，而是由引脚、触发、采样、结果读取共同组成完整链路。</text>
+</svg>

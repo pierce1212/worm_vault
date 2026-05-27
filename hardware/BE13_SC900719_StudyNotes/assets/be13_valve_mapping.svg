@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+      <text x="56" y="58" class="title">工程中电磁阀与 BE13 LSD 寄存器映射</text>
+      <text x="56" y="92" class="sub">VV 使用占空比控制寄存器，ASV/RV 使用电流/占空比二选一的 LSDxI 寄存器。</text>
+      
+  <rect x="90" y="175" width="260" height="100" class="amber"/>
+  <text x="108" y="209" class="label">VV</text>
+  <text x="108" y="239" class="small">d_VV -&gt; LSD1DC</text>
+<text x="108" y="263" class="small">PWM only</text>
+  
+      
+  <rect x="90" y="315" width="260" height="100" class="blue"/>
+  <text x="108" y="349" class="label">ASVFL / AV1</text>
+  <text x="108" y="379" class="small">d_ASVFL -&gt; LSD2I</text>
+  
+      
+  <rect x="90" y="455" width="260" height="100" class="blue"/>
+  <text x="108" y="489" class="label">ASVFR / AV2</text>
+  <text x="108" y="519" class="small">d_ASVFR -&gt; LSD5I</text>
+  
+      
+  <rect x="90" y="595" width="260" height="100" class="blue"/>
+  <text x="108" y="629" class="label">ASVRL / AV3</text>
+  <text x="108" y="659" class="small">d_ASVRL -&gt; LSD3I</text>
+  
+      
+  <rect x="90" y="735" width="260" height="100" class="blue"/>
+  <text x="108" y="769" class="label">ASVRR / AV4</text>
+  <text x="108" y="799" class="small">d_ASVRR -&gt; LSD4I</text>
+  
+      
+  <rect x="500" y="245" width="280" height="100" class="green"/>
+  <text x="518" y="279" class="label">RV1</text>
+  <text x="518" y="309" class="small">d_RV1 -&gt; LSD10I</text>
+  
+      
+  <rect x="500" y="385" width="280" height="100" class="green"/>
+  <text x="518" y="419" class="label">RV2</text>
+  <text x="518" y="449" class="small">d_RV2 -&gt; LSD8I</text>
+  
+      
+  <rect x="500" y="525" width="280" height="100" class="green"/>
+  <text x="518" y="559" class="label">RV3</text>
+  <text x="518" y="589" class="small">d_RV3 -&gt; LSD11I</text>
+  
+      
+  <rect x="500" y="665" width="280" height="100" class="green"/>
+  <text x="518" y="699" class="label">RV4</text>
+  <text x="518" y="729" class="small">d_RV4 -&gt; LSD9I</text>
+  
+      
+  <rect x="975" y="250" width="430" height="150" class="violet"/>
+  <text x="993" y="284" class="label">CddBE13_L2_ValveCurrentCtl</text>
+  <text x="993" y="314" class="small">current &lt;= 225: LSD_FDC=0</text>
+<text x="993" y="338" class="small">LSD_I = current * 1023 / 225</text>
+<text x="993" y="362" class="small">否则进入 duty mode</text>
+  
+      
+  <rect x="975" y="500" width="430" height="150" class="violet"/>
+  <text x="993" y="534" class="label">CddBE13_L2_ValvePwmCtl</text>
+  <text x="993" y="564" class="small">LSD_DC = pwm * 1023 / 1000</text>
+<text x="993" y="588" class="small">pwm 单位按 0.1% 理解</text>
+<text x="993" y="612" class="small">写入 SPI TX buffer</text>
+  
+      <path d="M350,365 L975,315" class="wire"/>
+      <path d="M350,505 L975,315" class="wire"/>
+      <path d="M350,645 L975,315" class="wire"/>
+      <path d="M350,785 L975,315" class="wire"/>
+      <path d="M780,295 L975,315" class="wire"/>
+      <path d="M780,435 L975,315" class="wire"/>
+      <path d="M780,575 L975,315" class="wire"/>
+      <path d="M780,715 L975,315" class="wire"/>
+      <path d="M350,225 L975,575" class="wire"/>
+      
+</svg>

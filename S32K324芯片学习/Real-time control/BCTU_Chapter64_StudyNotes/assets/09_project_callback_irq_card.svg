@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1450" height="650" viewBox="0 0 1450 650">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#f7fafc"/>
+  
+  
+      <rect x="0" y="0" width="1450" height="650" fill="#0b1220"/>
+      <rect x="0" y="0" width="1450" height="82" fill="#111827"/>
+      <text x="34" y="36" font-family="Arial, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#f8fafc" text-anchor="start"><tspan x="34" dy="0">工程截图：通知回调与中断链路</tspan></text>
+      <text x="34" y="66" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="500" fill="#cbd5e1" text-anchor="start"><tspan x="34" dy="0">Cdd_Adc.c+Bctu_Ip_Irq.c+Bctu_Ip.c</tspan></text>
+      <g font-family="Consolas, 'Courier New', monospace" font-size="17" fill="#d1d5db">
+        <text x="34" y="116" fill="#64748b"> 1</text><text x="82" y="116">#include &quot;Bctu_Ip_Irq.h&quot;</text><text x="34" y="142" fill="#64748b"> 2</text><text x="82" y="142">#define BCTU_IRQ BCTU_IRQn</text><text x="34" y="168" fill="#64748b"> 3</text><text x="82" y="168">volatile uint8 BctuTrigNotif = 0u;</text><text x="34" y="194" fill="#64748b"> 4</text><text x="82" y="194"></text><text x="34" y="220" fill="#64748b"> 5</text><text x="82" y="220">void BctuTriggerNotification(void)</text><text x="34" y="246" fill="#64748b"> 6</text><text x="82" y="246">{</text><text x="34" y="272" fill="#64748b"> 7</text><text x="82" y="272">    BctuTrigNotif++;</text><text x="34" y="298" fill="#64748b"> 8</text><text x="82" y="298">}</text><text x="34" y="324" fill="#64748b"> 9</text><text x="82" y="324"></text><text x="34" y="350" fill="#64748b">10</text><text x="82" y="350">ISR(Bctu_0_Isr)</text><text x="34" y="376" fill="#64748b">11</text><text x="82" y="376">{</text><text x="34" y="402" fill="#64748b">12</text><text x="82" y="402">    Bctu_Ip_IRQHandler(0UL);</text><text x="34" y="428" fill="#64748b">13</text><text x="82" y="428">}</text><text x="34" y="454" fill="#64748b">14</text><text x="82" y="454"></text><text x="34" y="480" fill="#64748b">15</text><text x="82" y="480">Bctu_Ip_IRQHandler():</text><text x="34" y="506" fill="#64748b">16</text><text x="82" y="506">  MSR[TRGF]      -&gt; TriggerNotification</text><text x="34" y="532" fill="#64748b">17</text><text x="82" y="532">  MSR[NDATAx]    -&gt; AdcXNewDataNotification</text><text x="34" y="558" fill="#64748b">18</text><text x="82" y="558">  MSR[DATAOVRx]  -&gt; overrun notification</text><text x="34" y="584" fill="#64748b">19</text><text x="82" y="584">  FIFOERR[WM/OVR/UNDR] -&gt; FIFO callbacks</text>
+      </g>
+    
+</svg>

@@ -1,0 +1,250 @@
+; --------------------------------------------------------------------------------
+; @Title: S32K324 Cortex-M7 multi-core debug setup for TRACE32
+; @Description:
+;   Generic TRACE32 startup script for NXP S32K324 multi-core debugging.
+;   It is based on Lauterbach's S32K3 flash declaration script:
+;     D:\T32\demo\arm\flash\s32k3.cmm
+;   and S32K3 M7 SMP demo scripts.
+;
+; Usage examples:
+;   DO s32k324_multicore_debug.cmm
+;   DO s32k324_multicore_debug.cmm APP=E:\path\app.elf
+;   DO s32k324_multicore_debug.cmm APP=E:\path\app.elf PREPAREFLASH
+;   DO s32k324_multicore_debug.cmm APP=E:\path\app.elf ATTACH
+;
+; Parameters:
+;   APP=<elf>       Optional ELF file to load symbols/program.
+;   CPU=<cpu>       Default: S32K324-M7.
+;   ATTACH          Attach to an already running target instead of reset/up.
+;   PREPAREFLASH    Declare internal PFlash/DFlash/UTEST using s32k3.cmm PREPAREONLY.
+;   NODUALPORT      Disable TRACE32 dual-port memory access.
+;   NOINITSRAM      Skip SRAM ECC initialization.
+;   NOKICK          Skip secondary core clock/reset release sequence.
+;   NOWINDOWS       Skip opening TRACE32 debug windows.
+;
+; Notes:
+;   1. S32K324 is normally debugged as an M7 multi-core device with core IDs
+;      1. and 2. in TRACE32. TRACE32 CORE.select uses zero-based selection,
+;      so CORE.select 0 selects /CORE 1., CORE.select 1 selects /CORE 2.
+;   2. The secondary-core release registers below follow the public S32K3
+;      Lauterbach demo pattern. If your exact S32K324 derivative/S32DS startup
+;      already releases the secondary core, run with NOKICK or ATTACH.
+;   3. This script intentionally does not erase/program flash by default.
+;      For flash programming, use the official D:\T32\demo\arm\flash\s32k3.cmm
+;      or call this script with PREPAREFLASH and then run FLASH.ReProgram steps.
+; --------------------------------------------------------------------------------
+
+PRIVATE &parameters
+ENTRY %LINE &parameters
+&parameters=STRing.UPpeR("&parameters")
+
+PRIVATE &param_app &param_cpu
+PRIVATE &param_attach &param_prepareflash &param_dualport
+PRIVATE &param_initsram &param_kick &param_windows
+
+&param_app=STRing.SCANAndExtract("&parameters","APP=","")
+&param_cpu=STRing.SCANAndExtract("&parameters","CPU=","S32K324-M7")
+&param_attach=(STRing.SCAN("&parameters","ATTACH",0)!=-1)
+&param_prepareflash=(STRing.SCAN("&parameters","PREPAREFLASH",0)!=-1)
+&param_dualport=(STRing.SCAN("&parameters","NODUALPORT",0)==-1)
+&param_initsram=(STRing.SCAN("&parameters","NOINITSRAM",0)==-1)
+&param_kick=(STRing.SCAN("&parameters","NOKICK",0)==-1)
+&param_windows=(STRing.SCAN("&parameters","NOWINDOWS",0)==-1)
+
+WinCLEAR
+PRINT "S32K324 multi-core debug script start"
+PRINT "CPU: &param_cpu"
+
+; --------------------------------------------------------------------------------
+; Basic debugger setup
+; --------------------------------------------------------------------------------
+SYStem.RESet
+SYStem.CPU &param_cpu
+
+IF CABLE.TWOWIRE()
+  SYStem.CONFIG.DEBUGPORTTYPE SWD
+ELSE
+  SYStem.CONFIG.DEBUGPORTTYPE JTAG
+
+IF COMBIPROBE()||UTRACE()
+(
+  ; Common connector setting used by Lauterbach S32K3 demo boards.
+  ; Comment this out if your probe/adapter uses another connector definition.
+  SYStem.CONFIG.CONNECTOR MIPI20T
+)
+
+IF &param_dualport
+  SYStem.Option DUALPORT ON
+ELSE
+  SYStem.Option DUALPORT OFF
+
+; DAP memory access is useful while cores are halted/reset.
+SYStem.MemAccess DAP
+Trace.DISable
+
+; Start with primary M7 only, then attach both cores after SRAM init.
+CORE.ASSIGN 1.
+
+IF &param_attach
+(
+  PRINT "Attach mode: keeping target state, attaching primary core"
+  SYStem.Attach
+)
+ELSE
+(
+  PRINT "Reset/up mode: starting primary core debug session"
+  SYStem.Up
+)
+
+; --------------------------------------------------------------------------------
+; Optional SRAM ECC initialization
+; --------------------------------------------------------------------------------
+IF &param_initsram
+(
+  PRINT "Initialize internal SRAM ECC"
+  GOSUB InitSRAM
+)
+
+; --------------------------------------------------------------------------------
+; Optional flash declaration, reusing Lauterbach official S32K3 script
+; --------------------------------------------------------------------------------
+IF &param_prepareflash
+(
+  PRINT "Declare S32K324 internal flash with official s32k3.cmm"
+  IF &param_dualport
+    DO D:\T32\demo\arm\flash\s32k3.cmm PREPAREONLY CPU=&param_cpu DUALPORT=1
+  ELSE
+    DO D:\T32\demo\arm\flash\s32k3.cmm PREPAREONLY CPU=&param_cpu DUALPORT=0
+)
+
+; --------------------------------------------------------------------------------
+; Attach both M7 cores and release secondary M7 if needed
+; --------------------------------------------------------------------------------
+SYStem.Down
+CORE.ASSIGN 1. 2.
+SYStem.Attach
+
+IF &param_kick
+(
+  PRINT "Enable/release secondary M7 core clock via MC_ME"
+  GOSUB KickCore1
+)
+ELSE
+(
+  PRINT "Skip secondary-core release sequence"
+)
+
+; Halt all assigned cores so symbol load/register setup is deterministic.
+Break
+
+; --------------------------------------------------------------------------------
+; Optional ELF load
+; --------------------------------------------------------------------------------
+IF "&param_app"!=""
+(
+  PRINT "Load ELF: &param_app"
+  CORE.select 0
+
+  ; Use Data.LOAD.Elf for ELF image+symbols. If your ELF is already in flash and
+  ; you only want symbols, replace this line with: Data.LOAD.Elf "&param_app" /NoCODE
+  Data.LOAD.Elf "&param_app"
+
+  ; If secondary core is already released but parked in a default loop, copy the
+  ; ELF entry/background PC to /CORE 2. This is harmless for many single-image
+  ; AUTOSAR/S32DS projects, but comment it out if your startup code assigns each
+  ; core's PC explicitly through boot headers/MC_ME.
+  Register.Set PC background /CORE 2.
+)
+ELSE
+(
+  PRINT "No APP=<elf> given; only debugger/core setup was performed"
+)
+
+IF &param_windows
+  GOSUB OpenWindows
+
+PRINT "S32K324 multi-core debug script done"
+ENDDO
+
+; --------------------------------------------------------------------------------
+; SUBROUTINES
+; --------------------------------------------------------------------------------
+
+InitSRAM:
+(
+  ; This SRAM ECC init is copied from Lauterbach's S32K3 flash script pattern.
+  ; It enables DMA, initializes SRAM through eDMA, then disables the Cortex-M MPU.
+
+  ; Enable DMA clock in MC_ME partition 1 COFB bits 3 and 4.
+  Data.Set ASD:0x402DC330 %Long 0yXXXXxxxxXXXXxxxxXXXXxxxxXXX11xxx
+  Data.Set ASD:0x402DC304 %Long 0x00000001
+
+  ; MC_ME key sequence.
+  Data.Set ASD:0x402DC000 %Long 0x00005AF0
+  Data.Set ASD:0x402DC000 %Long 0x0000A50F
+
+  WAIT (Data.Long(ASD:0x402DC304)&0x00000001)==0x00000000
+
+  ; eDMA SRAM init. Size below matches the Lauterbach reference transfer setup.
+  Data.Set SD:0x40210020 %LE %LONG 0x402AC300     ; SADDR
+  Data.Set SD:0x40210030 %LE %LONG 0x20400000     ; DADDR, SRAM base
+  Data.Set SD:0x40210024 %LE %LONG 0x03030000     ; SSIZE=DSIZE=64-bit, SOFF=0
+  Data.Set SD:0x40210028 %LE %LONG 0x00008000     ; NBYTES
+  Data.Set SD:0x4021002C %LE %LONG 0x00000000     ; SLAST
+  Data.Set SD:0x40210034 %LE %LONG 0x00080008     ; CITER=8, DOFF=8
+  Data.Set SD:0x40210038 %LE %LONG 0xFFF40000     ; DLASTSGA=-NBYTES
+  Data.Set SD:0x4021003C %LE %LONG 0x00000001     ; START
+
+  WAIT (Data.Long(ASD:0x40210000)&0x80000000)==0x00000000
+  Data.Set SD:0x40210000 %LE %LONG 0x40000000
+
+  ; Disable Cortex-M MPU during early debug access.
+  Data.Set SD:0xE000ED94 %Long 0yXXXXxxxxXXXXxxxxXXXXxxxxXXXXxxx0
+
+  RETURN
+)
+
+KickCore1:
+(
+  ; Release secondary Cortex-M7 for dual-core S32K3 devices.
+  ; Register pattern from Lauterbach S32K3 M7 SMP examples:
+  ;   MC_ME.PRTN1_CORE1_PCONF  @ 0x402DC160 = 1  enable clock/request
+  ;   MC_ME.PRTN1_CORE1_PUPD   @ 0x402DC164 = 1  update request
+  ;   MC_ME.PRTN1_CORE1_STAT   @ 0x402DC168 bit0 wait for update done
+  ; If your S32K324 package/startup maps the second M7 differently, compare with
+  ; your RM MC_ME PRTN/CORE registers or run with NOKICK.
+
+  Data.Set ASD:0x402DC160 %Long 0x00000001
+  Data.Set ASD:0x402DC164 %Long 0x00000001
+
+  Data.Set ASD:0x402DC000 %Long 0x00005AF0
+  Data.Set ASD:0x402DC000 %Long 0x0000A50F
+
+  WAIT (Data.Long(ASD:0x402DC168)&0x00000001)!=0x00000000
+
+  RETURN
+)
+
+OpenWindows:
+(
+  WinCLEAR
+  Mode.Hll
+
+  CORE.select 0
+  WinPOS 0. 0. 116. 24.
+  List.auto
+
+  WinPOS 118. 0. 80. 10.
+  Register.view /CORE 1.
+
+  WinPOS 118. 12. 80. 10.
+  Register.view /CORE 2.
+
+  WinPOS 0. 27. 116. 12.
+  Frame.view
+
+  WinPOS 118. 25. 80. 12.
+  Var.Watch
+
+  RETURN
+)

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="500" viewBox="0 0 1120 500">
+  <defs>
+    <style>
+      .title{font:700 26px Arial, sans-serif;fill:#1f2937}
+      .box{rx:8;fill:#f8fafc;stroke:#334155;stroke-width:2}
+      .tp{fill:#fefce8;stroke:#ca8a04}
+      .dcm{fill:#fdf2f8;stroke:#db2777}
+      .label{font:600 17px Arial, sans-serif;fill:#111827}
+      .small{font:13px Arial, sans-serif;fill:#475569}
+      .arrow{stroke:#475569;stroke-width:2.4;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="500" fill="#fff"/>
+  <text x="36" y="46" class="title">UDS Diagnostic Communication Chain</text>
+  <rect x="40" y="115" width="135" height="70" class="box"/><text x="73" y="145" class="label">Tester</text><text x="58" y="168" class="small">UDS request</text>
+  <rect x="220" y="115" width="135" height="70" class="box"/><text x="256" y="145" class="label">CanIf</text><text x="238" y="168" class="small">CAN L-PDU</text>
+  <rect x="400" y="115" width="135" height="70" class="box tp"/><text x="435" y="145" class="label">CanTp</text><text x="418" y="168" class="small">segmentation</text>
+  <rect x="580" y="115" width="135" height="70" class="box"/><text x="620" y="145" class="label">PduR</text><text x="600" y="168" class="small">TP routing</text>
+  <rect x="760" y="115" width="135" height="70" class="box dcm"/><text x="800" y="145" class="label">Dcm</text><text x="775" y="168" class="small">DSL / DSD / DSP</text>
+  <rect x="940" y="115" width="135" height="70" class="box"/><text x="980" y="145" class="label">SWC</text><text x="958" y="168" class="small">DID / Routine</text>
+  <line x1="175" y1="150" x2="220" y2="150" class="arrow"/>
+  <line x1="355" y1="150" x2="400" y2="150" class="arrow"/>
+  <line x1="535" y1="150" x2="580" y2="150" class="arrow"/>
+  <line x1="715" y1="150" x2="760" y2="150" class="arrow"/>
+  <line x1="895" y1="150" x2="940" y2="150" class="arrow"/>
+
+  <rect x="80" y="280" width="960" height="135" class="box" fill="#fafafa"/>
+  <text x="110" y="315" class="label">Important callbacks</text>
+  <text x="110" y="345" class="small">CanTp -> PduR: PduR_CanTpStartOfReception(), PduR_CanTpCopyRxData(), PduR_CanTpRxIndication()</text>
+  <text x="110" y="375" class="small">Dcm -> PduR: PduR_DcmTransmit()</text>
+  <text x="110" y="405" class="small">Dcm internal: DSL receives, DSD dispatches, DSP handles UDS service logic</text>
+</svg>

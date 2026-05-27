@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#f7fafc"/>
+  <text x="40" y="46" font-family="Arial, Microsoft YaHei, sans-serif" font-size="28" font-weight="800" fill="#1f2933" text-anchor="start"><tspan x="40" dy="0">优先级与ADCbusy行为</tspan></text>
+  
+  <text x="70" y="105" font-family="Arial, Microsoft YaHei, sans-serif" font-size="24" font-weight="800" fill="#1f2933" text-anchor="start"><tspan x="70" dy="0">同一ADC的竞争：编号越小越先服务</tspan></text>
+  <g filter="url(#shadow)">
+    <g>
+    <rect x="80" y="170" width="230" height="90" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="80" y="170" width="7" height="90" rx="8" fill="#2563eb"/>
+    <text x="195" y="207" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="195" dy="0">Trigger0</tspan></text>
+    <text x="195" y="239" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="195" dy="0">高优先级</tspan><tspan x="195" dy="18">先进入ADC</tspan></text>
+  </g>
+    <g>
+    <rect x="80" y="315" width="230" height="90" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="80" y="315" width="7" height="90" rx="8" fill="#d97706"/>
+    <text x="195" y="352" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="195" dy="0">Trigger1</tspan></text>
+    <text x="195" y="384" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="195" dy="0">低优先级</tspan><tspan x="195" dy="18">保持pending</tspan></text>
+  </g>
+    <g>
+    <rect x="455" y="205" width="250" height="155" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="455" y="205" width="7" height="155" rx="8" fill="#16a34a"/>
+    <text x="580" y="274.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="580" dy="0">ADC0busy</tspan></text>
+    <text x="580" y="306.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="580" dy="0">正在执行Trigger0</tspan><tspan x="580" dy="18">期间Trigger1不丢失</tspan><tspan x="580" dy="18">等待下一次选择</tspan></text>
+  </g>
+    <g>
+    <rect x="850" y="170" width="250" height="90" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="850" y="170" width="7" height="90" rx="8" fill="#dc2626"/>
+    <text x="975" y="207" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="975" dy="0">Trigger0再次置位</tspan></text>
+    <text x="975" y="239" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="975" dy="0">如果转换结束前再次有效</tspan><tspan x="975" dy="18">可能再次抢占</tspan></text>
+  </g>
+    <g>
+    <rect x="850" y="315" width="250" height="90" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="850" y="315" width="7" height="90" rx="8" fill="#d97706"/>
+    <text x="975" y="352" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="975" dy="0">Trigger1继续等待</tspan></text>
+    <text x="975" y="384" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="975" dy="0">只有高优先级不再抢占</tspan><tspan x="975" dy="18">才轮到它</tspan></text>
+  </g>
+    <g>
+    <rect x="1190" y="250" width="220" height="110" rx="8" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.4"/>
+    <rect x="1190" y="250" width="7" height="110" rx="8" fill="#7c3aed"/>
+    <text x="1300" y="297" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" fill="#1f2933" text-anchor="middle"><tspan x="1300" dy="0">不同ADC</tspan></text>
+    <text x="1300" y="329" font-family="Arial, Microsoft YaHei, sans-serif" font-size="15" font-weight="400" fill="#52616b" text-anchor="middle"><tspan x="1300" dy="0">如果目标ADC不同</tspan><tspan x="1300" dy="18">可以并行处理</tspan></text>
+  </g>
+  </g>
+  <g>
+    <line x1="310" y1="215" x2="455" y2="250" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    <text x="382.5" y="224.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#52616b" text-anchor="middle"><tspan x="382.5" dy="0">胜出</tspan></text>
+  </g>
+  <g>
+    <line x1="310" y1="360" x2="455" y2="330" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    <text x="382.5" y="337" font-family="Arial, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#52616b" text-anchor="middle"><tspan x="382.5" dy="0">pending</tspan></text>
+  </g>
+  <g>
+    <line x1="705" y1="250" x2="850" y2="215" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    <text x="777.5" y="224.5" font-family="Arial, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#52616b" text-anchor="middle"><tspan x="777.5" dy="0">结束时重新仲裁</tspan></text>
+  </g>
+  <g>
+    <line x1="705" y1="330" x2="850" y2="360" stroke="#2563eb" stroke-width="2.5"  marker-end="url(#arrow)"/>
+    <text x="777.5" y="337" font-family="Arial, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#52616b" text-anchor="middle"><tspan x="777.5" dy="0">仍等待</tspan></text>
+  </g>
+  <g>
+    <line x1="1100" y1="315" x2="1190" y2="305" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+    <text x="1145" y="302" font-family="Arial, Microsoft YaHei, sans-serif" font-size="14" font-weight="500" fill="#52616b" text-anchor="middle"><tspan x="1145" dy="0">目标不同不冲突</tspan></text>
+  </g>
+  <line x1="90" y1="560" x2="1370" y2="560" stroke="#9fb3c8" stroke-width="3"/>
+  <g>
+    <circle cx="160" cy="560" r="9" fill="#2563eb"/>
+    <circle cx="420" cy="560" r="9" fill="#d97706"/>
+    <circle cx="720" cy="560" r="9" fill="#16a34a"/>
+    <circle cx="1030" cy="560" r="9" fill="#dc2626"/>
+    <text x="160" y="600" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" font-weight="500" fill="#1f2933" text-anchor="middle"><tspan x="160" dy="0">同一周期T0/T1置位</tspan></text>
+    <text x="420" y="600" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" font-weight="500" fill="#1f2933" text-anchor="middle"><tspan x="420" dy="0">T0发给ADC</tspan></text>
+    <text x="720" y="600" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" font-weight="500" fill="#1f2933" text-anchor="middle"><tspan x="720" dy="0">ADC忙，T1pending</tspan></text>
+    <text x="1030" y="600" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" font-weight="500" fill="#1f2933" text-anchor="middle"><tspan x="1030" dy="0">结束后重新选</tspan></text>
+  </g>
+
+</svg>

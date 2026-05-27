@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="428" viewBox="0 0 1600 428">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .sub{font:400 20px Arial, "Microsoft YaHei", sans-serif; fill:#475569}
+      .box{fill:#f8fafc; stroke:#334155; stroke-width:2; rx:8}
+      .blue{fill:#eff6ff; stroke:#2563eb; stroke-width:2; rx:8}
+      .green{fill:#ecfdf5; stroke:#059669; stroke-width:2; rx:8}
+      .amber{fill:#fffbeb; stroke:#d97706; stroke-width:2; rx:8}
+      .red{fill:#fef2f2; stroke:#dc2626; stroke-width:2; rx:8}
+      .violet{fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; rx:8}
+      .label{font:700 20px Arial, "Microsoft YaHei", sans-serif; fill:#111827}
+      .small{font:400 16px Arial, "Microsoft YaHei", sans-serif; fill:#334155}
+      .tiny{font:400 13px Consolas, "Microsoft YaHei", monospace; fill:#334155}
+      .code{font:400 16px Consolas, "Microsoft YaHei", monospace; fill:#0f172a}
+      .wire{stroke:#1f2937; stroke-width:2.2; fill:none; marker-end:url(#arrow)}
+      .dash{stroke:#64748b; stroke-width:2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+    <text x="48" y="48" class="title">EB Spi.xdm 配置节选：BE13 SPI 通道</text>
+    <rect x="48" y="76" width="1504" height="320" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" rx="8"/>
+    <text x="64" y="112" class="code">&lt;d:ctr name="SpiChannel_BE13" type="IDENTIFIABLE"&gt;</text>
+<text x="64" y="139" class="code">  &lt;d:var name="SpiChannelId" value="0"/&gt;</text>
+<text x="64" y="166" class="code">  &lt;d:var name="SpiChannelType" value="EB"/&gt;</text>
+<text x="64" y="193" class="code">  &lt;d:var name="SpiDataWidth" value="32"/&gt;</text>
+<text x="64" y="220" class="code">  &lt;d:var name="SpiEbMaxLength" value="1024"/&gt;</text>
+<text x="64" y="247" class="code">  &lt;d:var name="SpiTransferStart" value="MSB"/&gt;</text>
+<text x="64" y="274" class="code">&lt;/d:ctr&gt;</text>
+<text x="64" y="301" class="code">&lt;d:ctr name="Spi0_BE13" type="IDENTIFIABLE"&gt;</text>
+<text x="64" y="328" class="code">  &lt;d:var name="SpiBaudrate" value="5000000.0"/&gt;</text>
+<text x="64" y="355" class="code">  &lt;d:var name="SpiCsIdentifier" value="PCS2"/&gt;</text>
+<text x="64" y="382" class="code">  &lt;d:var name="SpiCsPolarity" value="LOW"/&gt;</text>
+<text x="64" y="409" class="code">&lt;/d:ctr&gt;</text>
+    
+</svg>

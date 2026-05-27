@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <rect width="100%" height="100%" fill="#111827"/>
+  <text x="50" y="60" fill="#f9fafb" font-size="34" font-family="Arial, Microsoft YaHei">CiA 402 总体关系图</text>
+  <rect x="80" y="140" width="250" height="110" rx="18" fill="#1f2937" stroke="#60a5fa" stroke-width="3"/>
+  <text x="205" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">控制器 / 主站</text>
+  <text x="205" y="225" fill="#cbd5e1" font-size="20" text-anchor="middle" font-family="Arial, Microsoft YaHei">写 0x6040 / 0x6060</text>
+  <rect x="430" y="120" width="290" height="150" rx="18" fill="#0f172a" stroke="#34d399" stroke-width="3"/>
+  <text x="575" y="170" fill="#f9fafb" font-size="30" text-anchor="middle" font-family="Arial, Microsoft YaHei">驱动器 CiA 402</text>
+  <text x="575" y="205" fill="#cbd5e1" font-size="20" text-anchor="middle" font-family="Arial, Microsoft YaHei">状态机 / 模式 / 参数</text>
+  <text x="575" y="235" fill="#cbd5e1" font-size="18" text-anchor="middle" font-family="Arial, Microsoft YaHei">0x6041 / 0x6061 / 0x60xx</text>
+  <rect x="825" y="140" width="250" height="110" rx="18" fill="#1f2937" stroke="#f59e0b" stroke-width="3"/>
+  <text x="950" y="190" fill="#f9fafb" font-size="28" text-anchor="middle" font-family="Arial, Microsoft YaHei">电机 / 机构</text>
+  <text x="950" y="225" fill="#cbd5e1" font-size="20" text-anchor="middle" font-family="Arial, Microsoft YaHei">位置 / 速度 / 力矩</text>
+  <path d="M330 195 L425 195" stroke="#60a5fa" stroke-width="6" marker-end="url(#arrow)"/>
+  <path d="M720 195 L820 195" stroke="#34d399" stroke-width="6" marker-end="url(#arrow)"/>
+  <path d="M820 235 L725 235" stroke="#f59e0b" stroke-width="6" marker-end="url(#arrow)"/>
+  <text x="520" y="175" fill="#a7f3d0" font-size="18" font-family="Arial, Microsoft YaHei">控制命令 / 目标值</text>
+  <text x="505" y="250" fill="#fde68a" font-size="18" font-family="Arial, Microsoft YaHei">状态反馈 / 实际值</text>
+  <rect x="110" y="380" width="1160" height="390" rx="24" fill="#0b1220" stroke="#374151" stroke-width="2"/>
+  <text x="140" y="430" fill="#f9fafb" font-size="28" font-family="Arial, Microsoft YaHei">学习时的四层框架</text>
+  <text x="160" y="490" fill="#93c5fd" font-size="24" font-family="Arial, Microsoft YaHei">1. 状态机：能不能使能、能不能输出力矩</text>
+  <text x="160" y="545" fill="#86efac" font-size="24" font-family="Arial, Microsoft YaHei">2. 模式：现在按什么方式工作（pp/pv/tq/csp/csv/cst）</text>
+  <text x="160" y="600" fill="#fde68a" font-size="24" font-family="Arial, Microsoft YaHei">3. 参数对象：目标、限位、斜坡、零点、缩放</text>
+  <text x="160" y="655" fill="#fca5a5" font-size="24" font-family="Arial, Microsoft YaHei">4. 反馈对象：状态字、实际位置、实际速度、实际力矩</text>
+  <text x="160" y="720" fill="#e5e7eb" font-size="20" font-family="Arial, Microsoft YaHei">适合初学者的理解方式：先看状态机，再看模式，最后看对象字典</text>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+</svg>
