@@ -1,9 +1,10 @@
 ---
 created: 2026-05-27
 override_system_prompt:
-date: 2026-05-11
+date: 2026-05-27
 related_task: UDS协议
 progress: 10%
+timeline: "true"
 ---
 # UDS 全图指南总结
 

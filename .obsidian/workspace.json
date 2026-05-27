@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 298.5
+    "width": 307.5
   },
   "right": {
     "id": "094bbec1d5c3751a",
@@ -200,7 +200,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 262.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -218,15 +218,15 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "766812fd330da848",
+  "active": "f81b0ed1305b0596",
   "lastOpenFiles": [
     "task_outline/任务详情.md",
     "task_outline/工作任务.md",
-    "UDS/UDS全图指南总结.md",
     "task_outline/obsidian_tasks_command_center.md",
     "UDS/学习建议.md",
-    "assets/模板/模板.md",
     "daliy record/2026-05-27.md",
+    "UDS/UDS全图指南总结.md",
+    "assets/模板/模板.md",
     "UDS全图指南总结.md",
     "task_outline/assets/task-dashboard-hero.png",
     "task_outline/日报/2026-05-29.md",
