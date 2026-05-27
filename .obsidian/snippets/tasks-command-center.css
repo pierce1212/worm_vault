@@ -1,0 +1,975 @@
+@property --value {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.markdown-preview-view.tasks-command-center .markdown-preview-sizer,
+.markdown-source-view.mod-cm6.tasks-command-center .cm-contentContainer {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 14px;
+}
+
+.markdown-preview-view.tasks-command-center .inline-title,
+.markdown-source-view.tasks-command-center .inline-title,
+.markdown-preview-view.tasks-command-center .metadata-container,
+.markdown-source-view.tasks-command-center .metadata-container {
+  display: none;
+}
+
+.tasks-command-center {
+  --tcc-hero-image: linear-gradient(135deg, #eef7ff, #fff2f7 48%, #edf7f0);
+  --tcc-panel: color-mix(in srgb, var(--background-primary) 72%, transparent);
+  --tcc-panel-strong: color-mix(in srgb, var(--background-primary) 86%, transparent);
+  --tcc-border: color-mix(in srgb, var(--text-muted) 18%, transparent);
+  --tcc-muted: var(--text-muted);
+  --tcc-green: #25a56a;
+  --tcc-blue: #3b82f6;
+  --tcc-amber: #d7971f;
+  --tcc-red: #d74d4d;
+  --tcc-teal: #199a9a;
+  --tcc-violet: #7c5cd6;
+  --tcc-shadow: 0 22px 70px color-mix(in srgb, black 16%, transparent);
+}
+
+.tasks-command-center h1 {
+  display: none;
+}
+
+.tasks-command-center .tcc-shell {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 120px);
+  padding: 16px 22px 22px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  transition: background 600ms ease;
+}
+
+.tasks-command-center .tcc-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--background-primary) 18%, transparent), color-mix(in srgb, var(--background-primary) 50%, transparent) 58%, color-mix(in srgb, var(--background-primary) 82%, transparent)),
+    radial-gradient(circle at 22% 10%, color-mix(in srgb, white 38%, transparent), transparent 34%),
+    linear-gradient(90deg, color-mix(in srgb, var(--background-primary) 46%, transparent), transparent 24%, transparent 76%, color-mix(in srgb, var(--background-primary) 48%, transparent)),
+    var(--tcc-hero-image) center top / cover no-repeat;
+  opacity: .9;
+  filter: saturate(1.08) contrast(1.02);
+  transform: scale(1.02);
+  animation: tcc-bg-drift 28s ease-in-out infinite alternate;
+}
+
+.tasks-command-center .tcc-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 32%),
+    radial-gradient(circle at 86% 12%, color-mix(in srgb, var(--tcc-blue) 12%, transparent), transparent 26%);
+  opacity: .72;
+  backdrop-filter: blur(1px);
+}
+
+.tasks-command-center .tcc-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+.tasks-command-center .tcc-motto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+  margin: 0 0 14px;
+  color: color-mix(in srgb, var(--text-normal) 88%, #1d4ed8 12%);
+  font-family: KaiTi, STKaiti, "KaiTi_GB2312", "Noto Serif CJK SC", serif;
+  font-size: clamp(20px, 2vw, 34px);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: center;
+  text-shadow: 0 2px 18px color-mix(in srgb, white 56%, transparent);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.tasks-command-center .tcc-motto span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.tasks-command-center .tcc-motto span.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tasks-command-center .tcc-motto.is-fading {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.tasks-command-center .tcc-shell[data-weather="clear"] {
+  background:
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, #ffd166 18%, transparent), transparent 28%);
+}
+
+.tasks-command-center .tcc-shell[data-weather="cloud"] {
+  background:
+    radial-gradient(circle at 16% 12%, color-mix(in srgb, #b9c6d8 14%, transparent), transparent 30%);
+}
+
+.tasks-command-center .tcc-shell[data-weather="rain"],
+.tasks-command-center .tcc-shell[data-weather="storm"] {
+  background:
+    linear-gradient(115deg, transparent 0 58%, color-mix(in srgb, #7fb5ff 12%, transparent) 58% 62%, transparent 62%);
+}
+
+.tasks-command-center .tcc-shell[data-weather="fog"],
+.tasks-command-center .tcc-shell[data-weather="snow"] {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #eff6ff 15%, transparent), color-mix(in srgb, #b6c8d8 10%, transparent));
+}
+
+.tasks-command-center .tcc-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(320px, 1.2fr) minmax(220px, .45fr) minmax(320px, .8fr);
+  gap: 16px;
+  align-items: stretch;
+  min-height: 230px;
+  overflow: hidden;
+  padding: 24px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  box-shadow: var(--tcc-shadow);
+  backdrop-filter: blur(22px) saturate(1.18);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, white 36%, transparent), transparent 46%),
+    color-mix(in srgb, var(--tcc-panel) 70%, transparent);
+}
+
+.tasks-command-center .tcc-hero::after {
+  content: "";
+  position: absolute;
+  inset: -100px -160px auto auto;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  opacity: .12;
+  background: conic-gradient(from 180deg, white, transparent, var(--tcc-blue), transparent);
+  animation: tcc-spin 20s linear infinite;
+}
+
+.tasks-command-center .tcc-hero-main,
+.tasks-command-center .tcc-weather,
+.tasks-command-center .tcc-rings {
+  position: relative;
+  z-index: 1;
+}
+
+.tasks-command-center .tcc-eyebrow {
+  margin: 0 0 8px;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.tasks-command-center .tcc-hero h2 {
+  margin: 0 0 8px;
+  font-size: clamp(34px, 4vw, 58px);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.tasks-command-center .tcc-hero p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--tcc-muted);
+  font-size: 15px;
+}
+
+.tasks-command-center .tcc-tag-cloud,
+.tasks-command-center .tcc-task-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tasks-command-center .tcc-tag-cloud {
+  margin-top: 22px;
+}
+
+.tasks-command-center .tcc-tag-cloud span,
+.tasks-command-center .tcc-task-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--background-primary) 62%, transparent);
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-weather {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--background-primary) 62%, transparent);
+}
+
+.tasks-command-center .tcc-weather span,
+.tasks-command-center .tcc-weather em {
+  display: block;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-weather strong {
+  display: block;
+  margin: 10px 0 4px;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-rings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(94px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+.tasks-command-center .tcc-ring {
+  --value: 0;
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  border-radius: 8px;
+  background:
+    conic-gradient(var(--tcc-blue) calc(var(--value) * 1%), color-mix(in srgb, var(--tcc-border) 62%, transparent) 0);
+  transition: --value 900ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.tasks-command-center .tcc-ring.health {
+  background:
+    conic-gradient(var(--tcc-green) calc(var(--value) * 1%), color-mix(in srgb, var(--tcc-border) 62%, transparent) 0);
+}
+
+.tasks-command-center .tcc-ring > div {
+  display: grid;
+  place-items: center;
+  width: calc(100% - 22px);
+  height: calc(100% - 22px);
+  min-height: 126px;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  background: var(--background-primary);
+}
+
+.tasks-command-center .tcc-ring strong {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-ring span,
+.tasks-command-center .tcc-ring small {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.tasks-command-center .tcc-metric,
+.tasks-command-center .tcc-task-card,
+.tasks-command-center .tcc-day,
+.tasks-command-center .tcc-week-event,
+.tasks-command-center .tcc-long-card {
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  box-shadow: 0 12px 34px color-mix(in srgb, black 7%, transparent);
+  backdrop-filter: blur(14px) saturate(1.08);
+  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+}
+
+.tasks-command-center .tcc-metric:hover,
+.tasks-command-center .tcc-task-card:hover,
+.tasks-command-center .tcc-day:hover,
+.tasks-command-center .tcc-week-event:hover,
+.tasks-command-center .tcc-long-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--tcc-blue) 52%, var(--tcc-border));
+  box-shadow: 0 18px 46px color-mix(in srgb, black 11%, transparent);
+}
+
+.tasks-command-center .tcc-metric {
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+}
+
+.tasks-command-center .tcc-metric span,
+.tasks-command-center .tcc-metric em {
+  display: block;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-metric strong {
+  display: block;
+  margin: 4px 0;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-metric.hot {
+  border-color: color-mix(in srgb, var(--tcc-red) 58%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-red) 24%, transparent), color-mix(in srgb, var(--background-primary) 74%, transparent));
+}
+
+.tasks-command-center .tcc-metric.hot strong {
+  color: var(--tcc-red);
+}
+
+.tasks-command-center .tcc-metric.danger {
+  border-color: color-mix(in srgb, var(--tcc-amber) 64%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-amber) 22%, transparent), color-mix(in srgb, var(--background-primary) 76%, transparent));
+}
+
+.tasks-command-center .tcc-metric.danger::after {
+  content: "!";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--tcc-amber);
+  color: #1f1600;
+  font-weight: 800;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--tcc-amber) 28%, transparent);
+}
+
+.tasks-command-center .tcc-metric.success {
+  border-color: color-mix(in srgb, var(--tcc-green) 58%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-green) 22%, transparent), color-mix(in srgb, var(--background-primary) 76%, transparent));
+}
+
+.tasks-command-center .tcc-metric.success strong {
+  color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-ticker {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin: 12px 0 22px;
+  padding: 10px 12px;
+  overflow: hidden;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--background-primary) 88%, var(--tcc-blue) 6%);
+}
+
+.tasks-command-center .tcc-ticker strong {
+  color: var(--tcc-blue);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.tasks-command-center .tcc-ticker div {
+  overflow: hidden;
+}
+
+.tasks-command-center .tcc-ticker p {
+  display: inline-flex;
+  gap: 24px;
+  min-width: 100%;
+  margin: 0;
+  white-space: nowrap;
+  animation: tcc-marquee 32s linear infinite;
+}
+
+.tasks-command-center .tcc-ticker span {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-section {
+  margin: 22px 0;
+}
+
+.tasks-command-center .tcc-section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+}
+
+.tasks-command-center .tcc-section-head h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0;
+}
+
+.tasks-command-center .tcc-section-head span {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-focus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 14px;
+}
+
+.tasks-command-center .tcc-task-card {
+  cursor: pointer;
+  padding: 15px;
+}
+
+.tasks-command-center .tcc-task-card.overdue {
+  border-color: color-mix(in srgb, var(--tcc-red) 64%, var(--tcc-border));
+  animation: tcc-alert 2.8s ease-in-out infinite;
+}
+
+.tasks-command-center .tcc-task-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tasks-command-center .tcc-task-card h3 {
+  margin: 12px 0 8px;
+  font-size: 17px;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.tasks-command-center .tcc-muted {
+  margin: 8px 0;
+  color: var(--tcc-muted);
+  font-size: 13px;
+}
+
+.tasks-command-center .tcc-rank,
+.tasks-command-center .tcc-status,
+.tasks-command-center .tcc-priority,
+.tasks-command-center .tcc-week-event time {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tasks-command-center .tcc-rank {
+  background: color-mix(in srgb, var(--tcc-blue) 15%, transparent);
+  color: var(--tcc-blue);
+}
+
+.tasks-command-center .tcc-status.todo {
+  background: color-mix(in srgb, var(--tcc-muted) 12%, transparent);
+}
+
+.tasks-command-center .tcc-status.doing {
+  background: color-mix(in srgb, var(--tcc-blue) 16%, transparent);
+  color: var(--tcc-blue);
+}
+
+.tasks-command-center .tcc-status.done {
+  background: color-mix(in srgb, var(--tcc-green) 16%, transparent);
+  color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-status.overdue {
+  background: color-mix(in srgb, var(--tcc-red) 16%, transparent);
+  color: var(--tcc-red);
+}
+
+.tasks-command-center .tcc-priority.p-highest,
+.tasks-command-center .tcc-priority.p-high {
+  background: color-mix(in srgb, var(--tcc-red) 14%, transparent);
+  color: var(--tcc-red);
+}
+
+.tasks-command-center .tcc-priority.p-mid {
+  background: color-mix(in srgb, var(--tcc-amber) 16%, transparent);
+  color: var(--tcc-amber);
+}
+
+.tasks-command-center .tcc-priority.p-normal,
+.tasks-command-center .tcc-priority.p-low,
+.tasks-command-center .tcc-priority.p-lowest {
+  background: color-mix(in srgb, var(--tcc-muted) 11%, transparent);
+  color: var(--tcc-muted);
+}
+
+.tasks-command-center .tcc-progress-trigger {
+  display: block;
+  width: 100%;
+  margin: 10px 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-bar {
+  position: relative;
+  height: 24px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--tcc-border) 40%, transparent);
+}
+
+.tasks-command-center .tcc-bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  display: block;
+  width: var(--target);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--tcc-green), var(--tcc-blue));
+  transform-origin: left;
+  animation: tcc-grow 900ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.tasks-command-center .tcc-bar span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, white 38%, transparent), transparent);
+  animation: tcc-shimmer 2.4s ease-in-out infinite;
+}
+
+.tasks-command-center .tcc-bar em {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 8px;
+  color: var(--text-normal);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(150px, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tasks-command-center .tcc-day {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 210px;
+  padding: 13px;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-day.today {
+  border-color: color-mix(in srgb, var(--tcc-blue) 70%, var(--tcc-border));
+}
+
+.tasks-command-center .tcc-day-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tasks-command-center .tcc-day-top strong {
+  font-size: 15px;
+}
+
+.tasks-command-center .tcc-day-top span,
+.tasks-command-center .tcc-day em {
+  color: var(--tcc-muted);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-day p {
+  min-height: 0;
+  margin: 12px 0 0;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-day-docs {
+  color: var(--text-normal);
+  font-weight: 600;
+}
+
+.tasks-command-center .tcc-heat {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 3px;
+  margin: 9px 0;
+}
+
+.tasks-command-center .tcc-heat span {
+  height: 7px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--tcc-border) 54%, transparent);
+}
+
+.tasks-command-center .tcc-heat span.on {
+  background: linear-gradient(90deg, var(--tcc-green), var(--tcc-blue));
+  animation: tcc-cell 600ms ease both;
+  animation-delay: calc(var(--i) * 18ms);
+}
+
+.tasks-command-center .tcc-week-timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.tasks-command-center .tcc-week-event {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) minmax(220px, .4fr);
+  gap: 14px;
+  align-items: center;
+  padding: 13px;
+  border-left: 4px solid var(--tcc-blue);
+}
+
+.tasks-command-center .tcc-week-event.current {
+  border-left-color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-week-event time {
+  justify-content: center;
+  background: color-mix(in srgb, var(--tcc-blue) 12%, transparent);
+  color: var(--tcc-blue);
+}
+
+.tasks-command-center .tcc-week-event strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.tasks-command-center .tcc-week-event p {
+  margin: 0;
+  color: var(--tcc-muted);
+}
+
+.tasks-command-center .tcc-long-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.tasks-command-center .tcc-long-card {
+  cursor: pointer;
+  padding: 15px;
+}
+
+.tasks-command-center .tcc-long-card > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tasks-command-center .tcc-long-card > div:first-child span {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-long-card strong {
+  font-size: 16px;
+}
+
+.tasks-command-center .tcc-long-card .tcc-bar {
+  margin-top: 10px;
+}
+
+.tasks-command-center .tcc-long-card em {
+  display: block;
+  margin-top: 8px;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-empty {
+  margin: 10px 0;
+  color: var(--tcc-muted);
+}
+
+.tasks-command-center .tcc-detail-shell {
+  padding: 22px;
+}
+
+.tasks-command-center .tcc-detail-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+  padding: 24px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(16px) saturate(1.1);
+  box-shadow: var(--tcc-shadow);
+}
+
+.tasks-command-center .tcc-detail-hero h2 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.tasks-command-center .tcc-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: end;
+}
+
+.tasks-command-center .tcc-detail-actions button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--background-primary) 70%, transparent);
+  color: var(--text-normal);
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(170px, 1fr));
+  gap: 12px;
+  margin: 14px 0 22px;
+}
+
+.tasks-command-center .tcc-detail-section {
+  margin: 22px 0;
+}
+
+.tasks-command-center .tcc-detail-progress {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.tasks-command-center .tcc-number-line {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  padding: 8px 0 8px 28px;
+}
+
+.tasks-command-center .tcc-number-line::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 22px;
+  bottom: 22px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--tcc-blue), var(--tcc-green));
+}
+
+.tasks-command-center .tcc-line-event {
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px 84px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 82%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.tasks-command-center .tcc-line-event::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--background-primary);
+  border-radius: 50%;
+  background: var(--tcc-blue);
+  transform: translateY(-50%);
+}
+
+.tasks-command-center .tcc-line-event.done::before {
+  background: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-line-event.due::before {
+  background: var(--tcc-red);
+}
+
+.tasks-command-center .tcc-line-event.report::before {
+  background: var(--tcc-violet);
+}
+
+.tasks-command-center .tcc-line-event time,
+.tasks-command-center .tcc-line-event span {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-line-event span {
+  display: inline-flex;
+  justify-content: center;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tcc-blue) 12%, transparent);
+}
+
+.tasks-command-center .tcc-line-event p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-line-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tcc-green) 12%, transparent);
+}
+
+.tasks-command-center .tcc-line-progress strong {
+  color: var(--tcc-green);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-line-progress em {
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+@keyframes tcc-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tcc-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes tcc-shimmer {
+  0% { transform: translateX(-100%); }
+  55%, 100% { transform: translateX(100%); }
+}
+
+@keyframes tcc-alert {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--tcc-red) 0%, transparent), 0 12px 34px color-mix(in srgb, var(--tcc-red) 10%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--tcc-red) 12%, transparent), 0 12px 34px color-mix(in srgb, var(--tcc-red) 16%, transparent);
+  }
+}
+
+@keyframes tcc-cell {
+  from { opacity: 0; transform: scaleX(.35); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes tcc-fade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tcc-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes tcc-bg-drift {
+  from {
+    background-position: center top;
+    transform: scale(1.02);
+  }
+  to {
+    background-position: center 46%;
+    transform: scale(1.055);
+  }
+}
+
+@media (max-width: 1300px) {
+  .tasks-command-center .tcc-hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .tasks-command-center .tcc-metrics,
+  .tasks-command-center .tcc-rings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tasks-command-center .tcc-week-event {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-command-center .tcc-detail-hero,
+  .tasks-command-center .tcc-line-event,
+  .tasks-command-center .tcc-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .tasks-command-center .tcc-metrics,
+  .tasks-command-center .tcc-rings {
+    grid-template-columns: 1fr;
+  }
+}
