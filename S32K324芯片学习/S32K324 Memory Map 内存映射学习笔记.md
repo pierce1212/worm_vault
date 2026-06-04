@@ -28,7 +28,7 @@ links:
 
 > 这篇笔记继续按照 `[[S32K324 Clocking 时钟系统学习笔记]]` 的写法：先从 S32K324 Reference Manual 的概念理解 Memory Map，再落到 EB tresos / MCAL 的 Mcu 配置，最后重点结合当前 `E:/git_project/S32K324_TEL9471` 工程的 linker、startup、MPU、标定数据和版本信息分区说明。
 >
-> 对嵌入式项目来说，Memory Map 不是“地址表”这么简单。它决定了：程序从哪里启动、代码烧到哪里、变量运行时放在哪里、初始化数据怎么从 Flash 拷贝到 RAM、哪些 RAM 可缓存/不可缓存、Bootloader 怎么判断 APP 有效、诊断 0x23 服务能读到哪些调试信息、标定数据如何从 ROM 搬到 RAM。
+> **对嵌入式项目来说，Memory Map 不是“地址表”这么简单。它决定了：程序从哪里启动、代码烧到哪里、变量运行时放在哪里、初始化数据怎么从 Flash 拷贝到 RAM、哪些 RAM 可缓存/不可缓存、Bootloader 怎么判断 APP 有效、诊断 0x23 服务能读到哪些调试信息、标定数据如何从 ROM 搬到 RAM。**
 
 ---
 

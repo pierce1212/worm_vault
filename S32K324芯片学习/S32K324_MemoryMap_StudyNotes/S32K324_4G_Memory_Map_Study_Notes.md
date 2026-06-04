@@ -1,6 +1,7 @@
 # S32K324 4GB 地址空间 Memory Map 学习笔记
 
 > 重新生成版，旧版中文曾被写成问号，本文件已按 UTF-8 中文重写。目标是把 S32K324 的 32 位 4GB 地址空间讲清楚，并结合当前工程的 linker、Boot/FBL、Mem_43_INFLS、Fee/NvM 相关配置一起理解。
+![](assets/S32K324_4G_Memory_Map_Study_Notes/file-20260604163531924.png)
 
 ## 0. 资料来源和阅读方法
 
@@ -34,19 +35,19 @@ S32K324 是 Cortex-M7，地址是 32 位，所以 CPU 理论上能表达 `0x0000
 
 SRAM 的全称是 Static Random Access Memory，中文常说静态随机存储器。它的基本存储单元是触发器，简单理解就是几个晶体管互相“拽着”保持一个 0 或 1。只要供电不断，它就能保持数据，不需要周期性刷新。
 
-DRAM 的全称是 Dynamic Random Access Memory，中文常说动态随机存储器。它的基本存储单元更像一个小电容，电荷会慢慢漏掉，所以控制器要不断刷新。DRAM 的优势是密度高、容量大、成本低，常见于 PC 内存和高端 SoC 外挂内存。
+**DRAM 的全称是 Dynamic Random Access Memory，中文常说动态随机存储器。它的基本存储单元更像一个小电容，电荷会慢慢漏掉，所以控制器要不断刷新。DRAM 的优势是密度高、容量大、成本低，常见于 PC 内存和高端 SoC 外挂内存。**
 
 放到 S32K324 里看：
 
-| 对比项 | SRAM | DRAM |
-| --- | --- | --- |
-| 存储结构 | 触发器保持状态 | 电容存电荷 |
-| 是否刷新 | 不需要刷新 | 需要刷新 |
-| 延迟确定性 | 很好，适合实时控制 | 受刷新和控制器影响 |
-| 面积和成本 | 单 bit 面积大，容量通常小 | 单 bit 面积小，容量容易做大 |
+| 对比项            | SRAM                             | DRAM                       |
+| -------------- | -------------------------------- | -------------------------- |
+| 存储结构           | 触发器保持状态                          | 电容存电荷                      |
+| 是否刷新           | 不需要刷新                            | 需要刷新                       |
+| 延迟确定性          | **==很好，适合实时控制==**                | ==**受刷新和控制器影响**==          |
+| 面积和成本          | 单 bit 面积大，容量通常小                  | 单 bit 面积小，容量容易做大           |
 | 在 S32K324 中的角色 | TCM 和 System SRAM 都属于片上 SRAM 类存储 | S32K324 片内没有把 DRAM 作为主 RAM |
 
-所以汽车 MCU 喜欢 SRAM，是因为它确定、快、结构简单，适合中断、控制环、DMA 缓冲、栈、全局变量这些实时软件场景。
+**所以汽车 MCU 喜欢 SRAM，是因为它确定、快、结构简单，适合中断、控制环、DMA 缓冲、栈、全局变量这些实时软件场景。**
 
 ### 1.3 Flash 和 RAM 的根本差异
 
@@ -56,68 +57,98 @@ RAM 是易失存储，断电后内容丢失。代码运行时的栈、`.data`、
 
 Flash 擦写有两个关键限制：
 
-- 擦除粒度比写入粒度大。本工程 DFlash 的 `Mem_43_INFLS_Cfg.c` 配置里，sector size 是 `8192` 字节。
-- 写入通常只能把 bit 从 1 写成 0，想从 0 回到 1 要先擦除整个 sector。
+- **擦除粒度比写入粒度大。本工程 DFlash 的 `Mem_43_INFLS_Cfg.c` 配置里，sector size 是 `8192` 字节**。
+- **写入通常只能把 bit 从 1 写成 0，想从 0 回到 1 要先擦除整个 sector**。
 
-这就是为什么 NvM/Fee 不会像普通 RAM 一样随便改一个字节，而是要做块管理、磨损均衡、状态标记。
+**这就是为什么 NvM/Fee 不会像普通 RAM 一样随便改一个字节，而是要做块管理、磨损均衡、状态标记。**
 
 ### 1.4 TCM 是“贴在 CPU 身边的小 SRAM”
 
-TCM 是 Tightly Coupled Memory，直译是紧耦合存储器。它也是 SRAM 类存储，但和普通 System SRAM 的连接方式不同。TCM 贴近 Cortex-M7 核，走专门的 TCM 接口，访问延迟稳定，适合放启动代码、关键中断、关键数据、栈或者实时控制变量。
+ITCM = **Instruction Tightly Coupled Memory**  
+DTCM = **Data Tightly Coupled Memory**
+区别：
 
-S32K324 有两个 Cortex-M7 核，所以 Excel 里会看到 `ITCM_0`、`ITCM_1`、`DTCM_0`、`DTCM_1`。注意它们的 local alias 都写成类似 `0x00000000` 或 `0x20000000`，这是从各自 CPU 核的本地视角看过去的地址。系统里还有 backdoor 地址，例如 `0x11000000` 和 `0x21000000`，方便通过系统总线访问某个核的 TCM。
+| 项目 | ITCM | DTCM |
+|---|---|---|
+| 用途 | 放代码/指令 | 放数据/栈/变量 |
+| 访问者 | CPU 取指 | CPU load/store |
+| 典型内容 | 中断函数、实时控制代码、启动代码 | 栈、实时变量、DMA 不访问的数据 |
+| 延迟 | 很低，确定性强 | 很低，确定性强 |
+| Cache 影响 | 通常不走 I-cache | 通常不走 D-cache |
+| 总线 | 指令 TCM 接口 | 数据 TCM 接口 |
+
+一句话：  
+**ITCM 给 CPU 快速取代码，DTCM 给 CPU 快速读写数据。**
+
+注意点：  
+==**很多 MCU 上 DMA/其他总线主机不能访问 TCM，或访问受限。所以 DMA buffer 通常别放 DTCM，放 SRAM/AXI SRAM 更稳**。
+
+TCM 是 Tightly Coupled Memory，直译是紧耦合存储器。它也是 SRAM 类存储，但和普通 System SRAM 的连接方式不同。TCM 贴近 Cortex-M7 核，走专门的 TCM 接口，访问延迟稳定，**适合放启动代码、关键中断、关键数据、栈或者实时控制变量**。
+
+S32K324 有两个 Cortex-M7 核，所以 Excel 里会看到 `ITCM_0`、`ITCM_1`、`DTCM_0`、`DTCM_1`。注意它们的 local alias 都写成类似 `0x00000000` 或 `0x20000000`，**这是从各自 CPU 核的本地视角看过去的地址。系统里还有 backdoor 地址，例如 `0x11000000` 和 `0x21000000`**，**方便通过系统总线访问某个核的 TCM。**
 
 ![Reference manual TCM and SRAM notes](assets/rm_ch3_tcm_sram_notes.png)
 
 ### 1.5 AIPS 是外设寄存器窗口，不是内存条
+```
+AIPS = **AHB-to-I P bridge / Advanced IP bus System**，在 NXP S32K3 里常见。
+作用：把 Cortex-M7 / DMA / 总线主机访问，桥接到外设寄存器区，比如 MC_ME、MC_CGM、SIUL2、FlexCAN、LPUART 等。
+- **地址解码**：CPU 访问某外设地址，AIPS 路由到对应外设。
+- **访问保护**：可限制 master 权限、特权/用户模式、读写权限。
+- **外设时钟/复位后访问通道**：外设挂在 AIPS 下，通过它被总线访问。
+- **错误响应**：非法地址、无权限访问、外设未响应时，AIPS 可返回 bus error。
+  
+  **AIPS 是 MCU 内部“外设寄存器总线网关”。CPU 不直接摸外设，先过 AIPS。**
+```
+
 
 `0x40000000` 附近的 AIPS 区域看起来也是地址，但它不是 RAM。比如 `0x400A0000` 是 ADC0 的寄存器窗口，读写这里是在读写 ADC 模块的控制寄存器和状态寄存器。
 
-这种区域有副作用。写一个 bit 可能启动转换、清中断、解锁寄存器、喂狗、触发复位。它不能按普通变量看待，也不应该被 cache。当前工程在 `system.c` 里把 AIPS 和 PPB 配成 Strongly Ordered、non-cacheable、execute never，这正是为了避免 CPU 乱序、预取、缓存造成外设访问语义出错。
+这种区域有副作用。写一个 bit 可能启动转换、清中断、解锁寄存器、喂狗、触发复位。它不能按普通变量看待，也不应该被 cache。**当前工程在 `system.c` 里把 AIPS 和 PPB 配成 Strongly Ordered、non-cacheable、execute never，这正是为了避免 CPU 乱序、预取、缓存造成外设访问语义出错。**
 
 ### 1.6 PPB 是 Cortex-M7 自己的私有外设区
 
-PPB 是 Private Peripheral Bus，地址是 `0xE0000000-0xE00FFFFF`。它不是 NXP AIPS 外设，而是 Arm Cortex-M7 核心自带的系统控制区，例如 NVIC、SysTick、SCB、MPU、DWT、ITM。OS 里的中断开关、向量表地址 `VTOR`、SysTick，都在这里。
+PPB 是 Private Peripheral Bus，地址是 `0xE0000000-0xE00FFFFF`。它不是 NXP AIPS 外设，**而是 Arm Cortex-M7 核心自带的系统控制区**，例如 NVIC、SysTick、SCB、MPU、DWT、ITM。OS 里的中断开关、向量表地址 `VTOR`、SysTick，都在这里。
 
 ![Reference manual PPB memory map](assets/rm_ch3_ppb_map.png)
 
-## 2. S32K324 4GB 总地址地图
+## 2. ==S32K324 4GB 总地址地图==
 
 这张表是最重要的。它把 4GB 地址空间按大块分开。标成保留的区域，不代表无意义，而是对 S32K324 这个具体料号来说没有实现可访问资源，或者留给同系列更大芯片、内部测试、未来扩展。
 
-| 地址范围 | 块名 | 解释和用途 |
-| --- | --- | --- |
-| `0x00000000-0x0000FFFF` | ITCM local alias | 每个 Cortex-M7 核本地看到的指令 TCM 窗口。Excel 最大窗口 64KB，S32K324 每核实现 32KB。当前 linker 的 `int_itcm` 用 `0x00000000-0x00007FFF`。 |
-| `0x00010000-0x003FFFFF` | Reserved | S32K324 未实现普通存储。不要把代码或变量放到这里。 |
-| `0x00400000-0x007FFFFF` | Program Flash | 4MB 代码 Flash。当前工程把这里切成 BM、BOOT、App、共享代码、标定 Flash 等区域。 |
-| `0x00800000-0x0FFFFFFF` | Reserved | 对 S32K324 没有实现 PFlash。更大派生型号可能有不同布局。 |
-| `0x10000000-0x1001FFFF` | Data Flash implemented | S32K324 实际实现的 128KB DFlash。当前 `C40_IP_DATA_BLOCK_END_ADDR` 也是 `0x1001FFFF`。 |
-| `0x10020000-0x1003FFFF` | DFlash nominal upper window | Excel 行最大窗口到 `0x1003FFFF`，但 S32K324 size 是 128KB，所以这一半不作为本芯片已实现 DFlash 使用。 |
-| `0x10040000-0x10FFFFFF` | Reserved | DFlash 后面的空洞。 |
-| `0x11000000-0x11007FFF` | ITCM0 backdoor implemented | 通过系统总线访问 CM7_0 的 ITCM。当前 linker `int_itcm0_bd` 使用 32KB。 |
-| `0x11008000-0x113FFFFF` | Reserved | ITCM0 backdoor 最大窗口剩余部分以及后续空洞，S32K324 不使用。 |
-| `0x11400000-0x11407FFF` | ITCM1 backdoor implemented | 通过系统总线访问 CM7_1 的 ITCM。当前 linker `int_itcm1_bd` 使用 32KB。 |
-| `0x11408000-0x1AFFFFFF` | Reserved | ITCM1 backdoor 之后到 UTEST 之前的空洞。 |
-| `0x1B000000-0x1B001FFF` | UTEST Flash | 8KB 用户测试和工厂配置类 Flash 区域，通常不要当普通应用 Flash 使用。 |
-| `0x1B002000-0x1FFFFFFF` | Reserved | UTEST 后的空洞。 |
-| `0x20000000-0x2000FFFF` | DTCM local alias implemented | 每个核本地的数据 TCM。Excel 最大窗口 128KB，S32K324 每核实现 64KB。当前 linker `int_dtcm` 使用 64KB。 |
-| `0x20010000-0x203FFFFF` | Reserved | DTCM local alias 未实现的上半部分和后续空洞。 |
-| `0x20400000-0x2044FFFF` | System SRAM | 320KB 系统 SRAM，分 SRAM0 和 SRAM1。CPU、DMA、外设都可通过系统总线访问。当前工程把标定 RAM、普通 SRAM、Magic Flag、双核栈都放在这里。 |
-| `0x20450000-0x20FFFFFF` | Reserved | System SRAM 结束后的空洞。 |
-| `0x21000000-0x2100FFFF` | DTCM0 backdoor implemented | 系统总线视角访问 CM7_0 DTCM。当前 linker `int_dtcm0_bd` 使用 64KB。 |
-| `0x21010000-0x213FFFFF` | Reserved | DTCM0 backdoor 后面的空洞。 |
-| `0x21400000-0x2140FFFF` | DTCM1 backdoor implemented | 系统总线视角访问 CM7_1 DTCM。当前 linker `int_dtcm1_bd` 使用 64KB。 |
-| `0x21410000-0x3FFFFFFF` | Reserved | RAM 和外设区之间的大空洞。 |
-| `0x40000000-0x401FFFFF` | AIPS0 | 外设寄存器桥 0。S32K324 这里主要放 TRGMUX、BCTU、eMIOS、LCU、ADC、PIT、MU_2。 |
-| `0x40200000-0x403FFFFF` | AIPS1 | 外设寄存器桥 1。这里是系统控制、DMA、Debug、Flash 控制、时钟复位、GPIO 包装、CAN、UART、SPI、I2C、安全模块等主要区域。 |
-| `0x40400000-0x405FFFFF` | AIPS2 | 外设寄存器桥 2。这里有 TCM/eDMA XBIC、eDMA TCD12-31、PRAM1、EMAC、LPUART8-15、LPSPI4-5、QuadSPI 控制器等。 |
-| `0x40600000-0x66FFFFFF` | Reserved | 当前 `system.c` 有 AIPS3 的通用 MPU 区域，但 S32K324 的 Excel memory map 只实现 AIPS0、AIPS1、AIPS2。 |
-| `0x67000000-0x670003FF` | QuadSPI Rx buffer | QuadSPI 接收缓冲窗口，只有 1KB。它是控制器内部 buffer 的地址映射，不是外部 Flash 主窗口。 |
-| `0x67000400-0x67FFFFFF` | Reserved | QuadSPI Rx buffer 后的空洞。 |
-| `0x68000000-0x6FFFFFFF` | QuadSPI AHB | 128MB 外部 QuadSPI AHB 映射窗口。外部串行 Flash 可以像内存一样被读，适合资源或外部 XIP 场景。 |
-| `0x70000000-0xDFFFFFFF` | Reserved | S32K324 未实现的大段地址。 |
-| `0xE0000000-0xE00FFFFF` | PPB | Cortex-M7 私有外设区，含 NVIC、SCB、SysTick、MPU、DWT 等。 |
-| `0xE0100000-0xFFFFFFFF` | Reserved | PPB 之后的系统保留区域。 |
+| 地址范围                    | 块名                           | 解释和用途                                                                                                            |
+| ----------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `0x00000000-0x0000FFFF` | ITCM local alias             | 每个 Cortex-M7 核本地看到的指令 TCM 窗口。Excel 最大窗口 64KB，S32K324 每核实现 32KB。当前 linker 的 `int_itcm` 用 `0x00000000-0x00007FFF`。 |
+| `0x00010000-0x003FFFFF` | Reserved                     | S32K324 未实现普通存储。不要把代码或变量放到这里。                                                                                    |
+| `0x00400000-0x007FFFFF` | Program Flash                | 4MB 代码 Flash。当前工程把这里切成 BM、BOOT、App、共享代码、标定 Flash 等区域。                                                            |
+| `0x00800000-0x0FFFFFFF` | Reserved                     | 对 S32K324 没有实现 PFlash。更大派生型号可能有不同布局。                                                                             |
+| `0x10000000-0x1001FFFF` | Data Flash implemented       | S32K324 实际实现的 128KB DFlash。当前 `C40_IP_DATA_BLOCK_END_ADDR` 也是 `0x1001FFFF`。                                      |
+| `0x10020000-0x1003FFFF` | DFlash nominal upper window  | Excel 行最大窗口到 `0x1003FFFF`，但 S32K324 size 是 128KB，所以这一半不作为本芯片已实现 DFlash 使用。                                       |
+| `0x10040000-0x10FFFFFF` | Reserved                     | DFlash 后面的空洞。                                                                                                    |
+| `0x11000000-0x11007FFF` | ITCM0 backdoor implemented   | 通过系统总线访问 CM7_0 的 ITCM。当前 linker `int_itcm0_bd` 使用 32KB。                                                          |
+| `0x11008000-0x113FFFFF` | Reserved                     | ITCM0 backdoor 最大窗口剩余部分以及后续空洞，S32K324 不使用。                                                                       |
+| `0x11400000-0x11407FFF` | ITCM1 backdoor implemented   | 通过系统总线访问 CM7_1 的 ITCM。当前 linker `int_itcm1_bd` 使用 32KB。                                                          |
+| `0x11408000-0x1AFFFFFF` | Reserved                     | ITCM1 backdoor 之后到 UTEST 之前的空洞。                                                                                  |
+| `0x1B000000-0x1B001FFF` | UTEST Flash                  | 8KB 用户测试和工厂配置类 Flash 区域，通常不要当普通应用 Flash 使用。                                                                      |
+| `0x1B002000-0x1FFFFFFF` | Reserved                     | UTEST 后的空洞。                                                                                                      |
+| `0x20000000-0x2000FFFF` | DTCM local alias implemented | 每个核本地的数据 TCM。Excel 最大窗口 128KB，S32K324 每核实现 64KB。当前 linker `int_dtcm` 使用 64KB。                                    |
+| `0x20010000-0x203FFFFF` | Reserved                     | DTCM local alias 未实现的上半部分和后续空洞。                                                                                  |
+| `0x20400000-0x2044FFFF` | System SRAM                  | 320KB 系统 SRAM，分 SRAM0 和 SRAM1。CPU、DMA、外设都可通过系统总线访问。当前工程把标定 RAM、普通 SRAM、Magic Flag、双核栈都放在这里。                      |
+| `0x20450000-0x20FFFFFF` | Reserved                     | System SRAM 结束后的空洞。                                                                                              |
+| `0x21000000-0x2100FFFF` | DTCM0 backdoor implemented   | 系统总线视角访问 CM7_0 DTCM。当前 linker `int_dtcm0_bd` 使用 64KB。                                                            |
+| `0x21010000-0x213FFFFF` | Reserved                     | DTCM0 backdoor 后面的空洞。                                                                                            |
+| `0x21400000-0x2140FFFF` | DTCM1 backdoor implemented   | 系统总线视角访问 CM7_1 DTCM。当前 linker `int_dtcm1_bd` 使用 64KB。                                                            |
+| `0x21410000-0x3FFFFFFF` | Reserved                     | RAM 和外设区之间的大空洞。                                                                                                  |
+| `0x40000000-0x401FFFFF` | AIPS0                        | 外设寄存器桥 0。S32K324 这里主要放 TRGMUX、BCTU、eMIOS、LCU、ADC、PIT、MU_2。                                                       |
+| `0x40200000-0x403FFFFF` | AIPS1                        | 外设寄存器桥 1。这里是系统控制、DMA、Debug、Flash 控制、时钟复位、GPIO 包装、CAN、UART、SPI、I2C、安全模块等主要区域。                                     |
+| `0x40400000-0x405FFFFF` | AIPS2                        | 外设寄存器桥 2。这里有 TCM/eDMA XBIC、eDMA TCD12-31、PRAM1、EMAC、LPUART8-15、LPSPI4-5、QuadSPI 控制器等。                            |
+| `0x40600000-0x66FFFFFF` | Reserved                     | 当前 `system.c` 有 AIPS3 的通用 MPU 区域，但 S32K324 的 Excel memory map 只实现 AIPS0、AIPS1、AIPS2。                             |
+| `0x67000000-0x670003FF` | QuadSPI Rx buffer            | QuadSPI 接收缓冲窗口，只有 1KB。它是控制器内部 buffer 的地址映射，不是外部 Flash 主窗口。                                                       |
+| `0x67000400-0x67FFFFFF` | Reserved                     | QuadSPI Rx buffer 后的空洞。                                                                                          |
+| `0x68000000-0x6FFFFFFF` | QuadSPI AHB                  | 128MB 外部 QuadSPI AHB 映射窗口。外部串行 Flash 可以像内存一样被读，适合资源或外部 XIP 场景。                                                   |
+| `0x70000000-0xDFFFFFFF` | Reserved                     | S32K324 未实现的大段地址。                                                                                                |
+| `0xE0000000-0xE00FFFFF` | PPB                          | Cortex-M7 私有外设区，含 NVIC、SCB、SysTick、MPU、DWT 等。                                                                    |
+| `0xE0100000-0xFFFFFFFF` | Reserved                     | PPB 之后的系统保留区域。                                                                                                   |
 
 ## 3. NXP Excel 中的 S32K324 memory rows
 
