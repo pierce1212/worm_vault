@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/S32K324_4G_Memory_Map_Study_Notes.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 480.5
+    "width": 480.5,
+    "collapsed": true
   },
   "right": {
     "id": "094bbec1d5c3751a",
@@ -222,11 +223,16 @@
   },
   "active": "f47f025e390c2053",
   "lastOpenFiles": [
+    "S32K324芯片学习/S32K324_Bus_StudyNotes/S32K324_Bus_Interconnect_Study_Notes.md",
+    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/S32K324_4G_Memory_Map_Study_Notes.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "task_outline/任务详情.md",
+    "ECAS_Heating_Architecture_Work/old_architecture_extracted.txt",
+    "ECAS_Heating_Architecture_Work",
     "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/s32k324_address_space_project.svg",
     "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/rm_ch3_tcm_sram_notes.png",
     "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/rm_ch3_ppb_map.png",
     "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/rm_ch3_memory_map_intro.png",
-    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/S32K324_4G_Memory_Map_Study_Notes.md",
     "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets",
     "S32K324芯片学习/S32K324_MemoryMap_StudyNotes",
     "S32K324芯片学习/S32K324_Bus_StudyNotes/assets/rm_p889_pramc_block_diagram.png",
@@ -235,16 +241,12 @@
     "S32K324芯片学习/S32K324_Bus_StudyNotes/assets/rm_p672_xrdc_mrc_pac.png",
     "S32K324芯片学习/S32K324_Bus_StudyNotes/assets/rm_p670_xrdc_mdac.png",
     "S32K324芯片学习/S32K324_Bus_StudyNotes/assets/rm_p650_xbic_s32k324_config_part2.png",
-    "S32K324芯片学习/S32K324_Bus_StudyNotes/assets/rm_p649_xbic_s32k324_config_part1.png",
     "S32K324芯片学习/S32K324_Bus_StudyNotes/assets",
-    "S32K324芯片学习/S32K324_Bus_StudyNotes/S32K324_Bus_Interconnect_Study_Notes.md",
     "S32K324芯片学习/S32K324_Bus_StudyNotes/generate_assets.py",
     "S32K324芯片学习/S32K324_Bus_StudyNotes",
     "S32K324芯片学习/S32K324 Clocking 时钟系统学习笔记.md",
     "S32K324芯片学习/S32K324 Memory Map 内存映射学习笔记.md",
     "task_outline/工作任务.md",
-    "task_outline/任务详情.md",
-    "task_outline/obsidian_tasks_command_center.md",
     "daliy record/2026.5.22CANOPEN 协议.md",
     "daliy record/2026.06.01 三腔阀诊断开发.md",
     "daliy record/2026-05-27.md",
@@ -260,8 +262,6 @@
     "S32K324芯片学习/Reset and boot/S32K3xx_Chapter33_MC_RGM_Notes.md",
     "daliy record/assets/2026.06.03 功能安全-REG_PORT XRDC PMC",
     "daliy record/assets/2026.06.03 功能安全-REG_PORT XRDC",
-    "S32K324芯片学习/Reset and boot/assets/S32K3xx_Chapter33_MC_RGM_Notes",
-    "S32K324芯片学习/Reset and boot/assets",
     "00_Inbox/灵感/灵感收集箱.md",
     "daliy record/2026-05-26三腔驱动开发问题总结.md",
     "S32K324芯片学习/core and System/S32K3xx_Chapter19_XRDC_Notes.md",
