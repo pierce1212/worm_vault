@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="760" viewBox="0 0 1320 760">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#344054"/>
+    </marker>
+    <style>
+      .title{font:700 26px Arial, sans-serif; fill:#111827}
+      .sub{font:400 15px Arial, sans-serif; fill:#475467}
+      .box{fill:#ffffff;stroke:#344054;stroke-width:2;rx:8}
+      .core{fill:#e7f0ff;stroke:#175cd3}
+      .mem{fill:#ecfdf3;stroke:#067647}
+      .peri{fill:#fff7e6;stroke:#b54708}
+      .guard{fill:#fef3f2;stroke:#b42318}
+      .bus{fill:#f2f4f7;stroke:#475467}
+      .label{font:700 16px Arial, sans-serif; fill:#101828}
+      .small{font:400 13px Arial, sans-serif; fill:#344054}
+      .arrow{stroke:#344054;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .thin{stroke:#667085;stroke-width:1.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <text x="36" y="44" class="title">S32K324 内部总线大图：谁发起访问，谁负责转发，谁接收访问</text>
+  <text x="36" y="72" class="sub">把它想成芯片内部的立交桥：Core/eDMA/HSE/EMAC 是车辆，AXBS 是主干立交，AIPS 是去外设寄存器的匝道，PFLASH/PRAMC/TCM 是目的地。</text>
+
+  <rect x="42" y="110" width="250" height="170" class="box core"/>
+  <text x="64" y="145" class="label">CM7_0 / CM7_1</text>
+  <text x="64" y="176" class="small">AXI/AXIM：高带宽取指/数据</text>
+  <text x="64" y="200" class="small">AHBP：外设访问路径</text>
+  <text x="64" y="224" class="small">PPB：NVIC/SCB/MPU/MCM</text>
+  <text x="64" y="248" class="small">TCM local：零等待私有 SRAM</text>
+
+  <rect x="42" y="328" width="250" height="132" class="box core"/>
+  <text x="64" y="363" class="label">eDMA3</text>
+  <text x="64" y="394" class="small">自己成为 AHB master</text>
+  <text x="64" y="418" class="small">通过 DMAMUX 接收外设请求</text>
+  <text x="64" y="442" class="small">搬运 SRAM/Flash/外设数据</text>
+
+  <rect x="42" y="504" width="250" height="108" class="box core"/>
+  <text x="64" y="539" class="label">HSE-B / EMAC</text>
+  <text x="64" y="570" class="small">非 CPU master</text>
+  <text x="64" y="594" class="small">同样参与 AXBS 仲裁</text>
+
+  <rect x="384" y="138" width="300" height="282" class="box bus"/>
+  <text x="408" y="174" class="label">AXBS_0 Main Crossbar</text>
+  <text x="408" y="205" class="small">S0/S1/S4：PFlash ports</text>
+  <text x="408" y="229" class="small">S2/S6：PRAM0/PRAM1(system SRAM)</text>
+  <text x="408" y="253" class="small">S3：Cortex-M7 TCM backdoor</text>
+  <text x="408" y="277" class="small">S5：QuadSPI AHB</text>
+  <text x="408" y="315" class="small">不同 master 访问不同 slave 可并行；</text>
+  <text x="408" y="339" class="small">撞到同一 slave 时按每个 slave 的仲裁策略排队。</text>
+  <rect x="430" y="360" width="212" height="38" class="guard"/>
+  <text x="456" y="384" class="small">XBIC_0 监视主 AXBS</text>
+
+  <rect x="760" y="112" width="250" height="126" class="box mem"/>
+  <text x="784" y="146" class="label">PFLASH / DFLASH</text>
+  <text x="784" y="177" class="small">非易失存储，XIP 取指</text>
+  <text x="784" y="201" class="small">PFLASH 控制器在 AIPS 可配置</text>
+
+  <rect x="760" y="270" width="250" height="126" class="box mem"/>
+  <text x="784" y="304" class="label">PRAMC + System SRAM</text>
+  <text x="784" y="335" class="small">64-bit AHB + ECC</text>
+  <text x="784" y="359" class="small">CPU/DMA/EMAC 都可访问</text>
+
+  <rect x="760" y="428" width="250" height="126" class="box mem"/>
+  <text x="784" y="462" class="label">TCM Backdoor</text>
+  <text x="784" y="493" class="small">别的 master 访问某 core TCM</text>
+  <text x="784" y="517" class="small">和 core local TCM 路径不同</text>
+
+  <rect x="384" y="488" width="300" height="124" class="box bus"/>
+  <text x="408" y="524" class="label">AXBS_1 Peripheral Crossbar</text>
+  <text x="408" y="555" class="small">连接 AHBP/eDMA/HSE 到 AIPS0/1/2</text>
+  <text x="408" y="579" class="small">访问外设寄存器时走这里</text>
+  <rect x="430" y="596" width="212" height="28" class="guard"/>
+  <text x="462" y="616" class="small">XBIC_1 监视外设 AXBS</text>
+
+  <rect x="760" y="604" width="250" height="104" class="box peri"/>
+  <text x="784" y="638" class="label">AIPS_Lite 0/1/2</text>
+  <text x="784" y="669" class="small">0x4000_0000-0x405F_FFFF</text>
+  <text x="784" y="693" class="small">外设寄存器桥，强顺序/不可缓存</text>
+
+  <rect x="1084" y="166" width="230" height="164" class="box guard"/>
+  <text x="1106" y="200" class="label">XRDC</text>
+  <text x="1106" y="231" class="small">MDAC：给 master 分 domain</text>
+  <text x="1106" y="255" class="small">MRC：保护 Flash/SRAM/QSPI</text>
+  <text x="1106" y="279" class="small">PAC：保护 AIPS 外设</text>
+  <text x="1106" y="303" class="small">本项目 RM 中未启用配置</text>
+
+  <rect x="1084" y="390" width="230" height="126" class="box guard"/>
+  <text x="1106" y="424" class="label">XBIC / EDC</text>
+  <text x="1106" y="455" class="small">监测地址/写数据/读反馈完整性</text>
+  <text x="1106" y="479" class="small">错误可上报 FCCU</text>
+  <text x="1106" y="503" class="small">本项目 RM 中启用</text>
+
+  <path d="M292 184 C335 184 342 220 384 220" class="arrow"/>
+  <path d="M292 390 C335 390 342 334 384 334" class="arrow"/>
+  <path d="M292 558 C335 558 342 390 384 390" class="arrow"/>
+  <path d="M684 196 C720 196 724 174 760 174" class="arrow"/>
+  <path d="M684 298 C720 298 724 333 760 333" class="arrow"/>
+  <path d="M684 374 C720 374 724 491 760 491" class="arrow"/>
+  <path d="M684 552 C720 552 724 656 760 656" class="arrow"/>
+  <path d="M1010 304 C1040 304 1050 262 1084 262" class="thin"/>
+  <path d="M1010 452 C1040 452 1050 452 1084 452" class="thin"/>
+</svg>

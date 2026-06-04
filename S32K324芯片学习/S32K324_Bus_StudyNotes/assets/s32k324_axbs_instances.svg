@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="690" viewBox="0 0 1280 690">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#344054"/></marker>
+    <style>
+      .title{font:700 25px Arial, sans-serif;fill:#111827}.sub{font:400 14px Arial, sans-serif;fill:#475467}
+      .bus{fill:#f2f4f7;stroke:#475467;stroke-width:2;rx:8}.master{fill:#e7f0ff;stroke:#175cd3;stroke-width:2;rx:8}
+      .slave{fill:#ecfdf3;stroke:#067647;stroke-width:2;rx:8}.guard{fill:#fef3f2;stroke:#b42318;stroke-width:2;rx:8}
+      .label{font:700 15px Arial, sans-serif;fill:#101828}.small{font:400 12.5px Arial, sans-serif;fill:#344054}
+      .arrow{stroke:#344054;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <text x="34" y="42" class="title">S32K324 的 AXBS 实例：不是一座桥，而是一组互相连接的桥</text>
+  <text x="34" y="70" class="sub">AXBS_0 是主干；AXBS_1 管外设；AXBS_2 让 eDMA 同时去主干/外设；AXBS_3 是 TCM backdoor；AXBS_4 给 HSE_B 接入主干/外设。</text>
+  <rect x="448" y="108" width="270" height="206" class="bus"/><text x="470" y="142" class="label">AXBS_0 Main</text><text x="470" y="172" class="small">M0 CM7_0 AHBM</text><text x="470" y="196" class="small">M1 AXBS_2 S0</text><text x="470" y="220" class="small">M2 HSE_B</text><text x="470" y="244" class="small">M3 EMAC</text><text x="470" y="268" class="small">M4 CM7_1 AHBM</text><text x="470" y="292" class="small">Slaves: Flash0/1/2, PRAM0/1, TCM, QSPI</text>
+  <rect x="448" y="388" width="270" height="166" class="bus"/><text x="470" y="422" class="label">AXBS_1 Peripheral</text><text x="470" y="452" class="small">M0 CM7_0 AHBP</text><text x="470" y="476" class="small">M1 AXBS_2 S1</text><text x="470" y="500" class="small">M2 HSE_B</text><text x="470" y="524" class="small">M3 CM7_1 AHBP</text><text x="470" y="548" class="small">Slaves: AIPS0/AIPS1/AIPS2</text>
+  <rect x="106" y="250" width="208" height="116" class="master"/><text x="128" y="284" class="label">AXBS_2 eDMA</text><text x="128" y="314" class="small">M0 eDMA</text><text x="128" y="338" class="small">S0 -> AXBS_0</text><text x="128" y="362" class="small">S1 -> AXBS_1</text>
+  <rect x="860" y="178" width="218" height="116" class="bus"/><text x="882" y="212" class="label">AXBS_3 TCM</text><text x="882" y="242" class="small">M0 AXBS_0 S3</text><text x="882" y="266" class="small">S0 CM7_0 TCM</text><text x="882" y="290" class="small">S1 CM7_1 TCM</text>
+  <rect x="860" y="404" width="218" height="116" class="bus"/><text x="882" y="438" class="label">AXBS_4 HSE</text><text x="882" y="468" class="small">M0 HSE_B</text><text x="882" y="492" class="small">S0 -> AXBS_0 M2</text><text x="882" y="516" class="small">S1 -> AXBS_1 M2</text>
+  <rect x="1120" y="178" width="200" height="116" class="guard"/><text x="1142" y="212" class="label">XBIC_3</text><text x="1142" y="242" class="small">监测 TCM AXBS</text><text x="1142" y="266" class="small">项目 MCR=0xC0800000</text>
+  <rect x="744" y="108" width="200" height="82" class="guard"/><text x="766" y="142" class="label">XBIC_0</text><text x="766" y="166" class="small">监测 Main AXBS</text>
+  <rect x="744" y="388" width="200" height="82" class="guard"/><text x="766" y="422" class="label">XBIC_1</text><text x="766" y="446" class="small">监测 Peripheral AXBS</text>
+  <rect x="72" y="410" width="200" height="82" class="guard"/><text x="94" y="444" class="label">XBIC_2</text><text x="94" y="468" class="small">监测 eDMA AXBS</text>
+  <path d="M314 286 C370 260 392 218 448 210" class="arrow"/><path d="M314 338 C370 370 392 442 448 462" class="arrow"/>
+  <path d="M718 230 C770 224 808 230 860 236" class="arrow"/><path d="M860 462 C806 462 776 460 718 462" class="arrow"/>
+  <path d="M744 150 L718 162" class="arrow"/><path d="M744 430 L718 438" class="arrow"/><path d="M272 444 L314 358" class="arrow"/><path d="M1120 236 H1078" class="arrow"/>
+  <rect x="58" y="580" width="1160" height="58" class="slave"/><text x="78" y="615" class="small">读图方法：AXBS 名字后面的括号不是地址区，而是功能角色。真正地址仍由 4G memory map 决定，AXBS 只负责把“master 发出的地址访问”送到对应 slave 端口，并在冲突时仲裁。</text>
+</svg>

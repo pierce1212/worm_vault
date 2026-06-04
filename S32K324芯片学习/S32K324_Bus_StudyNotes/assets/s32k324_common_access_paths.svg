@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="720" viewBox="0 0 1320 720">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#344054"/>
+    </marker>
+    <style>
+      .title{font:700 25px Arial, sans-serif; fill:#111827}
+      .sub{font:400 14px Arial, sans-serif; fill:#475467}
+      .box{fill:#fff;stroke:#344054;stroke-width:2;rx:8}
+      .cpu{fill:#e7f0ff;stroke:#175cd3}
+      .bus{fill:#f2f4f7;stroke:#475467}
+      .mem{fill:#ecfdf3;stroke:#067647}
+      .peri{fill:#fff7e6;stroke:#b54708}
+      .warn{fill:#fef3f2;stroke:#b42318}
+      .label{font:700 15px Arial, sans-serif; fill:#101828}
+      .small{font:400 13px Arial, sans-serif; fill:#344054}
+      .path1{stroke:#175cd3;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .path2{stroke:#067647;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .path3{stroke:#b54708;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .path4{stroke:#b42318;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <text x="36" y="44" class="title">常见软件访问在硬件上真正走哪条路</text>
+  <text x="36" y="72" class="sub">同一个 C 语句“读/写地址”，落到硬件上会选择完全不同的路径。调试性能、DMA 一致性、总线错误时，先画路径。</text>
+
+  <rect x="56" y="122" width="190" height="82" class="box cpu"/><text x="78" y="157" class="label">CPU 取指</text><text x="78" y="182" class="small">.text / vector</text>
+  <rect x="320" y="122" width="190" height="82" class="box bus"/><text x="342" y="157" class="label">AXI -> XHB400</text><text x="342" y="182" class="small">转成 AHB-Lite</text>
+  <rect x="584" y="122" width="190" height="82" class="box bus"/><text x="606" y="157" class="label">AXBS_0</text><text x="606" y="182" class="small">Flash slave port</text>
+  <rect x="848" y="122" width="214" height="82" class="box mem"/><text x="870" y="157" class="label">PFLASH</text><text x="870" y="182" class="small">0x0040_0000 起</text>
+  <path d="M246 163 H320" class="path1"/><path d="M510 163 H584" class="path1"/><path d="M774 163 H848" class="path1"/>
+
+  <rect x="56" y="258" width="190" height="82" class="box cpu"/><text x="78" y="293" class="label">CPU 读写外设</text><text x="78" y="318" class="small">CAN/LPSPI/ADC 寄存器</text>
+  <rect x="320" y="258" width="190" height="82" class="box bus"/><text x="342" y="293" class="label">AHBP</text><text x="342" y="318" class="small">不做 speculative read</text>
+  <rect x="584" y="258" width="190" height="82" class="box bus"/><text x="606" y="293" class="label">AXBS_1</text><text x="606" y="318" class="small">Peripheral crossbar</text>
+  <rect x="848" y="258" width="214" height="82" class="box peri"/><text x="870" y="293" class="label">AIPS_Lite</text><text x="870" y="318" class="small">0x4000_0000-0x405F_FFFF</text>
+  <path d="M246 299 H320" class="path3"/><path d="M510 299 H584" class="path3"/><path d="M774 299 H848" class="path3"/>
+
+  <rect x="56" y="394" width="190" height="82" class="box cpu"/><text x="78" y="429" class="label">eDMA 搬运</text><text x="78" y="454" class="small">LPSPI/LPI2C 通道</text>
+  <rect x="320" y="394" width="190" height="82" class="box bus"/><text x="342" y="429" class="label">DMAMUX -> eDMA</text><text x="342" y="454" class="small">请求路由不是数据总线</text>
+  <rect x="584" y="394" width="190" height="82" class="box bus"/><text x="606" y="429" class="label">AXBS_2</text><text x="606" y="454" class="small">eDMA 专用 crossbar</text>
+  <rect x="848" y="394" width="214" height="82" class="box mem"/><text x="870" y="429" class="label">SRAM / AIPS</text><text x="870" y="454" class="small">读源地址，写目的地址</text>
+  <path d="M246 435 H320" class="path2"/><path d="M510 435 H584" class="path2"/><path d="M774 435 H848" class="path2"/>
+
+  <rect x="56" y="530" width="190" height="82" class="box cpu"/><text x="78" y="565" class="label">访问 DTCM</text><text x="78" y="590" class="small">本核局部 or backdoor</text>
+  <rect x="320" y="530" width="190" height="82" class="box mem"/><text x="342" y="565" class="label">Local TCM</text><text x="342" y="590" class="small">本核零等待，不经 AXBS</text>
+  <rect x="584" y="530" width="190" height="82" class="box bus"/><text x="606" y="565" class="label">AXBS_3</text><text x="606" y="590" class="small">TCM backdoor</text>
+  <rect x="848" y="530" width="214" height="82" class="box warn"/><text x="870" y="565" class="label">ECC/初始化风险</text><text x="870" y="590" class="small">读前必须先初始化</text>
+  <path d="M246 571 H320" class="path1"/><path d="M510 571 H584" class="path4"/><path d="M774 571 H848" class="path4"/>
+
+  <rect x="1110" y="122" width="230" height="476" class="box warn"/>
+  <text x="1132" y="158" class="label">本项目配置观察</text>
+  <text x="1132" y="196" class="small">Rm: XBIC = STD_ON</text>
+  <text x="1132" y="222" class="small">Rm: DMA_MUX = STD_ON</text>
+  <text x="1132" y="248" class="small">Rm: AXBS = STD_OFF</text>
+  <text x="1132" y="274" class="small">Rm: XRDC = STD_OFF</text>
+  <text x="1132" y="300" class="small">MPU: AIPS 强顺序/不可执行</text>
+  <text x="1132" y="326" class="small">MPU: Flash/SRAM 可 cache</text>
+  <text x="1132" y="352" class="small">MPU: non-cache/shared RAM</text>
+  <text x="1132" y="378" class="small">用于 DMA buffer 更稳</text>
+  <text x="1132" y="430" class="small">调试口诀：</text>
+  <text x="1132" y="456" class="small">先问谁是 master，</text>
+  <text x="1132" y="482" class="small">再问目标是哪个 slave，</text>
+  <text x="1132" y="508" class="small">最后看 MPU/XRDC/XBIC。</text>
+</svg>
