@@ -8,10 +8,13 @@ const CONFIG = {
   taskSourceFiles: ["工作任务.md"],
   detailFile: "任务详情.md",
   dailyNoteFolder: "日报",
+  weeklyNoteFolder: "周报",
   longTermTags: ["#长期", "#longterm", "#someday", "#长期任务"],
   projectTags: ["#project", "#项目", "#工作", "#学习", "#通信", "#安全", "#生活", "#机器人", "#嵌入式"],
   focusLimit: 12,
   recentDoneDays: 21,
+  recentDoneLimit: 24,
+  completedArchiveWeeks: 52,
   timelineWeeksBefore: 1,
   timelineWeeksAfter: 3,
   weather: {
@@ -34,6 +37,7 @@ const localPath = (name) => sourceFolder && !name.startsWith(`${sourceFolder}/`)
 const taskSourcePaths = CONFIG.taskSourceFiles.map(localPath);
 const detailPath = localPath(CONFIG.detailFile);
 const dailyNoteFolder = localPath(CONFIG.dailyNoteFolder);
+const weeklyNoteFolder = localPath(CONFIG.weeklyNoteFolder);
 const heroAssetPaths = [
   "assets/ruoxi-desktop-banner-1.webp",
   "assets/task-dashboard-hero.png"
@@ -75,8 +79,11 @@ function dt(value) {
   if (!raw) return null;
   const plain = raw.replace(/^\[\[/, "").replace(/\]\]$/, "").replace(" ", "T");
   let parsed = DateTime.fromISO(plain);
+  if (!parsed.isValid) parsed = DateTime.fromISO(plain.replace(/\//g, "-"));
   if (!parsed.isValid) parsed = DateTime.fromFormat(raw, "yyyy-LL-dd HH:mm");
   if (!parsed.isValid) parsed = DateTime.fromFormat(raw, "yyyy-LL-dd");
+  if (!parsed.isValid) parsed = DateTime.fromFormat(raw, "yyyy/MM/dd HH:mm");
+  if (!parsed.isValid) parsed = DateTime.fromFormat(raw, "yyyy/MM/dd");
   return parsed.isValid ? parsed : null;
 }
 
@@ -195,6 +202,15 @@ function isOverdue(task) {
   return isOpen(task) && due && due < today;
 }
 
+function taskVisualStatus(task) {
+  const s = statusChar(task);
+  if (task.completed) return "done";
+  if (s === ">") return "postponed";
+  if (isOverdue(task)) return "overdue";
+  if (s === "/") return "doing";
+  return "todo";
+}
+
 function isLongTerm(task) {
   const planned = plannedDay(task);
   return hasAnyTag(task, CONFIG.longTermTags) || (planned && planned > weekEnd);
@@ -307,6 +323,10 @@ function dailyPath(day) {
   return `${dailyNoteFolder}/${day.toFormat("yyyy-LL-dd")}.md`;
 }
 
+function weeklyPath(start) {
+  return `${weeklyNoteFolder}/${start.toFormat("yyyy")}-W${String(start.weekNumber).padStart(2, "0")}.md`;
+}
+
 const sourcePages = dv.pages()
   .where(page => taskSourcePaths.includes(page.file.path));
 const allPages = dv.pages().array();
@@ -388,10 +408,119 @@ function pageDate(page) {
   return date(page.date ?? page.created ?? page.file.day);
 }
 
+function pageRelatedTasks(page) {
+  const fields = [
+    page.related_task,
+    page.relatedTask,
+    page.task,
+    page.task_name,
+    page.taskName,
+    page["关联任务"],
+    page["相关任务"],
+    page["任务"]
+  ];
+  return fields
+    .flatMap(value => {
+      if (value === null || value === undefined) return [];
+      if (Array.isArray(value)) return value;
+      if (typeof value === "string") return [value];
+      if (typeof value.array === "function") return value.array();
+      return [value];
+    })
+    .filter(value => value !== null && value !== undefined && String(value).trim())
+    .map(value => String(value).replace(/^\[\[/, "").replace(/\]\]$/, "").trim());
+}
+
+function normalizeMatchText(value) {
+  return String(value ?? "")
+    .replace(/^#/, "")
+    .replace(/[^\p{L}\p{N}\u4e00-\u9fff]+/gu, "")
+    .toLowerCase();
+}
+
+function pageMatchesTask(page, task) {
+  const taskName = cleanText(task.text);
+  const keys = [taskName, ...taskTags(task).map(tag => tag.replace(/^#/, ""))]
+    .map(normalizeMatchText)
+    .filter(Boolean);
+  const related = pageRelatedTasks(page).map(normalizeMatchText).filter(Boolean);
+  return related.some(item => keys.some(key => item === key || item.includes(key) || key.includes(item)));
+}
+
+function pageTimelineDate(page, task) {
+  if (task && pageMatchesTask(page, task)) {
+    return date(page.timeline_date ?? page.timelineDate ?? page["时间轴日期"] ?? page.created ?? page.date ?? page.file.day);
+  }
+  return pageDate(page);
+}
+
+function progressValue(value) {
+  if (value === null || value === undefined || value === "") return null;
+  const match = String(value).match(/(\d+(?:\.\d+)?)\s*%?/);
+  if (!match) return null;
+  return Math.max(0, Math.min(100, Math.round(Number(match[1]))));
+}
+
+function progressFromText(text) {
+  const raw = String(text ?? "");
+  const match = raw.match(/(?:progress|进度|完成度)\s*(?::+|：|=)?\s*(\d+(?:\.\d+)?)\s*%?/i);
+  return match ? progressValue(match[1]) : null;
+}
+
+function pageProgress(page, task) {
+  const frontmatter = progressValue(page.progress ?? page["进度"] ?? page["完成度"] ?? page.percent ?? page["百分比"]);
+  if (frontmatter !== null) return frontmatter;
+
+  const taskName = cleanText(task.text);
+  const tags = taskTags(task);
+  const lines = arr(page.file?.lists)
+    .map(item => String(item.text ?? "").trim())
+    .filter(Boolean);
+  const relatedLines = lines.filter(text => {
+    return text.includes(taskName) || tags.some(tag => text.includes(tag));
+  });
+
+  for (const text of [...relatedLines, ...lines]) {
+    const value = progressFromText(text);
+    if (value !== null) return value;
+  }
+
+  return null;
+}
+
+function latestRecordedProgress(task) {
+  const records = allPages
+    .filter(page => !taskSourcePaths.includes(page.file.path) && pageMatchesTask(page, task))
+    .map(page => {
+      const progress = pageProgress(page, task);
+      const day = pageTimelineDate(page, task) ?? pageDate(page);
+      return progress === null || !day ? null : { progress, day, page };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.day.toMillis() - b.day.toMillis());
+  return records.at(-1) ?? null;
+}
+
+function displayedProgress(task) {
+  const recorded = latestRecordedProgress(task);
+  if (recorded) {
+    return { percent: recorded.progress, detail: recorded.page.file.name, mode: "记录" };
+  }
+  return completionProgress(task);
+}
+
 function dailyPagesFor(day) {
   return allPages.filter(page => {
     if (taskSourcePaths.includes(page.file.path)) return false;
     return sameDay(pageDate(page), day);
+  });
+}
+
+function pagesInRange(start, end) {
+  return allPages.filter(page => {
+    if (taskSourcePaths.includes(page.file.path)) return false;
+    const day = pageDate(page);
+    return day && inRange(day, start, end);
   });
 }
 
@@ -425,6 +554,92 @@ function dailyReport(day) {
     summary,
     percent
   };
+}
+
+function weekRangeFromStart(start) {
+  return { start, end: start.plus({ days: 6 }).endOf("day") };
+}
+
+function taskSummaryList(taskList, limit = 6) {
+  return taskList
+    .slice(0, limit)
+    .map(task => cleanText(task.text))
+    .filter(Boolean);
+}
+
+function noteSummaryText(page) {
+  const direct = page.summary ?? page["总结"] ?? page.week_summary ?? page["周总结"] ?? page.report;
+  if (direct) return String(direct);
+  const snippets = listSnippets(page, 4);
+  return snippets.join(" / ");
+}
+
+function weeklyNotePages(range) {
+  return pagesInRange(range.start, range.end).filter(page => {
+    const path = String(page.file?.path ?? "");
+    const name = String(page.file?.name ?? "");
+    return path.startsWith(weeklyNoteFolder + "/") || /周报|周总结|week|weekly/i.test(name);
+  });
+}
+
+function weekArchive(start) {
+  const range = weekRangeFromStart(start);
+  const planned = tasks.filter(task => inRange(relevantDay(task), range.start, range.end));
+  const finished = done.filter(task => inRange(completedDay(task), range.start, range.end));
+  const pages = pagesInRange(range.start, range.end);
+  const dailyDocs = pages.filter(page => String(page.file?.path ?? "").startsWith(dailyNoteFolder + "/"));
+  const weeklyDocs = weeklyNotePages(range);
+  const percent = planned.length ? Math.round(finished.length / planned.length * 100) : 0;
+  const summaryPieces = [
+    weeklyDocs.map(noteSummaryText).filter(Boolean)[0],
+    finished.length ? `完成 ${taskSummaryList(finished, 5).join(" / ")}` : "",
+    dailyDocs.length ? `记录 ${dailyDocs.length} 篇日报` : ""
+  ].filter(Boolean);
+  return {
+    ...range,
+    planned,
+    finished,
+    pages,
+    dailyDocs,
+    weeklyDocs,
+    percent,
+    path: weeklyDocs[0]?.file.path ?? weeklyPath(range.start),
+    summary: summaryPieces.join("；") || "暂无周总结，点击可补写本周回顾。"
+  };
+}
+
+function completedTaskCard(task) {
+  const doneDay = completedDay(task);
+  return `
+    <article class="tcc-done-card" data-detail-task="${esc(taskId(task))}">
+      <div>
+        <strong>${esc(cleanText(task.text))}</strong>
+        <time>${fmtDate(doneDay)}</time>
+      </div>
+      <p>${esc(taskMeta(task))}</p>
+      <div class="tcc-task-tags">${tagsHtml(task)}</div>
+    </article>
+  `;
+}
+
+function weeklyArchiveCard(item, index) {
+  const finishedNames = taskSummaryList(item.finished, 8);
+  return `
+    <article class="tcc-archive-week ${item.start.hasSame(weekStart, "day") ? "current" : ""}" data-open-path="${esc(item.path)}">
+      <div class="tcc-archive-top">
+        <span>${index + 1}</span>
+        <div>
+          <strong>${item.start.toFormat("yyyy-LL-dd")} 至 ${item.end.toFormat("LL-dd")}</strong>
+          <em>${item.finished.length} 完成 · ${item.planned.length} 计划 · ${item.dailyDocs.length} 日报 · ${item.weeklyDocs.length} 周报</em>
+        </div>
+      </div>
+      ${bar(item.percent, `${item.finished.length}/${item.planned.length}`)}
+      <p>${esc(item.summary)}</p>
+      <div class="tcc-completed-list">
+        ${finishedNames.map(name => `<span>${esc(name)}</span>`).join("") || `<span>暂无完成任务</span>`}
+      </div>
+    </article>
+  `;
 }
 
 function taskDailyTrail(task) {
@@ -465,9 +680,9 @@ function taskTrailHtml(task) {
 }
 
 function taskCard(task, index) {
-  const pg = completionProgress(task);
+  const pg = displayedProgress(task);
   const p = priority(task);
-  const status = task.completed ? "done" : isOverdue(task) ? "overdue" : statusChar(task) === "/" ? "doing" : "todo";
+  const status = taskVisualStatus(task);
   return `
     <article class="tcc-task-card ${status}" data-detail-task="${esc(taskId(task))}">
       <div class="tcc-task-head">
@@ -575,11 +790,7 @@ function weekRange(offset) {
 }
 
 function weekSummary(offset) {
-  const range = weekRange(offset);
-  const planned = tasks.filter(task => inRange(relevantDay(task), range.start, range.end));
-  const finished = done.filter(task => inRange(completedDay(task), range.start, range.end));
-  const percent = planned.length ? Math.round(finished.length / planned.length * 100) : 0;
-  return { ...range, planned, finished, percent };
+  return weekArchive(weekRange(offset).start);
 }
 
 function weeklyTimelineHtml() {
@@ -591,11 +802,12 @@ function weeklyTimelineHtml() {
       ? item.finished.slice(0, 4).map(task => cleanText(task.text)).join(" / ")
       : item.planned.slice(0, 4).map(task => cleanText(task.text)).join(" / ") || "暂无任务";
     return `
-      <article class="tcc-week-event ${offset === 0 ? "current" : ""}">
+      <article class="tcc-week-event ${offset === 0 ? "current" : ""}" data-open-path="${esc(item.path)}">
         <time>${item.start.toFormat("LL-dd")} 至 ${item.end.toFormat("LL-dd")}</time>
         <div>
           <strong>${offset === 0 ? "本周" : offset < 0 ? `前 ${Math.abs(offset)} 周` : `后 ${offset} 周`}</strong>
-          <p>${esc(work)}</p>
+          <p>${esc(item.summary || work)}</p>
+          <small>${esc(work)}</small>
         </div>
         <div class="tcc-week-score">
           ${bar(item.percent, `${item.finished.length}/${item.planned.length}`)}
@@ -606,10 +818,11 @@ function weeklyTimelineHtml() {
 }
 
 function longTermCard(task) {
-  const doneProgress = completionProgress(task);
+  const doneProgress = displayedProgress(task);
   const runway = timeProgress(task);
+  const status = taskVisualStatus(task);
   return `
-    <article class="tcc-long-card" data-detail-task="${esc(taskId(task))}">
+    <article class="tcc-long-card ${status}" data-detail-task="${esc(taskId(task))}">
       <div>
         <span>${priority(task).label}</span>
         <strong>${esc(cleanText(task.text))}</strong>
@@ -630,6 +843,12 @@ const topTags = Object.entries(activeByTag).sort((a, b) => b[1] - a[1]).slice(0,
 const urgentTicker = focusCandidates.slice().sort((a, b) => focusScore(b) - focusScore(a)).slice(0, 10);
 const focus = openThisWeek.slice().sort((a, b) => focusScore(b) - focusScore(a)).slice(0, CONFIG.focusLimit);
 const weekReports = Array.from({ length: 7 }, (_, index) => dailyReport(weekStart.plus({ days: index })));
+const recentDone = done
+  .filter(task => completedDay(task))
+  .sort((a, b) => completedDay(b).toMillis() - completedDay(a).toMillis())
+  .slice(0, CONFIG.recentDoneLimit);
+const archiveWeeks = Array.from({ length: CONFIG.completedArchiveWeeks }, (_, index) => weekArchive(weekStart.minus({ weeks: index })))
+  .filter(item => item.finished.length || item.dailyDocs.length || item.weeklyDocs.length || item.start.hasSame(weekStart, "day"));
 const tickerMarkup = urgentTicker.map(tickerItem).join("") || "<span>当前没有待处理任务</span>";
 
 const root = mount(`
@@ -709,6 +928,26 @@ const root = mount(`
       </div>
       <div class="tcc-long-grid">
         ${longTerm.map(longTermCard).join("") || `<p class="tcc-empty">暂无长期任务。</p>`}
+      </div>
+    </section>
+
+    <section class="tcc-section">
+      <div class="tcc-section-head">
+        <h2>已完成任务</h2>
+        <span>按完成时间倒序保留最近完成记录</span>
+      </div>
+      <div class="tcc-done-grid">
+        ${recentDone.map(completedTaskCard).join("") || `<p class="tcc-empty">还没有带完成日期的任务。</p>`}
+      </div>
+    </section>
+
+    <section class="tcc-section">
+      <div class="tcc-section-head">
+        <h2>年度周档案</h2>
+        <span>最近 52 周的完成任务、日报和周总结，点击卡片进入周报</span>
+      </div>
+      <div class="tcc-archive-grid">
+        ${archiveWeeks.map(weeklyArchiveCard).join("") || `<p class="tcc-empty">暂无周归档。</p>`}
       </div>
     </section>
   </section>
