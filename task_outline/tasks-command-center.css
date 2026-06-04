@@ -767,6 +767,10 @@
   margin: 0 0 10px;
 }
 
+.tasks-command-center .tcc-done-card .tcc-bar {
+  margin: 10px 0;
+}
+
 .tasks-command-center .tcc-archive-week {
   display: grid;
   gap: 12px;

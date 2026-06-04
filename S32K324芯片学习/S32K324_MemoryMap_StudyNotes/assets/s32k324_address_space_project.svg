@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="1320" viewBox="0 0 1180 1320">
+  <style>
+    .title{font:700 28px Arial,Helvetica,sans-serif;fill:#111827}.sub{font:16px Arial,Helvetica,sans-serif;fill:#4b5563}.addr{font:700 15px Consolas,monospace;fill:#111827}.label{font:700 17px Arial,Helvetica,sans-serif;fill:#111827}.note{font:14px Arial,Helvetica,sans-serif;fill:#374151}.tiny{font:12px Arial,Helvetica,sans-serif;fill:#4b5563}.box{stroke:#111827;stroke-width:1.4}.dash{stroke:#6b7280;stroke-width:1;stroke-dasharray:5 5;fill:none}.arrow{stroke:#374151;stroke-width:1.5;marker-end:url(#arrow)}
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#374151"/></marker></defs>
+  <rect width="1180" height="1320" fill="#fbfbf8"/>
+  <text x="40" y="48" class="title">S32K324 32-bit / 4GB Address Space</text>
+  <text x="40" y="78" class="sub">A 32-bit address is like a 4GB bookshelf. Only some shelves are populated by memories or peripherals.</text>
+  <g transform="translate(70,120)">
+    <rect x="0" y="0" width="380" height="1100" fill="#fff" stroke="#111827" stroke-width="2"/>
+    <text x="-10" y="-10" class="addr">0xFFFF_FFFF</text>
+    <rect x="0" y="70" width="380" height="70" class="box" fill="#cfe3ff"/>
+    <text x="18" y="98" class="addr">0xE000_0000 - 0xE00F_FFFF</text><text x="18" y="122" class="label">PPB: Cortex-M7 private peripherals</text>
+    <rect x="0" y="420" width="380" height="120" class="box" fill="#d4f4dd"/>
+    <text x="18" y="448" class="addr">0x6800_0000 - 0x6FFF_FFFF</text><text x="18" y="472" class="label">QuadSPI AHB window</text><text x="18" y="496" class="note">External serial flash can appear as code/data memory.</text>
+    <rect x="0" y="540" width="380" height="34" class="box" fill="#b7e4c7"/>
+    <text x="18" y="562" class="addr">0x6700_0000 - 0x6700_03FF  QuadSPI RX buffer</text>
+    <rect x="0" y="660" width="380" height="116" class="box" fill="#ffe3bb"/>
+    <text x="18" y="688" class="addr">0x4000_0000 - 0x405F_FFFF</text><text x="18" y="712" class="label">AIPS0/1/2 peripheral register space</text><text x="18" y="736" class="note">ADC, PWM/eMIOS, CAN, clocks, reset, watchdog, safety...</text>
+    <rect x="0" y="820" width="380" height="44" class="box" fill="#d8c7ff"/>
+    <text x="18" y="848" class="addr">0x2140_0000 - 0x2140_FFFF  DTCM1 backdoor</text>
+    <rect x="0" y="864" width="380" height="44" class="box" fill="#d8c7ff"/>
+    <text x="18" y="892" class="addr">0x2100_0000 - 0x2100_FFFF  DTCM0 backdoor</text>
+    <rect x="0" y="908" width="380" height="72" class="box" fill="#f1d6ff"/>
+    <text x="18" y="936" class="addr">0x2040_0000 - 0x2044_FFFF</text><text x="18" y="960" class="label">SRAM0 + SRAM1: 320KB system RAM</text>
+    <rect x="0" y="980" width="380" height="44" class="box" fill="#e9d5ff"/>
+    <text x="18" y="1008" class="addr">0x2000_0000 - 0x2000_FFFF  DTCM core alias</text>
+    <rect x="0" y="1024" width="380" height="30" class="box" fill="#f7c8da"/>
+    <text x="18" y="1045" class="addr">0x1B00_0000 - 0x1B00_1FFF  UTEST</text>
+    <rect x="0" y="1054" width="380" height="36" class="box" fill="#ffd6a5"/>
+    <text x="18" y="1078" class="addr">0x1000_0000 - 0x1001_FFFF  DFlash 128KB</text>
+    <rect x="0" y="1090" width="380" height="76" class="box" fill="#ffb4a2"/>
+    <text x="18" y="1118" class="addr">0x0040_0000 - 0x007F_FFFF</text><text x="18" y="1142" class="label">PFlash 4MB: Boot + App + Cal</text>
+    <rect x="0" y="1166" width="380" height="42" class="box" fill="#bae6fd"/>
+    <text x="18" y="1192" class="addr">0x0000_0000 - 0x0000_7FFF/FFFF  ITCM</text>
+    <text x="-10" y="1238" class="addr">0x0000_0000</text>
+  </g>
+  <g transform="translate(540,130)">
+    <text x="0" y="0" class="title" font-size="22">Current project's main cuts</text>
+    <rect x="0" y="40" width="430" height="520" fill="#fff" stroke="#111827"/>
+    <text x="16" y="70" class="addr">PFlash 0x0040_0000 - 0x007F_FFFF</text>
+    <rect x="16" y="95" width="390" height="44" fill="#e5e7eb" stroke="#374151"/><text x="26" y="123" class="note">0x0040_0000 - 0x0043_FFFF: Boot/FBL reserved by layout</text>
+    <rect x="16" y="139" width="390" height="34" fill="#fde68a" stroke="#374151"/><text x="26" y="162" class="note">0x0044_0000: ApplCheckinfo, 1280 bytes</text>
+    <rect x="16" y="173" width="390" height="34" fill="#fbbf24" stroke="#374151"/><text x="26" y="196" class="note">0x0044_0500: App Boot Header, 32 bytes</text>
+    <rect x="16" y="207" width="390" height="44" fill="#fde68a" stroke="#374151"/><text x="26" y="234" class="note">0x0045_0520: OS vectors, VTOR points here</text>
+    <rect x="16" y="251" width="390" height="58" fill="#fecaca" stroke="#374151"/><text x="26" y="276" class="note">0x0045_4520: main .pflash code/const/startup</text><text x="26" y="296" class="tiny">map: .pflash size about 304KB</text>
+    <rect x="16" y="309" width="390" height="52" fill="#fed7aa" stroke="#374151"/><text x="26" y="336" class="note">0x004A_0000 / 0x0058_8000 / 0x005C_8000: OS partition code</text>
+    <rect x="16" y="361" width="390" height="40" fill="#bbf7d0" stroke="#374151"/><text x="26" y="386" class="note">0x0068_0000: .rom_cal + shared calibration</text>
+    <text x="16" y="445" class="addr">DFlash 0x1000_0000 - 0x1001_FFFF</text><text x="16" y="470" class="note">Mem_43_INFLS configured batch: 0x10000000-0x10007FFF, 4 sectors * 8KB.</text>
+    <text x="16" y="520" class="addr">SRAM / TCM</text><text x="16" y="545" class="note">.bss mainly uses DTCM backdoor 0x21000000; data/shared buffers use SRAM 0x2040xxxx.</text>
+    <rect x="0" y="620" width="430" height="270" fill="#fff" stroke="#111827"/>
+    <text x="16" y="650" class="addr">SRAM 0x2040_0000 - 0x2044_FFFF</text>
+    <rect x="16" y="680" width="390" height="34" fill="#dcfce7" stroke="#374151"/><text x="26" y="703" class="note">0x2040_0000 - 0x2040_1FFF: flash-share calibration RAM</text>
+    <rect x="16" y="714" width="390" height="34" fill="#bbf7d0" stroke="#374151"/><text x="26" y="737" class="note">0x2040_2000 - 0x2040_3FFF: calibration RAM</text>
+    <rect x="16" y="748" width="390" height="58" fill="#dbeafe" stroke="#374151"/><text x="26" y="773" class="note">0x2040_4000 - 0x2044_BDFF: normal SRAM pool</text><text x="26" y="793" class="tiny">data, non-cacheable/shared sections, MCAL/RTE buffers</text>
+    <rect x="16" y="806" width="390" height="34" fill="#fde68a" stroke="#374151"/><text x="26" y="829" class="note">0x2044_BE00 - 0x2044_BFFF: Boot/App magic flag</text>
+    <rect x="16" y="840" width="390" height="34" fill="#fecaca" stroke="#374151"/><text x="26" y="863" class="note">0x2044_C000 - 0x2044_DFFF: core0 stack</text>
+    <rect x="16" y="874" width="390" height="34" fill="#fecaca" stroke="#374151"/><text x="26" y="897" class="note">0x2044_E000 - 0x2044_FFFF: core1 stack</text>
+  </g>
+</svg>

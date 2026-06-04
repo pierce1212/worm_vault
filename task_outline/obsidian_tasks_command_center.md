@@ -247,6 +247,41 @@ function childTasks(task) {
   return output;
 }
 
+function childListItems(task) {
+  const output = [];
+  function walk(items) {
+    for (const item of arr(items)) {
+      output.push(item);
+      walk(item.children);
+    }
+  }
+  walk(task.children);
+  return output;
+}
+
+function inlineField(text, key) {
+  const pattern = new RegExp(`\\[(?:${key})::\\s*([^\\]]+)\\]`, "iu");
+  const match = String(text ?? "").match(pattern);
+  return match ? match[1].trim() : "";
+}
+
+function timelineProgressRecords(task) {
+  return childListItems(task)
+    .map(item => {
+      const text = String(item.text ?? "").trim();
+      const day = dt(inlineField(text, "timeline|时间轴|datetime|日期时间|date|日期"));
+      const progress = progressValue(inlineField(text, "progress|进度|完成度"));
+      if (!day || progress === null) return null;
+      const detail = text
+        .replace(/\[(?:timeline|时间轴|datetime|日期时间|date|日期|type|类型|progress|进度|完成度)::[^\]]+\]/giu, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      return { progress, day, detail };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.day.toMillis() - b.day.toMillis());
+}
+
 function completionProgress(task) {
   const kids = childTasks(task);
   if (kids.length > 0) {
@@ -361,6 +396,7 @@ const dueToday = open.filter(task => sameDay(dueDay(task), today) || sameDay(sch
 const dueThisWeek = tasks.filter(task => inRange(relevantDay(task), weekStart, weekEnd));
 const doneThisWeek = done.filter(task => inRange(completedDay(task), weekStart, weekEnd));
 const longTerm = open.filter(task => isInLongTermSection(task) || isLongTerm(task));
+const activeLongTerm = longTerm.filter(isOpen);
 const focusCandidates = open.filter(task => !longTerm.includes(task));
 const openThisWeek = focusCandidates.filter(task => inRange(relevantDay(task), weekStart, weekEnd));
 const weekPercent = dueThisWeek.length ? Math.round(doneThisWeek.length / dueThisWeek.length * 100) : 0;
@@ -440,11 +476,15 @@ function normalizeMatchText(value) {
 
 function pageMatchesTask(page, task) {
   const taskName = cleanText(task.text);
-  const keys = [taskName, ...taskTags(task).map(tag => tag.replace(/^#/, ""))]
-    .map(normalizeMatchText)
-    .filter(Boolean);
+  const keys = [taskName].map(normalizeMatchText).filter(Boolean);
   const related = pageRelatedTasks(page).map(normalizeMatchText).filter(Boolean);
-  return related.some(item => keys.some(key => item === key || item.includes(key) || key.includes(item)));
+  return related.some(item => keys.some(key => item === key));
+}
+
+function textMatchesTask(text, task) {
+  const raw = String(text ?? "");
+  const taskName = cleanText(task.text);
+  return raw.includes(taskName) || taskTags(task).some(tag => raw.includes(tag));
 }
 
 function pageTimelineDate(page, task) {
@@ -477,7 +517,7 @@ function pageProgress(page, task) {
     .map(item => String(item.text ?? "").trim())
     .filter(Boolean);
   const relatedLines = lines.filter(text => {
-    return text.includes(taskName) || tags.some(tag => text.includes(tag));
+    return textMatchesTask(text, task);
   });
 
   for (const text of [...relatedLines, ...lines]) {
@@ -502,6 +542,10 @@ function latestRecordedProgress(task) {
 }
 
 function displayedProgress(task) {
+  const timelineRecord = timelineProgressRecords(task).at(-1);
+  if (timelineRecord) {
+    return { percent: timelineRecord.progress, detail: timelineRecord.detail || "时间轴记录", mode: "时间轴" };
+  }
   const recorded = latestRecordedProgress(task);
   if (recorded) {
     return { percent: recorded.progress, detail: recorded.page.file.name, mode: "记录" };
@@ -610,6 +654,7 @@ function weekArchive(start) {
 
 function completedTaskCard(task) {
   const doneDay = completedDay(task);
+  const pg = displayedProgress(task);
   return `
     <article class="tcc-done-card" data-detail-task="${esc(taskId(task))}">
       <div>
@@ -617,6 +662,7 @@ function completedTaskCard(task) {
         <time>${fmtDate(doneDay)}</time>
       </div>
       <p>${esc(taskMeta(task))}</p>
+      ${bar(pg.percent, `${pg.mode} ${pg.detail}`)}
       <div class="tcc-task-tags">${tagsHtml(task)}</div>
     </article>
   `;
@@ -651,7 +697,7 @@ function taskDailyTrail(task) {
     const snippets = pages.flatMap(page => {
       const pageItems = listSnippets(page, 10);
       return pageItems.filter(text => {
-        return text.includes(taskName) || tags.some(tag => text.includes(tag));
+        return textMatchesTask(text, task);
       });
     });
     const markers = [];
@@ -883,7 +929,7 @@ const root = mount(`
       ${metricCard("本周任务", String(openThisWeek.length), "Focus Queue 来源")}
       ${metricCard("逾期", String(overdue.length), "需要优先处理", "danger")}
       ${metricCard("本周完成", String(doneThisWeek.length), "已记录完成日期", "success")}
-      ${metricCard("长期任务", String(longTerm.length), "单独跟踪进度")}
+      ${metricCard("长期任务", String(activeLongTerm.length), "单独跟踪进度")}
     </section>
 
     <section class="tcc-ticker">
@@ -894,10 +940,20 @@ const root = mount(`
     <section class="tcc-section">
       <div class="tcc-section-head">
         <h2>Focus Queue</h2>
-        <span>只显示今日与本周任务，点击卡片进入任务源，点击进度展开本周进展</span>
+        <span>只显示今日与本周未完成任务，点击卡片进入任务详情</span>
       </div>
       <div class="tcc-focus-grid">
         ${focus.map((task, index) => taskCard(task, index + 1)).join("") || `<p class="tcc-empty">本周没有待处理任务。</p>`}
+      </div>
+    </section>
+
+    <section class="tcc-section">
+      <div class="tcc-section-head">
+        <h2>本周已完成</h2>
+        <span>完成任务单独归档，点击卡片仍可查看时间轴</span>
+      </div>
+      <div class="tcc-done-grid tcc-week-done-grid">
+        ${doneThisWeek.slice().sort((a, b) => (completedDay(b)?.toMillis() ?? 0) - (completedDay(a)?.toMillis() ?? 0)).map(completedTaskCard).join("") || `<p class="tcc-empty">本周还没有完成任务。</p>`}
       </div>
     </section>
 
