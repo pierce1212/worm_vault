@@ -21,9 +21,9 @@ timeline: "true"
 
 开发中最常用它做三件事：
 
-1. 启动后读取 `DES` 和 `FES`，判断上一次复位原因。
-2. 配置部分 functional reset 是否降级为 interrupt。
-3. 在 self-test 前后控制 `RESET_B` 和 pin safe state，或者配置反复复位时的 escalation 策略。
+1. **启动后读取 `DES` 和 `FES`，判断上一次复位原因。**
+2. **配置部分 functional reset 是否降级为 interrupt。**
+3. **在 self-test 前后控制 `RESET_B` 和 pin safe state，或者配置反复复位时的 escalation 策略。**
 
 学习主线可以先记住这张图：
 
@@ -216,7 +216,7 @@ flowchart TD
 3. 拉低 `RESET_B`，但某些 functional reset 的 `RESET_B` 行为可由 `FBRE` 配置。
 4. 根据当前 state 和 reset 类型进入相应 reset sequence。
 
-这解释了为什么上电启动后第一件事之一要读 reset reason：`MC_RGM` 已经帮你把原因记在 `DES/FES` 里了。
+==**这解释了为什么上电启动后第一件事之一要读 reset reason：`MC_RGM` 已经帮你把原因记在 `DES/FES` 里了**。
 
 ### 4.2 Power-on reset sequence
 
