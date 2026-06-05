@@ -4,7 +4,7 @@
 >
 > 参考资料：`S32K3xx Reference Manual.pdf` Rev. 9, 07/2024；当前工程 `BasicSoftware/integration/linker/ETAS_BIP_S32KGHS.ld`、`BasicSoftware/integration/src/target/src/system.c`、`BasicSoftware/integration/mcal/src/gen/*`、`BasicSoftware/integration/mcal/src/modules/BaseNXP/header/S32K324_*.h`。
 
-## 0. 先建立直觉：memory map 是门牌号，总线是道路
+## 0. 先建立直觉：**memory map 是门牌号，总线是道路**
 
 学习 S32K324 时，很容易把两件事混在一起：
 
@@ -25,18 +25,19 @@
 4. 被送到 `AIPS_Lite` 的某个外设 slot。
 5. AIPS 再选通具体外设寄存器。
 
-这就是总线学习最重要的视角：不要只看地址，还要问“谁是 master，目标是谁，中间经过哪些桥，哪些模块会拦截、检查、仲裁”。
+**这就是总线学习最重要的视角：不要只看地址，还要问“谁是 master，目标是谁，中间经过哪些桥，哪些模块会拦截、检查、仲裁”。**
 
-![S32K324 internal bus big picture](assets/s32k324_bus_big_picture.svg)
+![S32K324 internal bus big picture|697](assets/s32k324_bus_big_picture.svg)
+
 
 ## 1. S32K324 总线大图
 
 下面是参考手册中 S32K324/S32K344/S32K314 对应的 block diagram。先不用害怕图很密，它其实在讲四类东西：
 
-- `master`：能主动发起访问的人，例如 CM7_0、CM7_1、eDMA、HSE_B、EMAC。
-- `interconnect`：负责转发和仲裁的道路，例如 AXBS_0、AXBS_1、AXBS_2、AXBS_3、AXBS_4。
-- `slave/target`：被访问的目标，例如 PFlash、PRAM/SRAM、TCM、AIPS 外设。
-- `safety/protection`：监视或拦截访问的模块，例如 XBIC、XRDC、ECC/EDC gasket、ERM/FCCU。
+- **`master`：能主动发起访问的人，例如 CM7_0、CM7_1、eDMA、HSE_B、EMAC。**
+- **`interconnect`：负责转发和仲裁的道路，例如 AXBS_0、AXBS_1、AXBS_2、AXBS_3、AXBS_4。**
+- **`slave/target`：被访问的目标，例如 PFlash、PRAM/SRAM、TCM、AIPS 外设。**
+- **`safety/protection`：监视或拦截访问的模块，例如 XBIC、XRDC、ECC/EDC gasket、ERM/FCCU。**
 
 ![Reference manual page 24 S32K324 block diagram](assets/rm_p24_s32k324_block_diagram.png)
 
@@ -52,29 +53,29 @@ CM7/eDMA/HSE/EMAC
 
 ## 2. 常见缩写先翻译成人话
 
-| 名称 | 全称/性质 | 通俗理解 | 在 S32K324 中的角色 |
-|---|---|---|---|
-| `bus` | 总线 | 芯片内部搬地址、数据、控制信号的路 | 不是 CAN/LIN 那种板级通信总线，而是片上访问通路 |
-| `master` | 主设备 | 能主动发起读写的人 | CM7、eDMA、HSE_B、EMAC |
-| `slave` / `target` | 从设备/目标 | 被访问的人 | Flash、SRAM、TCM、AIPS 外设 |
-| `transaction` | 一次总线交易 | 一次读或写，带地址、方向、大小、属性 | AXBS、XRDC、XBIC 都是围绕 transaction 工作 |
-| `AXI` / `AXIM` | Arm AMBA AXI master interface | Cortex-M7 高带宽访问出口 | 经 XHB400 转到 AHB-Lite，再进 AXBS |
-| `AHB` | Advanced High-performance Bus | MCU 内部常见高性能总线协议 | Flash/SRAM/DMA/TCM backdoor 主要围绕 AHB/AHB-Lite |
-| `AHB-Lite` | 单 master 简化 AHB | 比完整 AHB 少一些复杂仲裁信号 | 很多局部桥和 slave 采用 AHB-Lite |
-| `AHBM` | AHB master port | Core 作为主设备访问系统资源的端口 | CM7_0/CM7_1 访问主 AXBS |
-| `AHBP` | AHB peripheral port | Core 访问外设的端口 | 连到 peripheral AXBS，再到 AIPS |
-| `AHBS` | AHB slave port | Core/TCM 被别的 master 访问的入口 | 常和 TCM backdoor、core slave 语境一起出现 |
-| `PPB` | Private Peripheral Bus | Cortex-M 私有外设总线 | NVIC、SCB、MPU、SysTick、部分 core control |
-| `AXBS` | Crossbar Switch | 片上立交桥 | 让多个 master 同时访问不同 slave，冲突时仲裁 |
-| `AIPS_Lite` | Peripheral Bridge | 外设寄存器桥 | 把 AHB transaction 变成外设 slot 访问 |
-| `PRAMC` | RAM Controller | SRAM 控制器 | 把 AHB 访问转换成 SRAM array + ECC 访问 |
-| `PFLASH` | Flash Memory Controller | Flash 控制器 | 代码 Flash/DFlash 的控制和状态接口 |
-| `DMAMUX` | DMA Channel Multiplexer | DMA 请求路由器 | 只管“谁触发 DMA”，不搬数据 |
-| `eDMA` | Enhanced DMA | 独立搬运工 | 自己成为 AHB master，读源地址、写目的地址 |
-| `XBIC` | Crossbar Integrity Checker | 总线完整性检查器 | 检查 AXBS 通路上的地址/数据/反馈完整性 |
-| `XRDC` | Extended Resource Domain Controller | 资源域访问控制器 | 给 master 分 domain，对 memory/peripheral 做权限裁决 |
-| `MSCM` | Miscellaneous System Control Module | 多核/系统控制杂项模块 | 中断路由、core 编号、EDC 使能、AHB gasket 配置 |
-| `gasket` | 协议/完整性小桥 | 两段总线之间的小适配器 | 常用于 32/64 位转换、EDC 生成/检查、写优化 |
+| 名称                     | 全称/性质                                 | 通俗理解                      | 在 S32K324 中的角色                                |
+| ---------------------- | ------------------------------------- | ------------------------- | --------------------------------------------- |
+| `bus`                  | 总线                                    | 芯片内部搬地址、数据、控制信号的路         | 不是 CAN/LIN 那种板级通信总线，而是片上访问通路                  |
+| `master`               | 主设备                                   | 能主动发起读写的人                 | CM7、eDMA、HSE_B、EMAC                           |
+| `slave` / `target`     | 从设备/目标                                | 被访问的人                     | Flash、SRAM、TCM、AIPS 外设                        |
+| **`transaction`**      | **一次总线交易**                            | **一次读或写，带地址、方向、大小、属性**    | **AXBS、XRDC、XBIC 都是围绕 transaction 工作**        |
+| ==**`AXI` / `AXIM`**== | ==**Arm AMBA AXI master interface**== | ==**Cortex-M7 高带宽访问出口**== | ==**经 XHB400 转到 AHB-Lite，再进 AXBS**==          |
+| `AHB`                  | Advanced High-performance Bus         | ==MCU 内部常见高性能总线协议==       | Flash/SRAM/DMA/TCM backdoor 主要围绕 AHB/AHB-Lite |
+| `AHB-Lite`             | 单 master 简化 AHB                       | 比完整 AHB 少一些复杂仲裁信号         | 很多局部桥和 slave 采用 AHB-Lite                      |
+| `AHBM`                 | AHB master port                       | Core 作为主设备访问系统资源的端口       | CM7_0/CM7_1 访问主 AXBS                          |
+| ==`AHBP`==             | ==AHB peripheral port==               | ==Core 访问外设的端口==          | ==连到 peripheral AXBS，再到 AIPS==                |
+| `AHBS`                 | AHB slave port                        | Core/TCM 被别的 master 访问的入口 | 常和 TCM backdoor、core slave 语境一起出现             |
+| ==`PPB`==              | ==Private Peripheral Bus==            | ==Cortex-M 私有外设总线==       | ==NVIC、SCB、MPU、SysTick、部分 core control==      |
+| `AXBS`                 | Crossbar Switch                       | 片上立交桥                     | 让多个 master 同时访问不同 slave，冲突时仲裁                 |
+| `AIPS_Lite`            | Peripheral Bridge                     | 外设寄存器桥                    | 把 AHB transaction 变成外设 slot 访问                |
+| `PRAMC`                | RAM Controller                        | SRAM 控制器                  | 把 AHB 访问转换成 SRAM array + ECC 访问               |
+| `PFLASH`               | Flash Memory Controller               | Flash 控制器                 | 代码 Flash/DFlash 的控制和状态接口                      |
+| `DMAMUX`               | DMA Channel Multiplexer               | DMA 请求路由器                 | 只管“谁触发 DMA”，不搬数据                              |
+| `eDMA`                 | Enhanced DMA                          | 独立搬运工                     | 自己成为 AHB master，读源地址、写目的地址                    |
+| `XBIC`                 | Crossbar Integrity Checker            | 总线完整性检查器                  | 检查 AXBS 通路上的地址/数据/反馈完整性                       |
+| `XRDC`                 | Extended Resource Domain Controller   | 资源域访问控制器                  | 给 master 分 domain，对 memory/peripheral 做权限裁决   |
+| `MSCM`                 | Miscellaneous System Control Module   | 多核/系统控制杂项模块               | 中断路由、core 编号、EDC 使能、AHB gasket 配置             |
+| `gasket`               | 协议/完整性小桥                              | 两段总线之间的小适配器               | 常用于 32/64 位转换、EDC 生成/检查、写优化                   |
 
 ## 3. 当前工程配置先看结论
 
@@ -128,8 +129,8 @@ CM7/eDMA/HSE/EMAC
 
 `TCM` 是 `Tightly Coupled Memory`，可以理解为“贴着 CPU 的小 SRAM”。S32K324 每个 Cortex-M7 core 带：
 
-- `32KB ITCM`：Instruction TCM，适合放极关键、极确定的指令。
-- `64KB DTCM`：Data TCM，适合放极关键、低延迟数据。
+- `32KB ITCM`：Instruction TCM，**==适合放极关键、极确定的指令==**。
+- `64KB DTCM`：Data TCM，**==适合放极关键、低延迟数据==**。
 
 它们本质上还是 SRAM，也就是 Static RAM。和 DRAM 相比：
 
@@ -145,9 +146,9 @@ TCM 比 System SRAM 更“贴身”。CPU 访问本核 TCM 时，不需要像访
 
 但 TCM 有两个地址视角：
 
-| 视角 | 典型地址 | 谁用 | 说明 |
-|---|---:|---|---|
-| local alias | `0x00000000` ITCM，`0x20000000` DTCM | 本 core 直接访问 | 低延迟、确定性最好 |
+| 视角             |                                                                        典型地址 | 谁用              | 说明                                   |
+| -------------- | --------------------------------------------------------------------------: | --------------- | ------------------------------------ |
+| local alias    |                                         `0x00000000` ITCM，`0x20000000` DTCM | 本 core 直接访问     | 低延迟、确定性最好                            |
 | backdoor alias | `0x11000000/0x11400000` ITCM backdoor，`0x21000000/0x21400000` DTCM backdoor | 其他 master 或系统路径 | 通过 AXBS/TCM backdoor 访问某个 core 的 TCM |
 
 当前 linker 里有：
@@ -161,7 +162,7 @@ int_dtcm1_bd ORIGIN = 0x21400000, LENGTH = 0x00010000
 
 这里要慢一点看：`0x20000000` 是 DTCM local 地址；`0x21000000` 是 DTCM0 backdoor 地址。二者可能映射到同一类物理 TCM 资源，但访问路径不同。local 像从自己房间门进去，backdoor 像从楼道公共门进去。
 
-手册还强调了一个很嵌入式的现实：TCM 和 System RAM 上电后必须先初始化 ECC，再读。原因是 SRAM array 旁边有 ECC 校验位，刚上电时数据位和 ECC 位没有建立一致关系。你如果先读，很可能不是读到随机值那么简单，而是直接触发 ECC 错误。
+手册还强调了一个很嵌入式的现实：**TCM 和 System RAM 上电后必须先初始化 ECC，再读。原因是 SRAM array 旁边有 ECC 校验位，刚上电时数据位和 ECC 位没有建立一致关系。你如果先读，很可能不是读到随机值那么简单，而是直接触发 ECC 错误。**
 
 ![Reference manual page 37 TCM and AIPS memory notes](assets/rm_p37_tcm_aips_memory_notes.png)
 
@@ -188,7 +189,7 @@ CM7 AXI/AXIM
 
 为什么要这么设计？因为 Cortex-M7 本身喜欢高带宽、cache、burst，而片上 Flash/SRAM/外设控制器很多是 AHB/AHB-Lite 风格。桥接器让 CPU 侧和平台侧各自使用合适协议。
 
-### 4.3 AHBP：CPU 访问外设寄存器的专线
+### 4.3 ==AHBP：CPU 访问外设寄存器的专线==
 
 `AHBP` 是 AHB peripheral bus。手册说 S32K3xx 的 AHBP 在 reset 后启用，core 对 on-chip peripheral 的访问通过这条 bus 完成。
 
@@ -210,9 +211,9 @@ CM7 AHBP
 
 所以当前工程在 `system.c` 里把 AIPS 区域配置成强顺序、不可缓存、不可执行。这样 CPU 不会把外设寄存器访问当普通内存优化，也不会对外设区域做投机 cache line fill。
 
-### 4.4 PPB：Cortex-M 自己的私有控制区
+### 4.4 ==PPB：Cortex-M 自己的私有控制区==
 
-`PPB` 是 `Private Peripheral Bus`，地址典型在 `0xE0000000-0xE00FFFFF`。它不是去 AIPS 外设，而是去 Cortex-M 内核私有模块：
+==`PPB` 是 `Private Peripheral Bus`，地址典型在 `0xE0000000-0xE00FFFFF`。它不是去 AIPS 外设，而是去 Cortex-M 内核私有模块==：
 
 - NVIC
 - SysTick
@@ -223,13 +224,13 @@ CM7 AHBP
 
 当前工程 MPU 把 PPB 设为强顺序、不可缓存。这很合理，因为 NVIC/SCB/MPU 这些寄存器也都是有副作用的控制寄存器。
 
-### 4.5 AHBS：别人访问 core/TCM 的入口
+### 4.5 ==**AHBS：别人访问 core/TCM 的入口**==
 
 `AHBS` 可以理解为 Cortex-M7 侧的 AHB slave 相关接口语境。它常出现在 TCM backdoor、core slave path、EDC 检查这些地方。
 
 一个典型例子：eDMA 或另一个 core 想访问某个 core 的 DTCM，不能走那个 core 的 local DTCM 私有路径，只能从系统互连进入 TCM backdoor。于是会涉及 AHBS/TCM AXBS/EDC/XBIC 这些结构。
 
-## 5. AXBS：S32K324 内部的主立交桥
+## 5. ==AXBS：S32K324 内部的主立交桥==
 
 `AXBS` 是 `Crossbar Switch`。它不是软件对象，而是一组硬件 mux、仲裁器和 slave port 控制逻辑。
 
@@ -249,28 +250,28 @@ CM7 AHBP
 
 ### 5.1 AXBS_0 main：主干 crossbar
 
-S32K324 的 `AXBS_0` 是 main crossbar。它连接高带宽存储资源。
+==S32K324 的 `AXBS_0` 是 main crossbar。它连接高带宽存储资源。
 
-| 端口 | S32K324 连接 | 解释 |
-|---|---|---|
-| M0 | Cortex-M7_0 AHBM | Core0 作为 master 访问主干资源 |
-| M1 | AXBS_2 S0 | eDMA 通过 AXBS_2 进入主干 |
-| M2 | HSE_B | 硬件安全引擎访问主干 |
-| M3 | EMAC | 以太网 DMA/master 访问主干 |
-| M4 | Cortex-M7_1 AHBM | Core1 作为 master 访问主干 |
-| S0 | Flash memory port 0 | PFlash 端口 |
-| S1 | Flash memory port 1 | PFlash 端口 |
-| S2 | PRAM_0 | System SRAM 的一部分 |
-| S3 | Cortex-M7 TCM | TCM backdoor 方向 |
-| S4 | Flash memory port 2 | PFlash 端口 |
-| S5 | QuadSPI | 外部 memory-mapped QSPI 方向 |
-| S6 | PRAM_1 | System SRAM 的另一部分 |
+| 端口  | S32K324 连接          | 解释                       |
+| --- | ------------------- | ------------------------ |
+| M0  | Cortex-M7_0 AHBM    | Core0 作为 master 访问主干资源   |
+| M1  | AXBS_2 S0           | eDMA 通过 AXBS_2 进入主干      |
+| M2  | HSE_B               | 硬件安全引擎访问主干               |
+| M3  | EMAC                | 以太网 DMA/master 访问主干      |
+| M4  | Cortex-M7_1 AHBM    | Core1 作为 master 访问主干     |
+| S0  | Flash memory port 0 | PFlash 端口                |
+| S1  | Flash memory port 1 | PFlash 端口                |
+| S2  | PRAM_0              | System SRAM 的一部分         |
+| S3  | Cortex-M7 TCM       | TCM backdoor 方向          |
+| S4  | Flash memory port 2 | PFlash 端口                |
+| S5  | QuadSPI             | 外部 memory-mapped QSPI 方向 |
+| S6  | PRAM_1              | System SRAM 的另一部分        |
 
 这里 `M` 是 master port，`S` 是 slave port。不要把 M0/S0 当地址。它们是 crossbar 内部编号。
 
-### 5.2 AXBS_1 peripheral：外设 crossbar
+### 5.2 ==**AXBS_1 peripheral：外设 crossbar**==
 
-`AXBS_1` 管外设方向。
+**`AXBS_1` 管外设方向。**
 
 | 端口 | S32K324 连接 | 解释 |
 |---|---|---|
@@ -288,7 +289,7 @@ S32K324 的 `AXBS_0` 是 main crossbar。它连接高带宽存储资源。
 CM7_n AHBP -> AXBS_1 -> AIPS_x -> peripheral register
 ```
 
-### 5.3 AXBS_2 eDMA：DMA 的分叉口
+### 5.3 A==XBS_2 eDMA：DMA 的分叉口==
 
 `AXBS_2` 很小，但很关键：
 
@@ -298,19 +299,19 @@ CM7_n AHBP -> AXBS_1 -> AIPS_x -> peripheral register
 | S0 | AXBS_0 M1 | eDMA 去 Flash/SRAM/TCM/QSPI |
 | S1 | AXBS_1 M1 | eDMA 去外设寄存器/AIPS |
 
-这就是为什么 eDMA 既能从 LPSPI RX 寄存器搬到 SRAM，也能从 SRAM 搬到 LPSPI TX 寄存器。eDMA 不是 CPU 的“助手线程”，它是一个真正的 bus master。
+这就是为什么 eDMA 既能从 LPSPI RX 寄存器搬到 SRAM，也能从 SRAM 搬到 LPSPI TX 寄存器。eDMA 不是 CPU 的“助手线程”，**==它是一个真正的 bus master。==**
 
-### 5.4 AXBS_3 Cortex-M7 TCM：TCM backdoor crossbar
+### 5.4 ==AXBS_3 Cortex-M7 TCM：TCM backdoor crossbar
 
 `AXBS_3` 负责 TCM backdoor：
 
-| 端口 | S32K324 连接 | 解释 |
-|---|---|---|
-| M0 | AXBS_0 S3 | 从 main AXBS 来的访问 |
-| S0 | Cortex-M7_0 TCM | Core0 TCM backdoor |
-| S1 | Cortex-M7_1 TCM | Core1 TCM backdoor |
+| 端口  | S32K324 连接      | 解释                 |
+| --- | --------------- | ------------------ |
+| M0  | AXBS_0 S3       | 从 main AXBS 来的访问   |
+| S0  | Cortex-M7_0 TCM | Core0 TCM backdoor |
+| S1  | Cortex-M7_1 TCM | Core1 TCM backdoor |
 
-这解释了 `0x21000000`、`0x21400000` 这类 backdoor 地址为什么存在：它们不是普通 System SRAM 地址，而是通过系统互连访问某个 core 的 TCM。
+==这解释了 `0x21000000`、`0x21400000` 这类 backdoor 地址为什么存在：它们不是普通 System SRAM 地址，而是通过系统互连访问某个 core 的 TCM。==
 
 ### 5.5 AXBS_4 HSE：HSE_B 进入主干/外设的桥
 
@@ -324,7 +325,7 @@ CM7_n AHBP -> AXBS_1 -> AIPS_x -> peripheral register
 
 HSE_B 是安全子系统，它需要访问 Flash、SRAM、外设控制寄存器等资源。手册中还提到 HSE_B/SBAF 对某些 alternate flash controller/interface 有默认独占配置，这也是安全启动场景里常见的隔离设计。
 
-### 5.6 AXBS 仲裁：同一目标被抢时谁先过
+### 5.6 ==AXBS 仲裁：同一目标被抢时谁先过
 
 AXBS 的并行能力只在“不同 master 访问不同 slave”时成立。如果多个 master 抢同一个 slave，就要仲裁。
 
@@ -346,8 +347,8 @@ AXBS 支持：
 
 S32K324 外设空间主要分三段：
 
-| 地址范围 | 区域 | 说明 |
-|---|---|---|
+| 地址范围                    | 区域          | 说明                  |
+| ----------------------- | ----------- | ------------------- |
 | `0x40000000-0x401FFFFF` | AIPS_Lite_0 | 2MB，128 个 16KB slot |
 | `0x40200000-0x403FFFFF` | AIPS_Lite_1 | 2MB，128 个 16KB slot |
 | `0x40400000-0x405FFFFF` | AIPS_Lite_2 | 2MB，128 个 16KB slot |
@@ -521,7 +522,7 @@ CPU/eDMA -> AXBS_0 -> QuadSPI AHB bridge -> external serial flash
 
 ## 9. XBIC：总线完整性检查，不是权限控制
 
-`XBIC` 是 `Crossbar Integrity Checker`。它站在 AXBS 旁边，检查总线交易的完整性。通俗地说，它不是问“你有没有权限访问”，而是问“这次交易在路上有没有坏掉”。
+**==`XBIC` 是 `Crossbar Integrity Checker`。它站在 AXBS 旁边，检查总线交易的完整性。通俗地说，它不是问“你有没有权限访问”，而是问“这次交易在路上有没有坏掉”。==**
 
 它会关心这类事情：
 
