@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="520" viewBox="0 0 1180 520">
+  <defs>
+    <style>
+      text { font-family: Arial, "Microsoft YaHei", sans-serif; fill: #1f2933; }
+      .title { font-size: 26px; font-weight: 700; }
+      .box-title { font-size: 18px; font-weight: 700; }
+      .body { font-size: 15px; }
+      .small { font-size: 13px; fill: #4b5563; }
+      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 8; }
+      .hw { fill: #ecfdf5; stroke: #047857; }
+      .cfg { fill: #fff7ed; stroke: #c2410c; }
+      .wire { stroke: #1f2933; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .thin { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#1f2933"/>
+    </marker>
+  </defs>
+
+  <rect width="1180" height="520" fill="#ffffff"/>
+  <text x="36" y="42" class="title">S32K324 LPSPI：从 AUTOSAR 配置到板上 SPI 波形</text>
+
+  <rect x="40" y="88" width="210" height="136" class="box"/>
+  <text x="62" y="124" class="box-title">CanTrcv 上层</text>
+  <text x="62" y="154" class="body">CanTrcv_Init</text>
+  <text x="62" y="178" class="body">CanTrcv_OpMode</text>
+  <text x="62" y="202" class="small">准备 TJA1145 Tx/Rx buffer</text>
+
+  <rect x="305" y="88" width="230" height="136" class="box cfg"/>
+  <text x="327" y="124" class="box-title">AUTOSAR Spi</text>
+  <text x="327" y="154" class="body">Spi_SetupEB(channel)</text>
+  <text x="327" y="178" class="body">Spi_SyncTransmit(sequence)</text>
+  <text x="327" y="202" class="small">Channel -> Job -> Sequence</text>
+
+  <rect x="590" y="88" width="235" height="136" class="box hw"/>
+  <text x="612" y="124" class="box-title">LPSPI IP</text>
+  <text x="612" y="154" class="body">CFGR1: controller mode</text>
+  <text x="612" y="178" class="body">CCR: SCK and delays</text>
+  <text x="612" y="202" class="body">TCR: PCS/CPOL/CPHA/width</text>
+
+  <rect x="880" y="88" width="250" height="136" class="box"/>
+  <text x="902" y="124" class="box-title">外部 CAN Transceiver</text>
+  <text x="902" y="154" class="body">TJA1145 类 SPI 寄存器</text>
+  <text x="902" y="178" class="body">模式控制 / 唤醒 / 状态</text>
+  <text x="902" y="202" class="small">当前工程确定使用 CAN sequence</text>
+
+  <path d="M250 156 H305" class="wire"/>
+  <path d="M535 156 H590" class="wire"/>
+  <path d="M825 156 H880" class="wire"/>
+
+  <rect x="70" y="296" width="1040" height="150" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" rx="8"/>
+  <text x="94" y="330" class="box-title">SPI 四根典型信号线</text>
+  <text x="120" y="368" class="body">SCK：控制器输出串行时钟，外设按时钟采样和移位</text>
+  <text x="120" y="398" class="body">SOUT / MOSI：控制器发给外设的数据线</text>
+  <text x="120" y="428" class="body">SIN / MISO：外设回给控制器的数据线</text>
+  <text x="620" y="368" class="body">PCS / CS：片选，低有效时最常见</text>
+  <text x="620" y="398" class="body">CPOL/CPHA：决定空闲电平和第几个边沿采样</text>
+  <text x="620" y="428" class="body">Full-duplex：每个时钟同时发 1 bit、收 1 bit</text>
+
+  <path d="M707 224 V270 H1005 V224" class="thin"/>
+  <text x="790" y="264" class="small">硬件输出真实波形</text>
+</svg>

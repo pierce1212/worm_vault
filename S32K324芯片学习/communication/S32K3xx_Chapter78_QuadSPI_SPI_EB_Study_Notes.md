@@ -9,7 +9,7 @@ timeline: "true"
 
 > 适用背景：S32K324 / S32K3xx，面向外部串行 Flash、XIP、QSPI 存储扩展、普通 SPI 外设通信、AUTOSAR MCAL Spi 配置和 EB tresos 配置理解。  
 > 参考资料：用户提供的 `S32K3xx Reference Manual.pdf` Chapter 78，本工程 `Spi.xdm`、`Spi_PBcfg.c`、`Spi_Ipw_PBcfg.c`、`Lpspi_Ip_PBcfg.c`、`S32K324_QUADSPI.h`、`system.c`、CDD 调用代码，以及 NXP Data Sheet、NXP Community、NXP S32K1 to S32K3 Migration Guidelines。  
-> 先说一句最重要的话：**本章的 QuadSPI 和 EB 里的 AUTOSAR `Spi` 不是同一个外设模块。QuadSPI 主要服务外部串行 Flash；EB 的 `Spi` 当前工程实际走的是 LPSPI，用于 BE13、Level/Psi5、CAN Transceiver 等普通 SPI 设备。**
+> 先说一句最重要的话：**==本章的 QuadSPI 和 EB 里的 AUTOSAR `Spi` 不是同一个外设模块。QuadSPI 主要服务外部串行 Flash；EB 的 `Spi` 当前工程实际走的是 LPSPI，用于 BE13、Level/Psi5、CAN Transceiver 等普通 SPI 设备。==**
 
 ---
 

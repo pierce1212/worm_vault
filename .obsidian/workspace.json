@@ -4,24 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "d874a949087e7dee",
+        "id": "c579cc93793a73bc",
         "type": "tabs",
         "children": [
           {
-            "id": "97e2c24c24491cce",
+            "id": "bf176a6a563c42ed",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "S32K324芯片学习/S32K324_Bus_StudyNotes/S32K324_Bus_Interconnect_Study_Notes.md",
+                "file": "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "S32K324_Bus_Interconnect_Study_Notes"
+              "title": "README"
+            }
+          },
+          {
+            "id": "c91db59b5266c90f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/CAN驱动笔记.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "CAN驱动笔记"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -78,7 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 437.5
+    "width": 415.5
   },
   "right": {
     "id": "094bbec1d5c3751a",
@@ -220,54 +235,53 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "97e2c24c24491cce",
+  "active": "c91db59b5266c90f",
   "lastOpenFiles": [
-    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/S32K324_4G_Memory_Map_Study_Notes.md",
-    "S32K324芯片学习/S32K324_Bus_StudyNotes/S32K324_Bus_Interconnect_Study_Notes.md",
-    "S32K324芯片学习/S32K324 Memory Map 内存映射学习笔记.md",
-    "task_outline/obsidian_tasks_command_center.md",
-    "task_outline/任务详情.md",
-    "S32K324芯片学习/S32K324_Bus_StudyNotes/assets/Drawing 2026-06-04 17.24.38.excalidraw.md",
-    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/rm_ch3_ppb_map.png",
-    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/rm_ch3_memory_map_intro.png",
-    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/s32k324_address_space_project.svg",
-    "S32K324芯片学习/S32K3xx.pdf",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/s32k324_flexcan_instances.png",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_excerpt_3220_fd_partition.png",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_excerpt_3138_iflag1.png",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_excerpt_3116_ctrl1.png",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_excerpt_3109_mcr.png",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_excerpt_3106_memory_map.png",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_excerpt_3094_interrupts.png",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_pages",
-    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/assets/S32K324_4G_Memory_Map_Study_Notes",
-    "daliy record/~$2K3常见问题检查列表(Check list)-V1.3-20260104.docx",
     "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/README.md",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/scripts/generate_assets.mjs",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/scripts/extract_flexcan_context.mjs",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/scripts/summarize_can_project.mjs",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/scripts/dump_flexcan_pages.mjs",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/scripts",
-    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets",
-    "S32K324芯片学习/S32K324 Clocking 时钟系统学习笔记.md",
+    "daliy record/CAN驱动笔记.md",
+    "daliy record/assets/CAN驱动笔记/file-20260605153802556.png",
+    "daliy record/assets/CAN驱动笔记/file-20260605153305707.png",
+    "daliy record/assets/CAN驱动笔记/file-20260605151639712.png",
+    "daliy record/assets/CAN驱动笔记/file-20260605150030267.png",
+    "daliy record/assets/CAN驱动笔记/file-20260605145948976.png",
+    "daliy record/assets/CAN驱动笔记",
+    "task_outline/obsidian_tasks_command_center.md",
+    "S32K324芯片学习/S32K3xx.pdf",
+    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/README/file-20260605140815824.png",
+    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/README",
+    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/scripts/generate_clean_rm_assets.mjs",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/Chapter70_LPSPI_Study_Notes.md",
+    "S32K324芯片学习/S32K324 Memory Map 内存映射学习笔记.md",
     "S32K324芯片学习/communication/S32K3xx_Chapter78_QuadSPI_SPI_EB_Study_Notes.md",
-    "ECAS_Heating_Architecture_Work/old_architecture_skeleton_mapping.md",
-    "ECAS_Heating_Architecture_Work/source_evidence_summary.md",
-    "S32K324芯片学习/security and device GPRs/S32K3xx_Chapter38_DCM_GPR_Notes.md",
+    "00_Inbox/灵感/灵感收集箱.md",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/assets/rm_ch70_lpspi_tcr.png",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/assets/rm_ch70_lpspi_memory_map_2.png",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/assets/rm_ch70_lpspi_memory_map_1.png",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/assets/s32k324_lpspi_autosar_path.svg",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/assets",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes",
     "task_outline/工作任务.md",
-    "daliy record/2026.5.22CANOPEN 协议.md",
-    "daliy record/2026.06.01 三腔阀诊断开发.md",
-    "daliy record/2026-05-27.md",
-    "daliy record/2026.5.22 HL8545的几点说明.md",
-    "daliy record/2026.06.01 功能安全开发.md",
-    "daliy record/2026.06.02 功能安全开发outline.md",
+    "task_outline/任务详情.md",
+    "AUTOSAR/communication stack.md",
+    "UDS/学习建议.md",
+    "UDS/UDS全图指南总结.md",
+    "UDS/UDS_AUTOSAR_ETAS_入门教程.md",
+    "AUTOSAR/assets/communication stack",
+    "AUTOSAR/assets",
+    "AUTOSAR",
+    "S32K324芯片学习/Real-time control/BCTU_Chapter64_StudyNotes/README.md",
+    "S32K324芯片学习/Real-time control/S32K324_ADC学习笔记_完整版.md",
+    "S32K324芯片学习/S32K324 Clocking 时钟系统学习笔记.md",
     "daliy record/Downloads_Autosar_Document_Study_Index.md",
     "daliy record/2026.06.04 功能安全之-EDC ECC XBIC.md",
     "daliy record/2026.06.03 功能安全-REG_PORT XRDC PMC.md",
-    "task_outline/周报/2026-W22.md",
-    "task_outline/周报/2026-W23.md",
-    "S32K324芯片学习/Reset and boot/S32K3xx_Chapter33_MC_RGM_Notes.md",
-    "00_Inbox/灵感/灵感收集箱.md",
+    "daliy record/2026.06.02 功能安全开发outline.md",
+    "S32K324芯片学习/S32K324_Bus_StudyNotes/S32K324_Bus_Interconnect_Study_Notes.md",
+    "S32K324芯片学习/S32K324_MemoryMap_StudyNotes/S32K324_4G_Memory_Map_Study_Notes.md",
+    "S32K324芯片学习/S32K324_Bus_StudyNotes/assets/Drawing 2026-06-04 17.24.38.excalidraw.md",
+    "S32K324芯片学习/communication/Chapter73_FlexCAN_Driver_StudyNotes/assets/rm_pages",
+    "ECAS_Heating_Architecture_Work/old_architecture_skeleton_mapping.md",
+    "ECAS_Heating_Architecture_Work/source_evidence_summary.md",
     "未命名 1.canvas",
     "未命名.canvas"
   ]
