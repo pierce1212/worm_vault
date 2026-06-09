@@ -554,6 +554,7 @@ CAN FD 下不同 MB 的 payload 大小受 RAM partition 影响。当前 `FLEXCAN
 ```
 
 对应当前 mailbox 分配：
+![](assets/README/file-20260605164900546.png)
 
 1. MB0..MB6 用 64-byte payload，放 7 个 FD Rx。
 2. MB7..MB18 用 32-byte payload，放 8 个 FD Rx + 4 个 FD Tx。
@@ -718,11 +719,11 @@ RM 推荐的 Rx MB 读取顺序非常重要：
 6. 读 TIMER，释放 MB lock
 ```
 
-为什么不能简单轮询 `CODE`：
+**==为什么不能简单轮询 `CODE`==**：
 
-1. Rx MB 有硬件锁定机制，读错顺序可能让硬件无法重新写入新帧。
-2. `IFLAG` 是 W1C，清标志动作和 MB 解锁顺序影响下一帧接收。
-3. 对高速 CAN FD，错误顺序更容易造成丢帧、重复读、状态卡住。
+1. ==Rx MB 有硬件锁定机制，读错顺序可能让硬件无法重新写入新帧。
+2. ==`IFLAG` 是 W1C，清标志动作和 MB 解锁顺序影响下一帧接收。
+3. ==对高速 CAN FD，错误顺序更容易造成丢帧、重复读、状态卡住==。
 
 Driver 里接收完成后走：
 
@@ -750,13 +751,13 @@ CanIf/PduR 上层是否继续转发
 
 FlexCAN 的中断来源很多，常见有：
 
-| 中断来源 | 寄存器/标志理解 | Driver 结果 |
-|---|---|---|
-| MB Rx complete | `IFLAG1` 对应 MB bit | 调 `CanIf_RxIndication` |
-| MB Tx complete | `IFLAG1` 对应 MB bit | 调 `CanIf_TxConfirmation` |
-| Bus Off | ESR/CTRL interrupt mask 相关 | 调 `CanIf_ControllerBusOff` |
-| Error / Warning | Error status、warning flag | Driver error callback 或状态处理 |
-| Wakeup | wakeup flag | 当前工程不是重点 |
+| 中断来源            | 寄存器/标志理解                   | Driver 结果                   |
+| --------------- | -------------------------- | --------------------------- |
+| MB Rx complete  | `IFLAG1` 对应 MB bit         | 调 `CanIf_RxIndication`      |
+| MB Tx complete  | `IFLAG1` 对应 MB bit         | 调 `CanIf_TxConfirmation`    |
+| Bus Off         | ESR/CTRL interrupt mask 相关 | 调 `CanIf_ControllerBusOff`  |
+| Error / Warning | Error status、warning flag  | Driver error callback 或状态处理 |
+| Wakeup          | wakeup flag                | 当前工程不是重点                    |
 
 ![RM interrupts 定位](assets/rm_excerpt_3094_interrupts.png)
 

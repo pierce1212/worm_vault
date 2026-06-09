@@ -1,3 +1,9 @@
+---
+date: 2026-06-05
+related_task:
+progress:
+timeline:
+---
 # Chapter 70 Low Power Serial Peripheral Interface (LPSPI) 学习笔记
 
 > 本笔记面向 S32K324，结合 Reference Manual Chapter 70、AUTOSAR Spi MCAL、EB tresos 配置和当前工程实际代码。读完以后，希望你看到 `Spi_SetupEB + Spi_SyncTransmit`、`CPOL/CPHA`、`PCS0`、`LPSPI3`、`TCR/CCR/CFGR1` 时，不再觉得它们是散落的名词，而能把它们串成一条真实的板上通信链路。
@@ -133,7 +139,7 @@ Reference Manual 给出的 S32K324 支持情况如下：LPSPI0 到 LPSPI5 都存
 
 讲得更直白一点：CPU 写的是内存映射寄存器，LPSPI 吐出来的是板子上的电平波形。FIFO 是中间的缓冲区，避免 CPU 每个 bit 都来干预。
 
-### 2.3 Controller mode 和 Peripheral mode
+### 2.3 ==Controller mode 和 Peripheral mode==
 
 LPSPI 可以做 Controller，也可以做 Peripheral。当前工程都配置成 `SPI_MASTER`，也就是 Controller mode。
 

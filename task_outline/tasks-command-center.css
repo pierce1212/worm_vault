@@ -295,7 +295,7 @@
 
 .tasks-command-center .tcc-metrics {
   display: grid;
-  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
   margin: 14px 0;
 }
@@ -329,8 +329,30 @@
 
 .tasks-command-center .tcc-metric {
   position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "value label"
+    "value sub";
+  column-gap: 10px;
+  align-items: center;
   overflow: hidden;
-  padding: 15px;
+  min-width: 0;
+  min-height: 72px;
+  padding: 12px 14px;
+  border: 1px solid var(--tcc-border);
+  color: var(--text-normal);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tasks-command-center button.tcc-metric {
+  font: inherit;
+}
+
+.tasks-command-center .tcc-metric.active {
+  border-color: color-mix(in srgb, var(--tcc-blue) 72%, var(--tcc-border));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tcc-blue) 18%, transparent), 0 18px 46px color-mix(in srgb, black 11%, transparent);
 }
 
 .tasks-command-center .tcc-metric span,
@@ -339,13 +361,28 @@
   color: var(--tcc-muted);
   font-size: 12px;
   font-style: normal;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-metric span {
+  grid-area: label;
+  align-self: end;
+}
+
+.tasks-command-center .tcc-metric em {
+  grid-area: sub;
+  align-self: start;
 }
 
 .tasks-command-center .tcc-metric strong {
   display: block;
-  margin: 4px 0;
-  font-size: 28px;
+  grid-area: value;
+  min-width: 34px;
+  margin: 0;
+  font-size: 34px;
   line-height: 1;
+  text-align: center;
 }
 
 .tasks-command-center .tcc-metric.hot {
@@ -367,8 +404,9 @@
 .tasks-command-center .tcc-metric.danger::after {
   content: "!";
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: auto;
+  right: 10px;
+  bottom: 10px;
   display: grid;
   place-items: center;
   width: 28px;
@@ -388,6 +426,16 @@
 
 .tasks-command-center .tcc-metric.success strong {
   color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-metric.review {
+  border-color: color-mix(in srgb, var(--tcc-violet) 58%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-violet) 18%, transparent), color-mix(in srgb, var(--background-primary) 76%, transparent));
+}
+
+.tasks-command-center .tcc-metric.review strong {
+  color: var(--tcc-violet);
 }
 
 .tasks-command-center .tcc-ticker {
@@ -451,6 +499,12 @@
 }
 
 .tasks-command-center .tcc-focus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 14px;
+}
+
+.tasks-command-center .tcc-filter-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 14px;
@@ -771,6 +825,72 @@
   margin: 10px 0;
 }
 
+.tasks-command-center .tcc-review-mini {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 8px 0 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 10%, transparent);
+}
+
+.tasks-command-center .tcc-review-mini span,
+.tasks-command-center .tcc-review-mini em {
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-mini span {
+  color: var(--tcc-violet);
+  font-weight: 700;
+}
+
+.tasks-command-center .tcc-review-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--tcc-violet) 42%, var(--tcc-border));
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-violet) 12%, transparent), color-mix(in srgb, var(--tcc-panel) 82%, transparent)),
+    color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  box-shadow: 0 12px 34px color-mix(in srgb, black 7%, transparent);
+  backdrop-filter: blur(14px) saturate(1.08);
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-review-entry span,
+.tasks-command-center .tcc-review-entry em {
+  display: block;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-entry strong {
+  display: block;
+  margin: 4px 0;
+  color: var(--tcc-violet);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-review-entry button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--tcc-violet) 46%, var(--tcc-border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 14%, var(--background-primary));
+  color: var(--tcc-violet);
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .tasks-command-center .tcc-archive-week {
   display: grid;
   gap: 12px;
@@ -938,6 +1058,310 @@
   border-radius: 8px;
   background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
   backdrop-filter: blur(14px);
+}
+
+.tasks-command-center .tcc-review-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.tasks-command-center .tcc-review-summary strong {
+  color: var(--tcc-violet);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tasks-command-center .tcc-review-grid,
+.tasks-command-center .tcc-review-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.tasks-command-center .tcc-review-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  box-shadow: 0 12px 34px color-mix(in srgb, black 7%, transparent);
+  backdrop-filter: blur(14px) saturate(1.08);
+  cursor: pointer;
+  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+}
+
+.tasks-command-center .tcc-review-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--tcc-violet) 58%, var(--tcc-border));
+  box-shadow: 0 18px 46px color-mix(in srgb, black 11%, transparent);
+}
+
+.tasks-command-center .tcc-review-card > div:first-child {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tasks-command-center .tcc-review-card span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tcc-violet) 14%, transparent);
+  color: var(--tcc-violet);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-review-card strong {
+  font-size: 15px;
+}
+
+.tasks-command-center .tcc-review-card p,
+.tasks-command-center .tcc-review-card em {
+  margin: 0;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-card button {
+  justify-self: start;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--tcc-violet) 46%, var(--tcc-border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 14%, var(--background-primary));
+  color: var(--tcc-violet);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-review-card.today {
+  border-color: color-mix(in srgb, var(--tcc-blue) 66%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-blue) 16%, transparent), color-mix(in srgb, var(--tcc-panel) 80%, transparent));
+}
+
+.tasks-command-center .tcc-review-card.overdue {
+  border-color: color-mix(in srgb, var(--tcc-amber) 72%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-amber) 20%, transparent), color-mix(in srgb, var(--tcc-panel) 78%, transparent));
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--tcc-amber) 86%, transparent),
+    0 16px 38px color-mix(in srgb, var(--tcc-amber) 13%, transparent);
+}
+
+.tasks-command-center .tcc-review-card.done {
+  border-color: color-mix(in srgb, var(--tcc-green) 58%, var(--tcc-border));
+}
+
+.tasks-command-center .tcc-review-card.done span {
+  background: color-mix(in srgb, var(--tcc-green) 14%, transparent);
+  color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-review-card.future {
+  opacity: .82;
+}
+
+.tasks-command-center .tcc-review-timeline-shell {
+  padding: 22px;
+}
+
+.tasks-command-center .tcc-review-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+  padding: 24px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(16px) saturate(1.1);
+  box-shadow: var(--tcc-shadow);
+}
+
+.tasks-command-center .tcc-review-hero h2 {
+  margin: 0 0 10px;
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.tasks-command-center .tcc-review-hero p {
+  margin: 0;
+  color: var(--tcc-muted);
+}
+
+.tasks-command-center .tcc-review-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 14px 0 22px;
+}
+
+.tasks-command-center .tcc-review-stats article {
+  padding: 16px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.tasks-command-center .tcc-review-stats span,
+.tasks-command-center .tcc-review-stats em {
+  display: block;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-stats strong {
+  display: block;
+  margin: 4px 0;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-review-timeline {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding-left: 28px;
+}
+
+.tasks-command-center .tcc-review-timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--tcc-violet), var(--tcc-blue), var(--tcc-green));
+}
+
+.tasks-command-center .tcc-review-day {
+  position: relative;
+  display: grid;
+  gap: 10px;
+}
+
+.tasks-command-center .tcc-review-day::before {
+  content: "";
+  position: absolute;
+  left: -33px;
+  top: 12px;
+  width: 15px;
+  height: 15px;
+  border: 3px solid var(--background-primary);
+  border-radius: 50%;
+  background: var(--tcc-violet);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tcc-violet) 14%, transparent);
+}
+
+.tasks-command-center .tcc-review-day.today::before {
+  background: var(--tcc-blue);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--tcc-blue) 16%, transparent);
+}
+
+.tasks-command-center .tcc-review-day.past::before {
+  background: var(--tcc-amber);
+}
+
+.tasks-command-center .tcc-review-day-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.tasks-command-center .tcc-review-day-head time {
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-review-day-head span {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-review-day-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.tasks-command-center .tcc-review-timeline-node {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 82%, transparent);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-review-timeline-node.today {
+  border-color: color-mix(in srgb, var(--tcc-blue) 62%, var(--tcc-border));
+}
+
+.tasks-command-center .tcc-review-timeline-node.overdue {
+  border-color: color-mix(in srgb, var(--tcc-amber) 70%, var(--tcc-border));
+  box-shadow: inset 4px 0 0 color-mix(in srgb, var(--tcc-amber) 86%, transparent);
+}
+
+.tasks-command-center .tcc-review-timeline-node.done {
+  border-color: color-mix(in srgb, var(--tcc-green) 54%, var(--tcc-border));
+  opacity: .84;
+}
+
+.tasks-command-center .tcc-review-node-date {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  min-height: 64px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 12%, transparent);
+}
+
+.tasks-command-center .tcc-review-node-date strong {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-review-node-date span {
+  color: var(--tcc-violet);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-review-timeline-node h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  line-height: 1.35;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-review-timeline-node p {
+  margin: 0 0 8px;
+  color: var(--tcc-muted);
+  font-size: 12px;
 }
 
 .tasks-command-center .tcc-timeline-note-form {
@@ -1225,6 +1649,10 @@
     grid-template-columns: 1fr;
   }
 
+  .tasks-command-center .tcc-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .tasks-command-center .tcc-timeline-note-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1241,6 +1669,8 @@
   }
 
   .tasks-command-center .tcc-detail-hero,
+  .tasks-command-center .tcc-review-hero,
+  .tasks-command-center .tcc-review-entry,
   .tasks-command-center .tcc-line-event,
   .tasks-command-center .tcc-detail-grid {
     grid-template-columns: 1fr;
@@ -1253,6 +1683,7 @@
 
 @media (max-width: 560px) {
   .tasks-command-center .tcc-metrics,
+  .tasks-command-center .tcc-review-stats,
   .tasks-command-center .tcc-rings {
     grid-template-columns: 1fr;
   }

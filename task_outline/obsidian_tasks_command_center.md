@@ -7,6 +7,7 @@ cssclasses:
 const CONFIG = {
   taskSourceFiles: ["工作任务.md"],
   detailFile: "任务详情.md",
+  reviewFile: "复习时间轴.md",
   dailyNoteFolder: "日报",
   weeklyNoteFolder: "周报",
   longTermTags: ["#长期", "#longterm", "#someday", "#长期任务"],
@@ -17,6 +18,7 @@ const CONFIG = {
   completedArchiveWeeks: 52,
   timelineWeeksBefore: 1,
   timelineWeeksAfter: 3,
+  reviewIntervals: [1, 2, 4, 7, 15, 30],
   weather: {
     enabled: true,
     city: "上海",
@@ -36,6 +38,7 @@ const sourceFolder = sourceFile.includes("/") ? sourceFile.slice(0, sourceFile.l
 const localPath = (name) => sourceFolder && !name.startsWith(`${sourceFolder}/`) ? `${sourceFolder}/${name}` : name;
 const taskSourcePaths = CONFIG.taskSourceFiles.map(localPath);
 const detailPath = localPath(CONFIG.detailFile);
+const reviewPath = localPath(CONFIG.reviewFile);
 const dailyNoteFolder = localPath(CONFIG.dailyNoteFolder);
 const weeklyNoteFolder = localPath(CONFIG.weeklyNoteFolder);
 const heroAssetPaths = [
@@ -282,6 +285,42 @@ function timelineProgressRecords(task) {
     .sort((a, b) => a.day.toMillis() - b.day.toMillis());
 }
 
+function reviewRecords(task) {
+  return childListItems(task)
+    .map(item => {
+      const text = String(item.text ?? "").trim();
+      const due = date(inlineField(text, "review|复习"));
+      if (!due) return null;
+      return {
+        due,
+        interval: Number(inlineField(text, "interval|间隔")) || null,
+        done: date(inlineField(text, "review_done|复习完成|done|完成")),
+        text
+      };
+    })
+    .filter(Boolean);
+}
+
+function reviewPlan(task) {
+  const doneDay = completedDay(task);
+  if (!doneDay) return [];
+  const records = reviewRecords(task);
+  return CONFIG.reviewIntervals.map(interval => {
+    const due = doneDay.plus({ days: interval });
+    const record = records.find(item => item.interval === interval || sameDay(item.due, due));
+    const done = record?.done ?? null;
+    const state = done ? "done" : due < today ? "overdue" : sameDay(due, today) ? "today" : "future";
+    return { task, interval, due, done, state };
+  });
+}
+
+function reviewStatus(task) {
+  const plan = reviewPlan(task);
+  const doneCount = plan.filter(item => item.done).length;
+  const dueCount = plan.filter(item => item.state === "today" || item.state === "overdue").length;
+  return { plan, doneCount, dueCount, total: plan.length };
+}
+
 function completionProgress(task) {
   const kids = childTasks(task);
   if (kids.length > 0) {
@@ -289,7 +328,7 @@ function completionProgress(task) {
     return { percent: Math.round(done / kids.length * 100), detail: `${done}/${kids.length}`, mode: "子任务" };
   }
   if (task.completed) return { percent: 100, detail: "1/1", mode: "完成" };
-  if (statusChar(task) === "/") return { percent: 50, detail: "进行中", mode: "状态" };
+  if (statusChar(task) === "/") return { percent: 0, detail: "进行中", mode: "状态" };
   return { percent: 0, detail: "0/1", mode: "任务" };
 }
 
@@ -655,6 +694,7 @@ function weekArchive(start) {
 function completedTaskCard(task) {
   const doneDay = completedDay(task);
   const pg = displayedProgress(task);
+  const review = reviewStatus(task);
   return `
     <article class="tcc-done-card" data-detail-task="${esc(taskId(task))}">
       <div>
@@ -663,7 +703,32 @@ function completedTaskCard(task) {
       </div>
       <p>${esc(taskMeta(task))}</p>
       ${bar(pg.percent, `${pg.mode} ${pg.detail}`)}
+      <div class="tcc-review-mini">
+        <span>复习 ${review.doneCount}/${review.total}</span>
+        <em>${review.dueCount ? `${review.dueCount} 个待复习` : "暂无到期复习"}</em>
+      </div>
       <div class="tcc-task-tags">${tagsHtml(task)}</div>
+    </article>
+  `;
+}
+
+function reviewCard(item) {
+  const delay = Math.max(0, Math.floor(today.diff(item.due, "days").days));
+  const stateText = item.state === "done"
+    ? `已复习 ${fmtDate(item.done)}`
+    : item.state === "overdue"
+      ? `逾期 ${delay} 天`
+      : item.state === "today"
+        ? "今日复习"
+        : `${Math.max(0, Math.floor(item.due.diff(today, "days").days))} 天后`;
+  return `
+    <article class="tcc-review-card ${item.state}" data-detail-task="${esc(taskId(item.task))}">
+      <div>
+        <span>D+${item.interval}</span>
+        <strong>${esc(cleanText(item.task.text))}</strong>
+      </div>
+      <p>${fmtDate(item.due)} · ${esc(stateText)}</p>
+      <div class="tcc-task-tags">${tagsHtml(item.task)}</div>
     </article>
   `;
 }
@@ -746,13 +811,13 @@ function taskCard(task, index) {
   `;
 }
 
-function metricCard(label, value, sub, cls = "") {
+function metricCard(label, value, sub, cls = "", filter = "") {
   return `
-    <div class="tcc-metric ${cls}">
+    <button class="tcc-metric ${cls}" type="button" ${filter ? `data-filter="${esc(filter)}"` : ""}>
       <span>${esc(label)}</span>
       <strong>${esc(value)}</strong>
       <em>${esc(sub)}</em>
-    </div>
+    </button>
   `;
 }
 
@@ -888,6 +953,26 @@ const activeByTag = open.reduce((map, task) => {
 const topTags = Object.entries(activeByTag).sort((a, b) => b[1] - a[1]).slice(0, 8);
 const urgentTicker = focusCandidates.slice().sort((a, b) => focusScore(b) - focusScore(a)).slice(0, 10);
 const focus = openThisWeek.slice().sort((a, b) => focusScore(b) - focusScore(a)).slice(0, CONFIG.focusLimit);
+const reviewItems = done
+  .flatMap(task => reviewPlan(task))
+  .sort((a, b) => a.due.toMillis() - b.due.toMillis());
+const dueReviewItems = reviewItems.filter(item => item.state === "today" || item.state === "overdue");
+const metricFilters = {
+  today: dueToday.slice().sort((a, b) => focusScore(b) - focusScore(a)),
+  week: openThisWeek.slice().sort((a, b) => focusScore(b) - focusScore(a)),
+  overdue: overdue.slice().sort((a, b) => focusScore(b) - focusScore(a)),
+  done: doneThisWeek.slice().sort((a, b) => (completedDay(b)?.toMillis() ?? 0) - (completedDay(a)?.toMillis() ?? 0)),
+  longterm: longTerm.slice().sort((a, b) => focusScore(b) - focusScore(a)),
+  review: dueReviewItems.map(item => item.task)
+};
+const metricFilterLabels = {
+  today: "今日焦点",
+  week: "本周任务",
+  overdue: "逾期任务",
+  done: "本周已完成",
+  longterm: "长期任务",
+  review: "待复习任务"
+};
 const weekReports = Array.from({ length: 7 }, (_, index) => dailyReport(weekStart.plus({ days: index })));
 const recentDone = done
   .filter(task => completedDay(task))
@@ -925,11 +1010,19 @@ const root = mount(`
     </section>
 
     <section class="tcc-metrics">
-      ${metricCard("今日焦点", String(dueToday.length), "计划或截止在今天", "hot")}
-      ${metricCard("本周任务", String(openThisWeek.length), "Focus Queue 来源")}
-      ${metricCard("逾期", String(overdue.length), "需要优先处理", "danger")}
-      ${metricCard("本周完成", String(doneThisWeek.length), "已记录完成日期", "success")}
-      ${metricCard("长期任务", String(activeLongTerm.length), "单独跟踪进度")}
+      ${metricCard("今日焦点", String(dueToday.length), "计划或截止今天", "hot", "today")}
+      ${metricCard("本周任务", String(openThisWeek.length), "Focus Queue", "", "week")}
+      ${metricCard("逾期", String(overdue.length), "需要优先处理", "danger", "overdue")}
+      ${metricCard("本周完成", String(doneThisWeek.length), "完成记录", "success", "done")}
+      ${metricCard("长期任务", String(activeLongTerm.length), "单独跟踪", "", "longterm")}
+    </section>
+
+    <section class="tcc-section tcc-filter-section" data-filter-panel hidden>
+      <div class="tcc-section-head">
+        <h2 data-filter-title>任务筛选结果</h2>
+        <span data-filter-subtitle>点击任务卡可进入任务详情</span>
+      </div>
+      <div class="tcc-filter-grid" data-filter-grid></div>
     </section>
 
     <section class="tcc-ticker">
@@ -954,6 +1047,21 @@ const root = mount(`
       </div>
       <div class="tcc-done-grid tcc-week-done-grid">
         ${doneThisWeek.slice().sort((a, b) => (completedDay(b)?.toMillis() ?? 0) - (completedDay(a)?.toMillis() ?? 0)).map(completedTaskCard).join("") || `<p class="tcc-empty">本周还没有完成任务。</p>`}
+      </div>
+    </section>
+
+    <section class="tcc-section">
+      <div class="tcc-section-head">
+        <h2>复习队列</h2>
+        <span>独立时间轴展示 D+1 / D+2 / D+4 / D+7 / D+15 / D+30 复习计划</span>
+      </div>
+      <div class="tcc-review-entry" data-open-path="${esc(reviewPath)}">
+        <div>
+          <span>今日待复习</span>
+          <strong>${dueReviewItems.length}</strong>
+          <em>${dueReviewItems.length ? dueReviewItems.slice(0, 3).map(item => `D+${item.interval} ${cleanText(item.task.text)}`).join(" / ") : "今天没有到期复习"}</em>
+        </div>
+        <button type="button">进入复习时间轴</button>
       </div>
     </section>
 
@@ -1010,15 +1118,47 @@ const root = mount(`
 `);
 
 function bindInteractions(root) {
-  root.querySelectorAll("[data-detail-task]").forEach(element => {
-    element.addEventListener("click", event => {
-      const taskId = element.dataset.detailTask;
-      if (!taskId) return;
-      window.localStorage.setItem("tcc:selectedTaskId", taskId);
-      window.localStorage.setItem("tcc:selectedTaskAt", new Date().toISOString());
-      openPath(detailPath);
+  const filterPanel = root.querySelector("[data-filter-panel]");
+  const filterTitle = root.querySelector("[data-filter-title]");
+  const filterSubtitle = root.querySelector("[data-filter-subtitle]");
+  const filterGrid = root.querySelector("[data-filter-grid]");
+
+  function bindTaskLinks(scope) {
+    scope.querySelectorAll("[data-detail-task]").forEach(element => {
+      if (element.dataset.boundDetail === "1") return;
+      element.dataset.boundDetail = "1";
+      element.addEventListener("click", event => {
+        const taskId = element.dataset.detailTask;
+        if (!taskId) return;
+        window.localStorage.setItem("tcc:selectedTaskId", taskId);
+        window.localStorage.setItem("tcc:selectedTaskAt", new Date().toISOString());
+        openPath(detailPath);
+      });
+    });
+  }
+
+  root.querySelectorAll("[data-filter]").forEach(card => {
+    card.addEventListener("click", () => {
+      const key = card.dataset.filter;
+      if (key === "review") {
+        openPath(reviewPath);
+        return;
+      }
+      const list = metricFilters[key] ?? [];
+      if (!filterPanel || !filterTitle || !filterSubtitle || !filterGrid) return;
+      filterTitle.textContent = metricFilterLabels[key] ?? "任务筛选结果";
+      filterSubtitle.textContent = `${list.length} 个任务，点击任务卡进入详情`;
+      filterGrid.innerHTML = key === "review"
+        ? (dueReviewItems.length ? dueReviewItems.map(reviewCard).join("") : `<p class="tcc-empty">当前没有待复习任务。</p>`)
+        : (list.length ? list.map((task, index) => task.completed ? completedTaskCard(task) : taskCard(task, index + 1)).join("") : `<p class="tcc-empty">当前分类没有任务。</p>`);
+      filterPanel.hidden = false;
+      root.querySelectorAll("[data-filter]").forEach(item => item.classList.toggle("active", item === card));
+      bindTaskLinks(filterGrid);
+      filterPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
+
+  bindTaskLinks(root);
 
   root.querySelectorAll("[data-open-path]").forEach(element => {
     element.addEventListener("click", event => {

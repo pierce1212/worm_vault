@@ -1,0 +1,1079 @@
+{
+  "source_album_url": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzk0NTM4MTI2MA==&action=getalbum&album_id=2459112360276754433#wechat_redirect",
+  "crawled_at": "2026-06-07T16:26:08.019Z",
+  "album": {
+    "id": "2459112360276754433",
+    "title": "#Autosar",
+    "account": "汽车电子学习笔记",
+    "user_name": "gh_65384d4a8ed9",
+    "article_count": 133
+  },
+  "article_count_expected": 133,
+  "article_count_actual": 133,
+  "articles": [
+    {
+      "title": "TC3xx功能安全（一）-LBIST-技术原理与工程实践",
+      "create_time": "1780805400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/Xfj2byWloHJibzRVOgC8xgquKxIBw3o2QHP3Xo0bJxF82wp1Ne0P6SHMcibnAxICnYpsm20ibqPp7iafomVPRyvbicJZHA5PL4WF8nzlVm8hMFbY/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488685&idx=1&sn=5b43e0a7359a7c48fb24f9da05d2f215&chksm=c3171e4ef460975839baf75167a51464900dcd9e9fab64885f970ba623b56fdf0482d21a5a1c#rd",
+      "msgid": "2247488685",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断请求1101到MCU复位的完整流程",
+      "create_time": "1780230600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/Xfj2byWloHJOn2QKEMxRNvV8bSL3WPmk5labicFL8HiapUYYZM5pIqdPiaziaswCbXaolmwY2nQdzXw2yCEydnUHibE33Ac4Fx3Cb2kEKLsCgXt4/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488666&idx=1&sn=3a2da50ac2dd012c1abc80dca87dd860&chksm=c3171e79f460976f85bfb124a1e24dbadc2a34ac84ed4bb661fe82abd192f1819102cf55738e#rd",
+      "msgid": "2247488666",
+      "itemidx": "1"
+    },
+    {
+      "title": "基于ETAS工具的AutoSignalMapping实现方案-工具实现",
+      "create_time": "1778927700",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/Xfj2byWloHJibgtS3VtF3KhspTuLI1Yqqb4n1oVc7WkLLRw926jp0ozlTd184SzMYdKichSTL7UxJHgPgZtCJERkGP1dLBJIv0jtGu9a4xIicg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488661&idx=1&sn=c4bd956b9c1cfae12e9c0c5c56862c17&chksm=c3171e76f4609760c4cb7e2e8e8f674c6076ddd9a171fa2f9b0d7e2f2fbba072b05cb34d8afe#rd",
+      "msgid": "2247488661",
+      "itemidx": "1"
+    },
+    {
+      "title": "Eb tresos自动化-脚本自动生成MCAL代码",
+      "create_time": "1776582600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/Xfj2byWloHIHJXP9myOpicM5olKTvd22iaPwz6oK9zib8GF9EDfZ5HF4gADNeG8sgam6C1kg1wZ2eUDcEHqsol1kEV09N8xPm4oKIvzBpzkfDQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488642&idx=1&sn=bcf3d9973fd0c9ce942cf023613a5a71&chksm=c3171e61f4609777c78861bb5d7acf25e5e3f5b66c141e33f6e263f1a6a01f752332b80e9eb6#rd",
+      "msgid": "2247488642",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar 网络管理-诊断请求到底能不能快发Nm报文？",
+      "create_time": "1774701000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/Xfj2byWloHLIVicz9Il31cHrOJv9Q1zXFvnBx6ziaS9KOGrViaVPmhTI6f9qcQYicLHz3a4C6QDWycgg895iapF90TUjDwJmPO80hTXic0N4488LY/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488624&idx=1&sn=22261cd1ee26c4b6584d23ee2a1b23bc&chksm=c3171e93f460978528419a7891a2fbc083778d8ab4a2da1804956ff23728099773346dce09eb#rd",
+      "msgid": "2247488624",
+      "itemidx": "1"
+    },
+    {
+      "title": "初始化函数的用法-节约flash空间的“妙计”",
+      "create_time": "1774100400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/Xfj2byWloHJLJOia9Kb55GS9A3V8SYtLQrgaucspfwo2PNBtI9WSlR5TJ0aqFM3D1IZtxNnlI12xeCC1ZP42Xicx9vABYwEsczPibOBibGiaD6fQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488616&idx=1&sn=9e904b75561dbe010c910062db3a5bd8&chksm=c3171e8bf460979ddcb42850de731524f96746715e6de74089d5916c67a48934c3a8b2df8d50#rd",
+      "msgid": "2247488616",
+      "itemidx": "1"
+    },
+    {
+      "title": "基于ETAS工具的BSW/RTE/OS代码自动生成",
+      "create_time": "1773494700",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/Xfj2byWloHJDtATxOFqt5FdTdBiaXRpVgCQibPE2DocgPPHwFJAwFSHrVUFKZicQz1XDL3ft0RfIrFK7SibGVVvlmoccB6DSXjzzSndOS6ibzlJ8/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488608&idx=1&sn=4c51c3c0d4ebe5cfc313ddd182ef761a&chksm=c3171e83f46097954f41d5590676766d881eecd6c8e1efd7daa58846e80d88a2a556c35defdf#rd",
+      "msgid": "2247488608",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Com配置-报文pdu超时配置及实现-基于ETAS软件",
+      "create_time": "1769953800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZ3DCur37Zb2Fibj7XFy0riahGv2uBn17r1gmTm8VORiaVsrORaPpahW02RT6mAfgaFf2GnjMmCzJLDA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488571&idx=1&sn=2a9fd80ddba04a55f1680a78d975d84d&chksm=c3171ed8f46097cef447c60a8c73e322c1fe985b3806c84e4d55445ad63bb98bdf5e488af3f4#rd",
+      "msgid": "2247488571",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Com信号收不到排查-基于ETAS软件",
+      "create_time": "1769350200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYacvOBjFfEUWqj1hTZ5xrY1NynFJhfntVTRSrfQ97TZooLiaxynUVficfIUYwLGslxs7lCECoowmmDA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488561&idx=1&sn=652fc0acd07d074c3d50b0d8d3924461&chksm=c3171ed2f46097c4985e7297905f2ec877cfe8743fdf11bf9929c8574ba8f39967a198fc9bf0#rd",
+      "msgid": "2247488561",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Nvm配置-使用Nvm block中的CRC功能-基于ETAS软件",
+      "create_time": "1768738800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYY7SQ9dVGc8dHhpD5Ygze2Xl0Bg8DfwBthNqzDM9mCMJIGtQSehvQichyFfw6atkgyRcngMD3cuktA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488547&idx=1&sn=934215ced5a4eeb655f9e4ad7dd08c35&chksm=c3171ec0f46097d67f9cff91640f7a7ec269ae62b298b40ffd5d25b6281339cdb2fdf3f6f1aa#rd",
+      "msgid": "2247488547",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Com timeout实现过程-基于ETAS软件",
+      "create_time": "1766831400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZVXGO91ZKZBiceHLDclQLgU3iccqkVcCXHxAeKtZxMwGcRyARMFkmXSCqxvg9UwGMTAqHtlVYKUmkA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488537&idx=1&sn=52240c852f6f867a8e0606408e2deda9&chksm=c3171efaf46097ec4d4d64d87e0373595209a7b40bcaade47ac888616c460beda99c82340ffc#rd",
+      "msgid": "2247488537",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar 多核软件中调用同一个Runnable的实现方法-基于ETAS软件",
+      "create_time": "1766311800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbTSMTyp0bdnMtUL3AlEvIuibYkV2XO0RrzwYafbfX1eqHyDhxSg5OZXtSpS1YIv9S3vpatnauCY1A/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488524&idx=1&sn=a437cb93e317ccf4a782e64d3d84622e&chksm=c3171eeff46097f9bc23a6f6c78f1c41a13c8b264b57b259844e3ea3e2fde59cee0d1912f76c#rd",
+      "msgid": "2247488524",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Xcp配置-支持CANFD 64byte标定更改-基于ETAS软件",
+      "create_time": "1765632000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYhnObvs6dv2LxshBZiaYW5ic0ERh2HAsUlN3bC5vEUnH0mP60A7ibEvyA7T1nu1uMVSottJicLR8IVAg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488483&idx=1&sn=6d6c29d0e9210e2b7e280a56cfb0339f&chksm=c3171900f46090160a8e20f7c5d40a45f911262e48cc1510bc218c977d5e2bf9ad636a858abd#rd",
+      "msgid": "2247488483",
+      "itemidx": "1"
+    },
+    {
+      "title": "Python脚本开发-根据编译器类型替换pragma定义",
+      "create_time": "1765109400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbHkXXe94aobzqUVJeZNOKaPBmTohbAOZ1aJXtyt3mMfw0rKINe1icJtAyTf35tuAf1NLsfKSHJdcg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488472&idx=1&sn=6d9ae3c833c072c004f6d8000a1b7646&chksm=c317193bf460902d06c0d32d434590739aecc0497f64c95b9dd2f3204a7dfbd3760ae5f99a29#rd",
+      "msgid": "2247488472",
+      "itemidx": "1"
+    },
+    {
+      "title": "winIDEA操作UCB中的BMHD",
+      "create_time": "1764411000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbibaFXY8vZ4RHePGqQ4Buw7czp2uDkQv7WsooLicLkuJ6ov1qKwIRzE34YPontts02YyC3hoPHIYbg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488455&idx=1&sn=4dcda1488207c7a50b07e72edf25f44f&chksm=c3171924f4609032dbf7f10fc387d4f409214da0763cc8896247fb9f4fdfccb2cfaa31a8eb27#rd",
+      "msgid": "2247488455",
+      "itemidx": "1"
+    },
+    {
+      "title": "报文中的UB位跳变问题分析",
+      "create_time": "1763895000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaaKPPiasTsd0gMib9Yv5ErSZ5wDEfVRwQR6KNdkU6nsABEsDbLMMgE255sNGGXLPFejhqyDLAm5sMg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488431&idx=1&sn=a3682db17a6c7490424f9c59e6bf89b3&chksm=c317194cf460905a9625b6042488a913d7eba8bf57ee0c6742a141a58eea67a3e1125b10db45#rd",
+      "msgid": "2247488431",
+      "itemidx": "1"
+    },
+    {
+      "title": "TC377 CanFd Data段波特率及采样点偏移-基于EB",
+      "create_time": "1762600800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYvyQlNp3HTldiaFNjeKXbd3qAia0WJ8FUPlJLJwHbrwuDuIXdicuYQUhUjWAqWszQ5C7EyKeo5p23SA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488408&idx=1&sn=d9bc60a285c8387b41f568edab238a2a&chksm=c317197bf460906df6400074670676020fdf2109e6b64f248015d3e2228e497cdbab2bc9a79a#rd",
+      "msgid": "2247488408",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断1101响应报文发不出来问题排查",
+      "create_time": "1760791200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYxfmD2887hrYUibxtiaehXdicXj9nZ48t9e2VicfibC1Xf7NheCtNU9LqrVg7ATv8XaE74QToQrJRswog/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488380&idx=1&sn=0dfbc854046d35a1d02c3d9351d10d4f&chksm=c317199ff4609089423d856b651713b3fc98510a9ddde36d2b81e9efe04c8ab9f65b1b0111a4#rd",
+      "msgid": "2247488380",
+      "itemidx": "1"
+    },
+    {
+      "title": "ETAS Fee与MCAL Fee NvmReadall及WriteAll性能对比",
+      "create_time": "1760269200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbaY8lpysmxETCsNoAPcMbVH093V2gURxIpBN23gWHVYSxnTRIxic65We4jyoqE5X5C4sGv1XJNkcg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488369&idx=1&sn=9f83a8d9b73dafccb22d01130cacfb40&chksm=c3171992f4609084c1ef756c1cb61468242ece8df3cd7e703b069bb4566f4eea8f9a59914496#rd",
+      "msgid": "2247488369",
+      "itemidx": "1"
+    },
+    {
+      "title": "中断屏蔽实现方法-ARM内核",
+      "create_time": "1758462000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZqtdWIiaa6lVAodzict0Y89PAcrhoiaU8oy4yYawYf87MXztWcCQ6Hs9v0wic4UDFzCuvK4FFmWf9R7g/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488354&idx=1&sn=a1ffaf26251680e636611778a1168305&chksm=c3171981f4609097501b1da0ccbb90c4ce0a0b41804bf87aaa4ac1083f88c89e0234de535c9b#rd",
+      "msgid": "2247488354",
+      "itemidx": "1"
+    },
+    {
+      "title": "不同Autosar CAN版本的主要实现差异",
+      "create_time": "1757241000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaic9T29wiaxmBrp8N3N6pib6kMOoFD33ak4Wx1eZRSGKDCe6gosHRTmhvmpmrXtSD1mJTZU3SJjsWUQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488342&idx=1&sn=8b1b72f60263fc38406d04d5829f6f07&chksm=c31719b5f46090a3c1f1288200ac94414bd4eed0d6250bad66544840e9b93d42dab5345ff90d#rd",
+      "msgid": "2247488342",
+      "itemidx": "1"
+    },
+    {
+      "title": "TJA1445学习笔记（二）",
+      "create_time": "1756636800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYa88WZohJ3OD3zNt4H7wJwYgE5r0W71w5BgzTmibptFUW0IbT81DyJAKnnkzWVvoEiaOD24wXQJX3aA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488306&idx=1&sn=c287bc34a55128ab6bd2f6fac682401f&chksm=c31719d1f46090c7c470a7278997a1a7bfc334007bed048c1c2c44f6d30c774d735d72298d14#rd",
+      "msgid": "2247488306",
+      "itemidx": "1"
+    },
+    {
+      "title": "TJA1445学习笔记（一）",
+      "create_time": "1756032000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbxg3TXnGGSNp0nfuAasLLKISqicRlHhE1xicibEIum2wjicSuiaVys4jWV7ycKfuBbw96W5Ub3d2codIg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488297&idx=1&sn=f03772babda3fdd03529e4fe31324ca6&chksm=c31719caf46090dc543869209f1a4c35078cb96f99c4d1be0263b9ade80ffa6af5b6f58b8815#rd",
+      "msgid": "2247488297",
+      "itemidx": "1"
+    },
+    {
+      "title": "Python脚本开发-统计Rte中未连接的Port",
+      "create_time": "1755340200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYrsgxtEDXHobB5rlTZNEvIsQWHXvdOY0OJ3uw4nLMkRWcoqgsXNRdXhLlL6egeuqS4tLGxPkshaQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488254&idx=1&sn=6920264377e28fad07cc17a8512239a5&chksm=c317181df460910b9dad364739be4800ce09dc160d7a3ea73beceddc872bd7c7c0c290d3a5b5#rd",
+      "msgid": "2247488254",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Nm-网管报文PNC停发后无法休眠问题排查",
+      "create_time": "1754134200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbQGBD7rghmVice5PuibCSoicia6MCEz3fGwLNswUc7CEWbMjTgY6njib6XMW1rVVlwk1r4b3VDvlYWic4Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488232&idx=1&sn=91c5461706564f13cde160ad4a76509c&chksm=c317180bf460911d620c941f1d6f4f07a1b65195f749e382c855ec814b4cc2d6c214d03c8a66#rd",
+      "msgid": "2247488232",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar RTE实现观测量生成-基于ETAS软件",
+      "create_time": "1753013400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbI1PcRGSiclXY7w1ibWo4icvg67LWSq6GVuuAoKGqsjs1sVxcJK2t66Js76rAvhm1SlEYf5QRDiaYGTw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488215&idx=1&sn=5856a771893aca68f6e4517f5d48beaa&chksm=c3171834f460912235a7caf4d4a5d1f8890708bd44548484307dfc32c9d1584d7ce911cb1ca7#rd",
+      "msgid": "2247488215",
+      "itemidx": "1"
+    },
+    {
+      "title": "复杂驱动开发-TLE9471的PN唤醒配置",
+      "create_time": "1752409800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbT9c23N2ZRhKqiasjAFBOTIKqbbauMOWKq65KWEOh2ibrPYc7WMXcCxRJAonpTF1ld26CEgxVQShcw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488198&idx=1&sn=721e0565876479599f3d6daab9d8f04d&chksm=c3171825f4609133f70880d55a1f466615d8d8346796ab1a8838bb7bddd59f8891f4fa98c3fa#rd",
+      "msgid": "2247488198",
+      "itemidx": "1"
+    },
+    {
+      "title": "32次错误帧无法触发busoff问题排查",
+      "create_time": "1751796000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYY6UmgRhD0ZPQCSyx4qx6kQZoiaLGREbWvJaTKUz82tFet1xLqpN5iazjRKUQfnkmU74kibnnbiczAOgA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488166&idx=1&sn=e3f5325e2951f4a661e0cf24ad45dc04&chksm=c3171845f4609153b17ab93660adbe9255750d7ae93faa492924730df2149725833d56d7ab98#rd",
+      "msgid": "2247488166",
+      "itemidx": "1"
+    },
+    {
+      "title": "复杂驱动开发-TLE9471的休眠流程与定时唤醒",
+      "create_time": "1751112000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZuGZXwL8Ry2ibNKHm8GxcWYBsG4opeNiaBxVQibwDCzH7PZgvALTCrXISmrZ4nsMA4SSXHhekyN8ydw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488146&idx=1&sn=3796ef323166203af20a3b104f50264e&chksm=c3171871f4609167ad0fb22488c60d73c6a03b92b459c6c6bf4b4ebd45c9a466d90a5c671962#rd",
+      "msgid": "2247488146",
+      "itemidx": "1"
+    },
+    {
+      "title": "使用Simulink开发Autosar Nvm存储逻辑",
+      "create_time": "1746883200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYa4htsB0Ahecsg55jbqibOAPOPJqepBhOwQrnyeNPPdOUTpW8OxcukcBUzp0sKbAnicYuK1cOb9aBew/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488026&idx=1&sn=8b80caee16804d2ea6ced53961ab1ee7&chksm=c31718f9f46091ef50ac721a15116b8800355acd3414830b273a42c580244b2550b591922f42#rd",
+      "msgid": "2247488026",
+      "itemidx": "1"
+    },
+    {
+      "title": "快速从S32K358切换到328",
+      "create_time": "1745151000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZFE0Uknvic9icsmmf5X25lpjp8OlZzTpwKiad2rus6DeUzOIjfZNx5mZ9iakCAEp8BXO3ahljShBcJrA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487989&idx=1&sn=9501313a89214b3be4c9a751e97e8094&chksm=c3171b16f4609200a3be23af3efb1de195b863ae47ccaf6412f0d59a4b64be06aec2911f605b#rd",
+      "msgid": "2247487989",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Nm开发问题-部分网络管理报文无法维持网络唤醒",
+      "create_time": "1744540200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaibWUtE8tA3icIALOelibCYjuxDyibgu3tvIf2rQhZnP0LbzAQwrH9arZxo0N4yFx35oIicfMhibhblYTA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487977&idx=1&sn=6fdcef66560cb09979e67ede700ed2b6&chksm=c3171b0af460921cfc51480bb087a1f8916eee9ed675a709ffeb4efb62300f022a9d084aac76#rd",
+      "msgid": "2247487977",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断开发-1101复位之后故障仍保持原因分析",
+      "create_time": "1743942600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbKKdNW4F3wSztcO69iafwVDjE8962Y2BQOibTCMXvPBIZD8cOY3OYyAibKPIyRprurVxbiclTwtichHNg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487969&idx=1&sn=04fd283ef18f8c66097bbe916a6c75e0&chksm=c3171b02f460921470548728324ac6ea793f0687d0f58af15f271b9da248e1ddf2d20e456998#rd",
+      "msgid": "2247487969",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 MCAL SPI波特率配置不对问题排查",
+      "create_time": "1742647200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYPTQ6aHzre9gXQ1Ewm66e4ex2sA44j1WYpGAjupctBdAPaf3M5QiaGNhqtkZLMiclo3OSRINYdhAtA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487948&idx=1&sn=8ed189471b31868948fac71b25104f3e&chksm=c3171b2ff4609239f7346cf1de8ae9f3f052b6b909f99602054b9d307d06cdbd74aa5dd63826#rd",
+      "msgid": "2247487948",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar 诊断开发-CAN到CANFD的更改-基于ETAS软件",
+      "create_time": "1741433400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZdKkGetx6bvZkdUNYBvS2iciaGzxLxWnwSrNPUia62CyRjQ1wKYiaadwLKIKxHdMttV06ekYaKEPAD5w/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487920&idx=1&sn=2526327a01cb4e01ac038bcec6dd360a&chksm=c3171b53f4609245a9f5212f3e9463790aa0c5b58304068acb4567a1cd56111da41790920054#rd",
+      "msgid": "2247487920",
+      "itemidx": "1"
+    },
+    {
+      "title": "使用Simulink中的IsUpdated获取Rport的更新状态",
+      "create_time": "1740837300",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYa5Tgq2TkHp80sBFicKOZCSoDkI9sAPVicVRI6ia6icicq5CGxkrFrBftZF9632pCl81P7eekaFM5BTjZg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487909&idx=1&sn=f4681c74a3f46dc0d96305237939cc51&chksm=c3171b46f4609250b88b2e5dc23d2edbe8b5df3163c7057f977893ce2b5f742ab902bf913e22#rd",
+      "msgid": "2247487909",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Com配置-Timeout配置及实现-基于ETAS工具",
+      "create_time": "1740231600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYY9QQeqGo40Aha84AmRIAE969vTOZ5sM4BK5AYfia96KrAw6ZII0fbT9gJvm53YB2f4o9O5NYsgCZw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487888&idx=1&sn=7b977871737274c18e220ce3a3546902&chksm=c3171b73f46092650dad2c6cbc0af89e5cb2986ef3f55c62c72b5302b3f9f1799bbfd9f42983#rd",
+      "msgid": "2247487888",
+      "itemidx": "1"
+    },
+    {
+      "title": "2024年终总结",
+      "create_time": "1738159200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbsicnH48yQuRC4XLwicTV6WgkXr1V2zlQ03ZSCLA95c9W3d4N37FciaUsY9NiacGszOp0s16kZTNlGNw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487878&idx=1&sn=1ef33a2901ee42e7d333f5affcc8211a&chksm=c3171b65f4609273e46382cb005ce53c077bd8fda4b02c987489bd43edb1b80ac04ebee00ca0#rd",
+      "msgid": "2247487878",
+      "itemidx": "1"
+    },
+    {
+      "title": "基于ETAS工具的AutoExtract实现方案",
+      "create_time": "1736681400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZ4NJVb4PqX2icwWicbicDWaATPDO8h7F0ick1hLpNptTbxIWiak5UfpZz5Xz2YKeXV7iaVjWEtU6ehcKYw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487873&idx=1&sn=365eaa85a86075312c7221d56527fce9&chksm=c3171b62f4609274fcbf75222afbdce9749a8b82ef8d984d9221a239a1ca446938c366694708#rd",
+      "msgid": "2247487873",
+      "itemidx": "1"
+    },
+    {
+      "title": "使用Basic-CAN模式接收CANFD报文-基于ETAS工具",
+      "create_time": "1735470000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbiakQggXKIib9ysic978ick6gsEGCrDRrg1fiazpibRCxLdRe9hsaicSBx78R9pNtgia9HHUHoVo2rv2JcFQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487834&idx=1&sn=1ffee74c874ceed16c1c9ffc63496245&chksm=c3171bb9f46092af731bd8a39e9f005eb9380db9279c8741971ce8f06da156bc022c0bbea538#rd",
+      "msgid": "2247487834",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 MCAL中的Postbuild和PreCompile使用",
+      "create_time": "1734876000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYY4Q6Xzj0xEnUwlwEGgz601btSMkplwGDnic0cXo2bxB4OslJIBBVrK4cohBnslr7KT1dSBuAtcaQA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487826&idx=1&sn=362cd5ee83dcfb12784f925c07ba71f4&chksm=c3171bb1f46092a7aa3d09d81c812716f08901d431c9ad7e8be07d6c88e0a15ac456f252b5ac#rd",
+      "msgid": "2247487826",
+      "itemidx": "1"
+    },
+    {
+      "title": "Greenhills Lib操作-查看Lib信息与将lib中的data段link到指定区域",
+      "create_time": "1734444300",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZTwbWqT8U8hPqYR8EOmOC53OkFfKre62JDx4H54YH5By0bdVkzt4Mq5jicDkq7TrVSj5N354wlIXQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487753&idx=1&sn=b32cee407052efe2f144b7167a9605c8&chksm=c3171beaf46092fcf88ec08e09672f0242504533276600fa920af66117658d4b60eb358918ca#rd",
+      "msgid": "2247487753",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA C2012学习笔记(10)-Rules 8.15",
+      "create_time": "1733660400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYY89dTTBIHic1k8MXkhnSYtIfyF9OOMeBDXOAEKxLpia6J1noGSS4PsEtibmE4v4RA1AiaSAaqdMofyDw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487737&idx=1&sn=3d1953bc1545757830a068fa8ba3f839&chksm=c3171a1af460930cc43a2a02fe34a2c21df91566a2e2f5409d02325be604bde41ef2a741666d#rd",
+      "msgid": "2247487737",
+      "itemidx": "1"
+    },
+    {
+      "title": "使用Simulink开发Autosar DEM诊断逻辑",
+      "create_time": "1733226000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZXnDu7UAjMic9NOibMlXFBMOvMnKyO1tUdOTSe9CiaFr5bE1UfpUINRZaDmMh6eCIpCicPHx5KibJnXvg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487652&idx=1&sn=fde39dfabd81588bd37db226e60a311b&chksm=c3171a47f46093516bca2cc78df0646a121932cb092341da9e0114b0273f3af6d1f03d5ef2f8#rd",
+      "msgid": "2247487652",
+      "itemidx": "1"
+    },
+    {
+      "title": "CICD实践-使用云效Flow实现Autosar工程的编译与可执行文件交付",
+      "create_time": "1732445100",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaECZDYfCENM7fceV3uphus17xIoHZbxy1jBbOHPu6sdETaJyURgtLPw9SgEEWtO8AvjkMRiau3YwQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487610&idx=1&sn=148759d8ccb74318f939d55413bbfbb9&chksm=c3171a99f460938fef76f74872b68a6c2c84fce5c9e7a7ff04b274d2c6d77f4b76f7e375526f#rd",
+      "msgid": "2247487610",
+      "itemidx": "1"
+    },
+    {
+      "title": "ETAS工具导入DBC生成Com协议栈",
+      "create_time": "1732445100",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaECZDYfCENM7fceV3uphus17xIoHZbxy1jBbOHPu6sdETaJyURgtLPw9SgEEWtO8AvjkMRiau3YwQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487610&idx=2&sn=9e0541f5cc13117f420e2bbda35f6e3e&chksm=c3171a99f460938f537b7f2b931cf4c3a62bf3cb9f65400ee48d673fe2da9b568a1e1852a82d#rd",
+      "msgid": "2247487610",
+      "itemidx": "2"
+    },
+    {
+      "title": "S32K324信息安全-使用IC5000/IC5700进行debug口解锁",
+      "create_time": "1731846600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbCPMzJVcc8tKb10rAGBl1MObHXqRj0Y8qzr1ZFfDVcRfTnJk38W318iaT3h26hichwSOSOOsmfQ9ZA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487538&idx=1&sn=5a53ef837fe16e0bd3d843ea671b9c35&chksm=c3171ad1f46093c70b7d83a35eb667fd84f080c5e979322c737ea16c504fe6af6b4c3655f905#rd",
+      "msgid": "2247487538",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 DTCM/DTCM Backdoor使用及测试",
+      "create_time": "1730547000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYibhKIfC4Hq33mDuVm9DMibDNfwuAffFnLDKAuiaibrE88UqyjjLFkHoSmvMicMGLNJ2xFRHBzPeS28rQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487483&idx=1&sn=44a1399b3c484521044b64221006f72e&chksm=c3170518f4608c0ec9cfac4943499678a3903777be58ea9a2afdc1b5127afb7caa949d72e93b#rd",
+      "msgid": "2247487483",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断知识：NRC78(Response Pending)的回复时刻",
+      "create_time": "1729432966",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYY1w0Axia6Id16UsNswYV9sHQuy03SlebbbKNz4PFFx7U0OAFJx8WBMcyxibZuLbBppEuw3cJ9PXI5Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487454&idx=1&sn=325513d731f299b5cef7496a93514208&chksm=c317053df4608c2b7eb6c3805898705f6870ab54c5038ff03744f908a9bcba89babfdd392e01#rd",
+      "msgid": "2247487454",
+      "itemidx": "1"
+    },
+    {
+      "title": "RTA-OS Port Guide学习(四)-基于S32K324 OS",
+      "create_time": "1728214200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYzdjgXLypOSZiaBcIgfV9uJTX32QZibjz0TDvs5icQ3qryMprWGXlWy6BAViaIm4ic82WBycdbB6Ob1Lg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487412&idx=1&sn=59f269db3b2dba3560f327b254f5c4cb&chksm=c3170557f4608c4144c56609700714ff800de76088a4a229032fe25d8fd32900997392175abe#rd",
+      "msgid": "2247487412",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar EcuM学习笔记-上电初始化执行函数及下电前执行函数",
+      "create_time": "1727529300",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYb4NtZicdFr29r5qb1WfgjT5yCZwhTusAp5wYAnzvTTLa2bAVJfkZtzPWvfmLYL8PctxGkwq1Ro8g/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487362&idx=1&sn=76222c0454bc70db4a186b4bd15f8057&chksm=c3170561f4608c77a213019d87792ce3f928bddae0062f4424000f9d70a8a148be699c0f8f5c#rd",
+      "msgid": "2247487362",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Dcm开发-诊断报文请求网络管理报文的实现方法-基于ETAS软件",
+      "create_time": "1726918200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaTVW6CkW5ZbG6wVdF8QDH1nujia0GckgEXTSrtuQOOnAdnOLancMkFqqibODhNGz9t56P6xndicEwRw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487325&idx=1&sn=b88b9abf9a5288444e2b5ac495e9d850&chksm=c31705bef4608ca8381b16806494809a6a1168d4b946607366ac17994409dd69b9b9319b3e4f#rd",
+      "msgid": "2247487325",
+      "itemidx": "1"
+    },
+    {
+      "title": "RTA-OS Port Guide学习(二)-基于S32K324 OS",
+      "create_time": "1726491600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZWQKYz29Q61m9SSQtBN6ENwQEtPBPiaia5nRQvDiaay5L8GfTrSibCCJ3VTAFtdQTo22z2Bp5DkFB6nA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487309&idx=1&sn=abc0004f13a21be1dd48595b4acbcc46&chksm=c31705aef4608cb81fa6239766225745fa019be51a50b6792c6d1fa1c9d1eb4fa5005866d566#rd",
+      "msgid": "2247487309",
+      "itemidx": "1"
+    },
+    {
+      "title": "RTA-OS Port Guide学习(一)-基于S32K324 OS",
+      "create_time": "1725795000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZN1QGeZ4D8zDYTnKxarOR9IfjJC05IzmicxWWp3tnXkNT7trP518BHqibyZpiamh54bjp4D0fw8uH1A/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487257&idx=1&sn=2429f17efb70d7ad0c46c1d21151567d&chksm=c31705faf4608cec372b0a58b3912bbf22cf7aa991ed631b1335e13b555710ff50932f13539c#rd",
+      "msgid": "2247487257",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断知识：agedDTCLimit的使用",
+      "create_time": "1724581800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYmf0E33HC1X1ibmibbckPMSmkMKZyPiapRWayM1vGSvcXas7Ckh9eoKpe7MlWza7m4UYC8XhzF2PyFQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487217&idx=1&sn=78901f20cedba0904b30c9a645e91bd7&chksm=c3170412f4608d0476eab1a75e77ecde74f7ebe679b238d957abde7b7d0db814df785e3c452e#rd",
+      "msgid": "2247487217",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断知识：DTC Status中pending位的使用",
+      "create_time": "1723989600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbj2Rz4Rm2SpcUYvKWlPBBBDFictibJkVK8RJ2SYicX92wGz5wCw3y4lKajCuRd0e8oU0xu6Wd859fWQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487203&idx=1&sn=e9eba0cf0738038135efda88525256b5&chksm=c3170400f4608d16621675da8d12e5980e8c885ea568d0462f35ec00d18a229152e38d819f1b#rd",
+      "msgid": "2247487203",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断知识：ConfirmedDTCLimit的使用",
+      "create_time": "1723287600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbtpqbpkVekllToPoNdWWm4De80U6icJPrXfzE9PVgd7pSrCUCBdUxpN8vK1wia7JCcsicuoia4wAMrpg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487176&idx=1&sn=3b66d535a26df3af324ad2b28c15c6e3&chksm=c317042bf4608d3df13c0e5cc5d72e0103e132439f80dcb4b7b46621689dc5200a601facb647#rd",
+      "msgid": "2247487176",
+      "itemidx": "1"
+    },
+    {
+      "title": "使用Greenhills生成Lib并使用Lib的两种方法",
+      "create_time": "1722679200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYY23IariaibqhhSeZPacdu0aMONPhOedPgmbwQKJHwDKbiax2lA9CYXOzcOiacWGticYs4E9tibCibBXicf5g/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487166&idx=1&sn=427c2807946f4029b10fc14633d1911e&chksm=c317045df4608d4bbebe01f7d4ac7f53041dcb668214b8f0050e9792bf731c09914538e4efcd#rd",
+      "msgid": "2247487166",
+      "itemidx": "1"
+    },
+    {
+      "title": "ETAS StackM配置及使用-stack监控",
+      "create_time": "1721562000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYasgGCflKLv75qYfO74yxKVqCBBvmEyE5mSHhMncH3ldcCUvgGvGdbRQOVTrQT3Qu2X3TrBOiaG1Tg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487160&idx=1&sn=80bdbb2ad6d5bac7eec4870b9c86b92f&chksm=c317045bf4608d4d55fa4603fbeeab75db5a91cd4394b28429c3e4222572f96eacdac6a06f20#rd",
+      "msgid": "2247487160",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA C2012学习笔记(7)-Rules 8.12",
+      "create_time": "1721482200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZC9l5DGpriashcLHBI43QCVfy7ceSTkFchbxhDsO8QRSRTibcaI9ulXHPrTOYb3h8kjfhHvnIibaBEA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487149&idx=1&sn=4cc066551fd5360bbee85acd9a823004&chksm=c317044ef4608d588db842a05b432fbbe520f4fabd348ba662873b0d716d054b18d1b62888d9#rd",
+      "msgid": "2247487149",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar RTE配置-Assembly和Delegation的使用-基于ETAS软件",
+      "create_time": "1720964471",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaRIGO9QJ6jQ5EEZxZCC8QWhjOibc2LRCyWuUUsRDGKEic4lTb6Hb2qfddChCIbQV1wEgpBVj4gjy4Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487134&idx=1&sn=87e9765eefd84d0ee0955306fe9774eb&chksm=c317047df4608d6b632369f880660641d900f498d15026299c0cca77cb2cd4a8c8967981ce2c#rd",
+      "msgid": "2247487134",
+      "itemidx": "1"
+    },
+    {
+      "title": "IC5000/IC5700 License激活步骤",
+      "create_time": "1720876500",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaRIGO9QJ6jQ5EEZxZCC8QWhjOibc2LRCyWuUUsRDGKEic4lTb6Hb2qfddChCIbQV1wEgpBVj4gjy4Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487101&idx=1&sn=549774a028b1fb12c41454c8f2462c24&chksm=c317049ef4608d889256f38a75d658a83058d6d844d232d6a68e32ab22aab15fa117ae0f030c#rd",
+      "msgid": "2247487101",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA C2012学习笔记(6)-Rules 8.11",
+      "create_time": "1720350600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbicWzH1XVcqkCqItXGSbIFKibFYoG2fKTKxuOBM3jJPh6OoTZ8ia8geVicyBBliayejXBLeibZavfcwibog/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487089&idx=1&sn=08fffc09e715ad6040eed68091eb00d4&chksm=c3170492f4608d84b63db42d3bda9ff54f7bcfdde3f4d78f422c40f51c115c96008007784f0f#rd",
+      "msgid": "2247487089",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Dcm配置-0x85服务配置及使用-基于ETAS软件",
+      "create_time": "1720269000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZvhzOjib0O2ibU04y2vw9t1U17ibict5oico7YjCCbagxnTVlEbcNeaPxMKUa5icvub89CicMZEaQu9pH4Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487071&idx=1&sn=9c3f41768e55103f3d0b0c780c5d4bc5&chksm=c31704bcf4608daaa81e21879d530155f9c96fbc6eb6738156c334782fa594be65f40e75b662#rd",
+      "msgid": "2247487071",
+      "itemidx": "1"
+    },
+    {
+      "title": "诊断知识：UnconfirmedDTCLimit的使用",
+      "create_time": "1719745200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZvhzOjib0O2ibU04y2vw9t1U17ibict5oico7YjCCbagxnTVlEbcNeaPxMKUa5icvub89CicMZEaQu9pH4Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247487018&idx=1&sn=9fe1e6c44385c545d3910fe8a768a209&chksm=c31704c9f4608ddf7307eff1de1ef3d6d5c40a130aa538754216ffc436c49f292aa5177a2c4d#rd",
+      "msgid": "2247487018",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Dcm配置-0x23服务ReadMemoryByAddress-基于ETAS软件",
+      "create_time": "1719052200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbic14GKmJb3v5tpypNeribnj0EHEYgmMfY0D3Om3YFTqibh7aZ6LKmKOvcggBNAJvaTjn2xt9oWBicvg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486946&idx=1&sn=f6f4cbf93cf5598ebe46d031a0f72523&chksm=c3170701f4608e17ab80d3b32734af8a88df25a2aec4bb86270b62254fd2e47dee9ba998926d#rd",
+      "msgid": "2247486946",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Dem配置-Condition(TRC)的使用-基于ETAS软件",
+      "create_time": "1717932000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYb8b2icsmMauqb3icGEMxPr9ibE4JAA0dRicF5qDPTKR0QQwicSibRkKY7gTlQ5BIdZ0e7cDDomAqRxy1yw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486936&idx=1&sn=5d44f9f3be8633b5eea4465cc701946e&chksm=c317073bf4608e2df8beb4fed6614433bee2b2b7ab376f58238144c551bf8096b17d4d250f5e#rd",
+      "msgid": "2247486936",
+      "itemidx": "1"
+    },
+    {
+      "title": "编译选项导致的结构体字节参数异常",
+      "create_time": "1717337700",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYa5pPfQy5Oicy8PYAAh7GVcAib0YcIEfF30xwBhGJcWlYdenrsAyYGXkjAKoYo4chgG1NfEZHonBM9w/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486883&idx=1&sn=d0c970f2685c6220d2b7ea66a3df164d&chksm=c3170740f4608e56d2ee20b0035a5d656a6403a192e27c4c045bf8f455b300caa404f632ab11#rd",
+      "msgid": "2247486883",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Dcm配置-特定NRC实现方式-基于ETAS软件",
+      "create_time": "1716902100",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaJayicYCNFvvQb2Fc8oiaymvfnic3JkzYsiaStBx9TU8Eyw72ZSeW1lm8nj42xYgMJweuN6ZcZHzBSBQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486861&idx=1&sn=b63b7330dc39fedf9ccf14419825135e&chksm=c317076ef4608e780dc1daaaa4e4b0c66f60866b4c2febb4d4aa028764ede095512477e40d22#rd",
+      "msgid": "2247486861",
+      "itemidx": "1"
+    },
+    {
+      "title": "TLE9471 CANFD报文异常唤醒ECU问题",
+      "create_time": "1716032400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYa0KDnFpfDyP7ggoRYTDzzCf0qz4bhuDohicibXicmm5e8zd5VwjLp02aAXLdicOnwKTdGgsyicy2UxSicA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486824&idx=1&sn=92191947054404303804f8c6c4deb674&chksm=c317078bf4608e9d71ff81d68f86fd2f309c008b5d8126e2a7e4176dc570860afa8857d2edda#rd",
+      "msgid": "2247486824",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar PNC网络管理配置-UserData的使用",
+      "create_time": "1715089800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaVxGnZHNHYY50LJPO9ZkLJNu5ib6m3bWLVvAN7H9aATbncc4Ht6AUXFNX3Ck7Ak8Hs0icoraTQa6ZA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486809&idx=1&sn=678b6b255dfc92f8e8171151669a18e8&chksm=c31707baf4608eacc0398e546865e661f59029f159a0189a64fbc5a3a6ddb463bef6fcc9da0a#rd",
+      "msgid": "2247486809",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-RH850P1HC Fls配置",
+      "create_time": "1714228200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYicT9zXTJQZ3Qcjib8OHERjyLEIibiagTA17Zo1dVMlZYCV5oop59SKBwwYgrYzrEVev3Y96pG4y0jicg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486753&idx=1&sn=efc2d5364227b7736878ed038d17f65e&chksm=c31707c2f4608ed498e8aa6e623f78110d3628e80743f2fea31469cffcebddc74fdcb008d6ff#rd",
+      "msgid": "2247486753",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 CANFD报文接收超限分析",
+      "create_time": "1713010800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbu9bJHicFib8BRRN2RQJqz9lZfy1UMSyVlRm5a44cw9gTlib5ChHpiaXPibziaGjtxcgA95Be5jicbFicvLQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486712&idx=1&sn=62c91d04612de1ba26d2d9950007856a&chksm=c317061bf4608f0d3e40e4abe81a51be2b3c5b8531f783e48f9f2c33c2fdcd8fca76dcc7614f#rd",
+      "msgid": "2247486712",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 数据初始化Rom到Ram Copy的方式",
+      "create_time": "1712583000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbGgdtQOlWQCeAPASSBpqFQwJO3bB5KpDkR3ibWQ5b7817uXEhsMeQhuD9LobVPkvg4qY3XNrIQXFg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486676&idx=1&sn=3fbc6fe8aafb6f61525a229ed0300889&chksm=c3170637f4608f21c663a1f4d4a17491d2f6a97884f7fa5f9400525a58e506dd0d5de3d69994#rd",
+      "msgid": "2247486676",
+      "itemidx": "1"
+    },
+    {
+      "title": "RH850P1X芯片学习笔记-Clocked Serial Interface H (CSIH)",
+      "create_time": "1712238000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYIb77gcce5AUickJ3VRBDQzJaqu1jvDGmANk861iaZlGb2iaeibE3LfPyYgQwjOv2PLKsnjXuhoUfAibg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486664&idx=1&sn=7fa8e9158578f4da97e6529252384e4a&chksm=c317062bf4608f3d145a5c3a5ddb548dc200409fc428da182660aae5223a3aae17048ae8bf91#rd",
+      "msgid": "2247486664",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Crypto Interface学习笔记",
+      "create_time": "1711197600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYKxGZS3OBmXpkrqojOYEs65wGYibz4I9MaGv7vdaPwXDsZemINia7u2zCPvDg0Kxxtm7jTnjbOY5qA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486581&idx=1&sn=055fe06605e8e3d90573c8af6dbe2441&chksm=c3170696f4608f80c209fa608f5cce6a9d03f9db99ce83f1b7cad9c5bef50d2e5704416538ab#rd",
+      "msgid": "2247486581",
+      "itemidx": "1"
+    },
+    {
+      "title": "C语言基础-内联函数在头文件中的定义",
+      "create_time": "1710672000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZwPBQt865CibNibbaIA5NSvljNKcy9uicq5MwzOuJXMZ60PZY6gHhiat5Xjt23WwiahhYA30dPvJncQkw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486519&idx=1&sn=46dc7a90404f9128efb7c7182af348da&chksm=c31706d4f4608fc2cd32ecf134d6529e55a19c3deffc28c2c988b4fb3ccb59b4169515fddd67#rd",
+      "msgid": "2247486519",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar Crypto Driver学习笔记（二）",
+      "create_time": "1710672000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZwPBQt865CibNibbaIA5NSvlE2u6WuUeWtjseeuRlFzmiaOCibsBkA7gDZjjC4iaBqZr9RNH98AKynHxg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486519&idx=2&sn=c62d9b2e096b212dfde394fc15e55c24&chksm=c31706d4f4608fc22da4f629480aff87e500b9bbf1be53137cb7f6488fd4416986c082875107#rd",
+      "msgid": "2247486519",
+      "itemidx": "2"
+    },
+    {
+      "title": "Autosar Crypto Driver学习笔记（一）",
+      "create_time": "1710067200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZ5diaRbibppvy6icVlFdNZ7sn1y4WicsdjZ3iaflTyZLianRfM9zNya5FKmTK2FI3QyVib0ya589GGBWUtA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486440&idx=1&sn=647698dc89031ddad63cbb9960291361&chksm=c317010bf460881da8bec876f6c54e0e8c960e98a34cb31c9a6f699eb008109968255f06dd8c#rd",
+      "msgid": "2247486440",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-RH850P1HC Pwm配置",
+      "create_time": "1709462400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYabIsr9PCGkNVLxEIBluXPESibichZtMib1dFw2e2JWnYiaOXHKic6vwvuiayUPWGMkoGfUibRCKoldJ1mUQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486250&idx=1&sn=130d4be2f341b88f970c142851ad1fbe&chksm=c31701c9f46088df643cb14f3dac779e20bc34781c96fddb96c9d58b795f37815b69028ea326#rd",
+      "msgid": "2247486250",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar PRport 在Simulink中的使用",
+      "create_time": "1705746600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYb0JPkhiaLYSrWx6ibZleK7GKib5z0kkb8RHbnEuLicyrR94Wm93mWvCzBcic16juiboEXX0InviajISMx8g/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247486169&idx=1&sn=68442c615600da58d839461c39f774bb&chksm=c317003af460892cac4a93343a7734e58bd325b657835fff01314a8e81ed1321602b64eb61a8#rd",
+      "msgid": "2247486169",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-RH850P1HC Dio配置",
+      "create_time": "1703940534",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbicRsVP1aYGFBslJibA5lOdp4hO0USO9lSust535uYp82FjTOfDG3wcqPOoFvOVx5cOmGGu4Wgnqmw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485985&idx=1&sn=c0dc7347dccdcb3944924337a5cd4f14&chksm=c31700c2f46089d4b0d7676df46af53262cf3f6e822004754566be18f3c45c004cab6d5221c5#rd",
+      "msgid": "2247485985",
+      "itemidx": "1"
+    },
+    {
+      "title": "C语言基础-define的用法",
+      "create_time": "1702819486",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZkybr6iceqhQVD5fILRoUuMicRen5fsq2Yl3rKicjEzHSqicS9iauaG3E3sjuJU3TmClCQ5T5wLEc0Dpw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485954&idx=1&sn=c1d6b0bdae8b954bc36f3dad69bf2836&chksm=c31700e1f46089f78e74fc169858bfcbee411123d85f130f24e34fe5541d0e14bc9c408db315#rd",
+      "msgid": "2247485954",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 UDS Bootloader开发-上位机篇-CANoe制作",
+      "create_time": "1702215454",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZqoLtd2Uicc4NFRDszL1Y8TpY7oeQ2FNjZyKJpSuDguYjVLbUxH3qQP6e8CvndkeIKpnWkZOsBiaKw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485943&idx=1&sn=7edcf700113eb907888fc7c6ff52e358&chksm=c3170314f4608a02f64eb3c40cb884c566e209ae3ced4e7100ab663912a37091d2c2955d00b1#rd",
+      "msgid": "2247485943",
+      "itemidx": "1"
+    },
+    {
+      "title": "RH850P1X芯片学习笔记-Overview",
+      "create_time": "1701696999",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZktZoMWBI52y6lv3ZF1K2z0TrfTib8ZlXumB6E8xyOFBDicIKdMrKqGYasibaicxpkicA4XicnQSbuNJUQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485913&idx=1&sn=9aed9af74526bee438b2cc452f2c1e06&chksm=c317033af4608a2c8c3ef9f569db7e13eaa10be8b0cd4b3f794eef12f49b29a0cedc46f8d517#rd",
+      "msgid": "2247485913",
+      "itemidx": "1"
+    },
+    {
+      "title": "RH850P1X芯片学习笔记-Pin Functions",
+      "create_time": "1701696999",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZktZoMWBI52y6lv3ZF1K2z7NgNvjNXvJN721LriaNtW2Pic5OzYyJ7LibnFqLia8dCezAauh5vvUZ7Mg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485913&idx=2&sn=44a10dabed6a841b122d6f910181fa12&chksm=c317033af4608a2c6482bc2174e8092cea273baacc7bc0e7acf76b9e683be2a8707575e7c99f#rd",
+      "msgid": "2247485913",
+      "itemidx": "2"
+    },
+    {
+      "title": "Autosar MCAL-RH850P1HC-MCAL配置环境搭建",
+      "create_time": "1700995200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZZyL4UEypnGFGiarJJsicXCaNtOf6MWo3bStvPEeOXp6SicCXlia1L9hqoTsWd4dgoiad7NOXV2CMeB9Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485762&idx=1&sn=66be22eff8f0ebe2039434ebe3a28ee5&chksm=c31703a1f4608ab7ad38858fe15162eb13fa53935e5eedd354454903f8dad356e28e575d34a6#rd",
+      "msgid": "2247485762",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA 2012学习笔记(5)-Rules 8.10",
+      "create_time": "1700401632",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbfODt63WShQSQiaShEayU6bUYIa4ibFOickYiaNAqUEzVsSZluAXJRGaRWmiagsGj9psNicYibhmx7qPTHQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485719&idx=1&sn=1aaa13e2f66422561a5762c8e74b4b6e&chksm=c31703f4f4608ae280f316fb559554c178e6fae4ced81664f8cee6711787f0732be5808a5086#rd",
+      "msgid": "2247485719",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 UDS Bootloader开发-下位机篇-FlashDriver的制作",
+      "create_time": "1699187400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZDcwdURfc590qibrPC65GDfcKDvicfVZBib2B29Q92rVxZHlWmsgZ3ZYmWTUBPIDzLhWme9CE9t1nwA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485671&idx=1&sn=da8b216fd55bd48c0489feffed5cc867&chksm=c3170204f4608b129660731314c44d1d014ff76e7134915db9193d1ba75ba14cb85f76eba5b9#rd",
+      "msgid": "2247485671",
+      "itemidx": "1"
+    },
+    {
+      "title": "使用Renesas Flash Programmer(RFP)修改Option Byte及刷写程序",
+      "create_time": "1699099784",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZlcA8iaYZRxffg31euYGM11WaldNAWqoMXR7cbAMcN6ibqK3hcbsDUtMwacytXDbd62O9kH1tahE5Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485638&idx=1&sn=af2e2a8d3ee5de8480aaa5bc79909a64&chksm=c3170225f4608b334c373e1390fa3a7267dde8816f4e27fb398e25967bda421ede5508656f02#rd",
+      "msgid": "2247485638",
+      "itemidx": "1"
+    },
+    {
+      "title": "使用GHS和Renesas E2调试RH850 1372",
+      "create_time": "1698414758",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaxquYgNPZToMVKZmpTw9fAQKw9RxMzznxxPebfBCOQhZ4Rb6xKtD29n0aVKuZgcgjer0j0zMFNGA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485618&idx=1&sn=2b58d8cf76ef957feb3d61b9dbbb53b6&chksm=c3170251f4608b477fdf7de834c21b08e7ba19629356073c994392d4e749d467d701d6239229#rd",
+      "msgid": "2247485618",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324 UDS Bootloader开发-需求篇",
+      "create_time": "1698151375",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYABxmggkIXjENibXXApAM49UD6Gv5nr0E3WvGosetwoDATDmSQoONwnBkoJOvtKh6I2q73OzlvPDA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485599&idx=1&sn=def42e6495e76f2a22554a4f305fe9ef&chksm=c317027cf4608b6a63cf2c7ef8b0fb5096d511b99ab303a5c9f3a8cb8a3d9b6f9d65395aec9a#rd",
+      "msgid": "2247485599",
+      "itemidx": "1"
+    },
+    {
+      "title": "基于DBC Signal Group生成Autosar SR接口（2）",
+      "create_time": "1697281800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZHcqsCk6twDM60qPJEgvXoxmJWXXMF5CiaW11EP1282OHQKlelrm0LwvkjP5rqa2dG7a1LKyZIxGg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485588&idx=1&sn=d9cafaf91543697df49566bd9435a4e5&chksm=c3170277f4608b614c42818930a38b26adb960a774aca5428392e495a0fe32488421a8fbd20c#rd",
+      "msgid": "2247485588",
+      "itemidx": "1"
+    },
+    {
+      "title": "基于DBC Signal Group生成Autosar SR接口（1）",
+      "create_time": "1696764600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYaB70P8BqvVgQhsW68E7voeCY9LWG50MNdTIc5DHRFAvZ0ZAcmLJ9hRyMAYhMdGRJDWIWKzFtGb0A/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485499&idx=1&sn=48d5ba81d7f5c9af11ff4596d73f9831&chksm=c31702d8f4608bce7a17dab7311384ca4b43f6b0df69c52cbedfd385d26159383981115b0a10#rd",
+      "msgid": "2247485499",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar E2E及其实现（基于E2E_P01）（1）",
+      "create_time": "1694958678",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZsBhC57IC944yFC4P6ZTqQVhBcLyMu96uwIlic8ELjd1fFzDPaUuAWxMia0VhSROVLiamEu7FkAydsw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485488&idx=1&sn=b22abc11c8555dc4750f67c96ef22c14&chksm=c31702d3f4608bc58883ce1741404c6147d27376556b850a073a56882a1eb8a2ef6352c21d9f#rd",
+      "msgid": "2247485488",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar E2E及其实现（基于E2E_P01）(2)",
+      "create_time": "1694958678",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZsBhC57IC944yFC4P6ZTqQyJmQv0WupgEb9owzSVqcHlnJmGPKhCicrE5ibQVldQMabWVAKaUYllHQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485488&idx=2&sn=01ce8755ec90ca85189466a6725bc2e9&chksm=c31702d3f4608bc5249d3f45f99e63401d1fe895aff653a42057bdfa0ba48166090f985e93a8#rd",
+      "msgid": "2247485488",
+      "itemidx": "2"
+    },
+    {
+      "title": "C语言基础-typedef的用法",
+      "create_time": "1694254800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbtR7WauIL5ZqRvSDpDuOEEV8mR37N3GRIDsicViaPlYlwEMGMWmMaLnp2V9ic0gnc0LNkdwXEM4a3Ug/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485433&idx=1&sn=d3f3fe0ca73b819c30e807565c869081&chksm=c3170d1af460840c4617c8e81fe008d3c849020e724dfa4bcc96dcf51d0e1fca97ec6f317f9a#rd",
+      "msgid": "2247485433",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324芯片学习笔记",
+      "create_time": "1693746000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYa1x2Dn5fh1iaYT0OC92HyzQNFyGYhH3uwq8ZxibhPrmh82J2NYY7LWavjJag2KYibmCDlorbAWLmggA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485422&idx=1&sn=6f410a2a0108fce85f5d4a46efbcce3b&chksm=c3170d0df460841bdabe533694b9b2febe3d1fc76615b9fbd48e7c4fe338aa31ab1976c33625#rd",
+      "msgid": "2247485422",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA 2012学习笔记(4)-Rules 8.8-8.9",
+      "create_time": "1693135800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYb025u1ia1e4qhVHgn1n2cbGCeuM72HxKhbM3bAMNM6EeRWcpIia0YicVJLZIq7ibmtu4OZCoYe7gcung/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485406&idx=1&sn=3f19240758ab6f2631d5201564edf894&chksm=c3170d3df460842b70cc657d511d342ba631c6b7b81128fae0c12413bc3f4461f4214b5aa888#rd",
+      "msgid": "2247485406",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-S32K324 CAN-FD配置及使用",
+      "create_time": "1692531000",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYZ2ZwvVyPGCz23kPFwYMDVDfwpGVFQzAzCCibWiaySYK3PwInTUzwZhqic7c2Ddcia807roev36etMyTQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485359&idx=1&sn=dfeff299755da13c393ece886d0289e5&chksm=c3170d4cf460845ae94ec1ed5a112cc29443719f313e5610f4e0de4ae1fb0d7d43801748485a#rd",
+      "msgid": "2247485359",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA 2012学习笔记(3)-Rules 8.4-8.7",
+      "create_time": "1692455400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbQhVykWCloOxvVBge9eTKM1GYIAsrcLsZGQvEobe5ibjvMpib4rjoh4ztnCA3NsEhFk6NdIGPCrwuQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485340&idx=1&sn=e1a1bb1039235c9c741ba060fdf28cd4&chksm=c3170d7ff4608469b691f51a2344d4a7b775488e951ebc54d9a397395a2102dd24d4176521af#rd",
+      "msgid": "2247485340",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA 2012学习笔记(2)-Rules 8.1-3",
+      "create_time": "1691932200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbVd8jvNuPbZMFnQoiblDbhBRJpsHiaOkibjvIdfliawYMQwF0dRia3mXRE9TCrIC7xdAUjiarpGmBnr9ow/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485291&idx=1&sn=b787dcd11a2b604ca639c1a04b286933&chksm=c3170d88f460849e5605846a8248eccbfc8413d624965a7fe3d5bc3d36f72fed5cc4cdb81711#rd",
+      "msgid": "2247485291",
+      "itemidx": "1"
+    },
+    {
+      "title": "MISRA 2012学习笔记(1)-Directives",
+      "create_time": "1691321400",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbWkMyBEDOZx16KG45ghvdJMJNXQITDvuiaKy99o7oUTJjQwYjp1oeEqdNTg5qFTdGmpPD1ibnff49w/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485249&idx=1&sn=337ca062d5d5acae3bfdcc365cf8c7d0&chksm=c3170da2f46084b42d026159d3b40629a930035b2134f8829a9627679a97b5e1654fa5266fa0#rd",
+      "msgid": "2247485249",
+      "itemidx": "1"
+    },
+    {
+      "title": "RH850 1372/1374 程序跑飞异常分析",
+      "create_time": "1690630200",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYbxSCeibj32MzxSAFFKqcX53M9zciccOTxlGpiaZYhLFFAsKYrAoJOicffiaCYlUfjoUvtk5awqVnBvEuQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485221&idx=1&sn=3184bcd5b8f6674b643dbdd3537c3d80&chksm=c3170dc6f46084d0af5c599a0d61aa8101048503e6edfc30c3ac967014d6bd8cab4910082333#rd",
+      "msgid": "2247485221",
+      "itemidx": "1"
+    },
+    {
+      "title": "S32K324双核的核间通信使用示例",
+      "create_time": "1690111140",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYyxCANbAFzEyUEEF7EhHzEaJTYYicBfSxAAiaKYxGn51xsicjTSvyAibpc1V9aVjWfcukVichrfsicYQ7g/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485192&idx=1&sn=8ef9d86cabfefc332207e229633befb0&chksm=c3170debf46084fdbfd14bc2b07ce250a9274a3b0fff93e745d2c70283cbc0a7b0510897e6a5#rd",
+      "msgid": "2247485192",
+      "itemidx": "1"
+    },
+    {
+      "title": "STM32 UDS Bootloader开发-下位机篇-App软件",
+      "create_time": "1688132700",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYYFzafhx0BhiacjVwgeY7jT0dTsU0s2repiaL2BH8wTSy0ZSGQUvVnGqZUBIYJ5S1vl6gNTkutus5Ow/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485062&idx=1&sn=94b97da8be85cecea404c0ae48d15a64&chksm=c3170c65f46085736cab292d300af719e81fa5a416f3790fcd9f8d84fa58b83fe75cfc75fd9d#rd",
+      "msgid": "2247485062",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar RTE C/S接口实现及synchronous与asynchronous的区别",
+      "create_time": "1687528800",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/sz_mmbiz_jpg/gEqKyojpCYax2VzIKzIiaFzhH40rDR4IIkd0iadVb9kphb5RkbbgzAvhG3ePiaYvgh8tJOS3KqO3BFhCOagVmQKWg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247485037&idx=1&sn=5dd373e9e6a23622857d80ffcfe839b2&chksm=c3170c8ef4608598c1521f50f9b9cce55ac78e55257dd6b6cf33045161a7710845c851bdf9dc#rd",
+      "msgid": "2247485037",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar RTE S/R接口implicit与Explicit的实现与区别",
+      "create_time": "1684666162",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYbrOeOBFP0aKdTzo1O66MH4QNIaWIwVfyc3lian17k9EHslulkY8DsmdJ9PAopWm5ouXaVDc6r1lvQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484742&idx=1&sn=ade76c0977c2f6bb99859a0898babf53&chksm=c3170fa5f46086b3682ad7638db6cd3efde185521ea8c428bb30cf65426a70b73f43e08c104e#rd",
+      "msgid": "2247484742",
+      "itemidx": "1"
+    },
+    {
+      "title": "STM32F103制作FlashDriver",
+      "create_time": "1680617600",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYaOUkKbDxia18JmENHLianuoeMWbFE4X1UbPtmwbiahhAIf44nicuSzwRvFdppygCoQz2wd4DPJDqO7XQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484702&idx=1&sn=e0da4299c54896a9c377f69274ea51f1&chksm=c3170ffdf46086eb8e36402bbd5360d5dd6c6561702757ee18056eb2a974e17b20c194933457#rd",
+      "msgid": "2247484702",
+      "itemidx": "1"
+    },
+    {
+      "title": "PSI5协议简介",
+      "create_time": "1678717025",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYbVcHSs0JHUSGIZhSCOW9E9EX5klFAia9q9cU5FOtPB9pcCP4luc8tLqicU4HDIAP8ro530tn9DvoPA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484684&idx=1&sn=005655277cd02e670ff2fb27b0a8936a&chksm=c3170feff46086f934399859a61f29e2895d17138f735011e54829872040ce01d7e40f79d99a#rd",
+      "msgid": "2247484684",
+      "itemidx": "1"
+    },
+    {
+      "title": "Simulink自动化-Matlab脚本自动创建Runnable及mapping",
+      "create_time": "1678370462",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYYHwlgtmyibEwej0UpU9dKtIT9pkYg6zJMCrwq0lLygmlQYVkc0wYbG8faB3uiaCvIlwIAgb5BDnFzQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484653&idx=1&sn=eeeccdebbb07981b221512d1341d7aa2&chksm=c3170e0ef4608718bd2af8dde7ff1d39732bf7ef1c69c623ebfb2c9a2266b83b5bca6e8bbc68#rd",
+      "msgid": "2247484653",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-ADC配置PWM硬件触发采样",
+      "create_time": "1677062407",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYZRCst8zPsDGj1XPeic2ypvu00y6C9IiabR8muGMc0DhbDeCuXzA8YpMAneV8q7uu9qbnYLhFEFObCw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484628&idx=1&sn=9313dc74c74e6af4e7ef452261a9bcfc&chksm=c3170e37f460872169562ecd62fa7f8c7ff12f57642c3831bbaf353c5dd675fe088f8b8b9d9e#rd",
+      "msgid": "2247484628",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-GPT配置及使用",
+      "create_time": "1673348184",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYbFH8UMI9oX2Vx4wC6A1ibmtOoUic5XXFkzKCoTt16Cy0iaWrg5Xhxj4oTovO7yq2FzMvIJRrbw0s3Kg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484601&idx=1&sn=5d4806e2c35adc86c689ef8c648661e7&chksm=c3170e5af460874c50841ae589d2e87cfa3e5bc436444ef015e93e8dd82d011162559c1c9890#rd",
+      "msgid": "2247484601",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-SPI配置及使用",
+      "create_time": "1671970728",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYYicb3xNlueRuiaAibUHqTzZcqYIY0BYaoh4Ns8iayco8VLYwx5s3Fava4RJ4BGDLsCDxJPNWIRZr7u8w/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484566&idx=1&sn=c08b18ab20876f6cb2c944d05fa15ecb&chksm=c3170e75f46087636343c37ff3c271bc1d82474a02cd7a2d9ba7d4ebe8c4823665cda5380573#rd",
+      "msgid": "2247484566",
+      "itemidx": "1"
+    },
+    {
+      "title": "Simulink自动化-Matlab脚本自动生成Autosar RTE S/R接口及mapping",
+      "create_time": "1670855122",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYawliarfkWbdt3Atv9ucWdTJkX1CRoZvUelYnN2wotBx1bicArHes4j2SDB3FwRYYqvYWkibB9QoiaicGw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484482&idx=1&sn=b302c10629dfd362f181395c0074ab6d&chksm=c3170ea1f46087b7b2052584630425e958836898387f38964ed31d9b42ebb5528ca6307d0e61#rd",
+      "msgid": "2247484482",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar PWM配置及使用",
+      "create_time": "1670746129",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYaxLgzg5Xkib6xfGibzVibJAXtkUblH1ZXWokjjNu5jxZLB1qekow67yoI6jOsvrVEEV43Yre2PaySyA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484465&idx=1&sn=2b0fa468c2714be86a0ab804802e821d&chksm=c3170ed2f46087c401b2044d34e1e6c7b70701a3faaddf087da4773c343bbc5388a46104347e#rd",
+      "msgid": "2247484465",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-GTM之TOM",
+      "create_time": "1670669722",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYawBlRC3L4XdWRsqYTY1Qcgq1YOKeAU3qHsgCQYiaDXoaJCFk0Ijn5T01XyqicQOoYmKMSGrNl60grg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484409&idx=1&sn=393b9cfd5d774c0a1088a8ff3d6206da&chksm=c317091af460800c51bdb7e1821f4db448a7f289d6a69e2e44a324fe003b04317acfb130c8ad#rd",
+      "msgid": "2247484409",
+      "itemidx": "1"
+    },
+    {
+      "title": "TC277的Ovc功能",
+      "create_time": "1669539999",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYbZDdgglRr8y5YO1GHp5KfBy5cUCZeCIcuvA3pTaogfxgKe9dN4PRDrVtpnbZqYviasuWSJEJGG0GA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484346&idx=1&sn=5b5dbced02061d3670b8382a7c5f995e&chksm=c3170959f460804f2d825ff7a8de6ce088bca3a9feea4e9f82352915069410af0dcbc8a92089#rd",
+      "msgid": "2247484346",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-ADC详解（二）-基于Tc27x的cfg软件",
+      "create_time": "1667654492",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYaZHwJfHhMD4sKOzsAb7MXgjgic4OTa4b2jegySmaicJA4IfPnrO0BVluerzQH51SKMXJm4iaGqKWxew/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484338&idx=1&sn=67aa9cb9462f4e8cde5b9ae1d2c6f49d&chksm=c3170951f4608047e0f36b41ae1a8a3bd1bb08b108d51ab241a4d81929b5dec584951fbf3348#rd",
+      "msgid": "2247484338",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-ICU输入捕获",
+      "create_time": "1666704450",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYY2E9XJXoZeTrOA8mP4b0EYu2jsg1xfhD0G8S8ibVXpC9ibUicm5ua3cCRB2nNwtgHKYMibSiamlWZSiayA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484287&idx=1&sn=9253550e5c09a7fa1c8e20bf69b1e117&chksm=c317099cf460808a53863eab7ab26d5471b80254c3b1db449588370b066feed4c043b7d1b35b#rd",
+      "msgid": "2247484287",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-GTM之定时输入TIM",
+      "create_time": "1665826388",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYbMpZyKyf2pGIiaic91iauk7FeIGfEZH9AyNMukiadXLTWw30mSeeAl6VGnM5z3BzmVbhTPXx9hq757BA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484258&idx=1&sn=e167730858144504886ea0fca42807e8&chksm=c3170981f4608097d79e391e4843537bd9af4563d048be8eb3813d872725c430b0205333826d#rd",
+      "msgid": "2247484258",
+      "itemidx": "1"
+    },
+    {
+      "title": "MCAL-GTM之时钟管理CMU",
+      "create_time": "1665583996",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYbPyO9evvXRABgaRnyH4XWaSB29ujH6D7icOKPyicWaVJTzyldVWCibSwtbcZiaibhMCBo93XpVqFOX8aw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484211&idx=1&sn=fbe08a3f2499f94ff78e3be84fb5b0f5&chksm=c31709d0f46080c606b3f68032f60491a4e9d623f9f66de5b942e94b9aec40d89a77c4fefcd5#rd",
+      "msgid": "2247484211",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL-ADC详解（一）-基于Tc27x的cfg软件",
+      "create_time": "1663422039",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYYIxP5MMXmZ1f6Y8fcGuKiaNFWTHCSqfuZ51PvAJS5Kc2ERdqCBluUmiaJEW5icxic3069VpvqQ9y8Lyg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484201&idx=1&sn=355836c68e9c56b3672058f0c9379d18&chksm=c31709caf46080dc4d6d19cf69663d6b33d6fd72635a53a8ac4b97183f3b3c8d299f08b001c4#rd",
+      "msgid": "2247484201",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar MCAL MCU配置时钟-基于cfg",
+      "create_time": "1662807133",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYZBqQvhceQY20iawVcCmEJ7sfoQSDicyibu7aotfPk6ZiaY6u97Fb4bExvyqGfrosCY2wz0Rosia0vytgg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484169&idx=1&sn=44e1d03b5b0262e3ccc2ef0c215a0e17&chksm=c31709eaf46080fc61f4d656cc38b04d897c6bba67b39324a4ec3a4d83f14ba8932bfce4436a#rd",
+      "msgid": "2247484169",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar CAN硬件配置-Tc27x基于Davinci Cfg",
+      "create_time": "1662341479",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYYcNzAicovA801f0n6JiaEA7LJbMm3fCpDRo7FUdgolVIqiae6pN44JlMuibkgotPmiaeCMTORfkShLcfg/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484113&idx=1&sn=7de38b67c1c3b38953e7ef7e14c288a6&chksm=c3170832f4608124f34af7eb1ec883efbcfabeff8b80097072e9588bacd96765ac470f74edf9#rd",
+      "msgid": "2247484113",
+      "itemidx": "1"
+    },
+    {
+      "title": "Simulink Test自动化（二）-自动创建TestFile,TestSuite及TestCase",
+      "create_time": "1661350408",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYbDmr9hJdLQZTP0OZPEO31yMVjjf3ibnfoe6ZHPr9xl9Ebkib4aSgB30y3nic7CQ4mIS7mqfl02CUIoQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484043&idx=1&sn=a5103012a3732132c9a0742d2f1a5777&chksm=c3170868f460817e6fb099fd1f497deff9b78e1c7a9b8dd00a5f91ac0c096403501cdbd413c3#rd",
+      "msgid": "2247484043",
+      "itemidx": "1"
+    },
+    {
+      "title": "CANape导出标定数据Hex/S19等二进制文件",
+      "create_time": "1660914273",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYYLZPbalz6LCdMibZNJAQOQke4Ig7IxiaoorfRyicPRPXLctTCcmQf9V2tWuAOziaPjqbiaOLMIqS6QpLQ/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247484027&idx=1&sn=ae3209844c4a6609e543bea76e75335d&chksm=c3170898f460818ea2efe6ced43a1f0a0eb312b9d3e119de9b2416053d01ad9b4c375e6485e3#rd",
+      "msgid": "2247484027",
+      "itemidx": "1"
+    },
+    {
+      "title": "Simulink脚本自动创建Autosar Parameter Port及Mapping",
+      "create_time": "1659249212",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYaLus5LUvlCx6rjE4nQaWhQ14qYiahZU8LkYs9QUgB0K3KmSGH8eibMI9rq2py3UGRyc2oibDVAYZqgw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247483966&idx=1&sn=c6e268bcf34a9e9e01c7728552dd3e1b&chksm=c31708ddf46081cbd0dec6036c1f294355d0753c7f843f92a66f03fbf7967660124538e2dea2#rd",
+      "msgid": "2247483966",
+      "itemidx": "1"
+    },
+    {
+      "title": "Excel管理Simulink SWC中的标定量与观测量之标定量",
+      "create_time": "1658029064",
+      "cover_img_1_1": "https://mmbiz.qpic.cn/mmbiz_jpg/gEqKyojpCYZFJ5Fu5NFp9YzZV6atv3SlCpibZ3EVTbzgFP0AvYYSH6pghybMxe0rmiaHNNCqRwicibMkqrGicxjM4jw/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247483944&idx=1&sn=97a24c69078ac97d85d19628e1aec1c7&chksm=c31708cbf46081dd5ee08859adb7d7323d1d63bed06cce1050fd9501738399dc65781237e9d9#rd",
+      "msgid": "2247483944",
+      "itemidx": "1"
+    },
+    {
+      "title": "基于can总线的A2L文件解析（3）",
+      "create_time": "1656849000",
+      "cover_img_1_1": "https://mmbiz.qlogo.cn/mmbiz_jpg/gEqKyojpCYb2ibctlDdUhUS17vxNCvNSkQubsZcs7dlcazERxs1qHkz6UMGIojpRUord2m9ubnRVy0YouPfK2NA/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247483906&idx=1&sn=94a79486e8a6e37b936ca26063e38519&chksm=c31708e1f46081f774375accb4c6280b9deee7a0b9a0883862aa278e757507280ba1de64b5dc#rd",
+      "msgid": "2247483906",
+      "itemidx": "1"
+    },
+    {
+      "title": "基于can总线的A2L文件解析（2）",
+      "create_time": "1656770098",
+      "cover_img_1_1": "https://mmbiz.qlogo.cn/mmbiz_jpg/gEqKyojpCYbAXYwtHQwowFzajLvCbc6esAYeE2uZiaRgDDghHXXeLGBfhwVwkbLMdcgRfeN7qs6Y3qwmY0EAic9w/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247483866&idx=1&sn=7ed5cecdf8d0bdabd80072c52be32ceb&chksm=c3170b39f460822fa5dfb28d29ac1673c796f5208245509cb69e8686c4865f028ca2513fb180#rd",
+      "msgid": "2247483866",
+      "itemidx": "1"
+    },
+    {
+      "title": "Autosar SWC在Simulink中Parameter的使用",
+      "create_time": "1656253080",
+      "cover_img_1_1": "https://mmbiz.qlogo.cn/mmbiz_jpg/gEqKyojpCYYMYphBIFyeepE1RByU4Ud51mBQjJ08gkZK0dDTAoILIAguduCFl2RtxIFa7h7EQF7YJVeCu9uF0Q/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247483822&idx=1&sn=a690c48f77b06a361ddd5a94e782b6b0&chksm=c3170b4df460825b46f38b0a16dac5c1c3070eac360827accae955c833243cd1f349a4c29b45#rd",
+      "msgid": "2247483822",
+      "itemidx": "1"
+    },
+    {
+      "title": "详解Autosar Arxml中的CANFD报文及格式",
+      "create_time": "1656167290",
+      "cover_img_1_1": "https://mmbiz.qlogo.cn/mmbiz_jpg/gEqKyojpCYZxt59EnaoOxzicXgx76PVE1r5qfoBISIh9x2sOcC14Af3IWHoRibhct0Y5b6GjwhzymzyRemo55ib7w/300",
+      "url": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247483772&idx=1&sn=06df5f308f6908b11c4f4290b905ced9&chksm=c3170b9ff4608289f4e96638381fafb29473de5c0d49f085d99b61f78918398e2a5cd76ba82f#rd",
+      "msgid": "2247483772",
+      "itemidx": "1"
+    }
+  ]
+}

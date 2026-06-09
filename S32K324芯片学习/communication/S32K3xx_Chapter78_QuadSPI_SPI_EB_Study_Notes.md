@@ -1,7 +1,7 @@
 ---
 date: 2026-06-04
-related_task: S32K324 QuadSPI / SPI / EB tresos 配置学习
-progress: 5%
+related_task: SPI
+progress: 100%
 timeline: "true"
 ---
 

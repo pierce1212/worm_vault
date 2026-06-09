@@ -1,0 +1,83 @@
+{
+  "title": "基于ETAS工具的AutoSignalMapping实现方案-工具实现",
+  "account": "汽车电子学习笔记",
+  "biz": "Mzk0NTM4MTI2MA==",
+  "user_name": "gh_65384d4a8ed9",
+  "mid": "2247488661",
+  "idx": "1",
+  "publish_time": "1778927700",
+  "description": "",
+  "topics": [],
+  "album": {
+    "id": "2459112360276754433",
+    "title": "#Autosar",
+    "link": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzk0NTM4MTI2MA==&action=getalbum&album_id=2459112360276754433#wechat_redirect",
+    "content_size": "133",
+    "pre_article_link": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488642&idx=1&sn=bcf3d9973fd0c9ce942cf023613a5a71&chksm=c3171e61f4609777c78861bb5d7acf25e5e3f5b66c141e33f6e263f1a6a01f752332b80e9eb6#wechat_redirect",
+    "next_article_link": "http://mp.weixin.qq.com/s?__biz=Mzk0NTM4MTI2MA==&mid=2247488666&idx=1&sn=3a2da50ac2dd012c1abc80dca87dd860&chksm=c3171e79f460976f85bfb124a1e24dbadc2a34ac84ed4bb661fe82abd192f1819102cf55738e#wechat_redirect"
+  },
+  "paragraph_count": 28,
+  "image_count": 6,
+  "paragraphs": [
+    "文章目录",
+    "前言",
+    "前期准备",
+    "工具实现",
+    "总结",
+    "新项目开发过程中，CAN Signal/SignalGroup多，手动mapping工作量大且容易出错，本文介绍基于ETAS工具自动进行Signal/SignalGroup的AutoMapping方案",
+    "在自动Mapping之前，需要保证在对应的SWC已经建立好对应的P/R port及Interface，对于SignalGroup来说，需要创建结构体类型的Datatype,我们建立的Port名称以Pp_/Rp+Signal名来命名,Pport对应CAN发送的信号/信号组，Rport对应CAN接收的信号/信号组，为了能够自动化mapping正确，需要保证Interface中的data element名称和signal保持一致，建立的建立Port的工作，也可以通过脚本来来实现",
+    "右键System,点击Auto Signal Mapping 选择Mapping Type为SenderReceiverToSignaMapping,选择Use Naming Rules,勾选EXACT_MATCH ，不勾选Also check AR Compatibility on filtered name patterns 点击Next,确认mapping的信号是否正确，此处mapping的规则是根据Port中Interface的data element和Signal一致来的 勾选需要mapping的信号，点击finish即可自动进行mapping Maping结果如下： 注意：接收的CAN信号有不同的接口map时，对应的接口的ImplementationDataTypes需要保持一致，否则会报错：different AUTOSAR signals with different data types do not reference the same system signal",
+    "自动化mapping的前提是Port定义要按规则，不过通过脚本生成Port，实现起来也不困难~",
+    "文章目录前言",
+    "在自动Mapping之前，需要保证在对应的SWC已经建立好对应的P/R port及Interface，对于SignalGroup来说，需要创建结构体类型的Datatype,我们建立的Port名称以Pp_/Rp+Signal名来命名,Pport对应CAN发送的信号/信号组，Rport对应CAN接收的信号/信号组，为了能够自动化mapping正确，",
+    "需要保证Interface中的data element名称和signal保持一致",
+    "，建立的建立Port的工作，也可以通过脚本来来实现",
+    "右键System,点击Auto Signal Mapping",
+    "选择Mapping Type为",
+    "SenderReceiverToSignaMapping",
+    ",选择",
+    "Use Naming Rules",
+    ",勾选",
+    "EXACT_MATCH",
+    "，不勾选Also check AR Compatibility on filtered name patterns",
+    "点击Next,确认mapping的信号是否正确，此处mapping的规则是根据Port中Interface的data element和Signal一致来的",
+    "勾选需要mapping的信号，点击finish即可自动进行mapping",
+    "Maping结果如下：",
+    "注意",
+    "：接收的CAN信号有不同的接口map时，对应的接口的",
+    "ImplementationDataTypes需要保持一致",
+    "，否则会报错：different AUTOSAR signals with different data types do not reference the same system signal"
+  ],
+  "images": [
+    {
+      "index": 1,
+      "src": "https://mmbiz.qpic.cn/sz_mmbiz_png/Xfj2byWloHI1FA2kYicrjsOibAw6sQ8AXlObkjxPgLWBTkWanJFcx0iaZXLgmWG63re7QtS49KKiaxiamkQSfu8y3MIneWcPdiadvGEkLARboatUs/640?wx_fmt=png&from=appmsg",
+      "alt": ""
+    },
+    {
+      "index": 2,
+      "src": "https://mmbiz.qpic.cn/mmbiz_png/Xfj2byWloHJrNx5ednS8uxPmbSjEJBKrA51gE0I3icNorp8GaMdwvIsHzAItcPBCibO9nczfBG39kGkAbZPTx1a3wW2WgunYibMFktmqfQvht4/640?wx_fmt=png&from=appmsg",
+      "alt": ""
+    },
+    {
+      "index": 3,
+      "src": "https://mmbiz.qpic.cn/mmbiz_png/Xfj2byWloHIX9wwLT64twQw2rjycPziauicLuYhYjicichHIRQzltCTyouu2KD0Yia6g8BZrQH0y6ywdD4aagzEk2vib1CdLmzBTnn9LTDapM3YwA/640?wx_fmt=png&from=appmsg",
+      "alt": ""
+    },
+    {
+      "index": 4,
+      "src": "https://mmbiz.qpic.cn/mmbiz_png/Xfj2byWloHJZJDs2OQ6QKda3iatU7zbX637f7IbjktHs4DicsSFjdkGtOzboZDib48OzaaVDe9B5XEiageHA12fCpicdkc8HJvJMfiasjVSDibfAAU/640?wx_fmt=png&from=appmsg",
+      "alt": ""
+    },
+    {
+      "index": 5,
+      "src": "https://mmbiz.qpic.cn/mmbiz_png/gEqKyojpCYY0soTxicwcN5SvLZ6zTV3tCsib0hj9qaibZgicrhQ1GYc3mVJzIbFIvGKmTodTHSkwUicIIpV1MCzyXzQ/640?wx_fmt=png",
+      "alt": ""
+    },
+    {
+      "index": 6,
+      "src": "https://mmbiz.qpic.cn/sz_mmbiz_gif/gEqKyojpCYbj2Rz4Rm2SpcUYvKWlPBBBKvHMMv6HmicYGRfteF5Vs4lgZSwriattYENZic8gpdIA8iaKG5VSlfhTOw/640?wx_fmt=gif&from=appmsg",
+      "alt": ""
+    }
+  ]
+}
