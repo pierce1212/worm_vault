@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "52471acc428664d7",
+        "id": "234e81c291fb9df3",
         "type": "tabs",
         "children": [
           {
-            "id": "10c6777f13e08cb3",
+            "id": "8dd9f9f3f9330dd3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.06.09 功能安全流程梳理.md",
+                "file": "daliy record/2026.06.10 cpu load & stack deap.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.06.09 功能安全流程梳理"
+              "title": "2026.06.10 cpu load & stack deap"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 378.51103591918945
+    "width": 363.50390243530273
   },
   "right": {
     "id": "094bbec1d5c3751a",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "测试.md",
+                "file": "daliy record/2026. 06.10 cpu load & stack deap.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "测试 的反向链接列表"
+              "title": "2026. 06.10 cpu load & stack deap 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "S32K324 Real-time control 实时控制学习笔记.md",
+                "file": "daliy record/2026. 06.10 cpu load & stack deap.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "S32K324 Real-time control 实时控制学习笔记 的出链列表"
+              "title": "2026. 06.10 cpu load & stack deap 的出链列表"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "SVN基本指令.md",
+                "file": "daliy record/2026. 06.10 cpu load & stack deap.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "SVN基本指令 的大纲"
+              "title": "2026. 06.10 cpu load & stack deap 的大纲"
             }
           },
           {
@@ -195,12 +195,12 @@
               "title": "Calendar"
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 464.5
+    "width": 464.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -219,54 +219,54 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "10c6777f13e08cb3",
+  "active": "8dd9f9f3f9330dd3",
   "lastOpenFiles": [
-    "Excalidraw/Drawing 2026-06-09 15.38.20.excalidraw.md",
-    "daliy record/2026.06.09 功能安全流程梳理.md",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609153219546.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609153019226.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609153010127.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609152945617.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609152914314.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609152859796.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609152850513.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609152841980.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609152824766.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理/file-20260609152811454.png",
-    "daliy record/assets/2026.06.09 功能安全流程梳理",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611193250384.png",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611175406133.png",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611174836386.png",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611154032904.png",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611095940714.png",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611094400280.png",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611093354035.png",
     "task_outline/obsidian_tasks_command_center.md",
     "task_outline/工作任务.md",
     "task_outline/复习时间轴.md",
-    "daliy record/2026.06.05 CAN驱动笔记.md",
-    "daliy record/RSM8900_Driver.md",
-    "daliy record/Downloads_Autosar_Document_Study_Index.md",
-    "daliy record/2026.06.08 RSM8900开发.md",
     "task_outline/任务详情.md",
-    "其他芯片学习笔记/RSM8900_RTC_StudyNotes.md",
-    "00_Inbox/灵感/灵感收集箱.md",
-    "汽车功能安全_ISO26262_公众号合集详细学习笔记.md",
+    "UDS/UDS全图指南总结.md",
+    "Excalidraw/Drawing 2026-06-09 15.38.20.excalidraw.md",
+    "daliy record/2026.06.10 cpu load & stack deap.md",
+    "daliy record/2026.06.10 T32问题汇总.md",
+    "daliy record/2026.06.10 IDE环境设置.md",
+    "daliy record/assets/2026.06.10 IDE环境设置/file-20260610183159803.png",
+    "daliy record/assets/2026.06.10 IDE环境设置/file-20260610180758002.png",
+    "daliy record/assets/2026.06.10 IDE环境设置",
+    "daliy record/assets/2026.06.10 cpu load & stack deap",
+    "daliy record/Downloads_Autosar_Document_Study_Index.md",
+    "daliy record/2026.06.09 功能安全流程梳理.md",
+    "daliy record/2026.06.08 RSM8900开发.md",
+    "daliy record/assets/2026.06.10 T32问题汇总/file-20260610163439249.png",
+    "daliy record/assets/2026.06.10 T32问题汇总",
+    "daliy record/2026.5.22 HL8545的几点说明.md",
+    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260610171531403.png",
+    "daliy record/assets/2026. 06.10 cpu load & stack deap",
+    "daliy record/2026.06.05 CAN驱动笔记.md",
+    "daliy record/2026.06.04 功能安全之-EDC ECC XBIC.md",
+    "daliy record/2026.06.02 功能安全开发outline.md",
+    "daliy record/2026.06.01 三腔阀诊断开发.md",
+    "daliy record/2026.06.01 功能安全开发.md",
+    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/Chapter70_LPSPI_Study_Notes.md",
+    "S32K324芯片学习/security and device GPRs/S32K3xx_Chapter38_DCM_GPR_Notes.md",
+    "S32K324芯片学习/communication/S32K3xx_Chapter78_QuadSPI_SPI_EB_Study_Notes.md",
+    "S32K324芯片学习/S32K324_Bus_StudyNotes/S32K324_Bus_Interconnect_Study_Notes.md",
+    "S32K324芯片学习/S32K3xx.pdf",
+    "daliy record/2026.06.03 功能安全-REG_PORT XRDC PMC.md",
+    "daliy record/2026.06.09 UAES功能安全是怎么做的？.md",
+    "daliy record/RSM8900_Driver.md",
+    "daliy record/assets/2026.06.09 功能安全流程梳理",
     "daliy record/assets/2026.06.08 RSM8900开发",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/003-基于ETAS工具的AutoSignalMapping实现方案-工具实现.md",
     "其他芯片学习笔记",
     "新建文件夹",
-    "S32K324芯片学习/RSM8900_RTC_StudyNotes.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/002-诊断请求1101到MCU复位的完整流程.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/001-TC3xx功能安全（一）-LBIST-技术原理与工程实践.md",
-    "AUTOSAR/汽车电子学习笔记/README.md",
     "AUTOSAR/汽车电子学习笔记/#Autosar/_raw/003-基于ETAS工具的AutoSignalMapping实现方案-工具实现.html",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/_raw/003-基于ETAS工具的AutoSignalMapping实现方案-工具实现.json",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/_raw/001-TC3xx功能安全（一）-LBIST-技术原理与工程实践.json",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/_raw/002-诊断请求1101到MCU复位的完整流程.json",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/_raw/002-诊断请求1101到MCU复位的完整流程.html",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/_raw/001-TC3xx功能安全（一）-LBIST-技术原理与工程实践.html",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/_needs_review.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/131-基于can总线的A2L文件解析（2）.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/130-基于can总线的A2L文件解析（3）.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/README.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/133-详解Autosar Arxml中的CANFD报文及格式.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/132-Autosar SWC在Simulink中Parameter的使用.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/129-Excel管理Simulink SWC中的标定量与观测量之标定量.md",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/128-Simulink脚本自动创建Autosar Parameter Port及Mapping.md",
     "未命名 1.canvas",
     "未命名.canvas"
   ]
