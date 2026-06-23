@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
-                "mode": "preview",
+                "file": "daliy record/2026.06.23 休眠唤醒使用到的模块的的变量解释.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.06.15 奇瑞休眠唤醒排查"
+              "title": "2026.06.23 休眠唤醒使用到的模块的的变量解释"
             }
           }
         ]
@@ -222,6 +222,9 @@
   },
   "active": "800457266c968d77",
   "lastOpenFiles": [
+    "daliy record/2026.06.05 CAN驱动笔记.md",
+    "daliy record/2026.06.23 休眠唤醒使用到的模块的的变量解释.md",
+    "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
     "daliy record/2026.06.23 通信栈所有模块开发.md",
     "daliy record/2026.06.23 休眠唤醒CAPL脚本开发.md",
     "daliy record/Downloads_Autosar_Document_Study_Index.md",
@@ -229,7 +232,6 @@
     "task_outline/obsidian_tasks_command_center.md",
     "task_outline/复习时间轴.md",
     "task_outline/任务详情.md",
-    "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
     "00_Inbox/生活随想/2025.06.23 周二.md",
     "00_Inbox/生活随想/2026.06.21 周天.md",
     "debug/TRACE32_Lauterbach_Online_Training_2022_学习笔记.md",
@@ -265,8 +267,6 @@
     "debug",
     "新建文件夹",
     "daliy record/assets/2026.06.15 奇瑞休眠唤醒排查/file-20260616165924387.png",
-    "daliy record/2026.06.16 AUTOSAR -com stack 配置.md",
-    "AUTOSAR/ETAS_ComStack_Configuration_Study_Notes.md",
     "daliy record/assets/2026.06.16 AUTOSAR -com stack 配置/file-20260616144040919.png",
     "未命名 1.canvas",
     "未命名.canvas"
