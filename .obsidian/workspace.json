@@ -200,8 +200,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 464.5,
-    "collapsed": true
+    "width": 464.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -220,7 +219,7 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "800457266c968d77",
+  "active": "f81b0ed1305b0596",
   "lastOpenFiles": [
     "daliy record/2026.06.05 CAN驱动笔记.md",
     "daliy record/2026.06.23 休眠唤醒使用到的模块的的变量解释.md",
