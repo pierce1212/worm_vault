@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "234e81c291fb9df3",
+        "id": "2f216169dcbd8ad0",
         "type": "tabs",
         "children": [
           {
-            "id": "8dd9f9f3f9330dd3",
+            "id": "800457266c968d77",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.06.10 cpu load & stack deap.md",
-                "mode": "source",
+                "file": "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.06.10 cpu load & stack deap"
+              "title": "2026.06.15 奇瑞休眠唤醒排查"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 363.50390243530273
+    "width": 367.50390243530273
   },
   "right": {
     "id": "094bbec1d5c3751a",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "daliy record/2026. 06.10 cpu load & stack deap.md",
+                "file": "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026. 06.10 cpu load & stack deap 的反向链接列表"
+              "title": "2026.06.15 奇瑞休眠唤醒排查 的反向链接列表"
             }
           },
           {
@@ -195,7 +195,8 @@
               "title": "Calendar"
             }
           }
-        ]
+        ],
+        "currentTab": 6
       }
     ],
     "direction": "horizontal",
@@ -219,54 +220,54 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "8dd9f9f3f9330dd3",
+  "active": "800457266c968d77",
   "lastOpenFiles": [
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611193250384.png",
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611175406133.png",
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611174836386.png",
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611154032904.png",
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611095940714.png",
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611094400280.png",
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260611093354035.png",
-    "task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.06.23 通信栈所有模块开发.md",
+    "daliy record/2026.06.23 休眠唤醒CAPL脚本开发.md",
+    "daliy record/Downloads_Autosar_Document_Study_Index.md",
     "task_outline/工作任务.md",
+    "task_outline/obsidian_tasks_command_center.md",
     "task_outline/复习时间轴.md",
     "task_outline/任务详情.md",
-    "UDS/UDS全图指南总结.md",
-    "Excalidraw/Drawing 2026-06-09 15.38.20.excalidraw.md",
-    "daliy record/2026.06.10 cpu load & stack deap.md",
+    "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
+    "00_Inbox/生活随想/2025.06.23 周二.md",
+    "00_Inbox/生活随想/2026.06.21 周天.md",
+    "debug/TRACE32_Lauterbach_Online_Training_2022_学习笔记.md",
+    "AUTOSAR/汽车电子学习笔记/README.md",
+    "AI/如何像专家一样使用Codex.md",
+    "AI/我想让codex实时获取调试器中的数据.md",
+    "AI/assets/我想让codex实时获取调试器中的数据/file-20260623150055967.png",
+    "AI/assets/我想让codex实时获取调试器中的数据/file-20260623142123121.png",
+    "AI/assets/我想让codex实时获取调试器中的数据/file-20260623142016854.png",
+    "AI/assets/我想让codex实时获取调试器中的数据/file-20260623141914427.png",
+    "AI/assets/我想让codex实时获取调试器中的数据/file-20260623141112832.png",
+    "AI/assets/我想让codex实时获取调试器中的数据",
+    "AI/OpenAI Codex 简洁教程.md",
+    "AI/MCP大模型上下文协议.md",
+    "AI/assets/MCP大模型上下文协议/file-20260623132315051.png",
+    "AI/assets/MCP大模型上下文协议",
+    "AI/assets",
+    "S32K324芯片学习/S32K324 Memory Map 内存映射学习笔记.md",
+    "机器人开发/意优CanOpen应用手册V2.0.pdf",
+    "机器人开发/意优CANopen&EtherCAT应用手册V2.2 (1).pdf",
+    "机器人开发/CANopen 协议介绍--流行欧洲的CAN-bus高层协议.pdf",
+    "CAN信号自动测试脚本说明/2026.5.19 CAN信号自动测试脚本说明.md",
+    "daliy record/RSM8900_Driver.md",
     "daliy record/2026.06.10 T32问题汇总.md",
     "daliy record/2026.06.10 IDE环境设置.md",
-    "daliy record/assets/2026.06.10 IDE环境设置/file-20260610183159803.png",
-    "daliy record/assets/2026.06.10 IDE环境设置/file-20260610180758002.png",
-    "daliy record/assets/2026.06.10 IDE环境设置",
-    "daliy record/assets/2026.06.10 cpu load & stack deap",
-    "daliy record/Downloads_Autosar_Document_Study_Index.md",
-    "daliy record/2026.06.09 功能安全流程梳理.md",
-    "daliy record/2026.06.08 RSM8900开发.md",
-    "daliy record/assets/2026.06.10 T32问题汇总/file-20260610163439249.png",
-    "daliy record/assets/2026.06.10 T32问题汇总",
-    "daliy record/2026.5.22 HL8545的几点说明.md",
-    "daliy record/assets/2026.06.10 cpu load & stack deap/file-20260610171531403.png",
-    "daliy record/assets/2026. 06.10 cpu load & stack deap",
-    "daliy record/2026.06.05 CAN驱动笔记.md",
-    "daliy record/2026.06.04 功能安全之-EDC ECC XBIC.md",
-    "daliy record/2026.06.02 功能安全开发outline.md",
-    "daliy record/2026.06.01 三腔阀诊断开发.md",
-    "daliy record/2026.06.01 功能安全开发.md",
-    "S32K324芯片学习/communication/Chapter70_LPSPI_StudyNotes/Chapter70_LPSPI_Study_Notes.md",
-    "S32K324芯片学习/security and device GPRs/S32K3xx_Chapter38_DCM_GPR_Notes.md",
-    "S32K324芯片学习/communication/S32K3xx_Chapter78_QuadSPI_SPI_EB_Study_Notes.md",
-    "S32K324芯片学习/S32K324_Bus_StudyNotes/S32K324_Bus_Interconnect_Study_Notes.md",
-    "S32K324芯片学习/S32K3xx.pdf",
-    "daliy record/2026.06.03 功能安全-REG_PORT XRDC PMC.md",
-    "daliy record/2026.06.09 UAES功能安全是怎么做的？.md",
-    "daliy record/RSM8900_Driver.md",
-    "daliy record/assets/2026.06.09 功能安全流程梳理",
-    "daliy record/assets/2026.06.08 RSM8900开发",
-    "其他芯片学习笔记",
+    "daliy record/SVN基本指令.md",
+    "00_Inbox/灵感/灵感收集箱.md",
+    "00_Inbox/生活随想",
+    "00_Inbox/生活随想",
+    "hardware/BE13_SC900719_StudyNotes/README.md",
+    "assets/CiA-402-2-version-3.0.0_学习笔记/cia402_mode_map.svg",
+    "assets/CiA-402-2-version-3.0.0_学习笔记/cia402_state_machine.svg",
+    "debug",
     "新建文件夹",
-    "AUTOSAR/汽车电子学习笔记/#Autosar/_raw/003-基于ETAS工具的AutoSignalMapping实现方案-工具实现.html",
+    "daliy record/assets/2026.06.15 奇瑞休眠唤醒排查/file-20260616165924387.png",
+    "daliy record/2026.06.16 AUTOSAR -com stack 配置.md",
+    "AUTOSAR/ETAS_ComStack_Configuration_Study_Notes.md",
+    "daliy record/assets/2026.06.16 AUTOSAR -com stack 配置/file-20260616144040919.png",
     "未命名 1.canvas",
     "未命名.canvas"
   ]
