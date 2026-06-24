@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.06.23 休眠唤醒使用到的模块的的变量解释.md",
+                "file": "daliy record/2026.06.24 软件架构设计草稿.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.06.23 休眠唤醒使用到的模块的的变量解释"
+              "title": "2026.06.24 软件架构设计草稿"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 367.50390243530273
+    "width": 415.50390243530273
   },
   "right": {
     "id": "094bbec1d5c3751a",
@@ -200,7 +200,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 464.5
+    "width": 464.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -219,18 +220,30 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "f81b0ed1305b0596",
+  "active": "800457266c968d77",
   "lastOpenFiles": [
-    "daliy record/2026.06.05 CAN驱动笔记.md",
+    "daliy record/assets/2026.06.24 软件架构设计草稿/EcuM CanWakeupByPolling.bmp",
+    "daliy record/assets/2026.06.24 软件架构设计草稿",
+    "daliy record/2026.06.23 RT-OS ISOLAR配置.md",
+    "daliy record/2026.06.24 软件架构设计草稿.md",
+    "daliy record/assets/2026.06.23 RT-OS ISOLAR配置",
+    "daliy record/2026.06.23 bsw中ISOLAR配置.md",
+    "daliy record/2026.06.23 休眠唤醒CAPL脚本开发.md",
     "daliy record/2026.06.23 休眠唤醒使用到的模块的的变量解释.md",
     "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
-    "daliy record/2026.06.23 通信栈所有模块开发.md",
-    "daliy record/2026.06.23 休眠唤醒CAPL脚本开发.md",
-    "daliy record/Downloads_Autosar_Document_Study_Index.md",
-    "task_outline/工作任务.md",
-    "task_outline/obsidian_tasks_command_center.md",
+    "AUTOSAR/communication stack.md",
     "task_outline/复习时间轴.md",
     "task_outline/任务详情.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.06.10 T32问题汇总.md",
+    "daliy record/assets/2026.06.15 奇瑞休眠唤醒排查/file-20260623174205616.png",
+    "daliy record/2026.06.09 功能安全流程梳理.md",
+    "daliy record/assets/2026.06.23 RT-OS ISOLAR配置/file-20260624102150149.png",
+    "daliy record/assets/2026.06.23 RT-OS",
+    "daliy record/Downloads_Autosar_Document_Study_Index.md",
+    "daliy record/assets/2026.06.15 奇瑞休眠唤醒排查/file-20260623164138518.png",
+    "daliy record/2026.06.05 CAN驱动笔记.md",
+    "task_outline/工作任务.md",
     "00_Inbox/生活随想/2025.06.23 周二.md",
     "00_Inbox/生活随想/2026.06.21 周天.md",
     "debug/TRACE32_Lauterbach_Online_Training_2022_学习笔记.md",
@@ -253,20 +266,8 @@
     "机器人开发/意优CANopen&EtherCAT应用手册V2.2 (1).pdf",
     "机器人开发/CANopen 协议介绍--流行欧洲的CAN-bus高层协议.pdf",
     "CAN信号自动测试脚本说明/2026.5.19 CAN信号自动测试脚本说明.md",
-    "daliy record/RSM8900_Driver.md",
-    "daliy record/2026.06.10 T32问题汇总.md",
-    "daliy record/2026.06.10 IDE环境设置.md",
-    "daliy record/SVN基本指令.md",
-    "00_Inbox/灵感/灵感收集箱.md",
     "00_Inbox/生活随想",
-    "00_Inbox/生活随想",
-    "hardware/BE13_SC900719_StudyNotes/README.md",
     "assets/CiA-402-2-version-3.0.0_学习笔记/cia402_mode_map.svg",
-    "assets/CiA-402-2-version-3.0.0_学习笔记/cia402_state_machine.svg",
-    "debug",
-    "新建文件夹",
-    "daliy record/assets/2026.06.15 奇瑞休眠唤醒排查/file-20260616165924387.png",
-    "daliy record/assets/2026.06.16 AUTOSAR -com stack 配置/file-20260616144040919.png",
     "未命名 1.canvas",
     "未命名.canvas"
   ]
