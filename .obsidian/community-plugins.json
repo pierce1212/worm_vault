@@ -14,5 +14,8 @@
   "obsidian-minimal-settings",
   "remember-cursor-position",
   "highlightr-plugin",
-  "easy-typing-obsidian"
+  "easy-typing-obsidian",
+  "advanced-canvas",
+  "obsidian-local-rest-api",
+  "editing-toolbar"
 ]
