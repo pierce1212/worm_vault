@@ -1,5 +1,6 @@
 {
   "enabledCssSnippets": [
     "tasks-command-center"
-  ]
+  ],
+  "theme": "obsidian"
 }

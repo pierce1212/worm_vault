@@ -224,7 +224,7 @@ function cleanText(text, removeTags = true) {
     .replace(/[🔺⏫🔼🔽⏬]\s*/gu, "")
     .replace(/(?:📅|⏳|🛫|➕|✅|❌)\s*\d{4}-\d{2}-\d{2}/gu, "")
     .replace(/🔁\s*[^#\[]+/gu, "")
-    .replace(/\[(?:completedAt|完成时间)::[^\]]+\]/gu, "")
+    .replace(/\[(?:completedAt|完成时间|needsReview|需要复习|reviewEnabled|复习开关)::[^\]]+\]/giu, "")
     .replace(/\s+/g, " ")
     .trim();
 
@@ -301,10 +301,25 @@ function reviewRecords(task) {
     .filter(Boolean);
 }
 
+function reviewChoice(task) {
+  const raw = task.needsReview ?? task.reviewEnabled ?? task["需要复习"] ?? task["复习开关"] ?? inlineField(task.text, "needsReview|需要复习|reviewEnabled|复习开关");
+  if (raw === null || raw === undefined || raw === "") return null;
+  const value = String(raw).trim().toLowerCase();
+  if (["1", "true", "yes", "y", "on", "是", "是的", "需要", "需要复习", "复习", "开启", "打开"].includes(value)) return true;
+  if (["0", "false", "no", "n", "off", "否", "不用", "不用复习", "不需要", "不需要复习", "无需", "无需复习", "不复习", "关闭", "关"].includes(value)) return false;
+  return null;
+}
+
+function shouldReviewTask(task, records = null) {
+  const choice = reviewChoice(task);
+  if (choice !== null) return choice;
+  return (records ?? reviewRecords(task)).length > 0;
+}
+
 function reviewPlan(task) {
   const doneDay = completedDay(task);
-  if (!doneDay) return [];
   const records = reviewRecords(task);
+  if (!doneDay || !shouldReviewTask(task, records)) return [];
   return CONFIG.reviewIntervals.map(interval => {
     const due = doneDay.plus({ days: interval });
     const record = records.find(item => item.interval === interval || sameDay(item.due, due));
@@ -695,6 +710,10 @@ function completedTaskCard(task) {
   const doneDay = completedDay(task);
   const pg = displayedProgress(task);
   const review = reviewStatus(task);
+  const reviewLabel = review.total ? `复习 ${review.doneCount}/${review.total}` : "不复习";
+  const reviewHint = review.total
+    ? (review.dueCount ? `${review.dueCount} 个待复习` : "暂无到期复习")
+    : "未加入复习计划";
   return `
     <article class="tcc-done-card" data-detail-task="${esc(taskId(task))}">
       <div>
@@ -704,8 +723,8 @@ function completedTaskCard(task) {
       <p>${esc(taskMeta(task))}</p>
       ${bar(pg.percent, `${pg.mode} ${pg.detail}`)}
       <div class="tcc-review-mini">
-        <span>复习 ${review.doneCount}/${review.total}</span>
-        <em>${review.dueCount ? `${review.dueCount} 个待复习` : "暂无到期复习"}</em>
+        <span>${reviewLabel}</span>
+        <em>${reviewHint}</em>
       </div>
       <div class="tcc-task-tags">${tagsHtml(task)}</div>
     </article>
@@ -1053,7 +1072,7 @@ const root = mount(`
     <section class="tcc-section">
       <div class="tcc-section-head">
         <h2>复习队列</h2>
-        <span>独立时间轴展示 D+1 / D+2 / D+4 / D+7 / D+15 / D+30 复习计划</span>
+        <span>只统计开启复习的任务，按 D+1 / D+2 / D+4 / D+7 / D+15 / D+30 展开</span>
       </div>
       <div class="tcc-review-entry" data-open-path="${esc(reviewPath)}">
         <div>
