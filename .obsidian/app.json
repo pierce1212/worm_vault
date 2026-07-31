@@ -2,5 +2,7 @@
   "attachmentFolderPath": "附件",
   "useMarkdownLinks": true,
   "newLinkFormat": "relative",
-  "promptDelete": false
+  "promptDelete": false,
+  "readableLineLength": false,
+  "showLineNumber": true
 }

@@ -295,7 +295,7 @@
 
 .tasks-command-center .tcc-metrics {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 12px;
   margin: 14px 0;
 }
@@ -426,6 +426,16 @@
 
 .tasks-command-center .tcc-metric.success strong {
   color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-metric.postponed {
+  border-color: color-mix(in srgb, var(--tcc-amber) 58%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-amber) 18%, transparent), color-mix(in srgb, var(--background-primary) 76%, transparent));
+}
+
+.tasks-command-center .tcc-metric.postponed strong {
+  color: var(--tcc-amber);
 }
 
 .tasks-command-center .tcc-metric.review {

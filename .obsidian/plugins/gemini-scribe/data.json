@@ -112,11 +112,6 @@
         "maxTemperature": 2
       },
       {
-        "value": "gemini-3-pro-preview",
-        "label": "Gemini 3 Pro Preview",
-        "maxTemperature": 2
-      },
-      {
         "value": "gemini-3.1-flash-lite",
         "label": "Gemini 3.1 Flash Lite",
         "maxTemperature": 2
@@ -137,8 +132,31 @@
         "label": "Nano Banana 2",
         "supportsImageGeneration": true,
         "maxTemperature": 1
+      },
+      {
+        "value": "gemini-3.1-flash-lite-image",
+        "label": "Nano Banana 2 Lite",
+        "supportsImageGeneration": true,
+        "maxTemperature": 1
+      },
+      {
+        "value": "gemini-omni-flash-preview",
+        "label": "Gemini Omni Flash Preview",
+        "supportsImageGeneration": true,
+        "maxTemperature": 2,
+        "interactionsOnly": true
+      },
+      {
+        "value": "gemini-3.5-flash-lite",
+        "label": "Gemini 3.5 Flash Lite",
+        "maxTemperature": 2
+      },
+      {
+        "value": "gemini-3.6-flash",
+        "label": "Gemini 3.6 Flash",
+        "maxTemperature": 2
       }
     ],
-    "timestamp": 1782957300820
+    "timestamp": 1785486702464
   }
 }

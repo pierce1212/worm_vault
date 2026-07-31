@@ -9,4 +9,4 @@
 ![](assets/0x85(ControlDTCSetting)/file-20260702145249832.png)
 
 另一个参数 DTCSettingControlOptionRecord 是用户可选的，并在控制 DTC 设置时将数据传输到服务器。 它可以包含要打开或关闭的 DTC 列表。
-![](assets/0x85(ControlDTCSetting)/file-20260702145338111.png)/file-20260702145338111.png)
+![](assets/0x85(ControlDTCSetting)/file-20260702145338111.png)

@@ -196,13 +196,17 @@ function isCancelled(task) {
   return statusChar(task) === "-";
 }
 
+function isPostponed(task) {
+  return statusChar(task) === ">";
+}
+
 function isOpen(task) {
   return !task.completed && !isCancelled(task);
 }
 
 function isOverdue(task) {
   const due = dueDay(task);
-  return isOpen(task) && due && due < today;
+  return isOpen(task) && !isPostponed(task) && due && due < today;
 }
 
 function taskVisualStatus(task) {
@@ -217,6 +221,15 @@ function taskVisualStatus(task) {
 function isLongTerm(task) {
   const planned = plannedDay(task);
   return hasAnyTag(task, CONFIG.longTermTags) || (planned && planned > weekEnd);
+}
+
+function isActiveInWeek(task) {
+  const start = startDay(task) ?? scheduledDay(task) ?? createdDay(task) ?? plannedDay(task) ?? dueDay(task);
+  const due = dueDay(task) ?? plannedDay(task) ?? start;
+  if (!start && !due) return false;
+  const rangeStart = start ?? due;
+  const rangeEnd = due ?? start;
+  return rangeStart <= weekEnd && rangeEnd >= weekStart;
 }
 
 function cleanText(text, removeTags = true) {
@@ -446,13 +459,15 @@ function isInLongTermSection(task) {
 const open = tasks.filter(isOpen);
 const done = tasks.filter(task => task.completed);
 const overdue = open.filter(isOverdue);
-const dueToday = open.filter(task => sameDay(dueDay(task), today) || sameDay(scheduledDay(task), today));
-const dueThisWeek = tasks.filter(task => inRange(relevantDay(task), weekStart, weekEnd));
+const postponed = open.filter(isPostponed);
+const activeOpen = open.filter(task => !isPostponed(task));
+const dueToday = activeOpen.filter(task => sameDay(dueDay(task), today) || sameDay(scheduledDay(task), today));
+const dueThisWeek = tasks.filter(task => !isPostponed(task) && inRange(relevantDay(task), weekStart, weekEnd));
 const doneThisWeek = done.filter(task => inRange(completedDay(task), weekStart, weekEnd));
 const longTerm = open.filter(task => isInLongTermSection(task) || isLongTerm(task));
-const activeLongTerm = longTerm.filter(isOpen);
-const focusCandidates = open.filter(task => !longTerm.includes(task));
-const openThisWeek = focusCandidates.filter(task => inRange(relevantDay(task), weekStart, weekEnd));
+const activeLongTerm = longTerm.filter(task => isOpen(task) && !isPostponed(task));
+const focusCandidates = activeOpen.filter(task => !longTerm.includes(task));
+const openThisWeek = focusCandidates.filter(task => isActiveInWeek(task));
 const weekPercent = dueThisWeek.length ? Math.round(doneThisWeek.length / dueThisWeek.length * 100) : 0;
 const completionRatio = tasks.length ? Math.round(done.length / tasks.length * 100) : 0;
 const health = Math.max(0, Math.min(100, Math.round(100 - overdue.length * 9 + doneThisWeek.length * 4)));
@@ -980,6 +995,7 @@ const metricFilters = {
   today: dueToday.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   week: openThisWeek.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   overdue: overdue.slice().sort((a, b) => focusScore(b) - focusScore(a)),
+  postponed: postponed.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   done: doneThisWeek.slice().sort((a, b) => (completedDay(b)?.toMillis() ?? 0) - (completedDay(a)?.toMillis() ?? 0)),
   longterm: longTerm.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   review: dueReviewItems.map(item => item.task)
@@ -988,6 +1004,7 @@ const metricFilterLabels = {
   today: "今日焦点",
   week: "本周任务",
   overdue: "逾期任务",
+  postponed: "延期任务",
   done: "本周已完成",
   longterm: "长期任务",
   review: "待复习任务"
@@ -1032,6 +1049,7 @@ const root = mount(`
       ${metricCard("今日焦点", String(dueToday.length), "计划或截止今天", "hot", "today")}
       ${metricCard("本周任务", String(openThisWeek.length), "Focus Queue", "", "week")}
       ${metricCard("逾期", String(overdue.length), "需要优先处理", "danger", "overdue")}
+      ${metricCard("延期", String(postponed.length), "等待重新启动", "postponed", "postponed")}
       ${metricCard("本周完成", String(doneThisWeek.length), "完成记录", "success", "done")}
       ${metricCard("长期任务", String(activeLongTerm.length), "单独跟踪", "", "longterm")}
     </section>
@@ -1066,6 +1084,16 @@ const root = mount(`
       </div>
       <div class="tcc-done-grid tcc-week-done-grid">
         ${doneThisWeek.slice().sort((a, b) => (completedDay(b)?.toMillis() ?? 0) - (completedDay(a)?.toMillis() ?? 0)).map(completedTaskCard).join("") || `<p class="tcc-empty">本周还没有完成任务。</p>`}
+      </div>
+    </section>
+
+    <section class="tcc-section">
+      <div class="tcc-section-head">
+        <h2>延期任务</h2>
+        <span>已延期任务不再算逾期，等待重新启动或重新规划日期</span>
+      </div>
+      <div class="tcc-focus-grid tcc-postponed-grid">
+        ${postponed.map((task, index) => taskCard(task, index + 1)).join("") || `<p class="tcc-empty">当前没有延期任务。</p>`}
       </div>
     </section>
 

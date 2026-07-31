@@ -47,6 +47,150 @@
         "afterCapture": "none"
       },
       "useSelectionAsCaptureValue": false
+    },
+    {
+      "id": "f7522d07-424e-478e-bc5a-49cf6bf82d44",
+      "name": "TODO",
+      "type": "Capture",
+      "command": false,
+      "appendLink": false,
+      "captureTo": "00_Inbox/灵感/TODO.md",
+      "captureToActiveFile": false,
+      "captureToCanvasNodeId": "",
+      "activeFileWritePosition": "cursor",
+      "createFileIfItDoesntExist": {
+        "enabled": true,
+        "createWithTemplate": false,
+        "template": ""
+      },
+      "format": {
+        "enabled": true,
+        "format": "- {{DATE:YYYY-MM-DD HH:mm}} | {{VALUE}} | next:  | #idea/inbox"
+      },
+      "insertAfter": {
+        "enabled": false,
+        "after": "",
+        "insertAtEnd": false,
+        "considerSubsections": false,
+        "createIfNotFound": false,
+        "createIfNotFoundLocation": "top",
+        "inline": false,
+        "replaceExisting": false,
+        "blankLineAfterMatchMode": "auto"
+      },
+      "newLineCapture": {
+        "enabled": false,
+        "direction": "below"
+      },
+      "prepend": true,
+      "task": false,
+      "openFile": false,
+      "fileOpening": {
+        "location": "tab",
+        "direction": "vertical",
+        "mode": "default",
+        "focus": true
+      },
+      "templater": {
+        "afterCapture": "none"
+      },
+      "useSelectionAsCaptureValue": false
+    },
+    {
+      "id": "ffe81b9c-fabc-4cf0-8377-4023217b5ef2",
+      "name": "DONE每日小结",
+      "type": "Capture",
+      "command": false,
+      "appendLink": false,
+      "captureTo": "00_Inbox/灵感/DONE.md",
+      "captureToActiveFile": false,
+      "captureToCanvasNodeId": "",
+      "activeFileWritePosition": "cursor",
+      "createFileIfItDoesntExist": {
+        "enabled": true,
+        "createWithTemplate": false,
+        "template": ""
+      },
+      "format": {
+        "enabled": true,
+        "format": "- {{DATE:YYYY-MM-DD HH:mm}} | {{VALUE}} | next:  | #idea/inbox"
+      },
+      "insertAfter": {
+        "enabled": false,
+        "after": "",
+        "insertAtEnd": false,
+        "considerSubsections": false,
+        "createIfNotFound": false,
+        "createIfNotFoundLocation": "top",
+        "inline": false,
+        "replaceExisting": false,
+        "blankLineAfterMatchMode": "auto"
+      },
+      "newLineCapture": {
+        "enabled": false,
+        "direction": "below"
+      },
+      "prepend": true,
+      "task": false,
+      "openFile": false,
+      "fileOpening": {
+        "location": "tab",
+        "direction": "vertical",
+        "mode": "default",
+        "focus": true
+      },
+      "templater": {
+        "afterCapture": "none"
+      },
+      "useSelectionAsCaptureValue": false
+    },
+    {
+      "id": "d6d1b084-96ce-46c2-b6fd-75a3c14f2e54",
+      "name": "投资心得",
+      "type": "Capture",
+      "command": false,
+      "appendLink": false,
+      "captureTo": "00_Inbox/灵感/投资心得.md",
+      "captureToActiveFile": false,
+      "captureToCanvasNodeId": "",
+      "activeFileWritePosition": "cursor",
+      "createFileIfItDoesntExist": {
+        "enabled": true,
+        "createWithTemplate": false,
+        "template": ""
+      },
+      "format": {
+        "enabled": true,
+        "format": "- {{DATE:YYYY-MM-DD HH:mm}} | {{VALUE}} | next:  | #idea/inbox"
+      },
+      "insertAfter": {
+        "enabled": false,
+        "after": "",
+        "insertAtEnd": false,
+        "considerSubsections": false,
+        "createIfNotFound": false,
+        "createIfNotFoundLocation": "top",
+        "inline": false,
+        "replaceExisting": false,
+        "blankLineAfterMatchMode": "auto"
+      },
+      "newLineCapture": {
+        "enabled": false,
+        "direction": "below"
+      },
+      "prepend": true,
+      "task": false,
+      "openFile": false,
+      "fileOpening": {
+        "location": "tab",
+        "direction": "vertical",
+        "mode": "default",
+        "focus": true
+      },
+      "templater": {
+        "afterCapture": "none"
+      },
+      "useSelectionAsCaptureValue": false
     }
   ],
   "inputPrompt": "single-line",

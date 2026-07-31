@@ -1,61 +1,94 @@
 {
   "main": {
-    "id": "b120e2fae01c746c",
+    "id": "8063446ce27bc485",
     "type": "split",
     "children": [
       {
-        "id": "3ea579f1aa06f696",
+        "id": "184005153a74f011",
         "type": "tabs",
         "children": [
           {
-            "id": "b80ab0e94438e541",
+            "id": "1c480b431cfc2dd8",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task_outline/任务详情.md",
+                "file": "task_outline/obsidian_tasks_command_center.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "任务详情"
+              "title": "obsidian_tasks_command_center"
+            }
+          },
+          {
+            "id": "59d21f4f910626f9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/2026.07.31 诊断其他功能.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026.07.31 诊断其他功能"
+            }
+          },
+          {
+            "id": "bde9054d26ff0399",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "AI/无限私教.md",
+                "mode": "source",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "无限私教"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "6dd5acff1cf2a766",
+    "id": "6ab94ddc7d129d53",
     "type": "split",
     "children": [
       {
-        "id": "1bc2838c4751d3c6",
+        "id": "7eb27ab27615409d",
         "type": "tabs",
         "children": [
           {
-            "id": "c1d41ccf3979c231",
+            "id": "54ffb2c704656c36",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "文件列表"
             }
           },
           {
-            "id": "1cd66036fae72ba8",
+            "id": "afa9be6a25feef91",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
                 "query": "",
                 "matchingCase": false,
-                "explainSearch": false,
+                "explainSearch": true,
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
@@ -65,7 +98,7 @@
             }
           },
           {
-            "id": "18f44ed43e1b0509",
+            "id": "e13a413461b4c9af",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -78,23 +111,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 352.50390243530273
+    "width": 355.5
   },
   "right": {
-    "id": "094bbec1d5c3751a",
+    "id": "c6f6e55c44198497",
     "type": "split",
     "children": [
       {
-        "id": "7781f723ecea0c92",
+        "id": "3ee335cbf48c7fa6",
         "type": "tabs",
         "children": [
           {
-            "id": "ff592e85c0f6adad",
+            "id": "65c3d0154ef6d7bb",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
+                "file": "daliy record/2026.07.13 UDS扩展会话超时进入默认会话排查.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,25 +137,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026.06.15 奇瑞休眠唤醒排查 的反向链接列表"
+              "title": "2026.07.13 UDS扩展会话超时进入默认会话排查 的反向链接列表"
             }
           },
           {
-            "id": "caeae6c9a114e372",
+            "id": "96efac9c790ef038",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "daliy record/2026. 06.10 cpu load & stack deap.md",
+                "file": "daliy record/2026.07.31 诊断其他功能.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "2026. 06.10 cpu load & stack deap 的出链列表"
+              "title": "2026.07.31 诊断其他功能 的出链列表"
             }
           },
           {
-            "id": "5cea98becf58a726",
+            "id": "0f3cf79ff96f28c7",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -137,13 +170,13 @@
             }
           },
           {
-            "id": "83d53a9ad1876b19",
+            "id": "e4d1b9cf85ef7846",
             "type": "leaf",
             "state": {
               "type": "all-properties",
               "state": {
                 "sortOrder": "frequency",
-                "showSearch": true,
+                "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-archive",
@@ -151,42 +184,22 @@
             }
           },
           {
-            "id": "62df970e4cb5324b",
+            "id": "b9ed9eccb61b5172",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "daliy record/2026. 06.10 cpu load & stack deap.md",
+                "file": "daliy record/2026.07.13 UDS扩展会话超时进入默认会话排查.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2026. 06.10 cpu load & stack deap 的大纲"
+              "title": "2026.07.13 UDS扩展会话超时进入默认会话排查 的大纲"
             }
           },
           {
-            "id": "aca41f52110b7068",
-            "type": "leaf",
-            "state": {
-              "type": "gemini-agent-view",
-              "state": {},
-              "icon": "sparkles",
-              "title": "Agent Mode"
-            }
-          },
-          {
-            "id": "f81b0ed1305b0596",
-            "type": "leaf",
-            "state": {
-              "type": "git-view",
-              "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
-            }
-          },
-          {
-            "id": "3dd27feb666d7ee0",
+            "id": "90fb9d91fea53c37",
             "type": "leaf",
             "state": {
               "type": "calendar",
@@ -194,81 +207,90 @@
               "icon": "calendar-with-checkmark",
               "title": "Calendar"
             }
+          },
+          {
+            "id": "367fcf027b19627b",
+            "type": "leaf",
+            "state": {
+              "type": "mermaid-toolbar-view",
+              "state": {},
+              "icon": "trident-custom",
+              "title": "Mermaid Toolbar"
+            }
           }
         ],
-        "currentTab": 7
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 429.5,
+    "width": 300,
     "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
       "obsidian-git:Open Git source control": false,
       "gemini-scribe:Gemini Scribe: Agent Mode": false,
       "templater-obsidian:Templater": false,
       "quickadd:QuickAdd": false,
       "omnisearch:Omnisearch": false,
       "obsidian-excalidraw-plugin:新建绘图文件": false,
-      "switcher:打开快速切换": false,
-      "graph:查看关系图谱": false,
-      "canvas:新建白板": false,
-      "templates:插入模板": false,
-      "daily-notes:打开/创建今天的日记": false,
-      "command-palette:打开命令面板": false,
-      "bases:新建数据库": false
+      "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "c1d41ccf3979c231",
+  "active": "59d21f4f910626f9",
   "lastOpenFiles": [
-    "机器人开发/ROS",
-    "实时操作系统/未命名.md",
-    "机器人开发/未命名.md",
-    "实时操作系统/free-rtOS",
-    "实时操作系统/未命名 1.md",
-    "实时操作系统/uc-OS",
-    "实时操作系统/RT-thread",
-    "语言/英语计划.md",
-    "实时操作系统/RT-OS",
-    "实时操作系统",
-    "语言/assets/英语计划/file-20260702154846949.png",
-    "语言/assets/英语计划",
-    "语言/assets",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731155235377.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731150929525.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731150013425.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731145946812.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731145817854.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731145556232.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731143647922.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731143335474.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731134903511.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731133240510.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731133022806.png",
     "task_outline/obsidian_tasks_command_center.md",
-    "语言",
-    "task_outline/任务详情.md",
-    "daliy record/2026.07.02 奇瑞休眠唤醒问题--唤醒报文异常.md",
+    "00_Inbox/生活随想/2026.07.31 台湾战争该怎么办.md",
+    "daliy record/2026.07.31 诊断其他功能.md",
     "task_outline/工作任务.md",
-    "daliy record/2026.07.02 NOTION.md",
     "task_outline/复习时间轴.md",
-    "AUTOSAR/UDS/0x85(ControlDTCSetting).md",
-    "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
-    "daliy record/2026.06.23 休眠唤醒使用到的模块的的变量解释.md",
-    "daliy record/2026.06.05 CAN驱动笔记.md",
-    "AUTOSAR/UDS/2026.06.01 学习建议.md",
-    "AUTOSAR/UDS/assets/0x85(ControlDTCSetting)/file-20260702145338111.png",
-    "AUTOSAR/UDS/assets/0x85(ControlDTCSetting)/file-20260702145249832.png",
-    "AUTOSAR/UDS/assets/0x85(ControlDTCSetting)/file-20260702145238143.png",
-    "AUTOSAR/UDS/assets/0x85(ControlDTCSetting)/file-20260702144847847.png",
-    "daliy record/2026.06.29 DcmDsp_Config_Notes.md",
-    "AUTOSAR/UDS/assets/0x85(ControlDTCSetting)/file-20260702144724000.png",
-    "AUTOSAR/UDS/assets/0x85(ControlDTCSetting)",
-    "AUTOSAR/UDS/0x28(CommunicationControl).md",
-    "AUTOSAR/UDS/assets/0x28(CommunicationControl)/file-20260702144532062.png",
-    "AUTOSAR/UDS/0x27(SecurityAccess).md",
-    "AUTOSAR/UDS/assets/0x28(CommunicationControl)/file-20260702144403844.png",
-    "AUTOSAR/UDS/assets/0x28(CommunicationControl)/file-20260702144326194.png",
-    "AUTOSAR/UDS/assets/0x28(CommunicationControl)/file-20260702144257310.png",
-    "AUTOSAR/UDS/assets/0x28(CommunicationControl)",
-    "AUTOSAR/UDS/0x3E(TesterPresent).md",
-    "AUTOSAR/UDS/0x11(ECUReset).md",
-    "AUTOSAR/UDS/0x10(DiagnosticSessionControl).md",
-    "AUTOSAR/UDS/UDS全图指南总结.md",
-    "AUTOSAR/UDS/UDS_AUTOSAR_ETAS_入门教程.md",
-    "daliy record/2026.06.29 UDS故障排查.md",
-    "daliy record/2026.06.29 AUTOSAR_Dcm_PduR_CanTp_CanIf_CanDrv诊断链路学习笔记.md",
-    "未命名 1.canvas",
-    "未命名.canvas"
+    "task_outline/任务详情.md",
+    "daliy record/assets/2026.07.31 诊断其他功能",
+    "AI/斯坦福STORM方法：如何让Claude在几分钟内像博士一样做研究.md",
+    "AI/我们会被AI取代吗？.md",
+    "AI/我想让codex实时获取调试器中的数据.md",
+    "00_Inbox/灵感/投资心得.md",
+    "00_Inbox/灵感/DONE.md",
+    "00_Inbox/灵感/人生感悟.md",
+    "00_Inbox/灵感/灵感收集箱.md",
+    "daliy record/2026.07.29 DTC 配置以及使用开发.md",
+    "AI/无限私教.md",
+    "daliy record/assets/2026.07.29 DTC 配置以及使用开发",
+    "AI/如何像专家一样使用Codex.md",
+    "AI/如何提高AI协同开发能力.md",
+    "AI/搭建中转站.md",
+    "AI/面对AI浪潮我该怎么办.md",
+    "AI/Understand Anything.md",
+    "AI/OpenAI Codex 简洁教程.md",
+    "AI/MCP大模型上下文协议.md",
+    "AI/hermes agent install.md",
+    "AI/harness.md",
+    "AI/AI岗位研究.md",
+    "daliy record/assets/2026.07.28 DID诊断配置以及开发",
+    "AUTOSAR/UDS/assets/0x34 Request Download",
+    "AUTOSAR/UDS/assets/0x31（RoutineControl）",
+    "AUTOSAR/UDS/assets/0x14(ClearDiagnosticInformation)",
+    "AUTOSAR/assets/AUTOSAR -- CanSM标准流程",
+    "daliy record/assets/2026.07.20 奇瑞休眠唤醒新需求开发",
+    "AUTOSAR/CAN stack/assets/communication stack",
+    "AUTOSAR/CAN stack/assets/网络管理总结"
   ]
 }

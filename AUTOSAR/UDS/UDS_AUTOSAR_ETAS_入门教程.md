@@ -872,14 +872,14 @@ Write_func 是否检查长度和数据合法性
 
 Routine 常见负响应：
 
-| NRC | 含义 | 常见原因 |
-| ---: | --- | --- |
-| `0x12` | subFunctionNotSupported | 没配置 Start/Stop/Result |
-| `0x13` | incorrectMessageLengthOrInvalidFormat | 请求长度和输入参数不匹配 |
-| `0x22` | conditionsNotCorrect | 应用条件不允许执行 |
-| `0x31` | requestOutOfRange | RID 不存在或当前条件不支持 |
-| `0x33` | securityAccessDenied | 安全等级不够 |
-| `0x78` | responsePending | 例程异步执行，还没完成 |
+|    NRC | 含义                                    | 常见原因                  |
+| -----: | ------------------------------------- | --------------------- |
+| `0x12` | subFunctionNotSupported               | 没配置 Start/Stop/Result |
+| `0x13` | incorrectMessageLengthOrInvalidFormat | 请求长度和输入参数不匹配          |
+| `0x22` | conditionsNotCorrect                  | 应用条件不允许执行             |
+| `0x31` | requestOutOfRange                     | RID 不存在或当前条件不支持       |
+| `0x33` | securityAccessDenied                  | 安全等级不够                |
+| `0x78` | responsePending                       | 例程异步执行，还没完成           |
 
 ## 17. 如何新增 DTC
 
