@@ -8,34 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "1c480b431cfc2dd8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "task_outline/obsidian_tasks_command_center.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "obsidian_tasks_command_center"
-            }
-          },
-          {
-            "id": "59d21f4f910626f9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "daliy record/2026.07.31 诊断其他功能.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026.07.31 诊断其他功能"
-            }
-          },
-          {
             "id": "bde9054d26ff0399",
             "type": "leaf",
             "pinned": true,
@@ -49,6 +21,20 @@
               "pinned": true,
               "icon": "lucide-file",
               "title": "无限私教"
+            }
+          },
+          {
+            "id": "9f454c6d94f23fc2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00_Inbox/灵感/DONE.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "DONE"
             }
           }
         ],
@@ -86,7 +72,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#idea/inbox",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -111,7 +97,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 355.5
+    "width": 390.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -146,12 +132,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "daliy record/2026.07.31 诊断其他功能.md",
+                "file": "00_Inbox/灵感/DONE.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "2026.07.31 诊断其他功能 的出链列表"
+              "title": "出链"
             }
           },
           {
@@ -244,53 +230,54 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "59d21f4f910626f9",
+  "active": "9f454c6d94f23fc2",
   "lastOpenFiles": [
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731155235377.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731150929525.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731150013425.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731145946812.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731145817854.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731145556232.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731143647922.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731143335474.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731134903511.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731133240510.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260731133022806.png",
-    "task_outline/obsidian_tasks_command_center.md",
-    "00_Inbox/生活随想/2026.07.31 台湾战争该怎么办.md",
-    "daliy record/2026.07.31 诊断其他功能.md",
-    "task_outline/工作任务.md",
-    "task_outline/复习时间轴.md",
-    "task_outline/任务详情.md",
-    "daliy record/assets/2026.07.31 诊断其他功能",
-    "AI/斯坦福STORM方法：如何让Claude在几分钟内像博士一样做研究.md",
-    "AI/我们会被AI取代吗？.md",
-    "AI/我想让codex实时获取调试器中的数据.md",
+    "00_Inbox/生活随想/2026.08.04 币安到底能不能用.md",
+    "00_Inbox/生活随想/assets/2026.08.04 币安到底能不能用/file-20260804140534492.png",
+    "00_Inbox/生活随想/assets/2026.08.04 币安到底能不能用",
+    "00_Inbox/生活随想/assets",
+    "00_Inbox/生活随想/2026.08.03 如何与人谈判.md",
     "00_Inbox/灵感/投资心得.md",
     "00_Inbox/灵感/DONE.md",
-    "00_Inbox/灵感/人生感悟.md",
-    "00_Inbox/灵感/灵感收集箱.md",
-    "daliy record/2026.07.29 DTC 配置以及使用开发.md",
+    "00_Inbox/灵感/TODO.md",
+    "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
     "AI/无限私教.md",
+    "daliy record/2026.08.04 XCP协议.md",
+    "daliy record/2026-08-04   XCP协议.md",
+    "2026-08-04.md",
+    "未命名 1.canvas",
+    "未命名.base",
+    "未命名.canvas",
+    "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
+    "AUTOSAR/AUTOSAR -- CanSM标准流程.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.06.25 bsw 中 ISOLAR 配置--CanNM--NM.md",
+    "daliy record/2026.07.03 奇瑞休眠唤醒报文优化.md",
+    "daliy record/2026.07.02 奇瑞休眠唤醒问题--唤醒报文异常.md",
+    "daliy record/2026.06.29 UDS故障排查.md",
+    "task_outline/任务详情.md",
+    "task_outline/复习时间轴.md",
+    "task_outline/周报/2026-W31.md",
+    "daliy record/2026.07.29 系统需求分解到软件需求该怎么做.md",
+    "daliy record/2026.07.28 软件架构设计 & 软件单元设计.md",
+    "daliy record/2026.07.28 DID诊断配置以及开发.md",
+    "task_outline/工作任务.md",
+    "daliy record/2026.07.31 诊断其他功能.md",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803150539708.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803150016860.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803144421276.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803142116275.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803134701706.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803134047351.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803111546855.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803111534324.png",
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803110324127.png",
+    "daliy record/assets/2026.07.31 诊断其他功能",
     "daliy record/assets/2026.07.29 DTC 配置以及使用开发",
-    "AI/如何像专家一样使用Codex.md",
-    "AI/如何提高AI协同开发能力.md",
-    "AI/搭建中转站.md",
-    "AI/面对AI浪潮我该怎么办.md",
-    "AI/Understand Anything.md",
-    "AI/OpenAI Codex 简洁教程.md",
-    "AI/MCP大模型上下文协议.md",
-    "AI/hermes agent install.md",
-    "AI/harness.md",
-    "AI/AI岗位研究.md",
     "daliy record/assets/2026.07.28 DID诊断配置以及开发",
     "AUTOSAR/UDS/assets/0x34 Request Download",
     "AUTOSAR/UDS/assets/0x31（RoutineControl）",
     "AUTOSAR/UDS/assets/0x14(ClearDiagnosticInformation)",
-    "AUTOSAR/assets/AUTOSAR -- CanSM标准流程",
-    "daliy record/assets/2026.07.20 奇瑞休眠唤醒新需求开发",
-    "AUTOSAR/CAN stack/assets/communication stack",
-    "AUTOSAR/CAN stack/assets/网络管理总结"
+    "AUTOSAR/assets/AUTOSAR -- CanSM标准流程"
   ]
 }

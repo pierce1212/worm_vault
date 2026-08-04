@@ -173,8 +173,8 @@ Repeat Message Timer has expired
 
 也就是说：
 
-- 如果本 ECU 还需要通信，进入 `Normal Operation State`
-- 如果本 ECU 不需要通信，只是被动醒来，进入 `Ready Sleep State`
+- <mark style="background: #FF5582A6;">如果本 ECU 还需要通信，进入 `Normal Operation State`
+- 如果本 ECU 不需要通信，只是被动醒来，进入 `Ready Sleep State`</mark>
 
 ### **2.2. Normal Operation State**  
 这是正常网络管理状态。
@@ -227,7 +227,7 @@ CanNm_TxConfirmation()
 
 发送 NM 报文成功后，也刷新 NM Timeout Timer。
 
-所以 `NM-Timeout Timer` 的作用是：**判断网络管理是否还活跃**。
+**<mark style="background: #FF5582A6;">所以 `NM-Timeout Timer` 的作用是：判断网络管理是否还活跃。</mark>**
 
 ### **2.3. Ready Sleep State**  
 Ready Sleep 是“准备睡，但还不能马上睡”的状态。
@@ -311,7 +311,7 @@ Prepare Bus-Sleep 是真正睡眠前的等待阶段。
 
 为什么不能直接进 Bus-Sleep？
 
-因为要给网络一个缓冲窗口，防止刚准备睡时又有节点发 NM 或请求网络。
+**<mark style="background: #FFF3A3A6;">因为要给网络一个缓冲窗口，防止刚准备睡时又有节点发 NM 或请求网络。</mark>**
 
 这个状态启动：
 

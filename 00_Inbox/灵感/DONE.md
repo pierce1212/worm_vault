@@ -5,4 +5,5 @@
 - 2026-07-23 17:48 | UDS压力测试 | next:  | #idea/inbox
 - GPT: ayerthomas837114@gmail.com  Rokenmmk121*  https://2fa.fun 7JUSA64OR2XQUDB7NEP4YBFYHCWEFO6W
 - GPT : blowfly.rock_3x@icloud.com---- https://icloud-api.top/show/EmEZTU9Ebw4MCjMlIF9JRwZfciwGFggiFA1CIj8kEBwSFBlhVk9XDzwDGEEvKDhDHUFQGzdBARwDOkNFTGMjawgQEF8EIhxBGAUkDUcBJH4qXV0QGklhHBtXXm1YUF88/blowfly.rock_3x@icloud.com
+- APPLEID: 账号： pihhn@hao007.win ----密码：ZHOUpeng 520?----朋友：Kt1356----工作：Kt1256----父母：Kt1456----生日：1990/1/1----账号仅限在AppStore使用，不要在系统设置里登录----请务必修改资料：https://getappleid.net/modify-apple-account-information/
 - 
