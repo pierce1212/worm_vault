@@ -22,23 +22,8 @@
               "icon": "lucide-file",
               "title": "无限私教"
             }
-          },
-          {
-            "id": "9f454c6d94f23fc2",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00_Inbox/灵感/DONE.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "DONE"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -97,7 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 390.5
+    "width": 503.9000244140625
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -190,8 +175,8 @@
             "state": {
               "type": "calendar",
               "state": {},
-              "icon": "calendar-with-checkmark",
-              "title": "Calendar"
+              "icon": "lucide-ghost",
+              "title": "calendar"
             }
           },
           {
@@ -200,8 +185,8 @@
             "state": {
               "type": "mermaid-toolbar-view",
               "state": {},
-              "icon": "trident-custom",
-              "title": "Mermaid Toolbar"
+              "icon": "lucide-ghost",
+              "title": "mermaid-toolbar-view"
             }
           }
         ],
@@ -230,23 +215,31 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "9f454c6d94f23fc2",
+  "active": "54ffb2c704656c36",
   "lastOpenFiles": [
+    "x/tg频道.png",
+    "AI/无限私教.md",
+    "x/投资最重要的事情/风险-《投资最重要的事》-02.mp3",
+    "x/投资最重要的事情/价格与价值-《投资最重要的事》-01.mp3",
+    "x/美国人每天说的话 (赖世雄，吴纪维著).pdf",
+    "00_Inbox/灵感/DONE.md",
+    "x/投资最重要的事情",
+    "x/风险-《投资最重要的事》-02-47d6b3712912.mp3.qkdownloading",
+    "x/价格与价值-《投资最重要的事》-01-7e86a45fae98.mp3.qkdownloading",
+    "x/怎样才是最好的学习？ (韩国KBS《HomoAcademicus》制作团队编著；千太阳译 etc.) (Z-Library).pdf",
+    "x/你是你吃出来的2：慢病康复的饮食密码 (夏萌).pdf",
+    "x/投资最重要的事情/周期与机会-《投资最重要的事》-03.mp3",
+    "x/怎样才是最好的学习？ (韩国KBS《HomoAcademicus》制作团队编著；千太阳译 etc.) (Z-Library)-a210fdc9a347.pdf.qkdownloading",
+    "未命名 1.canvas",
     "00_Inbox/生活随想/2026.08.04 币安到底能不能用.md",
     "00_Inbox/生活随想/assets/2026.08.04 币安到底能不能用/file-20260804140534492.png",
-    "00_Inbox/生活随想/assets/2026.08.04 币安到底能不能用",
-    "00_Inbox/生活随想/assets",
     "00_Inbox/生活随想/2026.08.03 如何与人谈判.md",
     "00_Inbox/灵感/投资心得.md",
-    "00_Inbox/灵感/DONE.md",
     "00_Inbox/灵感/TODO.md",
     "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
-    "AI/无限私教.md",
     "daliy record/2026.08.04 XCP协议.md",
     "daliy record/2026-08-04   XCP协议.md",
     "2026-08-04.md",
-    "未命名 1.canvas",
-    "未命名.base",
     "未命名.canvas",
     "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
     "AUTOSAR/AUTOSAR -- CanSM标准流程.md",
@@ -270,14 +263,6 @@
     "daliy record/assets/2026.07.31 诊断其他功能/file-20260803134701706.png",
     "daliy record/assets/2026.07.31 诊断其他功能/file-20260803134047351.png",
     "daliy record/assets/2026.07.31 诊断其他功能/file-20260803111546855.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803111534324.png",
-    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803110324127.png",
-    "daliy record/assets/2026.07.31 诊断其他功能",
-    "daliy record/assets/2026.07.29 DTC 配置以及使用开发",
-    "daliy record/assets/2026.07.28 DID诊断配置以及开发",
-    "AUTOSAR/UDS/assets/0x34 Request Download",
-    "AUTOSAR/UDS/assets/0x31（RoutineControl）",
-    "AUTOSAR/UDS/assets/0x14(ClearDiagnosticInformation)",
-    "AUTOSAR/assets/AUTOSAR -- CanSM标准流程"
+    "daliy record/assets/2026.07.31 诊断其他功能/file-20260803111534324.png"
   ]
 }
