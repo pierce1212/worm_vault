@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>XCP 核心术语速查</title><link rel="stylesheet" href="../assets/course.css"></head>
+<body><main>
+  <header><div class="eyebrow">Reference · XCP</div><h1>XCP 核心术语速查</h1><p class="lede">先分清“谁与谁通信、报文承担什么角色、地址由谁解释”。</p></header>
+  <table>
+    <thead><tr><th>术语</th><th>最短定义</th><th>在本项目中的落点</th></tr></thead>
+    <tbody>
+      <tr><td>Master</td><td>发起命令的测量与标定工具。</td><td>CAN 节点 <code>Tester</code>，请求 ID <code>0x332</code>。</td></tr>
+      <tr><td>Slave</td><td>实现 XCP 协议并访问 ECU 内存的一方。</td><td>ETAS XCP BSW，响应 ID <code>0x333</code>。</td></tr>
+      <tr><td>CTO</td><td>承载 CMD/RES/ERR/EV/SERV 的命令传输对象。</td><td>CAN 下最大 8 字节；请求与响应都走 CTO。</td></tr>
+      <tr><td>DTO</td><td>承载 DAQ 或 STIM 同步数据的数据传输对象。</td><td>CAN 下最大 8 字节；本项目启用 DAQ、关闭 STIM。</td></tr>
+      <tr><td>PID</td><td>XCP 包首字节，用来识别命令或数据包。</td><td><code>0xFF</code> 在请求中是 CONNECT，在响应中是正响应 RES。</td></tr>
+      <tr><td>MTA</td><td>Memory Transfer Address，后续内存传输的游标。</td><td><code>SET_MTA</code> 设置，<code>UPLOAD/DOWNLOAD</code> 使用并推进。</td></tr>
+      <tr><td>DAQ list</td><td>绑定某事件、按计划采样的一组 ODT。</td><td>动态配置；可绑定 10/50/100 ms 事件。</td></tr>
+      <tr><td>ODT</td><td>一个 DTO 的打包布局，由多个 ODT Entry 组成。</td><td>受 <code>MAX_DTO=8</code>、PID 和时间戳开销约束。</td></tr>
+      <tr><td>A2L</td><td>变量含义、地址、转换公式和 XCP 接口能力的描述文件。</td><td><code>BasicSoftware/src/a2l/main.a2l</code> 与 XCP 生成片段组合。</td></tr>
+      <tr><td>Event Channel</td><td>ECU 内部触发 DAQ/STIM 处理的同步点。</td><td><code>Xcp_EventChannel_Can10ms()</code> 等由 RTE 调度。</td></tr>
+    </tbody>
+  </table>
+  <p class="source">权威概念来源：<a href="https://www.asam.net/standards/detail/mcd-1-xcp/wiki/">ASAM MCD-1 XCP Wiki</a>；工程值来自本仓库生成配置。</p>
+</main></body></html>

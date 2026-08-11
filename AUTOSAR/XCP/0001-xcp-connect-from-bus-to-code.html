@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>第 1 课：从一帧 CONNECT 看懂 XCP</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">Lesson 0001 · 约 20 分钟</div>
+    <h1>从一帧 CONNECT 看懂 XCP</h1>
+    <p class="lede">这一课只拿下一件事：看到总线上的 <code>FF 00</code>，你能解释它如何进入本项目代码，并预测 ECU 的 8 字节响应。</p>
+  </header>
+
+  <section class="goal">
+    <strong>完成标准</strong>
+    <p>不看答案，说出请求/响应 CAN ID、首字节为什么都是 <code>FF</code>、响应里的 <code>05</code> 和两个 <code>08</code> 分别表示什么。</p>
+  </section>
+
+  <h2>1. 先建立一个不会塌的心智模型</h2>
+  <p>XCP 是主从式、面向 ECU 内存的测量与标定协议。标定工具是 Master，ECU 是 Slave。协议层定义命令和数据语义；CAN 只是本项目选择的传输层；A2L 则告诉工具“变量叫什么、在哪个地址、如何换算、该 ECU 支持什么 XCP 能力”。</p>
+  <div class="flow" aria-label="XCP mental model">
+    <div>标定工具<br>Master</div><div>XCP 包<br>CTO / DTO</div><div>CAN 帧<br>0x332 / 0x333</div><div>ECU XCP 栈<br>Slave</div><div>内存变量<br>地址 + 类型</div>
+  </div>
+  <p class="source">主从模型、CTO/DTO 与内存访问定义见 <a href="https://www.asam.net/standards/detail/mcd-1-xcp/wiki/">ASAM 官方 XCP Wiki</a>。术语可随时查阅<a href="../reference/xcp-glossary.html">核心术语速查</a>。</p>
+
+  <h2>2. 本项目的 CONNECT 请求</h2>
+  <p>工具在 CAN ID <code>0x332</code> 上发送：</p>
+  <div class="packet"><span>FF</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span><span>00</span></div>
+  <div class="packet-labels"><span>CONNECT</span><span>normal</span><span>pad</span><span>pad</span><span>pad</span><span>pad</span><span>pad</span><span>pad</span></div>
+  <p><code>FF</code> 是 Command PID：在 Master→Slave 的 CTO 中表示 CONNECT。第二字节 <code>00</code> 是 normal mode。CAN DLC 可以是 8，但 XCP 命令的有效长度只要求前 2 字节。</p>
+
+  <h2>3. 报文怎样走进代码</h2>
+  <div class="flow">
+    <div>CanIf<br>Rx PDU</div><div>Xcp_CanIf<br>RxIndication</div><div>Xcp_Receive<br>识别 FF</div><div>Xcp_CmdConnect<br>组响应</div><div>CanIf<br>Transmit</div>
+  </div>
+  <table>
+    <thead><tr><th>证据</th><th>你应该读出的事实</th></tr></thead>
+    <tbody>
+      <tr><td><code>RTA_BIP_Xcp_EcucValues.arxml:27–92</code></td><td>CAN 通道；MAX_CTO/MAX_DTO=8；Tx PDU=0x333；Rx PDU=0x332。</td></tr>
+      <tr><td><code>XcpOnCan.c:201–206</code></td><td>RxIndication 检查非空后，用 RxPduId 映射 TransportLayerId，再调用 <code>Xcp_Receive</code>。</td></tr>
+      <tr><td><code>Xcp_Receive.c:94–114</code></td><td>未连接状态只接受合法 CONNECT；随后寻找空闲 Protocol Layer。</td></tr>
+      <tr><td><code>Xcp_Receive.c:173–190</code></td><td>绑定 TL↔PL、初始化 DAQ 配置、保存 MAX_CTO/MAX_DTO，再调用命令处理。</td></tr>
+      <tr><td><code>Xcp_CmdConnect.c:53–104</code></td><td>切换 CONNECTED，填写 RESOURCE/通信模式/包长/版本，再发送正响应。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 预测本项目的响应</h2>
+  <p>由生成配置和命令实现可预测 ECU 在 CAN ID <code>0x333</code> 返回：</p>
+  <div class="packet"><span>FF</span><span>05</span><span>C0</span><span>08</span><span>08</span><span>00</span><span>01</span><span>01</span></div>
+  <div class="packet-labels"><span>RES</span><span>RESOURCE</span><span>COMM</span><span>MAX_CTO</span><span colspan="2">MAX_DTO LE</span><span>PL ver</span><span>TL ver</span></div>
+  <table>
+    <thead><tr><th>字节</th><th>推导</th></tr></thead>
+    <tbody>
+      <tr><td><code>FF</code></td><td>Slave→Master 方向中，<code>FF</code> 是正响应 PID；同一个数值因方向不同具有不同语义。</td></tr>
+      <tr><td><code>05</code></td><td><code>0x01 CAL/PAG | 0x04 DAQ</code>。本项目未启用 STIM 与 PGM。</td></tr>
+      <tr><td><code>C0</code></td><td>支持 <code>GET_COMM_MODE_INFO</code>（bit 7）和 Slave Block Mode（bit 6）；Intel 字节序使 bit 0 为 0。</td></tr>
+      <tr><td><code>08</code></td><td>MAX_CTO = 8。</td></tr>
+      <tr><td><code>08 00</code></td><td>MAX_DTO = 8，以 ECU 的小端字节序传输 16 位值。</td></tr>
+      <tr><td><code>01 01</code></td><td>协议层与传输层主版本都为 1；详细配置版本为 1.2。</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>关键辨析：</strong>A2L 不是通信协议，也不在每帧 CAN 报文中传输。XCP 栈负责按地址读写；A2L 让工具知道该读写哪个地址，以及怎样把原始字节解释成人能理解的量。</div>
+
+  <h2>5. 立即检索练习</h2>
+  <section class="quiz" data-quiz>
+    <div class="question">
+      <p><strong>Q1.</strong> 抓包看到 ID 0x332、数据 FF 00，最准确的判断是？</p>
+      <button class="choice" data-correct="true" data-explain="0x332 是 Master→Slave 请求 ID，FF 00 是普通模式 CONNECT。">主站正在请求建立会话</button>
+      <button class="choice" data-correct="false" data-explain="方向先看 CAN ID；0x332 是请求，不是 ECU 响应。">从站正在确认测量数据</button>
+      <button class="choice" data-correct="false" data-explain="DAQ 数据由 DTO 承载；这里是 CTO 的 CONNECT。">总线正在上传采样结果</button>
+      <div class="feedback"></div>
+    </div>
+    <div class="question">
+      <p><strong>Q2.</strong> CONNECT 响应的 RESOURCE=0x05 表示什么？</p>
+      <button class="choice" data-correct="false" data-explain="0x05 是位掩码：0x01 与 0x04 同时置位。">仅支持标定页面功能</button>
+      <button class="choice" data-correct="true" data-explain="0x01 是 CAL/PAG，0x04 是 DAQ，两者按位或得到 0x05。">支持标定以及同步测量</button>
+      <button class="choice" data-correct="false" data-explain="STIM 是 0x08，PGM 是 0x10，本配置均未启用。">支持激励以及程序刷写</button>
+      <div class="feedback"></div>
+    </div>
+    <div class="question">
+      <p><strong>Q3.</strong> CONNECT 成功但测量窗口无波形，下一条最有价值的检查是？</p>
+      <button class="choice" data-correct="false" data-explain="连接已成功，CAN 请求/响应链至少基本畅通。">重新检查连接请求标识</button>
+      <button class="choice" data-correct="true" data-explain="DAQ 依赖事件触发；本项目由 RTE 调用 10/50/100 ms 事件函数。">检查DAQ事件是否被调度</button>
+      <button class="choice" data-correct="false" data-explain="Seed & Key 主要保护资源访问，不是所有无波形问题的首查项。">更换SeedKey动态链接库</button>
+      <div class="feedback"></div>
+    </div>
+  </section>
+
+  <section class="exercise">
+    <strong>离开页面后的 60 秒复述</strong>
+    <ol>
+      <li>不看资料画出五段接收链路。</li>
+      <li>写出 CONNECT 请求和预计响应的 8 字节。</li>
+      <li>解释为什么 <code>FF</code> 在请求和响应中都出现却不冲突。</li>
+    </ol>
+    <p>把你的答案发给我。我会按代码证据纠正，并只在你真正掌握后写入 learning record。</p>
+  </section>
+
+  <section class="next">
+    <strong>下一课预告：</strong><code>SET_MTA → UPLOAD → DOWNLOAD</code>。我们会选一个真实变量，从 ELF/MAP/A2L 地址一路读到 CAN 字节，并解释“小端、地址粒度、标定量为什么不应随便放在普通 RAM”。
+    <p>推荐主读：<a href="https://www.asam.net/standards/detail/mcd-1-xcp/wiki/">ASAM MCD-1 XCP Wiki 的 Communication Model 与 Data Acquisition 部分</a>。任何字段不清楚，直接问我，不必等到下一课。</p>
+  </section>
+  <script src="../assets/quiz.js"></script>
+</main></body>
+</html>
