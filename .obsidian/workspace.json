@@ -22,17 +22,34 @@
             }
           },
           {
-            "id": "3c64d50e44c8217b",
+            "id": "7150a7d243bd465c",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "未命名.canvas",
+                "viewState": {
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 0
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "未命名"
+            }
+          },
+          {
+            "id": "cd1350314bf33fe6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task_outline/工作任务.md",
+                "file": "project items/EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "工作任务"
+              "title": "EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单"
             }
           }
         ],
@@ -95,7 +112,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 494.5
+    "width": 531.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -228,17 +245,21 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "3c64d50e44c8217b",
+  "active": "7150a7d243bd465c",
   "lastOpenFiles": [
+    "project items/EEA5.0_ECU_bootloader及刷新规范_V1.35_完整理解与需求审查报告.md",
+    "task_outline/工作任务.md",
+    "AI/无限私教.md",
+    "project items/EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单.md",
+    "project items/EEA5.0_EEA5.1_整车网络管理需求整理.md",
+    "daliy record/2026.08.11 奇瑞需求评审.md",
     "task_outline/复习时间轴.md",
     "task_outline/obsidian_tasks_command_center.md",
-    "daliy record/2026.08.11 奇瑞需求评审.md",
     "daliy record/2026.08.07 Zephyr是什么.md",
     "daliy record/2026.08.07  信息安全.md",
     "AI/提示词.md",
     "AI/面对AI浪潮我该怎么办.md",
     "AI/搭建中转站.md",
-    "AUTOSAR/信息安全/EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单.md",
     "AUTOSAR/信息安全/0x27(SecurityAccess).md",
     "AUTOSAR/信息安全/assets/0x38(RequestFileTransfer，请求文件传输服务)",
     "AUTOSAR/信息安全/assets/0x29(Authentication)",
@@ -260,7 +281,6 @@
     "AUTOSAR/信息安全/assets/0x29(Authentication)/file-20260810115521627.png",
     "AUTOSAR/UDS/assets/0x29(Authentication)",
     "daliy record/2026.07.31 诊断其他功能.md",
-    "task_outline/工作任务.md",
     "00_Inbox/生活随想/2026.08.07 嵌入式的未来.md",
     "00_Inbox/生活随想/assets/2026.08.07 嵌入式的未来/873e5bca0a9de3be8641eadb04a25f5d.jpg",
     "00_Inbox/生活随想/assets/2026.08.07 嵌入式的未来",
@@ -272,10 +292,7 @@
     "AUTOSAR/XCP/xcp-glossary.html",
     "AUTOSAR/XCP/0001-xcp-connect-from-bus-to-code.html",
     "00_Inbox/生活随想/2026.08.06 大摩大宗商品报告.md",
-    "AI/无限私教.md",
     "00_Inbox/生活随想/assets/2026.08.06 大摩大宗商品报告/file-20260806093042415.png",
-    "daliy record/2026.06.05 CAN驱动笔记.md",
-    "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
     "未命名 1.canvas",
     "未命名.canvas"
   ]
