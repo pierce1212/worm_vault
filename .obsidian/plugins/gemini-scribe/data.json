@@ -157,6 +157,14 @@
         "maxTemperature": 2
       }
     ],
+<<<<<<< HEAD
     "timestamp": 1786668638955
+=======
+<<<<<<< HEAD
+    "timestamp": 1786422215531
+=======
+    "timestamp": 1786413587914
+>>>>>>> 68f8c3fdd7cbb64f29673a6a223008a24ec262f0
+>>>>>>> 57c8f369596d09e8836acba63117a6cad13d3ce1
   }
 }
