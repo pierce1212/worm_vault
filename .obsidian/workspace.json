@@ -13,47 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI/无限私教.md",
+                "file": "00_Inbox/生活随想/2026.8.16 放松.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "无限私教"
-            }
-          },
-          {
-            "id": "7150a7d243bd465c",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "未命名.canvas",
-                "viewState": {
-                  "x": 0,
-                  "y": 0,
-                  "zoom": 0
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "未命名"
-            }
-          },
-          {
-            "id": "cd1350314bf33fe6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "project items/EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单"
+              "title": "2026.8.16 放松"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -87,7 +55,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "BE13",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -112,7 +80,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 531.5
+    "width": 448.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -245,55 +213,55 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "7150a7d243bd465c",
+  "active": "bde9054d26ff0399",
   "lastOpenFiles": [
-    "project items/EEA5.0_ECU_bootloader及刷新规范_V1.35_完整理解与需求审查报告.md",
+    "00_Inbox/生活随想/2026.08.14 嘴上高潮.md",
+    "00_Inbox/生活随想/2026.8.16 放松.md",
+    "00_Inbox/生活随想/2026.08.16 表演.md",
+    "00_Inbox/生活随想/2026.08.14 执行力.md",
+    "daliy record/2026.08.13   ASPICE 计划.md",
+    "daliy record/2026.08.12 软件需求评审.md",
+    "ASPICE流程认证文档完成情况清单.md",
+    "00_Inbox/生活随想/2026.8.14 表演自己.md",
+    "未命名.canvas",
+    "daliy record/2026.08.14.md",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/2116BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/6016BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/9FE5BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/FEE5BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/5EE5BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/BF45BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/1F45BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/6520BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/D420BF00",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/~$ASPICE流程认证文档完成情况清单_合并版.xlsx",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_summary_preview.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_main_preview.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_summary.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_checklist.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_summary.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_checklist.png",
     "task_outline/工作任务.md",
-    "AI/无限私教.md",
-    "project items/EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单.md",
-    "project items/EEA5.0_EEA5.1_整车网络管理需求整理.md",
-    "daliy record/2026.08.11 奇瑞需求评审.md",
-    "task_outline/复习时间轴.md",
-    "task_outline/obsidian_tasks_command_center.md",
-    "daliy record/2026.08.07 Zephyr是什么.md",
-    "daliy record/2026.08.07  信息安全.md",
-    "AI/提示词.md",
-    "AI/面对AI浪潮我该怎么办.md",
-    "AI/搭建中转站.md",
-    "AUTOSAR/信息安全/0x27(SecurityAccess).md",
-    "AUTOSAR/信息安全/assets/0x38(RequestFileTransfer，请求文件传输服务)",
-    "AUTOSAR/信息安全/assets/0x29(Authentication)",
-    "AUTOSAR/信息安全/assets/0x27(SecurityAccess)",
-    "AUTOSAR/信息安全/assets",
-    "hardware/BE13_SC900719_StudyNotes/README.md",
-    "AUTOSAR/信息安全",
-    "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
-    "AUTOSAR/信息安全/0x38(RequestFileTransfer，请求文件传输服务).md",
-    "AUTOSAR/信息安全/assets/0x38(RequestFileTransfer，请求文件传输服务)/file-20260810115527408.png",
-    "AUTOSAR/信息安全/assets/0x38(RequestFileTransfer，请求文件传输服务)/file-20260810115527434.png",
-    "AUTOSAR/UDS/assets/0x38(RequestFileTransfer，请求文件传输服务)",
-    "AUTOSAR/信息安全/0x29(Authentication).md",
-    "AUTOSAR/信息安全/assets/0x29(Authentication)/file-20260810115521568.png",
-    "AUTOSAR/信息安全/assets/0x29(Authentication)/file-20260810115521583.png",
-    "AUTOSAR/信息安全/assets/0x29(Authentication)/file-20260810115521618.png",
-    "AUTOSAR/UDS/0x22（ReadDataByIdentifier）.md",
-    "AUTOSAR/信息安全/assets/0x29(Authentication)/file-20260810115521597.png",
-    "AUTOSAR/信息安全/assets/0x29(Authentication)/file-20260810115521627.png",
-    "AUTOSAR/UDS/assets/0x29(Authentication)",
-    "daliy record/2026.07.31 诊断其他功能.md",
-    "00_Inbox/生活随想/2026.08.07 嵌入式的未来.md",
-    "00_Inbox/生活随想/assets/2026.08.07 嵌入式的未来/873e5bca0a9de3be8641eadb04a25f5d.jpg",
-    "00_Inbox/生活随想/assets/2026.08.07 嵌入式的未来",
-    "daliy record/2026.08.04 XCP协议.md",
     "task_outline/任务详情.md",
-    "daliy record/assets/2026.08.04 XCP协议/file-20260806150642874.png",
-    "AUTOSAR/UDS/0x2F(InputOutputControlByIdentifier).md",
-    "AUTOSAR/UDS/0x2E(WriteDataByIdentifier).md",
-    "AUTOSAR/XCP/xcp-glossary.html",
-    "AUTOSAR/XCP/0001-xcp-connect-from-bus-to-code.html",
-    "00_Inbox/生活随想/2026.08.06 大摩大宗商品报告.md",
-    "00_Inbox/生活随想/assets/2026.08.06 大摩大宗商品报告/file-20260806093042415.png",
+    "task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.06.08 RSM8900开发.md",
+    "daliy record/2026.08.13 RSM 静态电流偏大问题排查.md",
+    "().md",
+    "task_outline/复习时间轴.md",
     "未命名 1.canvas",
-    "未命名.canvas"
+    "daliy record/2026.08.07  信息安全.md",
+    "daliy record/assets/2026.08.13   ASPICE 计划/file-20260814100954250.png",
+    "daliy record/2026.08.07  信息安全 - 0x29-Authentication.md",
+    "hardware/HL8545_G_Description.md",
+    "hardware/2026.5.26 ASU2.5-TriC硬件电路.md",
+    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143656885.png",
+    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143331251.png",
+    "AUTOSAR/汽车电子学习笔记/#Autosar/004-Eb tresos自动化-脚本自动生成MCAL代码.md",
+    "AUTOSAR/汽车电子学习笔记/#Autosar/001-TC3xx功能安全（一）-LBIST-技术原理与工程实践.md",
+    "hardware/SRC硬件控制电流原理.md",
+    "daliy record/2026-05-26三腔驱动开发问题总结.md",
+    "daliy record/2026-05-08 三腔驱动开发.md",
+    "其他芯片学习笔记/RSM8900_RTC_StudyNotes.md",
+    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260812151936380.png"
   ]
 }
