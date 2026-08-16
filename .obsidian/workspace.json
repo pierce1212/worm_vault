@@ -10,17 +10,15 @@
           {
             "id": "bde9054d26ff0399",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI/无限私教.md",
+                "file": "00_Inbox/生活随想/2026.8.16 放松.md",
                 "mode": "source",
                 "source": false
               },
-              "pinned": true,
               "icon": "lucide-file",
-              "title": "无限私教"
+              "title": "2026.8.16 放松"
             }
           }
         ]
@@ -57,7 +55,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#idea/inbox",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -82,7 +80,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 503.9000244140625
+    "width": 448.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -175,8 +173,8 @@
             "state": {
               "type": "calendar",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "calendar"
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
             }
           },
           {
@@ -185,8 +183,8 @@
             "state": {
               "type": "mermaid-toolbar-view",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "mermaid-toolbar-view"
+              "icon": "trident-custom",
+              "title": "Mermaid Toolbar"
             }
           }
         ],
@@ -215,55 +213,55 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "54ffb2c704656c36",
+  "active": "bde9054d26ff0399",
   "lastOpenFiles": [
-    "project items/EEA5.0_EEA5.1_整车网络管理需求整理.md",
-    "project items",
-    "daliy record/assets/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）/file-20260805110102791.png",
-    "daliy record/assets/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）/file-20260805110045668.png",
-    "daliy record/assets/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）/file-20260805105851529.png",
-    "daliy record/assets/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）/file-20260805105907092.png",
-    "daliy record/assets/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）/file-20260805105822754.png",
-    "daliy record/assets/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）/file-20260804151900636.png",
-    "daliy record/assets/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）",
-    "daliy record/assets/2026.08.04 XCP协议/xcp-glossary.html",
-    "daliy record/assets/2026.08.04 XCP协议/file-20260806150642874.png",
-    "daliy record/assets/2026.08.04 XCP协议/file-20260805165740216.png",
-    "daliy record/assets/2026.08.04 XCP协议/file-20260805162826901.png",
-    "daliy record/assets/2026.08.04 XCP协议/file-20260805150809924.png",
-    "daliy record/assets/2026.08.04 XCP协议",
-    "daliy record/2026.08.11 奇瑞需求评审.md",
-    "daliy record/2026.08.07 Zephyr是什么.md",
-    "daliy record/2026.08.07  信息安全.md",
-    "daliy record/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）.md",
-    "AUTOSAR/信息安全/assets/0x38(RequestFileTransfer，请求文件传输服务)",
-    "AUTOSAR/信息安全/assets/0x29(Authentication)",
-    "AUTOSAR/信息安全/assets/0x27(SecurityAccess)",
-    "AUTOSAR/信息安全/EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单.md",
-    "AUTOSAR/信息安全/0x38(RequestFileTransfer，请求文件传输服务).md",
-    "AUTOSAR/信息安全/assets",
-    "AUTOSAR/信息安全/0x29(Authentication).md",
-    "AUTOSAR/信息安全/0x27(SecurityAccess).md",
-    "AUTOSAR/信息安全",
-    "AUTOSAR/XCP/xcp-glossary.html",
-    "AI/提示词.md",
-    "00_Inbox/生活随想/2026.08.07 嵌入式的未来.md",
-    "00_Inbox/生活随想/2026.08.06 大摩大宗商品报告.md",
-    "AI/无限私教.md",
-    "00_Inbox/灵感/DONE.md",
-    "未命名 1.canvas",
-    "00_Inbox/生活随想/2026.08.04 币安到底能不能用.md",
-    "00_Inbox/生活随想/2026.08.03 如何与人谈判.md",
-    "00_Inbox/灵感/投资心得.md",
-    "00_Inbox/灵感/TODO.md",
-    "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
-    "daliy record/2026.08.04 XCP协议.md",
-    "daliy record/2026-08-04   XCP协议.md",
-    "2026-08-04.md",
+    "x/格物心法/第9章：滑坡谬误：一根针如何被夸大成世界.pdf",
+    "x/格物心法/第8章：稻草人谬误：别和你幻想出来的敌人.pdf",
+    "x/格物心法/第7章：可证伪性：什么是真正的“知识”-2025.pdf",
+    "x/格物心法/第6章：确认偏误：你只相信你愿意相信的-2025.pdf",
+    "x/格物心法/第5章：汉隆的剃刀：能解释为愚蠢，就别归.pdf",
+    "x/格物心法/第50章：影响力圈：从“关我屁事”到“关你.pdf",
+    "x/格物心法/第4章：邓宁-克鲁格效应：跪着爬出“愚昧之.pdf",
+    "x/格物心法/第49章：控制二分法：管好你能管的，接受你.pdf",
+    "x/格物心法/第48章：双重束缚理论：让你“怎么做都是错.pdf",
+    "x/格物心法/第47章：复利效应：世界第八大奇迹，属于有.pdf",
+    "x/格物心法/第46章：能力涌现：技能的叠加，会产生全新.pdf",
+    "00_Inbox/生活随想/2026.08.14 嘴上高潮.md",
+    "00_Inbox/生活随想/2026.8.16 放松.md",
+    "00_Inbox/生活随想/2026.08.16 表演.md",
+    "00_Inbox/生活随想/2026.08.14 执行力.md",
+    "daliy record/2026.08.13   ASPICE 计划.md",
+    "daliy record/2026.08.12 软件需求评审.md",
+    "ASPICE流程认证文档完成情况清单.md",
+    "00_Inbox/生活随想/2026.8.14 表演自己.md",
     "未命名.canvas",
-    "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
-    "AUTOSAR/AUTOSAR -- CanSM标准流程.md",
+    "daliy record/2026.08.14.md",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_summary_preview.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_main_preview.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_summary.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_checklist.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_summary.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_checklist.png",
+    "task_outline/工作任务.md",
+    "task_outline/任务详情.md",
     "task_outline/obsidian_tasks_command_center.md",
-    "daliy record/2026.06.25 bsw 中 ISOLAR 配置--CanNM--NM.md"
+    "daliy record/2026.06.08 RSM8900开发.md",
+    "daliy record/2026.08.13 RSM 静态电流偏大问题排查.md",
+    "().md",
+    "task_outline/复习时间轴.md",
+    "未命名 1.canvas",
+    "daliy record/2026.08.07  信息安全.md",
+    "daliy record/assets/2026.08.13   ASPICE 计划/file-20260814100954250.png",
+    "daliy record/2026.08.07  信息安全 - 0x29-Authentication.md",
+    "hardware/HL8545_G_Description.md",
+    "hardware/2026.5.26 ASU2.5-TriC硬件电路.md",
+    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143656885.png",
+    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143331251.png",
+    "AUTOSAR/汽车电子学习笔记/#Autosar/004-Eb tresos自动化-脚本自动生成MCAL代码.md",
+    "AUTOSAR/汽车电子学习笔记/#Autosar/001-TC3xx功能安全（一）-LBIST-技术原理与工程实践.md",
+    "hardware/SRC硬件控制电流原理.md",
+    "daliy record/2026-05-26三腔驱动开发问题总结.md",
+    "daliy record/2026-05-08 三腔驱动开发.md",
+    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260812151936380.png"
   ]
 }

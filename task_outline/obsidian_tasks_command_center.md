@@ -219,8 +219,7 @@ function taskVisualStatus(task) {
 }
 
 function isLongTerm(task) {
-  const planned = plannedDay(task);
-  return hasAnyTag(task, CONFIG.longTermTags) || (planned && planned > weekEnd);
+  return hasAnyTag(task, CONFIG.longTermTags);
 }
 
 function isActiveInWeek(task) {
@@ -456,6 +455,10 @@ function isInLongTermSection(task) {
   return /长期|长程|长期任务|长期目标/i.test(taskSection(task));
 }
 
+function isInTodaySection(task) {
+  return /今日任务|今天任务|今日焦点/i.test(taskSection(task));
+}
+
 const open = tasks.filter(isOpen);
 const done = tasks.filter(task => task.completed);
 const overdue = open.filter(isOverdue);
@@ -467,7 +470,7 @@ const doneThisWeek = done.filter(task => inRange(completedDay(task), weekStart, 
 const longTerm = open.filter(task => isInLongTermSection(task) || isLongTerm(task));
 const activeLongTerm = longTerm.filter(task => isOpen(task) && !isPostponed(task));
 const focusCandidates = activeOpen.filter(task => !longTerm.includes(task));
-const openThisWeek = focusCandidates.filter(task => isActiveInWeek(task));
+const openThisWeek = focusCandidates.filter(task => isInTodaySection(task) || isActiveInWeek(task));
 const weekPercent = dueThisWeek.length ? Math.round(doneThisWeek.length / dueThisWeek.length * 100) : 0;
 const completionRatio = tasks.length ? Math.round(done.length / tasks.length * 100) : 0;
 const health = Math.max(0, Math.min(100, Math.round(100 - overdue.length * 9 + doneThisWeek.length * 4)));

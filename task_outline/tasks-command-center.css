@@ -1674,8 +1674,22 @@
   backdrop-filter: blur(12px);
 }
 
+.tasks-command-center .tcc-subtask-form {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 160px auto;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 76%, transparent);
+  backdrop-filter: blur(12px);
+}
+
 .tasks-command-center .tcc-timeline-note-form input,
-.tasks-command-center .tcc-timeline-note-form button {
+.tasks-command-center .tcc-timeline-note-form button,
+.tasks-command-center .tcc-subtask-form input,
+.tasks-command-center .tcc-subtask-form button {
   min-height: 34px;
   border: 1px solid var(--tcc-border);
   border-radius: 6px;
@@ -1684,12 +1698,14 @@
   font-size: 13px;
 }
 
-.tasks-command-center .tcc-timeline-note-form input {
+.tasks-command-center .tcc-timeline-note-form input,
+.tasks-command-center .tcc-subtask-form input {
   min-width: 0;
   padding: 0 10px;
 }
 
-.tasks-command-center .tcc-timeline-note-form button {
+.tasks-command-center .tcc-timeline-note-form button,
+.tasks-command-center .tcc-subtask-form button {
   padding: 0 14px;
   background: linear-gradient(90deg, var(--tcc-green), var(--tcc-blue));
   color: white;
@@ -1954,6 +1970,10 @@
   .tasks-command-center .tcc-timeline-note-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .tasks-command-center .tcc-subtask-form {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1985,6 +2005,10 @@
   }
 
   .tasks-command-center .tcc-timeline-note-form {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-command-center .tcc-subtask-form {
     grid-template-columns: 1fr;
   }
 }
