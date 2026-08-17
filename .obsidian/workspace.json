@@ -4,21 +4,49 @@
     "type": "split",
     "children": [
       {
-        "id": "184005153a74f011",
+        "id": "0d240ed1a2c8b583",
         "type": "tabs",
         "children": [
           {
-            "id": "bde9054d26ff0399",
+            "id": "e3a02532ef276a0e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "00_Inbox/生活随想/2026.8.16 放松.md",
+                "file": "daliy record/2026.08.17  奇瑞唤醒时间过久排查.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.8.16 放松"
+              "title": "2026.08.17  奇瑞唤醒时间过久排查"
+            }
+          },
+          {
+            "id": "dae230d25170f35a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "AI/提示词.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "提示词"
+            }
+          },
+          {
+            "id": "f288bf7800691b50",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026.07.20 奇瑞休眠唤醒新需求开发"
             }
           }
         ]
@@ -55,7 +83,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "RxIndication",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -80,7 +108,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 448.5
+    "width": 521.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -213,18 +241,47 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "bde9054d26ff0399",
+  "active": "e3a02532ef276a0e",
   "lastOpenFiles": [
+    "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
+    "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
+    "daliy record/2026.06.23 bsw中ISOLAR配置--BswM.md",
+    "daliy record/2026.08.17  奇瑞唤醒时间过久排查.md",
+    "AI/提示词.md",
+    "00_Inbox/生活随想/26_08_17-0520 缓解焦虑.md",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817160045232.png",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817153144107.png",
+    "daliy record/2026.06.24 软件架构设计草稿.md",
+    "daliy record/2026.06.25 bsw 中 ISOLAR 配置--CanNM--NM.md",
+    "daliy record/2026.06.29 AUTOSAR_Dcm_PduR_CanTp_CanIf_CanDrv诊断链路学习笔记.md",
+    "daliy record/2026.07.02 奇瑞休眠唤醒问题--唤醒报文异常.md",
+    "daliy record/2026.07.03 奇瑞休眠唤醒报文优化.md",
+    "daliy record/2026.06.24 bsw中ISOLAR配置--ComM(系统服务层).md",
+    "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
+    "daliy record/2026.06.29 AUTOSAR_Com_PduR_CanIf_CanDrv链路学习笔记.md",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817145144582.png",
+    "daliy record/2026.06.26 bsw中ISOLAR配置--CanSM.md",
+    "AUTOSAR/AUTOSAR -- CanSM标准流程.md",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817142728142.png",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817142207013.png",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817141511444.png",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817140842900.png",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817134829112.png",
+    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查",
+    "未命名.md",
+    "未命名 1.md",
+    "daliy record/2026.08.07  信息安全 - 0x29-Authentication.md",
+    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260817113111031.png",
+    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260817112554037.png",
+    "AI/26_08_17-1018 机器强化学习.md",
+    "26_08_17-1017 机器人强化学习.md",
+    "2026-08-17 未命名 1.md",
+    "assets/模板/日期.md",
+    "assets/模板/task.md",
+    "AI/2026-08-17 未命名.md",
+    "AI/机器学习.md",
     "未命名.canvas",
     "x/简单的逻辑学 ([美] D·Q·麦克伦尼) .epub",
-    "AI/AI学习的方案.md",
-    "00_Inbox/生活随想/2026.08.16 视觉空间学习者.md",
-    "00_Inbox/生活随想/2026.08.16 行动力.md",
-    "00_Inbox/生活随想/2026.08.16 耐心.md",
-    "00_Inbox/生活随想/2026.08.16 正确的说话顺序.md",
-    "00_Inbox/生活随想/2026.08.16 成年人的害羞.md",
-    "00_Inbox/生活随想/2026.08.16 害羞.md",
-    "00_Inbox/灵感/健康.md",
     "x/格物心法/第9章：滑坡谬误：一根针如何被夸大成世界.pdf",
     "x/格物心法/第8章：稻草人谬误：别和你幻想出来的敌人.pdf",
     "x/格物心法/第7章：可证伪性：什么是真正的“知识”-2025.pdf",
@@ -233,34 +290,6 @@
     "x/格物心法/第50章：影响力圈：从“关我屁事”到“关你.pdf",
     "x/格物心法/第4章：邓宁-克鲁格效应：跪着爬出“愚昧之.pdf",
     "x/格物心法/第49章：控制二分法：管好你能管的，接受你.pdf",
-    "x/格物心法/第48章：双重束缚理论：让你“怎么做都是错.pdf",
-    "00_Inbox/生活随想/2026.08.14 嘴上高潮.md",
-    "00_Inbox/生活随想/2026.8.16 放松.md",
-    "00_Inbox/生活随想/2026.08.16 表演.md",
-    "00_Inbox/生活随想/2026.08.14 执行力.md",
-    "daliy record/2026.08.13   ASPICE 计划.md",
-    "daliy record/2026.08.12 软件需求评审.md",
-    "ASPICE流程认证文档完成情况清单.md",
-    "00_Inbox/生活随想/2026.8.14 表演自己.md",
-    "daliy record/2026.08.14.md",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_summary_preview.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_main_preview.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_summary.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_checklist.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_summary.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_checklist.png",
-    "task_outline/工作任务.md",
-    "task_outline/任务详情.md",
-    "task_outline/obsidian_tasks_command_center.md",
-    "daliy record/2026.06.08 RSM8900开发.md",
-    "daliy record/2026.08.13 RSM 静态电流偏大问题排查.md",
-    "().md",
-    "task_outline/复习时间轴.md",
-    "未命名 1.canvas",
-    "daliy record/2026.08.07  信息安全.md",
-    "daliy record/assets/2026.08.13   ASPICE 计划/file-20260814100954250.png",
-    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143656885.png",
-    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143331251.png",
-    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260812151936380.png"
+    "未命名 1.canvas"
   ]
 }
