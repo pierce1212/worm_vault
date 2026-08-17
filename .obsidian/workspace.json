@@ -10,75 +10,18 @@
           {
             "id": "bde9054d26ff0399",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI/无限私教.md",
-                "mode": "source",
-                "source": false
-              },
-              "pinned": true,
-              "icon": "lucide-file",
-              "title": "无限私教"
-            }
-          },
-          {
-            "id": "cf17b07f026c18b6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00_Inbox/生活随想/2026.08.16 视觉空间学习者.md",
+                "file": "00_Inbox/生活随想/2026.8.16 放松.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.08.16 视觉空间学习者"
-            }
-          },
-          {
-            "id": "db8f06c5a3e58990",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.13.7"
-              },
-              "icon": "lucide-book-up",
-              "title": "版本说明 1.13.7"
-            }
-          },
-          {
-            "id": "0a551391b47d50cd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00_Inbox/灵感/人生感悟.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "人生感悟"
-            }
-          },
-          {
-            "id": "edf8e17e23394c4b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00_Inbox/灵感/投资心得.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "投资心得"
+              "title": "2026.8.16 放松"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -112,7 +55,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#idea/inbox",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -137,8 +80,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 503.9000244140625,
-    "collapsed": true
+    "width": 448.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -231,8 +173,8 @@
             "state": {
               "type": "calendar",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "calendar"
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
             }
           },
           {
@@ -241,8 +183,8 @@
             "state": {
               "type": "mermaid-toolbar-view",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "mermaid-toolbar-view"
+              "icon": "trident-custom",
+              "title": "Mermaid Toolbar"
             }
           }
         ],
@@ -271,55 +213,54 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "db8f06c5a3e58990",
+  "active": "bde9054d26ff0399",
   "lastOpenFiles": [
-    "00_Inbox/生活随想/2026.08.16 行动力.md",
-    "00_Inbox/生活随想/2026.08.16 视觉空间学习者.md",
-    "00_Inbox/生活随想/2026.08.16 成年人的害羞.md",
-    "00_Inbox/灵感/健康.md",
-    "00_Inbox/灵感/人生感悟.md",
-    "00_Inbox/灵感/投资心得.md",
-    "00_Inbox/生活随想/2026.08.16 害羞.md",
-    "AI/无限私教.md",
-    "00_Inbox/灵感/灵感收集箱.md",
-    "00_Inbox/灵感/健康生活.md",
-    "00_Inbox/灵感/TODO.md",
     "未命名.canvas",
-    "00_Inbox/灵感/DONE.md",
+    "x/简单的逻辑学 ([美] D·Q·麦克伦尼) .epub",
     "AI/AI学习的方案.md",
-    "AI/Understand Anything.md",
+    "00_Inbox/生活随想/2026.08.16 视觉空间学习者.md",
+    "00_Inbox/生活随想/2026.08.16 行动力.md",
     "00_Inbox/生活随想/2026.08.16 耐心.md",
     "00_Inbox/生活随想/2026.08.16 正确的说话顺序.md",
-    "project items/EEA5.0_ECU_bootloader及刷新规范_V1.35_完整理解与需求审查报告.md",
-    "project items/EEA5.0_5.1_ECU_27服务密钥使用和管理规范_V1.2_需求清单.md",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_summary.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_summary.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_checklist.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_checklist.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_summary_preview.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_summary_preview.pdf",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_main_preview.png",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_main_preview.pdf",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/ASPICE流程认证文档完成情况清单_合并版.xlsx",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/ASPICE流程认证文档完成情况清单.xlsx.inspect.ndjson",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/ASPICE流程认证文档完成情况清单.xlsx",
-    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6",
-    "outputs",
-    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143656885.png",
-    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143331251.png",
-    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查",
-    "daliy record/assets/2026.08.13   ASPICE 计划/file-20260814100954250.png",
-    "daliy record/assets/2026.08.13   ASPICE 计划",
-    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260812151936380.png",
-    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication",
-    "daliy record/2026.08.14.md",
-    "daliy record/2026.08.13 RSM 静态电流偏大问题排查.md",
+    "00_Inbox/生活随想/2026.08.16 成年人的害羞.md",
+    "00_Inbox/生活随想/2026.08.16 害羞.md",
+    "00_Inbox/灵感/健康.md",
+    "x/格物心法/第9章：滑坡谬误：一根针如何被夸大成世界.pdf",
+    "x/格物心法/第8章：稻草人谬误：别和你幻想出来的敌人.pdf",
+    "x/格物心法/第7章：可证伪性：什么是真正的“知识”-2025.pdf",
+    "x/格物心法/第6章：确认偏误：你只相信你愿意相信的-2025.pdf",
+    "x/格物心法/第5章：汉隆的剃刀：能解释为愚蠢，就别归.pdf",
+    "x/格物心法/第50章：影响力圈：从“关我屁事”到“关你.pdf",
+    "x/格物心法/第4章：邓宁-克鲁格效应：跪着爬出“愚昧之.pdf",
+    "x/格物心法/第49章：控制二分法：管好你能管的，接受你.pdf",
+    "x/格物心法/第48章：双重束缚理论：让你“怎么做都是错.pdf",
+    "00_Inbox/生活随想/2026.08.14 嘴上高潮.md",
+    "00_Inbox/生活随想/2026.8.16 放松.md",
+    "00_Inbox/生活随想/2026.08.16 表演.md",
+    "00_Inbox/生活随想/2026.08.14 执行力.md",
     "daliy record/2026.08.13   ASPICE 计划.md",
     "daliy record/2026.08.12 软件需求评审.md",
-    "daliy record/2026.08.07  信息安全 - 0x29-Authentication.md",
-    "AUTOSAR/信息安全/items.md",
     "ASPICE流程认证文档完成情况清单.md",
-    "00_Inbox/生活随想/付鹏_AI流动性_视频总结与投资建议_2026-08-12.md",
-    "未命名 1.canvas"
+    "00_Inbox/生活随想/2026.8.14 表演自己.md",
+    "daliy record/2026.08.14.md",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_summary_preview.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_excel_main_preview.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_summary.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_merged_checklist.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_summary.png",
+    "outputs/019ffe14-e0f6-7d23-a4c5-e0d7a1520ca6/_preview_checklist.png",
+    "task_outline/工作任务.md",
+    "task_outline/任务详情.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.06.08 RSM8900开发.md",
+    "daliy record/2026.08.13 RSM 静态电流偏大问题排查.md",
+    "().md",
+    "task_outline/复习时间轴.md",
+    "未命名 1.canvas",
+    "daliy record/2026.08.07  信息安全.md",
+    "daliy record/assets/2026.08.13   ASPICE 计划/file-20260814100954250.png",
+    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143656885.png",
+    "daliy record/assets/2026.08.13 RSM 静态电流偏大问题排查/file-20260813143331251.png",
+    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260812151936380.png"
   ]
 }
