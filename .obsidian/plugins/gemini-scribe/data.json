@@ -155,8 +155,13 @@
         "value": "gemini-3.6-flash",
         "label": "Gemini 3.6 Flash",
         "maxTemperature": 2
+      },
+      {
+        "value": "gemini-3.7-flash",
+        "label": "Gemini 3.7 Flash",
+        "maxTemperature": 2
       }
     ],
-    "timestamp": 1786928738616
+    "timestamp": 1787885633308
   }
 }

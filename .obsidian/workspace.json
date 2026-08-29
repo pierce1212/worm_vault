@@ -8,48 +8,63 @@
         "type": "tabs",
         "children": [
           {
-            "id": "e3a02532ef276a0e",
+            "id": "213e3fbd4c04fcea",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.08.17  奇瑞唤醒时间过久排查.md",
+                "file": "daliy record/2026.07.29 DTC 配置以及使用开发.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.08.17  奇瑞唤醒时间过久排查"
+              "title": "2026.07.29 DTC 配置以及使用开发"
             }
           },
           {
-            "id": "dae230d25170f35a",
+            "id": "b237556d6f41f0db",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI/提示词.md",
+                "file": "task_outline/工作任务.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "提示词"
+              "title": "工作任务"
             }
           },
           {
-            "id": "f288bf7800691b50",
+            "id": "26f5a6b1d52cac3b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
+                "file": "00_Inbox/灵感/DONE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.07.20 奇瑞休眠唤醒新需求开发"
+              "title": "DONE"
+            }
+          },
+          {
+            "id": "4f562ba06014d8ab",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/2026.08.13   ASPICE 计划.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026.08.13   ASPICE 计划"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -74,7 +89,7 @@
                 "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
-              "title": "文件列表"
+              "title": "Files"
             }
           },
           {
@@ -83,7 +98,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "RxIndication",
+                "query": "tag:#idea/inbox",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -108,7 +123,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 521.5
+    "width": 479.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -143,7 +158,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "00_Inbox/灵感/DONE.md",
+                "file": "daliy record/2026.08.17 核对诊断调查表.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -225,71 +240,70 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:打开快速切换": false,
-      "graph:查看关系图谱": false,
-      "canvas:新建白板": false,
-      "daily-notes:打开/创建今天的日记": false,
-      "templates:插入模板": false,
-      "command-palette:打开命令面板": false,
-      "bases:新建数据库": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
       "obsidian-git:Open Git source control": false,
       "gemini-scribe:Gemini Scribe: Agent Mode": false,
       "templater-obsidian:Templater": false,
       "quickadd:QuickAdd": false,
       "omnisearch:Omnisearch": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false,
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "e3a02532ef276a0e",
+  "active": "26f5a6b1d52cac3b",
   "lastOpenFiles": [
-    "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
-    "daliy record/2026.06.15 奇瑞休眠唤醒排查.md",
-    "daliy record/2026.06.23 bsw中ISOLAR配置--BswM.md",
+    "00_Inbox/灵感/TODO.md",
+    "daliy record/2026.08.17 核对诊断调查表.md",
+    "daliy record/2026.08.13 RSM 静态电流偏大问题排查.md",
+    "daliy record/2026.08.13   ASPICE 计划.md",
+    "daliy record/2026.08.25  唤醒源都有效会导致通信丢失.md",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828170536980.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828170427031.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828161407190.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828161055165.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828142857746.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828140659645.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828135521580.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828134918392.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828134528943.png",
+    "daliy record/assets/2026.08.17 核对诊断调查表/file-20260828133954964.png",
+    "daliy record/2026.07.29 DTC 配置以及使用开发.md",
+    "task_outline/工作任务.md",
+    "task_outline/任务详情.md",
+    "task_outline/复习时间轴.md",
+    "daliy record/2026.08.21 唤醒只响应一帧问题排查.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "ASPICE流程认证文档完成情况清单.md",
+    "AI/无限私教.md",
+    "daliy record/2026.07.17 UDS从CANfd换成CAN后仍存在问题.md",
+    "daliy record/2026.08.20 humanity project init.md",
+    "daliy record/assets/2026.08.25  唤醒源都有效会导致通信丢失",
     "daliy record/2026.08.17  奇瑞唤醒时间过久排查.md",
-    "AI/提示词.md",
-    "00_Inbox/生活随想/26_08_17-0520 缓解焦虑.md",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817160045232.png",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817153144107.png",
-    "daliy record/2026.06.24 软件架构设计草稿.md",
-    "daliy record/2026.06.25 bsw 中 ISOLAR 配置--CanNM--NM.md",
-    "daliy record/2026.06.29 AUTOSAR_Dcm_PduR_CanTp_CanIf_CanDrv诊断链路学习笔记.md",
-    "daliy record/2026.07.02 奇瑞休眠唤醒问题--唤醒报文异常.md",
-    "daliy record/2026.07.03 奇瑞休眠唤醒报文优化.md",
-    "daliy record/2026.06.24 bsw中ISOLAR配置--ComM(系统服务层).md",
-    "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
-    "daliy record/2026.06.29 AUTOSAR_Com_PduR_CanIf_CanDrv链路学习笔记.md",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817145144582.png",
-    "daliy record/2026.06.26 bsw中ISOLAR配置--CanSM.md",
-    "AUTOSAR/AUTOSAR -- CanSM标准流程.md",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817142728142.png",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817142207013.png",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817141511444.png",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817140842900.png",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查/file-20260817134829112.png",
-    "daliy record/assets/2026.08.17  奇瑞唤醒时间过久排查",
-    "未命名.md",
-    "未命名 1.md",
-    "daliy record/2026.08.07  信息安全 - 0x29-Authentication.md",
-    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260817113111031.png",
-    "daliy record/assets/2026.08.07  信息安全 - 0x29-Authentication/file-20260817112554037.png",
-    "AI/26_08_17-1018 机器强化学习.md",
-    "26_08_17-1017 机器人强化学习.md",
-    "2026-08-17 未命名 1.md",
-    "assets/模板/日期.md",
-    "assets/模板/task.md",
-    "AI/2026-08-17 未命名.md",
+    "AUTOSAR/UDS/0x19(ReadDTCInformation).md",
+    "AI/如何像专家一样使用Codex.md",
     "AI/机器学习.md",
+    "AI/提示词.md",
+    "daliy record/EEA5.0&EEA5.1_CASU_diagnostic_requiremet_investigation_list_V1.6 1.xlsx",
+    "daliy record/EEA5.0&EEA5.1_CASU_diagnostic_requiremet_investigation_list_V1.6.xlsx",
+    "daliy record/assets/2026.08.17 核对诊断调查表/EEA5.0&EEA5.1_CASU_diagnostic_requiremet_investigation_list_V1.6.xlsx",
+    "daliy record/assets/2026.08.17 核对诊断调查表",
+    "AI/如何提高AI协同开发能力.md",
+    "00_Inbox/灵感/健康.md",
+    "00_Inbox/灵感/~$AI泡沫监控表_2026-08-12.xlsx",
+    "00_Inbox/灵感/AI资本流向监控表_2026-08-23.xlsx",
+    "00_Inbox/灵感/投资心得.md",
+    "00_Inbox/灵感/assets/投资心得",
+    "00_Inbox/灵感/DONE.md",
+    "AI/26_08_21-1005  AI的取代.md",
+    "daliy record/assets/2026.08.21 唤醒只响应一帧问题排查",
+    "00_Inbox/灵感/assets/DONE",
     "未命名.canvas",
-    "x/简单的逻辑学 ([美] D·Q·麦克伦尼) .epub",
-    "x/格物心法/第9章：滑坡谬误：一根针如何被夸大成世界.pdf",
-    "x/格物心法/第8章：稻草人谬误：别和你幻想出来的敌人.pdf",
-    "x/格物心法/第7章：可证伪性：什么是真正的“知识”-2025.pdf",
-    "x/格物心法/第6章：确认偏误：你只相信你愿意相信的-2025.pdf",
-    "x/格物心法/第5章：汉隆的剃刀：能解释为愚蠢，就别归.pdf",
-    "x/格物心法/第50章：影响力圈：从“关我屁事”到“关你.pdf",
-    "x/格物心法/第4章：邓宁-克鲁格效应：跪着爬出“愚昧之.pdf",
-    "x/格物心法/第49章：控制二分法：管好你能管的，接受你.pdf",
     "未命名 1.canvas"
   ]
 }
