@@ -239,6 +239,54 @@
         "afterCapture": "none"
       },
       "useSelectionAsCaptureValue": false
+    },
+    {
+      "id": "257a62f1-1735-4b68-b710-82241f5904fa",
+      "name": "感悟",
+      "type": "Capture",
+      "command": false,
+      "appendLink": false,
+      "captureTo": "00_Inbox/灵感/人生感悟.md",
+      "captureToActiveFile": false,
+      "captureToCanvasNodeId": "",
+      "activeFileWritePosition": "cursor",
+      "createFileIfItDoesntExist": {
+        "enabled": true,
+        "createWithTemplate": false,
+        "template": ""
+      },
+      "format": {
+        "enabled": true,
+        "format": "- {{DATE:YYYY-MM-DD HH:mm}} | {{VALUE}} | next:  | #idea/inbox"
+      },
+      "insertAfter": {
+        "enabled": false,
+        "after": "",
+        "insertAtEnd": false,
+        "considerSubsections": false,
+        "createIfNotFound": false,
+        "createIfNotFoundLocation": "top",
+        "inline": false,
+        "replaceExisting": false,
+        "blankLineAfterMatchMode": "auto"
+      },
+      "newLineCapture": {
+        "enabled": false,
+        "direction": "below"
+      },
+      "prepend": true,
+      "task": false,
+      "openFile": false,
+      "fileOpening": {
+        "location": "tab",
+        "direction": "vertical",
+        "mode": "default",
+        "focus": true
+      },
+      "templater": {
+        "afterCapture": "none"
+      },
+      "useSelectionAsCaptureValue": false
     }
   ],
   "inputPrompt": "single-line",
