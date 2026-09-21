@@ -4,77 +4,63 @@
     "type": "split",
     "children": [
       {
-        "id": "0d240ed1a2c8b583",
+        "id": "fe60b5649c9101d0",
         "type": "tabs",
         "children": [
           {
-            "id": "213e3fbd4c04fcea",
+            "id": "0c1511cddb86a571",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "00_Inbox/生活随想/2026.09.03 第一性原理.md",
+                "file": "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.09.03 第一性原理"
+              "title": "2026.09.18 BE 13 驱动故障诊断"
             }
           },
           {
-            "id": "c6eb822ba5069bb8",
+            "id": "362b54cb795fda42",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.09.07 诊断调查表 （四）-- CAN E2E.md",
+                "file": "daliy record/2026.09.21 诊断 DID 开发.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.09.07 诊断调查表 （四）-- CAN E2E"
+              "title": "2026.09.21 诊断 DID 开发"
             }
           },
           {
-            "id": "36b34eebe52a3f62",
+            "id": "172a62020a43110b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AUTOSAR/UDS/0x85(ControlDTCSetting).md",
+                "file": "daliy record/2026.07.28 DID诊断配置以及开发.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "0x85(ControlDTCSetting)"
+              "title": "2026.07.28 DID诊断配置以及开发"
             }
           },
           {
-            "id": "040c5013a9aadd1a",
+            "id": "4884b2242bacf5c7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI/无限私教.md",
+                "file": "task_outline/obsidian_tasks_command_center.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "无限私教"
-            }
-          },
-          {
-            "id": "5dc4de8cd7918cdc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "daliy record/2026.09.08.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026.09.08"
+              "title": "obsidian_tasks_command_center"
             }
           }
         ],
@@ -128,16 +114,19 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {},
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-bookmark",
-              "title": "书签"
+              "title": "Bookmarks"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 302.5
+    "width": 333
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -153,7 +142,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "daliy record/2026.07.13 UDS扩展会话超时进入默认会话排查.md",
+                "file": "ASPICE流程认证文档完成情况清单.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -163,7 +152,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026.07.13 UDS扩展会话超时进入默认会话排查 的反向链接列表"
+              "title": "Backlinks"
             }
           },
           {
@@ -172,12 +161,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "daliy record/2026.08.17 核对诊断调查表.md",
+                "file": "ASPICE流程认证文档完成情况清单.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "出链"
+              "title": "Outgoing links"
             }
           },
           {
@@ -270,54 +259,54 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "c6eb822ba5069bb8",
+  "active": "362b54cb795fda42",
   "lastOpenFiles": [
-    "AUTOSAR/UDS/0x85(ControlDTCSetting).md",
-    "AI/无限私教.md",
-    "daliy record/2026.09.08.md",
     "task_outline/任务详情.md",
+    "daliy record/2026.09.21 诊断 DID 开发.md",
     "task_outline/obsidian_tasks_command_center.md",
-    "daliy record/2026.09.07 诊断调查表 （四）-- CAN E2E.md",
-    "daliy record/2026.09.07  诊断调查表 （三）--Bus off.md",
-    "00_Inbox/生活随想/2026.09.03 第一性原理.md",
-    "daliy record/assets/2026.09.07 诊断调查表 （四）-- CAN E2E/file-20260908103138669.png",
-    "daliy record/assets/2026.09.07 诊断调查表 （四）-- CAN E2E/file-20260908103108782.png",
-    "daliy record/assets/2026.09.07 诊断调查表 （四）-- CAN E2E/file-20260908090738329.png",
-    "daliy record/assets/2026.09.07 诊断调查表 （四）-- CAN E2E",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off/file-20260907171945183.png",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off/file-20260907171945191.png",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off/file-20260907171945192.png",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off/file-20260907171945194.png",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off/file-20260907171945195.png",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off/file-20260907171945197.png",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off/file-20260907171945198.png",
-    "daliy record/assets/2026.09.07  诊断调查表 （三）--Bus off & E2E",
-    "00_Inbox/灵感/投资心得.md",
-    "daliy record/2026.08.17 核对诊断调查表.md",
-    "daliy record/2026.09.01 诊断调查表（二）.md",
-    "00_Inbox/灵感/灵感收集箱.md",
-    "00_Inbox/灵感/健康.md",
-    "00_Inbox/灵感/人生感悟.md",
-    "00_Inbox/灵感/DONE.md",
-    "daliy record/2026.09.04 ASPICE后续安排.md",
-    "daliy record/2026.07.20 奇瑞休眠唤醒新需求开发.md",
-    "00_Inbox/生活随想/2026.8.14 表演自己.md",
     "task_outline/工作任务.md",
     "task_outline/复习时间轴.md",
-    "00_Inbox/灵感/TODO.md",
-    "daliy record/2026.06.25 bsw 中 ISOLAR 配置--CanNM--NM.md",
-    "daliy record/2026.08.04 奇瑞休眠唤醒（参考奇瑞需求）.md",
+    "daliy record/2026.07.28 DID诊断配置以及开发.md",
+    "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260921144207885.png",
+    "hardware/2026.5.26 ASU2.5-TriC硬件电路.md",
+    "daliy record/2026.09.20 功能安全培训.md",
+    "移民计划/4B78E660",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918170349392.png",
+    "移民计划/~$荷兰工作居留准备计划.xlsx",
+    "移民计划/荷兰工作居留准备计划.xlsx",
+    "移民计划",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918145136752.png",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918143913118.png",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918143831774.png",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918143821498.png",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918143748513.png",
+    "hardware/SRC硬件控制电流原理.md",
+    "hardware/HL8545_G_Description.md",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918111115311.png",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/94ba2d27736a429c9e4d6ed1f53769e3.png",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918110308469.png",
+    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断",
+    "task_outline/tests/task-records.test.cjs",
+    "ASPICE流程认证文档完成情况清单.md",
+    "task_outline/task-records.js",
+    "daliy record/2026.09.17  奇瑞 NM 新需求.md",
+    "daliy record/2026.06.29 UDS故障排查.md",
+    "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
+    "daliy record/assets/2026.09.17  奇瑞 NM 新需求",
+    "task_outline/维护说明.md",
+    "AUTOSAR/CAN stack/网络管理总结.md",
+    "daliy record/2026.09.14 CAN需求对标.md",
+    "daliy record/2026.09.11  BE13看门狗测试.md",
+    "daliy record/2026.09.08  诊断调查表测试（五）.md",
+    "task_outline/_task-index.json",
+    "daliy record/assets/2026.09.14 CAN需求对标",
+    "AUTOSAR/CAN stack/communication stack.md",
+    "daliy record/2026.09.14 BE13使用的DMA.md",
+    "daliy record/2026.09.11  存储栈开发.md",
+    "daliy record/2026.08.17 核对诊断调查表（一）.md",
+    "daliy record/BE13_Watchdog_Review.md",
     "daliy record/2026.08.17  奇瑞唤醒时间过久排查.md",
-    "daliy record/2026.08.21 唤醒只响应一帧问题排查.md",
-    "daliy record/2026.08.25  唤醒源都有效会导致通信丢失.md",
-    "daliy record/assets/2026.09.01 诊断调查表（二）",
-    "00_Inbox/灵感/~$AI资本流向监控表_2026-08-23.xlsx",
-    "00_Inbox/灵感/assets/灵感收集箱",
-    "daliy record/assets/2026.08.25  唤醒源都有效会导致通信丢失",
-    "daliy record/EEA5.0&EEA5.1_CASU_diagnostic_requiremet_investigation_list_V1.6 1.xlsx",
-    "daliy record/EEA5.0&EEA5.1_CASU_diagnostic_requiremet_investigation_list_V1.6.xlsx",
-    "daliy record/assets/2026.08.17 核对诊断调查表/EEA5.0&EEA5.1_CASU_diagnostic_requiremet_investigation_list_V1.6.xlsx",
     "未命名.canvas",
     "未命名 1.canvas"
   ]

@@ -1,3 +1,288 @@
+.tasks-command-center .tcc-detail-grid > .tcc-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.tasks-command-center .tcc-detail-grid > .tcc-metric > strong {
+  font-size: 24px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.tasks-command-center .tcc-detail-actions [data-create-task-record] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.tasks-command-center [data-create-task-record] svg { width: 16px; height: 16px; }
+.tasks-command-center .tcc-related-docs [role="link"] { cursor: pointer; }
+.tasks-command-center .tcc-related-docs [role="link"]:focus-visible { outline: 2px solid var(--tcc-blue); }
+.tcc-editor-dialog .tcc-record-location { color: var(--text-muted); font-size: 12px; margin: 0; }
+.tcc-record-sync-error { color: var(--text-error, #e55f67); font-size: 13px; overflow-wrap: anywhere; }
+
+/* State colors are shared by parent tasks and nested subtasks. */
+.tasks-command-center [data-state="todo"] { --tcc-state-color: #88939e; }
+.tasks-command-center [data-state="doing"] { --tcc-state-color: #438ee9; }
+.tasks-command-center [data-state="postponed"] { --tcc-state-color: #d79825; }
+.tasks-command-center [data-state="blocked"] { --tcc-state-color: #e55f67; }
+.tasks-command-center [data-state="pending"] { --tcc-state-color: #a17ada; }
+.tasks-command-center [data-state="important"] { --tcc-state-color: #db7749; }
+.tasks-command-center [data-state="done"] { --tcc-state-color: #29a978; }
+.tasks-command-center [data-state="cancelled"] { --tcc-state-color: #828282; }
+.tasks-command-center .tcc-state-badge,
+.tasks-command-center .tcc-node-list.tcc-node-tree .tcc-state-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 64px;
+  min-height: 30px;
+  height: auto;
+  margin: 0;
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--tcc-state-color) 60%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--tcc-state-color) 13%, var(--background-primary));
+  color: color-mix(in srgb, var(--tcc-state-color) 85%, var(--text-normal));
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  box-shadow: none;
+}
+.tasks-command-center button.tcc-state-badge:hover {
+  background: color-mix(in srgb, var(--tcc-state-color) 24%, var(--background-primary));
+}
+.tasks-command-center button.tcc-state-badge:focus-visible {
+  outline: 2px solid var(--tcc-state-color);
+  outline-offset: 2px;
+}
+.tasks-command-center .tcc-state-badge[data-state="cancelled"] { text-decoration: line-through; }
+.tasks-command-center .tcc-status-metric { border-left: 3px solid var(--tcc-state-color); }
+.tasks-command-center .tcc-status-metric > strong .tcc-state-badge { font-size: 22px; min-height: 42px; }
+.tasks-command-center .tcc-node-row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin: 5px 0;
+  border: 1px solid var(--tcc-border);
+  border-left: 3px solid var(--tcc-state-color);
+  border-radius: 6px;
+  background: var(--tcc-panel-strong);
+}
+.tasks-command-center .tcc-node-row > strong { min-width: 0; font-size: 14px; overflow-wrap: anywhere; }
+.tasks-command-center .tcc-node-row > input {
+  appearance: auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--tcc-green);
+}
+.tasks-command-center .tcc-node-row[data-state="done"] > strong,
+.tasks-command-center .tcc-node-row[data-state="cancelled"] > strong {
+  color: var(--tcc-muted);
+  text-decoration: line-through;
+}
+.tasks-command-center .tcc-subtask-row[data-state] { align-items: center; }
+.tasks-command-center .tcc-subtask-row[data-state="cancelled"] .tcc-subtask-title { text-decoration: line-through; }
+
+/* Task ownership and completion, shared by dashboard and detail views. */
+.tasks-command-center .tcc-subtasks {
+  min-width: 0;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--tcc-border);
+  cursor: default;
+}
+.tasks-command-center .tcc-subtasks > summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-normal);
+}
+.tasks-command-center .tcc-subtasks > summary > span {
+  margin-left: 8px;
+  color: var(--tcc-muted);
+  font-weight: 400;
+}
+.tasks-command-center .tcc-subtasks ul,
+.tasks-command-center .tcc-node-tree ul {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.tasks-command-center .tcc-subtasks ul ul,
+.tasks-command-center .tcc-node-tree ul ul {
+  margin-left: 9px;
+  padding-left: 14px;
+  border-left: 1px solid var(--tcc-border);
+}
+.tasks-command-center .tcc-subtasks li,
+.tasks-command-center .tcc-node-tree li {
+  margin: 0;
+  padding: 0;
+}
+.tasks-command-center .tcc-subtask-row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 8px;
+  padding: 7px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.tasks-command-center .tcc-subtask-row input {
+  appearance: auto;
+  width: 16px;
+  height: 16px;
+  margin: 3px 0 0;
+  accent-color: var(--tcc-green);
+}
+.tasks-command-center .tcc-subtask-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--text-normal);
+}
+.tasks-command-center .tcc-subtask-state {
+  color: var(--tcc-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.tasks-command-center .tcc-subtask-row.is-done .tcc-subtask-title {
+  color: var(--tcc-muted);
+  text-decoration: line-through;
+}
+.tasks-command-center .tcc-subtask-row.is-done .tcc-subtask-state {
+  color: var(--tcc-green);
+}
+.tasks-command-center .tcc-subtask-error {
+  color: var(--tcc-red);
+  font-size: 12px;
+}
+.tasks-command-center .tcc-node-list.tcc-node-tree button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  height: auto;
+  margin: 4px 0;
+  padding: 10px;
+  text-align: left;
+  white-space: normal;
+}
+.tasks-command-center .tcc-node-list.tcc-node-tree button strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+.tasks-command-center .tcc-maintenance {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--tcc-border);
+}
+.tasks-command-center .tcc-card-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tasks-command-center .tcc-acceptance {
+  flex: 1 1 100px;
+  color: var(--tcc-green);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.tasks-command-center .tcc-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 6px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  box-shadow: none;
+  cursor: pointer;
+}
+.tasks-command-center .tcc-tool-text { flex-basis: auto; width: auto; font-size: 12px; }
+.tasks-command-center .tcc-tool svg { display: block; width: 16px; height: 16px; }
+.tasks-command-center .tcc-next,
+.tasks-command-center .tcc-waiting {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.tasks-command-center .tcc-next span { margin-right: 8px; color: var(--tcc-muted); }
+.tasks-command-center .tcc-waiting { color: var(--tcc-amber); }
+.tasks-command-center .tcc-maintenance-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 14px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tcc-border);
+  font-size: 13px;
+}
+.tasks-command-center .tcc-maintenance-strip > span { color: var(--tcc-muted); }
+.tasks-command-center .tcc-maintenance-reasons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.tasks-command-center .tcc-maintenance-reasons span { color: var(--tcc-amber); font-size: 12px; }
+.tasks-command-center .tcc-task-card.blocked { border-color: var(--tcc-amber); }
+.tcc-editor-dialog {
+  width: min(520px, calc(100% - 24px));
+  max-width: calc(100% - 24px);
+  max-height: calc(100dvh - 32px);
+  padding: 20px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  overflow: auto;
+}
+.tcc-editor-dialog::backdrop { background: rgb(0 0 0 / 45%); }
+.tcc-editor-dialog form { margin: 0; }
+.tcc-editor-dialog header,
+.tcc-editor-dialog footer { display: flex; align-items: center; gap: 12px; }
+.tcc-editor-dialog header { justify-content: space-between; margin-bottom: 16px; }
+.tcc-editor-dialog header h3 { margin: 0; font-size: 18px; }
+.tcc-editor-dialog header button { padding: 6px; box-shadow: none; }
+.tcc-editor-dialog button {
+  color: var(--text-normal);
+  background: var(--background-secondary);
+  border: 1px solid var(--tcc-border);
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+.tcc-editor-dialog header svg { width: 18px; height: 18px; }
+.tcc-editor-dialog footer { justify-content: flex-end; margin-top: 18px; }
+.tcc-editor-dialog footer button { min-height: 34px; }
+.tcc-editor-dialog footer button[type="submit"] { background: var(--interactive-accent); color: var(--text-on-accent, white); }
+.tcc-editor-dialog .tcc-editor-fields { display: grid; gap: 14px; }
+.tcc-editor-dialog .tcc-editor-field { display: grid; gap: 6px; min-width: 0; font-size: 13px; }
+.tcc-editor-dialog .tcc-editor-field > span { color: var(--text-muted); }
+.tcc-editor-dialog input,
+.tcc-editor-dialog select,
+.tcc-editor-dialog textarea { width: 100%; min-width: 0; padding: 8px; height: auto; box-sizing: border-box; }
+.tcc-editor-dialog textarea { resize: vertical; }
+.tcc-editor-dialog .tcc-editor-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tcc-editor-dialog [data-wait-fields]:not([hidden]) { display: grid; gap: 14px; }
+.tcc-editor-dialog .tcc-editor-error { font-size: 13px; color: var(--tcc-red); }
+.tasks-command-center .tcc-operation-error { font-size: 13px; color: var(--tcc-red); }
+@media (max-width: 420px) {
+  .tcc-editor-dialog .tcc-editor-pair { grid-template-columns: 1fr; }
+}
+
 @property --value {
   syntax: "<number>";
   inherits: true;
@@ -295,7 +580,7 @@
 
 .tasks-command-center .tcc-metrics {
   display: grid;
-  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
   margin: 14px 0;
 }
@@ -304,6 +589,8 @@
 .tasks-command-center .tcc-task-card,
 .tasks-command-center .tcc-day,
 .tasks-command-center .tcc-week-event,
+.tasks-command-center .tcc-done-card,
+.tasks-command-center .tcc-archive-week,
 .tasks-command-center .tcc-long-card {
   border: 1px solid var(--tcc-border);
   border-radius: 8px;
@@ -317,6 +604,8 @@
 .tasks-command-center .tcc-task-card:hover,
 .tasks-command-center .tcc-day:hover,
 .tasks-command-center .tcc-week-event:hover,
+.tasks-command-center .tcc-done-card:hover,
+.tasks-command-center .tcc-archive-week:hover,
 .tasks-command-center .tcc-long-card:hover {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--tcc-blue) 52%, var(--tcc-border));
@@ -325,8 +614,30 @@
 
 .tasks-command-center .tcc-metric {
   position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "value label"
+    "value sub";
+  column-gap: 10px;
+  align-items: center;
   overflow: hidden;
-  padding: 15px;
+  min-width: 0;
+  min-height: 72px;
+  padding: 12px 14px;
+  border: 1px solid var(--tcc-border);
+  color: var(--text-normal);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tasks-command-center button.tcc-metric {
+  font: inherit;
+}
+
+.tasks-command-center .tcc-metric.active {
+  border-color: color-mix(in srgb, var(--tcc-blue) 72%, var(--tcc-border));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tcc-blue) 18%, transparent), 0 18px 46px color-mix(in srgb, black 11%, transparent);
 }
 
 .tasks-command-center .tcc-metric span,
@@ -335,13 +646,28 @@
   color: var(--tcc-muted);
   font-size: 12px;
   font-style: normal;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-metric span {
+  grid-area: label;
+  align-self: end;
+}
+
+.tasks-command-center .tcc-metric em {
+  grid-area: sub;
+  align-self: start;
 }
 
 .tasks-command-center .tcc-metric strong {
   display: block;
-  margin: 4px 0;
-  font-size: 28px;
+  grid-area: value;
+  min-width: 34px;
+  margin: 0;
+  font-size: 34px;
   line-height: 1;
+  text-align: center;
 }
 
 .tasks-command-center .tcc-metric.hot {
@@ -363,8 +689,9 @@
 .tasks-command-center .tcc-metric.danger::after {
   content: "!";
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: auto;
+  right: 10px;
+  bottom: 10px;
   display: grid;
   place-items: center;
   width: 28px;
@@ -384,6 +711,26 @@
 
 .tasks-command-center .tcc-metric.success strong {
   color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-metric.postponed {
+  border-color: color-mix(in srgb, var(--tcc-amber) 58%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-amber) 18%, transparent), color-mix(in srgb, var(--background-primary) 76%, transparent));
+}
+
+.tasks-command-center .tcc-metric.postponed strong {
+  color: var(--tcc-amber);
+}
+
+.tasks-command-center .tcc-metric.review {
+  border-color: color-mix(in srgb, var(--tcc-violet) 58%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-violet) 18%, transparent), color-mix(in srgb, var(--background-primary) 76%, transparent));
+}
+
+.tasks-command-center .tcc-metric.review strong {
+  color: var(--tcc-violet);
 }
 
 .tasks-command-center .tcc-ticker {
@@ -452,6 +799,12 @@
   gap: 14px;
 }
 
+.tasks-command-center .tcc-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 14px;
+}
+
 .tasks-command-center .tcc-task-card {
   cursor: pointer;
   padding: 15px;
@@ -460,6 +813,25 @@
 .tasks-command-center .tcc-task-card.overdue {
   border-color: color-mix(in srgb, var(--tcc-red) 64%, var(--tcc-border));
   animation: tcc-alert 2.8s ease-in-out infinite;
+}
+
+.tasks-command-center .tcc-task-card.postponed,
+.tasks-command-center .tcc-long-card.postponed {
+  border-color: color-mix(in srgb, var(--tcc-amber) 72%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-amber) 24%, transparent), color-mix(in srgb, var(--tcc-panel) 78%, transparent) 58%),
+    color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--tcc-amber) 86%, transparent),
+    0 16px 38px color-mix(in srgb, var(--tcc-amber) 13%, transparent);
+}
+
+.tasks-command-center .tcc-task-card.postponed:hover,
+.tasks-command-center .tcc-long-card.postponed:hover {
+  border-color: color-mix(in srgb, var(--tcc-amber) 88%, var(--tcc-border));
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--tcc-amber) 90%, transparent),
+    0 20px 48px color-mix(in srgb, var(--tcc-amber) 20%, transparent);
 }
 
 .tasks-command-center .tcc-task-head {
@@ -517,6 +889,11 @@
 .tasks-command-center .tcc-status.overdue {
   background: color-mix(in srgb, var(--tcc-red) 16%, transparent);
   color: var(--tcc-red);
+}
+
+.tasks-command-center .tcc-status.postponed {
+  background: color-mix(in srgb, var(--tcc-amber) 18%, transparent);
+  color: color-mix(in srgb, var(--tcc-amber) 84%, var(--text-normal));
 }
 
 .tasks-command-center .tcc-priority.p-highest,
@@ -671,6 +1048,7 @@
   align-items: center;
   padding: 13px;
   border-left: 4px solid var(--tcc-blue);
+  cursor: pointer;
 }
 
 .tasks-command-center .tcc-week-event.current {
@@ -691,6 +1069,184 @@
 .tasks-command-center .tcc-week-event p {
   margin: 0;
   color: var(--tcc-muted);
+}
+
+.tasks-command-center .tcc-week-event small {
+  display: block;
+  margin-top: 6px;
+  color: var(--tcc-muted);
+  font-size: 11px;
+}
+
+.tasks-command-center .tcc-done-grid,
+.tasks-command-center .tcc-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.tasks-command-center .tcc-done-card,
+.tasks-command-center .tcc-archive-week {
+  cursor: pointer;
+  padding: 15px;
+}
+
+.tasks-command-center .tcc-done-card {
+  border-left: 4px solid var(--tcc-green);
+}
+
+.tasks-command-center .tcc-done-card > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.tasks-command-center .tcc-done-card strong {
+  font-size: 15px;
+}
+
+.tasks-command-center .tcc-done-card time,
+.tasks-command-center .tcc-done-card p {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-done-card p {
+  margin: 0 0 10px;
+}
+
+.tasks-command-center .tcc-done-card .tcc-bar {
+  margin: 10px 0;
+}
+
+.tasks-command-center .tcc-review-mini {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 8px 0 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 10%, transparent);
+}
+
+.tasks-command-center .tcc-review-mini span,
+.tasks-command-center .tcc-review-mini em {
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-mini span {
+  color: var(--tcc-violet);
+  font-weight: 700;
+}
+
+.tasks-command-center .tcc-review-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--tcc-violet) 42%, var(--tcc-border));
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-violet) 12%, transparent), color-mix(in srgb, var(--tcc-panel) 82%, transparent)),
+    color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  box-shadow: 0 12px 34px color-mix(in srgb, black 7%, transparent);
+  backdrop-filter: blur(14px) saturate(1.08);
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-review-entry span,
+.tasks-command-center .tcc-review-entry em {
+  display: block;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-entry strong {
+  display: block;
+  margin: 4px 0;
+  color: var(--tcc-violet);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-review-entry button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--tcc-violet) 46%, var(--tcc-border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 14%, var(--background-primary));
+  color: var(--tcc-violet);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-archive-week {
+  display: grid;
+  gap: 12px;
+}
+
+.tasks-command-center .tcc-archive-week.current {
+  border-color: color-mix(in srgb, var(--tcc-green) 60%, var(--tcc-border));
+}
+
+.tasks-command-center .tcc-archive-top {
+  display: flex;
+  gap: 12px;
+  align-items: start;
+}
+
+.tasks-command-center .tcc-archive-top > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--tcc-blue) 15%, transparent);
+  color: var(--tcc-blue);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-archive-top strong,
+.tasks-command-center .tcc-archive-top em {
+  display: block;
+}
+
+.tasks-command-center .tcc-archive-top em {
+  margin-top: 4px;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-archive-week p {
+  margin: 0;
+  color: var(--tcc-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.tasks-command-center .tcc-completed-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tasks-command-center .tcc-completed-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tcc-green) 12%, transparent);
+  color: color-mix(in srgb, var(--tcc-green) 80%, var(--text-normal));
+  font-size: 11px;
 }
 
 .tasks-command-center .tcc-long-grid {
@@ -780,7 +1336,7 @@
 
 .tasks-command-center .tcc-detail-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 12px;
   margin: 14px 0 22px;
 }
@@ -797,6 +1353,729 @@
   border-radius: 8px;
   background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
   backdrop-filter: blur(14px);
+}
+
+.tasks-command-center .tcc-review-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.tasks-command-center .tcc-review-summary strong {
+  color: var(--tcc-violet);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tasks-command-center .tcc-review-grid,
+.tasks-command-center .tcc-review-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.tasks-command-center .tcc-review-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  box-shadow: 0 12px 34px color-mix(in srgb, black 7%, transparent);
+  backdrop-filter: blur(14px) saturate(1.08);
+  cursor: pointer;
+  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+}
+
+.tasks-command-center .tcc-review-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--tcc-violet) 58%, var(--tcc-border));
+  box-shadow: 0 18px 46px color-mix(in srgb, black 11%, transparent);
+}
+
+.tasks-command-center .tcc-review-card > div:first-child {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tasks-command-center .tcc-review-card span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tcc-violet) 14%, transparent);
+  color: var(--tcc-violet);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-review-card strong {
+  font-size: 15px;
+}
+
+.tasks-command-center .tcc-review-card p,
+.tasks-command-center .tcc-review-card em {
+  margin: 0;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-card button {
+  justify-self: start;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--tcc-violet) 46%, var(--tcc-border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 14%, var(--background-primary));
+  color: var(--tcc-violet);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-review-card.today {
+  border-color: color-mix(in srgb, var(--tcc-blue) 66%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-blue) 16%, transparent), color-mix(in srgb, var(--tcc-panel) 80%, transparent));
+}
+
+.tasks-command-center .tcc-review-card.overdue {
+  border-color: color-mix(in srgb, var(--tcc-amber) 72%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-amber) 20%, transparent), color-mix(in srgb, var(--tcc-panel) 78%, transparent));
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--tcc-amber) 86%, transparent),
+    0 16px 38px color-mix(in srgb, var(--tcc-amber) 13%, transparent);
+}
+
+.tasks-command-center .tcc-review-card.done {
+  border-color: color-mix(in srgb, var(--tcc-green) 58%, var(--tcc-border));
+}
+
+.tasks-command-center .tcc-review-card.done span {
+  background: color-mix(in srgb, var(--tcc-green) 14%, transparent);
+  color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-review-card.future {
+  opacity: .82;
+}
+
+.tasks-command-center .tcc-review-timeline-shell {
+  padding: 22px;
+}
+
+.tasks-command-center .tcc-review-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+  padding: 24px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(16px) saturate(1.1);
+  box-shadow: var(--tcc-shadow);
+}
+
+.tasks-command-center .tcc-review-hero h2 {
+  margin: 0 0 10px;
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.tasks-command-center .tcc-review-hero p {
+  margin: 0;
+  color: var(--tcc-muted);
+}
+
+.tasks-command-center .tcc-review-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 14px 0 22px;
+}
+
+.tasks-command-center .tcc-review-stats article {
+  padding: 16px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.tasks-command-center .tcc-review-stats span,
+.tasks-command-center .tcc-review-stats em {
+  display: block;
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-stats strong {
+  display: block;
+  margin: 4px 0;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-review-timeline {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding-left: 28px;
+}
+
+.tasks-command-center .tcc-review-timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--tcc-violet), var(--tcc-blue), var(--tcc-green));
+}
+
+.tasks-command-center .tcc-review-day {
+  position: relative;
+  display: grid;
+  gap: 10px;
+}
+
+.tasks-command-center .tcc-review-day::before {
+  content: "";
+  position: absolute;
+  left: -33px;
+  top: 12px;
+  width: 15px;
+  height: 15px;
+  border: 3px solid var(--background-primary);
+  border-radius: 50%;
+  background: var(--tcc-violet);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tcc-violet) 14%, transparent);
+}
+
+.tasks-command-center .tcc-review-day.today::before {
+  background: var(--tcc-blue);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--tcc-blue) 16%, transparent);
+}
+
+.tasks-command-center .tcc-review-day.past::before {
+  background: var(--tcc-amber);
+}
+
+.tasks-command-center .tcc-review-day-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.tasks-command-center .tcc-review-day-head time {
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-review-day-head span {
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-review-day-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.tasks-command-center .tcc-review-timeline-node {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 82%, transparent);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-review-timeline-node.today {
+  border-color: color-mix(in srgb, var(--tcc-blue) 62%, var(--tcc-border));
+}
+
+.tasks-command-center .tcc-review-timeline-node.overdue {
+  border-color: color-mix(in srgb, var(--tcc-amber) 70%, var(--tcc-border));
+  box-shadow: inset 4px 0 0 color-mix(in srgb, var(--tcc-amber) 86%, transparent);
+}
+
+.tasks-command-center .tcc-review-timeline-node.done {
+  border-color: color-mix(in srgb, var(--tcc-green) 54%, var(--tcc-border));
+  opacity: .84;
+}
+
+.tasks-command-center .tcc-review-node-date {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  min-height: 64px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tcc-violet) 12%, transparent);
+}
+
+.tasks-command-center .tcc-review-node-date strong {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-review-node-date span {
+  color: var(--tcc-violet);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-review-timeline-node h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  line-height: 1.35;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-review-timeline-node p {
+  margin: 0 0 8px;
+  color: var(--tcc-muted);
+  font-size: 12px;
+}
+
+.tasks-command-center .tcc-review-visual-hero {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 88% 16%, color-mix(in srgb, var(--tcc-violet) 22%, transparent), transparent 26%),
+    radial-gradient(circle at 18% 85%, color-mix(in srgb, var(--tcc-blue) 16%, transparent), transparent 30%),
+    color-mix(in srgb, var(--tcc-panel) 82%, transparent);
+}
+
+.tasks-command-center .tcc-review-visual-stats article {
+  position: relative;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--tcc-violet) 28%, var(--tcc-border));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 30%, transparent),
+    0 16px 36px color-mix(in srgb, black 9%, transparent);
+}
+
+.tasks-command-center .tcc-review-visual-stats article::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: -22px;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--tcc-violet) 12%, transparent);
+}
+
+.tasks-command-center .tcc-review-track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.tasks-command-center .tcc-review-track-card {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--tcc-violet) 24%, var(--tcc-border));
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--background-primary) 88%, transparent), color-mix(in srgb, var(--tcc-panel) 76%, transparent)),
+    color-mix(in srgb, var(--tcc-panel) 80%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 32%, transparent),
+    0 18px 44px color-mix(in srgb, black 10%, transparent);
+  backdrop-filter: blur(16px) saturate(1.08);
+  animation: tcc-fade 360ms ease both;
+  animation-delay: calc(var(--card-index) * 28ms);
+}
+
+.tasks-command-center .tcc-review-track-card.needs-action {
+  border-color: color-mix(in srgb, var(--tcc-amber) 66%, var(--tcc-border));
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--tcc-amber) 80%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 32%, transparent),
+    0 18px 44px color-mix(in srgb, var(--tcc-amber) 14%, transparent);
+}
+
+.tasks-command-center .tcc-review-track-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 34%, color-mix(in srgb, white 12%, transparent) 44%, transparent 54%),
+    repeating-linear-gradient(90deg, transparent 0 38px, color-mix(in srgb, var(--tcc-border) 16%, transparent) 39px 40px);
+  opacity: .45;
+}
+
+.tasks-command-center .tcc-review-track-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.tasks-command-center .tcc-review-track-card header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  gap: 14px;
+  align-items: start;
+}
+
+.tasks-command-center .tcc-review-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tcc-violet) 12%, transparent);
+  color: var(--tcc-violet);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-review-track-card h3 {
+  margin: 10px 0 8px;
+  font-size: 18px;
+  line-height: 1.35;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-review-orb {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 52%, transparent), transparent 34%),
+    conic-gradient(var(--tcc-violet), var(--tcc-blue), var(--tcc-green), var(--tcc-violet));
+  color: white;
+  text-align: center;
+  box-shadow:
+    inset 0 -10px 18px color-mix(in srgb, black 18%, transparent),
+    0 18px 32px color-mix(in srgb, var(--tcc-violet) 22%, transparent);
+}
+
+.tasks-command-center .tcc-review-orb.overdue {
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 52%, transparent), transparent 34%),
+    conic-gradient(var(--tcc-amber), var(--tcc-red), var(--tcc-amber));
+}
+
+.tasks-command-center .tcc-review-orb.today {
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 52%, transparent), transparent 34%),
+    conic-gradient(var(--tcc-blue), var(--tcc-violet), var(--tcc-blue));
+}
+
+.tasks-command-center .tcc-review-orb.done {
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 52%, transparent), transparent 34%),
+    conic-gradient(var(--tcc-green), var(--tcc-teal), var(--tcc-green));
+}
+
+.tasks-command-center .tcc-review-orb strong,
+.tasks-command-center .tcc-review-orb span {
+  display: block;
+}
+
+.tasks-command-center .tcc-review-orb strong {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.tasks-command-center .tcc-review-orb span {
+  max-width: 76px;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.tasks-command-center .tcc-review-rail {
+  --progress: 0%;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  padding: 24px 0 4px;
+}
+
+.tasks-command-center .tcc-review-rail::before,
+.tasks-command-center .tcc-review-rail::after {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 52px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.tasks-command-center .tcc-review-rail::before {
+  background: color-mix(in srgb, var(--tcc-border) 46%, transparent);
+  box-shadow: inset 0 1px 3px color-mix(in srgb, black 16%, transparent);
+}
+
+.tasks-command-center .tcc-review-rail::after {
+  right: auto;
+  width: calc(var(--progress) * .88);
+  max-width: 88%;
+  background: linear-gradient(90deg, var(--tcc-green), var(--tcc-blue), var(--tcc-violet));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--tcc-blue) 22%, transparent);
+}
+
+.tasks-command-center .tcc-review-dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-normal);
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-review-dot span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--background-primary) 74%, transparent);
+  color: var(--tcc-muted);
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 6px 16px color-mix(in srgb, black 8%, transparent);
+}
+
+.tasks-command-center .tcc-review-dot strong {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 48%, transparent), transparent 36%),
+    color-mix(in srgb, var(--background-primary) 84%, transparent);
+  font-size: 12px;
+  box-shadow:
+    inset 0 -6px 12px color-mix(in srgb, black 8%, transparent),
+    0 12px 24px color-mix(in srgb, black 10%, transparent);
+}
+
+.tasks-command-center .tcc-review-dot em {
+  min-height: 28px;
+  color: var(--tcc-muted);
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.25;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-review-dot.done strong {
+  border-color: color-mix(in srgb, var(--tcc-green) 62%, var(--tcc-border));
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 48%, transparent), transparent 36%),
+    color-mix(in srgb, var(--tcc-green) 22%, var(--background-primary));
+  color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-review-dot.today strong {
+  border-color: color-mix(in srgb, var(--tcc-blue) 72%, var(--tcc-border));
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 48%, transparent), transparent 36%),
+    color-mix(in srgb, var(--tcc-blue) 22%, var(--background-primary));
+  color: var(--tcc-blue);
+  animation: tcc-alert 2.6s ease-in-out infinite;
+}
+
+.tasks-command-center .tcc-review-dot.overdue strong {
+  border-color: color-mix(in srgb, var(--tcc-amber) 76%, var(--tcc-border));
+  background:
+    radial-gradient(circle at 32% 24%, color-mix(in srgb, white 48%, transparent), transparent 36%),
+    color-mix(in srgb, var(--tcc-amber) 24%, var(--background-primary));
+  color: color-mix(in srgb, var(--tcc-amber) 84%, var(--text-normal));
+}
+
+.tasks-command-center .tcc-review-track-card footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--tcc-border) 62%, transparent);
+}
+
+.tasks-command-center .tcc-review-track-card footer span,
+.tasks-command-center .tcc-review-track-card footer em {
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-review-track-card footer span {
+  color: var(--tcc-green);
+  font-weight: 800;
+}
+
+.tasks-command-center .tcc-timeline-note-form {
+  display: grid;
+  grid-template-columns: 190px 150px 130px minmax(220px, 1fr) auto;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 76%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.tasks-command-center .tcc-subtask-form {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 160px auto;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 76%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.tasks-command-center .tcc-timeline-note-form input,
+.tasks-command-center .tcc-timeline-note-form button,
+.tasks-command-center .tcc-subtask-form input,
+.tasks-command-center .tcc-subtask-form button {
+  min-height: 34px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--background-primary) 76%, transparent);
+  color: var(--text-normal);
+  font-size: 13px;
+}
+
+.tasks-command-center .tcc-timeline-note-form input,
+.tasks-command-center .tcc-subtask-form input {
+  min-width: 0;
+  padding: 0 10px;
+}
+
+.tasks-command-center .tcc-timeline-note-form button,
+.tasks-command-center .tcc-subtask-form button {
+  padding: 0 14px;
+  background: linear-gradient(90deg, var(--tcc-green), var(--tcc-blue));
+  color: white;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-status-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.tasks-command-center .tcc-status-controls button {
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--background-primary) 68%, transparent);
+  color: var(--text-normal);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-status-controls button.active {
+  border-color: color-mix(in srgb, var(--tcc-blue) 60%, var(--tcc-border));
+  background: color-mix(in srgb, var(--tcc-blue) 16%, transparent);
+  color: var(--tcc-blue);
+}
+
+.tasks-command-center .tcc-related-docs,
+.tasks-command-center .tcc-node-list {
+  display: grid;
+  gap: 10px;
+}
+
+.tasks-command-center .tcc-related-docs article,
+.tasks-command-center .tcc-node-list button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tcc-panel) 78%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.tasks-command-center .tcc-related-docs strong,
+.tasks-command-center .tcc-node-list strong {
+  overflow-wrap: anywhere;
+}
+
+.tasks-command-center .tcc-related-docs span,
+.tasks-command-center .tcc-related-docs em,
+.tasks-command-center .tcc-node-list span {
+  color: var(--tcc-muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.tasks-command-center .tcc-related-docs em {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 58px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tcc-green) 12%, transparent);
+  color: var(--tcc-green);
+}
+
+.tasks-command-center .tcc-node-list button {
+  width: 100%;
+  color: var(--text-normal);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tasks-command-center .tcc-node-list button.done {
+  border-color: color-mix(in srgb, var(--tcc-green) 54%, var(--tcc-border));
+}
+
+.tasks-command-center .tcc-node-list button.done span {
+  color: var(--tcc-green);
 }
 
 .tasks-command-center .tcc-number-line {
@@ -820,7 +2099,7 @@
 .tasks-command-center .tcc-line-event {
   position: relative;
   display: grid;
-  grid-template-columns: 120px 84px minmax(0, 1fr);
+  grid-template-columns: 150px 84px minmax(0, 1fr);
   gap: 14px;
   align-items: center;
   padding: 14px;
@@ -855,6 +2134,21 @@
   background: var(--tcc-violet);
 }
 
+.tasks-command-center .tcc-line-event.postponed {
+  border-color: color-mix(in srgb, var(--tcc-amber) 64%, var(--tcc-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tcc-amber) 18%, transparent), color-mix(in srgb, var(--tcc-panel) 80%, transparent));
+}
+
+.tasks-command-center .tcc-line-event.postponed::before {
+  background: var(--tcc-amber);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tcc-amber) 16%, transparent);
+}
+
+.tasks-command-center .tcc-line-event.note::before {
+  background: var(--tcc-blue);
+}
+
 .tasks-command-center .tcc-line-event time,
 .tasks-command-center .tcc-line-event span {
   color: var(--tcc-muted);
@@ -867,6 +2161,11 @@
   padding: 5px 8px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--tcc-blue) 12%, transparent);
+}
+
+.tasks-command-center .tcc-line-event.postponed span {
+  background: color-mix(in srgb, var(--tcc-amber) 20%, transparent);
+  color: color-mix(in srgb, var(--tcc-amber) 82%, var(--text-normal));
 }
 
 .tasks-command-center .tcc-line-event p {
@@ -948,6 +2247,18 @@
   .tasks-command-center .tcc-hero {
     grid-template-columns: 1fr;
   }
+
+  .tasks-command-center .tcc-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tasks-command-center .tcc-timeline-note-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tasks-command-center .tcc-subtask-form {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
 }
 
 @media (max-width: 900px) {
@@ -961,15 +2272,56 @@
   }
 
   .tasks-command-center .tcc-detail-hero,
+  .tasks-command-center .tcc-review-hero,
+  .tasks-command-center .tcc-review-entry,
+  .tasks-command-center .tcc-review-track-card header,
   .tasks-command-center .tcc-line-event,
   .tasks-command-center .tcc-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-command-center .tcc-review-track-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-command-center .tcc-review-orb {
+    justify-self: start;
+    width: 96px;
+  }
+
+  .tasks-command-center .tcc-timeline-note-form {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-command-center .tcc-subtask-form {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 560px) {
   .tasks-command-center .tcc-metrics,
+  .tasks-command-center .tcc-review-stats,
   .tasks-command-center .tcc-rings {
     grid-template-columns: 1fr;
+  }
+
+  .tasks-command-center .tcc-review-track-card {
+    padding: 14px;
+  }
+
+  .tasks-command-center .tcc-review-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 18px;
+    padding-top: 8px;
+  }
+
+  .tasks-command-center .tcc-review-rail::before,
+  .tasks-command-center .tcc-review-rail::after {
+    display: none;
+  }
+
+  .tasks-command-center .tcc-review-track-card footer {
+    align-items: start;
+    flex-direction: column;
   }
 }

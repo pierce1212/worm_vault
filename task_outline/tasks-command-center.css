@@ -1,3 +1,288 @@
+.tasks-command-center .tcc-detail-grid > .tcc-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.tasks-command-center .tcc-detail-grid > .tcc-metric > strong {
+  font-size: 24px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.tasks-command-center .tcc-detail-actions [data-create-task-record] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.tasks-command-center [data-create-task-record] svg { width: 16px; height: 16px; }
+.tasks-command-center .tcc-related-docs [role="link"] { cursor: pointer; }
+.tasks-command-center .tcc-related-docs [role="link"]:focus-visible { outline: 2px solid var(--tcc-blue); }
+.tcc-editor-dialog .tcc-record-location { color: var(--text-muted); font-size: 12px; margin: 0; }
+.tcc-record-sync-error { color: var(--text-error, #e55f67); font-size: 13px; overflow-wrap: anywhere; }
+
+/* State colors are shared by parent tasks and nested subtasks. */
+.tasks-command-center [data-state="todo"] { --tcc-state-color: #88939e; }
+.tasks-command-center [data-state="doing"] { --tcc-state-color: #438ee9; }
+.tasks-command-center [data-state="postponed"] { --tcc-state-color: #d79825; }
+.tasks-command-center [data-state="blocked"] { --tcc-state-color: #e55f67; }
+.tasks-command-center [data-state="pending"] { --tcc-state-color: #a17ada; }
+.tasks-command-center [data-state="important"] { --tcc-state-color: #db7749; }
+.tasks-command-center [data-state="done"] { --tcc-state-color: #29a978; }
+.tasks-command-center [data-state="cancelled"] { --tcc-state-color: #828282; }
+.tasks-command-center .tcc-state-badge,
+.tasks-command-center .tcc-node-list.tcc-node-tree .tcc-state-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 64px;
+  min-height: 30px;
+  height: auto;
+  margin: 0;
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--tcc-state-color) 60%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--tcc-state-color) 13%, var(--background-primary));
+  color: color-mix(in srgb, var(--tcc-state-color) 85%, var(--text-normal));
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  box-shadow: none;
+}
+.tasks-command-center button.tcc-state-badge:hover {
+  background: color-mix(in srgb, var(--tcc-state-color) 24%, var(--background-primary));
+}
+.tasks-command-center button.tcc-state-badge:focus-visible {
+  outline: 2px solid var(--tcc-state-color);
+  outline-offset: 2px;
+}
+.tasks-command-center .tcc-state-badge[data-state="cancelled"] { text-decoration: line-through; }
+.tasks-command-center .tcc-status-metric { border-left: 3px solid var(--tcc-state-color); }
+.tasks-command-center .tcc-status-metric > strong .tcc-state-badge { font-size: 22px; min-height: 42px; }
+.tasks-command-center .tcc-node-row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin: 5px 0;
+  border: 1px solid var(--tcc-border);
+  border-left: 3px solid var(--tcc-state-color);
+  border-radius: 6px;
+  background: var(--tcc-panel-strong);
+}
+.tasks-command-center .tcc-node-row > strong { min-width: 0; font-size: 14px; overflow-wrap: anywhere; }
+.tasks-command-center .tcc-node-row > input {
+  appearance: auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--tcc-green);
+}
+.tasks-command-center .tcc-node-row[data-state="done"] > strong,
+.tasks-command-center .tcc-node-row[data-state="cancelled"] > strong {
+  color: var(--tcc-muted);
+  text-decoration: line-through;
+}
+.tasks-command-center .tcc-subtask-row[data-state] { align-items: center; }
+.tasks-command-center .tcc-subtask-row[data-state="cancelled"] .tcc-subtask-title { text-decoration: line-through; }
+
+/* Task ownership and completion, shared by dashboard and detail views. */
+.tasks-command-center .tcc-subtasks {
+  min-width: 0;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--tcc-border);
+  cursor: default;
+}
+.tasks-command-center .tcc-subtasks > summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-normal);
+}
+.tasks-command-center .tcc-subtasks > summary > span {
+  margin-left: 8px;
+  color: var(--tcc-muted);
+  font-weight: 400;
+}
+.tasks-command-center .tcc-subtasks ul,
+.tasks-command-center .tcc-node-tree ul {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.tasks-command-center .tcc-subtasks ul ul,
+.tasks-command-center .tcc-node-tree ul ul {
+  margin-left: 9px;
+  padding-left: 14px;
+  border-left: 1px solid var(--tcc-border);
+}
+.tasks-command-center .tcc-subtasks li,
+.tasks-command-center .tcc-node-tree li {
+  margin: 0;
+  padding: 0;
+}
+.tasks-command-center .tcc-subtask-row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 8px;
+  padding: 7px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.tasks-command-center .tcc-subtask-row input {
+  appearance: auto;
+  width: 16px;
+  height: 16px;
+  margin: 3px 0 0;
+  accent-color: var(--tcc-green);
+}
+.tasks-command-center .tcc-subtask-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--text-normal);
+}
+.tasks-command-center .tcc-subtask-state {
+  color: var(--tcc-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.tasks-command-center .tcc-subtask-row.is-done .tcc-subtask-title {
+  color: var(--tcc-muted);
+  text-decoration: line-through;
+}
+.tasks-command-center .tcc-subtask-row.is-done .tcc-subtask-state {
+  color: var(--tcc-green);
+}
+.tasks-command-center .tcc-subtask-error {
+  color: var(--tcc-red);
+  font-size: 12px;
+}
+.tasks-command-center .tcc-node-list.tcc-node-tree button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  height: auto;
+  margin: 4px 0;
+  padding: 10px;
+  text-align: left;
+  white-space: normal;
+}
+.tasks-command-center .tcc-node-list.tcc-node-tree button strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+.tasks-command-center .tcc-maintenance {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--tcc-border);
+}
+.tasks-command-center .tcc-card-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tasks-command-center .tcc-acceptance {
+  flex: 1 1 100px;
+  color: var(--tcc-green);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.tasks-command-center .tcc-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 6px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  box-shadow: none;
+  cursor: pointer;
+}
+.tasks-command-center .tcc-tool-text { flex-basis: auto; width: auto; font-size: 12px; }
+.tasks-command-center .tcc-tool svg { display: block; width: 16px; height: 16px; }
+.tasks-command-center .tcc-next,
+.tasks-command-center .tcc-waiting {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.tasks-command-center .tcc-next span { margin-right: 8px; color: var(--tcc-muted); }
+.tasks-command-center .tcc-waiting { color: var(--tcc-amber); }
+.tasks-command-center .tcc-maintenance-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 14px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tcc-border);
+  font-size: 13px;
+}
+.tasks-command-center .tcc-maintenance-strip > span { color: var(--tcc-muted); }
+.tasks-command-center .tcc-maintenance-reasons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.tasks-command-center .tcc-maintenance-reasons span { color: var(--tcc-amber); font-size: 12px; }
+.tasks-command-center .tcc-task-card.blocked { border-color: var(--tcc-amber); }
+.tcc-editor-dialog {
+  width: min(520px, calc(100% - 24px));
+  max-width: calc(100% - 24px);
+  max-height: calc(100dvh - 32px);
+  padding: 20px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 8px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  overflow: auto;
+}
+.tcc-editor-dialog::backdrop { background: rgb(0 0 0 / 45%); }
+.tcc-editor-dialog form { margin: 0; }
+.tcc-editor-dialog header,
+.tcc-editor-dialog footer { display: flex; align-items: center; gap: 12px; }
+.tcc-editor-dialog header { justify-content: space-between; margin-bottom: 16px; }
+.tcc-editor-dialog header h3 { margin: 0; font-size: 18px; }
+.tcc-editor-dialog header button { padding: 6px; box-shadow: none; }
+.tcc-editor-dialog button {
+  color: var(--text-normal);
+  background: var(--background-secondary);
+  border: 1px solid var(--tcc-border);
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+.tcc-editor-dialog header svg { width: 18px; height: 18px; }
+.tcc-editor-dialog footer { justify-content: flex-end; margin-top: 18px; }
+.tcc-editor-dialog footer button { min-height: 34px; }
+.tcc-editor-dialog footer button[type="submit"] { background: var(--interactive-accent); color: var(--text-on-accent, white); }
+.tcc-editor-dialog .tcc-editor-fields { display: grid; gap: 14px; }
+.tcc-editor-dialog .tcc-editor-field { display: grid; gap: 6px; min-width: 0; font-size: 13px; }
+.tcc-editor-dialog .tcc-editor-field > span { color: var(--text-muted); }
+.tcc-editor-dialog input,
+.tcc-editor-dialog select,
+.tcc-editor-dialog textarea { width: 100%; min-width: 0; padding: 8px; height: auto; box-sizing: border-box; }
+.tcc-editor-dialog textarea { resize: vertical; }
+.tcc-editor-dialog .tcc-editor-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tcc-editor-dialog [data-wait-fields]:not([hidden]) { display: grid; gap: 14px; }
+.tcc-editor-dialog .tcc-editor-error { font-size: 13px; color: var(--tcc-red); }
+.tasks-command-center .tcc-operation-error { font-size: 13px; color: var(--tcc-red); }
+@media (max-width: 420px) {
+  .tcc-editor-dialog .tcc-editor-pair { grid-template-columns: 1fr; }
+}
+
 @property --value {
   syntax: "<number>";
   inherits: true;
@@ -295,7 +580,7 @@
 
 .tasks-command-center .tcc-metrics {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
   margin: 14px 0;
 }

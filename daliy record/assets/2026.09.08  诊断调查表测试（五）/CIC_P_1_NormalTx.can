@@ -1,0 +1,133 @@
+/*@!Encoding:1252*/
+/* CIC_P_1 normal E2E sender for CANoe 12.
+ * Stop the CAN IG sender for ID 0x099 before enabling this node.
+ * Matches this project's CicE2e.c; not an independent protocol reference.
+ */
+
+variables
+{
+  msTimer gCicTxTimer;
+  message 0x099 gCicMessage;
+
+  // User settings. Recompile after editing these initial values.
+  long gCanChannel = 1;
+  long gCycleMs = 10;
+  long gCounterStep = 1;     // 0 = repeat; 1 = normal; valid range 0..255.
+  byte gRollingCounter = 0; // Counter value used in the NEXT frame.
+  byte gBrs = 1;            // DBC CANFD_BRS default = 1.
+
+  // Edit bytes 3..47 for business signals. Defaults match zero-valued signals.
+  // Bytes 0..1 (CRC) and byte 2 (counter) are overwritten on every send.
+  byte gPayload[48] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+  };
+
+  int gTxEnabled = 0;
+  dword gTxCount = 0;
+  byte gLastCounter = 0;
+  word gLastCrc = 0;
+}
+
+word CicCrcByte(word crc, byte value)
+{
+  int bitIndex;
+  crc = crc ^ ((word)value << 8);
+  for (bitIndex = 0; bitIndex < 8; bitIndex++)
+  {
+    if ((crc & 0x8000) != 0)
+    {
+      crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+    }
+    else
+    {
+      crc = (crc << 1) & 0xFFFF;
+    }
+  }
+  return crc;
+}
+
+word CicCalculateCrc(byte data[])
+{
+  word crc;
+  int index;
+  crc = 0xFFFF;
+  for (index = 2; index < 48; index++)
+  {
+    crc = CicCrcByte(crc, data[index]);
+  }
+  // Data ID 0x0099 is appended low byte first, as in ECU CicE2e.c.
+  crc = CicCrcByte(crc, 0x99);
+  crc = CicCrcByte(crc, 0x00);
+  return crc;
+}
+
+void CicStartSending()
+{
+  if (gTxEnabled == 0)
+  {
+    gTxEnabled = 1;
+    setTimer(gCicTxTimer, gCycleMs);
+    write("CIC_P_1 TX started: CAN%d, 10ms default, step=%d. Key x=stop, s=resume.",
+          gCanChannel, gCounterStep);
+  }
+}
+
+on start
+{
+  gTxCount = 0;
+  CicStartSending();
+}
+
+on timer gCicTxTimer
+{
+  int index;
+  if (gTxEnabled == 0)
+  {
+    return;
+  }
+  if ((gCounterStep < 0) || (gCounterStep > 255) || (gCycleMs < 1))
+  {
+    gTxEnabled = 0;
+    write("CIC_P_1 TX stopped: counter step must be 0..255 and cycle must be positive.");
+    return;
+  }
+
+  gPayload[2] = gRollingCounter;
+  gLastCrc = CicCalculateCrc(gPayload);
+  gPayload[0] = (byte)(gLastCrc >> 8);
+  gPayload[1] = (byte)(gLastCrc & 0xFF);
+
+  gCicMessage.CAN = gCanChannel;
+  gCicMessage.FDF = 1;
+  gCicMessage.BRS = gBrs;
+  gCicMessage.DLC = 14; // CAN FD DLC code 14 means 48 DATA BYTES.
+  for (index = 0; index < 48; index++)
+  {
+    gCicMessage.byte(index) = gPayload[index];
+  }
+  output(gCicMessage);
+
+  gLastCounter = gRollingCounter;
+  gTxCount++;
+  gRollingCounter = (byte)((gRollingCounter + gCounterStep) & 0xFF);
+  setTimer(gCicTxTimer, gCycleMs);
+}
+
+on key 'x'
+{
+  gTxEnabled = 0;
+  cancelTimer(gCicTxTimer);
+  write("CIC_P_1 TX stopped. Frames=%d, last counter=%d, last CRC=0x%04X",
+        gTxCount, gLastCounter, gLastCrc);
+}
+
+on key 's'
+{
+  // Resume without resetting the counter.
+  CicStartSending();
+}

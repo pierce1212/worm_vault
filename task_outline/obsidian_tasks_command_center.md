@@ -37,6 +37,35 @@ const sourceFile = dv.current().file.path;
 const sourceFolder = sourceFile.includes("/") ? sourceFile.slice(0, sourceFile.lastIndexOf("/")) : "";
 const localPath = (name) => sourceFolder && !name.startsWith(`${sourceFolder}/`) ? `${sourceFolder}/${name}` : name;
 const taskSourcePaths = CONFIG.taskSourceFiles.map(localPath);
+const coreModule = { exports: {} };
+new Function("module", await app.vault.adapter.read(localPath("tasks-core.js")))(coreModule);
+const taskCore = coreModule.exports.create({
+  app, paths: taskSourcePaths, folder: sourceFolder, DateTime,
+  setIcon: typeof require === "function" ? require("obsidian").setIcon : null
+});
+await taskCore.initialize();
+const recordModule = { exports: {} };
+new Function("module", await app.vault.adapter.read(localPath("task-records.js")))(recordModule);
+const yamlApi = typeof require === "function" ? require("obsidian") : {};
+const taskRecords = recordModule.exports.create({
+  app, core: taskCore, DateTime, parseYaml: yamlApi.parseYaml, stringifyYaml: yamlApi.stringifyYaml,
+  titleOf: coreModule.exports.title, folder: "daliy record"
+});
+function reportRecordSync(errors) {
+  let message = dv.container.querySelector(".tcc-record-sync-error");
+  if (!message && errors.length) {
+    message = document.createElement("p");
+    message.className = "tcc-record-sync-error";
+    message.setAttribute("role", "alert");
+    dv.container.appendChild(message);
+  }
+  if (message) { message.hidden = !errors.length; message.textContent = errors.join("；"); }
+}
+reportRecordSync(await taskRecords.syncAll());
+taskRecords.watch(taskSourcePaths, sourceFolder, reportRecordSync);
+const sharedStyle = document.createElement("style");
+sharedStyle.textContent = await taskCore.syncStyles();
+dv.container.appendChild(sharedStyle);
 const detailPath = localPath(CONFIG.detailFile);
 const reviewPath = localPath(CONFIG.reviewFile);
 const dailyNoteFolder = localPath(CONFIG.dailyNoteFolder);
@@ -172,14 +201,7 @@ function statusChar(task) {
 }
 
 function statusText(task) {
-  const s = statusChar(task);
-  if (task.completed) return "完成";
-  if (s === "/") return "进行中";
-  if (s === "-") return "取消";
-  if (s === ">") return "延期";
-  if (s === "?") return "待确认";
-  if (s === "!") return "重要";
-  return "待办";
+  return taskCore.state(task).label;
 }
 
 function priority(task) {
@@ -213,6 +235,7 @@ function taskVisualStatus(task) {
   const s = statusChar(task);
   if (task.completed) return "done";
   if (s === ">") return "postponed";
+  if (taskCore.isBlocked(task)) return "blocked";
   if (isOverdue(task)) return "overdue";
   if (s === "/") return "doing";
   return "todo";
@@ -232,7 +255,7 @@ function isActiveInWeek(task) {
 }
 
 function cleanText(text, removeTags = true) {
-  let output = String(text ?? "")
+  let output = taskCore.stripMeta(text)
     .replace(/[🔺⏫🔼🔽⏬]\s*/gu, "")
     .replace(/(?:📅|⏳|🛫|➕|✅|❌)\s*\d{4}-\d{2}-\d{2}/gu, "")
     .replace(/🔁\s*[^#\[]+/gu, "")
@@ -251,15 +274,7 @@ function cleanText(text, removeTags = true) {
 }
 
 function childTasks(task) {
-  const output = [];
-  function walk(items) {
-    for (const item of arr(items)) {
-      if (item.task) output.push(item);
-      walk(item.children);
-    }
-  }
-  walk(task.children);
-  return output;
+  return taskCore.children(task);
 }
 
 function childListItems(task) {
@@ -349,14 +364,7 @@ function reviewStatus(task) {
 }
 
 function completionProgress(task) {
-  const kids = childTasks(task);
-  if (kids.length > 0) {
-    const done = kids.filter(child => child.completed).length;
-    return { percent: Math.round(done / kids.length * 100), detail: `${done}/${kids.length}`, mode: "子任务" };
-  }
-  if (task.completed) return { percent: 100, detail: "1/1", mode: "完成" };
-  if (statusChar(task) === "/") return { percent: 0, detail: "进行中", mode: "状态" };
-  return { percent: 0, detail: "0/1", mode: "任务" };
+  return taskCore.completion(task);
 }
 
 function timeProgress(task) {
@@ -413,7 +421,7 @@ function sourcePath(task) {
 }
 
 function taskId(task) {
-  return `${sourcePath(task)}:${task.line ?? ""}:${cleanText(task.text)}`;
+  return taskCore.identity(task);
 }
 
 function openPath(path) {
@@ -432,8 +440,12 @@ const sourcePages = dv.pages()
   .where(page => taskSourcePaths.includes(page.file.path));
 const allPages = dv.pages().array();
 const taskPages = sourcePages.array();
-const tasks = sourcePages.file.tasks.where(task => task.task).array();
-const taskTagUniverse = [...new Set(tasks.flatMap(task => taskTags(task)))];
+const allTasks = sourcePages.file.tasks.where(task => task.task).array();
+// Dataview file.tasks is flat; only root tasks belong in dashboard queues.
+const nestedTaskKeys = new Set(allTasks.flatMap(task => childTasks(task)
+  .map(child => `${child.path ?? sourcePath(task)}:${child.line}`)));
+const tasks = allTasks.filter(task => !nestedTaskKeys.has(`${sourcePath(task)}:${task.line}`));
+const taskTagUniverse = [...new Set(allTasks.flatMap(task => taskTags(task)))];
 const sectionByPath = new Map();
 
 for (const page of taskPages) {
@@ -463,7 +475,8 @@ const open = tasks.filter(isOpen);
 const done = tasks.filter(task => task.completed);
 const overdue = open.filter(isOverdue);
 const postponed = open.filter(isPostponed);
-const activeOpen = open.filter(task => !isPostponed(task));
+const blocked = open.filter(task => taskCore.isBlocked(task));
+const activeOpen = open.filter(task => !isPostponed(task) && !taskCore.isBlocked(task));
 const dueToday = activeOpen.filter(task => sameDay(dueDay(task), today) || sameDay(scheduledDay(task), today));
 const dueThisWeek = tasks.filter(task => !isPostponed(task) && inRange(relevantDay(task), weekStart, weekEnd));
 const doneThisWeek = done.filter(task => inRange(completedDay(task), weekStart, weekEnd));
@@ -548,7 +561,10 @@ function normalizeMatchText(value) {
 
 function pageMatchesTask(page, task) {
   const taskName = cleanText(task.text);
-  const keys = [taskName].map(normalizeMatchText).filter(Boolean);
+  const keys = taskCore.aliases(task).map(normalizeMatchText).filter(Boolean);
+  const idValue = page.related_task_id ?? page.relatedTaskId;
+  const relatedIds = (typeof idValue === "string" ? [idValue] : arr(idValue)).map(String);
+  if (relatedIds.includes(taskId(task))) return true;
   const related = pageRelatedTasks(page).map(normalizeMatchText).filter(Boolean);
   return related.some(item => keys.some(key => item === key));
 }
@@ -556,7 +572,7 @@ function pageMatchesTask(page, task) {
 function textMatchesTask(text, task) {
   const raw = String(text ?? "");
   const taskName = cleanText(task.text);
-  return raw.includes(taskName) || taskTags(task).some(tag => raw.includes(tag));
+  return taskCore.aliases(task).some(name => name && raw.includes(name)) || taskTags(task).some(tag => raw.includes(tag));
 }
 
 function pageTimelineDate(page, task) {
@@ -580,6 +596,7 @@ function progressFromText(text) {
 }
 
 function pageProgress(page, task) {
+  if (page.tcc_record_version === 1) return progressValue(page.progress);
   const frontmatter = progressValue(page.progress ?? page["进度"] ?? page["完成度"] ?? page.percent ?? page["百分比"]);
   if (frontmatter !== null) return frontmatter;
 
@@ -614,6 +631,7 @@ function latestRecordedProgress(task) {
 }
 
 function displayedProgress(task) {
+  if (childTasks(task).length) return completionProgress(task);
   const timelineRecord = timelineProgressRecords(task).at(-1);
   if (timelineRecord) {
     return { percent: timelineRecord.progress, detail: timelineRecord.detail || "时间轴记录", mode: "时间轴" };
@@ -740,6 +758,8 @@ function completedTaskCard(task) {
       </div>
       <p>${esc(taskMeta(task))}</p>
       ${bar(pg.percent, `${pg.mode} ${pg.detail}`)}
+      ${subtaskTreeHtml(task)}
+      ${taskCore.controls(task)}
       <div class="tcc-review-mini">
         <span>${reviewLabel}</span>
         <em>${reviewHint}</em>
@@ -827,6 +847,32 @@ function taskTrailHtml(task) {
   `;
 }
 
+function subtaskTreeHtml(task) {
+  const children = childTasks(task);
+  if (!children.length) return "";
+  const renderItems = items => arr(items).map(item => {
+    const nested = renderItems(item.children);
+    if (!item.task) return nested;
+    return `<li>
+      <div class="tcc-subtask-row ${item.completed ? "is-done" : ""}" data-state="${taskCore.state(item).key}">
+        <input type="checkbox" data-subtask-id="${esc(taskId(item))}" ${item.completed ? "checked" : ""} aria-label="完成子任务：${esc(cleanText(item.text))}">
+        <span class="tcc-subtask-title">${esc(cleanText(item.text))}</span>
+        ${taskCore.statusBadge(item, true)}
+      </div>
+      ${nested ? `<ul>${nested}</ul>` : ""}
+    </li>`;
+  }).join("");
+  return `<details class="tcc-subtasks" open>
+    <summary>子任务 <span>已完成 ${children.filter(child => child.completed).length}/${children.length}</span></summary>
+    <ul>${renderItems(task.children)}</ul>
+    <p class="tcc-subtask-error" role="alert" hidden></p>
+  </details>`;
+}
+
+async function setSubtaskCompleted(task, completed) {
+  return taskCore.save(task, { status: completed ? "x" : " " });
+}
+
 function taskCard(task, index) {
   const pg = displayedProgress(task);
   const p = priority(task);
@@ -835,7 +881,7 @@ function taskCard(task, index) {
     <article class="tcc-task-card ${status}" data-detail-task="${esc(taskId(task))}">
       <div class="tcc-task-head">
         <span class="tcc-rank">${index}</span>
-        <span class="tcc-status ${status}">${statusText(task)}</span>
+        ${taskCore.statusBadge(task, true)}
         <span class="tcc-priority ${p.cls}">${p.label}</span>
       </div>
       <h3>${esc(cleanText(task.text))}</h3>
@@ -844,6 +890,8 @@ function taskCard(task, index) {
       <button class="tcc-progress-trigger" data-task-id="${esc(taskId(task))}" type="button">
         ${bar(pg.percent, `${pg.mode} ${pg.detail}`)}
       </button>
+      ${subtaskTreeHtml(task)}
+      ${taskCore.controls(task)}
     </article>
   `;
 }
@@ -976,7 +1024,9 @@ function longTermCard(task) {
         <strong>${esc(cleanText(task.text))}</strong>
       </div>
       <div class="tcc-task-tags">${tagsHtml(task)}</div>
-      ${bar(doneProgress.percent, `完成 ${doneProgress.detail}`)}
+      ${bar(doneProgress.percent, `${doneProgress.mode} ${doneProgress.detail}`)}
+      ${subtaskTreeHtml(task)}
+      ${taskCore.controls(task)}
       ${runway ? bar(runway.percent, runway.detail) : `<p class="tcc-muted">没有开始/截止日期，无法计算时间进度</p>`}
       <em>${esc(taskMeta(task))}</em>
     </article>
@@ -999,6 +1049,8 @@ const metricFilters = {
   week: openThisWeek.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   overdue: overdue.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   postponed: postponed.slice().sort((a, b) => focusScore(b) - focusScore(a)),
+  blocked,
+  maintenance: open.filter(task => taskCore.reasons(task).length),
   done: doneThisWeek.slice().sort((a, b) => (completedDay(b)?.toMillis() ?? 0) - (completedDay(a)?.toMillis() ?? 0)),
   longterm: longTerm.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   review: dueReviewItems.map(item => item.task)
@@ -1008,6 +1060,8 @@ const metricFilterLabels = {
   week: "本周任务",
   overdue: "逾期任务",
   postponed: "延期任务",
+  blocked: "阻塞任务",
+  maintenance: "每周整理",
   done: "本周已完成",
   longterm: "长期任务",
   review: "待复习任务"
@@ -1053,8 +1107,14 @@ const root = mount(`
       ${metricCard("本周任务", String(openThisWeek.length), "Focus Queue", "", "week")}
       ${metricCard("逾期", String(overdue.length), "需要优先处理", "danger", "overdue")}
       ${metricCard("延期", String(postponed.length), "等待重新启动", "postponed", "postponed")}
+      ${metricCard("阻塞", String(blocked.length), "等待条件解除", "postponed", "blocked")}
       ${metricCard("本周完成", String(doneThisWeek.length), "完成记录", "success", "done")}
       ${metricCard("长期任务", String(activeLongTerm.length), "单独跟踪", "", "longterm")}
+    </section>
+
+    <section class="tcc-maintenance-strip">
+      <button type="button" data-filter="maintenance">每周整理 <strong>${metricFilters.maintenance.length}</strong></button>
+      <span>待验收 ${open.filter(task => taskCore.ready(task)).length} · 到期检查 ${open.filter(task => taskCore.reasons(task).includes("到期检查")).length}</span>
     </section>
 
     <section class="tcc-section tcc-filter-section" data-filter-panel hidden>
@@ -1168,6 +1228,26 @@ const root = mount(`
 `);
 
 function bindInteractions(root) {
+  taskCore.bind(root, allTasks);
+  root.addEventListener("change", async event => {
+    const input = event.target.closest("[data-subtask-id]");
+    if (!input) return;
+    const task = allTasks.find(item => taskId(item) === input.dataset.subtaskId);
+    if (!task) return;
+    const errorNode = input.closest(".tcc-subtasks").querySelector(".tcc-subtask-error");
+    input.disabled = true;
+    errorNode.hidden = true;
+    try {
+      await setSubtaskCompleted(task, input.checked);
+      await taskCore.refresh();
+    } catch (error) {
+      input.checked = task.completed;
+      errorNode.textContent = error.message;
+      errorNode.hidden = false;
+    } finally {
+      input.disabled = false;
+    }
+  });
   const filterPanel = root.querySelector("[data-filter-panel]");
   const filterTitle = root.querySelector("[data-filter-title]");
   const filterSubtitle = root.querySelector("[data-filter-subtitle]");
@@ -1178,6 +1258,7 @@ function bindInteractions(root) {
       if (element.dataset.boundDetail === "1") return;
       element.dataset.boundDetail = "1";
       element.addEventListener("click", event => {
+        if (event.target.closest(".tcc-subtasks, .tcc-maintenance, [data-task-action]")) return;
         const taskId = element.dataset.detailTask;
         if (!taskId) return;
         window.localStorage.setItem("tcc:selectedTaskId", taskId);
@@ -1200,10 +1281,14 @@ function bindInteractions(root) {
       filterSubtitle.textContent = `${list.length} 个任务，点击任务卡进入详情`;
       filterGrid.innerHTML = key === "review"
         ? (dueReviewItems.length ? dueReviewItems.map(reviewCard).join("") : `<p class="tcc-empty">当前没有待复习任务。</p>`)
-        : (list.length ? list.map((task, index) => task.completed ? completedTaskCard(task) : taskCard(task, index + 1)).join("") : `<p class="tcc-empty">当前分类没有任务。</p>`);
+        : (list.length ? list.map((task, index) => {
+          const markup = task.completed ? completedTaskCard(task) : taskCard(task, index + 1);
+          return key === "maintenance" ? markup.replace('<div class="tcc-task-head">', '<div class="tcc-maintenance-reasons">' + taskCore.reasons(task).map(reason => `<span>${esc(reason)}</span>`).join("") + '</div><div class="tcc-task-head">') : markup;
+        }).join("") : `<p class="tcc-empty">当前分类没有任务。</p>`);
       filterPanel.hidden = false;
       root.querySelectorAll("[data-filter]").forEach(item => item.classList.toggle("active", item === card));
       bindTaskLinks(filterGrid);
+      taskCore.icons(filterGrid);
       filterPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });

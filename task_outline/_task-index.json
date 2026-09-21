@@ -1,0 +1,733 @@
+{
+  "version": 1,
+  "tasks": {
+    "tcc-07869d62-962f-4bb9-8f6a-3412c608ad76": {
+      "path": "task_outline/工作任务.md",
+      "title": "SPI",
+      "aliases": [
+        "SPI"
+      ],
+      "hash": "d258b64c",
+      "updated": "2026-09-18 10:58"
+    },
+    "tcc-2c825dfe-0599-490f-a4e4-4d4bf74a6a3f": {
+      "path": "task_outline/工作任务.md",
+      "title": "三腔阀故障诊断",
+      "aliases": [
+        "三腔阀故障诊断"
+      ],
+      "hash": "691e7985",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-62512af2-43a3-4a0f-ba38-96f9917d2093": {
+      "path": "task_outline/工作任务.md",
+      "title": "CAN驱动",
+      "aliases": [
+        "CAN驱动"
+      ],
+      "hash": "8ccbe9d5",
+      "updated": "2026-09-18 10:59"
+    },
+    "tcc-88260899-391c-4a4b-860a-0e1f462a9f51": {
+      "path": "task_outline/工作任务.md",
+      "title": "功能安全流程梳理",
+      "aliases": [
+        "功能安全流程梳理"
+      ],
+      "hash": "1b4baf89",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-9a8acf6b-0cb5-4cd6-aad3-83657fa493b9": {
+      "path": "task_outline/工作任务.md",
+      "title": "wechat公众号文章梳理",
+      "aliases": [
+        "wechat公众号文章梳理"
+      ],
+      "hash": "415f7515",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-027c4b35-ff72-4303-b701-ae55e4fb5e8c": {
+      "path": "task_outline/工作任务.md",
+      "title": "RTC开发",
+      "aliases": [
+        "RTC开发"
+      ],
+      "hash": "6074e0c6",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-dcd50c8b-f4fa-4d23-b3c3-8cbb8954e820": {
+      "path": "task_outline/工作任务.md",
+      "title": "存储栈",
+      "aliases": [
+        "存储栈"
+      ],
+      "hash": "d4970e3b",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-48c780b7-8e44-4137-8ad3-f74556bcde04": {
+      "path": "task_outline/工作任务.md",
+      "title": "NOTION移植",
+      "aliases": [
+        "NOTION移植"
+      ],
+      "hash": "aec063f9",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-bced395f-a4fc-481b-b54a-5bf3c4724d86": {
+      "path": "task_outline/工作任务.md",
+      "title": "CPULOAD & STACK LOAD",
+      "aliases": [
+        "CPULOAD & STACK LOAD"
+      ],
+      "hash": "eaa0dd36",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-a2dc2b82-fab0-4f5a-bb0f-bddba5fb918b": {
+      "path": "task_outline/工作任务.md",
+      "title": "CAN 休眠唤醒",
+      "aliases": [
+        "CAN 休眠唤醒"
+      ],
+      "hash": "260689ea",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-960cbcfe-8657-4a8e-95ec-6c19b6c5c0c5": {
+      "path": "task_outline/工作任务.md",
+      "title": "AUTOSAR 模块",
+      "aliases": [
+        "AUTOSAR 模块"
+      ],
+      "hash": "8b9b9f20",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-48e55dd6-8a87-4f3c-9591-362c978692a5": {
+      "path": "task_outline/工作任务.md",
+      "title": "基于嵌入式软件开发的 MCP 开发验证",
+      "aliases": [
+        "基于嵌入式软件开发的 MCP 开发验证"
+      ],
+      "hash": "6199f4e6",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-6218e0b9-526d-482b-a183-401ac534dc14": {
+      "path": "task_outline/工作任务.md",
+      "title": "S32K324 上电流程",
+      "aliases": [
+        "S32K324 上电流程"
+      ],
+      "hash": "7ea735d4",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-95d87ed7-0b2d-4ea9-8c48-7b7322ab834f": {
+      "path": "task_outline/工作任务.md",
+      "title": "DMA",
+      "aliases": [
+        "DMA"
+      ],
+      "hash": "a84d0446",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-3c93cc03-3be6-4980-9859-23510478cb9f": {
+      "path": "task_outline/工作任务.md",
+      "title": "XCP",
+      "aliases": [
+        "XCP"
+      ],
+      "hash": "2611d0c4",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-4f46aa7e-db7d-4f41-a100-b769edfdd1ee": {
+      "path": "task_outline/工作任务.md",
+      "title": "奇瑞硬件原理图解析",
+      "aliases": [
+        "奇瑞硬件原理图解析"
+      ],
+      "hash": "63f90b35",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-7ac9b998-25c5-4dd6-aadd-c80c44114193": {
+      "path": "task_outline/工作任务.md",
+      "title": "FUSA & ASPICE 体系建设",
+      "aliases": [
+        "FUSA & ASPICE 体系建设"
+      ],
+      "hash": "afa60d55",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-5d949ecf-87f4-4928-ba9c-4b5a75c4ed11": {
+      "path": "task_outline/工作任务.md",
+      "title": "文档外包-外包准备材料",
+      "aliases": [
+        "文档外包-外包准备材料"
+      ],
+      "hash": "b6d3c9c0",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-022104fb-3172-4978-a47c-02317d56de5f": {
+      "path": "task_outline/工作任务.md",
+      "title": "奇瑞休眠唤醒新需求",
+      "aliases": [
+        "奇瑞休眠唤醒新需求"
+      ],
+      "hash": "ce806261",
+      "updated": "2026-09-18 10:59"
+    },
+    "tcc-2ca36e92-b5f6-4319-a726-a1c28bb70cc0": {
+      "path": "task_outline/工作任务.md",
+      "title": "高度传感器开发",
+      "aliases": [
+        "高度传感器开发"
+      ],
+      "hash": "9e11b417",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-b9019b96-79f1-4b25-b8ed-6942c3bec44f": {
+      "path": "task_outline/工作任务.md",
+      "title": "信息安全开发",
+      "aliases": [
+        "信息安全开发"
+      ],
+      "hash": "bb5016e1",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-ab23d0c0-55f6-4f33-aedb-5264166e8325": {
+      "path": "task_outline/工作任务.md",
+      "title": "诊断调查表内容开发",
+      "aliases": [
+        "诊断调查表内容开发"
+      ],
+      "hash": "d1a0bae4",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-d5e09f00-8134-4a89-8af7-bd57a02b63bb": {
+      "path": "task_outline/工作任务.md",
+      "title": "BE 13 看门狗测试",
+      "aliases": [
+        "BE 13 看门狗测试"
+      ],
+      "hash": "ed915000",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-8e533597-4ec2-432f-a117-cd854e1d0f21": {
+      "path": "task_outline/工作任务.md",
+      "title": "CAN 对标 拓普需求更新",
+      "aliases": [
+        "CAN 对标 拓普需求更新"
+      ],
+      "hash": "e75b9cbf",
+      "updated": "2026-09-21 14:46"
+    },
+    "tcc-6201f586-5668-4e49-8668-33280687adcf": {
+      "path": "task_outline/工作任务.md",
+      "title": "只保留 CAN 唤醒，禁用 KL15唤醒",
+      "aliases": [
+        "只保留 CAN 唤醒，禁用 CAN 唤醒",
+        "只保留 CAN 唤醒，禁用 KL15唤醒"
+      ],
+      "hash": "10fe2ca9",
+      "updated": "2026-09-21 14:46"
+    },
+    "tcc-dca2c805-1e7f-4e9f-8133-c21e6ad73915": {
+      "path": "task_outline/工作任务.md",
+      "title": "软件功能安全开发",
+      "aliases": [
+        "软件功能安全开发"
+      ],
+      "hash": "1463c5e1",
+      "updated": "2026-09-18 10:58"
+    },
+    "tcc-f5666f24-2faf-47df-9446-0e9f2b1b5f94": {
+      "path": "task_outline/工作任务.md",
+      "title": "软件架构设计",
+      "aliases": [
+        "软件架构设计"
+      ],
+      "hash": "798ca11d",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-ef58381f-6b85-4fbf-aacd-7f30c2140e81": {
+      "path": "task_outline/工作任务.md",
+      "title": "picture.yairouter.com codex怎么配image2",
+      "aliases": [
+        "picture.yairouter.com codex怎么配image2"
+      ],
+      "hash": "8fc7bd",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-73ae575f-e710-4e70-9ef6-5793cf17c848": {
+      "path": "task_outline/工作任务.md",
+      "title": "harness 的使用",
+      "aliases": [
+        "harness 的使用"
+      ],
+      "hash": "90051a78",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-2e230dfb-85a0-41e4-b692-8c2c2a5512ee": {
+      "path": "task_outline/工作任务.md",
+      "title": "UDS 故障排查",
+      "aliases": [
+        "UDS 故障排查"
+      ],
+      "hash": "18987128",
+      "updated": "2026-09-18 10:58"
+    },
+    "tcc-58bb16e4-e19d-41e1-af9a-be2f8d9c454e": {
+      "path": "task_outline/工作任务.md",
+      "title": "Rust 构建 RT-OS 教程（wechat 上有）",
+      "aliases": [
+        "Rust 构建 RT-OS 教程（wechat 上有）"
+      ],
+      "hash": "527eea01",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-874f1864-5fdc-4724-85be-519289e458f4": {
+      "path": "task_outline/工作任务.md",
+      "title": "DID DTC 配置",
+      "aliases": [
+        "DID DTC 配置"
+      ],
+      "hash": "eb8453e4",
+      "updated": "2026-09-18 10:58"
+    },
+    "tcc-2c43d4a2-027e-4466-9710-e2eb303b2872": {
+      "path": "task_outline/工作任务.md",
+      "title": "软件需求开发",
+      "aliases": [
+        "软件需求开发"
+      ],
+      "hash": "550f49b9",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-82fdbf26-23ce-4a2a-bd55-e54c8cd15ef2": {
+      "path": "task_outline/工作任务.md",
+      "title": "zephyr 开发教程",
+      "aliases": [
+        "zephyr 开发教程"
+      ],
+      "hash": "683513a0",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-121b6551-3b50-42d6-8c8b-4d9a1497a2e3": {
+      "path": "task_outline/工作任务.md",
+      "title": "研究一款 AI 本地大模型 GLM 5.3",
+      "aliases": [
+        "研究一款 AI 本地大模型 GLM 5.3"
+      ],
+      "hash": "e3423a34",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-9ec594a5-16a5-4187-aad8-9b0fd9d5987d": {
+      "path": "task_outline/工作任务.md",
+      "title": "linux",
+      "aliases": [
+        "linux"
+      ],
+      "hash": "f88d8da3",
+      "updated": "2026-09-16 16:56"
+    },
+    "": {
+      "path": "task_outline/工作任务.md",
+      "title": "",
+      "aliases": [],
+      "hash": "fbe3c06",
+      "updated": "2026-09-21 14:48"
+    },
+    "tcc-f25f9464-6782-48b8-b775-c19ed1a9a233": {
+      "path": "task_outline/工作任务.md",
+      "title": "示例：长期学习计划",
+      "aliases": [
+        "示例：长期学习计划"
+      ],
+      "hash": "c48ba39d",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-eb6de382-ff17-4792-a937-6056b3ff1f88": {
+      "path": "task_outline/工作任务.md",
+      "title": "ROS ROS2",
+      "aliases": [
+        "ROS ROS2"
+      ],
+      "hash": "7405a21a",
+      "updated": "2026-09-21 11:11"
+    },
+    "tcc-271bc160-c229-4ed0-8a93-9e8c507a4d2e": {
+      "path": "task_outline/工作任务.md",
+      "title": "关节电机驱动开发",
+      "aliases": [
+        "关节电机驱动开发"
+      ],
+      "hash": "dc13331a",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-7c5c867e-1374-41c8-8a06-acfa3913f9b2": {
+      "path": "task_outline/工作任务.md",
+      "title": "电机基础 demo 开发",
+      "aliases": [
+        "电机基础 demo 开发"
+      ],
+      "hash": "b9acc485",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-c170b8d8-21ff-42ba-b215-e72350878b77": {
+      "path": "task_outline/工作任务.md",
+      "title": "灵巧手项目",
+      "aliases": [
+        "灵巧手项目"
+      ],
+      "hash": "200b5ca1",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-28dd265d-19c4-4bd4-a168-3a0aa232b3a4": {
+      "path": "task_outline/工作任务.md",
+      "title": "金融总结计划",
+      "aliases": [
+        "金融总结计划"
+      ],
+      "hash": "f179c03f",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-33e497d4-b472-4553-aa86-c8feeab7e45f": {
+      "path": "task_outline/工作任务.md",
+      "title": "摄影",
+      "aliases": [
+        "摄影"
+      ],
+      "hash": "f7f20f79",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-01404688-0b25-466d-bf05-37826726d6dd": {
+      "path": "task_outline/工作任务.md",
+      "title": "张飞电子",
+      "aliases": [
+        "张飞电子"
+      ],
+      "hash": "f2802eec",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-b05aaf37-b4f7-41ae-8837-c26691ec1eb4": {
+      "path": "task_outline/工作任务.md",
+      "title": "日语",
+      "aliases": [
+        "日语"
+      ],
+      "hash": "2ea22e28",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-8e967378-2b0c-44fe-807e-16a79a733853": {
+      "path": "task_outline/工作任务.md",
+      "title": "功能安全开发",
+      "aliases": [
+        "功能安全开发"
+      ],
+      "hash": "c2abf232",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-45fda985-dab8-4e6a-a935-a5de311681ee": {
+      "path": "task_outline/工作任务.md",
+      "title": "Ethercat canopen",
+      "aliases": [
+        "Ethercat canopen"
+      ],
+      "hash": "5679a93b",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-e5fc3229-be8c-4318-88e7-893e4bcab1d6": {
+      "path": "task_outline/工作任务.md",
+      "title": "UDS协议",
+      "aliases": [
+        "UDS协议"
+      ],
+      "hash": "56343904",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-6813a900-e496-493c-a24a-e63b40b67c5c": {
+      "path": "task_outline/工作任务.md",
+      "title": "人工智能深度学习",
+      "aliases": [
+        "人工智能深度学习"
+      ],
+      "hash": "910b0fac",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-f6e21741-4b71-47d0-afc6-8fa84b23c1f2": {
+      "path": "task_outline/工作任务.md",
+      "title": "英语学习",
+      "aliases": [
+        "英语学习"
+      ],
+      "hash": "cf037f2b",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-ac100cca-134f-485e-9b6b-6392186ac4ea": {
+      "path": "task_outline/工作任务.md",
+      "title": "往期语法--时态语态回顾",
+      "aliases": [
+        "往期语法--时态语态回顾"
+      ],
+      "hash": "bc003e1b",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-6cc87e10-ad89-4fc5-b955-6859c24d2df5": {
+      "path": "task_outline/工作任务.md",
+      "title": "机器狗 demo 开发",
+      "aliases": [
+        "机器狗 demo 开发"
+      ],
+      "hash": "f19cfa6a",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-9058fc5b-14b1-40a4-88e2-b106dbc8afe9": {
+      "path": "task_outline/工作任务.md",
+      "title": "空心杯开发",
+      "aliases": [
+        "空心杯开发"
+      ],
+      "hash": "e3fc6c11",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-f2a71a38-78e3-4fd0-afb8-b5daa8ba2e53": {
+      "path": "task_outline/工作任务.md",
+      "title": "AI电影制作 （夸克） 2026",
+      "aliases": [
+        "AI电影制作 （夸克） 2026"
+      ],
+      "hash": "f2f7ab5",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-d85b3c3c-5f3e-4d5c-9058-dc9474129def": {
+      "path": "task_outline/工作任务.md",
+      "title": "新婚致辞--三十岁总结",
+      "aliases": [
+        "新婚致辞--三十岁总结"
+      ],
+      "hash": "56b8df74",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-fe7835cc-9da8-40f0-bd31-5532dafa7c9b": {
+      "path": "task_outline/工作任务.md",
+      "title": "LLM 架构师行业了解",
+      "aliases": [
+        "LLM 架构师行业了解"
+      ],
+      "hash": "ff17f681",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-f660729a-0efe-41e2-89b8-1248fecdc750": {
+      "path": "task_outline/工作任务.md",
+      "title": "HF开源机器鸭Microduck",
+      "aliases": [
+        "HF开源机器鸭Microduck"
+      ],
+      "hash": "72d5d037",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-f83be2b5-c539-4f58-953d-23b685fc433f": {
+      "path": "task_outline/工作任务.md",
+      "title": "美股雷达",
+      "aliases": [
+        "美股雷达"
+      ],
+      "hash": "35c0a418",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-c192e835-3b55-4a16-b0fa-6d4968e7ec60": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-20a1a280-36f3-4e15-9c32-7a81fa312c75",
+      "aliases": [
+        "^tcc-20a1a280-36f3-4e15-9c32-7a81fa312c75"
+      ],
+      "hash": "4faf4793",
+      "updated": "2026-09-16 16:56"
+    },
+    "tcc-7e0f66aa-33a6-4857-974f-a7c0ca0abae3": {
+      "path": "task_outline/工作任务.md",
+      "title": "NM 模式跳转时间匹配",
+      "aliases": [
+        "NM 模式跳转时间匹配"
+      ],
+      "hash": "c02c129a",
+      "updated": "2026-09-17 15:16"
+    },
+    "tcc-7188a6da-2c5a-4e07-bf90-d762c7a79a43": {
+      "path": "task_outline/工作任务.md",
+      "title": "网管报文 ID 范围定义 0 x 600~0 x 67 F",
+      "aliases": [
+        "网管报文 ID 范围定义 0 x 600~0 x 67 F"
+      ],
+      "hash": "eddc2d44",
+      "updated": "2026-09-17 15:16"
+    },
+    "tcc-477869d5-617a-4cd2-9953-85bf410ab979": {
+      "path": "task_outline/工作任务.md",
+      "title": "标定 CAN 不能唤醒",
+      "aliases": [
+        "标定 CAN 不能唤醒"
+      ],
+      "hash": "77799cab",
+      "updated": "2026-09-17 15:16"
+    },
+    "tcc-30b3ba5e-e315-4f22-bf2c-f77b615f1b39": {
+      "path": "task_outline/工作任务.md",
+      "title": "首次上电，应该保持休眠",
+      "aliases": [
+        "首次上电，应该保持休眠"
+      ],
+      "hash": "8452bf6",
+      "updated": "2026-09-17 15:17"
+    },
+    "tcc-34dbd7dd-c5ae-44c9-b5e5-3b8c40488b54": {
+      "path": "task_outline/工作任务.md",
+      "title": "CAN唤醒--单线可唤醒",
+      "aliases": [
+        "CAN唤醒--单线可唤醒"
+      ],
+      "hash": "cf4532e4",
+      "updated": "2026-09-17 15:17"
+    },
+    "tcc-9cebe9fb-8953-4e56-9d05-1135fb9e0d62": {
+      "path": "task_outline/工作任务.md",
+      "title": "奇瑞 NM 新需求",
+      "aliases": [
+        "奇瑞 NM 新需求"
+      ],
+      "hash": "a6b9fe7e",
+      "updated": "2026-09-18 10:34"
+    },
+    "tcc-a6a58325-54bd-4fc5-a350-1ec40a22d222": {
+      "path": "task_outline/工作任务.md",
+      "title": "今天晚些时候需要重新梳理一下，NM休眠唤醒的流程",
+      "aliases": [
+        "今天晚些时候需要重新梳理一下，NM休眠唤醒的流程"
+      ],
+      "hash": "7e31cff3",
+      "updated": "2026-09-18 10:34"
+    },
+    "tcc-5f79c9c1-dd83-4790-8eab-4347f9379817": {
+      "path": "task_outline/工作任务.md",
+      "title": "BE 13 驱动故障诊断",
+      "aliases": [
+        "BE 13 驱动故障诊断"
+      ],
+      "hash": "1d9b7fd4",
+      "updated": "2026-09-21 11:15"
+    },
+    "tcc-3b822b2b-cdbf-4b4e-9aff-91221c82e1a4": {
+      "path": "task_outline/工作任务.md",
+      "title": "电机驱动芯片故障",
+      "aliases": [
+        "电机驱动芯片故障"
+      ],
+      "hash": "1fd7ca6a",
+      "updated": "2026-09-21 11:11"
+    },
+    "tcc-b01cfa37-9be0-48d9-be49-2b78eccbc1d7": {
+      "path": "task_outline/工作任务.md",
+      "title": "电磁阀开路故障",
+      "aliases": [
+        "电磁阀开路故障"
+      ],
+      "hash": "e1431f6a",
+      "updated": "2026-09-21 11:12"
+    },
+    "tcc-dadac715-588e-4a89-b62c-ef873f6b7421": {
+      "path": "task_outline/工作任务.md",
+      "title": "电磁阀底边驱动MOS短路故障",
+      "aliases": [
+        "电磁阀底边驱动MOS短路故障"
+      ],
+      "hash": "1b48cc5d",
+      "updated": "2026-09-21 11:15"
+    },
+    "tcc-c5ed5f9a-1c25-4897-b33a-78267a8779eb": {
+      "path": "task_outline/工作任务.md",
+      "title": "功能安全培训 ^tcc-2811fef7-08e3-48dd-b370-99ee5d09d1c5",
+      "aliases": [
+        "^tcc-2811fef7-08e3-48dd-b370-99ee5d09d1c5",
+        "gong'n ^tcc-2811fef7-08e3-48dd-b370-99ee5d09d1c5",
+        "功能安全培训 ^tcc-2811fef7-08e3-48dd-b370-99ee5d09d1c5",
+        "功能安全培训🛫 ^tcc-2811fef7-08e3-48dd-b370-99ee5d09d1c5",
+        "功能安全培训 📅 ^tcc-2811fef7-08e3-48dd-b370-99ee5d09d1c5"
+      ],
+      "hash": "17acb4bb",
+      "updated": "2026-09-21 11:16"
+    },
+    "tcc-31995a47-c95a-419d-9fa2-835c80ee19c4": {
+      "path": "task_outline/工作任务.md",
+      "title": "功能安全培训",
+      "aliases": [
+        "功能安全培训"
+      ],
+      "hash": "525d57b1",
+      "updated": "2026-09-21 14:48"
+    },
+    "tcc-8bb1fb41-0d2a-4e09-ac76-c714b28d6acd": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-9f6ac21a-11a6-4a18-bc8e-6791f3ea4070",
+      "aliases": [
+        "^tcc-9f6ac21a-11a6-4a18-bc8e-6791f3ea4070"
+      ],
+      "hash": "7d6f9600",
+      "updated": "2026-09-21 14:48"
+    },
+    "tcc-d40717cd-e915-4866-8809-75dbcf69c8bd": {
+      "path": "task_outline/工作任务.md",
+      "title": "诊断需求开发",
+      "aliases": [
+        "zhen",
+        "诊断",
+        "诊断需求开发"
+      ],
+      "hash": "3c59e2d1",
+      "updated": "2026-09-21 14:48"
+    },
+    "tcc-d79bc7c8-5d88-4547-9125-fa7d70255bbf": {
+      "path": "task_outline/工作任务.md",
+      "title": "诊断 DID 开发",
+      "aliases": [
+        "诊断",
+        "诊断 DID 开发",
+        "诊断 DID 开发🛫",
+        "诊断 DID 开发 📅"
+      ],
+      "hash": "90cc1dbe",
+      "updated": "2026-09-21 14:55"
+    },
+    "tcc-a4f02379-d139-4f2b-93b4-c0ac59caafbb": {
+      "path": "task_outline/工作任务.md",
+      "title": "SBC的通用错误源详细描述",
+      "aliases": [
+        "SBC的通用错误源详细描述"
+      ],
+      "hash": "1a8d5987",
+      "updated": "2026-09-21 14:55"
+    },
+    "tcc-1e437057-3b1a-4c9a-bc15-16f0b3ae327c": {
+      "path": "task_outline/工作任务.md",
+      "title": "电机驱动的错误源详细描述",
+      "aliases": [
+        "电机驱动的错误源详细描述"
+      ],
+      "hash": "be4ea1bc",
+      "updated": "2026-09-21 14:55"
+    },
+    "tcc-eca49899-35d7-4353-a6f2-ae7a7b4f8d06": {
+      "path": "task_outline/工作任务.md",
+      "title": "内部阀低边mos短路故障状态",
+      "aliases": [
+        "内部阀低边mos短路故障状态"
+      ],
+      "hash": "3eb49432",
+      "updated": "2026-09-21 14:55"
+    },
+    "tcc-ce5d91ad-6f1d-452e-8940-5c3d3228d2e2": {
+      "path": "task_outline/工作任务.md",
+      "title": "内部阀线圈开路故障状态",
+      "aliases": [
+        "内部阀线圈开路故障状态"
+      ],
+      "hash": "308ad77",
+      "updated": "2026-09-21 14:55"
+    }
+  }
+}
