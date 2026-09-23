@@ -8,45 +8,31 @@
         "type": "tabs",
         "children": [
           {
-            "id": "362b54cb795fda42",
+            "id": "3ab86a120e572c13",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.09.21 诊断 DID 开发.md",
+                "file": "AUTOSAR/UDS/0x28(CommunicationControl).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.09.21 诊断 DID 开发"
+              "title": "0x28(CommunicationControl)"
             }
           },
           {
-            "id": "cc5817f17c645a23",
+            "id": "235f17af532c9345",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
+                "file": "daliy record/2026.09.23 28 服务失能问题排查.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.09.18 BE 13 驱动故障诊断"
-            }
-          },
-          {
-            "id": "172a62020a43110b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "daliy record/2026.07.28 DID诊断配置以及开发.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026.07.28 DID诊断配置以及开发"
+              "title": "2026.09.23 28 服务失能问题排查"
             }
           },
           {
@@ -55,16 +41,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.09.11  BE13看门狗测试.md",
+                "file": "daliy record/2026.09.22 刷写测试.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.09.11  BE13看门狗测试"
+              "title": "2026.09.22 刷写测试"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -122,11 +108,12 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 453.5
+    "width": 200
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -259,9 +246,33 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "cc5817f17c645a23",
+  "active": "4884b2242bacf5c7",
   "lastOpenFiles": [
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923141844815.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923141643202.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923141520213.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923141426542.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923141307948.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923140800632.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923140441477.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923135923119.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923135825818.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923135238348.png",
+    "daliy record/assets/2026.09.22 刷写测试/file-20260923134650106.png",
+    "daliy record/assets/2026.09.22 刷写测试",
+    "daliy record/2026.09.23 28 服务失能问题排查.md",
+    "AUTOSAR/UDS/0x28(CommunicationControl).md",
     "daliy record/2026.07.28 DID诊断配置以及开发.md",
+    "daliy record/2026.09.22 刷写测试.md",
+    "daliy record/assets/2026.09.23 28 服务失能问题排查",
+    "AUTOSAR/UDS/2026.06.01 学习建议.md",
+    "task_outline/任务详情.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "task_outline/工作任务.md",
+    "task_outline/复习时间轴.md",
+    "task_outline/维护说明.md",
+    "daliy record/2026.09.21 诊断 DID 开发.md",
+    "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
     "daliy record/2026.09.11  BE13看门狗测试.md",
     "daliy record/2026.09.08  诊断调查表测试（五）.md",
     "daliy record/2026.09.17  奇瑞 NM 新需求.md",
@@ -270,42 +281,19 @@
     "daliy record/~$26.09.08  诊断调查表测试（五）.docx",
     "daliy record/2026.09.08  诊断调查表测试（五）.docx",
     "daliy record/2026.09.11  存储栈开发.md",
-    "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
     "daliy record/2026.09.20 功能安全培训.md",
-    "daliy record/2026.09.21 诊断 DID 开发.md",
-    "daliy record/2026.09.22 刷写测试.md",
-    "task_outline/任务详情.md",
-    "task_outline/obsidian_tasks_command_center.md",
-    "task_outline/工作任务.md",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260922102040409.png",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260922092520045.png",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260922092504502.png",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260921155328459.png",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260921155307839.png",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260921155250305.png",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260921154549145.png",
-    "daliy record/assets/2026.09.21 诊断 DID 开发/file-20260921154403051.png",
     "daliy record/assets/2026.09.21 诊断 DID 开发",
-    "task_outline/复习时间轴.md",
-    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260921144207885.png",
     "hardware/2026.5.26 ASU2.5-TriC硬件电路.md",
     "移民计划/4B78E660",
-    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断/file-20260918170349392.png",
     "移民计划/~$荷兰工作居留准备计划.xlsx",
     "移民计划/荷兰工作居留准备计划.xlsx",
-    "移民计划",
     "hardware/SRC硬件控制电流原理.md",
     "hardware/HL8545_G_Description.md",
-    "daliy record/assets/2026.09.18 BE 13 驱动故障诊断",
     "ASPICE流程认证文档完成情况清单.md",
     "daliy record/2026.06.29 UDS故障排查.md",
     "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
-    "task_outline/维护说明.md",
     "AUTOSAR/CAN stack/网络管理总结.md",
     "daliy record/2026.09.14 CAN需求对标.md",
-    "AUTOSAR/CAN stack/communication stack.md",
-    "daliy record/2026.09.14 BE13使用的DMA.md",
-    "daliy record/2026.08.17 核对诊断调查表（一）.md",
     "未命名.canvas",
     "未命名 1.canvas"
   ]
