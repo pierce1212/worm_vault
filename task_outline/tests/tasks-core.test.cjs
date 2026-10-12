@@ -38,7 +38,7 @@ function setup(text) {
   assert.equal(core.state({ status: '/', text: 'Task [tcc_blocked:: true]' }).key, 'blocked');
   assert.equal(core.state({ status: '>', text: 'Task [tcc_blocked:: true]' }).key, 'postponed');
   assert.equal(core.state({ completed: true, text: 'Task [tcc_blocked:: true]' }).key, 'done');
-  for (const name of ['obsidian_tasks_command_center.md', '任务详情.md', '复习时间轴.md']) {
+  for (const name of ['obsidian_tasks_command_center.md', '任务详情.md', '复习时间轴.md', '今日任务.md']) {
     const content = fs.readFileSync(path.join(root, 'task_outline', name), 'utf8');
     const source = content.match(/```dataviewjs\s*\n([\s\S]*?)\n```/)[1];
     new vm.Script('(async function(){' + source + '\n})');
@@ -116,5 +116,56 @@ function setup(text) {
   await historic.store.initialize();
   await historic.store.save(historic.tasks()[0], { status: 'x', title: 'Renamed finished' });
   assert(historic.tasks()[0].text.includes('✅ 2026-08-01'), 'editing a completed task must preserve its completion date');
+  const priorityCase = setup('- [/] Parent ⏫ 📅 2026-10-17 [tcc_next:: 保留 ⏫ 提醒]\n  - [ ] Child\n');
+  await priorityCase.store.initialize();
+  const parentBefore = priorityCase.tasks()[0];
+  const childBefore = priorityCase.tasks()[1].text;
+  for (const [value, symbol] of [['highest', '🔺'], ['high', '⏫'], ['medium', '🔼'], ['low', '🔽'], ['lowest', '⏬'], ['normal', '']]) {
+    await priorityCase.store.save(parentBefore, { priority: value });
+    const parentAfter = priorityCase.tasks()[0];
+    assert.equal(core.priority(parentAfter).value, value);
+    assert.equal(parentAfter.id, parentBefore.id);
+    assert.equal(parentAfter.status, '/');
+    assert(parentAfter.text.includes('📅 2026-10-17'));
+    assert(parentAfter.text.includes('[tcc_next:: 保留 ⏫ 提醒]'));
+    assert.equal(priorityCase.tasks()[1].text, childBefore);
+    const markers = parentAfter.text.replace(/\[[^\]]*::[^\]]*\]/g, '').match(/[🔺⏫🔼🔽⏬]/gu) ?? [];
+    assert.deepEqual(markers, symbol ? [symbol] : []);
+  }
+  await assert.rejects(priorityCase.store.save(parentBefore, { priority: 'unknown' }));
+  const rootCase = setup('## 今日任务\r\n- [ ] Existing\r\n  - [ ] Existing child\r\n\r\n## 已完成归档\r\n```markdown\r\n## 长期任务\r\n- [ ] Example\r\n```\r\n');
+  const createdRoot = await rootCase.store.createTask({ title: 'New\nroot', priority: 'high', status: '/', start: '2026-10-12', due: '2026-10-17', next: 'Check scope' });
+  const rootText = rootCase.storage.get(taskPath);
+  assert(rootText.includes('- [/] New root ⏫ 🛫 2026-10-12 📅 2026-10-17'));
+  assert(rootText.indexOf('New root') > rootText.indexOf('Existing child'));
+  assert(rootText.indexOf('New root') < rootText.indexOf('## 已完成归档'));
+  assert(rootText.includes('^' + createdRoot.id));
+  assert(!/(?<!\r)\n/.test(rootText));
+  await rootCase.store.createTask({ title: 'Long root', section: '长期任务' });
+  const withLong = rootCase.storage.get(taskPath);
+  assert(withLong.indexOf('Long root') < withLong.indexOf('## 已完成归档'));
+  assert.equal(core.scan(withLong).headings.filter(h => h.title === '长期任务').length, 1);
+  await rootCase.store.createTask({ title: 'Blocked root', status: 'blocked', reason: 'Waiting', check: '2026-10-20' });
+  assert(core.isBlocked(rootCase.tasks().find(t => t.text.startsWith('Blocked root'))));
+  await rootCase.store.initialize();
+  assert(rootCase.store.identity(rootCase.tasks().find(t => t.id === createdRoot.id)).includes(createdRoot.id));
+  const beforeBadCreate = rootCase.storage.get(taskPath);
+  for (const payload of [{ title: '' }, { title: 'Bad', path: '../other.md' }, { title: 'Bad', section: 'Other' }, { title: 'Bad', priority: 'unknown' }, { title: 'Bad', status: '>' }, { title: 'Bad', start: '2026-10-20', due: '2026-10-10' }]) await assert.rejects(rootCase.store.createTask(payload));
+  assert.equal(rootCase.storage.get(taskPath), beforeBadCreate);
+  await assert.rejects(setup('## 今日任务\n## 今日任务\n').store.createTask({ title: 'Duplicate section' }), /重名/);
+  await assert.rejects(setup('## 今日任务\n```\n').store.createTask({ title: 'Open fence' }), /未闭合/);
+  const planCase = setup('## 今日任务\n- [ ] Plan me 📅 2026-10-20\n');
+  await planCase.store.initialize();
+  const planTask = planCase.tasks()[0];
+  await planCase.store.save(planTask, { scheduled: '2026-10-12' });
+  assert(planCase.tasks()[0].text.includes('⏳ 2026-10-12'));
+  assert.equal(planCase.tasks()[0].status, ' ');
+  await planCase.store.save(planTask, { scheduled: '2026-10-13' });
+  assert.equal((planCase.tasks()[0].text.match(/⏳/gu) ?? []).length, 1);
+  await planCase.store.save(planTask, { scheduled: '' });
+  assert(!planCase.tasks()[0].text.includes('⏳'));
+  assert(planCase.tasks()[0].text.includes('📅 2026-10-20'));
+  await planCase.store.createTask({ title: 'New daily task', scheduled: '2026-10-12' });
+  assert(planCase.tasks().find(item => item.text.startsWith('New daily task')).text.includes('⏳ 2026-10-12'));
   console.log('PASS: view syntax, migration, stable IDs, aliases, subtree insertion, state changes, review records, validation, acceptance, CSS sync and stale-write protection.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

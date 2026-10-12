@@ -43,8 +43,8 @@
       "aliases": [
         "wechat公众号文章梳理"
       ],
-      "hash": "415f7515",
-      "updated": "2026-09-16 16:56"
+      "hash": "900c8652",
+      "updated": "2026-10-12 13:48"
     },
     "tcc-027c4b35-ff72-4303-b701-ae55e4fb5e8c": {
       "path": "task_outline/工作任务.md",
@@ -61,8 +61,8 @@
       "aliases": [
         "存储栈"
       ],
-      "hash": "d4970e3b",
-      "updated": "2026-09-16 16:56"
+      "hash": "508a80f1",
+      "updated": "2026-10-12 13:52"
     },
     "tcc-48c780b7-8e44-4137-8ad3-f74556bcde04": {
       "path": "task_outline/工作任务.md",
@@ -115,8 +115,8 @@
       "aliases": [
         "S32K324 上电流程"
       ],
-      "hash": "7ea735d4",
-      "updated": "2026-09-16 16:56"
+      "hash": "cf9a249a",
+      "updated": "2026-10-12 13:46"
     },
     "tcc-95d87ed7-0b2d-4ea9-8c48-7b7322ab834f": {
       "path": "task_outline/工作任务.md",
@@ -124,8 +124,8 @@
       "aliases": [
         "DMA"
       ],
-      "hash": "a84d0446",
-      "updated": "2026-09-16 16:56"
+      "hash": "a64ffbc8",
+      "updated": "2026-10-12 13:51"
     },
     "tcc-3c93cc03-3be6-4980-9859-23510478cb9f": {
       "path": "task_outline/工作任务.md",
@@ -133,8 +133,8 @@
       "aliases": [
         "XCP"
       ],
-      "hash": "2611d0c4",
-      "updated": "2026-09-16 16:56"
+      "hash": "b6bc3ad8",
+      "updated": "2026-10-12 13:51"
     },
     "tcc-4f46aa7e-db7d-4f41-a100-b769edfdd1ee": {
       "path": "task_outline/工作任务.md",
@@ -151,8 +151,8 @@
       "aliases": [
         "FUSA & ASPICE 体系建设"
       ],
-      "hash": "afa60d55",
-      "updated": "2026-09-16 16:56"
+      "hash": "1bb30ce2",
+      "updated": "2026-10-12 13:36"
     },
     "tcc-5d949ecf-87f4-4928-ba9c-4b5a75c4ed11": {
       "path": "task_outline/工作任务.md",
@@ -178,8 +178,8 @@
       "aliases": [
         "高度传感器开发"
       ],
-      "hash": "9e11b417",
-      "updated": "2026-09-16 16:56"
+      "hash": "48f09629",
+      "updated": "2026-10-12 13:51"
     },
     "tcc-b9019b96-79f1-4b25-b8ed-6942c3bec44f": {
       "path": "task_outline/工作任务.md",
@@ -187,8 +187,8 @@
       "aliases": [
         "信息安全开发"
       ],
-      "hash": "bb5016e1",
-      "updated": "2026-09-16 16:56"
+      "hash": "35585f7",
+      "updated": "2026-10-12 13:36"
     },
     "tcc-ab23d0c0-55f6-4f33-aedb-5264166e8325": {
       "path": "task_outline/工作任务.md",
@@ -242,8 +242,8 @@
       "aliases": [
         "软件架构设计"
       ],
-      "hash": "798ca11d",
-      "updated": "2026-09-16 16:56"
+      "hash": "8ac9dd0f",
+      "updated": "2026-10-12 13:35"
     },
     "tcc-ef58381f-6b85-4fbf-aacd-7f30c2140e81": {
       "path": "task_outline/工作任务.md",
@@ -274,12 +274,15 @@
     },
     "tcc-58bb16e4-e19d-41e1-af9a-be2f8d9c454e": {
       "path": "task_outline/工作任务.md",
-      "title": "Rust 构建 RT-OS 教程（wechat 上有）",
+      "title": "Rust 构建 RT-OS 教程（wechat 上有",
       "aliases": [
-        "Rust 构建 RT-OS 教程（wechat 上有）"
+        "Rust 构建 RT-OS 教程（wechat 上有）",
+        "Rust 构建 RT-OS 教程（wechat 上有🛫",
+        "Rust 构建 RT-OS 教程（wechat 上有",
+        "Rust 构建 RT-OS 教程（wechat 上有 📅"
       ],
-      "hash": "527eea01",
-      "updated": "2026-09-16 16:56"
+      "hash": "39cb8c67",
+      "updated": "2026-10-12 14:17"
     },
     "tcc-874f1864-5fdc-4724-85be-519289e458f4": {
       "path": "task_outline/工作任务.md",
@@ -296,8 +299,8 @@
       "aliases": [
         "软件需求开发"
       ],
-      "hash": "550f49b9",
-      "updated": "2026-09-16 16:56"
+      "hash": "18518c8b",
+      "updated": "2026-10-12 13:39"
     },
     "tcc-82fdbf26-23ce-4a2a-bd55-e54c8cd15ef2": {
       "path": "task_outline/工作任务.md",
@@ -305,8 +308,8 @@
       "aliases": [
         "zephyr 开发教程"
       ],
-      "hash": "683513a0",
-      "updated": "2026-09-16 16:56"
+      "hash": "4e920b43",
+      "updated": "2026-10-12 13:50"
     },
     "tcc-121b6551-3b50-42d6-8c8b-4d9a1497a2e3": {
       "path": "task_outline/工作任务.md",
@@ -314,8 +317,8 @@
       "aliases": [
         "研究一款 AI 本地大模型 GLM 5.3"
       ],
-      "hash": "e3423a34",
-      "updated": "2026-09-16 16:56"
+      "hash": "95cd56d7",
+      "updated": "2026-10-12 13:49"
     },
     "tcc-9ec594a5-16a5-4187-aad8-9b0fd9d5987d": {
       "path": "task_outline/工作任务.md",
@@ -330,8 +333,8 @@
       "path": "task_outline/工作任务.md",
       "title": "",
       "aliases": [],
-      "hash": "69c3c16b",
-      "updated": "2026-10-12 09:04"
+      "hash": "85bb01c9",
+      "updated": "2026-10-12 13:21"
     },
     "tcc-f25f9464-6782-48b8-b775-c19ed1a9a233": {
       "path": "task_outline/工作任务.md",
@@ -355,10 +358,11 @@
       "path": "task_outline/工作任务.md",
       "title": "关节电机驱动开发",
       "aliases": [
-        "关节电机驱动开发"
+        "关节电机驱动开发",
+        "关节电机驱动开发 📅"
       ],
-      "hash": "dc13331a",
-      "updated": "2026-09-16 16:56"
+      "hash": "f24fde34",
+      "updated": "2026-10-12 14:41"
     },
     "tcc-7c5c867e-1374-41c8-8a06-acfa3913f9b2": {
       "path": "task_outline/工作任务.md",
@@ -366,8 +370,8 @@
       "aliases": [
         "电机基础 demo 开发"
       ],
-      "hash": "b9acc485",
-      "updated": "2026-09-16 16:56"
+      "hash": "c5dc8b78",
+      "updated": "2026-10-12 14:41"
     },
     "tcc-c170b8d8-21ff-42ba-b215-e72350878b77": {
       "path": "task_outline/工作任务.md",
@@ -375,8 +379,8 @@
       "aliases": [
         "灵巧手项目"
       ],
-      "hash": "200b5ca1",
-      "updated": "2026-09-16 16:56"
+      "hash": "d84b6302",
+      "updated": "2026-10-12 13:44"
     },
     "tcc-28dd265d-19c4-4bd4-a168-3a0aa232b3a4": {
       "path": "task_outline/工作任务.md",
@@ -384,8 +388,8 @@
       "aliases": [
         "金融总结计划"
       ],
-      "hash": "f179c03f",
-      "updated": "2026-09-16 16:56"
+      "hash": "65b5e795",
+      "updated": "2026-10-12 14:55"
     },
     "tcc-33e497d4-b472-4553-aa86-c8feeab7e45f": {
       "path": "task_outline/工作任务.md",
@@ -402,8 +406,8 @@
       "aliases": [
         "张飞电子"
       ],
-      "hash": "f2802eec",
-      "updated": "2026-09-16 16:56"
+      "hash": "27e6e24f",
+      "updated": "2026-10-12 13:50"
     },
     "tcc-b05aaf37-b4f7-41ae-8837-c26691ec1eb4": {
       "path": "task_outline/工作任务.md",
@@ -411,8 +415,8 @@
       "aliases": [
         "日语"
       ],
-      "hash": "5af6708e",
-      "updated": "2026-09-23 15:24"
+      "hash": "1ed34182",
+      "updated": "2026-10-12 13:34"
     },
     "tcc-8e967378-2b0c-44fe-807e-16a79a733853": {
       "path": "task_outline/工作任务.md",
@@ -420,8 +424,8 @@
       "aliases": [
         "功能安全开发"
       ],
-      "hash": "c2abf232",
-      "updated": "2026-09-16 16:56"
+      "hash": "7d0cf8c3",
+      "updated": "2026-10-12 14:00"
     },
     "tcc-45fda985-dab8-4e6a-a935-a5de311681ee": {
       "path": "task_outline/工作任务.md",
@@ -447,8 +451,8 @@
       "aliases": [
         "人工智能深度学习"
       ],
-      "hash": "910b0fac",
-      "updated": "2026-09-16 16:56"
+      "hash": "bdc3d9f2",
+      "updated": "2026-10-12 13:44"
     },
     "tcc-f6e21741-4b71-47d0-afc6-8fa84b23c1f2": {
       "path": "task_outline/工作任务.md",
@@ -456,8 +460,8 @@
       "aliases": [
         "英语学习"
       ],
-      "hash": "cf037f2b",
-      "updated": "2026-09-16 16:56"
+      "hash": "ffddf33d",
+      "updated": "2026-10-12 14:53"
     },
     "tcc-ac100cca-134f-485e-9b6b-6392186ac4ea": {
       "path": "task_outline/工作任务.md",
@@ -474,8 +478,8 @@
       "aliases": [
         "机器狗 demo 开发"
       ],
-      "hash": "f19cfa6a",
-      "updated": "2026-09-16 16:56"
+      "hash": "45611623",
+      "updated": "2026-10-12 13:44"
     },
     "tcc-9058fc5b-14b1-40a4-88e2-b106dbc8afe9": {
       "path": "task_outline/工作任务.md",
@@ -492,8 +496,8 @@
       "aliases": [
         "AI电影制作 （夸克） 2026"
       ],
-      "hash": "3483c34c",
-      "updated": "2026-10-12 09:03"
+      "hash": "9ece0e7a",
+      "updated": "2026-10-12 13:58"
     },
     "tcc-d85b3c3c-5f3e-4d5c-9058-dc9474129def": {
       "path": "task_outline/工作任务.md",
@@ -502,8 +506,8 @@
         "新婚致辞--三十岁总结",
         "新婚致辞--三十岁总结 🛫"
       ],
-      "hash": "638bcb31",
-      "updated": "2026-10-12 09:03"
+      "hash": "9928a66a",
+      "updated": "2026-10-12 13:58"
     },
     "tcc-fe7835cc-9da8-40f0-bd31-5532dafa7c9b": {
       "path": "task_outline/工作任务.md",
@@ -520,8 +524,8 @@
       "aliases": [
         "HF开源机器鸭Microduck"
       ],
-      "hash": "a3b50e64",
-      "updated": "2026-09-23 15:25"
+      "hash": "86b01750",
+      "updated": "2026-10-12 13:43"
     },
     "tcc-f83be2b5-c539-4f58-953d-23b685fc433f": {
       "path": "task_outline/工作任务.md",
@@ -803,8 +807,8 @@
       "aliases": [
         "通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时"
       ],
-      "hash": "e93ee2f4",
-      "updated": "2026-10-08 10:23"
+      "hash": "c16b3e21",
+      "updated": "2026-10-12 14:19"
     },
     "tcc-d1bedd04-c916-47af-9547-1fe6bb62f20a": {
       "path": "task_outline/工作任务.md",
@@ -875,8 +879,8 @@
       "aliases": [
         "唤醒报文要求只识别 ID 不判断内容和长度"
       ],
-      "hash": "7daf4b62",
-      "updated": "2026-10-10 15:14"
+      "hash": "b0df327b",
+      "updated": "2026-10-12 11:29"
     },
     "tcc-e46a8436-dd0a-489d-ad66-c893d3d7f6b4": {
       "path": "task_outline/工作任务.md",
@@ -1013,6 +1017,135 @@
       ],
       "hash": "b3fe6f43",
       "updated": "2026-10-12 09:05"
+    },
+    "tcc-ea25fd7b-6f30-470a-b996-38e2578bbe81": {
+      "path": "task_outline/工作任务.md",
+      "title": "boot+信息安全",
+      "aliases": [
+        "^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot ^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot+xb ^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot+信息安全 ^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot+信息安全 📅 ^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot+信息安全 🛫 ^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot+信息安全 🛫 2026-1 ^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot+信息安全 🛫 2026-102 ^tcc-355c1d2e-d918-47af-b9d4-af25cbb0f642",
+        "boot+信息安全"
+      ],
+      "hash": "30fed287",
+      "updated": "2026-10-12 10:52"
+    },
+    "tcc-fe6088ee-7331-47c3-b6d8-d5ac9cbede68": {
+      "path": "task_outline/工作任务.md",
+      "title": "工程调试脚本接入 vscode，可以实现一键调试 ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+      "aliases": [
+        "^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "g ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "gong'cheng ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程吧贸易 ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试 ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试jie'b ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试脚本jie ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试脚本接入zhong ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试脚本接入 vscode ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试脚本接入 vscode，ke'yi ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试脚本接入 vscode，可以实现yi'jian ^tcc-bc906b13-3500-41ca-afa8-5062651173f5",
+        "工程调试脚本接入 vscode，可以实现一键调试 ^tcc-bc906b13-3500-41ca-afa8-5062651173f5"
+      ],
+      "hash": "31cab2a9",
+      "updated": "2026-10-12 11:25"
+    },
+    "tcc-3c7283c1-9f73-4319-8f94-91d93d39d568": {
+      "path": "task_outline/工作任务.md",
+      "title": "工程调试脚本接入 vscode，可以实现一键调试",
+      "aliases": [
+        "工程调试脚本接入 vscode，可以实现一键调试",
+        "工程调试脚本接入 vscode，可以实现一键调试 🛫",
+        "工程调试脚本接入 vscode，可以实现一键调试 📅"
+      ],
+      "hash": "70edcadd",
+      "updated": "2026-10-12 14:36"
+    },
+    "tcc-3a2e3a37-3a8d-47f8-bb5b-257cb0d0bbb0": {
+      "path": "task_outline/工作任务.md",
+      "title": "AI生成婚纱照",
+      "aliases": [
+        "AI生成婚纱照"
+      ],
+      "hash": "9741ba83",
+      "updated": "2026-10-12 11:27"
+    },
+    "tcc-1be34443-a3ab-4666-bb81-e7da31df32de": {
+      "path": "task_outline/工作任务.md",
+      "title": "采样点修改",
+      "aliases": [
+        "cdyhd",
+        "cai'yang'dian",
+        "采样点修改",
+        "采样点修改🛫",
+        "采样点修改 📅"
+      ],
+      "hash": "8a730fec",
+      "updated": "2026-10-12 14:57"
+    },
+    "tcc-d8399ea1-6379-4a93-8c37-a6833f3b0dd2": {
+      "path": "task_outline/工作任务.md",
+      "title": "奇瑞需求校验",
+      "aliases": [
+        "^tcc-86e50f97-8331-4e6f-a3a5-1c9a5db24d41",
+        "奇瑞需求j ^tcc-86e50f97-8331-4e6f-a3a5-1c9a5db24d41",
+        "奇瑞需求校验 ^tcc-86e50f97-8331-4e6f-a3a5-1c9a5db24d41",
+        "奇瑞需求校验🛫 ^tcc-86e50f97-8331-4e6f-a3a5-1c9a5db24d41",
+        "奇瑞需求校验 📅 ^tcc-86e50f97-8331-4e6f-a3a5-1c9a5db24d41",
+        "奇瑞需求校验"
+      ],
+      "hash": "c335e442",
+      "updated": "2026-10-12 13:21"
+    },
+    "tcc-abf73e4d-1179-4a6a-b6e1-127d839108d2": {
+      "path": "task_outline/工作任务.md",
+      "title": "婚礼流程确定",
+      "aliases": [
+        "婚礼流程确定"
+      ],
+      "hash": "3c9fec21",
+      "updated": "2026-10-12 13:57"
+    },
+    "tcc-c7b7daac-440c-483e-b633-83ca8a33e386": {
+      "path": "task_outline/工作任务.md",
+      "title": "婚礼台词",
+      "aliases": [
+        "婚礼台词"
+      ],
+      "hash": "f0428f84",
+      "updated": "2026-10-12 13:57"
+    },
+    "tcc-f478ae79-df2c-40fe-ae1d-0491295dedf0": {
+      "path": "task_outline/工作任务.md",
+      "title": "沟通思维方式跟读",
+      "aliases": [
+        "沟通思维方式跟读"
+      ],
+      "hash": "e7021897",
+      "updated": "2026-10-12 14:43"
+    },
+    "tcc-208a3005-3171-4865-abff-2d1a5b9d3e4a": {
+      "path": "task_outline/工作任务.md",
+      "title": "每天晚上整理跟读内容，训练沟通技巧，个人谈吐",
+      "aliases": [
+        "每天晚上整理跟读内容，训练沟通技巧，个人谈吐"
+      ],
+      "hash": "b1c7dfc3",
+      "updated": "2026-10-12 14:43"
+    },
+    "tcc-fb1feffb-0a18-4f07-857e-85192e2a71eb": {
+      "path": "task_outline/工作任务.md",
+      "title": "健身",
+      "aliases": [
+        "健身"
+      ],
+      "hash": "4a8dd5b",
+      "updated": "2026-10-12 14:53"
     }
   }
 }

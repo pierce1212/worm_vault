@@ -37,7 +37,7 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
   function properties(task) {
     const data = core.info(task), kids = flatten(task);
     const day = symbol => task.text.match(new RegExp(`${symbol}\\s*(\\d{4}-\\d{1,2}-\\d{1,2})`, "u"))?.[1] ?? "";
-    const priority = [["🔺", "最高"], ["⏫", "高"], ["🔼", "中"], ["🔽", "低"], ["⏬", "最低"]].find(([symbol]) => task.text.includes(symbol))?.[1] ?? "普通";
+    const priority = core.priority(task).label;
     return {
       related_task: titleOf(task.text), related_task_id: core.identity(task),
       task_source: `[[${task.path}#^${task.id}]]`, task_status: core.state(task).label,

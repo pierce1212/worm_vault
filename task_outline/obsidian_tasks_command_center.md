@@ -7,6 +7,7 @@ cssclasses:
 const CONFIG = {
   taskSourceFiles: ["工作任务.md"],
   detailFile: "任务详情.md",
+  todayFile: "今日任务.md",
   reviewFile: "复习时间轴.md",
   dailyNoteFolder: "日报",
   weeklyNoteFolder: "周报",
@@ -67,6 +68,9 @@ const sharedStyle = document.createElement("style");
 sharedStyle.textContent = await taskCore.syncStyles();
 dv.container.appendChild(sharedStyle);
 const detailPath = localPath(CONFIG.detailFile);
+const todayPath = localPath(CONFIG.todayFile);
+const todayModule = { exports: {} };
+new Function("module", await app.vault.adapter.read(localPath("tasks-today.js")))(todayModule);
 const reviewPath = localPath(CONFIG.reviewFile);
 const dailyNoteFolder = localPath(CONFIG.dailyNoteFolder);
 const weeklyNoteFolder = localPath(CONFIG.weeklyNoteFolder);
@@ -205,13 +209,7 @@ function statusText(task) {
 }
 
 function priority(task) {
-  const text = String(task.text ?? "");
-  if (text.includes("🔺")) return { label: "最高", score: 120, cls: "p-highest" };
-  if (text.includes("⏫")) return { label: "高", score: 80, cls: "p-high" };
-  if (text.includes("🔼")) return { label: "中", score: 40, cls: "p-mid" };
-  if (text.includes("🔽")) return { label: "低", score: -10, cls: "p-low" };
-  if (text.includes("⏬")) return { label: "最低", score: -20, cls: "p-lowest" };
-  return { label: "普通", score: 0, cls: "p-normal" };
+  return taskCore.priority(task);
 }
 
 function isCancelled(task) {
@@ -252,6 +250,28 @@ function isActiveInWeek(task) {
   const rangeStart = start ?? due;
   const rangeEnd = due ?? start;
   return rangeStart <= weekEnd && rangeEnd >= weekStart;
+}
+
+function focusNodes(task) {
+  const nodes = [];
+  function visit(item, root = false) {
+    if (root || item.task) {
+      if (!isOpen(item) || isPostponed(item) || taskCore.isBlocked(item)) return;
+      nodes.push(item);
+    }
+    for (const child of arr(item.children)) visit(child);
+  }
+  visit(task, true);
+  return nodes;
+}
+
+function hasWeekSignal(task) {
+  return focusNodes(task).some(node => statusChar(node) === "/" || isOverdue(node)
+    || [startDay(node), scheduledDay(node), dueDay(node)].some(day => inRange(day, weekStart, weekEnd)));
+}
+
+function hasFocusSignal(task) {
+  return focusNodes(task).some(node => statusChar(node) === "/");
 }
 
 function cleanText(text, removeTags = true) {
@@ -477,13 +497,15 @@ const overdue = open.filter(isOverdue);
 const postponed = open.filter(isPostponed);
 const blocked = open.filter(task => taskCore.isBlocked(task));
 const activeOpen = open.filter(task => !isPostponed(task) && !taskCore.isBlocked(task));
-const dueToday = activeOpen.filter(task => sameDay(dueDay(task), today) || sameDay(scheduledDay(task), today));
+const todayGroups = todayModule.exports.build(allTasks, { core: taskCore, DateTime, today });
+const dueToday = todayGroups.planned.map(item => item.task);
 const dueThisWeek = tasks.filter(task => !isPostponed(task) && inRange(relevantDay(task), weekStart, weekEnd));
 const doneThisWeek = done.filter(task => inRange(completedDay(task), weekStart, weekEnd));
 const longTerm = open.filter(task => isInLongTermSection(task) || isLongTerm(task));
 const activeLongTerm = longTerm.filter(task => isOpen(task) && !isPostponed(task));
-const focusCandidates = activeOpen.filter(task => !longTerm.includes(task));
-const openThisWeek = focusCandidates.filter(task => isInTodaySection(task) || isActiveInWeek(task));
+const weekCandidates = activeOpen.filter(task => !longTerm.includes(task) || hasWeekSignal(task));
+const openThisWeek = weekCandidates.filter(task => isInTodaySection(task) || isActiveInWeek(task) || hasWeekSignal(task));
+const focusCandidates = activeOpen.filter(hasFocusSignal);
 const weekPercent = dueThisWeek.length ? Math.round(doneThisWeek.length / dueThisWeek.length * 100) : 0;
 const completionRatio = tasks.length ? Math.round(done.length / tasks.length * 100) : 0;
 const health = Math.max(0, Math.min(100, Math.round(100 - overdue.length * 9 + doneThisWeek.length * 4)));
@@ -494,7 +516,7 @@ function daysLeft(task) {
   return Math.floor(due.diff(today, "days").days);
 }
 
-function focusScore(task) {
+function nodeFocusScore(task) {
   let score = priority(task).score;
   const dueDelta = daysLeft(task);
   if (dueDelta !== null) {
@@ -507,6 +529,11 @@ function focusScore(task) {
   if (sameDay(scheduledDay(task), today)) score += 85;
   if (statusChar(task) === "/") score += 45;
   return score;
+}
+
+function focusScore(task) {
+  // A due or in-progress child raises its parent card, without becoming a separate card.
+  return Math.max(0, ...focusNodes(task).map(nodeFocusScore));
 }
 
 function taskMeta(task) {
@@ -883,6 +910,7 @@ function taskCard(task, index) {
         <span class="tcc-rank">${index}</span>
         ${taskCore.statusBadge(task, true)}
         <span class="tcc-priority ${p.cls}">${p.label}</span>
+        ${statusChar(task) !== "/" && hasFocusSignal(task) ? `<span class="tcc-muted">子任务进行中</span>` : ""}
       </div>
       <h3>${esc(cleanText(task.text))}</h3>
       <div class="tcc-task-tags">${tagsHtml(task)}</div>
@@ -1039,12 +1067,13 @@ const activeByTag = open.reduce((map, task) => {
 }, {});
 const topTags = Object.entries(activeByTag).sort((a, b) => b[1] - a[1]).slice(0, 8);
 const urgentTicker = focusCandidates.slice().sort((a, b) => focusScore(b) - focusScore(a)).slice(0, 10);
-const focus = openThisWeek.slice().sort((a, b) => focusScore(b) - focusScore(a)).slice(0, CONFIG.focusLimit);
+const focus = focusCandidates.slice().sort((a, b) => focusScore(b) - focusScore(a)).slice(0, CONFIG.focusLimit);
 const reviewItems = done
   .flatMap(task => reviewPlan(task))
   .sort((a, b) => a.due.toMillis() - b.due.toMillis());
 const dueReviewItems = reviewItems.filter(item => item.state === "today" || item.state === "overdue");
 const metricFilters = {
+  focus: focusCandidates.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   today: dueToday.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   week: openThisWeek.slice().sort((a, b) => focusScore(b) - focusScore(a)),
   overdue: overdue.slice().sort((a, b) => focusScore(b) - focusScore(a)),
@@ -1056,6 +1085,7 @@ const metricFilters = {
   review: dueReviewItems.map(item => item.task)
 };
 const metricFilterLabels = {
+  focus: "关注队列",
   today: "今日焦点",
   week: "本周任务",
   overdue: "逾期任务",
@@ -1103,8 +1133,8 @@ const root = mount(`
     </section>
 
     <section class="tcc-metrics">
-      ${metricCard("今日焦点", String(dueToday.length), "计划或截止今天", "hot", "today")}
-      ${metricCard("本周任务", String(openThisWeek.length), "Focus Queue", "", "week")}
+      ${metricCard("今日任务", String(dueToday.length), "今日安排与进行中", "hot", "today")}
+      ${metricCard("本周任务", String(openThisWeek.length), "本周安排", "", "week")}
       ${metricCard("逾期", String(overdue.length), "需要优先处理", "danger", "overdue")}
       ${metricCard("延期", String(postponed.length), "等待重新启动", "postponed", "postponed")}
       ${metricCard("阻塞", String(blocked.length), "等待条件解除", "postponed", "blocked")}
@@ -1113,6 +1143,8 @@ const root = mount(`
     </section>
 
     <section class="tcc-maintenance-strip">
+      <button type="button" data-filter="today"><span data-tcc-icon="calendar-check"></span>今日任务</button>
+      <button type="button" class="tcc-add-task" data-task-action="create"><span data-tcc-icon="plus"></span>新增任务</button>
       <button type="button" data-filter="maintenance">每周整理 <strong>${metricFilters.maintenance.length}</strong></button>
       <span>待验收 ${open.filter(task => taskCore.ready(task)).length} · 到期检查 ${open.filter(task => taskCore.reasons(task).includes("到期检查")).length}</span>
     </section>
@@ -1133,11 +1165,12 @@ const root = mount(`
     <section class="tcc-section">
       <div class="tcc-section-head">
         <h2>Focus Queue</h2>
-        <span>只显示今日与本周未完成任务，点击卡片进入任务详情</span>
+        <span>${focus.length} / ${focusCandidates.length} 项 · 正在进行</span>
       </div>
       <div class="tcc-focus-grid">
-        ${focus.map((task, index) => taskCard(task, index + 1)).join("") || `<p class="tcc-empty">本周没有待处理任务。</p>`}
+        ${focus.map((task, index) => taskCard(task, index + 1)).join("") || `<p class="tcc-empty">当前没有正在进行的任务。</p>`}
       </div>
+      ${focusCandidates.length > focus.length ? `<button type="button" data-filter="focus">查看全部 ${focusCandidates.length} 项</button>` : ""}
     </section>
 
     <section class="tcc-section">
@@ -1271,6 +1304,7 @@ function bindInteractions(root) {
   root.querySelectorAll("[data-filter]").forEach(card => {
     card.addEventListener("click", () => {
       const key = card.dataset.filter;
+      if (key === "today") { openPath(todayPath); return; }
       if (key === "review") {
         openPath(reviewPath);
         return;

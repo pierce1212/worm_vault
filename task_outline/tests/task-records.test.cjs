@@ -65,6 +65,9 @@ const store = records.create({ app, core, DateTime, parseYaml: JSON.parse, strin
   assert(synced.body.includes(manual));
   assert(synced.body.includes('### New child'));
   assert.equal((synced.body.match(/### New child/g) ?? []).length, 1);
+  await core.save(task, { priority: 'lowest' });
+  await store.syncAll();
+  assert.equal(store.readDocument(data.get(created.path)).metadata.task_priority, '最低');
   const beforeWrites = writes;
   const stable = data.get(created.path);
   await store.syncAll();

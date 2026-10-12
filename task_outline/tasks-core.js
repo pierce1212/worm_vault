@@ -9,6 +9,30 @@ const fieldText = value => oneLine(value).replace(/\[/g, "（").replace(/\]/g, "
 const esc = value => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const status = task => String(task.status ?? " ").trim() || " ";
 const isBlocked = task => field(task.text, "tcc_blocked") === "true" && !task.completed && ![">", "-"].includes(status(task));
+const priorities = [
+  { value: "highest", label: "最高", symbol: "🔺", score: 120, cls: "p-highest" },
+  { value: "high", label: "高", symbol: "⏫", score: 80, cls: "p-high" },
+  { value: "medium", label: "中", symbol: "🔼", score: 40, cls: "p-mid" },
+  { value: "normal", label: "普通", symbol: "", score: 0, cls: "p-normal" },
+  { value: "low", label: "低", symbol: "🔽", score: -10, cls: "p-low" },
+  { value: "lowest", label: "最低", symbol: "⏬", score: -20, cls: "p-lowest" }
+];
+const statusOptions = [[" ", "待办"], ["/", "进行中"], ["blocked", "阻塞"], [">", "延期"], ["?", "待确认"], ["!", "重要"], ["x", "完成"], ["-", "取消"]];
+const sections = ["今日任务", "近期任务", "长期任务"];
+
+function priority(task) {
+  const text = String(task.text ?? "").replace(/\[[^\]]*::[^\]]*\]/g, "");
+  return priorities.find(item => item.symbol && text.includes(item.symbol)) ?? priorities[3];
+}
+
+function priorityText(text, value) {
+  const chosen = priorities.find(item => item.value === value);
+  if (!chosen) throw new Error("不支持的优先级");
+  const clean = text.split(/(\[[^\]]*::[^\]]*\])/g)
+    .map((part, index) => index % 2 ? part : part.replace(/[🔺⏫🔼🔽⏬]/gu, "").replace(/[ \t]{2,}/g, " "))
+    .join("").trimEnd();
+  return clean + (chosen.symbol ? ` ${chosen.symbol}` : "");
+}
 
 function state(task) {
   if (task.completed || status(task).toLowerCase() === "x") return { key: "done", label: "完成" };
@@ -52,7 +76,7 @@ function ready(task) {
 // Only real list checkboxes are migrated; fenced examples and frontmatter stay intact.
 function scan(content) {
   const lines = content.split(/\r?\n/);
-  const tasks = [];
+  const tasks = [], headings = [];
   let fence = null, yaml = lines[0] === "---", comment = false;
   for (let line = 0; line < lines.length; line++) {
     const raw = lines[line];
@@ -65,10 +89,12 @@ function scan(content) {
       continue;
     }
     if (mark) { fence = mark[1]; continue; }
+    const heading = raw.match(/^(#{1,6})[ \t]+(.+?)\s*$/);
+    if (heading) headings.push({ line, level: heading[1].length, title: heading[2].replace(/[ \t]+#+$/, "") });
     const match = raw.match(/^(\s*[-*+]\s+\[)([^\]])(\]\s+)(.*)$/);
     if (match) tasks.push({ line, prefix: match[1], status: match[2], gap: match[3], text: match[4], id: blockId(match[4]) });
   }
-  return { lines, tasks, newline: content.includes("\r\n") ? "\r\n" : "\n" };
+  return { lines, tasks, headings, unclosed: Boolean(fence || yaml || comment), newline: content.includes("\r\n") ? "\r\n" : "\n" };
 }
 
 function endOfTask(lines, line) {
@@ -227,9 +253,11 @@ function create({ app, paths, folder, DateTime, setIcon }) {
 
   async function save(task, payload) {
     const due = payload.due === undefined ? undefined : dateInput(payload.due);
+    const scheduled = payload.scheduled === undefined ? undefined : dateInput(payload.scheduled);
     const check = payload.check === undefined ? undefined : dateInput(payload.check);
-    const allowed = [" ", "/", "x", ">", "?", "-", "!", "blocked"];
+    const allowed = statusOptions.map(([value]) => value);
     if (payload.status !== undefined && !allowed.includes(payload.status)) throw new Error("不支持的任务状态");
+    if (payload.priority !== undefined) priorityText("", payload.priority);
     return mutate(task, (parsed, current) => {
       if (payload.accept) {
         const end = endOfTask(parsed.lines, current.line);
@@ -246,6 +274,8 @@ function create({ app, paths, folder, DateTime, setIcon }) {
         text = text.slice(0, offset) + name + text.slice(offset + previousTitle.length);
       }
       if (due !== undefined) text = text.replace(/\s*📅\s*\d{4}-\d{1,2}-\d{1,2}/gu, "") + (due ? ` 📅 ${due}` : "");
+      if (scheduled !== undefined) text = text.replace(/\s*⏳\s*\d{4}-\d{1,2}-\d{1,2}/gu, "") + (scheduled ? ` ⏳ ${scheduled}` : "");
+      if (payload.priority !== undefined) text = priorityText(text, payload.priority);
       for (const [key, value] of [["tcc_next", payload.next], ["tcc_reason", payload.reason], ["tcc_check", check]]) {
         if (value !== undefined) text = putField(text, key, value);
       }
@@ -267,6 +297,53 @@ function create({ app, paths, folder, DateTime, setIcon }) {
         append(parsed, current, `[timeline:: ${stamp()}] [type:: 状态] ${names[payload.status]}${reason ? `：${reason}` : ""}`);
       }
     });
+  }
+
+  async function createTask(payload) {
+    const path = payload.path || paths[0];
+    if (!paths.includes(path)) throw new Error("请选择已有任务源");
+    const file = app.vault.getAbstractFileByPath(path);
+    if (!file) throw new Error("找不到任务源文件");
+    const name = fieldText(payload.title).replace(/\s*\^[a-zA-Z0-9-]+$/, "");
+    if (!name) throw new Error("任务名称不能为空");
+    const section = payload.section || sections[0];
+    if (!sections.includes(section)) throw new Error("不支持的任务分区");
+    const chosenStatus = payload.status ?? " ";
+    if (!statusOptions.some(([value]) => value === chosenStatus)) throw new Error("不支持的任务状态");
+    const start = dateInput(payload.start), due = dateInput(payload.due), check = dateInput(payload.check);
+    const scheduled = dateInput(payload.scheduled);
+    if (start && due && start > due) throw new Error("截止日期不能早于开始日期");
+    const waiting = [">", "blocked"].includes(chosenStatus);
+    if (waiting && (!oneLine(payload.reason) || !check)) throw new Error("请填写延期 / 阻塞原因和下次检查日期");
+    let text = priorityText(name, payload.priority || "normal");
+    if (start) text += ` 🛫 ${start}`;
+    if (due) text += ` 📅 ${due}`;
+    if (scheduled) text += ` ⏳ ${scheduled}`;
+    text = putField(text, "tcc_next", payload.next);
+    if (waiting) {
+      text = putField(putField(text, "tcc_reason", payload.reason), "tcc_check", check);
+      if (chosenStatus === "blocked") text = putField(text, "tcc_blocked", "true");
+    }
+    if (chosenStatus === "x") text += ` ✅ ${DateTime.now().toFormat("yyyy-LL-dd")}`;
+    const newId = uuid();
+    const taskLine = `- [${chosenStatus === "blocked" ? "/" : chosenStatus}] ${text} ^${newId}`;
+    await app.vault.process(file, content => {
+      const parsed = scan(content);
+      if (parsed.unclosed) throw new Error("任务源中存在未闭合的代码块、注释或属性区，请先修复");
+      const matches = parsed.headings.filter(heading => heading.level === 2 && heading.title === section);
+      if (matches.length > 1) throw new Error("任务分区重名，请先整理任务源");
+      const heading = matches[0];
+      if (heading) {
+        let insertAt = parsed.headings.find(item => item.line > heading.line && item.level <= heading.level)?.line ?? parsed.lines.length;
+        while (insertAt > heading.line + 1 && !parsed.lines[insertAt - 1].trim()) insertAt--;
+        parsed.lines.splice(insertAt, 0, taskLine);
+      } else {
+        const insertAt = parsed.headings.find(item => item.level === 2 && item.title === "已完成归档")?.line ?? parsed.lines.length;
+        parsed.lines.splice(insertAt, 0, "", `## ${section}`, "", taskLine, "");
+      }
+      return parsed.lines.join(parsed.newline);
+    });
+    return { path, id: newId, text: `${text} ^${newId}` };
   }
 
   async function addChild(task, payload) {
@@ -343,6 +420,9 @@ function create({ app, paths, folder, DateTime, setIcon }) {
   }
 
   const iconButton = (action, label, icon, task) => `<button type="button" class="tcc-tool${setIcon ? "" : " tcc-tool-text"}" data-task-action="${action}" data-task-key="${esc(identity(task))}" title="${label}" aria-label="${label}"><span data-tcc-icon="${icon}">${label}</span></button>`;
+  function priorityOptions(task) {
+    return priorities.map(item => `<option value="${item.value}" ${priority(task).value === item.value ? "selected" : ""}>${item.label}</option>`).join("");
+  }
   function statusBadge(task, editable = false) {
     const current = state(task);
     const attrs = `class="tcc-state-badge" data-state="${current.key}"`;
@@ -397,13 +477,17 @@ function create({ app, paths, folder, DateTime, setIcon }) {
     const dialog = document.createElement("dialog");
     dialog.className = "tcc-editor-dialog tasks-command-center";
     const current = data.blocked ? "blocked" : task.completed ? "x" : status(task);
-    const statuses = [[" ", "待办"], ["/", "进行中"], ["blocked", "阻塞"], [">", "延期"], ["?", "待确认"], ["!", "重要"], ["x", "完成"], ["-", "取消"]];
+    const statuses = statusOptions;
     const label = (name, text, input) => `<label class="tcc-editor-field"><span>${text}</span>${input}</label>`;
     const input = (name, value, type = "text", required = false) => `<input name="${name}" type="${type}" value="${esc(value)}" ${required ? "required" : ""}>`;
-    const heading = { edit: "编辑任务", child: "添加子任务", note: "记录进展", accept: "验收任务" }[action];
+    const heading = { create: "新增任务", edit: "编辑任务", child: "添加子任务", note: "记录进展", accept: "验收任务" }[action];
     let fields = "";
-    if (action === "edit") fields =
+    if (action === "edit" || action === "create") fields =
       label("title", "任务名称", input("title", title(task.text), "text", true)) +
+      (action === "create" ? label("section", "任务分区", `<select name="section">${sections.map(name => `<option>${name}</option>`).join("")}</select>`) + (paths.length > 1 ? label("path", "任务源", `<select name="path">${paths.map(path => `<option>${esc(path)}</option>`).join("")}</select>`) : "") : "") +
+      label("priority", "优先级", `<select name="priority">${priorityOptions(task)}</select>`) +
+      label("scheduled", "计划日期", input("scheduled", action === "create" ? task.scheduled ?? "" : task.text.match(/⏳\s*(\d{4}-\d{2}-\d{2})/u)?.[1] ?? "", "date")) +
+      (action === "create" ? label("start", "开始日期", input("start", "", "date")) : "") +
       `<div class="tcc-editor-pair">${label("status", "状态", `<select name="status">${statuses.map(([value, text]) => `<option value="${value}" ${value === current ? "selected" : ""}>${text}</option>`).join("")}</select>`)}${label("due", "截止日期", input("due", task.text.match(/📅\s*(\d{4}-\d{2}-\d{2})/u)?.[1] ?? "", "date"))}</div>` +
       label("next", "下一步行动", input("next", data.next)) +
       `<div data-wait-fields>${label("reason", "延期 / 阻塞原因", input("reason", data.reason))}${label("check", "下次检查日期", input("check", data.check, "date"))}</div>`;
@@ -417,6 +501,7 @@ function create({ app, paths, folder, DateTime, setIcon }) {
     dialog.querySelectorAll("[data-close]").forEach(button => button.addEventListener("click", () => dialog.close()));
     const form = dialog.querySelector("form");
     const initial = Object.fromEntries(new FormData(form));
+    let createdTask = null;
     const toggleWaiting = () => {
       const waiting = [">", "blocked"].includes(form.elements.status?.value);
       const group = form.querySelector("[data-wait-fields]");
@@ -427,19 +512,25 @@ function create({ app, paths, folder, DateTime, setIcon }) {
     form.addEventListener("submit", async event => {
       event.preventDefault();
       const submit = form.querySelector('[type="submit"]');
+      if (submit.disabled) return;
       const errorNode = form.querySelector("[role=alert]");
       const values = Object.fromEntries(new FormData(form));
       const payload = action === "edit" ? Object.fromEntries(Object.entries(values).filter(([key, value]) => value !== initial[key])) : values;
       submit.disabled = true;
       errorNode.hidden = true;
       try {
+        if (action === "create" && !createdTask) createdTask = await createTask(payload);
         if (action === "edit") await save(task, payload);
         if (action === "child") await addChild(task, payload);
         if (action === "note") await addNote(task, payload);
         if (action === "accept") await save(task, { status: "x", accept: true });
         await refresh();
         dialog.close();
-      } catch (error) { errorNode.textContent = error.message; errorNode.hidden = false; }
+      } catch (error) {
+        errorNode.textContent = createdTask ? `任务已创建，刷新失败：${error.message}` : error.message;
+        errorNode.hidden = false;
+        if (createdTask) { submit.textContent = "重试刷新"; form.querySelectorAll("input, select, textarea").forEach(element => { element.disabled = true; }); }
+      }
       finally { submit.disabled = false; }
     });
     dialog.showModal();
@@ -451,15 +542,16 @@ function create({ app, paths, folder, DateTime, setIcon }) {
       const button = event.target.closest("[data-task-action]");
       if (!button) return;
       event.stopPropagation();
+      if (button.dataset.taskAction === "create") { editDialog({ text: "", status: " ", children: [], scheduled: button.dataset.createScheduled ?? "" }, "create"); return; }
       const task = tasks.find(item => identity(item) === button.dataset.taskKey);
       if (task) editDialog(task, button.dataset.taskAction);
     });
   }
 
-  return { initialize, identity, aliases, info, save, addChild, addNote, setReview, markReview, snapshot,
+  return { initialize, identity, aliases, info, save, createTask, addChild, addNote, setReview, markReview, snapshot, priority, priorityOptions,
     reasons, controls, icons, bind, refresh, attempt, syncStyles, completion, children, ready, isBlocked, stripMeta, state, statusBadge,
     matches(task, saved, clean) { return identity(task) === saved || `${task.path ?? paths[0]}:${task.line ?? ""}:${clean(task.text)}` === saved; }
   };
 }
 
-module.exports = { create, scan, endOfTask, stripMeta, title, children, completion, ready, isBlocked, state };
+module.exports = { create, scan, endOfTask, stripMeta, title, children, completion, ready, isBlocked, state, priority };

@@ -9,9 +9,9 @@ const source = name => fs.readFileSync(path.join(root, 'task_outline', name), 'u
 const script = name => source(name).match(/```dataviewjs\s*\n([\s\S]*?)\n```/)[1];
 const plugin = fs.readFileSync(path.join(root, '.obsidian/plugins/dataview/main.js'), 'utf8');
 const luxon = plugin.slice(plugin.indexOf('// these'), plugin.indexOf('////////////////////', plugin.indexOf('var Luxon =')));
-const fixture = '## 今日任务\n- [ ] CAN 对标 拓普需求更新 🛫 2026-09-17 📅 2026-09-20\n  - [ ] 确认唤醒配置\n- [/] 存储栈 📅 2026-09-19\n## 长期任务\n- [ ] 长期项目\n  - [ ] 阶段一\n';
-const payload = { core: source('tasks-core.js'), records: source('task-records.js'), css: source('tasks-command-center.css'), fixture,
-  dashboard: script('obsidian_tasks_command_center.md'), detail: script('任务详情.md'), review: script('复习时间轴.md') };
+const fixture = '## 今日任务\n- [/] CAN 对标 拓普需求更新 🛫 2026-09-17 📅 2026-09-20\n  - [ ] 确认唤醒配置\n- [/] 存储栈 📅 2026-09-19\n## 长期任务\n- [ ] 长期项目\n  - [ ] 阶段一\n';
+const payload = { core: source('tasks-core.js'), records: source('task-records.js'), todayModule: source('tasks-today.js'), css: source('tasks-command-center.css'), fixture,
+  dashboard: script('obsidian_tasks_command_center.md'), detail: script('任务详情.md'), review: script('复习时间轴.md'), today: script('今日任务.md') };
 
 (async () => {
   const server = http.createServer((req, res) => { res.setHeader('Content-Type', 'text/html; charset=utf-8'); res.end('<!doctype html><html><meta charset="utf-8"><body class="tasks-command-center"><main id="view"></main></body></html>'); });
@@ -28,7 +28,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.evaluate(async payload => {
       luxon.Settings.now = () => new Date('2026-09-16T12:00:00+08:00').getTime();
       const taskPath = 'task_outline/工作任务.md';
-      const memory = new Map([[taskPath, payload.fixture], ['task_outline/tasks-core.js', payload.core], ['task_outline/task-records.js', payload.records], ['task_outline/tasks-command-center.css', payload.css]]);
+      const memory = new Map([[taskPath, payload.fixture], ['task_outline/tasks-core.js', payload.core], ['task_outline/task-records.js', payload.records], ['task_outline/tasks-today.js', payload.todayModule], ['task_outline/tasks-command-center.css', payload.css]]);
       window.require = () => ({ parseYaml: JSON.parse, stringifyYaml: data => JSON.stringify(data, null, 2) });
       window.testState = { memory, opened: [], renders: 0, mode: 'dashboard' };
       function parse(text) {
@@ -62,7 +62,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
       window.renderTest = async (mode = testState.mode) => {
         testState.mode = mode;
         document.getElementById('view').innerHTML = '';
-        const names = { dashboard: 'obsidian_tasks_command_center.md', detail: '任务详情.md', review: '复习时间轴.md' };
+        const names = { dashboard: 'obsidian_tasks_command_center.md', detail: '任务详情.md', review: '复习时间轴.md', today: '今日任务.md' };
         const recordPages = [...memory.entries()].filter(([path]) => path.startsWith('daliy record/') && path.endsWith('.md')).map(([path, content]) => ({ ...JSON.parse(content.match(/^---\n([\s\S]*?)\n---/)[1]), file: { path, name: path.split('/').at(-1).replace(/\.md$/, ''), tasks: [], lists: [] } }));
         window.dv = { luxon, container: document.getElementById('view'), current: () => ({ file: { path: 'task_outline/' + names[mode] } }), pages: () => wrap([{ file: { path: taskPath, tasks: parse(memory.get(taskPath)).tasks } }, ...recordPages]) };
         const code = payload[mode].replace('enabled: true', 'enabled: false');
@@ -200,6 +200,140 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     assert.equal(await page.evaluate(() => [...testState.memory.keys()].filter(p => p.startsWith('daliy record/') && p.endsWith('.md')).length), 1);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.locator('.tcc-detail-grid').screenshot({ path: path.join(output, 'task-record-properties-desktop.png') });
+    await page.evaluate(async () => {
+      luxon.Settings.now = () => new Date('2026-10-12T12:00:00+08:00').getTime();
+      testState.memory.set('task_outline/工作任务.md', [
+        '## 长期任务',
+        '- [/] AI电影制作 （夸克） 2026 🛫 2026-08-16 📅 2026-10-20',
+        '  - [/] 新婚致辞--三十岁总结 🛫 2026-10-12 📅 2026-12-18',
+        '  - [ ] AI生成婚纱照 📅 2026-10-13',
+        '  - [ ] 婚礼流程确定 📅 2026-10-17',
+        '  - [ ] 婚礼台词 📅 2026-10-17',
+        '- [ ] 由子任务推进的长期项目',
+        '  - [/] 正在推进的子任务',
+        '- [ ] 子任务本周到期的长期项目',
+        '  - [ ] 交付 📅 2026-10-13',
+        '- [ ] 本周开始的长期项目 🛫 2026-10-12 📅 2026-12-31',
+        '- [ ] 待定长期项目 🛫 2026-01-01 📅 2026-12-31',
+        '- [ ] 未来长期项目 📅 2026-12-31',
+        '- [>] 已延期项目', '  - [/] 已暂停父任务下的子任务',
+        '- [/] 已阻塞项目 [tcc_blocked:: true]', '  - [/] 已阻塞父任务下的子任务',
+        '- [x] 已完成项目', '  - [/] 已归档父任务下的子任务',
+        '- [ ] 暂停分支项目', '  - [>] 延期分支', '    - [/] 分支下的活动不应泄漏',
+        '- [ ] 已取消分支项目', '  - [-] 取消分支', '    - [ ] 本周日期不应泄漏 📅 2026-10-13',
+        '- [ ] 已完成子任务项目', '  - [x] 本周完成子任务 📅 2026-10-13',
+        '- [ ] 由逾期子任务推进的长期项目', '  - [ ] 待交付 📅 2026-10-11',
+        '- [ ] 关节电机驱动开发 📅 2026-12-13', '  - [ ] 电机基础 demo 开发 📅 2026-09-23'
+      ].join('\n'));
+      await renderTest('dashboard');
+    });
+    const focusGrid = page.locator('.tcc-focus-grid').first();
+    const expectedFocus = ['AI电影制作 （夸克） 2026', '由子任务推进的长期项目'];
+    const expectedWeek = [...expectedFocus, '子任务本周到期的长期项目', '本周开始的长期项目', '由逾期子任务推进的长期项目', '关节电机驱动开发'];
+    assert.deepEqual((await focusGrid.locator('h3').allTextContents()).sort(), expectedFocus.slice().sort());
+    assert.equal(await focusGrid.locator('.tcc-task-card').filter({ hasText: 'AI生成婚纱照' }).count(), 1, 'children remain inside the parent');
+    assert.match(await focusGrid.locator('.tcc-task-card').filter({ hasText: '由子任务推进的长期项目' }).innerText(), /子任务进行中/);
+    assert.equal(await page.locator('.tcc-ticker').filter({ hasText: '关节电机驱动开发' }).count(), 0);
+    await page.locator('[data-filter=week]').first().click();
+    assert.deepEqual((await page.locator('[data-filter-grid] h3').allTextContents()).sort(), expectedWeek.slice().sort());
+    await focusGrid.screenshot({ path: path.join(output, 'long-term-focus-regression.png') });
+    await page.evaluate(async () => {
+      testState.memory.set('task_outline/工作任务.md', '## 今日任务\n' + Array.from({ length: 14 }, (_, i) => '- [ ] 本周任务 ' + i).join('\n'));
+      await renderTest('dashboard');
+    });
+    assert.equal(await page.locator('.tcc-focus-grid').first().locator('.tcc-task-card').count(), 0, 'today-section todos must not enter Focus Queue');
+    await page.locator('[data-filter=week]').first().click();
+    assert.equal(await page.locator('[data-filter-grid] .tcc-task-card').count(), 14);
+    await page.evaluate(async () => {
+      testState.memory.set('task_outline/工作任务.md', '## 今日任务\n' + Array.from({ length: 14 }, (_, i) => '- [/] 进行任务 ' + i).join('\n') + '\n- [ ] 待办不要混入关注筛选\n');
+      await renderTest('dashboard');
+    });
+    assert.equal(await page.locator('.tcc-focus-grid').first().locator('.tcc-task-card').count(), 12);
+    await page.getByRole('button', { name: '查看全部 14 项', exact: true }).click();
+    assert.equal(await page.locator('[data-filter-grid] .tcc-task-card').count(), 14);
+    assert.equal(await page.locator('[data-filter-grid] .tcc-task-card').filter({ hasText: '待办不要混入关注筛选' }).count(), 0);
+    await page.getByRole('button', { name: '新增任务', exact: true }).click();
+    assert.equal(await page.locator('dialog select[name=section]').inputValue(), '今日任务');
+    assert.equal(await page.locator('dialog select[name=priority] option').count(), 6);
+    await page.locator('dialog input[name=title]').fill('中心直接新增的任务');
+    await page.locator('dialog select[name=priority]').selectOption('highest');
+    await page.locator('dialog select[name=status]').selectOption('/');
+    await page.locator('dialog input[name=start]').fill('2026-10-12');
+    await page.locator('dialog input[name=due]').fill('2026-10-17');
+    await page.locator('dialog input[name=next]').fill('确认验收标准');
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('dialog').screenshot({ path: path.join(output, 'create-root-task-mobile.png') });
+    assert(await page.locator('dialog').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
+    await saveDialog();
+    const newCard = page.locator('.tcc-focus-grid').first().locator('.tcc-task-card').filter({ has: page.locator('h3', { hasText: '中心直接新增的任务' }) });
+    assert.equal(await newCard.count(), 1);
+    assert.match(await newCard.innerText(), /最高/);
+    await newCard.locator('h3').click();
+    await page.evaluate(() => renderTest('detail'));
+    assert.equal(await page.locator('[data-task-priority]').inputValue(), 'highest');
+    for (const value of ['high', 'medium', 'normal', 'low', 'lowest']) {
+      const beforePriority = await revision();
+      await page.locator('[data-task-priority]').selectOption(value);
+      await page.waitForFunction(n => testState.renders > n, beforePriority);
+      assert.equal(await page.locator('[data-task-priority]').inputValue(), value);
+      assert.match(await page.locator('.tcc-detail-hero h2').innerText(), /中心直接新增的任务/);
+    }
+    await page.getByRole('button', { name: '编辑任务', exact: true }).click();
+    assert.equal(await page.locator('dialog select[name=priority]').inputValue(), 'lowest');
+    await page.locator('dialog select[name=priority]').selectOption('high');
+    await saveDialog();
+    assert.equal(await page.locator('[data-task-priority]').inputValue(), 'high');
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.locator('.tcc-detail-grid').screenshot({ path: path.join(output, 'editable-priority-desktop.png') });
+    await page.evaluate(async () => {
+      testState.memory.set('task_outline/工作任务.md', [
+        '## 今日任务',
+        '- [ ] 今日高优先级 ⏫ ⏳ 2026-10-12',
+        '- [ ] 今日最高优先级 🔺 📅 2026-10-12',
+        '- [/] 无日期进行中',
+        '- [ ] 今日分区中的未来任务 📅 2026-12-31',
+        '- [ ] 逾期待安排 📅 2026-10-01',
+        '- [>] 延期不入今日 ⏳ 2026-10-12',
+        '## 长期任务',
+        '- [ ] 长期父任务',
+        '  - [ ] 今日子任务 🔼 ⏳ 2026-10-12',
+        '  - [ ] 未来子任务 📅 2026-12-31'
+      ].join('\n'));
+      await renderTest('dashboard');
+    });
+    await page.locator('[data-filter=today]').first().click();
+    assert.equal(await page.evaluate(() => testState.opened.at(-1)), 'task_outline/今日任务.md');
+    await page.evaluate(() => renderTest('today'));
+    const plannedRows = page.locator('[data-today-list] > .tcc-today-row');
+    assert.deepEqual(await plannedRows.locator(':scope > .tcc-today-main > .tcc-today-title').allTextContents(), ['今日最高优先级', '今日高优先级', '长期父任务', '无日期进行中']);
+    assert.equal(await page.locator('.tcc-today-secondary[open]').count(), 0);
+    await page.locator('.tcc-today-shell').screenshot({ path: path.join(output, 'today-tasks-desktop.png') });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('.tcc-today-shell').screenshot({ path: path.join(output, 'today-tasks-mobile.png') });
+    assert(await page.locator('.tcc-today-shell').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
+    const dailyParent = () => plannedRows.filter({ has: page.locator('.tcc-today-title', { hasText: '长期父任务' }) });
+    await dailyParent().locator('summary').click();
+    const beforeChild = await revision();
+    await dailyParent().getByRole('checkbox', { name: '完成子任务：今日子任务', exact: true }).check();
+    await page.waitForFunction(n => testState.renders > n, beforeChild);
+    assert.equal(await dailyParent().count(), 0, 'completed child alone must not keep its parent in today');
+    await page.locator('.tcc-today-secondary').first().locator('summary').click();
+    const beforePlan = await revision();
+    await page.getByRole('button', { name: '安排今天', exact: true }).click();
+    await page.waitForFunction(n => testState.renders > n, beforePlan);
+    assert.equal(await plannedRows.filter({ hasText: '逾期待安排' }).count(), 1);
+    await page.getByRole('button', { name: '新增今日任务', exact: true }).click();
+    assert.equal(await page.locator('dialog input[name=scheduled]').inputValue(), '2026-10-12');
+    await page.locator('dialog input[name=title]').fill('从今日页新建');
+    await page.locator('dialog select[name=priority]').selectOption('high');
+    await saveDialog();
+    assert.equal(await plannedRows.filter({ hasText: '从今日页新建' }).count(), 1);
+    const beforeComplete = await revision();
+    await plannedRows.filter({ hasText: '从今日页新建' }).getByRole('checkbox').check();
+    await page.waitForFunction(n => testState.renders > n, beforeComplete);
+    assert.equal(await plannedRows.filter({ hasText: '从今日页新建' }).count(), 0);
+    await page.locator('.tcc-today-secondary').last().locator('summary').click();
+    assert.equal(await page.locator('.tcc-today-secondary').last().locator('.tcc-today-row').filter({ hasText: '从今日页新建' }).count(), 1);
     assert.deepEqual(errors, []);
     console.log('PASS: three views, quick edit, child creation, note logging, completion, acceptance, maintenance filter, blocking/restart and mobile editor.');
   } finally {
