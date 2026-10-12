@@ -4,53 +4,81 @@
     "type": "split",
     "children": [
       {
-        "id": "fe60b5649c9101d0",
+        "id": "57d472ab4d43a3cc",
         "type": "tabs",
         "children": [
           {
-            "id": "3ab86a120e572c13",
+            "id": "29eacc164aed549b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AUTOSAR/UDS/0x28(CommunicationControl).md",
+                "file": "daliy record/2026.10.08 报文唤醒时间项目优化.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "0x28(CommunicationControl)"
+              "title": "2026.10.08 报文唤醒时间项目优化"
             }
           },
           {
-            "id": "235f17af532c9345",
+            "id": "0a1a5822057a8be3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.09.23 28 服务失能问题排查.md",
+                "file": "daliy record/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.09.23 28 服务失能问题排查"
+              "title": "2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度"
             }
           },
           {
-            "id": "4884b2242bacf5c7",
+            "id": "31d7373e98488577",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.09.22 刷写测试.md",
+                "file": "task_outline/任务详情.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.09.22 刷写测试"
+              "title": "任务详情"
+            }
+          },
+          {
+            "id": "e902e502d52b63be",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/2026.09.11  存储栈开发.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026.09.11  存储栈开发"
+            }
+          },
+          {
+            "id": "ade6ad576ee65ca0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/2026.09.14 CAN需求对标.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026.09.14 CAN需求对标"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -84,7 +112,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#工作",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -108,12 +136,11 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 336.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -129,7 +156,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ASPICE流程认证文档完成情况清单.md",
+                "file": "daliy record/2026.10.08 报文唤醒时间项目优化.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -148,7 +175,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ASPICE流程认证文档完成情况清单.md",
+                "file": "daliy record/2026.10.08 报文唤醒时间项目优化.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -220,8 +247,7 @@
               "title": "Mermaid Toolbar"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -246,54 +272,54 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "4884b2242bacf5c7",
+  "active": "0a1a5822057a8be3",
   "lastOpenFiles": [
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923141844815.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923141643202.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923141520213.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923141426542.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923141307948.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923140800632.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923140441477.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923135923119.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923135825818.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923135238348.png",
-    "daliy record/assets/2026.09.22 刷写测试/file-20260923134650106.png",
-    "daliy record/assets/2026.09.22 刷写测试",
-    "daliy record/2026.09.23 28 服务失能问题排查.md",
-    "AUTOSAR/UDS/0x28(CommunicationControl).md",
-    "daliy record/2026.07.28 DID诊断配置以及开发.md",
-    "daliy record/2026.09.22 刷写测试.md",
-    "daliy record/assets/2026.09.23 28 服务失能问题排查",
-    "AUTOSAR/UDS/2026.06.01 学习建议.md",
+    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度/11077c39bc8cb1ba466992429cd6f294.png",
     "task_outline/任务详情.md",
     "task_outline/obsidian_tasks_command_center.md",
     "task_outline/工作任务.md",
-    "task_outline/复习时间轴.md",
+    "daliy record/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度.md",
+    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度/file-20261010172552457.png",
+    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度/file-20261010172331526.png",
+    "daliy record/2026.09.14 CAN需求对标.md",
+    "daliy record/2026.09.11  存储栈开发.md",
+    "daliy record/2026.10.08 报文唤醒时间项目优化.md",
+    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度/file-20261010153127130.png",
+    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度/file-20261010151459714.png",
+    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度",
+    "daliy record/2026.07.31 诊断其他功能.md",
     "task_outline/维护说明.md",
-    "daliy record/2026.09.21 诊断 DID 开发.md",
-    "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
-    "daliy record/2026.09.11  BE13看门狗测试.md",
+    "task_outline/复习时间轴.md",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261010145026428.png",
+    "ASPICE流程认证文档完成情况清单.md",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261010142243931.png",
+    "daliy record/2026.10.08 P2_ 计时器超时，控制器无响应.md",
+    "daliy record/assets/2026.09.08  诊断调查表测试（五）/README_core_debug.md",
+    "daliy record/2026.07.29 DTC 配置以及使用开发.md",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261010140104531.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261010135823840.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261010133138385.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261010132937365.png",
     "daliy record/2026.09.08  诊断调查表测试（五）.md",
-    "daliy record/2026.09.17  奇瑞 NM 新需求.md",
+    "daliy record/2026.06.01 功能安全开发.md",
+    "AUTOSAR/UDS/0x10(DiagnosticSessionControl).md",
+    "daliy record/2026.09.07 诊断调查表 （四）-- CAN E2E.md",
+    "daliy record/2026.08.17 核对诊断调查表（一）.md",
+    "daliy record/2026.09.01 诊断调查表（二）.md",
+    "daliy record/2026.08.17  奇瑞唤醒时间过久排查.md",
+    "daliy record/2026.07.03 奇瑞休眠唤醒报文优化.md",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化",
+    "daliy record/2026.07.14 UDS扩展会话超时进入默认会话排查.md",
+    "daliy record/2026.06.29 UDS故障排查.md",
+    "daliy record/2026.07.17 UDS从CANfd换成CAN后仍存在问题.md",
+    "daliy record/assets/2026.09.22 刷写测试",
+    "daliy record/assets/2026.09.23 28 服务失能问题排查",
     "daliy record/~WRL0003.tmp",
     "daliy record/~WRD0002.tmp",
     "daliy record/~$26.09.08  诊断调查表测试（五）.docx",
     "daliy record/2026.09.08  诊断调查表测试（五）.docx",
-    "daliy record/2026.09.11  存储栈开发.md",
-    "daliy record/2026.09.20 功能安全培训.md",
     "daliy record/assets/2026.09.21 诊断 DID 开发",
-    "hardware/2026.5.26 ASU2.5-TriC硬件电路.md",
     "移民计划/4B78E660",
-    "移民计划/~$荷兰工作居留准备计划.xlsx",
-    "移民计划/荷兰工作居留准备计划.xlsx",
-    "hardware/SRC硬件控制电流原理.md",
-    "hardware/HL8545_G_Description.md",
-    "ASPICE流程认证文档完成情况清单.md",
-    "daliy record/2026.06.29 UDS故障排查.md",
-    "AUTOSAR/AUTOSAR -- CANNM 标准流程.md",
-    "AUTOSAR/CAN stack/网络管理总结.md",
-    "daliy record/2026.09.14 CAN需求对标.md",
     "未命名.canvas",
     "未命名 1.canvas"
   ]

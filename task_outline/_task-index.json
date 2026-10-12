@@ -330,8 +330,8 @@
       "path": "task_outline/工作任务.md",
       "title": "",
       "aliases": [],
-      "hash": "c5ba79bd",
-      "updated": "2026-09-23 09:54"
+      "hash": "69c3c16b",
+      "updated": "2026-10-12 09:04"
     },
     "tcc-f25f9464-6782-48b8-b775-c19ed1a9a233": {
       "path": "task_outline/工作任务.md",
@@ -411,8 +411,8 @@
       "aliases": [
         "日语"
       ],
-      "hash": "2ea22e28",
-      "updated": "2026-09-16 16:56"
+      "hash": "5af6708e",
+      "updated": "2026-09-23 15:24"
     },
     "tcc-8e967378-2b0c-44fe-807e-16a79a733853": {
       "path": "task_outline/工作任务.md",
@@ -492,17 +492,18 @@
       "aliases": [
         "AI电影制作 （夸克） 2026"
       ],
-      "hash": "f2f7ab5",
-      "updated": "2026-09-16 16:56"
+      "hash": "3483c34c",
+      "updated": "2026-10-12 09:03"
     },
     "tcc-d85b3c3c-5f3e-4d5c-9058-dc9474129def": {
       "path": "task_outline/工作任务.md",
       "title": "新婚致辞--三十岁总结",
       "aliases": [
-        "新婚致辞--三十岁总结"
+        "新婚致辞--三十岁总结",
+        "新婚致辞--三十岁总结 🛫"
       ],
-      "hash": "56b8df74",
-      "updated": "2026-09-16 16:56"
+      "hash": "638bcb31",
+      "updated": "2026-10-12 09:03"
     },
     "tcc-fe7835cc-9da8-40f0-bd31-5532dafa7c9b": {
       "path": "task_outline/工作任务.md",
@@ -519,8 +520,8 @@
       "aliases": [
         "HF开源机器鸭Microduck"
       ],
-      "hash": "72d5d037",
-      "updated": "2026-09-16 16:56"
+      "hash": "a3b50e64",
+      "updated": "2026-09-23 15:25"
     },
     "tcc-f83be2b5-c539-4f58-953d-23b685fc433f": {
       "path": "task_outline/工作任务.md",
@@ -746,8 +747,8 @@
       "aliases": [
         "刷写测试"
       ],
-      "hash": "6a9846d8",
-      "updated": "2026-09-23 09:54"
+      "hash": "b3d89a9b",
+      "updated": "2026-09-23 15:22"
     },
     "tcc-7d9b202a-074e-4abc-928e-3cb2c55a2137": {
       "path": "task_outline/工作任务.md",
@@ -773,8 +774,245 @@
         "28 服务失能问题排查 📅 ^tcc-f5d50a07-125f-48ed-842e-c466d7879567",
         "28 服务失能问题排查"
       ],
-      "hash": "7c72674f",
-      "updated": "2026-09-23 09:55"
+      "hash": "e0e5f6bc",
+      "updated": "2026-09-23 15:22"
+    },
+    "tcc-22f1dd2e-b840-4d53-b40e-e4979e6224f2": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-924ae40c-f6c8-4954-8144-80f60fdad1aa",
+      "aliases": [
+        "^tcc-924ae40c-f6c8-4954-8144-80f60fdad1aa"
+      ],
+      "hash": "8c776288",
+      "updated": "2026-09-24 10:27"
+    },
+    "tcc-ea10fd1a-af2a-44fd-abef-3bdbe069a760": {
+      "path": "task_outline/工作任务.md",
+      "title": "通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时",
+      "aliases": [
+        "通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时",
+        "通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时 🛫",
+        "通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时 📅"
+      ],
+      "hash": "5d390f51",
+      "updated": "2026-09-24 10:28"
+    },
+    "tcc-27f8af3e-72f4-4814-a34f-8ba33c360bbc": {
+      "path": "task_outline/工作任务.md",
+      "title": "通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时",
+      "aliases": [
+        "通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时"
+      ],
+      "hash": "e93ee2f4",
+      "updated": "2026-10-08 10:23"
+    },
+    "tcc-d1bedd04-c916-47af-9547-1fe6bb62f20a": {
+      "path": "task_outline/工作任务.md",
+      "title": "P2* 计时器超时，控制器无响应",
+      "aliases": [
+        "P2* 计时器超时，控制器无响应"
+      ],
+      "hash": "43d2b386",
+      "updated": "2026-10-08 10:50"
+    },
+    "tcc-39c8de11-6d9c-4f09-9de4-4ac9d308f578": {
+      "path": "task_outline/工作任务.md",
+      "title": "报文唤醒时间项目优化 ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+      "aliases": [
+        "^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "c ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "报文唤醒 ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "报文唤醒时间优化 ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "报文唤醒时间xing'm ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "报文唤醒时间项目 ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "报文唤醒时间项目优化 ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "报文唤醒时间项目优化🛫 ^tcc-8757781f-570f-4211-8c8c-f473ab105362",
+        "报文唤醒时间项目优化 📅 ^tcc-8757781f-570f-4211-8c8c-f473ab105362"
+      ],
+      "hash": "6d358c7",
+      "updated": "2026-10-08 10:53"
+    },
+    "tcc-395d8f77-c88f-47a0-aad6-0ce82000ea4d": {
+      "path": "task_outline/工作任务.md",
+      "title": "报文唤醒时间项目优化",
+      "aliases": [
+        "报文唤醒时间项目优化 4ac9d308f578",
+        "报文唤醒时间项目优化"
+      ],
+      "hash": "339faea6",
+      "updated": "2026-10-10 15:09"
+    },
+    "tcc-ec3ae0d1-9ba0-456a-a349-f4fee7706c26": {
+      "path": "task_outline/工作任务.md",
+      "title": "唤醒报文 ^tcc-6499ae8b-d52b-4af9-921e-c0130c25693c",
+      "aliases": [
+        "^tcc-6499ae8b-d52b-4af9-921e-c0130c25693c",
+        "唤醒bao'w ^tcc-6499ae8b-d52b-4af9-921e-c0130c25693c",
+        "唤醒报文 ^tcc-6499ae8b-d52b-4af9-921e-c0130c25693c"
+      ],
+      "hash": "e75b7e20",
+      "updated": "2026-10-10 11:23"
+    },
+    "tcc-b7793539-89a0-4829-ac9b-b0ed8c030165": {
+      "path": "task_outline/工作任务.md",
+      "title": "唤醒报文要求只识别 ID 不判断内容和长度",
+      "aliases": [
+        "唤醒报文",
+        "唤醒报文要求",
+        "唤醒报文要求只shi'bie",
+        "唤醒报文要求只识别 ID bu'p",
+        "唤醒报文要求只识别 ID 不判断nei'rong",
+        "唤醒报文要求只识别 ID 不判断内容和长度",
+        "唤醒报文要求只识别 ID 不判断内容和长度🛫",
+        "唤醒报文要求只识别 ID 不判断内容和长度 📅"
+      ],
+      "hash": "f9289099",
+      "updated": "2026-10-10 11:24"
+    },
+    "tcc-3c6ba52b-b05f-4843-affa-84d6ea489056": {
+      "path": "task_outline/工作任务.md",
+      "title": "唤醒报文要求只识别 ID 不判断内容和长度",
+      "aliases": [
+        "唤醒报文要求只识别 ID 不判断内容和长度"
+      ],
+      "hash": "7daf4b62",
+      "updated": "2026-10-10 15:14"
+    },
+    "tcc-e46a8436-dd0a-489d-ad66-c893d3d7f6b4": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。"
+      ],
+      "hash": "d3a6ad7",
+      "updated": "2026-10-10 14:36"
+    },
+    "tcc-fa97057a-18b3-4338-ac28-a1a7236141ef": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。 ^tcc-e 46 a 8436-dd 0 a-489 d-ad 66-c 893 d 3 d 7 f 6 b 4",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。 ^tcc-e 46 a 8436-dd 0 a-489 d-ad 66-c 893 d 3 d 7 f 6 b 4"
+      ],
+      "hash": "9e893e0a",
+      "updated": "2026-10-10 14:37"
+    },
+    "tcc-be8d4d90-0821-4c39-bc85-6f34b7918dc5": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。"
+      ],
+      "hash": "b8088dae",
+      "updated": "2026-10-10 14:37"
+    },
+    "tcc-db2fa238-f50e-4b74-9624-1bf6126a2a6e": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。 🛫",
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。 📅"
+      ],
+      "hash": "108faec",
+      "updated": "2026-10-10 14:37"
+    },
+    "tcc-ce1e78ec-9c97-4e35-8ed1-0bd613e37186": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。"
+      ],
+      "hash": "6dc5842b",
+      "updated": "2026-10-10 14:37"
+    },
+    "tcc-a6ff9a32-f377-4ff9-9942-71bad2b4f584": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-9e42cf59-2daa-45fd-9a65-c199a69a0da5",
+      "aliases": [
+        "^tcc-9e42cf59-2daa-45fd-9a65-c199a69a0da5"
+      ],
+      "hash": "381aaaf4",
+      "updated": "2026-10-10 14:37"
+    },
+    "tcc-a2958140-675c-4ab1-a2a5-0784ddfded73": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。"
+      ],
+      "hash": "6559f1d1",
+      "updated": "2026-10-10 14:39"
+    },
+    "tcc-c51c5cd2-b947-42cb-b860-5d929b1737ae": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。"
+      ],
+      "hash": "7a96d043",
+      "updated": "2026-10-10 14:40"
+    },
+    "tcc-c31bd5ca-d1ab-47e1-a169-a68293fd7c06": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-8c8a4796-3b82-428c-86d3-f6d2991ce158",
+      "aliases": [
+        "^tcc-8c8a4796-3b82-428c-86d3-f6d2991ce158"
+      ],
+      "hash": "51dbea4d",
+      "updated": "2026-10-12 09:03"
+    },
+    "tcc-8ecebbc1-04e8-402a-93ab-836e7a8a3a4c": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-6ba6acaa-ebb0-432a-8c64-164196901fab",
+      "aliases": [
+        "^tcc-6ba6acaa-ebb0-432a-8c64-164196901fab",
+        "dian'ji ^tcc-6ba6acaa-ebb0-432a-8c64-164196901fab"
+      ],
+      "hash": "b0b00af1",
+      "updated": "2026-10-12 09:03"
+    },
+    "tcc-456db15c-6e37-44f7-8370-10c4c708df37": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-47e1603f-11a4-4ff3-9993-812577be4dea",
+      "aliases": [
+        "^tcc-47e1603f-11a4-4ff3-9993-812577be4dea"
+      ],
+      "hash": "641dd777",
+      "updated": "2026-10-12 09:04"
+    },
+    "tcc-18a3121c-7037-45d4-ade2-325a9ea762d6": {
+      "path": "task_outline/工作任务.md",
+      "title": "^tcc-4efc9df4-8a52-4cf7-8d9e-4f4f82e09b9d",
+      "aliases": [
+        "^tcc-4efc9df4-8a52-4cf7-8d9e-4f4f82e09b9d"
+      ],
+      "hash": "414402bb",
+      "updated": "2026-10-12 09:04"
+    },
+    "tcc-d96d05dc-9374-424b-ba40-a7ab220377d2": {
+      "path": "task_outline/工作任务.md",
+      "title": "AI 生成婚纱照。",
+      "aliases": [
+        "AIsheng'cheng",
+        "AI 生成",
+        "AI 生成hun'cha'ch",
+        "AI 生成hun'sha'zh",
+        "AI 生成婚纱照",
+        "AI 生成婚纱照。"
+      ],
+      "hash": "59de75bb",
+      "updated": "2026-10-12 09:05"
+    },
+    "tcc-eeb1c2d8-dd28-462d-ab10-b41e7e2fb6f0": {
+      "path": "task_outline/工作任务.md",
+      "title": "AI 生成婚纱照。",
+      "aliases": [
+        "AI 生成婚纱照。 📅",
+        "AI 生成婚纱照。",
+        "AI 生成婚纱照。 ⏳"
+      ],
+      "hash": "b3fe6f43",
+      "updated": "2026-10-12 09:05"
     }
   }
 }
