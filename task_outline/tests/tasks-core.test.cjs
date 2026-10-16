@@ -155,8 +155,15 @@ function setup(text) {
   await assert.rejects(setup('## 今日任务\n## 今日任务\n').store.createTask({ title: 'Duplicate section' }), /重名/);
   await assert.rejects(setup('## 今日任务\n```\n').store.createTask({ title: 'Open fence' }), /未闭合/);
   const planCase = setup('## 今日任务\n- [ ] Plan me 📅 2026-10-20\n');
+  await assert.rejects(planCase.store.createTask({ title: 'Habit', habit: true, weeklyGoal: 8 }));
   await planCase.store.initialize();
   const planTask = planCase.tasks()[0];
+  await planCase.store.save(planTask, { habit: 'true', weeklyGoal: '5' });
+  assert.deepEqual(core.habit(planCase.tasks()[0]), { enabled: true, goal: 5 });
+  assert.equal(core.title(planCase.tasks()[0].text), 'Plan me');
+  await assert.rejects(planCase.store.save(planTask, { weeklyGoal: 0 }));
+  await planCase.store.save(planTask, { habit: 'false' });
+  assert.equal(core.habit(planCase.tasks()[0]).enabled, false);
   await planCase.store.save(planTask, { scheduled: '2026-10-12' });
   assert(planCase.tasks()[0].text.includes('⏳ 2026-10-12'));
   assert.equal(planCase.tasks()[0].status, ' ');

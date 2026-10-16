@@ -1,3 +1,37 @@
+.tcc-editor-dialog .tcc-habit-toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.tcc-editor-dialog .tcc-habit-toggle input { width: 16px; height: 16px; margin: 0; }
+.tasks-command-center .tcc-habits { margin: 20px 0; border-block: 1px solid var(--tcc-border); }
+.tasks-command-center .tcc-habits h3 { font-size: 17px; margin: 14px 0 6px; }
+.tasks-command-center .tcc-habits h3 span { color: var(--text-muted); font-size: 13px; margin-left: 8px; }
+.tasks-command-center .tcc-habit-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 12px 0; }
+.tasks-command-center .tcc-habit-row > div { min-width: 0; }
+.tasks-command-center .tcc-habit-row p,
+.tasks-command-center .tcc-habit-row small { display: block; margin: 4px 0 0; font-size: 12px; color: var(--text-muted); }
+.tasks-command-center .tcc-habit-status { font-size: 13px; color: var(--text-muted); }
+.tasks-command-center .tcc-habit-status.recorded { color: var(--tcc-green); }
+.tasks-command-center .tcc-habit-detail { padding: 16px; background: var(--tcc-panel-strong); }
+.tasks-command-center .tcc-habit-detail button {
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--tcc-border);
+  border-radius: 6px;
+  background: var(--background-secondary);
+  color: var(--text-normal);
+  box-shadow: none;
+  cursor: pointer;
+}
+.tasks-command-center .tcc-habit-stats { display: flex; gap: 12px 24px; flex-wrap: wrap; font-size: 14px; padding: 12px 0; }
+.tasks-command-center .tcc-habit-history summary { font-size: 14px; padding: 8px 0; cursor: pointer; }
+.tasks-command-center .tcc-habit-history article { padding: 12px 0; border-bottom: 1px solid var(--tcc-border); }
+.tasks-command-center .tcc-habit-history header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.tasks-command-center .tcc-habit-history header strong { font-size: 14px; }
+.tasks-command-center .tcc-habit-history p { font-size: 13px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; margin: 6px 0; }
+.tasks-command-center .tcc-habit-archives { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+@media (max-width: 560px) {
+  .tasks-command-center .tcc-habit-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+  .tasks-command-center .tcc-habit-row > div { grid-column: 1 / -1; }
+}
+
 .tasks-command-center .tcc-today-shell { max-width: 1200px; margin: 0 auto; padding: 18px; background: var(--background-primary); }
 .tasks-command-center .tcc-today-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .tasks-command-center .tcc-today-header h2 { font-size: 24px; margin: 0 0 6px; }

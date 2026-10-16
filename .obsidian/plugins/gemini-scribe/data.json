@@ -180,8 +180,13 @@
         "value": "gemma-4-31b-it",
         "label": "Gemma 4 31B IT",
         "maxTemperature": 2
+      },
+      {
+        "value": "gemini-nano-banana-2.1",
+        "label": "Nano Banana 2.1",
+        "maxTemperature": 1
       }
     ],
-    "timestamp": 1791616272112
+    "timestamp": 1791900250927
   }
 }

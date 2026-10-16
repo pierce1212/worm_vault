@@ -10,7 +10,7 @@ const script = name => source(name).match(/```dataviewjs\s*\n([\s\S]*?)\n```/)[1
 const plugin = fs.readFileSync(path.join(root, '.obsidian/plugins/dataview/main.js'), 'utf8');
 const luxon = plugin.slice(plugin.indexOf('// these'), plugin.indexOf('////////////////////', plugin.indexOf('var Luxon =')));
 const fixture = '## 今日任务\n- [/] CAN 对标 拓普需求更新 🛫 2026-09-17 📅 2026-09-20\n  - [ ] 确认唤醒配置\n- [/] 存储栈 📅 2026-09-19\n## 长期任务\n- [ ] 长期项目\n  - [ ] 阶段一\n';
-const payload = { core: source('tasks-core.js'), records: source('task-records.js'), todayModule: source('tasks-today.js'), css: source('tasks-command-center.css'), fixture,
+const payload = { core: source('tasks-core.js'), records: source('task-records.js'), todayModule: source('tasks-today.js'), checkins: source('task-checkins.js'), css: source('tasks-command-center.css'), fixture,
   dashboard: script('obsidian_tasks_command_center.md'), detail: script('任务详情.md'), review: script('复习时间轴.md'), today: script('今日任务.md') };
 
 (async () => {
@@ -28,7 +28,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.evaluate(async payload => {
       luxon.Settings.now = () => new Date('2026-09-16T12:00:00+08:00').getTime();
       const taskPath = 'task_outline/工作任务.md';
-      const memory = new Map([[taskPath, payload.fixture], ['task_outline/tasks-core.js', payload.core], ['task_outline/task-records.js', payload.records], ['task_outline/tasks-today.js', payload.todayModule], ['task_outline/tasks-command-center.css', payload.css]]);
+      const memory = new Map([[taskPath, payload.fixture], ['task_outline/tasks-core.js', payload.core], ['task_outline/task-records.js', payload.records], ['task_outline/tasks-today.js', payload.todayModule], ['task_outline/task-checkins.js', payload.checkins], ['task_outline/tasks-command-center.css', payload.css]]);
       window.require = () => ({ parseYaml: JSON.parse, stringifyYaml: data => JSON.stringify(data, null, 2) });
       window.testState = { memory, opened: [], renders: 0, mode: 'dashboard' };
       function parse(text) {
@@ -109,7 +109,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.locator('dialog input[name=reason]').fill('等待硬件到位');
     await page.locator('dialog input[name=check]').fill('2026-09-17');
     await page.setViewportSize({ width: 390, height: 844 });
-    const output = path.join(root, 'output/playwright');
+    const output = path.resolve(root, process.env.TCC_UI_ARTIFACT_DIR || 'output/playwright');
     fs.mkdirSync(output, { recursive: true });
     await page.locator('dialog').screenshot({ path: path.join(output, 'task-editor-mobile.png') });
     assert(await page.locator('dialog').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
@@ -334,6 +334,58 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     assert.equal(await plannedRows.filter({ hasText: '从今日页新建' }).count(), 0);
     await page.locator('.tcc-today-secondary').last().locator('summary').click();
     assert.equal(await page.locator('.tcc-today-secondary').last().locator('.tcc-today-row').filter({ hasText: '从今日页新建' }).count(), 1);
+    await page.evaluate(async () => {
+      luxon.Settings.now = () => new Date('2026-10-14T12:00:00+08:00').getTime();
+      testState.memory.set('task_outline/工作任务.md', '## 长期任务\n- [/] 英语学习\n  - [ ] 语法复习\n');
+      await renderTest('today');
+    });
+    await page.locator('[data-today-list]').getByRole('button', { name: '编辑任务', exact: true }).click();
+    await page.getByRole('checkbox', { name: '开启每日打卡', exact: true }).check();
+    assert.equal(await page.locator('dialog input[name=weeklyGoal]').inputValue(), '5');
+    await saveDialog();
+    assert.equal(await page.locator('.tcc-habit-row').count(), 1);
+    assert.equal(await plannedRows.count(), 0, 'habit tasks have their own area');
+    const unchangedTaskSource = await page.evaluate(() => testState.memory.get('task_outline/工作任务.md'));
+    await page.getByRole('button', { name: '今日打卡', exact: true }).click();
+    await page.locator('dialog input[name=minutes]').fill('25');
+    await page.locator('dialog textarea[name=content]').fill('跟读一段技术视频\n复习15个单词');
+    await page.locator('dialog textarea[name=reflection]').fill('能够复述主要内容，连读需要练习');
+    await page.locator('dialog textarea[name=next]').fill('录音对比');
+    await page.locator('dialog').screenshot({ path: path.join(output, 'checkin-editor-mobile.png') });
+    assert(await page.locator('dialog').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
+    await saveDialog();
+    assert.match(await page.locator('.tcc-habit-row').innerText(), /本周 1\/5 天 · 25 分钟/);
+    await page.getByRole('button', { name: '修改记录', exact: true }).click();
+    assert.equal(await page.locator('dialog input[name=minutes]').inputValue(), '25');
+    await page.locator('dialog input[name=minutes]').fill('30');
+    await saveDialog();
+    assert.match(await page.locator('.tcc-habit-row').innerText(), /本周 1\/5 天 · 30 分钟/);
+    await page.getByRole('button', { name: '修改记录', exact: true }).click();
+    await page.locator('dialog input[name=day]').fill('2026-10-12');
+    await page.locator('dialog input[name=minutes]').fill('20');
+    await page.locator('dialog textarea[name=content]').fill('复习时态');
+    await saveDialog();
+    await page.getByRole('button', { name: '修改记录', exact: true }).click();
+    await page.locator('dialog input[name=day]').fill('2026-10-13');
+    await page.locator('dialog select[name=kind]').selectOption('rest');
+    assert(await page.locator('dialog input[name=minutes]').isDisabled());
+    await saveDialog();
+    assert.match(await page.locator('.tcc-habit-row').innerText(), /本周 2\/5 天 · 50 分钟/);
+    assert.equal(await page.evaluate(() => testState.memory.get('task_outline/工作任务.md')), unchangedTaskSource);
+    assert.equal(await page.evaluate(() => [...testState.memory.keys()].filter(p => p.startsWith('daliy record/打卡记录/') && p.endsWith('.md')).length), 1);
+    await page.locator('.tcc-today-shell').screenshot({ path: path.join(output, 'habit-today-mobile.png') });
+    await page.locator('.tcc-habit-row .tcc-today-title').click();
+    await page.evaluate(() => renderTest('detail'));
+    assert.equal(await page.locator('.tcc-habit-history article').count(), 3);
+    assert.match(await page.locator('.tcc-habit-stats').innerText(), /累计 2 天/);
+    await page.locator('.tcc-habit-archives button').click();
+    assert((await page.evaluate(() => testState.opened.at(-1))).startsWith('daliy record/打卡记录/2026-10'));
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.locator('.tcc-habit-detail').screenshot({ path: path.join(output, 'habit-history-desktop.png') });
+    await page.getByRole('button', { name: '编辑任务', exact: true }).click();
+    await page.getByRole('checkbox', { name: '开启每日打卡', exact: true }).uncheck();
+    await saveDialog();
+    assert.equal(await page.locator('.tcc-habit-history article').count(), 3, 'disabling habit mode preserves history');
     assert.deepEqual(errors, []);
     console.log('PASS: three views, quick edit, child creation, note logging, completion, acceptance, maintenance filter, blocking/restart and mobile editor.');
   } finally {

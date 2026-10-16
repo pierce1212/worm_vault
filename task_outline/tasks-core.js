@@ -3,7 +3,7 @@ const list = value => Array.isArray(value) ? value : value?.array?.() ?? Array.f
 const field = (text, key) => String(text ?? "").match(new RegExp(`\\[(?:${key})::\\s*([^\\]]*)\\]`, "i"))?.[1]?.trim() ?? "";
 const blockId = text => String(text ?? "").match(/\s\^([a-zA-Z0-9-]+)\s*$/)?.[1] ?? "";
 const withoutId = text => String(text ?? "").replace(/\s*\^[a-zA-Z0-9-]+\s*$/, "").trimEnd();
-const stripMeta = text => withoutId(text).replace(/\s*\[tcc_(?:next|reason|check|blocked)::[^\]]*\]/gi, "");
+const stripMeta = text => withoutId(text).replace(/\s*\[tcc_(?:next|reason|check|blocked|habit|habit_goal)::[^\]]*\]/gi, "");
 const oneLine = value => String(value ?? "").replace(/[\r\n]+/g, " ").trim();
 const fieldText = value => oneLine(value).replace(/\[/g, "（").replace(/\]/g, "）");
 const esc = value => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -19,6 +19,20 @@ const priorities = [
 ];
 const statusOptions = [[" ", "待办"], ["/", "进行中"], ["blocked", "阻塞"], [">", "延期"], ["?", "待确认"], ["!", "重要"], ["x", "完成"], ["-", "取消"]];
 const sections = ["今日任务", "近期任务", "长期任务"];
+
+function habit(task) {
+  const goal = Number(field(task.text, "tcc_habit_goal"));
+  return { enabled: field(task.text, "tcc_habit") === "true", goal: Number.isInteger(goal) && goal >= 1 && goal <= 7 ? goal : 5 };
+}
+
+function habitFields(text, payload) {
+  if (payload.habit === undefined && payload.weeklyGoal === undefined) return text;
+  const enabled = payload.habit === undefined ? habit({ text }).enabled : payload.habit === true || payload.habit === "true";
+  if (!enabled) return putField(putField(text, "tcc_habit", ""), "tcc_habit_goal", "");
+  const goal = payload.weeklyGoal === undefined ? habit({ text }).goal : Number(payload.weeklyGoal);
+  if (!Number.isInteger(goal) || goal < 1 || goal > 7) throw new Error("每周目标应为 1 至 7 天");
+  return putField(putField(text, "tcc_habit", "true"), "tcc_habit_goal", goal);
+}
 
 function priority(task) {
   const text = String(task.text ?? "").replace(/\[[^\]]*::[^\]]*\]/g, "");
@@ -276,6 +290,7 @@ function create({ app, paths, folder, DateTime, setIcon }) {
       if (due !== undefined) text = text.replace(/\s*📅\s*\d{4}-\d{1,2}-\d{1,2}/gu, "") + (due ? ` 📅 ${due}` : "");
       if (scheduled !== undefined) text = text.replace(/\s*⏳\s*\d{4}-\d{1,2}-\d{1,2}/gu, "") + (scheduled ? ` ⏳ ${scheduled}` : "");
       if (payload.priority !== undefined) text = priorityText(text, payload.priority);
+      text = habitFields(text, payload);
       for (const [key, value] of [["tcc_next", payload.next], ["tcc_reason", payload.reason], ["tcc_check", check]]) {
         if (value !== undefined) text = putField(text, key, value);
       }
@@ -320,6 +335,7 @@ function create({ app, paths, folder, DateTime, setIcon }) {
     if (due) text += ` 📅 ${due}`;
     if (scheduled) text += ` ⏳ ${scheduled}`;
     text = putField(text, "tcc_next", payload.next);
+    text = habitFields(text, payload);
     if (waiting) {
       text = putField(putField(text, "tcc_reason", payload.reason), "tcc_check", check);
       if (chosenStatus === "blocked") text = putField(text, "tcc_blocked", "true");
@@ -490,6 +506,7 @@ function create({ app, paths, folder, DateTime, setIcon }) {
       (action === "create" ? label("start", "开始日期", input("start", "", "date")) : "") +
       `<div class="tcc-editor-pair">${label("status", "状态", `<select name="status">${statuses.map(([value, text]) => `<option value="${value}" ${value === current ? "selected" : ""}>${text}</option>`).join("")}</select>`)}${label("due", "截止日期", input("due", task.text.match(/📅\s*(\d{4}-\d{2}-\d{2})/u)?.[1] ?? "", "date"))}</div>` +
       label("next", "下一步行动", input("next", data.next)) +
+      `<label class="tcc-habit-toggle"><input type="checkbox" name="habit" ${habit(task).enabled ? "checked" : ""}><span>开启每日打卡</span></label><div data-habit-options>${label("weeklyGoal", "每周目标（天）", `<input type="number" name="weeklyGoal" min="1" max="7" step="1" value="${habit(task).goal}">`)}</div>` +
       `<div data-wait-fields>${label("reason", "延期 / 阻塞原因", input("reason", data.reason))}${label("check", "下次检查日期", input("check", data.check, "date"))}</div>`;
     else if (action === "child") fields = label("text", "子任务名称", input("text", "", "text", true)) + label("due", "截止日期", input("due", "", "date"));
     else if (action === "note") fields = label("text", "本次进展", '<textarea name="text" rows="4" required></textarea>');
@@ -500,7 +517,12 @@ function create({ app, paths, folder, DateTime, setIcon }) {
     dialog.addEventListener("close", () => dialog.remove(), { once: true });
     dialog.querySelectorAll("[data-close]").forEach(button => button.addEventListener("click", () => dialog.close()));
     const form = dialog.querySelector("form");
-    const initial = Object.fromEntries(new FormData(form));
+    const valuesOfForm = () => {
+      const values = Object.fromEntries(new FormData(form));
+      if (form.elements.habit) values.habit = String(form.elements.habit.checked);
+      return values;
+    };
+    const initial = valuesOfForm();
     let createdTask = null;
     const toggleWaiting = () => {
       const waiting = [">", "blocked"].includes(form.elements.status?.value);
@@ -509,12 +531,18 @@ function create({ app, paths, folder, DateTime, setIcon }) {
     };
     form.elements.status?.addEventListener("change", toggleWaiting);
     toggleWaiting();
+    const toggleHabit = () => {
+      const options = form.querySelector("[data-habit-options]");
+      if (options) options.hidden = !form.elements.habit.checked;
+    };
+    form.elements.habit?.addEventListener("change", toggleHabit);
+    toggleHabit();
     form.addEventListener("submit", async event => {
       event.preventDefault();
       const submit = form.querySelector('[type="submit"]');
       if (submit.disabled) return;
       const errorNode = form.querySelector("[role=alert]");
-      const values = Object.fromEntries(new FormData(form));
+      const values = valuesOfForm();
       const payload = action === "edit" ? Object.fromEntries(Object.entries(values).filter(([key, value]) => value !== initial[key])) : values;
       submit.disabled = true;
       errorNode.hidden = true;
@@ -549,9 +577,9 @@ function create({ app, paths, folder, DateTime, setIcon }) {
   }
 
   return { initialize, identity, aliases, info, save, createTask, addChild, addNote, setReview, markReview, snapshot, priority, priorityOptions,
-    reasons, controls, icons, bind, refresh, attempt, syncStyles, completion, children, ready, isBlocked, stripMeta, state, statusBadge,
+    reasons, controls, icons, bind, refresh, attempt, syncStyles, completion, children, ready, isBlocked, stripMeta, state, statusBadge, habit,
     matches(task, saved, clean) { return identity(task) === saved || `${task.path ?? paths[0]}:${task.line ?? ""}:${clean(task.text)}` === saved; }
   };
 }
 
-module.exports = { create, scan, endOfTask, stripMeta, title, children, completion, ready, isBlocked, state, priority };
+module.exports = { create, scan, endOfTask, stripMeta, title, children, completion, ready, isBlocked, state, priority, habit };

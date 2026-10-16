@@ -14,7 +14,7 @@ function build(tasks, { core, DateTime, today }) {
     const result = [];
     function walk(node, root = false) {
       if (root || node.task) {
-        if (!active(node)) return;
+        if (!active(node) || core.habit(node).enabled) return;
         result.push(node);
       }
       for (const child of array(node.children)) walk(child);
@@ -35,8 +35,17 @@ function build(tasks, { core, DateTime, today }) {
     const due = [task, ...nodes].map(node => day(node, "due", "📅")?.toMillis() ?? Infinity).sort((a, b) => a - b)[0];
     return { task, nodes, labels, priority, childPriority: priority.score > core.priority(task).score, due };
   }
-  const planned = [], overdue = [], done = [];
+  const planned = [], overdue = [], done = [], habits = [];
+  function collectHabits(node, parent = null, root = false) {
+    if (root || node.task) {
+      if (!active(node)) return;
+      if (core.habit(node).enabled) habits.push({ task: node, parent });
+    }
+    for (const child of array(node.children)) collectHabits(child, root ? node : parent);
+  }
   for (const task of roots) {
+    collectHabits(task, null, true);
+    if (core.habit(task).enabled) continue;
     if (core.state(task).key === "done") {
       if (day(task, "completion", "✅")?.hasSame(today, "day")) done.push(entry(task, [], ["今日完成"]));
       continue;
@@ -53,7 +62,8 @@ function build(tasks, { core, DateTime, today }) {
     }
   }
   const compare = (a, b) => b.priority.score - a.priority.score || a.due - b.due || key(a.task).localeCompare(key(b.task), "zh-CN", { numeric: true });
-  return { planned: planned.sort(compare), overdue: overdue.sort(compare), done: done.sort(compare) };
+  habits.sort((a, b) => core.priority(b.task).score - core.priority(a.task).score || key(a.task).localeCompare(key(b.task), "zh-CN", { numeric: true }));
+  return { planned: planned.sort(compare), overdue: overdue.sort(compare), done: done.sort(compare), habits };
 }
 
 module.exports = { build };

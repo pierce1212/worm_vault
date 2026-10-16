@@ -8,31 +8,31 @@
         "type": "tabs",
         "children": [
           {
-            "id": "fc479400d23b4103",
+            "id": "f4c88a08131c4caa",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task_outline/工作任务.md",
-                "mode": "preview",
+                "file": "00_Inbox/灵感/人生感悟.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "工作任务"
+              "title": "人生感悟"
             }
           },
           {
-            "id": "0eff3097a6fe3831",
+            "id": "ed1d8a9d09a9df27",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task_outline/任务详情.md",
-                "mode": "preview",
+                "file": "daliy record/2026.10.16.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "任务详情"
+              "title": "2026.10.16"
             }
           }
         ],
@@ -70,7 +70,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#工作",
+                "query": "PWRDWNRecover",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -98,7 +98,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 338.5
+    "width": 366
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -114,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "daliy record/2026.10.08 报文唤醒时间项目优化.md",
+                "file": "daliy record/2026.10.12 AI生成婚纱照.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -209,7 +209,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -230,54 +230,54 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "0eff3097a6fe3831",
+  "active": "ed1d8a9d09a9df27",
   "lastOpenFiles": [
-    "task_outline/今日任务.md",
-    "task_outline/任务详情.md",
-    "task_outline/工作任务.md",
+    "daliy record/2026.06.10 IDE环境设置.md",
+    "daliy record/2026.10.16.md",
     "task_outline/obsidian_tasks_command_center.md",
+    "00_Inbox/灵感/人生感悟.md",
+    "00_Inbox/灵感/健康.md",
+    "task_outline/任务详情.md",
+    "00_Inbox/灵感/投资心得.md",
+    "00_Inbox/灵感/灵感收集箱.md",
+    "00_Inbox/生活随想/2026.08.16 表演.md",
+    "00_Inbox/生活随想/2026.08.14 执行力.md",
+    "00_Inbox/生活随想/2026.08.07 嵌入式的未来.md",
+    "00_Inbox/生活随想/2026.09.03 第一性原理.md",
+    "00_Inbox/生活随想/付鹏_AI流动性_视频总结与投资建议_2026-08-12.md",
     "daliy record/2026.10.12 工程调试脚本接入 vscode，可以实现一键调试.md",
-    "task_outline/复习时间轴.md",
     "daliy record/2026.10.12 通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时.md",
-    "daliy record/assets/2026.10.12 通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时/929ee7dbaac565b20cfd0bd2dc18258b.png",
-    "daliy record/assets/2026.10.12 通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时",
-    "output/playwright/today-tasks-mobile.png",
-    "output/playwright/today-tasks-desktop.png",
-    "task_outline/tests/tasks-today.test.cjs",
-    "task_outline/tasks-today.js",
-    "output/playwright/editable-priority-desktop.png",
-    "output/playwright/create-root-task-mobile.png",
-    "daliy record/2026.10.08 报文唤醒时间项目优化.md",
-    "output/playwright/long-term-focus-regression.png",
-    "daliy record/2026.09.14 CAN需求对标.md",
-    "daliy record/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度（FBL合并hex）.md",
-    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度（FBL合并hex）",
-    "daliy record/2026.09.11  存储栈开发.md",
-    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度（FBL合并hex）/file-20261012112444409.png",
-    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度（FBL合并hex）/file-20261012112444412.png",
-    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度（FBL合并hex）/file-20261012112444414.png",
-    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度（FBL合并hex）/file-20261012112444415.png",
-    "daliy record/assets/2026.10.10 唤醒报文要求只识别 ID 不判断内容和长度",
-    "daliy record/2026.07.31 诊断其他功能.md",
-    "task_outline/维护说明.md",
-    "ASPICE流程认证文档完成情况清单.md",
+    "daliy record/2026.10.14 采样点修改.md",
+    "daliy record/2026.10.15 奇瑞需求整理.md",
+    "daliy record/2026.09.24   奇瑞项目反思.md",
     "daliy record/2026.10.08 P2_ 计时器超时，控制器无响应.md",
-    "daliy record/assets/2026.09.08  诊断调查表测试（五）/README_core_debug.md",
-    "daliy record/2026.07.29 DTC 配置以及使用开发.md",
-    "daliy record/2026.09.08  诊断调查表测试（五）.md",
-    "daliy record/2026.06.01 功能安全开发.md",
-    "AUTOSAR/UDS/0x10(DiagnosticSessionControl).md",
-    "daliy record/2026.09.07 诊断调查表 （四）-- CAN E2E.md",
-    "daliy record/2026.08.17 核对诊断调查表（一）.md",
-    "daliy record/2026.09.01 诊断调查表（二）.md",
-    "daliy record/2026.08.17  奇瑞唤醒时间过久排查.md",
-    "daliy record/2026.07.03 奇瑞休眠唤醒报文优化.md",
-    "daliy record/assets/2026.10.08 报文唤醒时间项目优化",
-    "daliy record/2026.07.14 UDS扩展会话超时进入默认会话排查.md",
-    "daliy record/assets/2026.09.22 刷写测试",
-    "daliy record/assets/2026.09.23 28 服务失能问题排查",
-    "daliy record/~WRL0003.tmp",
-    "daliy record/~WRD0002.tmp",
+    "daliy record/2026.10.08 报文唤醒时间项目优化.md",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016110040219.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016105833709.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016105540345.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016105455231.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016105132085.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016105046814.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016104938254.png",
+    "daliy record/assets/2026.10.08 报文唤醒时间项目优化/file-20261016101033157.png",
+    "task_outline/今日任务.md",
+    "daliy record/打卡记录/2026-10 健身 2e2a71eb.md",
+    "task_outline/复习时间轴.md",
+    "00_Inbox/灵感/TODO.md",
+    "00_Inbox/生活随想/26_08_17-0520 缓解焦虑.md",
+    "00_Inbox/生活随想/2026.08.17 对话.md",
+    "daliy record/assets/2026.10.15 集成电路方案提供商/file-20261015164826743.png",
+    "daliy record/assets/2026.10.15 集成电路方案提供商/file-20261015164215740.png",
+    "daliy record/assets/2026.10.15 集成电路方案提供商",
+    "daliy record/assets/2026.10.15 奇瑞需求整理",
+    "daliy record/打卡记录",
+    "output/playwright/checkins-final",
+    "output/playwright/checkins-20261014",
+    "task_outline/tests/task-checkins.test.cjs",
+    "task_outline/task-checkins.js",
+    "daliy record/assets/2026.10.14 采样点修改",
+    "daliy record/assets/2026.10.12 工程调试脚本接入 vscode，可以实现一键调试",
+    "daliy record/assets/2026.10.12 通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时",
     "未命名.canvas",
     "未命名 1.canvas"
   ]
