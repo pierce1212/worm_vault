@@ -460,8 +460,8 @@
       "aliases": [
         "英语学习"
       ],
-      "hash": "955d9392",
-      "updated": "2026-10-15 17:48"
+      "hash": "da50cdd4",
+      "updated": "2026-10-18 17:33"
     },
     "tcc-ac100cca-134f-485e-9b6b-6392186ac4ea": {
       "path": "task_outline/工作任务.md",
@@ -1126,8 +1126,8 @@
       "aliases": [
         "沟通思维方式跟读"
       ],
-      "hash": "da1ed4f3",
-      "updated": "2026-10-15 16:26"
+      "hash": "14601d99",
+      "updated": "2026-10-18 23:05"
     },
     "tcc-208a3005-3171-4865-abff-2d1a5b9d3e4a": {
       "path": "task_outline/工作任务.md",
@@ -1178,12 +1178,14 @@
     },
     "tcc-481f380c-1768-4129-8225-112165f00e44": {
       "path": "task_outline/工作任务.md",
-      "title": "沟通技巧训练",
+      "title": "拖延症纠正",
       "aliases": [
-        "沟通技巧训练"
+        "沟通技巧训练",
+        "拖延症jiu'zh",
+        "拖延症纠正"
       ],
-      "hash": "d172499a",
-      "updated": "2026-10-15 09:53"
+      "hash": "531fe28c",
+      "updated": "2026-10-18 23:16"
     },
     "tcc-5b083c7f-027c-4e58-8c64-116eed6ad447": {
       "path": "task_outline/工作任务.md",
@@ -1311,6 +1313,42 @@
       ],
       "hash": "b42a5e44",
       "updated": "2026-10-16 07:21"
+    },
+    "tcc-1d617380-6830-4063-b972-4006f7cde4e0": {
+      "path": "task_outline/工作任务.md",
+      "title": "https://spacex.airport-ls.top/api/v1/client/subscribe?token=MTE5OTU6M2FlMWI3ZGEzNTM1ZjI2MWQ0YzRjYmVkMjQ5OWQ2NTgzZGU3YTVlNQ",
+      "aliases": [
+        "https://spacex.airport-ls.top/api/v1/client/subscribe?token=MTE5OTU6M2FlMWI3ZGEzNTM1ZjI2MWQ0YzRjYmVkMjQ5OWQ2NTgzZGU3YTVlNQ"
+      ],
+      "hash": "72d5990b",
+      "updated": "2026-10-18 17:33"
+    },
+    "tcc-8959ce73-fc68-42fb-9749-1a0c30bdf68c": {
+      "path": "task_outline/工作任务.md",
+      "title": "先看《摩登家庭》，再看《生活大爆炸》，最后看《老友记》。这样可以先接触家庭生活和日常表达，再逐步适应更密集的笑点、俚语和文化梗。",
+      "aliases": [
+        "先看《摩登家庭》，再看《生活大爆炸》，最后看《老友记》。这样可以先接触家庭生活和日常表达，再逐步适应更密集的笑点、俚语和文化梗。"
+      ],
+      "hash": "886db7a9",
+      "updated": "2026-10-18 17:33"
+    },
+    "tcc-65e9e8c6-ff35-44d3-bce8-9b3dc1260a24": {
+      "path": "task_outline/工作任务.md",
+      "title": "沟通能力不是让所有人都喜欢你，而是即使双方意见不同，你仍然能够把问题谈清楚，把事情推进下去。",
+      "aliases": [
+        "沟通能力不是让所有人都喜欢你，而是即使双方意见不同，你仍然能够把问题谈清楚，把事情推进下去。"
+      ],
+      "hash": "c1c9125a",
+      "updated": "2026-10-18 22:58"
+    },
+    "tcc-bf4f8175-c637-4b4a-a8be-0e2d9286ad2e": {
+      "path": "task_outline/工作任务.md",
+      "title": "停、听、想、说",
+      "aliases": [
+        "停、听、想、说"
+      ],
+      "hash": "4e6d067c",
+      "updated": "2026-10-18 23:05"
     }
   }
 }
