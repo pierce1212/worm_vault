@@ -843,8 +843,8 @@
         "报文唤醒时间项目优化 4ac9d308f578",
         "报文唤醒时间项目优化"
       ],
-      "hash": "339faea6",
-      "updated": "2026-10-10 15:09"
+      "hash": "badbc549",
+      "updated": "2026-10-19 09:24"
     },
     "tcc-ec3ae0d1-9ba0-456a-a349-f4fee7706c26": {
       "path": "task_outline/工作任务.md",
@@ -1194,8 +1194,8 @@
         "boot+信息安全 ^tcc-ea 25 fd 7 b-6 f 30-470 a-b 996-38 e 2578 bbe 81",
         "boot+信息安全"
       ],
-      "hash": "623edd31",
-      "updated": "2026-10-15 16:51"
+      "hash": "b9805f58",
+      "updated": "2026-10-19 09:26"
     },
     "tcc-afd6be86-445c-4f3e-84f4-17dad0e03025": {
       "path": "task_outline/工作任务.md",
@@ -1203,8 +1203,8 @@
       "aliases": [
         "autosar NM及CAN 通讯测试报告bug修复"
       ],
-      "hash": "7068c3c0",
-      "updated": "2026-10-15 17:46"
+      "hash": "d08f0e41",
+      "updated": "2026-10-19 09:24"
     },
     "tcc-ce001ec1-2d9f-4ebe-9943-f4ff550fda57": {
       "path": "task_outline/工作任务.md",
@@ -1349,6 +1349,15 @@
       ],
       "hash": "4e6d067c",
       "updated": "2026-10-18 23:05"
+    },
+    "tcc-75f64c14-2a54-48d7-8919-22f2687a224b": {
+      "path": "task_outline/工作任务.md",
+      "title": "DTC前置条件的修改",
+      "aliases": [
+        "DTC前置条件的修改"
+      ],
+      "hash": "3e7b4b67",
+      "updated": "2026-10-19 09:43"
     }
   }
 }
