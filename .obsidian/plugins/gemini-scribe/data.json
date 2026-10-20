@@ -185,8 +185,13 @@
         "value": "gemini-nano-banana-2.1",
         "label": "Nano Banana 2.1",
         "maxTemperature": 1
+      },
+      {
+        "value": "gemini-4-argon",
+        "label": "Gemini 4 Argon",
+        "maxTemperature": 2
       }
     ],
-    "timestamp": 1792333332151
+    "timestamp": 1792457765615
   }
 }
