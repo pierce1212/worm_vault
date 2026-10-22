@@ -1,0 +1,142 @@
+Aurix:中断仲裁过程
+2022-08-24T11:31:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489388&idx=1&sn=800283c4a3fb5d91d0533d9ead1d49da&chksm=fa2a4918cd5dc00eb17c40bd22f5f73be33e93757ad4003e464aeb2e75fb4bdc14a3d1b26041&scene=21#wechat_redirect
+
+之前和大家聊过Aurix的中断，可以参考前文
+英飞凌tx397:手撕中断，让你理解得更明白
+。在聊中断仲裁过程之前，问一个问题：“同一个中断，在执行其中断例程的过程中，如果
+此中断事件再次发生
+，当前执行的中断例程会被打断吗？如果不能被打断，为什么呢？”。细化一下问题，如下图：
+在主程序执行过程中，在a点发生中断事件；
+程序跳转到
+中断例程中执行
+，在此中断例程执行的过程中（eg:t1时刻），
+此中断再次发生
+（中断请求标志位再次被挂起），当前执行的中断例程会被打断吗？
+大家都会说“不能”。但是为什么不能呢？为什么不能像
+递归函数
+那样不断地调用自己呢？本文，我们聊聊这个问题。
+1、中断系统
+搞清楚中断的仲裁过程，我们先熟悉一下Aurix的中断系统，如下所示：
+（一）缩写词
+（二）仲裁机制
+每个中断控制单元（ICU）都有自己的
+中断总线
+，因为每个CPU或者DMA都会对应一个ICU，所以这些中断服务提供者（ISP），可以通过各自对应的ICU进行仲裁，根据每个中断请求节点（SRN）的中断优先级（SRPN）决定中断执行的顺序。
+（三）中断系统的仲裁时序
+Cycle 1:
+没有中断请求；
+Cycle 2:
+某个外设模块触发中断请求，即：SRC(Service Request Control Register)寄存器的
+SRR(Service Request Flag)置位
+，这个触发动作由SRN节点发出一个脉冲产生；
+Cycle 3-5:
+3个时钟周期，ICU即可完成仲裁，通过SRN的SRPN，确定哪个SRN可以优先被处理；
+Cycle 6:
+ICU将赢得仲裁的SRN信息
+（SRPN, ECC, SRN Index）发送给对应的中断服务提供者ISP（CPU或者DMA）；
+Cycle 7 - n-1:
+如果有新的SRN请求中断，ICU再次仲裁，如果新的SRN中断请求优先级高于上次的SRN请求，则将新的SRN请求信息告知ISP；
+Cycle 6- n-1:
+ISP获取赢得仲裁的SRN信息，也称为Enter;
+Cycle n:
+ISP响应（Ack）中断服务，将SRN的SRPN, ECC, SRN Index信息反馈给ICU。
+此时开始执行中断服务例程，同时，ICU将状态切换到“服务不可用”状态，即：中断例程执行过程中，不可打断，
+这是Tricore架构默认的处理方式
+。如果允许中断嵌套，则需要
+在中断例程执行前重新使能全局中断
+，即：使
+用ENABLE指令使能全局中断，这样，中断例程执行过程中，更高优先级的中断才能打断当前中断例程
+；
+Cycle n+1:
+ICU对ISP的响应信息进行检查，如果检测到错误信息，会告知SMU，触发Trap或者复位动作；
+Cycle n+2:
+中断例程执行完成，如果有中断请求，新的一轮仲裁开始。
+注意：
+在Tricore架构中，如果需要中断嵌套，
+需要在中断例程执行前重新使能（可以调用内嵌函数__enable()，该函数的实质是调用ENABLE指令）
+。所以，默认情况下，中断例程执行过程中，相同的中断再次发生，
+中断例程不会被打断
+，需要等到该中断例程执行完成以后再进行仲裁，如果赢得了仲裁才能再次执行该中断例程。如果中断可以嵌套，
+CPU
+需要
+对挂起的中断优先级PIPN和正在执行的中断优先级CCPN比较
+，如果CCPN≥ PIPN，当前中断例程无法被打断。同一个中断，连续发生，在第一次中断例程没有执行完之前，此中断例程不会重新执行，因此，中断例程不能像递归函数那样，不断地调用自己。
+所以，这就是开篇的答案
+；
+为了确保数据一致性，经常会在代码中看到__disable()和__enable()这样的内嵌接口，这两个接口的实质是
+控制ICR(Interrupt Control Register)寄存器的IE，控制全局中断的关闭和使能
+。
+中断例程执行前，别忘了
+先清除中断挂起标志位
+（通
+过向SRC.CLRR写1，清除SRC.SRR）。同时，
+中断例程执行结束后，根据需要，决定模块的中断功能是否使能
+，对应的手册中，一般会给出注释描述。tc3xx手册的提示如下所示：
+如果中断允许嵌套，即：2类中断可以被高优先级中断打断，需要在中断例程执行前，重新使能全局中断。如果系统使用了OS，重新使能全局中断的动作可由OS完成。而在Boot项目中，程序多数手写，很多Boot不用OS，
+默认中断不允许嵌套，如果想允许中断嵌套，需要重新使能中断功能
+。
+2、Tricore架构中，中断不可打断的几个条件
+解释：
+全局中断禁用期间（ICR.IE = 0），即使有新的中断挂起（eg:更高优先级的中断），CPU不会去处理；
+当前CPU的CCPN
+（
+Current CPU Priority N
+umber ）
+比新请求的PIPN
+（
+Pending Interrupt
+Priority Number）
+优先级高，CPU不会立刻处理新的中断请求；
+中断例程执行过程中，如何实现中断抢占？
+某中断例程ISR（Interrupt Service Routine）正在执行；
+在此期间，新的中断被挂起（SRR：Service Request Flag = 1）；
+判断中断是否可以嵌套（ICR.IE == 1?）,如果中断可以嵌套，
+且
+挂起的中断优先级PIPN（Pending Interrupt Priority Number）
+比正在执行的中断例程优先级高
+CCPN（Current CPU Priority Number ），则当前正在执行的中断例程被打断，执行新的中断例程ISR(new)，中断发生抢占。
+默认情况下（中断不允许嵌套），CPU如果已经在执行中断例程或者Trap例程，新挂起的中断服务请求不会立刻执行。所以，
+中断例程的代码不要过长，以免影响任务执行的时序
+，特别对时间要求严格的系统，中断例程执行时间过长，
+可能会导致某些任务执行时间超时
+；
+CPU正在处理非可屏蔽中断服务、多Cycle指令或者正在操作ICR寄存器，新挂起的中断服务，不会立刻处理。
+参考资料
+Infineon-AURIX_TC3xx_Part1-UserManual-v01_00-EN.pdf
+Infineon-AURIX_TC3xx_Architecture_vol1-UserManual-v01_00-EN.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Uds诊断：Unexpected N_PDU处理策略
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+工程开发问题（八）：不满足STmin时间要求，中断接收丢帧
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败
+Autosar网络管理：ERA/EIRA问题QA
+Aurix:初识Cached和Non-Cached
+工程开发问题（十）：数组越界引发的DTC不上报问题
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

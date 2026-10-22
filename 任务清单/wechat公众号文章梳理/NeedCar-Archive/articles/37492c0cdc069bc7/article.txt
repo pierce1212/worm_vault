@@ -1,0 +1,60 @@
+工程思考：CAN Transceiver不工作，节点还会Busoff吗？
+2023-10-30T08:11:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493383&idx=1&sn=bcf00baf46b90511de3ef77c7cd74d72&chksm=fa29b973cd5e30654a7d9c5842c4dede8366c3252d8e76ffd0b95416b51f3847fdd0a249ae0e&scene=21#wechat_redirect
+
+搞汽车电子开发的小伙伴，对于CAN总线应该再熟悉不过了。可以说，掌握CAN总线及对应的协议栈是基础级入门。虽然CAN总线用了多年，有经验的工程师甚至觉得：CAN的知识已经烂熟于胸。然而，有些细碎的知识依然卡在盲区里，等待补齐。如标题，如果CAN Transceiver不工作，或者说，进入了Standby Mode，对应的节点是否会Busoff呢？
+1、CAN Busoff与Transceiver、Controller模式
+弄清楚这个问题，需要先理解几个概念：CAN Busoff、CAN Transceiver（Trcv）模式以及CAN Communication Controller（简称CC）。
+（一）CAN Busoff
+关于CAN Busoff问题，可以参考前文《
+CAN通信：Busoff问题知多少
+》，节点发生Busoff的条件：节点CAN Controller的
+TEC（Transmit Error Counter）＞255
+。
+（二）
+T
+ansceiver
+模式
+以常用的NXP TJA1145为例，其包含5种模式：
+Normal、Standby、Sleep、Overtemp、Off，模式之间的状态切换如下所示：
+只有在Normal模式下，TJA1145才可能正常工作，即：数字信号与模拟信号转换。
+（三）
+CAN C
+ommunication Controller
+对于CC的状态机，不同的芯片，设计的状态机有所不同，甚至只有Start/Stop。而在Autosar CAN Driver规范中，定义了CC的状态机：CAN_CS_UNINIT、CAN_CS_STARTED、CAN_CS_STOPPED、CAN_CS_SLEEP。对于一些CC，可能没有Sleep模式，且Start模式只能由Stop模式进入，不考虑软件层面的Uninit状态，CC实际只有
+Start、Stop模式。
+CAN Busoff、CAN Transceiver、CAN Communication Controller三者关系如下所示：
+如上图，Busoff是发生在CC中的一种异常事件（Event）。
+CC把数字信号（digital data）通过TxD Port发送给Trcv的RxD Port，Trcv Transmitter将数字信号转换成模拟信号（analog data），由双绞线（CAN H、CAN L）发送到总线（Bus）。收到Bus的模拟信号以后，Trcv Receiver将模拟信号转换成数字信号，由Trcv的TxD Port发送给CC的RxD Port。
+当CC发送报文时
+，
+发送的数据与收到的数据不一致时（边发送边接收），发送错误计数器TEC就会按照规则累加
+，当TEC > 255时，就会产生Busoff，如下所示：
+当CC
+接收其它节点报文时，接收节点检测到错误
+，接收节点CC的
+REC（Receive
+Error Counter）
+会累加，不会超过128，最多进入被动错误状态（Error Passive），但是，不会因为接收到错误帧导致Busoff，如下所示：
+2、Transceiver不工作，能否busoff?
+回到本文问题，如果Trcv不工作，eg：Trcv进入Standby模式，是否会触发节点的Busoff呢？
+答
+：会。当Trcv不工作时，CC发送的数据和接收的数据将不匹配，最终导致CC的TEC > 255，进而触发Busoff。
+（一）理论验证
+验证程序如下所示：
+如上程序，通过控制Trcv的STB Pin，让Trcv处于Standby模式，如果发生Busoff事件，程序进入Busoff中断处理例程，如下所示：
+所以，Trcv处于非工作模式，会使得CC进入Busoff状态，即：节点进入Busoff。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+MCMCAN：CAN hardware object配置规则
+Debug手段：基于Lauterbach的Onchip调试
+如何基于HighTec，在链接文件（*.lsl）中设置自定义段
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

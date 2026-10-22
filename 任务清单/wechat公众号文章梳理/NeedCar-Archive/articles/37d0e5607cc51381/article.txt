@@ -1,0 +1,143 @@
+Flexray总线基础#05：为什么要进行节点间时钟同步？
+2024-08-14T06:37:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495439&idx=1&sn=f9efaa150253e522aa553c7bd5554ac4&chksm=fa29b17bcd5e386d2072c78959e869ca8f1a96fc3ce1232954b842e73390aa49c175f189bb50&scene=21#wechat_redirect
+
+我们知道，Flexray总线是一个分布式的多节点通信系统，参与通信的每个节点均有各自的时钟（clock）。这些节点可能会受所处环境的
+温度变压、电压变化或者晶振工艺
+等因素影响，产生一定的时钟偏差。而Flexray总线对时间敏感，如果不能及时校正节点间的时间偏差，通信的稳定性将无从谈起。因此，本文聚焦Flexray时钟同步。Flexray往期文章，可以参考前文：
+《
+Flexray总线基础#04：结合工程实际需求，解读时间参数概念
+》
+《
+Flexray总线基础#03：基础概念图解
+》
+《
+Flexray总线基础#02：Flexray节点启动时序
+》
+《
+Flexray总线基础#01：Flexray节点基本组成及唤醒
+》
+1、为什么要进行节点时间校正
+对于Flexray通信系统，为什么需要对节点进行时钟校正，开篇我们已经提及了部分原因。这里我们举例说明，比如：某个芯片的晶振精度是±10~±30PPM（part per million，表示百万分之几），以30PPM进行计算，工作一天产生的最大偏差 = 24（小时）*60（分钟）*60（秒）*30/1000000 =
+2.592s
+。可以看出，此晶振工作一天，最大可能产生2.592s的偏差。所以，及时修正偏差，对于提高通信稳定性是很有必要的。
+2、Flexray中的时间校正
+对于Flexray节点，时间校正包括两部分：
+相位校正
+（Phase Correction）,又称偏移校正
+（OffsetCorrection）。虽然
+每个通信循环都需要进行相位偏差测量
+，但是，只在
+奇通信循环（odd）
+的
+网络空闲时间窗
+（
+NIT
+，Network Idle Time）内进行偏差补偿（在NIT中增加或者减少一定量的microticks）。通常，需求中会约束开始校正的起点，eg：一个5000MT的通信循环，校正时间起点在4981MT，示意如下：
+频率校正
+（Frequency Correction），
+又称速率校正
+（Rate Correction），
+每两个通信循环校验一次，并且仅在奇（Odd）通信循环的静态段计算
+。
+如何理解相位（Phase）偏差和频率（Frequencey）偏差，示意如下：
+对于Flexray总线，校正节点间偏差，就是
+将不同节点间的相位和频率修正到允许的偏差范围内
+。eg：
+OffsetCorrectionOut = 378 uT = 378*0.025us = 9.45us；RateCorrectionOut = 601 uT = 601*0.025us = 15.025us。
+相位校正
+可确保同一FlexRay网络簇内，各个节点的本地时钟（local Clock）相位相同，使得各个节点的
+通信周期起点一致
+。频率校正和相位校正如下所示：
+（一）时钟同步原理
+对于Flexray总线，同一网络簇中的
+每个FlexRay节点
+知道
+所有静态同步报文（Sync Frame）
+的
+发送和接收时机
+。经过几个通信周期的校正，所有FlexRay节点会在同一时间点，以同一速率启动通信。
+Flexray使用
+FTM算法
+（Fault-tolerant midpoint algorithm，容错中点算法）进行偏差计算。Flexray拓扑设计时，
+同一个网段内的同步节点个数固定
+，
+同步节点个数
+可以是
+2~15。
+这些节点在各自的
+静态时隙
+中传输
+同步帧（Sync Frame）
+。网段内的每个Flexray节点通过
+测量实际接收到同步帧的时间与已知道时间点的差值（Offset Value）
+，测算出
+每个同步节点
+的时间差值。之后，将这些差值排序，根据FTM算法计算校正值。
+在FTM算法中，不同的同步节点个数对应不同的k（FTM算法所需参数），示意如下：
+1、相位偏差计算
+相位偏差计算得到的值可以是正数，也可以是负数，单位：microtick。如果是负数，需要缩短NIT，即：提前开始下一个通信循环；如果是正数，则延长NIT，即：推迟开始下一个通信循环。
+Phase Correction通过在每个
+奇周期
+（Odd Communication Cycle）的NIT段
+添加或删除一定数量的microtick进行校正
+。如此，Flexray节点即可改变下一个通信周期的起始时间，进而与其他FlexRay节点保持一致的通信起始点。
+假设：
+某Flexray网段内，一共有8个同步节点，首先，计算出8个偏差值（Offset Value），此时，k = 2。之后，排序8个计算值（eg：18、17、10、8、6、-3、-5、-6），去除最大（18）、次大（17）、最小（-6）、次小值（-5）。最后，计算：（
+18
++
+17
++ 10 + 8 + 6 -3
+-5
+-6
+）/ 2 = 11（取整数）。注意，如上的偏差值必须在容差允许范围内，如果超过限制，直接设置为限值，并且设置error flag。
+提示：
+工程中，同步节点一般在3 ~ 7个。如果同步节点在3~7个，计算时，
+Offset Value去掉最大和最小两个即可。
+相位偏差值测量，示意如下：
+2、
+频率偏差计算
+不管是计算
+相位
+校正值（Phase Correction Value）
+，还是计算频率校正
+值（Frequencey Correction Value），均
+以Microtick 为单位
+。
+频率校正，将计算的频率偏差值（
+一定数量的
+microticks），
+补偿到后续两个通信循环
+，即：通过改变后续两个通信循环
+总的
+microticks个数
+进行频率偏差修正，
+CofigurationMicroticks ±
+Rate Correction Value
+。举例：每个通信循环配置的Microticks为200000，
+Rate Correction Value = +10，则后续两个通信循环总的
+Microticks为200010。注意，频率偏差值也可以是负值（negative value）。
+其中，计算频率偏差值也采用FTM算法，类似相位偏差计算，不再赘述。
+频率偏差值测量如下所示：
+Rate校正时，还需要考虑
+ClusterDriftDamping（eg：2uT）。如果整车的网络拓扑中，有多个Flexray网络簇时，
+不同网络簇
+之间需要考虑相位偏差（Offset Difference）和速率偏差（Rate Difference）。如果整车网络拓扑没有多个Flexray网络簇（只有一个Flexray网络簇），ExternOffsetCorrection = 0 uT，
+ExternRateCorrection = 0 uT。
+3、偏差补偿
+最终，将计算的频率偏差值和相位偏差值进行修正，示意如下：
+往期
+精彩
+回顾
+信息安全，获取RSA密钥参数的简单做法
+诊断，为什么无效唤醒会加速DTC信息清除？
+诊断，到底该如何理解"一个操作循环"概念？
+无效唤醒，ECU需要立即休眠吗？
+如何诊断对地短路、对电源短路以及开路故障？
+Lin总线基础#2：节点是如何唤醒的？
+Bootloader开发：如何提高软件刷写效率？
+信息安全：手撸RH850 Flash驱动的细节点
+实践思考：为什么需要核间同步？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

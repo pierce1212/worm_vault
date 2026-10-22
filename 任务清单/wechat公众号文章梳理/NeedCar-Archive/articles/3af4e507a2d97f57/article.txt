@@ -1,0 +1,80 @@
+勘误篇(一)：Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+2022-05-07T18:34:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487447&idx=1&sn=0fa6ba9f73244ef1a8ab4ea4a17b6923&chksm=fa2a51a3cd5dd8b54a0ab073a13b9eb12d7dcc9d80587f59b8ce482fca278d66f8e80625ecfc&scene=21#wechat_redirect
+
+Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+一文中，有些表述不够准确，此篇特此勘误。首先要感谢读者
+@LM
+、
+@打工仔
+的指正。
+上文中提到：“
+t1时刻，ECU2和ECU3发送的网络管理报文中，RPB = 1，且稍微晚于ECU1。
+”确实表达不准确。
+借用
+@打工仔
+给出的解释：“CanNM中，
+只有上层主动请求进入RMS时，才会发送RPB为1的NM报文
+；由于接收到RPB为1的报文而进入RMS时，
+发送的RPB仍为上一次的值，不作处理
+。”
+这里再解释一下：由CanNM的状态机可以看出，CanNm_RepeatMessageRequest()接口的主动调用，只能在NOS(Normal Operation State)或者RSS(Ready Sleep State)状态进行调用。
+@LM
+给出的解释：“NOS进入RMS有2种方式，主动需求方需要调用CanNm_RepeatMessageRequest回到RMS，其它节点接收的RPB=1被动回到RMS。”，对应到CanNM的状态机，如下所示：
+@LM
+的进一步思考：
+“
+如果被动方RPB=1，会不会造成大家（网段内的所有ECU）都困在RMS状态，ECU1和ECU2、ECU3在RMS发送NM报文有一定的时间差，如果ECU1在超时(
+CANNM_REPEAT_MESSAGE_TIME
+)后跳出RMS，但是ECU2，ECU3还在RMS状态下发送RPB=1，ECU1又会被拉回RMS”。
+@LM
+解释了网段内所有ECU被困在RMS状态的原因。
+按照我之前的
+错误解释，会导致如下问题：
+t2时刻，ECU1脱离RMS状态进入NOS状态；
+t3时刻，ECU2脱离RMS之际发送了最后一帧0x502 NM  Msg::RPB = 1
+，此时ECU3还在RMS，收到
+0x502
+NM
+Msg
+::RPB
+= 1
+，则继续维持在RMS，而ECU1收到
+0x502
+NM
+Msg
+::RPB
+= 1
+之后，进入RMS；
+t4时刻，ECU1发送
+0x501
+NM
+Msg
+::RPB
+= 1，导致ECU2再次进入RMS，所以，ECU1、ECU2、ECU3均被困在了RMS状态。
+修改后的状态切换如下所示
+：
+提示
+：ECU1、ECU2、ECU3
+非Passive Mode
+。
+写在最后
+非常感谢大家给我的建议，及时指正我错误的表述，我坚信大家就是我最好的Reviewer。如果我错了，一定请及时指正，以便于我尽快勘误，给大家分享正确的知识。受限我的知识维度和深度，我写的文章会存在不足，如果大家发现了错误之处，希望能和大家一起深入沟通，探讨，进而促进大家共同进步！
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+Uds诊断：这5个诊断问题，你能回答几个？（四）
+Uds诊断：Gateway节点的Timing，不简单
+Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？
+嵌入式开发笔记：空指针引起的Trap问题（一）
+Bootloader开发：并列刷写(Parallel Flash)你知道多少？
+Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次
+Uds诊断：这5个诊断问题，你能回答几个？（三）
+Autosar网络管理：基础问题知多少
+Uds诊断：Gateway节点响应$10 02服务时机，要精准拿捏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

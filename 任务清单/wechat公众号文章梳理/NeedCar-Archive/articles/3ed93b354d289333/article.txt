@@ -1,0 +1,70 @@
+Autosar往期精彩文章汇总：451~510
+2025-08-02T06:33:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect
+
+Bootloader
+一种软件实现的双Bootloader SWAP方案讨论
+OTA升级，一种加密传输方案思考
+Application跳转Bootloader，如何处理“外狗”？
+OTA升级，是否需要加密处理的深入思考
+信息安全
+HSM Firmware更新的一种方案讨论
+TC3xx启动模式的安全防护分析
+关于Tricore Aurix Debug口的UCB Confirmed状态的正确解读
+为什么软件不能回滚到低版本?
+Timer或者ADC可以生成安全的伪随机数（PRN）？
+避免TC3xx HSM锁板的一种方案
+信息安全，国密SM4各模式实现源码
+伪随机数（Pseudo）/真随机数，如何生成？
+UDS 0x29入门实践（视频篇）
+信息安全技术，有必要全功能上吗？
+信息安全，如何证明certificate是有效的？
+信息安全基础：HSM与Host通信实现原理
+信息安全，RSA密钥对生成原理，懂了？
+信息安全，国产SM2、SM3算法实践
+信息安全：X25519的密钥交换性能怎样？
+信息安全，ECDSA（SECP256R1/K1曲线）和它的性能
+硬件计算真的比软件计算速度更快？
+这一次，Ed25519性能优化了，也更具象化了
+信息安全：密钥交换之X25519
+信息安全：Ed25519性能评估及实践细节思考（上）
+信息安全，小白渐进式理解ECC
+工具使用
+Memtool如何操作HSM Boot内存区？
+如何基于UDE/Memtool调试HSM？
+基于Memtool/UDE的Debug口加密/解密
+穷玩英飞凌片子，Memtool/UDE不能用？
+如何基于Hightec编译器添加编译时间戳和软件版本号？
+如何基于Tasking编译器添加编译时间戳和软件版本号？
+EB Tresos，修改Mcal版本号的非常规操作
+如何基于IAR编译器添加编译时间戳和软件版本号？
+Lauterbach实用技巧，Hex文件导出（补充篇）
+Lauterbach实用技巧，Hex文件导出及UCB写操作
+玩EB tresos，为什么生成不了*.epc文件？
+Tasking基础，为什么常量无法放到指定内存区？
+Autosar通信，信号长度过长如何配置？
+安装后的Tasking，不能正常启动
+如何基于HexView完成自动化填充？
+硬件基础
+PN结为什么会单向导电？
+更换芯片（五）_芯片焊回及测试
+更换芯片（四）_清洁PCB
+更换芯片（三）_芯片Pin脚上锡膏
+更换芯片（二）_清洁芯片
+更换芯片(一)_吹掉坏芯片
+SRAM存储“1”和“0”原理浅析
+说一说Flash硬件的基本工作原理
+嵌入式开发
+闲话CP Autosar技术面试问题（二）
+闲话CP Autosar技术面试问题（一）
+始于ARXML文件的开发
+工程问题，为什么Hash计算失效了？
+为什么刷写文件（程序）需要填充（Padding）?
+C语言基础，起个别名就忘了怎么用了？
+诊断
+诊断，如何速记多帧传输中的时间参数？
+生活
+我和“混得好”
+拉呱
+超哥
+泰国Phuket，囧途与旅途

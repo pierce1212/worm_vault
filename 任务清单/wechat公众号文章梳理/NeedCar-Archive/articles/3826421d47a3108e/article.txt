@@ -1,0 +1,77 @@
+通信问题：为什么周期Signal值会有抖动？
+2023-01-15T14:05:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491084&idx=1&sn=c230f49b3b168fc5bc9d5b815376c0aa&chksm=fa2a4078cd5dc96e4f03806a4e4766488dc5447ac3d86b71211698bdc034f3dfd9b518f62324&scene=21#wechat_redirect
+
+汽车嵌入式开发中，对于实时性要求较高的场景，我们会比较关注信号的时时性。但是，期望有时总是不太遂愿，本文，从一个工程实例出发，讨论一下："周期信号值抖动的问题"。
+1、问题描述
+（一）网络拓扑
+某个信号（eg:E2E对应的Rolling Counter，以下简称E2E_RC_Signal）由发送节点（Node1）通过CAN总线发送给网关节点（Gateway），网关节点再将其通过Flexray总线路由到接收节点（Node2），路由示意如下所示：
+（二）问题详情
+在实际的总线监控中，发现两个问题：
+问题1
+：Node1发送E2E_RC_Signal时（对应下图绿色），E2E_RC_Signal偶发不累加，对应下图位置1。实际期望Rolling Counter每个发送周期累加1，累加到14后重置为0。
+问题2
+：Node1正常发送E2E_RC_Signal，但是Gateway路由E2E_RC_Signal时，E2E_RC_Signal偶发不累加，对应下图位置2。
+问题1和问题2对应的位置如下所示：
+2、原因分析
+为什么会出现问题1和问题2呢？
+（一）问题1分析
+对于问题1，主要问题在于Node1，网关节点只是负责转发Node1的E2E_RC_Signal信号。所以，需要分析Node1的问题。
+工况分析如下图：
+Node1中，更新E2E_RC_Signal信号的Task和发送E2E_RC_Signal信号的Task周期相同。但是，在Cycle #n+1中，
+E2E_RC_Signal Update Task执行时间比正常用时长
+，
+因此使得E2E_RC_Signal的更新时间点推迟
+。而E2E_RC_Signal Send Task执行时间未受影响，在P3时间点，E2E_RC_Signal对应的PDU（也就是报文）正常发送，因此会使得E2E_RC_Signal值没有更新。
+E2E_RC_Signal Update Task执行为什么会超时呢？
+答
+：当E2E_RC_Signal Update Task的优先级较低时，会被高优先级的任务抢占，也会被中断打断（比如，某一时刻，Node1中断接收了大量的报文）。
+（二）问题2分析
+问题2中，Node1发送
+E2E_RC_Signal均正常，只是网关节点（Gateway）转发的时候出了问题。
+工况分析如下：
+网关节点在路由信号的时候，会有一个路由延时时间（Gateway Time），如果某一时刻，网关节点中断接收了大量的报文或者CAN接收
+E2E_RC_Signal时，被高优先级任务抢占，使得
+E2E_RC_Signal值没有及时更新，而Flexray发送
+E2E_RC_Signal对应的时间点（t0）已到，就会使得
+E2E_RC_Signal在没有被更新的情况下发送出去。
+提示
+：Autosar的架构中，Signal的路由只能由COM层路由，PDU的路由可以由PduR完成。
+3、解决措施
+针对上述问题，本文不具体讨论解决措施。可以看出，上述的问题主要与时序和任务相关，而这两点，具体到每个项目都不一样。具体项目中，如果有类似问题，可以从TASK的优先级、时序、中断数量、MCAL配置方式等方面着手。
+提示
+：对于问题1和问题2，在正常的误差范围内，实际项目中，此偏差可接受。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+功能安全E2E：MaxNoNewOrRepeatedData配置错误导致进入SYNC状态
+C语言基础：&、>>在工程中的巧用
+如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）
+嵌入式开发：TLF35584（SBC）的SPI格式解读
+Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？
+嵌入式开发：void*在工程中的应用
+Autosar CanTp:什么是Connection？
+功能安全E2E：浅谈Profile01（P01）
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+嵌入式开发：DMA何时使用更好？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

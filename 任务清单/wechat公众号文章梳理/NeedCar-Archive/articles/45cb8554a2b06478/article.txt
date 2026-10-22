@@ -1,0 +1,138 @@
+工程开发问题（四）：数组越界引发的刷写失败
+2022-06-12T14:45:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488240&idx=1&sn=3196cd45ab4141c5242f49f3d564cbfa&chksm=fa2a4c84cd5dc5927dbe2a0b13d4f63a4e90e39a085cdde460b3ab810e249fd4af2e724b36d0&scene=21#wechat_redirect
+
+本文讨论一个数组越界引发的刷写失败问题，希望能给大家带来思考。
+提示：基于CAN总线刷写
+1
+问题描述
+升级某节点(ECU2)的过程中，每当程序刷写到指定位置时，程序刷写失败（也会刷写成功，但是成功率低）。ECU2刷写时，诊断命令的请求（Request）和响应（Response）需要经过网关节点ECU1的路由，因此，可以将ECU1看作是ECU2的上位机（Tester），如下所示：
+ECU1和ECU2交互过程中，出现问题时，数据流如下所示：
+t1时刻
+，ECU1请求Service 36 01，之后ECU2给出流控帧(30 00 00)；
+t2时刻
+，ECU1发送完最后一个连续帧的同时，顺带请求下一个诊断服务(Service 37)；
+t3时刻
+，ECU2给出
+Service 36 01正响应(02 76 01);
+t4时刻
+，
+ECU2给出Pending响应(0x78)；
+t5时刻
+，ECU2给出
+Service 37正响应(01 77 )。
+刷写失败时，问题出在t5时刻。
+上述的刷写流程中使用到了队列刷写(Queue Flash)，可以参考前文
+Bootloader开发：队列刷写(Queued Flash)你知道多少？
+。
+2
+问题分析
+在Queue Flash中，针对同一个CanID，需要ECU可以
+同时缓存两帧诊断请求
+。为了可以缓存两帧诊断请求，问题代码中，针对每一个CanID开辟了2个Buffer缓存区。用
+2个Buffer缓存区，可以
+同时缓存两帧诊断请求的响应吗？不可以，这也是本问题的症结，如下所示：
+针对同一个CanID，当ECU2响应ECU1时，t3、t4时刻响应的数据，ECU1均能成功接收并路由给Tester，而t5时刻，ECU2响应的第三帧数据，ECU1无法再接收，因为此时，ECU1针对同一CanID的Rx Buffer不足。实际代码中，
+ECU1接收了第三帧响应数据，但是将该数据放到了Rx Buffer空间以外的地址（Invalid Address），造成程序访问非法地址，程序进入Trap，导致刷写失败
+。
+问题代码剖析
+问题代码示意（这里为便于说明问题，编写的代码只是示意作用）：
+#
+define
+RECEIVE_RESPONSE_MAX_MUN  2
+typedef
+struct
+{
+uint8 RecvData[
+8
+];
+bool
+BusyFlag;
+}Recv_Resp_Data_Type;
+static
+Recv_Resp_Data_Type Recv_Resp_Data[RECEIVE_RESPONSE_MAX_MUN]\
+= {
+0x00
+};
+void
+RxECU2_ResponseHandle
+(
+const
+uint6 CanId,
+const
+uint8* dataPtr)
+{
+uint16  receiveCnt;
+if
+(CanId ==
+0x618
+)
+{
+/* 查找可用的缓存区，要么是Rx Buffer 0，要么是Rx Buffer1 */
+(Recv_Resp_Data[
+0
+].BusyFlag == TRUE)?\
+(receiveCnt=
+0
+):(receiveCnt=
+1
+);
+}
+/* 接收缓存的数据 */
+for
+(
+int
+i =
+0
+; i <
+8
+; i++)
+{
+Recv_Resp_Data[receiveCnt].RecvData[i] = dataPtr[i];
+}
+}
+阅读上面代码，会发现：Line 11的语句有很大问题，即：
+局部变量没有赋值
+。我们知道：局部变量使用栈空间地址。而栈空间会被不同函数使用，赋不同的值，所以再次使用同一栈空间时，需要先清空栈空间对应的内容，否则，使用该栈空间时，可能是任意值。
+怎么理解呢？假设函数RxECU1_ResponseHandle()入栈时，局部变量index分配的栈空间地址和RxECU2_ResponseHandle()入栈时，
+局部变量receiveCnt分配的栈空间地址相同，如下所示：
+RxECU1_ResponseHandle()使用该栈空间时，给index赋值100，出栈时，并没有清空该地址空间，当
+RxECU2_ResponseHandle()使用时，
+由于局部变量receiveCnt没有赋初始值，使用了
+RxECU1_ResponseHandle()操作时留下的数值100，所
+以，
+当程序运行到Recv_Resp_Data[receiveCnt]时，
+Recv_Resp_Data[100]
+就超出了其有效的地址空间范围
+，导致程序访问了非法地址，进而程序异常（进入Trap）。
+如果
+RxECU1_ResponseHandle()使用该栈空间时，给index赋值0或者1，
+当
+RxECU2_ResponseHandle()使用时，
+虽然局部变量receiveCnt没有赋初始值，但是
+receiveCnt的值也只是
+0
+或者1，不会导致Recv_Resp_Data[receiveCnt]越界，所以，这也是为什么存在偶发刷写成功的原因。
+3
+解决策略
+问题点既然如此清晰，问题的解决策略自然也就有了。
+1、给局部变量赋初始值
+函数
+RxECU2_ResponseHandle()的局部变量
+receiveCnt在定义的同时赋初始值，比如：
+uint16 receiveCnt = 0;
+这样，可以避免局部变量值随机的问题。但是这个方式并没有有效解决缓存第三帧响应的问题，如果要缓存第三帧诊断响应，Recv_Resp_Data数组空间需要 = 3，即：
+#define RECEIVE_RESPONSE_MAX_MUN  3
+static
+Recv_Resp_Data_Type Recv_Resp_Data[RECEIVE_RESPONSE_MAX_MUN]\
+= {0x00};
+写在最后
+作为一名开发工程师，深知每一个工程bug的修复都不是说一说那样简单。分析数据、锁定问题根因、思考修复方案都在极大地考验着开发工程师，也考验着项目链条中每一位参与者：项目经理、产品经理、系统工程师、测试工程师等等。只有一个一个Bug被修复，项目顺利完成，才能Release所有参与者，才能让大家如释重负，才能让我们内心有点成就感。而Bug修复需要大家的智慧，也就是经验积累。我有幸将自己参与到的问题，整理出来，把众多人的智慧分享给更多的人，也期待更多的小伙伴加入我们Autosar_嵌入式交流群，分享你们的智慧！
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

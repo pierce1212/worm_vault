@@ -1,0 +1,112 @@
+Miyaguchi-Preneel是压缩函数还是哈希函数？
+2025-09-19T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497443&idx=1&sn=01d4cd8064178b42a616b2811c6cce6d&chksm=fa29a897cd5e21817bc4809248a7b8731b15dafeeecb4790e7ad82242e4d93a9c16f45b28135#rd
+
+搞信息安全的小伙伴，或许听过Miyaguchi-Preneel，这到底是个啥？它的作用是啥，又有什么样的使用场景呢?
+1、"压缩函数"理解
+“压缩函数”这个术语在密码学中有特定含义，它并不是指“压缩文件”那种压缩，而是指一种
+将任意长度输入数据转换为固定长度输出的函数
+，通常
+用于构建哈希函数
+。
+哈希函数的核心作用是
+将较长的输入数据“压缩”成一个固定长度的摘要值
+.例如：输入可能是几百字节甚至几千字节的数据，输出是一个固定长度的值，比如256 位（如SHA-256）。
+这个“压缩”不是为了节省空间，而是为了达成如下几个目标：
+摘要表示
+：生成一个
+唯一
+的代表值
+完整性校验
+：检测数据是否被篡改
+加密应用
+：如消息认证码（MAC）、数字签名等
+2、Miyaguchi-Preneel 是什么
+Miyaguchi-Preneel 是
+一种
+基于块密码（block cipher）的
+压缩函数构造方法
+，是构建
+单向哈希函数
+的核心组件。
+Miyaguchi–Preneel 构造的核心思想如下：
+输入消息块：将消息分成多个块，记为m
+i
+。
+加密操作：使用一个加密算法（如AES的ECB模式），以前一个哈希值H
+i-1
+作为加密密钥，对当前消息块
+m
+i
+进行加密。
+异或操作：将加密结果与消息块
+m
+i
+和前一个哈希值
+H
+i-1
+进行异或（XOR）操作，得到当前的哈希值
+H
+i
+。
+Miyaguchi–Preneel构造函数如下所示 ：
+其中：
+Eg
+(Hi-1)
+(m
+i
+)表示使用
+H
+i-1
+作为密钥对m
+i
+进行加密
+⊕表示异或操作
+初始哈希值H
+0
+是预先设定的常量
+通过如上公式的异或和加密操作，把多个输入块“压缩”成一个最终的哈希值。
+3、Miyaguchi-Preneel 与SHA256区别
+Miyaguchi-Preneel 与SHA256区别如下所示：
+Miyaguchi-Preneel
+SHA256
+类型
+压缩函数构造方法
+具体哈希函数
+是否为完整哈希函数
+否（用于构造哈希函数）
+是
+是否使用块密码
+是（构造中使用）
+否（使用专用压缩函数）
+输出长度
+取决于构造的哈希函数
+固定256bit
+应用场景
+构造哈希函数
+数据完整性、签名、区块链等
+4、基于Python的Miyaguchi-Preneel实现
+参考github链接：
+https://github.com/naohaq/miyaguchi-preneel.git
+github如果不好登录，可以尝试如下地址获取：
+https://onlinegdb.com/LMJJSViUJ
+Miyaguchi-Preneel除了可以构造哈希函数，实际的项目中，可能还要求使用其
+进行密钥派生
+。比如 ，遵循
+NIST SP 800-108标准，进行密钥派生。
+参考资料：
+https://asecuritysite.com/hash/hash_mp
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+不直接存储Password本身的一种安全认证方案
+诊断交互文件之DEXT
+UDS 0x29入门实践（视频篇）
+包含信息安全、SWAP（A/B分区）功能的Bootloader开发思考
+深刻理解以太网发送，必经DMA Transmit Descriptor
+刷写压测能否超过1000次，极限在哪？
+终于等到CANdelaStudio的“Check Consistency”配置功能

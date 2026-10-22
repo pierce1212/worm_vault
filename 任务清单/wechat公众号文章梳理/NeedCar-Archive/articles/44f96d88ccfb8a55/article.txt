@@ -1,0 +1,226 @@
+基于Aurix TC3xx SWAP机制（A/B分区）的SOTA实现
+2022-11-25T09:03:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490604&idx=1&sn=479e9bd36b3c1e591caa243692005225&chksm=fa2a4258cd5dcb4e2f4396f5888955b6b6dd2680740aeb02abee27a8200f630c7e9629db1bb7&scene=21#wechat_redirect
+
+随着芯片资源的不断扩充，增加了
+App（Application）
+升级方式的多样性。比如，本文要讨论的
+SOTA（Software Updates Over The Air）
+，通过Aurix TC3xx SWAP机制，使得App的升级更加便捷。本文讨论实现SOTA的一些关键性问题：
+Aurix TC3xx的内存映射机制
+SWAP配置及注意事项
+Aurix TC3xx SWAP Demo实现
+1
+Aurix TC3xx的内存映射机制
+如果要支持SWAP功能，首先，硬件的内存资源需要足够。因为SWAP功能需要
+两个等大小的物理内存空间
+，用以存储程序。eg：App程序的大小为3Mbyte，如果要支持SWAP功能，至少需要硬件的PFlash空间＞6Mbyte。先看一下TC39x手册中的内存空间及映射机制：
+一、
+Standard Address Map
+不启用
+SOTA功能时，App程序可以存在如下所示的PF0（Program Flash0）~ PF5（Program Flash5）中，空间大小共计16Mbyte，16Mbyte的空间划分在Segement A，如下所示：
+二
+、Alternate Address Map
+启用
+SOTA功能时，PFlash被划分为两个Bank Group，即：
+A-Banks和B-Banks
+，这也就是我们常说的A/B分区，其中一个Banks被映射到CPU的可执行空间，这个Banks被称为激活区（
+Active Banks
+），未被映射到CPU执行空间的Banks被称为非激活区（
+Inactive Banks
+）。其中，PF0、PF1、PF4映射到A-Banks，
+PF2、PF3、PF5映射到B-Banks，如下所示：
+对于TC39x，SWAP的空间可以达到7MByte，A/B分区如下所示：
+A-Banks和B-Banks
+各使用7M的物理内存空间
+，而程序实际运行时，均可以映射到0xA0000000起始的
+虚拟地址空间
+，如下所示：
+注意：
+通过
+DMU（
+Data Memory Unit
+）
+操作Flash时，需要操作Pflash映射的物理地址空间。即：Active Banks擦除Inactive Banks时，需要按照Inactive Banks映射的地址空间擦/写。
+eg：A-Banks（Active Banks）的起始地址0xA0000000，B-Banks（Inactive Banks）的起始地址0xA0600000，A-Banks操作Flash Driver擦/写B-Banks时，操作的起始地址为0xA0600000。
+2
+SWAP配置及注意事项
+1、SWAP使用的基本流程
+对于SWAP功能的使能，包括基本的4个流程：
+调整Linker文件（链接文件）；
+软件开发，主要指App程序开发，生成可执行文件（*.bin、*.Hex等）；
+将可执行文件烧录到PFlash中；
+配置SWAP，包括：A/B选择配置，SWAP使能。
+对应流程如下所示：
+注意：
+这里的Reset，不能是Application Reset，推荐
+System Reset
+。
+（1）调整Linker文件
+这里给出一个Linker文件调整的示意（不带
+HSM(Hardware Security Module)
+），如下所示：
+对于TC397，A/B均可以分配7M空间，之后根据调整的链接文件，分别编译Project A和Project B，即：Project A对应A-Banks的Linker A，Project B对应B-Banks的Linker B，一般处理时，
+Linke
+r A和Linker B共用同一个链接文件
+。
+本文关注的核心点：
+Configuring SWAP
+。
+2、SWAP配置
+配置SWAP，需要配置UCB23（ORIG）和UCB31（COPY），选择映射地址。
+UCB位于DFlash0区域
+，UCB23（ORIG）和UCB31（COPY）的地址空间范围如下所示：
+UCB23的格式固定如下：
+SWAP的实例最多可以配置16个，但是，固件
+SSW（Startup Software ）
+只选择
+最后一个有效的执行
+。
+（一）
+UCB_SWAP_ORIG_MARKERLx（x=0~15）
+SWAP位域设置地址映射方式，即：上述提到的
+STD(
+Standard Address Map,0x55)，ALT（
+Alternate Address Map，0xAA
+）
+，如下所示：
+（二）UCB_SWAP_ORIG_MARKERHx（x=0~15）
+MARKERHx中存放对应MARKERLx.SWAP的入口地址。
+（三）
+UCB_SWAP_ORIG_CONFIRMATIONLx（x=0~15）
+如果要MARKERLx.SWAP有效，需要在UCB_SWAP_ORIG_CONFIRMATIONLx寄存器中写入固定值
+0x57B5327F
+。
+（四）
+UCB_SWAP_ORIG_CONFIRMATIONHx（x=0~15）
+存放CONFIRMATIONLx.CODE的入口地址。
+（五）SWAP配置的代码实现
+SWAP的配置是SWAP使能的前提，如上的（1）~（4）的代码实现示意如下：
+/* Memory A/B SWAP *
+/
+void Swap_ConfigAndEnable(uint32 map)
+{
+/
+* UCB_SWAP_COPY *
+/
+ucb_erase(UCB_SWAP_COPY);
+ucb_write(UCB_SWAP_COPY, map, UCB_SWAP_COPY);
+ucb_write(UCB_SWAP_COPY + 8, CONFIRMEDCODE, UCB_SWAP_COPY + 8);
+ucb_write(UCB_SWAP_COPY + 0x1F0, UNLOCKCODE, 0x00000000);
+/
+* UCB_SWAP_ORIG *
+/
+ucb_erase(UCB_SWAP_ORIG);
+ucb_write(UCB_SWAP_ORIG, map, UCB_SWAP_ORIG);
+ucb_write(UCB_SWAP_ORIG + 8, CONFIRMEDCODE, UCB_SWAP_ORIG + 8);
+ucb_write(UCB_SWAP_ORIG + 0x1F0, UNLOCKCODE, 0x00000000);
+/
+* Enable SWAP *
+/
+ucb_write(UCB_OTP0_COPY + 0x1E8, 0x00030000, 0x00000000);
+ucb_write(UCB_OTP0_ORIG + 0x1E8, 0x00030000, 0x00000000);
+}
+SWAP的禁用代码示意如下：
+/* SWAP Disable */
+void swap_disable(void)
+{
+// Erase UCB31(UCB_SWAP_COPY)
+ucb_erase(UCB_SWAP_COPY);
+// Write Confirmation Code into UCB31
+ucb_write(UCB_SWAP_COPY +
+0x1F0
+, UNLOCKCODE, (
+uint32
+)
+0x00000000
+);
+// Delete UCB23(UCB_SWAP_ORIG)
+ucb_erase(UCB_SWAP_ORIG);
+// Write Confirmation Code into UCB23
+ucb_write(UCB_SWAP_ORIG +
+0x1F0
+, UNLOCKCODE, (
+uint32
+)
+0x00000000
+);
+// Erase UCB40(UCB_OTP0_COPY)
+ucb_erase(UCB_OTP0_COPY);
+// Write Confirmation Code into UCB40
+ucb_write(UCB_OTP0_COPY +
+0x1F0
+, UNLOCKCODE, (
+uint32
+)
+0x00000000
+);
+// Erase UCB32(UCB_OTP0_ORIG)
+ucb_erase(UCB_OTP0_ORIG);
+// Write Confirmation Code into UCB32
+ucb_write(UCB_OTP0_ORIG +
+0x1F0
+, UNLOCKCODE, (
+uint32
+)
+0x00000000
+);
+}
+提示：
+这里的map = 0x55或者0xAA；
+UCB23对应的CONFIRMATION寄存器配置成UNLOCKCODE模式（
+0x43211234
+）。
+3、SWAP使能
+SWAP的使能需要配置UCB_OTPx_ORIG（x = 0~7），如下所示：
+启动阶段，SSW会校验UCB_OTP0~7：
+默认校验UCB_OTP0（在CONFIRMED或者UNLOCKED状态下均会校验）；
+对于UCB_OTP1~7，只有在CONFIRMED状态下才会校验；
+如果ORIG区无效，会校验对应的COPY区。
+使能SWAP，
+需要配置UCB32的PROCONTP寄存器（Offset = 41E8
+H
+）
+，即：
+向0xAF4041E8地址写入0x00030000
+。
+SWAP的初始化流程如下所示：
+注意
+：使能SWAP功能之前，
+需要确保UCB_SWAP_ORIG和UCB_SWAP_COPY已完成配置
+。SWAPEN配置使能以后，执行System Reset生效。
+当UCB32的PROCONTP寄存器配置使能以后，可以通过
+读取HF_PROCONTP的SWAPEN位域确认SOTA的使能情况
+，如下所示：
+软件可以通过读取SCU_STMEM1寄存器的
+SWAP_CFG位域
+确认当前激活的Banks，如下所示：
+4、SWAP配置不当导致的锁板风险
+对于SWAP的使用，要特别的注意，
+否则就会导致板子锁死，且不可不恢复
+，如下所示：
+3
+Aurix TC3xx SWAP Demo实现
+关于SWAP的代码实现，参考了github上的工程，具体链接如下：
+https://github.com/s2obi/Aurix-TC387-SWAP
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+如何基于HighTec，在链接文件（*.lsl）中设置自定义段
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+诊断基础：如何理解Operation Cycle？
+信息安全（下）：软件认证（Authentication）
+诊断QA：CAN和CAN FD的诊断报文能否混用？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

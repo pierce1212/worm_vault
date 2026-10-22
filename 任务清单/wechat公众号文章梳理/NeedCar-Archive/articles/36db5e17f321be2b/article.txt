@@ -1,0 +1,28 @@
+这些芯片内存（Memory）区，你真的用过？
+2024-06-20T06:48:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494919&idx=1&sn=7a2d69c3123d248de027d238f55edd17&chksm=fa29b373cd5e3a65ad4270c1c0108b10ce18720be41d30947c1920d8cfca413a9986825665f9&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+开发的小伙伴，对于芯片内存（Memory）应该并不陌生。比如，Flash、RAM这些内存区，应该再熟悉不过了。如果针对车规级MCU芯片，再进一步细分Flash，又可以分为Data Flash（DFlash）和Program Flash（PFlash）;对于RAM，或者说SRAM（Static RAM）,又分为PSPR、PCache、DSPR、DCache、DLMU (Distributed Local Memory Unit)、LMU（Local Memory Unit）等。其中，DFlash常用来模拟EEPROM（Electrically Erasable Programmable Read Only Memory）。除此之外，还有UCB（User Configuration Blocks）、CFS（Configuration Sector）、BootROM
+等内存区。
+说到这些内存区，大家或许也了解。而
+实际的工程开发中，你是否都用过？
+DLMU内存区你是否真的用过？
+P
+SPR/DSPR对应的
+私有内存区
+你是否用过？
+UCB内存区主要用途是什么？
+DAM（Default Application Memory）你是否知道和使用过？
+为什么CPUx访问本地LPB（Local PFlash Bank）比访问
+CPUy的
+LPB更快？
+......
+如上的诸多疑问，你是否有答案？如果你存有困惑，本文将解开上述谜团。
+提示：
+基于英飞凌TC3xx讨论
+1、每个CPU关联的内存区
+每个Core（这里指主核）直接关联的内存区（Memory）包含6个，这6个内存区在
+物理上隔离
+，包括：PSPR、PCache、DSPR、DCache、DLMU、LPB，示意如下：
