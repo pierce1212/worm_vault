@@ -1,0 +1,92 @@
+如何理解诊断合理性检查（Rationality Checks）？
+2025-11-03T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497623&idx=1&sn=6503489fd5c770b8a1c1493d803a97c8&chksm=fa29a9e3cd5e20f571d21b1600eda1fc99d4d2047794ccfd3d8289a581932a302854dfaa76de#rd
+
+在诊断的讨论中，经常会听到
+合理性检查（Rationality Checks）这个概念？什么是
+Rationality Checks呢？
+Rationality Checks有哪些需要注意的呢？本文针对
+Rationality Checks，深入的聊一下。
+1、Rationality Checks
+如果将
+Rationality Checks换一个描述：
+conditions chek（条件检查）。大家或许更熟悉。在UDS（Unified diagnostic services）的规范中，多数诊断服务在执行前，都需要进行
+条件检查（
+conditions check
+），如果不满足诊断执行的条件，ECU需要回复NRC 0x22（CNC，
+conditionsNotCorrect
+）。NRC 0x22的具体描述如下所示：
+（一）为什么需要
+Rationality Checks？
+之所以进行
+Rationality Checks，主要
+是
+确保敏感诊断服务
+只能在
+“
+已知且安全
+”
+的
+车辆状态
+下执行，从而防止误操作或恶意滥用。
+既然合理性检查依赖车辆状态的判断，那么，车辆状态主要来源有哪些呢？一般来说，车辆状态可以由以下来源：
+直接传感器输入（如：轮速传感器）
+带有真实性和完整性保障的串行通信数据
+（如: CAN的SecOC信号）
+来自安全网络通信或传感器的内部派生值
+......
+（二）合理性检查的条件
+不同的场景下，合理性检查的条件有所不同。以0x2E（
+WriteDataByIdentifierservice
+）服务为例，可能的合理性检查条件有：
+车速（Vehicle_Speed） ≤ 3 km/h
+动力系统激活状态（Propulsion_System_Active）= False
+......
+可以看出，合理性检查需要确保车辆状态的处于安全状态，不能对操作人员造成伤害。
+进一步的延伸，既然某些车辆状态来源于总线信号，那么，
+总线信号的有效性
+是否需要进一步确认？这个问题首先需要明确目标ECU是否支持安全通信（Secure Communication），
+如果支持安全通信，对诸如车速信号进行安全认证，确保数据来源的真实性（
+Authenticity
+）和完整性（
+Integrity
+）是有必要的
+。
+（三）
+Rationality Checks和
+SecurityAccess区别
+注意，
+Rationality Checks不能等同于SecurityAccess
+，两者的区别如下：
+SecurityAccess
+Rationality Checks
+关注点
+用户
+是否授权
+车辆是否处于安全状态
+触发方式
+Seed & Key 授权
+读取
+车辆状态
+变量
+保护对象
+敏感数据、功能
+敏感操作的
+执行时机
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+安全访问（0x27）的Online解锁方案
+Clangd+CMake+Tasking+VSCode构建工程的琐碎
+SecOC Vs E2E，讨论的再深入点？
+关于RSA密码学算法的通识问题QA
+信息安全视角，如何看“软件升级”这点事
+针对内存资源有限的一种软件升级方案
+如何安全的存储和获取Debug password
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+一种软件实现的双Bootloader SWAP方案讨论
+HSM Firmware更新的一种方案讨论

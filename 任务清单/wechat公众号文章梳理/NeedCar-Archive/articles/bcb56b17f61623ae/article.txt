@@ -1,0 +1,133 @@
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+2022-12-09T09:38:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490747&idx=1&sn=aba9d447f40ac8321f48946ce9f1ad37&chksm=fa2a42cfcd5dcbd9b8cc2dc98c25b76052cc0ec198028173f94dbb91caf480f91a3537a6e4b6&scene=21#wechat_redirect
+
+Autosar网络管理的实现，依赖于网络管理报文（NM Msg）。NM Msg中携带着网络管理所需的信息，想深入的了解Autosar网络管理，就必须深入的理解NM Msg。本文，着重聊一下NM Msg中的CBV字节信息。
+提示
+：基于CAN总线讨论
+1、网络管理报文
+CAN总线的网络管理报文格式示例如下所示：
+上图的NM Msg格式属于工程中常见的一种格式，其他特殊格式，本文不展开讨论。CBV（Control Bit Vector）一般处于NM Msg中的Byte1位置，对应的8个bit中包含着网络管理控制信息，本文就工程常用的
+PNI（
+Partial Network Information Bit）
+、
+AWB（Active Wakeup Bit）
+、
+RMR（Repeat Message Request Bit）
+做一个解读。
+即使
+Autosar
+Version 4.4中，解释NM Msg格式时，依然使用ClassicalCAN格式，难道NM Msg不适用CAN FD格式？卖个关子。更多解答可以参考前文
+Autosar网络管理：CAN FD帧能否唤醒网络？
+。
+2、RMR（Repeat Message Request） Bit何时置位？
+看一下Autosar给的具体解释，如下所示：
+也就是说，RMR的置位，表示节点想进入RMS（Repeat Message State）。既然节点想进入RMS状态，我们至少需要思考两个问题：
+Q1：节点置位RMR，如何进入RMS状态？
+A1
+：按照Autosar规范要求，如果
+节点想通过置位RMR方式进入RMS状态
+，需要
+调用接口CanNm_RepeatMessageRequest()
+，同时，
+使能配置参数CanNmNodeDetectionEnabled（=TRUE）
+。
+注意
+：
+调用接口CanNm_RepeatMessageRequest()，只能在
+RSS（
+Ready Sleep State
+）
+或者
+NOS（
+Normal Operation State
+）
+状态下调用，如下所示：
+Q2：节点进入RMS，对本节点及同网段内的其他节点有何影响？
+A2
+：首先，对于本节点（Node A）来说，
+是因为有进入RMS的需求
+，主动请求进入，所以其RMR需要置位；对于Node A同网段的其他节点（Node B），是因为收到Node A的NM Msg，
+其中RMR置位
+，
+被动进入的RMS状态，RMR保持上次状态，无需主动置位
+。
+注意
+：Node A网段的所有节点均会进入RMS状态，以此保证大家的网络状态是同步的。具体解释，可以参考前文
+勘误篇(一)：Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+。
+拓展Q1
+：
+节点由NOS或者RSS状态，主动进入RMS状态的需求有哪些？
+A1
+：eg，节点收到新的PNC Bit置位，即：新的
+PNC（
+Partial Network Cluster
+）
+网络簇唤醒，需要所有相关节点协同进入RMS。
+说到PNC，就需要区分节点是否是网关节点（Gateway Node）:
+网关节点
+：承担着PNC路由的任务，需要主动外发NM Msg，且PNC #n = 1，进入NOS状态。
+非网关节点
+：也就是我们说的终端节点，因为没有路由的任务，所以不会配置
+ERA
+（External Request Array）
+，仅配置
+EIRA（External Internal Request Array）
+即可。即：配置参
+数CanNmPnEraCalcEnabled=FALSE、
+CanNmP
+nEiraCalcEnab
+led = TRUE
+。
+收到
+关联的PNC
+#
+n=1，有两种处理方式，
+被动接收
+，可以
+不发NM
+Msg；也可以在RMS状态下发送NM Msg（PNC可以不置位），之后进入RSS状态，停发NM Msg，由同网段其他节点发送的NM Msg拉住网络状态，发送应用报文。
+拓展Q2：快发模式与RMR是否有关联？
+A2
+：首先，节点如果想快发（Immediate）
+，则需要先使能CanNmImmediateRestartEnabled（=TRUE）。同时，节点主动请求网络时，才能进入快发模式，不受RMR置位与否的影响，也就是：两者没有必然联系。当然，如果节点主动置位RMR，请求进入RMS状态，且节点使能了快发模式，则节点会快发。
+提示
+：对于被动接收RMR=1的网络管理报文，接收节点的RMR保持上次状态，不必主动置位，因为进入RMS状态的发起方是网段内的其他节点。
+3、AWB（Active Wakeup Bit）何时置位？
+先看一下Autosar的官方解释，如下所示：
+意思是说：节点主动唤醒网络的时候，发送的网络管理报文中，AWB需要置位（=1）。这个比较好理解，主要识别节点是主动唤醒网络还是被动唤醒网
+络：
+节点主动唤醒网络
+：
+如果节点主动唤醒网络，即：主动调用接口CanNM_NetworkRequest()，且CanNmActiveWakeupBitEnabled = TRUE，则发送的网络管理报文中CanNmActiveWakeupBitEnabled=1。
+节点被动唤醒
+：
+如果节点是被其他节点被动唤醒，eg：收到其他节点的网络管理报文,会调用CanNM_PassiveStartUp()接口。则发送的网络管理报文中，CanNmActiveWakeupBitEnabled=0。
+4、PNI(Partical Network Information Bit)何时置位？
+还是先看Autosar的解释，如下所示：
+意思是说：网络管理报文中包含PNC信息。如果项目中，网络管理要求使用PN功能，发送的网络管理报文中，有PNC请求时，需要先置位PNI。接收节点会根据PNI情况决定网络管理的处理流程。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+诊断基础：Event内存管理
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+NVM基础：解读"切页"的头部信息
+队列刷写QA：队列刷写特点/APP是否需要支持队列刷写
+Autosar网络管理：CanNM网络状态变化都要告知ComM吗？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

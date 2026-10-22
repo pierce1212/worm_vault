@@ -1,0 +1,110 @@
+功能安全E2E：MaxNoNewOrRepeatedData配置错误导致进入SYNC状态
+2023-01-06T08:33:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490970&idx=1&sn=df4faf8e984af29031223343de422de3&chksm=fa2a43eecd5dcaf894c1c7f00bcec1086b1fd94436e20f983b61757039cc16d09cb3c45288a1&scene=21#wechat_redirect
+
+工程中，E2E的问题相对来说比较少。不管是工具配置还是用户使用，E2E涉及的东西不是很多，E2E Library帮我们简化了很多工作，所以，犯错的机会比较少，但这并不是说不会有问题。本文，聊一个E2E的工程问题："MaxNoNewOrRepeatedData配置错误导致进入SYNC状态"。
+1、问题描述
+（一）
+MaxNoNewOrRepeatedData释义
+先看一下Autosar对参数
+MaxNoNewOrRepeatedData的解释，如下所示：
+什么意思呢？
+答
+：
+正常通信工况下，
+接收端预期不会超过的最大丢失或重复数据量
+，工程常用值：14。
+MaxNoNewOrRepeatedData在E2E_P01配置位置示意如下所示：
+static
+const
+E2E_P01ConfigType Config_<p>_<o> =
+{
+8
+,
+/* CounterOffset */
+0
+,
+/* CRCOffset */
+0x12
+,
+/* DataID */
+12
+,
+/* DataIDNibbleOffset */
+E2E_P01_DATAID_BOTH,
+/* DataIDMode */
+64
+,
+/* DataLength */
+1
+,
+/* MaxDeltaCounterInit */
+14
+,
+/* MaxNoNewOrRepeatedData */
+2
+,
+/* SyncCounterInit */
+};
+（二）问题现象
+某一时刻，接收端接收到的RC（Rolling Counter）没有累加，对应的UB（Update Bit）没有置位，如下所示：
+调试发现：
+最终，E2E进入E2E_P01STATUS_SYNC状态，而算法识别到E2E_P01STATUS_SYNC状态以后，会有指示灯提示，并且限制车辆功能
+。
+2、问题分析
+当UB没有置位时，E2E的Check也就不再进行，但是，State->NoNewOrRepeatedDataCounter < 14，
+State->NoNewOrRepeatedDataCounter++
+。当下一次正常接收E2E数据时，会检查State->NoNewOrRepeatedDataCounter <=Config->MaxNoNewOrRepeatedData，如果
+条件为FALSE，则会进入E2E_P01STATUS_SYNC状态
+，如下所示：
+就一次没有收到有效RC就进入
+E2E_P01STATUS_SYNC状态，这是不是太严苛了？
+答
+：是的。
+实际因为参数maxNoNewOrRepeatedData配置成了0
+，使得State->NoNewOrRepeatedDataCounter <=Config->MaxNoNewOrRepeatedData不成立（FALSE），导致进入
+E2E_P01STATUS_SYNC状态。
+（一）M
+axNoNewOrRepeatedData示例
+假设配置M
+axNoNewOrRepeatedData = 3，示例如下所示：
+如上图，Cycle 9时，
+NoNewOrRepe
+atedDataCounter超过了
+M
+axNoNewOrRepeatedData，Counter不再可信，进入
+E2E_P01STATUS_SYNC状态。所以，工程中，将
+E2E_P01STATUS_SYNC状态作为一种异常状态处理。
+3、问题解决策略
+修改配置参数
+M
+axNoNewOrRepeatedData，本文推荐值：14。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+嵌入式开发：void*在工程中的应用
+Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+Autosar CanTp:什么是Connection？
+CAN通信基础：L-PDU，到底如何理解？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

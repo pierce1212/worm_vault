@@ -1,0 +1,84 @@
+多核通信的一种IPC通信方案
+2024-12-06T06:35:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496281&idx=1&sn=e82615251d9794a474b1c08b450a3f21&scene=21#wechat_redirect
+
+目前，主流的车载芯片都已支持多核
+系统（multi-core systems），
+多核通信最为关注的当属数据同步（synchronization）问题。
+多核通信也称为进程间通信IPC（Inter-processor communication），IPC我们并不陌生，在实际的工程实践中，你又是如何使用的呢？
+本文聚焦一下该问题。
+1、IPC Channel和IPC Interrupt
+IPC通信的主要目的是确保共享资源存储数据的一致性，避免数据处理过程中被打断。这里我们先了解两个概念：
+IPC Channel
+：处理器之间通信和同步所需的数据结构（struct）。
+IPC Interrupt
+：用于通知IPC事件的中断。
+IPC Channel和IPC Interrupt关系示意如下：
+每个Processor都有一个中断向量表用于存储中断例程地址，每个IPC Channel可以主动触发和响应中断。
+2、IPC的核间通信流程
+以CYT4BB芯片为例，具体细化一下核间通信流程，示意如下：
+（1）发送Message的Core A尝试获取一个IPC Channel，当
+Core A获取一个可用的
+IPC
+Channel以后，即可通过该
+IPC
+Cha
+nnel发送目标数据，
+没有释放此
+IPC Cha
+nnel前，该通道不能被抢占
+；
+（2）获取可用的
+IPC
+Channel后
+，Core A可以向IPC Channel的数据寄存器（
+IPC_STRUCTx_DATA0
+、
+IPC_STRUCTx_DATA1
+）填充数据；
+（3）当Message（数据信息）写入
+IPC Channel后
+，发送方（
+Core A
+）会触发一个中断通知事件，告知接收方（
+Core B
+）去获取数据。
+它通过在IPC通道的IPC_STRUCTx_NOTIFY寄存器中设置相应的位来实现这一点
+。该事件在IPC中断B处创建一个通知事件。如果IPC通道的通知事件通过在IPC中断B中设置掩码位被启用，那么这将会在接收方产生一个中断；
+（4）当接收方
+（
+Core B
+）
+接收到IPC中断B时，可以读取IPC_INTR_STRUCTx_INTR_MASKED寄存器，以了解哪个IPC
+Channel
+触发了通知事件。根据此信息，接收方识别出要读取的通道，并从IPC
+Channel
+的IPC_STRUCTx_DATA0和IPC_STRUCTx_DATA1寄存器中读取数据。接收方现在已接收到发送方发送的数据。接收方需要释放通道，以便其他处理器/进程可以使用它；
+（5）接收方释放通道。它还可以选择在发送方的IPC中断A上生成一个释放事件。如果相应的通道释放事件没有被屏蔽，这将会在发送方产生一个释放事件中断。
+如上既是IPC使用的基本步骤。但是，如上数据交互时有一个问题：
+IPC_STRUCTx_DATA0和IPC_STRUCTx_DATA1寄存器最多能传输64bit（8 byte）数据。如果数据量大于8 byte呢？
+答
+：
+传输目标数据的地址，通过地址获取所需数据长度
+。
+（一）IPC大数据通信模式
+核间进行大数据交互时的通信流程示意如下：
+该方式的核心就是：
+发送方将待发送的数据，按照一定的格式（struct）写到一个指定地址，之后将该地址（eg：4 byte）写入数据寄存器（Data Register），接收方从数据寄存器获取交互数据的地址，之后从该地址处，以同样的格式读取所需信息
+。如此，即可完成核间的大数据交互。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+信息安全，单次服务请求有必要分多步执行吗？
+如何理解通信使能与迟滞电压的关系
+怎能不了解数据压缩？从LZSS无损压缩算法开始
+基于Davinci的HSM开发实践（12）：安全日志（Event Log）的工程开发实践
+深刻理解以太网发送，必经DMA Transmit Descriptor
+诊断，为什么读到的DTC故障状态是0x20?
+无效唤醒，ECU需要立即休眠吗？
+Bootloader开发：如何提高软件刷写效率？
+这些芯片内存（Memory）区，你真的用过？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

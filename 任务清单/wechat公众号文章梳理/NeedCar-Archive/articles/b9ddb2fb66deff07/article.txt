@@ -1,0 +1,8 @@
+刷写压测能否超过1000次，极限在哪？
+2025-09-01T06:24:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497407&idx=1&sn=4d0e1e5521b4eccbde6afce5f304e260&chksm=fa29a8cbcd5e21ddf0a6d16b891a97f8e9d80af8b000051989c1ac4d159ce3f2687f9154228d#rd
+
+【仅保存公开试读，付费全文未获取】
+
+在Bootloader程序的测试中，为了验证Bootloader刷写功能的健壮性，一般会对Bootloader做压力测试。即：要求Bootloader连续刷写N次（eg：1000次、2000次等）不能失败，以此证明Bootloader刷写的可靠性。但是，在一些Bootloader的需求中，会要求压力测试是2000次甚至更高，2000次的压力次数要求是否合理呢？内存地址、逻辑扇区、物理扇区如何理解？内存地址是否可以直接映射逻辑扇区？
+本文，针对这些话题展开讨论。注意 ，Bootloader压力测试的操作内存是PFlash。

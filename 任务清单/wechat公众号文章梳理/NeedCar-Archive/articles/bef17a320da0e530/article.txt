@@ -1,0 +1,131 @@
+怎能不了解数据压缩？从LZSS无损压缩算法开始
+2024-11-19T06:32:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496131&idx=1&sn=bdb3c7e6a58d4347594eb1dcf5807827&scene=21#wechat_redirect
+
+工程上，我们经常听到数据压缩（
+compressi
+on
+）的概念。之所以使用压缩算法，无非为了加速数据的传输速度，最典型的应用场景：软件更新过程中，通过对原始数据压缩，降低传输的数据量，从而提高软件更新效率。那么，MCU级控制器的开发过程中，你又听过哪些压缩算法呢？
+工程上使用的压缩算法有：LZSS
+（Lempel-Ziv-Storer-Szymanski）
+、LZMA（Lempel–Ziv–Markov chain Algorithm
+）
+、Gzip
+等。
+但是，
+最为常用的算法莫属LZSS
+。
+1、LZ
+SS简介
+LZSS是一种
+字典（dictionary）编码技术，由LZ77衍生。这是一种
+无损数据压缩
+方法，LZSS尝试对搜索窗(search window）中相同字符串位置的引用来替换一串符号。
+LZSS中的
+search window+look-ahead buffer
+构成
+一
+个滑动窗口（sliding window）。
+look-ahead buffer称为前置缓冲区，用于缓存一定大小（eg：17 bytes）的待编码数据；
+search window用于缓存固定大小（eg：1024 bytes）的已编码数据。
+压缩是通过用指向滑动窗口的
+位置信息/长度
+对替换在先前读取的数据中找到的字节数组来实现的，示意如下：
+如果位置信息/长度对占用的比特数超过它试图压缩的字节数组，则数据将保持未压缩。这通过一个单比特标志进行指示，
+'1'表示后面的数据是未压缩的，'0'表示后面的数据是位置信息/长度对
+。为了
+加速压缩
+算法，使用
+二叉搜索树
+来存储先前压缩的数据。
+（一）压缩算法的使用场景
+提到压缩算法，最容易想到的工程场景当属UDS（Unified diagnostic services ）的Request Download Service（$34服务），$34服务格式如下：
+其中，dataFormatIdentifier（数据格式指示符）就指示着是否使用压缩功能，更进一步解释，就是#2这个字节的高4 bit表示数据是否被压缩处理，具体解释如下：
+所以，如果收到$34诊断服务，示意如下：
+34
+1
+0 44 A0 00 40 00 00 01 00 00
+如上的蓝色“1”表示上位机接下来发送的数据是经过压缩处理的，这就意味着：随后的$36（Transfer Data Service）服务需要对接收的数据进行对应的解压处理。
+除了提高数据传输效率以外，通过压缩数据，
+还可以有效减少数据存储空间，提高数据存储效率
+。
+（二）LZ77基本原理
+将编码位置设置为输入流的开始。
+在窗口中查找与前置缓冲区的最长匹配。
+如果找到匹配，输出指针P。将编码位置（和窗口）
+向前移动L字节
+。
+如果未找到匹配，
+输出一个空指针
+和
+前置
+缓冲区中的第一个字节。将编码位置（和窗口）向前
+移动一个字节
+。
+如果
+前置
+缓冲区不为空，返回到步骤2。
+假设：
+待压缩的数据是
+AABCBBABC
+，压缩数据（
+output
+）过程如下所示：
+更具体得描述参考资料(1)(2)。
+如上已经提及，
+为了
+加速压缩
+，LZSS使用
+二叉搜索树
+来存储先前压缩的数据，这是查找最大匹配长度的精髓，本文不对二叉树展开讨论。
+其中，在压缩算法中，
+会定义一个匿名结构体
+，eg：创建一个名为tree的数组，用于存储多个这样的结构体实例。假设：数组的大小为1025，示意如下：
+#define INDEX_BIT_COUNT      10
+#define WINDOW_SIZE          ( 1 << INDEX_BIT_COUNT )
+struct {
+int parent;
+int smaller_child;
+int larger_child;
+} tree[WINDOW_SIZE + 1];
+结合二叉树算法，在理解字符串的查找过程，你会觉得这个操作有多“秀”。当然，并不是说LZSS就一定能达到数据压缩的目的，如果压缩的数据量小，
+压缩后的数据甚至会比压缩前的数据更大
+。
+2、LZSS基本参数
+对于LZSS压缩算法，实际的工程中，需要注意两个参数约束
+：sliding window和look-ahead buffer
+。常用的配置参数如下：
+sliding window，1024 bytes
+look-ahead buffer，（16+1 ）bytes
+3、Python-LZSS算法链接
+LZSS
+压缩算法时一个很成熟得算法，公开的资料很多，而且，在某些
+OEM
+的需求规范中，也会给出代码示例。
+Github上，基于Python版本的LZSS算法链接如下：
+https://github.com/krzem5/Python-Lzss_Compression
+本文调试链接（根据自己需求调整）：
+https://onlinegdb.com/DUXC0f-Sw
+4、参考资料
+关于LZ77的基本原理，可以参考如下链接：
+(1)
+https://blog.csdn.net/m0_50704543/article/details/132584321
+(2)
+https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wusp/fb98aa28-5cd7-407f-8869-a6cef1ff1ccb
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+基于Davinci的HSM开发实践（11）：安全启动开发实践及问题
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+这些芯片内存（Memory）区，你真的用过？
+如何诊断对地短路、对电源短路以及开路故障？
+结合工程实际，理解信息安全（Security）的基础概念
+基于Davinci的HSM开发实践（5）：HSM与Host的IPC通信简介
+Flexray总线基础#05：为什么要进行节点间时钟同步？
+诊断，为什么读到的DTC故障状态是0x20?
+Bootloader开发：如何提高软件刷写效率？
+异步Trap，该如何锁定问题点？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

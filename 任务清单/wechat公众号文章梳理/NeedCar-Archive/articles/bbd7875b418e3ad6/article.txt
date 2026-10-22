@@ -1,0 +1,102 @@
+CAN通信：Busoff以后，为什么要等待128次连续11个隐性位？
+2022-10-01T14:11:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489823&idx=1&sn=9bbb5ae8e2729e71d62b49e669fc2c47&chksm=fa2a476bcd5dce7d0b7f3438190ea783bfed0afc2a0b887020b40ec47e63055debb4750283cb&scene=21#wechat_redirect
+
+当CAN总线上的某个节点Busoff以后，11898规范要求：节点需要等待128次连续11个隐性位（Recessive）后才能重新参与总线通信，如下所示。本文问题焦点：
+为什么是11个连续的隐性位呢？
+理解这个问题，我们需要先理解CAN报文格式在CAN BUS的表现形式。关于Busoff的讨论，可以参考前文
+CAN通信：Busoff问题知多少
+。
+1
+连续11bit隐性位构成分析
+节点在请求CAN BUS使用权之前，需要
+先监听总线的状态
+，只有总线处于空闲状态的时候，发送节点才能发送起始位（SOF：Start Of Bit），之后，请求发送报文的各个节点进行仲裁，关于CAN仲裁原理，可以参考前文
+CAN总线仲裁原理
+。
+问题
+：如何识别CAN总线空闲呢？
+答
+：监听到总线≥11 Bits隐性位。也就是说，CAN BUS由忙碌进入空闲，最快11 Bits时间，这里的11 Bits对应的Bit Time = 1/500Kbps = 2us。即：CAN BUS由忙碌进入空闲的最快11 * 2us = 22us。
+如果总线上一直有节点请求发送，则CAN BUS会一直处于繁忙的状态。为了区分出每帧CAN报文，CAN报文之间需要预留一定空间，即：帧间隔，IFC(Inter Frame Space)，
+由3个隐性位构成
+。
+1、CAN BUS连续发送报文状态
+以经典CAN总线为例，总线连续发送报文的状态如下所示：
+注意：
+上图没有计算位填充（Bit Fill）占用的Bit个数。实际，总线上发送一帧经典CAN报文≥127Bits。
+发送节点发送ACK Field（2 Bit）时，会发送两个隐性位，接收节点会在应答槽（
+ACK Slot
+）处应答发送节点，即：
+接收节点接收到隐性的ACK Slot，应答成显性的ACK Slot
+，这样，总线上的
+ACK Field只剩下Ack Delimiter为隐性，如下所示：
+所以，CAN BUS上，1（
+Ack Delimi
+ter
+）+ 7（EOF）+ 3（Inter Frame Space） = 11 Bits，这就是11 Bits隐性位的构成，也就是说，节点想要发送一帧报文，最快需要等11个隐性Bit时间。
+2、总线空闲状态
+CAN总线状态是什么样子的呢？
+答
+：连续≥11 Bits 隐性位，总线就进入了空闲状态（Bus Idle），总线进入Bus Idle以后，发送节点方可请求发送报文，如下所示：
+2
+问题拓展
+工程中，常听到：“
+CAN总线的负载率不要超过30%
+。”为什么呢？在搞清楚这个问题之前，我们先理清楚，CAN总线的负载率如何计算。
+CAN总线负载率 = （单位时间内，传输的Bit个数）/（单位时间内，可以传输的Bit个数）
+。eg:使用500Kbps的通信速率，1s时间内传输了5000 Bit，则：CAN总线负载率 = 5000 / 500000 = 10%。
+这里我们在进一步思考，实际，总线上
+有效的负载
+只是数据段部分，有近乎一半的Bit在传输协议信息。所以，总线上的有效负载率很低，是上述计算的一半左右（≈5%）。
+回到问题，上述的讨论中，我们清楚：只有总线空闲的时候，发送节点才能请求发送报文，一个CAN网段上，可能有多个节点同时请求发送。只有赢得总线仲裁的节点，才能获取总线使用权，发送报文，
+而仲裁失败的节点就不得不再次等待总线空闲，如果某个节点待发送的报文优先级很低，每次请求发送的时候，总是被其他节点抢占而被迫等待，则该报文就会存在丢帧的问题，进而引发整个网段的通信问题
+。
+所以，一个CAN总线上，发送的报文数量越多，就会使得单位时间内传输的Bit增加，进而使得总线负载率增加。反过来思考：
+总线负载率提高，意味着总线上发送的报文数量多，发送的报文数量多，就会导致低优先的报文获取总线使用权的机会降低，进而导致通信问题
+。所以，工程经验上，常说，CAN总线负载率不要超过30%，就是
+为了让低优先级的报文获得总线使用权
+。至于为什么30%，我不甚清楚。据说，有的厂商，通过合理布局总线内报文数量和周期，可以将总线负载率提高到50%。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（一）
+嵌入式开发：存储，从Flash Driver开始
+Autosar PN网络管理：PNC信息的收/发流程
+Bootloader开发：队列刷写（Queued Flash）基础
+Autosar网络管理：PNC = 0，为何不能路由？
+Autosar网络管理：为什么要网络管理
+CAN通信：Basic CAN与FIFO
+Autosar网络管理：被动唤醒和Passive Channel QA
+CAN通信基础：错误帧
+CAN通信：Busoff问题知多少
+CAN通信基础：Tx Comfirmation、Rx Indication以及Ack
+Autosar Os：Spinlock基础
+Autosar网络管理：诊断报文能否唤醒网络？
+TriCore架构学习笔记（一）：架构总览
+工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败
+Aurix:初识Cached和Non-Cached
+Autosar网络管理：ERA/EIRA问题QA
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Uds诊断：Unexpected N_PDU处理策略
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+通信栈基础：CAN发送报文如何赢得总线使用权
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

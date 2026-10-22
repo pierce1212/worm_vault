@@ -1,0 +1,135 @@
+CANoe基础：仿真节点VLAN配置、UDP Capl编写
+2023-12-07T06:34:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493631&idx=1&sn=6a88fd38df588acd2abc6dcb550805e0&chksm=fa29b98bcd5e309dce07855eec698ff05fe9f91c44eb10be198ca0d4dd3e99689a094f9914aa&scene=21#wechat_redirect
+
+不管是搞汽车软件开发还是软件测试，仿真是必不可少的一个环节。对于开发，可以通过仿真，确认软件功能的可靠性；对于测试，可以通过仿真，发现软件潜在的Bug。仿真的软/硬件设备多种多样，各有各的特点。本文基于
+CANoe+VN5650
+，聊一聊仿真节点的VLAN（Virtual Local Area Network）配置以及仿真节点UDP Capl编写。
+本文+前文《
+以太网基础：为什么需要VLAN？
+》，希望可以更好地帮助你理解和学习VLAN。
+1、仿真节点创建及UDP Capl编写
+（一）仿真节点创建
+CANoe软件中，可以在总线中创建仿真网络节点（Simulation Network Node）模拟整车通信环境，以此替代真实的物理节点。本文，创建一个Ethernet仿真节点，具体步骤如下：
+1、Simulation->Simulation Setup->Nodes->Insert Network Node
+创建的Ethernet仿真节点如下所示：
+2、配置仿真节点，
+右击
+仿真节点->Configuration...->对仿真节点命名，eg：Title修改为ECU_UDP_Sender。如下所示：
+（二）UDP Capl脚本编写
+1、单击仿真节点的"Edit"按钮，进行Capl脚本的编写
+2、本文给出一个UDP周期
+（eg：
+100ms）
+发送的CAPL脚本，源地址IP：Port（192.168.0.10：49153），目标IP：Port（192.168.0.11：49155）。脚本如下所示：
+/*@!Encoding:936*/
+variables
+{
+UdpSocket gSocket;
+char
+text[
+200
+];
+int
+sendCnt;
+msTimer waitTime;
+}
+on start
+{
+/* Open an UDP socket. As source address
+192.168.0.10 is used,Port = 49153 */
+gSocket = UdpSocket::Open( IP_Endpoint(
+192.168
+.0
+.10
+:
+49153
+) );
+if
+(IpGetLastError() !=
+0
+)
+{
+// if UdpSocket::Open fails, we print a message to the write window
+write(
+"<%BASE_FILE_NAME%> UdpSocket::Open failed with result %d"
+, IpGetLastError() );
+}
+setTimer(waitTime,
+1
+);
+}
+on preStop
+{
+cancelTimer(waitTime);
+// Close socket on measurement stop
+gSocket.Close();
+}
+on timer waitTime
+{
+text[
+0
+] = sendCnt++;
+text[
+1
+] =
+0x55
+;
+text[
+2
+] =
+0xAA
+;
+// send text to IP address/UDP port of the receiver
+gSocket.SendTo( IP_Endpoint(
+192.168
+.0
+.11
+:
+49155
+), text,
+strlen
+(text) );
+write (
+"Send UDP Info."
+);
+setTimer(waitTime,
+100
+);
+}
+3、对编写的capl脚本进行编译
+编译
+当capl脚本编写完成以后，在编写界面单击"Compile"或者"Compile All"进行编译，确保编写的脚本没有语法错误，如下所示：
+下载到仿真节点
+将编译好的capl脚本下载到仿真节点，单击仿真节点的"Compile"，进行下载操作，此过程中，会弹出Compiler Information提示，如下所示：
+2、仿真节点的VLAN配置
+工程中，节点会进行VLAN配置，为了更好地模拟真实物理节点，需要在仿真设备中进行VLAN操作。具体操作如下：
+1、右击仿真节点->TCP/IP configuration...
+2、选中目标仿真节点（本文：ECU_UDP_Sender），选择"Individual TCP/IP stack"，如下所示：
+VLAN Configuration
+单击"Add..."，在弹出的界面中选择
+目标Channel
+，设置
+VLAN ID
+（eg：10），设置
+VLAN Priority
+，如下所示：
+如下所示：
+VLAN配置
+在创建的VLAN 1.10中进行设置，对本文的Local IP（192.168.0.10）添加VLAN，如下所示：
+3、包含指定VLAN的UDP通信
+在使能仿真节点（本文：ECU_UDP_Sender）与物理节点通信之前，先确保仿真节点端口和物理节点端口处于激活状态（Active），如下所示：
+启动仿真，观察Ethernet的UDP通信（带有VLAN），当仿真节点与目标节点的VLAN相同时，两者通信数据流如下所示：
+当仿真节点与目标节点的VLAN不同时，两者无法通信，只能各自不断发送ARP报文，请求Switch去查找目标节点MAC，
+如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+以太网基础：DMA Descriptor到底在描述什么？
+以太网基础：基于Lwip+Tc3xx的组播实现
+Uds诊断：这几个诊断问题，你能回答几个？（五）
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

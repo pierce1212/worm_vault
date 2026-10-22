@@ -1,0 +1,103 @@
+Hightec基础：生成静态库（*.a）的第二种方法
+2024-02-26T08:42:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494035&idx=1&sn=8a63a26ffa4960ca43b07f2755624b5d&chksm=fa29b7e7cd5e3ef1f210abe8613175eea014f1b883e80aac06ca3c388a51a141928d8bf0ef51&scene=21#wechat_redirect
+
+工程开发中，常常将一些需要保密的算法封装成库文件（eg：*.a）给到第三方，以便于工程集成。其实，将源文件封装库，不仅仅有保护算法的作用，库文件本身就是
+预编译好的代码
+，因此，
+可以直接链接
+，进而节省编译时间。如果算法是成熟可复用的程序，封装成库是比较理想的一种
+模块化
+方式。前文《
+如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）
+》讨论过如何将源程序封装成静态库（*.a），本文继续输出，给出第二种生成静态库的方式：创建库文件（library）工程方式生成静态库。
+1、创建lib工程
+具体操作步骤如下：
+（一）新建Hightec工程
+打开Hightec以后，右击空白位置->New->Hightec Project，如下所示：
+（二）工程命名
+在弹出的界面中自定义工程名称（eg：Hightec_Mylib），如下所示：
+（三）选择工程类型为Library
+在弹出的界面中，选择芯片类型、
+工程类型（此处选择Library）
+、语言类型（eg：C语言），如下所示：
+Library工程创建完成，如下所示：
+2、源码编写
+完成Library工程创建以后，即可加载需要封装成静态库文件的源文件。本文展示的源文件如下所示：
+（一）生成*.a的源文件
+MyLib.h内容如下所示：
+/*
+* MyLib.h
+*/
+#
+ifndef
+MYLIB_H_
+#
+define
+MYLIB_H_
+typedef
+unsigned
+short
+uint16;
+typedef
+unsigned
+long
+uint32;
+extern
+uint32
+Func_Add
+(
+const
+uint16 x,
+const
+uint16 y)
+;
+#
+endif
+/* MYLIB_H_ */
+MyLib.c内容如下
+所示：
+/*
+* MyLib.c
+*/
+#
+include
+"MyLib.h"
+uint32
+Func_Add
+(
+const
+uint16 x,
+const
+uint16 y)
+{
+return
+(x + y);
+}
+3、编译*.a静态库
+（一）源文件加载到工程
+将需要封装成静态库文件的源文件加载到工程中，如下所示：
+（二）编译工程
+编译工程：编译按钮->Build Active Project，如下所示：
+编译生成的静态库文件（
+lib
+Hightec_Mylib.a）如下所示：
+如何自定义静态库名称？如果不想使用工程默认的静态库名称，可以进行如下设置，之后，重新编译工程，生成自定义的静态库文件（本文命名：ADD_FuncLib），如下所示：
+（三）静态库文件的使用
+静态库文件的使用，可以参考前文《
+如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）
+》。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+调试技巧：Trace32也可以当串口用（Printf功能）
+工程思考：ECC纠错对完整性校验的影响
+从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理
+以太网基础：为什么需要ICMP？
+Bootloader开发：刷写时，被刷节点和非刷写节点行为有何不同？
+信息安全基础：Host与HSM通信科普
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

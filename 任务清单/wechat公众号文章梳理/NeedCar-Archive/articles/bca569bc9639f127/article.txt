@@ -1,0 +1,151 @@
+UDS基础：快照数据（Snapshot）格式详解
+2023-07-11T08:30:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492469&idx=1&sn=8a05a0ac7eebe53f995917f0a25e0f44&chksm=fa29bd01cd5e34177cd38a167a7fd9aea59c8c672c1f910473a2b431908afa647f822111b924&scene=21#wechat_redirect
+
+做汽车诊断开发的同学，对快照数据（Snapshot）应该并不陌生。
+Snaps
+hot数据在车辆故障排查中
+扮演着不可或缺的角色，所以，读懂UDS（Unified Diagnostic Services）中Snapshot格式很重要。具体说，是读懂$19服务（Read DTC Information）的sub-function（0x04）格式—
+reportDTCSnapshotRecordByDTCNumber。本文着重讨论几点问题：
+为什么需要
+Snaps
+hot，
+Snapshot与DTC关系
+$19 04格式解读
+$19 04示例解析
+1、为什么需要Snapshot，Snapshot与DTC什么关系
+我们知道，一辆车，零部件成千上万。当车辆故障时，需要进行维修，如果让维修员逐个靠肉眼排查，问题排查效率势必大打折扣。所以，在控制器的开发中，诊断功能必不可少。OEM会根据不同场景，设计不同的诊断需求，eg：电池低压/过压事件（Event）诊断、通信丢失事件诊断、胎压事件诊断等等。为了更好的区分故障类型，OEM会将这些事件关联到不同的诊断故障码（DTC：Diagnostic Trouble Code）。同时，为了维修人员更快、更准确的识别故障事件，还需要提供一些额外的辅助信息，eg：故障发生时的时间、控制器供电电压、车辆里程等等。为了获取这些信息，可以将这些信息设置一个快照信息组（Snapshot Group），为了区分不同的Snapshot Group，可以为每个Snapshot Group分配一个识别号，即：
+DTCSnapshotRecordNumber
+，UDS要求，
+DTCSnapshotRecordNumber由1 byte组成，0x00一般
+预留给WWH-OBD使用，0xFF表示控制器（Server）一次将所有的快照数据上报，
+0x01~0xFE由OEM自行设定
+，比如：0x20表示一组快照信息。注意，每个
+DTCSnapshotRecordNumber包含一组快照信息，一组快照信息中，可以包含多个DID，每个DID则包含具体的信息，eg：胎压、里程数等等。
+事件（Event）、DTC、Snapshot Group、DID之间的关系示意如下：
+通过如上的示意图可以看出，
+Snapshot信息对于问题的排查至关重要。
+提示
+：对着Event与DTC的关系，工程上常见的组合关系是一对一或者多对一组合，示意如下：
+2、$19 04格式解读
+（一）$19 04的请求格式
+清楚了
+DTC和Snapshot Group的关系，再来看规范对于$19 04的
+请求格式
+约束，如下所示：
+如上图，Byte1表示$19服务，Byt
+e2表示sub-function（其中，0x04表示通过DTC号读取快照数据），Byte3~Byte5表示DTC码，Byte6表示DTC快照号，也就是我们常说的快照组（
+Snaps
+hot
+Gr
+oup
+）。
+（二）
+$19 04的响应
+格式
+$19 04的正响应格式如下所示：
+如上图，Byte1表示正响应格式：0x19+0x40 = 0x59；Byte2表示
+sub-function；
+Byte3~Byte5表示DTC码；Byte6表示此DTC对应的状态掩码；Byte7表示
+DTCSnapshotRecordNumber，也就是
+Snaps
+hot
+Gr
+oup N
+umber
+，eg：
+0x20；Byte8表示此
+Snaps
+hot
+Gr
+oup一共有多少DID，eg：0x10，表示此快照组有16个DID；Byte9~Byte10表示DID，Byte11~Byte#n表示DID对应的数据，这里的数据长度由DID决定；之后的DID依次记录......
+3、$19 04示例解析
+$19 04的示例如下：
+（一）
+$19 04请求
+$19 04 D4 6A 87
+FF
+其中，0xFF表示读取DTC（0xD46A87）对应的
+所有快照组
+数据，本文
+0xD46A87对应两组快照信息。
+（二）
+$19 04响应
+此处，着重分析$10 04响应的红线部分：
+Byte
+1：
+表示正响应格式：
+0x59
+Byte
+2：
+表示
+sub-function：0x04
+B
+yte
+3~Byte5：
+表示DT
+C码，0xD46A87
+B
+yte
+6：表示此DTC对应的故障状态，0x2F
+Byte7：表示
+DTCSnapshotRecordNumber，0x20
+Byte8：
+表示此快照组一共有多少DID，0x9D，即：157个DID
+，Byte9~Byte10：表示第一个DID Number，0x9007
+Byte11~Byte15：表示DID（
+0x9007）
+对应的数据，
+占用了5Byte
+Byte16~Byte17：
+表示第二
+个
+DID Number
+，
+0xD134
+......
+4、拓展
+某些OEM对Snapshot Group定义比较有意思，UDS规范要求
+DTCSnapshotRecordNumber用1Byte
+表示，表示范围0x00~0xFF，但是，你会发现，OEM要求的
+DTCSnapshotRecordNumber = 2000，超出1Byte所能表示的范围。
+示例
+：
+解读
+：
+DTC（0xD46A87）对应
+SnapshotDID2000、
+Snapshot
+DID
+2001、
+Snapshot
+DID
+2100。这里
+Snapshot
+DID
+2000
+、
+Snapshot
+DID
+2001实际对应Snapshot Group为0x20（企业标准要求，没有为什么），
+Snapshot
+DID
+2100实际对应Snapshot Group为0x21。
+提示
+：工程开发中，当企标和通用规范冲突时，以企标为准，如果不确信，先和客户明确需求，避免开发偏差。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+基于Tricore的CANFD入门工程
+CANoe基础：如何显示*.blf数据的时间戳
+INCA基础操作：文件刷写
+为什么Tier1要开发控制器的电源管理芯片？
+基于Hightec+TC375TP的RT-Thread移植详解
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

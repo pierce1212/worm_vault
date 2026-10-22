@@ -1,0 +1,67 @@
+Autosar往期精彩文章汇总：201~251
+2023-06-13T08:29:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492295&idx=1&sn=5ccf8c82dfa78ec2c10226d2779696fe&chksm=fa29bcb3cd5e35a50979a915191e3b7f4bc4e6687b0fd2faacc19216c4f4e26984828a90f83c&scene=21#wechat_redirect
+
+“手持烟火以谋生，且停，且忘，且随风”，谁能如此洒脱？
+生活感悟
+这个年纪…
+爱啊，它藏在哪了？
+写字楼里，留不住回忆
+你们，去哪儿了
+夜，思家
+嵌入式开发
+基于Tricore架构的RT-Thread移植
+Cached段启动，导致调试断点失效
+C语言引用来链接文件符号（symbol）知多少？
+如何使用链接文件设置填充值（Fill Value）
+嵌入式开发：如何理解Local/Global寻址？
+嵌入式开发：CSA是什么？
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+嵌入式开发：TLF35584外狗之WWD
+DDS
+安装eProsima Fast DDS坑点
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+编译
+基于Makefile的C、C++混编
+交叉编译对应的Makefile编写
+嵌入式开发：VSCode中，基于CMake开发
+基于CMake，交叉编译C、C++
+C语言基础：do{...}while(0)的使用，很秀
+看门狗
+嵌入式开发：看门狗问题QA
+为什么需要外部看门狗？
+软件调试
+基于VN5650 TAP模式监控以太网数据交互
+TRACE32调试：基础调试技巧之SystemMode、SNOOPer
+基于VN5650的以太网配置
+Hightec基础实用技巧
+CANoe使用：如何配置CAN、Flexray、Lin唤醒帧
+TRACE32：多核调试配置
+功能安全
+E2E工程问题：小周期转大周期Gateway
+网络管理
+从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理
+Autosar网络管理：为什么需要2帧网络管理报文唤醒网络？
+嵌入式开发：如何识别PowerOn唤醒和总线唤醒
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+通信
+算法执行时间过长导致的Task抖动问题
+Lin总线Transceiver基础
+通信栈开发：任务（Task）抖动导致的UB失效问题
+嵌入式开发：周期调度和代码执行时间理解
+车载以太网：姗姗来迟的以太网
+Busoff后的快/慢恢复机制
+以太网笔记：快速以太网100Base-TX接口及编码
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar EcuM：ECU的启动、关闭流程
+诊断
+诊断开发：老化（Aging）和愈合（Healing）
+电源管理
+如何理解KL15与PORST Pin
+嵌入式开发：MCU的上、下电解读
+复位控制单元（RCU）学习笔记
+bootloader
+Bootloader开发：刷写时，被刷节点和非刷写节点行为有何不同？
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?

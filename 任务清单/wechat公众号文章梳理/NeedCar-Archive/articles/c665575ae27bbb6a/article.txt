@@ -1,0 +1,48 @@
+如何基于PLS UDE调试他人的镜像文件（*.out/*.elf）？
+2026-01-12T06:20:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497870&idx=1&sn=a98e124c67592c38047b2c49283aceb5&chksm=fa29a6facd5e2fec5bd93c62439b0288d861b0c92e718edff464ea63f670a3931d58223d313c#rd
+
+从事软件开发的小伙伴知道，一个大型软件工程，从来不是一个人的单打独斗，而是需要多人的协作开发。既然是协作，就可能遇到这样一个场景：工程师A需要工程师B协助排查问题，
+工程师A将编译后的调试文件（eg：*.elf、*.out）给到工程师B，工程师B基于收到的
+*.elf/*.out+本地源文件进行问题调试
+，只有
+*.elf/*.out这样的文件，该
+如何调试呢？
+在前文《
+别人的*.elf文件，该如何使用Lauterbach进行白盒调试？
+》讨论过基于Lauterbach的操作，那么，基于PLS UDE又该如何操作呢？
+1.基于PLS UDE的源文件路径替换
+首先，加载从第三方获取的*.elf/*.out调试文件。确认原始工程的文件编译路径，示意如下：
+比如，原始文件编译路径识别为D:\A\SRC\
+注意：
+*.hex或者*.sre等文件没有对应的Symbol，无法用于调试。
+源文件路径具体配置方法
+（一）打开路径管理窗口
+在菜单栏依次选择：Config → Debug Server Configuration → View Server → Source Code → Path Management
+如下所示：
+（二）设置路径映射
+设置操作如下所示：
+注意：
+“Replacements/Excludes”中替换文件路径和本地源文件路径
+使用\，不是/
+。
+原路径（Original path）：*.elf/*.out文件中记录的源码目录路径，可以在 UDE 左侧文件结构中查看到这些路径。
+现路径（Current path）：本地实际存放源代码的路径。
+如果无法打开源码，还需检查：路径映射是否生效、源代码是否被加密（例如压缩或加密存档）
+（三）调试源文件显示
+之后，可以在UDE左侧的Functions中查找需要调试的function，function对应的本地源文件将用于显示软件代码，示意如下：
+注意，如果保存了UDE工程配置，下次启动UDE时，需要加载本地
+*.elf/*.out文件中的Symbols，示意如下：
+如果不加载，将提示如下错误：
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+不要混淆Fill Bytes和Pad Bytes，这是两个概念
+信息安全，SHE是如何更新密钥的（含Python计算脚本）？
+UDS，进入Bootloader等同安全解锁，接受否？
+UDS，为什么解锁操作有必要限定时间窗口？
+如何基于UDE/Memtool调试HSM？
