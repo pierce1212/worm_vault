@@ -1,0 +1,121 @@
+C语言基础：减少for循环，提升执行效率
+2024-05-12T08:28:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494603&idx=1&sn=9b31c8d269bd73a32864a139890c39a7&chksm=fa29b5bfcd5e3ca98188668f976169383b7032ca7b7828088736175b9831208e785d955e8a15&scene=21#wechat_redirect
+
+搞汽车嵌入式开发的小伙伴，似乎对编程语言要求不高。只要能用，程序能动，咱们就缝缝补补又三年。虽然是这么说，但是，作为一名开发者，咱们还是要有上进心的。毕竟汽车级MCU资源不是那么丰富，能在代码上做一些优化，提升产品性能，也算咱们的feature。本文，聊一聊提升程序效率的一种方式：减少for循环，提升执行效率。
+1、for循环问题举例
+问题描述
+：对地址范围0x200000~0x2FFFFF的数据进行加密计算，每次只能输入16 Byte字节（一个Block）进行计算，上一次的计算结果参与下一次计算。熟悉CMAC加密的同学应该看出来，这就是一个典型的CMAC计算。
+常规编码
+，我们会怎么
+写呢？
+示意
+如下：
+for (; CmacData.leftDataLen > 16; )
+{
+AesCmac_Cal128BitLen(addressIn);
+addressIn += 16U;
+CmacData.leftDataLen -= 16U;
+}
+如果觉得别扭，可以改造成如下while格式：
+while
+(CmacData.leftDataLen > 16)
+{
+AesCmac_Cal128BitLen(addressIn);
+addressIn
++= 16U;
+CmacData.leftDataLen
+-= 16U;
+}
+初始长度
+CmacData.leftDataLen = 0x100000，也就是1 MBytes。那么，这样的写法会消耗多少时间呢？本文
+用Timer（定时器）统计，
+用时统计，
+示意如下
+：
+TimeArr[0]
+=
+OsTimer0_GetTicks();
+for
+(; CmacData.leftDataLen > 16; )
+{
+AesCmac_Cal128BitLen(addressIn);
+addressIn
++= 16U;
+CmacData.leftDataLen
+-= 16U;
+}
+TimeArr[1]
+=
+OsTimer0_GetTicks() - TimeArr[0];
+for写法平均用时
+8567044
+Ticks，
+while写法
+平均
+用时
+8569820
+Ticks。
+其中，Timer主频60MHz，换算下来，两者分别用时：142.784ms、142.830ms。
+能
+否优化上述的写法呢？
+答：
+可以。
+2、减少for循环，提升效率
+优化思路：如上的循环中，每
+16
+Byte
+s
+进行一次判断，而且
+每次运算，均需要进行address的累加和长度的递减。所以，如果把字节提高到64 Bytes执行一次判断，可以减少3次
+add
+ress的累加和
+长度的递减，即：适当增加判断的颗粒度。
+修改while代码如下所示：
+while
+(CmacData.leftDataLen > 64)
+{
+AesCmac_Cal128BitLen(addressIn);
+AesCmac_Cal128BitLen(addressIn+16);
+AesCmac_Cal128BitLen(addressIn+32);
+AesCmac_Cal128BitLen(addressIn+48);
+addressIn
++= 64U;
+CmacData.leftDataLen
+-= 64U;
+}
+用时：7586131Ticks，即：126.436ms。
+修改for
+代码如下所示：
+for
+(;CmacData.leftDataLen > 64;)
+{
+AesCmac_Cal128BitLen(addressIn);
+AesCmac_Cal128BitLen(addressIn+16);
+AesCmac_Cal128BitLen(addressIn+32);
+AesCmac_Cal128BitLen(addressIn+48);
+addressIn
++= 64U;
+CmacData.leftDataLen
+-= 64U;
+}
+用时：
+7585583
+Ti
+cks，即：
+126.426ms。
+统计对比如下：
+所以，遇到for循环时，可以适当放大判断的颗粒度。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：303~350
+Autosar往期精彩文章汇总：252~302
+信息安全：AES-CMAC原理及验签策略
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+包含信息安全、SWAP（A/B分区）功能的Bootloader开发思考
+Bootloader开发：基于以太网的软件刷写思考
+工程问题：读个DID，MCU怎么就Reset了呢？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

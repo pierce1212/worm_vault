@@ -1,0 +1,187 @@
+Lauterbach实用技巧，Hex文件导出及UCB写操作
+2025-04-14T06:36:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496657&idx=1&sn=e61d6782035352d2a62285e1bfd70074&chksm=fa29ada5cd5e24b39503b02146e86297a530cc825347aadaab124edf0c1f226c549fa936ac0f#rd
+
+工程开发过程中，软件Bug、功能验证等动作需要不断地迭代软件程序，所以，临时测试功能，或者部分功能验证动作频繁。在这个过程中，作为软件开发人员，可能会遇到以下场景：
+需要导出指定地址范围的二进制文件（eg：*.hex）
+对于特定UCB（
+User Control Block，用户控制块）的内容进行临时修改
+......
+本文，聚焦如下问题：
+如何基于Lauterbach进行
+*.hex文件输出，并基于HexView进行地址范围的重定向（remap）；
+如何基于
+Lauterbach进行UCB的写操作
+1、如何基于Lauterbach输出*.hex
+假设，需要将0xA0010000~0xA001001F区间的32 bytes内容输出，并保存成Intel格式（*.hex文件），需要导出的内容如下所示：
+使用Lauterbach操作时，在命令行输入如下指令，可将内容保存到
+D:/SaveHex/HexSave.hex
+文件，命令如下所示：
+Data
+.SAVE.IntelHex D:/SaveHex/HexSave.hex
+0
+xA0010000--
+0
+xA001001F
+执行如上命令，输出的
+HexSave.hex文件如下所示：
+HexSave.hex内容如下所示：
+如上图，虽然内容保存对了，但是，
+地址范围对不上
+。所以，需要进行地址重定向。如果有小伙伴知道如何基于Lauterbach导出操作，可以在评论区留言交流。
+（一）如何基于HexView进行地址重定向
+基于
+HexView重定向的
+脚本命令
+如下所示：
+/remap:BankStartAddress-BankEndAddress,LinearBaseAddress,BankSize,BankIncrement
+BankStartAddress：操作对象的起始地址，本文操作对象的起始地址为0x10000；
+BankEndAddress：操作对象的结束地址，本文操作对象的结束地址为0x1001F；
+LinearBaseAddress：表示
+目标地址范围的起始地址
+，本文要重定向到0xA0010000；
+BankSize：保存的长度，本文32 bytes；
+BankIncrement：BankIncrement是
+两个bank之间
+的地址偏差，暂默认0x10000。
+重定向批处理脚本（*.bat）如下所示：
+@echo
+off
+REM
+-----------------------------------------------
+REM Configuration parameters (modify
+as
+needed)
+REM
+-----------------------------------------------
+set
+HEXVIEW_PATH
+=
+"D:\APP\HexViewer\hexview\HexView.exe"
+set
+INPUT_HEX
+=
+"D:\SaveHex\HexSave.hex"
+set
+OUTPUT_HEX
+=
+"D:\SaveHex\Output_RemapAddrHex.hex"
+set
+FILL_BYTE
+=
+0xFF
+REM
+-----------------------------------------------
+REM Step
+1
+: Verify input file existence
+REM
+-----------------------------------------------
+if
+not
+exist
+%
+INPUT_HEX
+%
+(
+echo Error：The input file
+%
+INPUT_HEX
+%
+does
+not
+exist
+!
+exit
+/
+b
+1
+)
+REM
+-----------------------------------------------
+REM Step
+2
+:
+Execute
+HexView commands
+REM
+-----------------------------------------------
+%
+HEXVIEW_PATH
+%
+%
+INPUT_HEX
+%
+/
+S
+/
+remap:
+0x00010000-0x0001001F
+,
+0xA0010000
+,
+0x20
+,
+0x10000
+/
+XI:
+32
+-
+o
+%
+OUTPUT_HEX
+%
+REM
+-----------------------------------------------
+REM Step
+3
+: Verify output file creation
+REM
+-----------------------------------------------
+if exist
+%
+OUTPUT_HEX
+%
+(
+echo Success: Padded file saved
+to
+%
+OUTPUT_HEX
+%
+)
+else
+(
+echo Error: Padding failed
+!
+Check
+HexView parameters
+/
+logs.
+exit
+/
+b
+1
+)
+执行
+批处理脚本（*.bat），运行结果如下：
+重定向前和重定向后的*hex文件的地址范围，如下所示：
+2、如何基于Lauterbach进行UCB写操作
+基于TC3xx系列芯片，开发一些特定的功能时，会对UCB进行操作，如何基于
+Lauterbach操作呢？本文以DBG_ORIG为例，具体操作如下：
+其中，第4步可选，主要确认目标UCB是否OK。
+修改后的
+DBG_ORIG对应地址内容，示意如下：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+玩EB tresos，为什么生成不了*.epc文件？
+怎能不了解数据压缩？从LZSS无损压缩算法开始
+信息安全，硬件Debug口，如何设置密码及解锁？
+基于Davinci的HSM开发实践（12）：安全日志（Event Log）的工程开发实践
+工程问题，为什么Hash计算失效了？
+这些芯片内存（Memory）区，你真的用过？
+如何诊断对地短路、对电源短路以及开路故障？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

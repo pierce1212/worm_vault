@@ -1,0 +1,178 @@
+MATLAB:自定义库&自定义C MEX S-Function,简单易学
+2022-02-16T20:02:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485544&idx=1&sn=269f2ac91a026e52da2d24435f776a33&chksm=fa2a561ccd5ddf0a89a6ffc3c0aad8ac99fc8322ac4c145d049a857b4465ad6a019e1d75d065&scene=21#wechat_redirect
+
+汽车嵌入式开发中，基于MBD的上层算法开发非常普及。在实际工程中会有这样的需求：做算法的工程师想调用底层接口或者将自定义功能的算法封装成模块，方便模型搭建时使用。
+这里有两点需要实现：自定义一个库、在自定义库中创建自定义模块（C MEX S-Function）。
+1
+自定义库步骤
+1、切换matlab自定义工作路径
+打开matlab，
+切换到指定工作目录
+，本例工作路径：D:\WorkSpace\Matlab，如下所示：
+将当前工作路径加载到matab搜索路径中：Set Path->Add with Subfolders...->Save->Close。
+2、创建Library模型
+（1）在Simulink
+Start Page
+中选择Blank Library创建自定义Library
+（2）命名自定义Library名称并保存，本例命名：Lotus_SupportPacket
+3、编写slblocks.m
+slblocks.m文件作用是设置自定义库在Simulink Library列表中显示自定义库名称。
+slblocks.m文件内容如下所示：
+function blkStruct = slblocks
+% This function specifies that the library should appear
+%
+in
+the Library Browser
+%
+and
+be cached
+in
+the browser repository
+Browser.Library =
+'Lotus_SupportPacket'
+;
+%
+'Lotus_SupportPacket'
+is
+the name of the library
+Browser.Name =
+'Lotus_CMEX_SFunction'
+;
+%
+'Lotus_CMEX_SFunction'
+is
+the library name that appears
+%
+in
+the Library Browser
+blkStruct.Browser = Browser;
+slblocks.m文件在matlab创建如下所示：
+4、编写sl_customization.m文件
+sl_customization.m 文件作用是为自定义库设置排序优先级，-2表示自定义
+库在Simulink Library列表中置顶显示。
+sl_customization.m文件内容如下所示：
+function
+sl_customization
+(cm)
+cm
+.
+LibraryBrowserCustomizer
+.
+applyOrder
+( {
+'Lotus_SupportPacket'
+,
+-2
+} )
+;
+end
+sl_customization.m文件在matlab中创建如下所示：
+5、创建一个空白模型，检查Library在Simulink下的显示
+（1）创建Blank Model，如下所示：
+（2）打开Library，弹出如下提示，单击“Fix”
+这一步也可以使用命令方式设置，命令如下所示，即将自定义库在Simulink Library列表中显示。
+set_param(gcs,
+'EnableLBRepository'
+,
+'on'
+);
+（3）选择“Generate repositories in memeory”->"OK"
+（4）刷新Simulink库列表（快捷键：F5），如下所示，在Simulink中显示出自定义库：Lotus_CMEX_SFunction。
+提示
+：
+如果刷新Simulink库列表没有显示自定义库，可以重启Matlab再次尝试。
+2
+自定义C MEX S-Function
+创建自定义库的目的就是为了将自定义的模块独立存放，接下来我们创建自定义模块，本文使用m脚本的方式创建自定义C MEX S-Function。
+1、源文件准备
+使用C MEX S-Function模块封装我们特定功能的函数时，我们需要提前编写功能函数的源文件。本例：Autosar底层的ComM接口
+ComM_GetCurrentComMode()为例讲解C MEX S-Function创建过程。
+ComM.h文件内容如下所示，声明函数ComM_GetCurrentComMode。
+typedef
+unsigned
+char
+uint8;
+extern
+uint8
+ComM_GetCurrentComMode
+(uint8 u1,uint8* u2)
+;
+ComM.c文件内容如下所示，定义函数ComM_GetCurrentComMode。
+#
+include
+"ComM.h"
+uint8
+ComM_GetCurrentComMode
+(uint8 User,uint8* ComMode)
+{
+return
+0
+;
+}
+2、创建lct对应的M脚本（lct_CMEXSFunction.m）
+lct_CMEXSFunction.m文件内容如下所示。
+注意
+：def1.OutputFcnSpec语句中有两个输入，分别使用了u1和u2来表示输入的参数，使用y1来标识输出的参数。即用y来表示输出，用u来表示输入，P表示参数，这三个参数的书写形式固定不变，即不能使用其他参数表示。
+clc;
+def1=legacy_code(
+'initialize'
+);
+def1.SFunctionName =
+'ComM_GetCurrentComMode'
+;
+def1.OutputFcnSpec =
+'uint8 y1 = ComM_GetCurrentComMode(uint8 u1,uint8 u2[1])'
+;
+def1.HeaderFiles   = {
+'ComM.h'
+};
+def1.SourceFiles   = {
+'ComM.c'
+};
+legacy_code(
+'sfcn_cmex_generate'
+,def1);
+legacy_code(
+'compile'
+,def1);
+legacy_code(
+'generate_for_sim'
+, def1);
+legacy_code(
+'slblock_generate'
+, def1);
+在M脚本中，传递指针类型的参数需要使用数组的形式去替代。如下，第二个参数本应传递uint8* u2，由于LCT的局限性，这里使用uint8 u2[1]的形式去替代。
+准备文件在matlab中的创建如下所示：
+3、运行lct_CMEXSFunction.m文件
+（1）如下所示，lct_CMEXSFunction.m成功运行，生成自定义的ComM_GetCurrentComMode接口模块。
+成功生成自定义C MEX S-function以后，在当前路径下会生成ComM_GetCurrentComMode.c、ComM_GetCurrentComMode.mexw64、ComM_GetCurrentComMode.tlc 3个文件，如下所示：
+（2）将自定义模块拖曳到Lotus_SupportPacket模型库，并保存，如下所示：
+提示
+：
+自定义库需要提前打开，且处于解锁状态。
+3
+自定义模块库的使用
+1、创建模型：LotusModel.slx
+在自定义库中将自定义的C MEX S-Function拖曳到模型中，如下所示：
+2、配置模型生成代码
+（1）在“Model Settings”中完成模型必要配置并保存，如下所示：
+（2）代码生成，C CODE->Build->Generate Code
+（3）生成的代码如下所示，
+ComM_GetCurrentComMode接口在模型中得以使用。
+“Embedded Coder”启动如下所示：
+也可以在当前路径下查看生成的代码，如下所示：
+往期
+精彩
+回顾
+DEM 事件去抖：基于Counter
+Autosar网络管理：确保第一帧是网络管理报文方法
+嵌入式以太网：Lwip内存管理之内存堆
+英飞凌tc397：基于Lwip以太网数据接收，小白级讲解
+Autosar DEM诊断事件管理（一）
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

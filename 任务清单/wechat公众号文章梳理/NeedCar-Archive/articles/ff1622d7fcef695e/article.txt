@@ -1,0 +1,439 @@
+嵌入式开发：基于Visual Studio的*.dll文件生成，不求人
+2022-03-28T08:06:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486253&idx=1&sn=02971849ac7a0dfa19e859f236d3e472&chksm=fa2a5559cd5ddc4f6d1e2986e69b0ec625f251eaf773cd77cad40905c2b56737df2b4367c236&scene=21#wechat_redirect
+
+汽车嵌入式开发中，想必大家对*.dll文件并不陌生，诊断的$27服务，标定时的解锁都会用到*.dll文件。很多时候，*.dll文件的提供需要依赖底软开发人员，标定工程师/诊断测试工程/EOL产线人员需要*.dll文件时，总的找人制作*.dll。本文讲讲怎么基于Visual Studio做一个可用的*.dll文件。
+1
+为什么需要*.dll文件
+先看一下百度百科对*.dll文件的定义：
+*.dll文件是一个库文件，说白了就是人家只想给你用，不想告诉你算法。在我们汽车的嵌入式开发中，诊断和标定这两项工作都需要一定的安全级，不能任何人都能对车辆“动手动脚”。比如：车辆故障了，去检修，需要通过诊断仪对故障信息读取，维修好以后还需要清除对应的故障，这些操作只希望有对应权限的人操作，怎么知道其是否有这样的权限呢？告诉ECU“口令”，即：ECU校验算法计算的Key。为了算法不被外人知道，OEM会将算法加密，做成*.dll文件，授权给目标人员。同样，对车辆标定时，由于修改的数据都是const常量，且这些数据多数涉及车辆的性能，所以，这些数据 的修正工作也必须验证操作人员的合法性。
+怎么计算$27 服务的随机种子和Key，前面聊过，大家可以回顾
+Uds诊断：$27服务，ECU如何产生随机种子
+。
+既然，*.dll文件如此重要，那谁来做呢？实际项目开发中，一般会由底软工程师提供，底软工程师一般会有OEM的具体算法需求。做标定的工程师会提供标定用的*.dll文件，主要给INCA或者CANape等标定工具使用；做诊断开发的工程师会提供诊断用的*.dll文件，主要给类似Canoe等上位机软件使用。
+但是在实际的开发中，多数软件工程师不清楚如何制作*.dll文件，或者制作的*.dll文件给到他人时，不能用。
+2
+*.dll文件制作的环境准备
+本文使用开源社区版的visual studio制作*.dll文件，下载地址如下所示：
+https://visualstudio.microsoft.com/zh-hans/free-developer-offers/
+大家根据自己系统的情况选择合适的版本，如下所示：
+下载以后，双击如下的可执行文件(*.exe)进行安装，如下所示：
+之后选择需要的模块安装即可，这里不再啰嗦，安装教程大家可以自行百度。
+提示：
+不管是visual studio还是PyCharm，个人比较喜欢社区版，一：免费，二：体积小，三：公司对社区版的软件管控相对宽松。社区版对我们嵌入式开发使用的那点功能，足够应付。
+3
+源文件的编写
+制作*.dll源文件本身不难，难点是很多工程师不会编写源文件，以及如何将百度得到的文件改写。这里，给大家提供可用的模板，大家可以基于此源文件改写，适配自己的工程项目。
+源文件分为诊断用文件和标定用文件，也可以将两部分功能合到一起，制作一个*.dll文件，同时给诊断、标定使用。
+1、诊断源文件
+SeedKey.h文件内容如下所示：
+#pragma once
+#ifndef SEED_KEY_H
+#define SEED_KEY_H
+#define EOL_SEEDKEY_API __declspec(dllexport)
+#define EOL_CODEDEFAULTLENGTH      (0x04u)
+#define EOL_RESPONSEKEYLENGTH      (0x08u)
+enum VKeyGenResultEx
+{
+KGRE_OK = 0,
+KGRE_BufferTooSmall = 1,
+KGRE_SecurityLevelInvalid = 2,
+KGRE_VariantInvalid = 3,
+KGRE_UnspecifiedError = 4
+};
+extern "C" EOL_SEEDKEY_API VKeyGenResultEx GenerateKeyEx(
+const unsigned char* iSeedArray, unsigned int iSeedArraySize,
+const unsigned int iSecurityLevel, const char* iVariant,
+unsigned char* ioKeyArray, unsigned int iKeyArraySize,
+unsigned int* oActualKeyArraySize);
+#endif
+SeedKey.c
+文件内容如下所示：
+#include <windows.h>
+#include "SeedKey.h"
+static const unsigned char EOLCodeDefault[EOL_CODEDEFAULTLENGTH] = { 0x11, 0x22, 0x33, 0x44 };
+EOL_SEEDKEY_API VKeyGenResultEx GenerateKeyEx(
+const unsigned char* iSeedArray,
+unsigned int iSeedArraySize,
+const unsigned int iSecurityLevel,
+const char* iVariant,
+unsigned char* ioKeyArray,
+unsigned int iKeyArraySize,
+unsigned int* oActualKeyArraySize)
+{
+if (iSeedArraySize > iKeyArraySize)
+{
+return KGRE_BufferTooSmall;
+}
+for (unsigned int i = 0; i < iSeedArraySize; i++)
+{
+ioKeyArray[i] = (~iSeedArray[i]);
+}
+for (unsigned int index = 4; index < iSeedArraySize + 4; index++)
+{
+ioKeyArray[index] = EOLCodeDefault[index - 4];
+}
+*oActualKeyArraySize = (unsigned int)EOL_RESPONSEKEYLENGTH;
+return KGRE_OK;
+}
+2、Xcp标定源文件
+开始接触标定那会儿，写标定的*.dll文件确实费了一点心思，接口是规范中给定的，不解其意，连蒙带猜试错了很多次，这里直接分享给大家。
+Xcp_Seedkey.h文件内容如下所示:
+#
+define
+CREATEDLL_API __declspec(dllexport)
+#
+define
+CalNPag           0x01
+#
+define
+DAQ               0x04
+#
+define
+PGM               0x10
+#
+define
+KeyBufferLength    255
+typedef
+unsigned
+char
+BYTE;
+typedef
+unsigned
+long
+DWORD;
+typedef
+enum
+{
+XcpSkExtFncAck =
+0
+,
+/* o.k. */
+XcpSkExtFncErrPrivilegeNotAvailable,
+/* the requested privilege can not be unlocked with this function */
+XcpSkExtFncErrInvalidSeedLength,
+/* the seed length is wrong, key could not be computed */
+XcpSkExtFncErrUnsufficientKeyLength
+/* the space for the key is too small */
+}SeedNKey_Type;
+extern
+"C"
+CREATEDLL_API DWORD
+XCP_GetAvailablePrivileges
+(BYTE* AvailablePrivilege)
+;
+extern
+"C"
+CREATEDLL_API DWORD
+XCP_ComputeKeyFromSeed
+(BYTE RequestedPrivilege ,BYTE ByteLengthSeed ,BYTE* PointerToSeed,BYTE* ByteLengthKey,BYTE* PointerToKey)
+;
+Xcp_Seedkey.c文件内容如下所示：
+#include "Xcp_Seedkey.h"
+/
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+***
+/
+/*
+* @brief
+<
+get
+available
+privileges
+>
+*
+<
+This
+function
+to
+get
+information
+about
+the
+available
+privileges
+of
+this
+function
+file
+>
+.
+* @param[in]           <(BYTE *
+) AvailablePrivilege>
+* @return
+<
+(DWORD)
+ErrorCode
+:returns
+the
+privileges
+with
+available
+unlock
+algorithms
+in
+this
+external
+function
+file
+>
+*/
+/
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+***
+/
+CREATEDLL
+_API DWORD XCP_
+GetAvailablePrivileges(BYTE * AvailablePrivilege ){
+/*
+*  available privileges as XCP Resource Availability Mask.The Current Resource Protection Status parameter
+*  is a bit mask described below in GET_STATUS Command(0xFD).0x01---CalNPag   0x04---DAQ   0x10---PGM
+*/
+*AvailablePrivilege = (CalNPag | DAQ | PGM);
+return XcpSkExtFncAck;
+}
+/
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+***
+/
+/*
+* @brief
+<
+calculate
+Key
+from
+Seed
+for
+the
+requested
+privilege
+>
+*
+<
+This
+function
+to
+calculate
+a
+key
+from
+a
+seed
+for
+the
+requested
+privilege.
+>
+.
+* @param[in]
+<
+(BTEY)
+RequestedPrivilege:from
+Tool
+>
+*
+<
+(BTEY)
+ByteLengthSeed:from
+answer
+of
+GetSeed
+>
+*                      <(BTEY*
+) PointerToSeed>
+*                      <(BTEY*
+) ByteLengthKey:input: max bytes memory for key output: byte length of key>
+*                      <(BTEY*
+) PointerToKey>
+* @return
+<
+(DWORD)
+ErrorCode
+>
+*/
+/
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+***
+/
+CREATEDLL
+_API DWORD XCP_
+ComputeKeyFromSeed(BYTE RequestedPrivilege ,BYTE ByteLengthSeed ,BYTE
+* PointerToSeed,BYTE*
+ByteLengthKey,BYTE* PointerToKey){
+ByteLengthKey[KeyBufferLength];
+BYTE i=0;
+/
+*Initialize array ByteLengthKey*
+/
+for(i;i
+<
+KeyBufferLength
+;
+i
+++){
+ByteLengthKey
+[
+i
+] =
+0;
+}
+if
+((
+RequestedPrivilege
+!=
+CalNPag)&&(RequestedPrivilege
+!=
+DAQ)&&(RequestedPrivilege
+!=
+PGM)){
+return
+XcpSkExtFncErrPrivilegeNotAvailable
+;
+}
+if
+(
+ByteLengthSeed
+>
+KeyBufferLength){
+return XcpSkExtFncErrUnsufficientKeyLength;
+}
+switch(RequestedPrivilege)
+{
+case CalNPag:
+/*User algorithm*/
+for (i = 0; i < ByteLengthSeed; i++)
+{
+PointerToKey[i] = i+1;
+}
+*ByteLengthKey = ByteLengthSeed;
+break;
+case DAQ:
+/*User algorithm*/
+for (i = 0; i < ByteLengthSeed; i++)
+{
+PointerToKey[i] = i+1;
+}
+*ByteLengthKey = ByteLengthSeed;
+break;
+case PGM:
+/*User algorithm*/
+for (i = 0; i < ByteLengthSeed; i++)
+{
+PointerToKey[i] = i+1;
+}
+*ByteLengthKey = ByteLengthSeed;
+break;
+default:;
+}
+if((
+*ByteLengthKey != ByteLengthSeed)||(*
+ByteLengthKey == 0)){
+return XcpSkExtFncErrInvalidSeedLength;
+}
+return XcpSkExtFncAck;
+}
+上位机通过接口XCP_GetAvailablePrivileges告知ECU，上位机需要解锁哪些资源，上述代码需要解锁CalNPag | DAQ | PGM三种资源保护（通过0xFD命令可知这三种资源均处于保护状态）。
+上位机发送0xF8命令，ECU正响应以后，回复的报文中告知种子的长度。上位机通过接口函数XCP_ComputeKeyFromSeed中的参数ByteLengthSeed，即可获得ECU给的种子长度。
+接口函数XCP_ComputeKeyFromSeed 中，参数PointerToSeed指向种子位置；参数ByteLengthKey指向上位机要回复Key长度的位置; 参数PointerToKey指向上位机要回复Key值的位置
+。
+4
+使用注意事项
+1、*.cdd文件中Key长度与配置工具中保持一致
+一般，会使用上位机（如：Canoe）加载*.dll文件进行诊断开发和测试，如果*.cdd文件中key设置的长度与开发中设置的Key长度不匹配，会导致测试Fail，开发中需留意两者之间的匹配问题。
+*.cdd文件中的Key长度配置如下所示：
+配置工具中Key长度设置，如下所示：
+2、*.dll文件无法生成问题
+问题描述
+：很多时候，公司电脑会对生成的中间文件自动加密，导致
+Visual Studio
+（社区版）生成的中间文件被加密导致
+*.dll
+无法生成。
+解决方式
+：视图
+->
+属性管理器
+->
+属性（扳手）
+->
+清单工具
+->
+输入和输出
+->
+嵌入清单选则“否”
+->
+确定
+参考资料
+https://baike.baidu.com/item/.dll/2133451
+往期
+精彩
+回顾
+Autosar网络管理：没说清楚的PN功能，再说一遍
+Uds诊断：这10个诊断问题，你能回答几个？
+Can Wakeup时序，简单点说（一）
+Uds诊断：P2server与P4server时间，说点你不知道的
+Autosar网络管理：你知道ECU如何被供电的吗？
+Autosar概念：Callout与Callback，请不要混肴
+Uds诊断：$27服务，ECU如何产生随机种子
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

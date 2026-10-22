@@ -1,0 +1,139 @@
+Autosar开发：CanSM模块如何处理Busoff？
+2022-06-09T09:16:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488189&idx=1&sn=f5ffc7640ca31d059e6dc0510559c6e7&chksm=fa2a4cc9cd5dc5dfb1d0f428f27c1b732f31ef9219d9074361bc05bc31ebe707e4a5c295c22f&scene=21#wechat_redirect
+
+CAN总线中，相对其他通信类问题，Busoff问题比较难搞。本文从CanSM模块出发，就Busoff产生、Busoff信息交互、Busoff快/慢恢复等问题展开聊一聊。
+这个话题前面有聊过，可以参考前文
+Autosar网络管理：说说Busoff那点事
+。
+1
+Busoff产生
+这里再说一次Busoff产生的条件：
+TEC > 255
+。也就是说ECU自身发出的报文错误，导致TEC(Transmit Error Counter)不断累加，直到TEC超过255产生Busoff，如下所示：
+举例
+：ECU1::CAN1发送的错误帧只能使ECU1::CAN1进入Busoff状态，而不能使ECU2::CAN1进入Busoff，如下所示：
+因为错误由ECU1::CAN1自己产生，ECU1::CAN1有问题，自己脱离CAN总线即可，不要影响ECU2::CAN1继续使用CAN总线。
+2
+Busoff信息交互及Busoff恢复机制
+节点产生Busoff以后，ControllerMode状态自动切换到CANIF_CS_STOPED模式，停止发送错误帧，避免影响总线其他节点的通信。既然Busoff已经发生，对应的信息就需要传递给上层，让上层决策后续的通信行为。怎样通知上层呢？
+Can Controller通知到上层有两种方式：
+Interrupt
+或者
+Polling
+。
+Step1、Busoff事件信息如何通知到CanSM
+Interrupt方式：
+Busoff中断发生->
+CanInterruptStatus()
+->CanHL_ErrorHandling()->
+CanIf_ControllerBusOff()
+->
+CanSM_ControllerBusOff()
+->CanSM_BusOffIndicated()，CanSM_BusOffFlag = TRUE
+...CanSM_MainFunction()周期性检查CanSM_BusOffFlag置位情况。
+Polling方式：
+Can_MainFunction_BusOff()
+->CanHL_ErrorHandling()->
+CanIf_ControllerBusOff()
+->
+CanSM_ControllerBusOff()
+->CanSM_BusOffIndicated()，CanSM_BusOffFlag = TRUE
+...CanSM_MainFunction()周期性检查CanSM_BusOffFlag置位情况。
+提示：
+上述函数关联关系，除Autosar标准接口以外，其他接口，不同软件供应商，实现上可能存在不同。
+Step2、CanSM请求重启Can Controller，通知ComM、BswM模式切换
+Busoff发生以后，CanSM调用CanIf_SetControllerMode()接口，请求将ControllerMode切到CANIF_CS_STARTED模式，以便于后续尝试恢复通信。同时关闭Tx PDU的发送，只能接收Rx PDU。所以这也是为什么在恢复期内可以收到报文的原因。
+CanSM调用
+BswM_CanSM_CurrentState
+()接口通知BswM进入CANSM_BSWM_BUS_OFF状态，调用ComM_BusSM_ModeIndication()接口通知ComM进入
+COMM_SILENT_COMMUNICATION状态。
+Busoff发生以后，CanSM先告知ComM，ComM在请求CanSM对应Channel由FULL COMMUNICATION进入SILENT COMMUNICATION。进入CANSM_BSM_S_SILENTCOM_BOR状态，如下所示：
+Busoff发生以后，CanSM会启动一个Busoff Timer，
+B
+us
+off
+Timer分为两种：
+快恢复
+时间参数：
+CanSMBorTimeL1；
+慢恢复
+时间参数：
+CanSMBorTimeL2
+。
+具体
+B
+us
+off
+Timer
+应该等于
+CanSMBorTimeL1还是CanSMBorTimeL2，取决于配置参数
+CanSMBorCounterL1ToL2
+。
+如果
+Busoff连续发生次数 ＜
+CanSMBorCounterL1ToL2，
+B
+us
+off
+Timer
+= Ca
+nSMBorTimeL1；
+如果Busoff连续发生次数≥ CanSMBorCounterL1ToL2，
+B
+us
+off
+Timer
+=
+CanSMBorTimeL2
+；
+注意
+：CanSMBorTimeL1、CanSMBorTimeL2、CanSMBorCounterL1ToL2三个参数均在CanSM模块配置，具体数值根据OEM需求配置。
+测试中，busoff的快/慢恢复行为如下所示：
+在快/慢恢复时间内，可以接收报文。
+Step3、CanSMBorTimeL1或者CanSMBorTimeL2耗尽
+CanSMBorTimeL1或者CanSMBorTimeL2
+耗尽(
+elapse)，重新发送Tx PDU，让故障节点再次尝试向CAN总线发送报文。同时，
+CanSM通知BswM进
+入CANSM_BSWM_FULL_COMMUNICATION状
+态，通知ComM进入
+COMM_FULL_COMMUNICATION
+状态。可以启动CanSMBorTimeTxEnsured，确认Busoff是否恢复，也可以使用Confirm方式确认Busoff恢复。
+Step4、CanSMBorTimeTxEnsured耗尽
+在CanSMBorTimeTxEnsured
+时间内，Busoff再次发生，则进行下一次的Busoff恢复机制，如果CanSMBorTimeTxEnsured耗尽，则说明成功从Busoff状态恢复。如果在
+CanSMBorTimeTxEnsured时间内，再次发生Busoff，则Busoff次数累加。
+3
+Busoff发生时的网络状态
+这里主要讨论Busoff进入慢恢复期，节点在NOS(Normal Operation State)和RSS(Ready Sleep State)下是否会进行网络状态切换。
+NOS
+：Busoff进入慢恢复期，如果
+上层不主动请求释放网络
+，网络状态无法进入RSS，所以，节点会一直在NOS状态下，一直处于慢恢复状态，如下所示：
+RSS
+：
+Busoff进入慢恢复期
+，如果在恢复期收不到有效的网络管理报文，NM-Timeout时间超时以后，进入PBSM(Pre Bus Sleep Mode)；如果可以收到有效的网络管理报文，则网络处于RSS状态，如下所示：
+如果节点在NOS状态下，一直处于慢恢复，会带来什么问题呢？节点一直在慢恢复期，意味着该节点不会外报文(应用报文和网络管理报文均不会外发)，其他节点会上报对应的节点丢失故障。
+参考资料
+SIMPLE TITLE
+AUTOSAR_SWS_CANStateManager.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+Uds诊断：这几个诊断问题，你能回答几个？（五）
+Autosar网络管理：Bus Load Reduction Mechanism干啥的？
+工程开发问题（三）：WatchDog临界区保护不够引发的Reset问题
+Uds诊断：不同Operation Cycle下的DTC状态位变化
+Autosar网络管理：网络管理报文的收/发与网络管理时间配置参数解析
+Autosar网络管理：CAN FD帧能否唤醒网络？
+Autosar通信栈：发送返回OK和发送确认是一回事吗
+Autosar通信栈：基础问题知多少(二)
+DDS开发笔记：基于Ubuntu20.4跑micro-xrce-dds（一）
+点击
+下方
+关注，一起聊聊Autosar/嵌入式
