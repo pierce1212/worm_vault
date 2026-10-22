@@ -1,0 +1,6 @@
+更换芯片（五）_芯片焊回及测试
+2025-07-10
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497129&idx=1&sn=d9a4483c35923c40edf484d45ec5eafa&scene=21#wechat_redirect
+
+这是一条视频内容。视频尚未离线保存，需在微信客户端打开原文播放。以下仅为公开说明。
+将可用芯片重新焊回PCB。

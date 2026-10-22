@@ -1,0 +1,23 @@
+信息安全：AES-CMAC原理及验签策略
+2024-05-08T06:43:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494597&idx=1&sn=ef64f24e5706c693cd06b8257b2eef06&chksm=fa29b5b1cd5e3ca7d6b2f463b9017e8c5ff5e580389158c42a2f98203f3ba5ecb3258ad3e3a1&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+随着车辆智能化的发展，车辆不仅越来越聪明，而且已经成为了一个大号的智能终端，可以随时上网。但是，当车辆进入网络的世界后，信息安全将成为不可忽视的一个议题。所以，本文继续聊聊信息安全的一个议题：AES-CBC
+（cipher block chaining mode，密码分
+组链接模式）以及
+AES-CMAC（Cipher-based Message Authentication Code）原理。
+同时，本文针对RH850 F1KM的AES-CMAC性能做一个测试，对于使用该芯片的同学，可以更好地评估程序的启动验签时间和预估程序启动的时间。最后，讨论直接CMAC验签和Hash+CMAC验签选择。
+1、AES-CMAC是什么？
+AES-CMAC
+是基于AES（Advanced Encryption Standard）加密算法的一种消息认证码（MAC，
+Message Authentication Code
+）算法，主要用于确保数据的
+完整性
+和
+真实性
+。
+工程上，常见hash+对称/非对称算法的安全启动或者验签方案。在某些场景中，直接
+AES-CMAC启动验签，或许也是一种不错的校验
+方案。

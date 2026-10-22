@@ -1,0 +1,89 @@
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+2022-12-27T10:55:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490883&idx=1&sn=b849717d534e0bbe8944e09d78eeabe9&chksm=fa2a4337cd5dca21037b09ef20fe6261f31481c3786ca6117d4327c31a9e99bc3deb78ed3f9a&scene=21#wechat_redirect
+
+Autosar网络管理看似简单，其实，想要在工程Bug中，快速地定位问题点，还需要更深入地理解Autosar网络管理。本文，针对群内小伙伴的问题："
+ECU被唤醒时，ComM初始化为NO_COMMUNATION，那在Bus sleep mode下，要求只收不发，怎么去收NM报文呢？
+"，本文，针对这个问题聊一聊。
+1、CanNM初始化后的网络状态
+以CanNM为例。我们聚焦一下CanNM初始化，uC上电以后（PowerOn），调用CanNM的CanNm_Init()接口完成初始化，之后，CanNM对应的Channel进入
+BSM（Bus-Sleep Mode）
+。
+在BSM模式下，能否接收网络管理报文呢？
+答
+：显然可以，如下图：
+上图可以看出，
+在BSM模式下
+，接口CanNm_RxIndication()可以被反复调用，也就意味着：NM Msg可以被CanNM接收，且将网络状态通过
+Nm_NetworkStartIndication()接
+口告知NM，NM再通过接口
+ComM_Nm_NetworkStartIndication()进
+一步
+告知到ComM
+，是否开启对应Channel的网络，就需要ComM"点头"了。
+BSM模式下，收到NM Msg以后，CanNM、NM、ComM接口通知关系如下所示：
+CanNM能接收NM Msg，首先要满足一个条件：“
+硬件Controller和Transceiver进入正常的工作模式
+。”而这两个硬件之所以能进入正常的工作模式，是因为程序初始化的时候，将两个硬件模式设置到了正常的工作模式。更具体说：ECU供电时，通过EcuM的Callout
+（
+EcuM_StartWakeupSources()
+）先将两者
+切换到正常的工作模式。只有这样，NM Msg才能被有效的接收
+。
+但是，此时，节点未必能发送报文，如果节点想发送报文，
+需要EcuM识别到有效的唤醒源（避免误唤醒）
+，如果EcuM识别到了有效的唤醒源，则进一步的告知ComM，ComM根据EcuM上报的信息，决定是否"点头"，也就是通信的开启。
+2、ComM如何允许通信
+首先，再明确一下：“
+ECU唤醒≠网络唤醒，ECU唤醒是网络唤醒的前提
+”。当ECU被唤醒以后，意味着uC开始工作，所有的程序代码可以被OS正常的调度。也意味着：所有软/硬模块已经完成了初始化动作。自然，ComM完成初始化以后，
+进入COMM_NO_COMMUNICATION模式
+。ComM在此模式下并不会允许对应的Channel通信。ComM如何才能允许通信呢？这里我们关注两个条件：
+1、EcuM请求ComM，即：调用接口ComM_EcuM_WakeUpIndication(ChX)。这个接口的调用，也可能因为
+节点被动唤醒
+（eg：收到同网段其他节点的网络管理报文）；
+2、NM请求ComM，即：收到NM Msg，NM调用接口ComM_Nm_NetworkStartIndication(ChX)。这个接口的调用，
+意味着NM的网络状态在BSM
+。
+EcuM、NM请求ComM通信的状态如下所示：
+ComM收到通信请求以后，这里关注NM Msg触发的请求。会去检查对应
+EcuM是否处于RUN模式
+，
+以及对应Channel是否CommunicationAllowed=TRUE
+。如果满足上述两个条件，则ComM将对应的Channel切换到COMM_FULL_COMMUNICATION，之后，对应Channel的通信打开，网络唤醒（进入
+NM（Network Mode）
+）。
+综上述
+：NM Msg能否
+接收，与Controller和Transceiver的状态相关，只有
+Controller和Transceiver处于正常的工作模式，才能有效的收/发报文；NM Msg有效的接收，NM可以请求ComM开启网络，EcuM也可以检查
+Controller或者Transceiver的状态判断是否是因为BUS（收到NM Msg）导致的唤醒，进而请求ComM通信。
+所以，解答文章开始的问题：BSM模式下，只要Transceiver和Controller进入正常的工作模式，即可以接收报文，自然，也包括网络管理报文，不受ComM模式约束。而NM收到NM Msg以后，会主动请求ComM打开通信，进而切换ComM的模式。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+诊断基础：不同会话(Session)，诊断报文如何维持网络状态？
+嵌入式开发：DMA何时使用更好？
+CAN通信基础：L-PDU，到底如何理解？
+Autosar CanTp:什么是Connection？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

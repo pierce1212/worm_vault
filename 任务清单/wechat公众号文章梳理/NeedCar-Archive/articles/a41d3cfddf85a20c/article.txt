@@ -1,0 +1,16 @@
+如何基于Hightec编译器添加编译时间戳和软件版本号？
+2025-05-07T06:35:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496721&idx=1&sn=80dba2cfca8df6287ce34f24c9839f73&chksm=fa29aa65cd5e2373dfbab2d9c593699beaed96008e18c0b5f51c48fb2af7efb124d92d70d93a#rd
+
+【仅保存公开试读，付费全文未获取】
+
+除了之前聊的IAR、Tasking编译器，Hightec编译器也是工程中比较常用的编译器。如何基于Hightec自动编译软件版本的时间戳呢？
+对
+IAR、Tasking
+自动编译软件版本的时间戳感兴趣的可以参考前文《
+如何基于Tasking编译器添加编译时间戳和软件版本号？
+》、《
+如何基于IAR编译器添加编译时间戳和软件版本号？
+》。
+提示
+：Hightec版本4.9.4

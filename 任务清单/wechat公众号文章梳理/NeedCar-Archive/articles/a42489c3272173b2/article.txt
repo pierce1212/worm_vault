@@ -1,0 +1,60 @@
+信息安全视角，如何看“软件升级”这点事
+2025-10-20T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497581&idx=1&sn=90ae16a44bb7444aa1e063c44470eaa8&scene=21#wechat_redirect
+
+对于车载控制器，支持软件更新已是最基本要求。OTA升级、静默升级、软件同步、A/B更新、队列刷写、并行刷写...这些方案无非都是想达成一个目标：
+更新软件
+。
+更新软件的目的有多种：修复Bug、启动新功能、增加新功能等等。这些都是大家已经知道的事情，今天，我们从信息安全的角度聊一聊另外一个话题：信息安全视角，如何看软件更新？
+1、CWE与软件更新
+在CWE(Common Weakness Enumeration)中，给出了两个关于软件不支持更新的漏洞描述。
+（一）CWE1277
+关于CWE1277的描述，如下所示：
+固件（Firmware）不支持更新会带来什么问题呢？如果软件有bug，但是软件无法更新，这样就会使得软件带有漏
+洞（VA：Vulnerabilities
+），显然，攻击者（
+attacker
+）会利用这个VA进行攻击。所以，风险（Risk）也就随之而来。
+CWE1277具体链接：
+https://cwe.mitre.org/data/definitions/1277.html
+拓展：
+不要混淆
+Authentication, Authorization两个专业术语，具体区别如下：
+特性
+Authentication（身份验证）
+Authorization（授权）
+目的
+验证“你是谁”
+确定“你能做什么”
+发生时间
+在授权之前
+在身份验证之后
+处理内容
+用户身份
+用户权限
+示例
+登录系统
+访问某个文件或功能
+（二）CWE1310
+对于CWE1310的具体描述，如下所示：
+简言之，ROM Code需要支持更新，不然，系统就会留有漏洞，变得脆弱（
+weakness
+），有被攻击的风险。具体链接如下：
+https://cwe.mitre.org/data/definitions/1310.html
+所以，从信息安全的角度看：
+任何软件程序不支持更新就是一种潜在风险（risk），将被视为漏洞（Vulnerabilities）
+。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+车规级芯片，为什么要选择BGA封装？
+SecOC报文是否可以替代E2E报文？
+针对内存资源有限的一种软件升级方案
+不直接存储Password本身的一种安全认证方案
+Flash Driver安全存放Flash内存区方案
+如何安全的存储和获取Debug password
+关于标定（XCP）和它的解锁，说两句

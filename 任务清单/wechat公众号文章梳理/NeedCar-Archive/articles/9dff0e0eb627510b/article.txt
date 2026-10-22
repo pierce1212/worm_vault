@@ -1,0 +1,393 @@
+基于Makefile的C、C++混编
+2023-05-01T07:25:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491961&idx=1&sn=5ca6eab35d88050e5db1c1e27b821b4c&chksm=fa29bf0dcd5e361ba3c2f621a6594e1379e6360044d511887647a57e3e865cafb770d53298fa&scene=21#wechat_redirect
+
+工程开发中，集成是至关重要的一环，很多公司会安排专人做集成工作。一个项目，需要众多开发人员协作，大家各自负责一部分模块，最终将各自模块merge到主线，由集成工程师将所有源码进行集成编译，并释放节点版本。整个集成过程中，可能遇到各种各样的编译问题，这需要集成工程师对编译有一定的了解。本文，基于makefile，讨论如下几个问题：
+如何基于makefile混合编译C、C++
+如何生成静态链接库（*.a）
+如何使用静态链接库。
+1、如何基于makefile混合编译C、C++
+工程中，有的工程师负责算法，有的工程师负责底层软件，有的工程师负责MCAL...大家负责的模块不同，可能使用的开发语言也不同。比如：算法工程师使用C++开发算法，底层工程师使用C生成底层模块代码。如此，就需要解决一个问题，即：C、C++的混合编译。
+（一）示例
+本文在Cal.c中定义一个加法运算，在Cal.h文件中声明加法运算。在Sub.cpp中定义一个减法运算，在Sub.hpp中声明减法运算。并将加法和减法函数打包到静态库libmyFun.a中，在main.cpp中调用加法和减法函数。同时，在源文件夹下各自编写Makefile文件，文件结构如下所示（使用
+tree /F
+命令）：
+Cal.h文件内容如下所示：
+#
+ifndef
+_CAL_H_
+#
+define
+_CAL_H_
+typedef
+int
+(*calOpt)
+(
+int
+,
+int
+)
+;
+#
+ifdef
+__cplusplus
+extern
+"C"
+{
+#
+endif
+extern
+int
+add
+(
+int
+x,
+int
+y)
+;
+#
+ifdef
+__cplusplus
+}
+#
+endif
+#
+endif
+Sub.hpp文件内容如下所示：
+#ifndef _SUB_HPP_
+#define _SUB_HPP_
+extern
+int
+sub
+(
+int
+x
+,
+int
+y
+);
+#endif
+Cal.c文件内容
+如下所示：
+#
+include
+"../inc/Cal.h"
+int
+add
+(
+int
+x,
+int
+y)
+{
+return
+(x + y);
+}
+Sub.cpp
+文件
+内容
+如下所示：
+#include "../inc/Sub.hpp"
+int
+sub
+(
+int
+x
+,
+int
+y
+)
+{
+if
+(
+x
+>=
+y
+)
+{
+return
+(
+x
+-
+y
+);
+}
+else
+{
+return
+(
+y
+-
+x
+);
+}
+}
+src文件夹下的Makefile文件内容如下所示：
+#指定编译器路径
+CROSS_COMPILE = D:/App/Work/Mingw64/mingw64/bin/
+#汇编器
+AS    =
+$(CROSS_COMPILE)
+as
+#链接器
+LD    =
+$(CROSS_COMPILE)
+ld
+CXX   =
+$(CROSS_COMPILE)
+g++
+CC    =
+$(CROSS_COMPILE)
+gcc
+#用于创建，修改和提取档案的实用程序
+AR    =
+$(CROSS_COMPILE)
+ar
+#列出目标文件中的符号
+NM    =
+$(CROSS_COMPILE)
+nm
+#丢弃的符号
+STRIP    =
+$(CROSS_COMPILE)
+strip
+#复制并转换目标文件
+OBJCOPY    =
+$(CROSS_COMPILE)
+objcopy
+#显示目标文件中的信息
+OBJDUMP    =
+$(CROSS_COMPILE)
+objdump
+export
+AS LD CXX CC AR NM
+export
+STRIP OBJCOPY OBJDUMP
+CFLAGS +=-I. -g -O0 -Wall -fpermissive
+#头文件搜索路径
+INCLUDE := \
+-I ../ \
+-I ../inc/
+#查找当前路径下所有后缀为.c的文件,保存到SRC_C变量中
+SRC_C=
+$(
+wildcard
+*.c)
+#查找当前路径下所有后缀为.cpp的文件,保存到SRC_CPP变量中
+SRC_CPP=
+$(
+wildcard
+*.cpp)
+#将SRC_C变量中.c替换为.o并保存到APP_C_OBJS变量中
+APP_C_OBJS=$(SRC_C:.c=.o)
+APP_CPP_OBJS=$(SRC_CPP:.cpp=.o)
+#生成静态库libmyFun.a需要依赖中间产物APP_C_OBJS和APP_CPP_OBJS
+libmyFun.a:
+$(APP_C_OBJS)
+$(APP_CPP_OBJS)
+$(AR)
+rcs
+$@
+$^
+%.o:%.c
+@
+$(CC)
+$(INCLUDE)
+-fPIC -c
+$<
+-o
+$@
+$(CFLAGS)
+%.o:%.cpp
+@
+$(CXX)
+$(INCLUDE)
+-fPIC -c
+$<
+-o
+$@
+$(CPPFLAGS)
+clean:
+rm -rf *.o *.a
+main.cpp文件内容如下所示：
+#
+include
+<iostream>
+#
+include
+"inc/Cal.h"
+#
+include
+"inc/Sub.hpp"
+int
+main
+()
+{
+int
+result;
+calOpt optFunc = add;
+/* 通过函数指针调用add函数 */
+result = optFunc(
+0x10
+,
+0x20
+);
+std
+::
+cout
+<<
+"add result = "
+<< result <<
+std
+::
+endl
+;
+/* 通过函数指针调用sub函数 */
+optFunc = sub;
+result = optFunc(
+0x10
+,
+0x20
+);
+std
+::
+cout
+<<
+"sub result = "
+<< result <<
+std
+::
+endl
+;
+return
+0
+;
+}
+主目录下的Makefile内容如下所示：
+#指定编译器路径
+CROSS_COMPILE = D:/App/Work/Mingw64/mingw64/bin/
+#汇编器
+AS    =
+$(CROSS_COMPILE)
+as
+#链接器
+LD    =
+$(CROSS_COMPILE)
+ld
+CXX   =
+$(CROSS_COMPILE)
+g++
+CC    =
+$(CROSS_COMPILE)
+gcc
+#用于创建，修改和提取档案的实用程序
+AR    =
+$(CROSS_COMPILE)
+ar
+#列出目标文件中的符号
+NM    =
+$(CROSS_COMPILE)
+nm
+#丢弃的符号
+STRIP    =
+$(CROSS_COMPILE)
+strip
+#复制并转换目标文件
+OBJCOPY    =
+$(CROSS_COMPILE)
+objcopy
+#显示目标文件中的信息
+OBJDUMP    =
+$(CROSS_COMPILE)
+objdump
+export
+AS LD CXX CC AR NM
+export
+STRIP OBJCOPY OBJDUMP
+LIB_FLAGS += -L./src\
+-l:libmyFun.a
+#头文件搜索路径
+INCLUDE := \
+-I ./ \
+-I ./inc/
+#查找当前路径下所有后缀为.cpp的文件,保存到SRC_CPP变量中
+SRC_CPP=
+$(
+wildcard
+*.cpp)
+#将SRC_CPP变量中.cpp替换为.o并保存到APP_CPP_OBJS变量中
+APP_CPP_OBJS=$(SRC_CPP:.cpp=.o)
+TARGETS = main
+all:
+$(TARGETS)
+main:
+$(APP_CPP_OBJS)
+$(CXX)
+$(LIB_FLAGS)
+$(CPPFLAGS)
+$(INCLUDE)
+-o
+$(TARGETS)
+-g
+$(APP_CPP_OBJS)
+-lmyFun
+%.o:%.cpp
+$(CXX)
+$(INCLUDE)
+-fPIC -c
+$<
+-o
+$@
+$(CPPFLAGS)
+clean:
+rm -rf *.o
+$(TARGETS)
+提示
+：每行命令之前使用
+TAB隔开
+，
+不是空格
+2、如何生成静态链接库（*.a）
+混编C、C++，生成libmyFun.a静态库
+。
+在
+src文件夹下执行make命令以后
+，生成中间产物（Cal.o、Sub.o）与libmyFun.a静态库，文件结构如下所示：
+生成静态库，主要由以下语句实现：
+#生成静态库libmyFun.a需要依赖中间产物APP_C_OBJS和APP_CPP_OBJS
+libmyFun.a:
+$(APP_C_OBJS)
+$(APP_CPP_OBJS)
+$(AR)
+rcs
+$@
+$^
+如上，生成静态库文件（*.a），需要依赖中间产物（*.o，本例：Sub.o和Cal.o）。
+3、如何使用静态链接库
+在主目录下执行make命令，如下所示：
+这个过程中，链接上一步生成的libmyFun.a静态库，并最终生成可执行文件main.exe，文件结构如下所示：
+运行可执行文件，执行结果如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

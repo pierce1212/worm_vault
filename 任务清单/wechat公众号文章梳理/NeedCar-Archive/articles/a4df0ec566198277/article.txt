@@ -1,0 +1,54 @@
+嵌入式开发：Trap和Alarm是两回事
+2024-04-10T08:31:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494467&idx=1&sn=7234afaeb1f279cf5b07da81c2526ad2&chksm=fa29b537cd5e3c21164984da25556ada94abbc84899e1e6a883fe95962a5eb307d12abe7a255&scene=21#wechat_redirect
+
+在汽车嵌入式开发中，"Trap"和"Alarm"这两个名词我们并不陌生。程序如果发生了Trap，一般会复位（Reset）。如果软件程序触发了Alarm，很多时候，程序也会复位，两者是一回事吗？
+1、Trap是什么？
+汽车MCU的开发中，Trap会关联到很多耳熟能详的词汇：Trap向量表、Trap基地址寄存器、Trap处理程序等等。关于Trap与CPU关系、Trap向量表与Trap处理程序关系可以参考前文《
+Trap发生时，还能做点什么？
+》。
+直白地翻译Trap，就是"陷阱"的意思。那么，我们首先思考一个问题：是怎样的行为触发了Trap呢？遇到如下场景会触发Trap：
+不可屏蔽中断（NMI，Non-Maskable Interrupt）；
+指令异常（instruction exception）；
+内存管理异常（memory management exception，eg：栈溢出）；
+内存非法访问（illegal access）；
+......
+注意：一般来说，Trap无法由软件关闭，而且是硬件自动激活的行为。
+如果大家留意芯片的架构手册（architecture manual），可以看到：Trap有多种分类。而且，大多数的Trap行为由硬件（Hardware）触发，eg：内存非法读/写访问，栈溢出，访问了空地址（NULL_PTR）等；当然，软件（Software）也会触发Trap，eg：System Call指令等。而且Trap的行为不仅可以同步触发（Synchronous），还可以异步触发（Asynchronous）。对于经常查bug的小伙伴来说，
+Asynchronous问题相对
+Synchronous问题，稍显棘手。
+硬件和软件触发的Trap行为，示意如下：
+提示：
+软件触发的Trap，多数属于同步触发，暂没接触过软件异步触发Trap。
+2、Alarm是什么？
+讨论Alarm，很多时候需要结合
+功能安全
+讨论。以TC3xx为例，Alarm触发后的行为由SMU
+（Safety Management Unit）管理。
+关于Alarm的触发、管理等细节可以参考前文《
+嵌入式开发：安全架构核心组件之SMU
+》。
+（一）Alarm和Trap触发的Reset区别
+对于Trap，一般会直接复位CPU，而且属于强制行为。其实，这属于一种自我保护机制，当CPU不能正常工作时，通过这种复位机制使得程序重新运行。
+但是，Alarm触发的Reset是一种"人为"设定行为，即：根据功能安全要求目标，进行对应的安全处理行为。当程序触发Alarm以后，Reset或者不做处理都可以通过软件配置决定。
+（二）Alarm与功能安全
+Alarm怎么又和功能安全扯到一起了呢？车辆作为载人的交通工具，安全永远是放在第一位的。在功能安全的概念里，"
+Safety
+"可以说是一个显眼包，功能安全的话题有些大，本文不做深入讨论。但是，功能安全的落地执行，脱离不开软件的鲁棒性检查和安全冗余设计。
+提到鲁棒性检查，我们会联想到电源管理芯片的安全检查、主芯片的安全检查等等，而且这些安全检查依赖驱动层的MCAL。比如：MBIST（Memory Build In Self Test）、芯片时钟检查、芯片电压检查等。当这些检查异常时，可以通过Alarm触发后续的动作，比如：Reset。当然，软件层面，功能安全还会涉及OS、Watchdog、E2E等，本文不做过多讨论。
+功能安全与Alarm关系，示意如下：
+额外拓展：
+功能安全（Safety）和信息安全（Security）属于两个话题，不要混淆。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+调试技巧：Trace32也可以当串口用（Printf功能）
+以太网基础：Auto-Negotiation影响启动时间？
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+VSCode实用技巧：local-history及.gitignore
+Uds诊断：这5个诊断问题，你能回答几个？（四）
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

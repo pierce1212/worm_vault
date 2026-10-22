@@ -1,0 +1,103 @@
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+2023-02-17T06:54:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491319&idx=1&sn=0f363ddf30219985df4f436ac79bd1b4&chksm=fa2a4083cd5dc995d837ceaab178602408534a33825bc737ba77d28ca91a67a7151b8b71f6ec&scene=21#wechat_redirect
+
+工程开发中，
+为了提高CPU取指令和取数据的效率
+，往往会使能Cached功能。Cache，是一种缓存机制，
+它位于CPU和和主内存（Main Memory）之间
+，为CPU和主内存之间的读/写操作提供一段缓冲区，如下所示：
+Cache实质是一块高速RAM区，可以使得指令操作或者数据操作在更少的Cycle内完成。
+结
+合工程问题
+，本文主要讨论
+以下几点：
+Cached和No Cached的区别
+如何使能Cached
+Cached使能，导致的工程问题
+提示
+：基于tc3xx讨论
+1、Cached和No Cached的区别
+在芯片手册中，PFlash（tc397，16MByte）对应了两个Segment：Segment 8和Segment A，
+两者本质上是一块物理内存
+，因为访问方式不同，所以，同一块物理内存区被映射到了两个不同的Segment，如下所示：
+CPU使用Cached和No Cached地址访问物理内存，示意如下所示：
+举例
+：CPU需要读取Argu参数的值，NoCached方式访问时，使用Segment A对应的地址（eg：0xA00E0000），此方式直接从主内存读取数据；Cached方式访问时，使用Segment 8对应的地址（eg：0x800E0000），此方式访问时，CPU会先去Cached对应的缓存区读取（一块RAM区），如果缓存区内没有，再去主内存去读取。NoCached、Cached方式读取Argu参数，示意如下：
+2、Cached使能
+Cached功能又细分为PCached和DCached，两者相互独立，可以分别使能。在多核系统中，每个核均可单独使能Cached，Cached的使能一般在启动文件中操作，对于PCached和DCached的使能，每个核均有对应的操作寄存器。
+（一）DCON0寄存器使能DCached
+默认情况下，DCON0.DCBYP = 1，即：不使能DCached，如下所示：
+（二）PCON0寄存器使能PCached
+默认情况下，PCON0.PCBYP = 1，即：不使能PCached，如下所示：
+3、工程问题：使能Cached，导致数据不一致
+Cached使能以后，如果不注意数据一致性保护，就会导致工程Bug。举一个工程问题：
+软件（Application）更新，复位ECU后，使用$31 01检查软件兼容性，校验不过
+。
+（一）问题分析
+Bootloader和Application中均使能了PCached、DCached功能，且软件兼容性参数存放在PFlash中。程序更新后，需要比对软件兼容性，
+只有参数与新存入PFlash中的参数一致
+，更新的Application才能生效。
+Step1
+：更新Application前，读取指定地址（0x800E0000）的软件兼容性参数，使用Cached方式读取，如下所示：
+DataArr
+= *((uint32*)
+0
+x800E0000);
+此时，软件兼容性参数为
+0x55555555
+，如下所示：
+Step2
+：更新Application程序，同时更新指定地址（0x800E0000）处的软件兼容性参数为0xAAAAAAAA，如下所示：
+writeProgramFlash(0xAAAAAAAA);
+Appliation程序更新，软件兼容性参数地址0xA00E0000（NoCached）和地址0x800E0000（Cached）均更新为指定值
+0xAAAAAAAA
+，如下所示：
+再次读取指定地址（0x800E0000）的软件兼容性参数，使用Cached方式读取，如下所示：
+DataArr
+=
+*((uint32*)0x800E0000);
+读取软件兼容性参数，
+依然是0x55555555
+，并不是更新后的0xAAAAAAAA，这就导致了数据一致性被破坏，即：缓存区与主内存区数据不一致。当更新主内存的数据以后，因为缓存区数据依然存在，而当CPU再次访问时，在缓存区找到了该参数（hit，命中），优先使用了缓存区中的0x55555555，而不是主内存区的0xAAAAAAAA。
+（二）解决策略
+既然缓存区和主内存数据不一致，解决的根本就是想办法使得两者数据一致，怎么做呢？
+答
+：方法有多种，比如：
+不使用Cached功能（不推荐），仅NoCached方式访问；
+使用Cached访问时，如果数据有更新，先将缓存区数据设置无效，让CPU再次去主内存读取一次数据放到缓存区。
+避免数据不一致操作，不同的芯片指令可能有所不同，本文讨论CACHEI.*指令，主要目的是将参数对应的Cache Line数据设置无效，重新从主内存区加载。
+Step1:更新Application前，读取指定地址（0x800E0000）的软件兼容性参数，使用Cached方式读取，如下所示：
+读取参数为0x55555555。
+Step2
+：更新Application程序，同时更新指定地址（0x800E0000）处的软件兼容性参数为0xAAAAAAAA，如下所示：
+writeProgramFlash(0xAAAAAAAA);
+Step3
+：将0x800E0000地址设置无效，重新从主内存区加载对应的参数值到缓存区，具体操作如下：
+{
+uint8
+*localCachedPtr = ((
+uint8
+*)
+0x800E0000
+);
+Ifx__Cacheawi(localCachedPtr);
+}
+再次读取0x800E0000值，如下所示：
+如上，可以看出，读出的数据为预期值，即：缓存区和主内存区值一致。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

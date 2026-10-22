@@ -1,0 +1,167 @@
+C语言基础，指针操作与地址偏移的深入探讨
+2024-12-27T06:57:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496362&idx=1&sn=1932bf7dfce3f03da699730d812cddf5&chksm=fa29acdecd5e25c83ed837d5d9db950d0ae86277f13e6c32dfcd646af9642699b48f7fb08210#rd
+
+问题：指针+操作，地址到底偏移了多少？这个问题，其实就是一个C语言的基本功问题。但是，我这也有栽跟头的时候，以此写一个教训，也给大家一个提示。
+我们知道，指针的本质就是一个内存地址，当
+指针进行+操作时，地址偏移多少取决于指针的类型
+。
+举例如下：
+#
+include
+<stdio.h>
+#
+include
+<stdint.h>
+uint8_t
+Arg_A[
+12
+] = {
+0x00
+};
+uint16_t
+Arg_B[
+12
+] = {
+0x00
+};
+uint32_t
+Arg_C[
+12
+] = {
+0x00
+};
+int
+main
+()
+{
+printf
+(
+"Arg_A Address = %p\n"
+, Arg_A);
+printf
+(
+"Arg_A Address add 2 = %p\n\n"
+, (Arg_A+
+2
+));
+printf
+(
+"Arg_B Address = %p\n"
+, Arg_B);
+printf
+(
+"Arg_B Address add 2 = %p\n\n"
+, (Arg_B+
+2
+));
+printf
+(
+"Arg_C Address = %p\n"
+, Arg_C);
+printf
+(
+"Arg_C Address add 2 = %p\n\n"
+, (Arg_C+
+2
+));
+return
+0
+;
+}
+运行结果，如下所示：
+Arg_A Address =
+0x56aca32d
+9040
+Arg_A Address add
+2
+=
+0x56aca32d
+9042
+Arg_B Address =
+0x56aca32d
+9050
+Arg_B Address add
+2
+=
+0x56aca32d
+9054
+Arg_C Address =
+0x56aca32d
+9080
+Arg_C Address add
+2
+=
+0x56aca32d
+9088
+如上示例可以清楚表明：指针进行+操作时，偏移地址的多少与最初定义指针类型有关，eg：uint8* p，p+2偏移两个字节，
+uint16
+* p
+，
+p+
+2
+偏移四
+个字节。
+当然，实际的工程中，指针的使用远不止这样简单，定义一个数据模块或者数据对象时，一般会使用多种数据类型。
+稍微改造一下如上程序，示意如下：
+#
+include
+<stdio.h>
+#
+include
+<stdint.h>
+typedef
+struct
+{
+uint8_t
+Arg_A;
+uint16_t
+Arg_B;
+uint32_t
+Arg_C;
+uint32_t
+* Arg_D;
+}str_Type;
+str_Type Arg_Test = {
+0x00
+};
+int
+main
+()
+{
+printf
+(
+"Arg_Test Address = %p\n"
+, &Arg_Test);
+printf
+(
+"Arg_Test Address add 2 = %p\n\n"
+, (&Arg_Test+
+2
+));
+return
+0
+;
+}
+运行结果，如下所示：
+Arg_Test
+Address = 0x5e9e5c0e1020
+Arg_Test Address add 2
+=
+0x5e9e5c0e1040
+&Arg_Test+2为什么偏移了32个字节，这是因为我的机器默认进行了4字节对齐，即：str_Type结构体中的每个元素默认占用4byte，所以
+&Arg_Test每次自增就会偏移16byte。
+即便是这样一个基础，在编写代码时，偶尔也会犯糊涂，过于想当然了（认为地址产生了 2 字节的偏移），愿与诸君共同勉励。
+往期
+精彩
+回顾
+如何避免cache造成的核间数据不一致？
+信息安全，为什么要用AES-GCM？
+调试技巧，如何将JTAG转换成DAP？
+如何诊断对地短路、对电源短路以及开路故障？
+信息安全，硬件Debug口，如何设置密码及解锁？
+多核通信的一种IPC通信方案
+基于Davinci的HSM开发实践（12）：安全日志（Event Log）的工程开发实践
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

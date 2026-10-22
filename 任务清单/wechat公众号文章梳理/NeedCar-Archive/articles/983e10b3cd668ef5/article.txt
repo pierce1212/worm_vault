@@ -1,0 +1,206 @@
+C语言基础：uint32 Argu和uint8 Argu[4]效果真的一样？
+2024-06-16T09:45:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494837&idx=1&sn=90b658cd0511f7964168c39c61ce5843&chksm=fa29b2c1cd5e3bd70207e744381724ea3345cf9e4447c730d2900cba792efc171b977e49e913&scene=21#wechat_redirect
+
+如标题，在定义变量时，使用uint32 Argu和uint8 Argu[4]的效果一样吗？本文，围绕这个点，展开细聊。
+1、uint32 Argu和uint8 Argu[4]在结构体中的影响
+项目开发中，程序中有大量的数据对象（Object）定义，在C语言中，描述一个数据对象，最常用的结构就是struct。围绕着数据对象功能，我们会设计不同长度的数据元素（element），eg：ARP Frame。本文用两种struct形式描述
+ARP Frame
+，如下所示：
+描述方式 一
+/* ARP Frame */
+typedef
+struct
+{
+uint16
+HardwareType;
+uint16
+ProtocolType;
+uint8
+HwAddrLength;
+uint8
+ProtAddrLength;
+uint16
+OperationCode;
+uint8
+SrcMAC[
+6
+];
+/* source MAC address */
+uint8
+SrcProtAddr[
+4
+];
+uint8
+DestMAC[
+6
+];
+/* destination MAC address */
+uint8
+DestProtAddr[
+4
+];
+} ARP_Frame_ArrU8;
+描述方式 二
+typedef
+struct
+{
+uint16
+HardwareType;
+uint16
+ProtocolType;
+uint8
+HwAddrLength;
+uint8
+ProtAddrLength;
+uint16
+OperationCode;
+uint8
+SrcMAC[
+6
+];
+/* source MAC address */
+uint32
+SrcProtAddr;
+uint8
+DestMAC[
+6
+];
+/* destination MAC address */
+uint32
+DestProtAddr;
+} ARP_Frame_U32;
+对于ARP_Frame_ArrU8和ARP_Frame_U32，它们定义的参数，占用的内存大小会一样吗？
+答
+：不一样，对于32bit带宽的单片机，默认4 byte对齐（align），
+两者占用的内存空间会有所不同
+。
+测试代码如下：
+#include <stdio.h>
+typedef unsigned char
+uint8
+;
+typedef unsigned short
+uint16
+;
+typedef unsigned
+int
+uint32
+;
+/* ARP Frame */
+typedef
+struct
+{
+uint16
+HardwareType;
+uint16
+ProtocolType;
+uint8
+HwAddrLength;
+uint8
+ProtAddrLength;
+uint16
+OperationCode;
+uint8
+SrcMAC[
+6
+];
+/* source MAC address */
+uint8
+SrcProtAddr[
+4
+];
+uint8
+DestMAC[
+6
+];
+/* destination MAC address */
+uint8
+DestProtAddr[
+4
+];
+} ARP_Frame_ArrU8;
+typedef
+struct
+{
+uint16
+HardwareType;
+uint16
+ProtocolType;
+uint8
+HwAddrLength;
+uint8
+ProtAddrLength;
+uint16
+OperationCode;
+uint8
+SrcMAC[
+6
+];
+/* source MAC address */
+uint32
+SrcProtAddr;
+uint8
+DestMAC[
+6
+];
+/* destination MAC address */
+uint32
+DestProtAddr;
+} ARP_Frame_U32;
+int
+main()
+{
+printf(
+"ARP_Frame_ArrU8 Size = %d, ARP_Frame_U32 Size = %d.\n"
+,\
+sizeof(ARP_Frame_ArrU8),sizeof(ARP_Frame_U32));
+return
+0
+;
+}
+如上代码链接：
+https://onlinegdb.com/YRgjkbrRN
+运行结果：
+ARP_Frame_ArrU8
+Size =
+28
+, ARP_Frame_U32 Size =
+32
+.
+如上结果可以看出，ARP_Frame_ArrU8占用28 byte，ARP_Frame_U32占用32 byte。为何不同呢？
+ARP_Frame_ArrU8占用28 byte的内存排布如下所示：
+对应ARP报文的内存排布如下所示：
+ARP_Frame_U32占用32 byte
+的内存排
+布
+如下所示：
+对应ARP报文的内存排布如下所示：
+之所以
+ARP_Frame_U32多占用4 byte，是因为uint8  SrcMAC[6]和uint8  DestMAC[6]需要对齐，
+两者均自动添加了2个byte用于对齐（4 byte对齐），由于自动对齐破坏了ARP的协议规则，这将会导致ARP通信问题。
+ARP_Frame_ArrU8和
+ARP_Fr
+ame_U32会有什么影响呢？
+我们知道，任何协议的制定，都会约束协议格式，也就是说：一定条件下，
+Frame的长度固定长度，即：ARP报文长度固定28 bytes
+。如果不按照协议规定的Frame长度发送数据或者接收数据，通信双方将无法准确解析，也就无法有效通信。
+所以，对于发送ARP报文，其长度应是28 byte。但是，使用
+ARP_Frame_U32定义时，由于内存对齐问题，使得ARP报文的实际长度变成32 byte。所以，按照
+ARP_Frame_U32
+长度发送数据，将无法有效发送ARP Frame，接收端也将无法准确解析。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：303~350
+Autosar往期精彩文章汇总：252~302
+Bootloader开发：一种降成本的从节点升级方案
+信息安全：手撸RH850 Flash驱动的细节点
+实践思考：为什么需要核间同步？
+深刻理解以太网发送，必经DMA Transmit Descriptor
+RH850实践：中断入门
+工程问题：电压瞬时异常导致的busoff与通信丢失
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

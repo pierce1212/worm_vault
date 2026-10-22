@@ -1,0 +1,76 @@
+系统复位，RAM区数据不清除操作
+2025-08-11T06:32:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497320&idx=1&sn=3021bd0e26fe5bae464f11e05b0daa56&chksm=fa29a81ccd5e210a2025c68ed9786634f01a06f72e9a9d9dd90671d2633c42f2be5762ca208f#wechat_redirect
+
+软件开发过程中，经常会听到类似“NoClear RAM”的概念。什么是No Clear RAM？又如何实现程序系统复位，不清除RAM数据呢？
+以TC3xx为例，本文聊一聊这个话题。
+1、System Reset对RAM区的影响
+在TC3xx芯片中，使用的RAM多是Static RAM。不管
+DSPR（
+Data Scratchpad SRAM
+）还是
+PSPR（
+Program Scratchpad SRAM
+）均属于Static RAM。那么，
+System Reset对这两者有什么影响呢？参考手册，可以看出，
+System Reset时，所有的
+DSPR和
+PSPR不受影响，示意如下：
+如何理解这里的“Not affected”呢？它有一段注释，如下描述：
+解释：
+DSPR在系统启动时可能被固件用作临时存储区，因此原有数据可能会被覆盖。
+是否在复位时清除DSPR，可以通过特定寄存器进行配置
+。在系统复位（System Reset）时，是否初始化DSPR可以通过两个寄存器配置：
+DMU_HF_PROCONRAM.RAMIN控制是否启用初始化
+。
+DMU_HF_PROCONRAM.RAMINSEL选择初始化的方式或范围
+。
+同理，P
+SPR类似操作。那么，这里的特定寄存器是什么寄存器呢？对于TC3xx，特指UCB17和UCB25，示意如下：
+具体分析
+UCB17，影响RAM区行为的区域是PROCONRANM，示意如下：
+PROCONRANM各个字段的含义如下所示：
+默认情况下，PROCONRAM为0x0000000，表示复位全部初始化操作。解释如下：
+2、系统复位对RAM初始化影响测试
+将变量SwapArg放到指定段（段名.mySection），示意如下：
+#
+pragma
+section
+".mySection"
+aw 4
+uint32 SwapArg =
+0xFF
+;
+#
+pragma
+section
+修改链接文件（*.lsl），将
+.mySection放入指定RAM（0x70001000），示意如下：
+SECTIONS
+{
+CORE_SEC(.mySection) 0x70001000:
+{
+. = ALIGN(4);
+*(.mySection)
+}> dsram0
+}
+配置UCB17，使得CPU0对应的RAM区，在复位时不初始化。UCB17的配置操作如下：
+运行程序，
+SwapArg赋值为0xAA，如下所示：
+此时的0x70001000区域数据如下：
+执行系统复位（System Rweset），如下所示：
+0x70001000区域数据未改变，示意如下：
+重新配置
+UCB17，使得CPU0对应的RAM区，在复位时初始化。UCB17的配置操作如下：
+程序执行复位操作，0x70001000数据清除，示意如下：
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+如何安全的存储和获取Debug password
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+一种软件实现的双Bootloader SWAP方案讨论
+HSM Firmware更新的一种方案讨论
