@@ -1,0 +1,84 @@
+嵌入式开发：看门狗问题QA
+2023-05-16T06:58:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492134&idx=1&sn=81acdb437176a6a3925750763d4abb7c&chksm=fa29bc52cd5e354401699b2e0d9604dd783f8a12de6e8624f86a8506768904ed91e3443b724a&scene=21#wechat_redirect
+
+关于看门狗的文章，可以参考前文《
+为什么需要外部看门狗？
+》、《
+嵌入式开发：TLF35584外狗之WWD
+》等。本文主要整理几个关于看门狗的工程问题。
+Q1：外狗和内狗的监控范畴
+A1
+：内狗主要监控程序运行后的软件状态，确切说，内狗主要监控OS启动后，周期性Task、非周期性Task、软件时序的运行状态。多数软件架构设计中，需要OS启动后，内狗功能使能。因此，内狗存在程序初始化和程序shutdown的监控盲区。为了防止程序在初始化和shutdown中出现异常，可以启用外狗监控。
+提示
+：工程中，如果软件开发的不够鲁棒，启用看门狗以后，可能带来reset问题。
+Q2：程序Shutdown过程中，外部看门狗由谁关闭
+A2
+：当ECU需要休眠，软件执行shutdown过程时，一般不会直接关闭外部看门狗，而是操作外部看门狗所在的电源管理模块（SBC：System Basic Chip），eg：让对应的SBC进入Standby模式，当SBC进入
+Standby
+模式，关闭外部看门狗。
+举例
+：uC的工作电压，多数由SBC提供（eg：V_LDO_uC）。为了最大程度的降低功耗，uC休眠时，可以通过切换SBC的工作模式，停止输出uC的工作电压。uC与SBC的交互示意如下：
+以TLF35584为例，在uC的shutdown阶段，切换其工作模式，由Normal进入Standby，进入Standby后。Watchdog和V_LDO_uC的状态如下所示：
+上图可以看出，
+TLF
+35
+584进入Standby模式以后，Watchdog（外狗）不再使能，LDO_uC进入Off状态，即：关闭uC供电。
+Q3：SMU（Safety Managing Unit
+）
+的FSP与SBC关系
+A3
+：工程开发过程中，大家可能听过FSP（
+Fault Signaling Protocol
+)这样一个名词。FSP属于功能安全的范畴，主要作用是：uC将失效状态告知外部监控器件（eg：SBC），由外部监控器件做进一步的异常处理（eg：Reset）。uC的FSP与SBC之间的关系示意如下：
+FSP Pin的变化如下所示，当程序出现问题时，FSP Pin有下拉动作。
+工程中，有些问题很难排查，有时甚至都不确定问题出在Bootloader还是Application。如果在Application中使能了此功能，可以通过FSP Pin的变化确定问题是否出在Application。
+4、TLF35584状态由NORMAL切换STANDBY模式时，收到唤醒事件，如何处理？
+工程中，常常碰到休眠问题，所以，理解好SBC状态切换有助于问题的分析。本文讨论一下TLF35584状态由NORMAL到STANDBY模式变化分析，如下所示：
+如上图：如果使能SBC的FWD、WWD，在休眠之前，仍需要正常喂狗（Service WatchDog）。在发送"Go to Standby"指令之前，注意：uC没有禁用看门狗的动作。
+TLF35584状态由
+NORMAL到STANDBY模式并不是立即执行，而是
+片选信号（SCS）拉高之后，立即启动T
+tr,del
+计时，当超过设定阈值时间
+T
+tr,del
+以后，状态才完成切换，而这个时间在
+100us~1.6ms
+之间可配置，默认900us，如下所示：
+如果在"Transition"期间，收到有效的唤醒信号（eg：ENA或者WAK），状态如何切换呢？
+答
+：
+如果在
+"Transition"
+期间，收到有效的唤醒信号，
+设备状态进入INIT模式，同时触发Reset动作（ROT拉低）
+。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+TRACE32调试：基础调试技巧之SystemMode、SNOOPer
+基于VN5650的以太网配置
+基于Makefile的C、C++混编
+从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,122 @@
+刷写时，为什么需要发送0x3E 80报文来维持会话？
+2025-08-13T06:28:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497324&idx=1&sn=beadba5c5bca50bdf51660c85af2969d&chksm=fa29a818cd5e210efb41d56752da26f5f7f574fd098f8cd2eb5e4c53714af9b2d988b3d059c2#rd
+
+从事车载嵌入式的小伙伴应该清楚，嵌入式软件程序中，Bootloader程序已成为ECU必不可少的软件组件。用户程序更新过程中，Bootloader需要
+按照OEM
+(Original Equipment Manufacturer)
+刷写规范定义的刷写序列进行
+刷写。
+多数OEM使用U
+DS
+（Unified diagnostic services）
+诊
+断服务定义刷写序列。刷写序列通常分为三个部分：Pre-Programming Step、Programming Step和Post-Programming Step。更多细节 ，可以参考前文《
+Bootloader开发：初识Bootloader
+》。
+如果留意OEM的刷写规范，会注意到：刷写过程中，刷写上位机工具需要以
+功能寻址（
+Functional Addressing
+）方式，周期性地发送0x3E 80诊断报文
+。为什么要发送0x3E 80呢？这里的0x3E 80又起到什么作用呢？
+1、0x3E 80的作用
+上位机以功能寻址，周期性发送
+0x3E 80
+诊断报文的作用是什
+么
+？先来理解几个关键词:
+功能寻址：
+上位机工具一对多地与
+ECU
+通信，换句话说，上位机工具发送的诊断报文（eg：0x3E 80）可以被多个
+ECU
+接收处理。
+发送周期：
+上位机按照
+S3client
+时间参数（eg：2s）约束的周期发送诊断报文。
+发送
+0x3E
+（
+Tester Present
+）
+80：
+会话维持
+服务，维持
+ECU处于
+非默认会话。其中，
+Sub-function(0x80)
+的最高位为1，即：肯定响应抑制位
+SPRMIB
+（
+Suppress Positive Response Message Indication Bit
+）置位。
+对接收0x3E 80
+报文的ECU
+，
+不需要回复肯定响应
+。
+当
+ECU
+处于非默认会话后，软件启动
+S3server
+时间参数（eg：5s）。如果
+ECU
+在
+S3server
+时间内都没有收到任何诊断报文，那么
+ECU
+会从非默认会话跳转到默认会话。
+刷写目标ECU的过程中，上位机工具不间断的给刷写ECU发送诊断报文，刷写
+ECU因为收到诊断报文（S3Server收到诊断报文重置），而
+不会从非默认会话跳转到默认会话。那么，上位机为什么还发送
+0x3E 80呢？
+上位机周期性发送
+0x3E 80
+不仅使得上位机功能复杂，而且，对于刷写
+ECU来说
+，还需要额外处理
+0x3E 80
+报文。这不是“得不偿失”吗？
+2、发送0x3E 80的原因
+对于整车架构，控制器从几十个到上百个不等，如下图所示。所以，在OTA（Over the Air）过程中，实现特定控制器的升级并不是一件容易的事情。因为这需要管控好非升级控制的通信，不然，就会出现故障码DTC（Diagnostic Trouble Code）乱报，升级失败等各种非预期问题。
+在
+Pre-Programming Step
+阶段：使用功能寻
+址
+发送诊断服务（0x10 03），
+使得多个
+ECU
+进入扩展会话
+。除此之外，多数OEM还会使用
+0x85 02服务
+关闭多个
+ECU
+的
+DTC
+设置。
+使用
+0x28 03 01
+关闭多个
+ECU
+的通信（应用报文和网络管理报文），将总线使用权让给低优先级的诊断报文。预编程刷写流程
+示意如下：
+按照UDS协议要求：
+当ECU从非默认会话切换到默认会话时，在非默认会话下执行的0x28和0x85服务会因为程序跳转到默认会话而被重置，即：ECU间可以重新通信，故障重新监控。
+所以，对于网段内非刷写ECU来说，如果在S3server时间（eg：5s）内没有收到任何诊断报文，这些ECU会从非默认会话跳转到默认会话。之后，这些非升级ECU重新开始通信和故障诊断。所以，
+使用功能寻址，周期性发送0x3E 80诊断报文的目的是为了让其他非升级ECU维持在非默认会话下，从而保证升级ECU的刷写流程不受干扰
+。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+系统复位，RAM区数据不清除操作
+ODX和PDX是什么？傻傻分不清楚
+如何基于UDE/Memtool调试HSM？
+如何安全的存储和获取Debug password
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+一种软件实现的双Bootloader SWAP方案讨论
+HSM Firmware更新的一种方案讨论

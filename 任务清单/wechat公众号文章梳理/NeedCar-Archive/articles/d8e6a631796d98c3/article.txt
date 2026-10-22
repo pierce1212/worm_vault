@@ -1,0 +1,89 @@
+嵌入式开发笔记：空指针引起的Trap问题（二）补充
+2022-05-15T13:02:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487697&idx=1&sn=d43a89c2a7acbd2cc3f863c4fd59a620&chksm=fa2a4ea5cd5dc7b3b18d164952b879ca83090d1b5e1b11c73c8a51caa6767dcf87f63e437aac&scene=21#wechat_redirect
+
+嵌入式开发笔记：空指针引起的Trap问题（二）
+中解释了空指针引发Trap的原因，与同事更深一步的讨论中发现，还有些细节没有体现，这里再做一个展开。
+1
+Trap_B异常的另一种工况
+Step1
+：Trap_A引发程序复位；
+Step2
+：t0时刻，程序访问标定量
+Cal_Ar
+gu
+->
+Cal_Argu
+_Ptr01
+，此时访问的是Flash区域的
+Cal_Ar
+gu
+->
+Cal_Argu
+_Ptr01
+，程序正常执行；
+Step3
+：
+t1时刻，引入了手动代码（初始化标定的RAM区域）
+，
+且初始化Cal_Argu->Cal_Argu_Ptr01 = 0;
+Step4
+：
+t2时刻，标定操作初始化部分，检查标定状态，
+如果处于WP，则使能Overlay功能
+，Overlay使能之后，标定量将访问RAM区域的数据。
+Step5
+：t3时刻，再次访问标定量Cal_Argu->Cal_Argu_Ptr01，此时访问的是
+RAM区域
+的Cal_Argu->Cal_Argu_Ptr01，
+由于Cal_Argu->Cal_Argu_Ptr01在t2时刻初始化为0(NULL_Ptr)
+，再次访问导致程序异常，之后程序不断进入Trap_B。
+1、WP的判断依据？
+答：标定过程中，ETK件中，WP和RP的状态存储在Shared RAM（由全局变量Page_Switch_Mailbox记录），
+该区域软复位不清零
+(链接文件中设置该段)，*.map文件中，Page_Switch_Mailbox地址如下所示：
+ETK初始化过程中，判断Page_Switch_Mailbox.Start_Page记录的Page Mode，如下所示：
+WPREQ_PATTERN
+== Page_Switch_Mailbox.Start_Page
+之后ETK根据Page_Switch_Mailbox.Start_Page操作模式，操作Overlay功能对应的寄存器，如果ETK识别到WP模式，则Overlay功能打开。而VCU只识别Overlay功能寄存器判断Overlay功能使能与否。
+2、标定数据为什么在周期性任务中Copy？
+答：标定RAM区空间小，数据需要动态从Flash区Copy到RAM区。比如：可用的标定RAM只有1 K大小，而待标定的Flash数据大小有6 K。所以在初始化的过程中，不能完全将Flash区域数据映射到RAM区域。为解决这个问题，可以在周期性任务中，动态识别所要标定的参数所在的Flash Block，之后根据待标定参数所在Flash Block，将Flash标定数据Copy到RAM。如果Flash Block没有切换，则无需再将Flash标定数据Copy到RAM；如果有新的Flash Block切换（即需要标定另一个Flash Block中的参数），再将新的Flash Block标定数据Copy到RAM。
+注意
+：如果同时要标定的两个数据，一个在Block0，一个在Block5，则无法映射，所以需要标定工程师注意自己标定数据所在区域，避免跨Block进行数据标定。
+如果芯片RAM区的资源相对比较充足，FLASH区的标定数据可以在
+初始化的时候
+全部映射到RAM区，无需动态映射。
+3、项目使用的标定PFlash区和RAM区
+预留的标定PFlash区为1M，起始地址空间如下所示：
+使用的标定RAM（DLMU RAM）区共计256K（分为32个Block，每个Block 8K，
+非ED芯片使用的RAM标定区
+），如下所示：
+Overlay的空间大小受限于CPUx Overlay Mask Register i 的OMASK限制，如下所示：
+重定向访问的RAM区受CPUx Redirected Address Base Register i寄存器的OMEM位域控制，OMEM = 8表示重定向到LMU，OMEM = 9表示重定向到EMEM。重定向的使能受CPUx Redirected Address Base Register i寄存器的OVEN位域控制。
+4、英飞凌tc387和tc397在标定功能上的区别
+答：tc387不是ED(Emulation Device)芯片，没有专用的标定RAM区，需要消耗自身的RAM区。tc397是ED芯片，有
+额外的一块标定RAM区
+。XCP件使用的是tc387芯片，ETK件使用的是tc397芯片。
+英飞凌具有ED功能的芯片类型，如下所示：
+ED芯片独有的RAM(EMEMRAM)区，共有4M，如下所示：
+ED芯片和非ED芯片均使用Local Memory，具体说明如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+Autosar通信栈：基础问题知多少
+Autosar开发：什么是“可重入/不可重入函数”？
+勘误篇(一)：Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+Uds诊断：这5个诊断问题，你能回答几个？（四）
+Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+Uds诊断：Gateway节点的Timing，不简单
+Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？
+Bootloader开发：并列刷写(Parallel Flash)你知道多少？
+Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次
+Autosar网络管理：基础问题知多少
+Autosar通信：网络管理报文和应用报文，谁先发？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

@@ -1,0 +1,71 @@
+E2E VS SecOC的立场分析
+2026-03-20T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498034&idx=1&sn=30b706261e9520c634eeb35a0326368c&chksm=fa29a746cd5e2e50ec24ffab11f7eb8e41b41e3534234f6473ba76edd3859aa53db8f42b8ada#rd
+
+关于E2E
+（End-to-End）
+和SecOC的讨论，前文《
+SecOC报文是否可以替代E2E报文？
+》进行过讨论，主要表达了特定前提下的SecOC是否可以替代E2E的问题。前文是基于同一个PDU，且 E2E的Rolling Counter可以被SecOC报文覆盖的前提下。这又是怎样理解呢？本文聊一聊E2E和SecOC的立场，或许可以窥探一二。
+1.E2E和SecOC的侧重
+我们先回顾一下，SecOC和E2E对应PDU的构成，如下所示：
+这里，我们主要讨论SecOC的Authenticator和E2E的Countor。
+（一）E2E的Counter
+Counter是E2E保护机制里的一个序列号，作用如下：
+检测数据是否重复
+检测数据是否丢失
+判断通信顺序是否正确
+支撑 Alive / Sequence Check（存活与顺序检查）
+提示：
+E2E的DataID主要作用是将不同的受保护数据元素在CRC层面区分开，防止“把A报文误当成B报文仍然CRC正确”的问题。DataID需要提前在参与通信的收/发两端静态配置，
+参与CRC计算
+，
+但是不参与通信
+（不在Payload中）。
+对于E2E的
+Counter具有检查数据丢失的功能，这一点不同与SecOC
+。
+（二）SecOC的Authenticator
+构成Authenticator的元素有哪些呢？如下所示：
+DataToAuthenticator = Data Identifier | secured part of the Authentic I-PDU | Complete Freshness Value
+其中，完整的
+Complete Freshness Value既然参与计算，意味着，接收端构造的
+Complete Freshness Value需要和发送端保持一致。如此，计算的CMAC（假如使用CMAC计算）才能一致。那么，这里思考一个问题：如果发送端某次发送的Counter突然增加很多（相当于丢了很多帧），但是，接收端可以有效构造出完整的
+Freshness Value，能校验过吗？
+答：
+可以。原因如下（假设
+Freshness Value
+使用截断处理方案，且低5bit发送）：
+提示：
+接收端构造
+Complete
+Freshness Value =
+Freshness Value Upper
+bits(eg:59 bits) |
+Freshness Value Lower
+bits(eg:5 bits)
+所以，从这个层面理解，
+SecOC并不关注丢帧的问题
+，它只关注
+发送的身份真实性、是否重放攻击
+等。
+如上图，假设Freshness Value使用截断处理方案，且低5 bits发送。
+对于接收端，只要丢帧≤31，接收端进行MAC校验时，依然可以校验通过
+。主要是因为接收端是无条件接收低5 bits数据，并和接收端本地的高59bit的高位拼接，构成完成的
+Freshness Value（64 bits），示意如下：
+所以，对于E2E来说，会检测丢帧情况，但是，不能检测数据发送方身份的真实性。而SecOC虽然可以检测发送方身份真实性，但是，不能检测数据丢帧的工况。如果SecOC对新鲜度只进行检查，类似E2E的
+Rolling Counter校验，那么SecOC也能做到丢帧检测。然而，SecOC设计之初，就不在意丢帧的工况。
+所以，使用E2E或是SecOC，需要结合项目目标需求决定使用其中一种方案还是两者均用。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：511~565
+为什么选用外部看门狗（external watchdog）的监控MCU
+诊断，关于安全访问0x27问题一二分享
+Logical Sector ≠ Flash 物理存储的完整比特流
+基于Davinci的HSM开发实践（12）：安全日志（Event Log）的工程开发实践
+诊断，为什么无效唤醒会加速DTC信息清除？
+关于Bootloader OTA的一种软件升级方案

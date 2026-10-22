@@ -1,0 +1,242 @@
+嵌入式开发：void*在工程中的应用
+2023-01-04T09:29:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490957&idx=1&sn=df043e3ac7dd65f457f63ea6426975d0&chksm=fa2a43f9cd5dcaefd773d23b575c9a78441e0040d5d082f7863d23af9f12189b027c95afc401&scene=21#wechat_redirect
+
+嵌入式开发，C语言是基础，而C语言的灵魂就是指针，如果不会使用指针，代码效率势必大打折扣。对于指针，想必都有所耳闻，指针变量就是一个指向某块内存地址的变量。首先，
+指针变量
+占用一块内存地址（eg：0x70001000），再次，在指针变量占用的这块内存地址上存放的内容是一个地址（eg：0x70000000），通过这个地址，可以知道这块地址上存放的内容（0x10），如下所示：
+如上图，是我们对指针最初的认识，除了具体数据类型的指针以外，还有一种指针类型比较特别：void*。void*特别在哪呢？在工程开发中，又如何使用呢？
+1、void*指针特点
+void*指针也叫
+无类型指针
+，它可以指向任何类型指针，前提：需要强制类型转换。注意：
+v
+oid*指针不是空指针
+。
+空指针没有指向，一般会将用不到的指针定义成空指针，避免误操作；
+void * 指针是有指向的指针，只是它指向的数据类型暂不确定。
+既然是指针，就会指向一块地址，void*也不例外，但是，由于其特殊性，未有事先说明自己指向的类型，所以，在使用前，需要强制告知其指向的类型。
+（一）任何类型的指针都可以赋值给void*
+int
+argu_int =
+10
+;
+short
+argu_short =
+20
+;
+void
+* ptr = &argu_int;
+ptr = &argu_short;
+（二）void*使用前需要强制类型转换，即：显式的告知无类型指针变量需要指向的指针类型
+void
+Func_Uint8Copy
+(
+const
+void
+* _des,
+void
+* _src, uint32 _len)
+{
+/* 使用前，强制数据类型转换 */
+uint8* src_ = (uint8*)_src;
+uint8* des_ = (uint8*)_des;
+if
+((src_ !=
+nullptr
+) && (des_ !=
+nullptr
+) && (_len >
+0
+))
+{
+do
+{
+*(des_)++ = *(src_)++;
+}
+while
+(((uint8*)src_ - (uint8*)_src) < _len);
+}
+}
+（三）因为其指针类型不确定，void*不能进行自增和自减运算
+2、void*在工程开发中的应用
+工程开发中，配置工具+静态代码包帮我们完成了大部分的工作，但这并不意味着能满足客户的所有需求。有些非标准的需求可能需要手动Coding，当手动设计代码时，软件框架必不可少。对于我而言，设计软件框架时，Callout必不可少，Callout不仅能增加代码的延展性，避免后期改框架，修成"胖子"，还方便移植，复用性高。
+模块设计示意代码：
+typedef
+void
+(*Func_Ptr)
+(
+const
+void
+* _des,
+void
+* _src, uint32 _len)
+;
+typedef
+struct
+{
+uint8   status;
+uint8   RxArr[
+8
+];
+uint8   TxArr[
+8
+];
+Func_Ptr Pre_Callout_Func;
+Func_Ptr Post_Callout_Func;
+}Module_Handle_T;
+如上的示意代码中，设计的模块，前后各预留一个Callout，且函数指针的入参使用void*，这样可以使得传入的参数为任何类型，极大的增加了代码的灵活性。
+（一）void*的工程应用
+目的：Copy不同类型的数据
+typedef
+bool
+(*Func_Ptr)
+(
+const
+void
+* _des,
+void
+* _src, uint32 _len)
+;
+bool
+Func_Uint8Copy
+(
+const
+void
+* _des,
+void
+* _src, uint32 _len)
+{
+/* 使用前，强制数据类型转换 */
+uint8* src_ = (uint8*)_src;
+uint8* des_ = (uint8*)_des;
+bool
+ret =
+false
+;
+if
+((src_ !=
+nullptr
+) && (des_ !=
+nullptr
+) && (_len >
+0
+))
+{
+do
+{
+*(des_)++ = *(src_)++;
+}
+while
+(((uint8*)src_ - (uint8*)_src) < _len);
+ret =
+true
+;
+}
+return
+ret;
+}
+bool
+Func_Uint16Copy
+(
+const
+void
+* _des,
+void
+* _src, uint32 _len)
+{
+uint16* src_ = (uint16*)_src;
+uint16* des_ = (uint16*)_des;
+bool
+ret =
+false
+;
+if
+((src_ !=
+nullptr
+) && (des_ !=
+nullptr
+) && (_len >
+0
+))
+{
+do
+{
+*(des_)++ = *(src_)++;
+}
+while
+(((uint16*)src_ - (uint16*)_src) < _len);
+ret =
+true
+;
+}
+return
+ret;
+}
+如上的代码中，通过函数指针，可以指向不同的函数，对不同的数据类型进行Copy。而在传参的时候，在根据具体的函数实现，强制数据类型转换，而不用改动模块的数据结构。当然，
+也可以将数据类型强制转换成自定义的数据结构（struct）
+。
+（二）void*在库函数中的应用
+在很多的C库函数中，void*也被广泛的使用，如下所示：
+void
+*
+memcpy
+(
+void
+* pvTo,
+const
+void
+* pvFrom,
+size_t
+size)
+;
+void
+*
+memset
+(
+void
+* buffer,
+int
+b,
+size_t
+size)
+;
+void
+*
+malloc
+(
+size_t
+size)
+;
+......
+如上述，void*值得我们在软件开发中用一用。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？
+诊断基础：NRC0x78（Pending）问题知多少？
+Autosar CanTp:什么是Connection？
+功能安全E2E：浅谈Profile01（P01）
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+嵌入式开发：DMA何时使用更好？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,90 @@
+Uds诊断：Unexpected N_PDU处理策略
+2022-08-13T08:30:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489253&idx=1&sn=fae2e42f8e2d32b2f675146ffa076294&chksm=fa2a4891cd5dc187b3bbd6addca716213d69c7da412743b1d63ff1fd93dedcecd52f649c96c4&scene=21#wechat_redirect
+
+在
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+一文中，提到：“连续帧的接收过程中（
+物理寻址
+），收到
+功能寻址
+的诊断服务3E 80”，接收端应如何处理？。
+1
+15765-2解释
+我们先看一下15765-2规范给的解释。
+1、通用规则
+通用规则如下所示：
+解释：
+接收到来自任何节点的非预期N_PDU（诊断请求），均忽略该请求
+，但是，
+SF N_PDU(单帧)和物理寻址的FF N_PDU(首帧)除外
+；
+功能寻址的FF应当忽略；
+如果收到了非预期的N_PDU，无需通知上层模块（可以底层忽略，可以在驱动层忽略）。
+2、针对相同N_AI的处理规则
+首先，我们先搞清楚什么是"N_AI"，N_AI：Address Information。包含：source address (N_SA)、target address (N_TA)、network target address(N_TAtype) 以及可选的address extension (N_AE)。
+N_AI在一帧报文中所处的位置如下所示：
+所以，理解N_AI是否相同，通过CAN ID亦可识别。举例：功能寻址的CAN ID（0x7FF）与某个节点的物理寻址CANID（0x610），
+这两个N_AI不相同
+。
+对于相同的N_AI，如何理解？首先，CAN ID必须相同，再者，报文类型必须相同，即：Classical CAN还是CAN FD，是否拓展，是否速率可变等。
+如下，我们看一下15765-2，针对相同N_AI，收到非预期的N_PDU，给出的处理策略解释，如下所示：
+这里我们只关注开篇的问题。如上解释：
+物理寻址（eg：经典CAN ID = 0x610）的多帧接收过程中（连续帧接收过程中），接收端收到
+相同物理寻址
+的非预期单帧，接收端应该停止连续帧的接收，转而
+处理新收到的单帧
+。
+但是这与开篇提到的工况有所不同，开篇提到的是物理寻址接收连续帧的过程中收到功能寻址的单帧（$3E 80）,显然“a”规则不适用。需要使用“通用规则”处理此种工况，即：
+继续连续帧的接收，功能寻址的单帧
+（$3E 80）仍然需要处理，不能忽略
+。
+规范给出的解释如下：
+解释
+：对于不同的N_AI，多帧的接收/发送处理继续进行，不受影响。
+所以，连续帧接收过程中（物理寻址），收到功能寻址的单帧（$3E 80）需要处理，既然处理就可能会遇到上一文中提到的问题：接收丢帧。
+提示
+：
+功能寻址的
+$3E 80
+请求的主要目的是维持非默认会话，目标节点升级过程中，不断地处理诊断指令，如果ECU均能5s内给出响应，升级节点忽略$3E 80都可以。非常规做法：底层收到$3E 80请求，不传给CanTp层/FrTp层，直接重置S3时间，降低刷写失败风险。正常处理，$3E 80应该传到DCM::DSL，重置S3时间。
+2
+Autosar解释
+Autosar解释如下：
+功能寻址的$3E 80可以并行的和物理请求发送到接收端，意味着连续帧的接收过程中（物理寻址），可以接收功能寻址的$3E 80请求，且需要处理接收的3E 80（功能寻址，单帧）；
+DCM收到功能寻址的$3E 80，只送到DSL（
+Diagnostic Session Layer
+）即可，重置S3时间。
+参考资料
+ISO 15765-2.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+工程开发问题（八）：不满足STmin时间要求，中断接收丢帧
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

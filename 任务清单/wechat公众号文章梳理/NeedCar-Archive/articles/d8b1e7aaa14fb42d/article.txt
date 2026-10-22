@@ -1,0 +1,71 @@
+NVM存储：Flash操作注意事项
+2022-10-14T16:52:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490025&idx=1&sn=a6c8f459baaaf007fb09eca59ffcab67&chksm=fa2a479dcd5dce8b85eb7b7745b692be16f93430cf1dbf84ab6cb9d74aea05cfed518dd2b297&scene=21#wechat_redirect
+
+重要信息存储，工程项目中必不可少，不管信息存储到PFlash还是DFlash，一定要留心User’s Manual给的提示。本文，基于Aurix TC3xx，聊一聊Flash操作需要注意的点。
+1
+Flash Driver操作注意事项
+1、Flash Driver不能操作相同的Bank
+怎么理解Flash Driver不能操作相同的Bank这件事呢？举例：
+如果Flash Driver存放到PFlash0，那么就不要调用Flash Driver对PFlash0的空间进行任何的擦/写操作
+。这一点，在英飞凌的
+User’s Manual有明确的提示，如下所示：
+比如，Flash Driver和所要操作的内容在相同的PFlash(eg：PFlash0)，这是不允许的，如下所示：
+如果非要进行此操作，会带来什么问题呢？
+Flash的错误状态寄存器HF_ERRSR会记录命令时序错误（Command Sequence Error）
+，即：因为访问了不恰当的地址，导致此错误，如下所示：
+在Flash的操作中，如果识别到HF_ERRSR寄存器中错误状态，
+一般会让程序进入Trap
+。如果程序处于刷写状态，则意味着刷写流程的失败。
+注意：
+虽然不允许Flash Driver操作相同Bank空间，但是，如果进行了此操作，
+也可能会有部分信息写入
+。
+2、Flash 擦/写操作时，关闭"内狗"
+这里的关闭"内狗"是指
+Safety ENDINIT操作
+，注意：这里
+不是
+Cpu Endinit操作
+。对于一些关键寄存器的操作，尤其写驱动的小伙伴，很容易混Safety ENDINIT和
+Cpu Endinit。
+如
+果在Flash的擦/写操作期间，没有进行Safety ENDINIT操作，则会导致程序报
+Protection Error
+，对应HF_ERRSR寄存器的
+PROER位域
+，具体解释，如下所示：
+2
+Flash操作在工程上的应用
+做开发的小伙伴，应该都清楚：Bootloader升级时，需要将Flash Driver放到RAM区运行。问题：Flash Driver一定要放到RAM区才能运行吗？
+答
+：不是。
+Flash Driver可以放在PFlash中运行
+，
+User’s Manual
+中给出的提示：
+不要用Flash Driver操作相同Bank空间
+。对于非Flash Driver的Bank空间，Flash Driver是可以操作的。eg：Flash Driver分布在PFlash0，Flash Driver可以操作非PFlash0空间（eg：PFlash1），如下所示：
+Flash Driver操作PFlash的工程应用
+工程中，一些诊断服务也会用到Flash Driver，比如：
+$14（ClearDiagnosticInformation）、$2E(WriteDataByIdentifier)等。
+诊断中，有一些关键信息需要存储到PFlash或者DFlash中。工程中，会利用$2E服务写一些关键信息到PFlash，比如：安全常量（Pin Code）、公钥（Public Key）等；会用$14服务清DTC信息，即:清除DFlash中的DTC信息。
+这些信息的写入操作，需要用到Flash Driver。
+从提高软件鲁棒性的角度考虑，将Flash Driver加载到RAM区会更安全。
+而
+实际工程，可能会直接使用ROM中的Flash Driver
+。
+因此，需要注意这些信息存放的位置，不要和Flash Driver放在相同的PFlash中，避免诊断操作失败。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（二）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

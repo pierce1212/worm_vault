@@ -1,0 +1,254 @@
+结构体，重新认识一下
+2021-12-24T20:00:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484294&idx=1&sn=63ab89fc23db64bba26ee69beb8613bb&chksm=fa2a5df2cd5dd4e4195b07baff5d74eff4151c85fb050c06e8c1c6abe5ce2d7fb5da4342246b&scene=21#wechat_redirect
+
+面对不同的项目，有时需要切换不同的语言编码，因此熟悉不同语言下的编码规范格外重要。本文聊聊C和C++中结构体的定义和使用有什么区别。
+学习最好的方式就是操作，先看如下一个C++例子。
+示例
+示例：
+#
+include
+<iostream>
+#
+define
+GET_NAME(name)  #name
+typedef
+struct
+Human
+{
+float
+weight;
+float
+high;
+void
+get_name
+()
+{
+std
+::
+cout
+<<
+" Call method: "
+<<GET_NAME(get_name())\
+<<
+",get my name is "
+<< GET_NAME(Apple) <<
+std
+::
+endl
+;
+}
+}
+human_t
+;
+int
+main
+()
+{
+human_t
+you =
+{
+.weight =
+60.0
+,
+.high =
+1.75
+};
+human_t
+me =
+{
+62.0
+,
+1.78
+,
+};
+std
+::
+cout
+<<
+" your high = "
+<< you.high <<
+" m, \
+your weight = "
+<< you.weight <<
+" kg.\n"
+;
+std
+::
+cout
+<<
+" my high = "
+<< me.high <<
+" m, \
+my weight = "
+<< me.weight <<
+" kg.\n"
+;
+me.get_name();
+getchar();
+return
+0
+;
+}
+运行结果：
+your high = 1.75 m,     your weight = 60 kg.
+my high = 1.78 m,       my weight = 62 kg.
+Call
+method: get_name(),
+get
+my
+name
+is
+Apple
+细节点1
+通过如上示例可以注意到，在结构体里成员变量有函数，是的，在C++中允许这样干，在C++中可以将结构体看作对象，对象可以有函数成员。而在C中不能直接定义一个函数使用。但是
+C中经常将成员变量定义成一个函数指针，一般开发中都会在C的数据结构中预留函数指针，当有功能需要拓展时，直接定义一个callout接口
+。在CP Autosar的多数模块中都会有这样的使用方式。
+如下所示，在模块数据结构中插入两个函数指针可以在功能需要拓展时，自定义对应的接口类型，不用时使用NULL替代，且这样并不会带来太大的资源开销。
+typedef
+void
+(*funcPtr)
+(
+void
+)
+;
+typedef
+struct
+Human
+{
+float
+weight;
+float
+high;
+funcPtr funcBegin;
+funcPtr funcEnd;
+}
+human_t
+;
+没有拓展功能时
+，
+函数指针定义为空指针
+，在程序中对指针是否为空进行判断，避免程序跑飞。具体定义如下所示：
+human_t
+you =
+{
+.weight =
+60
+,
+.high =
+1.75
+,
+.funcBegin =
+NULL
+,
+.funcEnd =
+NULL
+,
+};
+细节点2
+定义结构体变量时使用了两种方式，体现成员变量和不体现成员变量。
+体现成员变量：
+体现成员变量时要求成员变量
+赋值的顺序和声明结构体时保持一致
+，否则编译出错。
+human_t
+you =
+{
+.weight =
+60.0
+,
+.high =
+1.75
+};
+不体现成员变量：
+如果赋值错误，且数据类型相同时，编译器不会有提示，这可能会导致运行结果和预期不一致。
+human_t
+me =
+{
+62.0
+,
+1.78
+,
+};
+细节点3
+使用了#字符，如果对#还有疑惑，可以阅读
+C语言的#很“秀”
+。
+结构体资源消耗
+最后谈一谈结构体对资源的消耗，先看如下一段代码：
+#
+include
+<iostream>
+typedef
+struct
+Human1
+{
+unsigned
+char
+name[
+22
+];
+int
+age;
+unsigned
+char
+sex;
+}human_t1;
+typedef
+struct
+Human2
+{
+int
+age;
+unsigned
+char
+name[
+22
+];
+unsigned
+char
+sex;
+}human_t2;
+int
+main
+()
+{
+human_t1 you;
+human_t2 me;
+std
+::
+cout
+<<
+" you used "
+<<
+sizeof
+(you) <<
+" bytes\n"
+;
+std
+::
+cout
+<<
+" me used "
+<<
+sizeof
+(me) <<
+" bytes\n"
+;
+getchar();
+return
+0
+;
+}
+运行结果：
+you
+used 32 bytes
+me
+used 28 bytes
+可以看出，虽然
+结构体的成员变量一样
+，
+位置不同导致的资源消耗不一样
+。虽然目前芯片资源在不断的拓展，但是作为一个程序员，别真的当自己是地主家的儿子，在讲究成本的项目中，芯片资源少，就不能让你这样任性的消耗资源了。
+因此，在结构体成员变量排布时，先确定CPU的带宽，比如32bit，默认以4bytes对齐。在成员变量排序时，尽量以4的倍数排列成员变量，以便节省资源。如上，age占用4bytes，name占用22bytes，如果有一个1或者2bytes的成员变量紧挨着name，就消耗24bytes（4的倍数消耗资源），如果像struct Human1排布，则name就需要消耗24bytes（2bytes补齐作用），sex再消耗4bytes（没用的3bytes只是补齐作用，浪费了）。
+实际开发中，随意定义成员变量的开发人员大有人在，如果不规范自己的代码，又何谈长进呢？在CP Autosar的各个模块静态代码中，模块参数的操作会用一个结构体封装，这样使得代码维护更方便，而且结构清晰。个人观点：多看看各模块的初始化函数，能学到结构体的优秀写法。

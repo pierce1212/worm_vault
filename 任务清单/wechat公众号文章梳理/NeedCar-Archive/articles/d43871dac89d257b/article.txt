@@ -1,0 +1,64 @@
+工程问题：读取DID导致ECU不在线
+2023-10-13T07:09:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493224&idx=1&sn=4936c7322aa943b953ebcf4d77d39ae3&chksm=fa29b81ccd5e310a0d74a63cbf2dce11d5243d1affa11d8ef26a8811f50294ed629977230b05&scene=21#wechat_redirect
+
+在之前的文章中，和大家提到过：内存无小事。对于内存的操作，稍有不慎就会带来问题。如果操作UCB（User Configuration Block），由于此区域属于固件区，关系程序的启动行为，操作不当就可能导致芯片锁死。eg：玩SOTA（Software Over the Air）的小伙伴，是否锁过板子呢？如果操作PFlash，多核同时访问同一个Sector，操作不当就可能导致Bus Error Trap；如果操作DFlash，且被一些信息安全模块（eg：HSM，
+Hardware Security Module
+）设置成独占区，操作不当，也可能会导致
+Bus
+Error Trap......
+所以，对于内存的操作，我们又怎能不心生敬畏？本文，分享一个关于内存的工程问题：读取DID（Data Identifier），导致ECU不在线。
+1、问题现象
+问题背景：某车辆售后维修过程中，使用诊断仪读取车辆信息（软件程序在Application），开始读取信息无异常，之后发现，再读取DID信息时，ECU不再响应上位机（诊断仪），同时，ECU没有通信报文，即：ECU失去通信，表现出不在线的现象。抓取的问题数据，如下所示：
+2、问题分析
+对于诊断问题，因为信息比较聚焦，代码对应位置比较具体，一般来说，比较好定位。既然是读取DID出的问题，问题自然就聚焦到具体DID代码实现位置。分析此处代码发现，在读取DID对应信息时，软件对此DID所在的内存区（Logical Sector）进行了Verify Erased操作。问题来了：为什么内存区擦除检查会带来不在线的问题呢？如果仅仅是一个Core操作此内存区，确实不会带来太大影响，即：对DID所在内存区进行擦除检查不会引发问题。但是，如果多个Core对同一个内存区操作，思考就需要更缜密一些。
+真正理解这个问题之前，先补充一些知识：
+（一）内存操作之
+Verify Erased Logical Sector
+对于一块已经操作的PFlash内存，在使用之前，需要先进行擦除（Erase），之后再进行Programming（编程，也就是口语中的"写"）操作。
+为了确保擦除的可靠性，可以进行擦除验证操作
+。如上描述，如下所示：
+虽然Verify可以确保擦除的可靠性，但是有一点需要注意：对同一块Logical Sector（eg：16KByte）操作时，可能存在
+多核并发访问题
+。
+（二）多核对同一Logical Sector操作注意事项
+当某个核（eg：Core0）对Logical Sector #n进行擦除验证时，此空间处于BUSY状态，即：处于不可操作状态（读、写、执行均禁止）。如果其他核（eg：Core1）对此区域的数据进行访问，将会造成对应Core的Bus Error Trap。如下图，T0~T1窗口期内，Core0对
+Logica
+l
+Sector
+#
+n
+进
+行
+擦除验证，如果Core1此时访问到此空间，将会导致Core1的Bus Error Trap。
+如果只是偶发的一次Bus Error Trap怎么就触发了ECU不在线，通信都丢失了呢？我们知道，Trap程序也需要内存地址，且Trap中也可能调用其他函数，当调用的函数所在内存区处于禁止操作状态时，也会造成Bus Error Trap，
+进而造成Trap嵌套，类似于递归函数
+。下图中的Trap_BusError()与调用函数Function()会不断往复，最终造成栈空间溢出，即：CSA（Context Save Areas）
+耗尽
+，
+进而使得整个软件程序
+"崩溃
+"。
+（三）代码验证
+基于（二）的理论，本文验证代码如下：
+验证结果：
+3、解决策略
+如果软件包含信息安全功能，且在安全启动时，已经对运行的程序进行了完整性和兼容性验证，程序在运行过程中无需再进行Verify。本文问题中，仅仅是通过DID读取一些信息，无需对读取信息的内存进行操作。所以，解决措施：删除对DID所在内存区的
+V
+erify操作。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+穷玩Aurix控制器：Memtool基础使用操作
+如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）
+Autosar以太网：Ethernet Transceiver基础（一）
+工程思考：为什么OEM抵触Bootloader更新？
+工程问题：Full CAN与Basic CAN配置错误，导致信号跳变
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
