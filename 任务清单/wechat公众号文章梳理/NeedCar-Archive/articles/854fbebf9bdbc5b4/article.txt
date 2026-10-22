@@ -1,0 +1,108 @@
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+2022-06-24T20:15:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488466&idx=1&sn=5dec50f219a14d5aa4ab6c118934d383&chksm=fa2a4da6cd5dc4b006b8929fac321e94eae1bc6108c7ebcaa0462e8b1f3428bc2ee022e775fe&scene=21#wechat_redirect
+
+本文要讨论一下英飞凌tc397发送处理:
+Tx Event Handling。对于使用Aurix系列产品的同学，如果能消化好此部分内容，有助于解决项目中通信相关的问题（切身感受）。
+1
+Tx Event Handling原理
+当上层请求的发送报文成功放入底层缓冲区以后（发送请求成功），
+每个发送报文信息会放入对应的Tx Buffer Element空间
+，Classic CAN和CAN FD使用的空间大小不同（
+Classic CAN占用8 bytes Data空间，
+CAN FD最多可以占用64 bytes Data空间）。每当一个发送报文成功发送到总线以后，会将对应报文的发送信息存入
+Tx Event FIFO Element空间（不包含发送的数据）
+，如何知道哪个Tx Buffer Element空间位置（Range:0~31）的报文发送了呢？报文成功发送到总线以后，会将发送报文对应
+T
+x Buffer Element
+空
+间
+的MM（Message Marker，记录发送报文在
+Tx Buffer Element空间的索引
+）存入
+Tx Event FIFO Element
+空间的MM Field（以FIFO的形式存储）。这样即可通过MM反向查找已发送报文所在Tx Buffer的Index。
+T
+x Buffer Element与
+Tx Event FIFO Element空间布局如下所示：
+总结：
+Tx Buffer每发送一个CAN报文，Tx Event FIFO缓存已发送CAN报文信息。
+如何理解上述的表述呢？假设有3个发送报文成功存入Tx Buffer，三个发送报文的CanID分别是0x160，0x18，0x230。之后分别置位对应的发送请求（操作TXBARi (i=0-3)寄存器），发送扫描器(Tx Scan)根据优先级（CanID越小，发送优先级越高）发送Tx Buffer中的数据，上述三个报文的发送顺序：0x18->0x160->0x230。
+发送完0x18报文以后，Tx Event FIFO空间存储0x18报文信息，放在Tx Event FIFO Element Idex = 0的位置(MM = 2)，
+Tx Buffer中，
+报文的发送顺序变化如下所示：
+0x160->0x230。
+发送完
+0x160和
+0
+x
+230以后，
+依次存放
+0x160和
+0
+x
+230的信息，如下所示：
+到此，虽然
+0x160，0x18，0x230已经成功发送到总线，
+对应的
+Tx Buffer空
+出来了，但是还不能使用
+，因为驱
+动层依然在锁住对应的
+Tx Buffer，只有通知完上层（Tx Confirmation），才能将
+对应的
+Tx Buffer空间释放。可以参考前文
+Autosar通信栈：发送返回OK和发送确认是一回事吗
+。
+如何通过MM释放Tx Buffer空间
+Step1
+，上层请求报文发送时，先查找Tx Buffer可用的空间，找到可用的空间以后才能缓存待发送报文数据。如何知道哪个空间（一共32个发送缓冲区）可用呢？32个发送缓冲区用一个Tx Mask维护，每个
+Tx Mask Bit
+（0~31）对应一个
+Tx Buffer Element可用
+状态
+，1表示此Tx Buffer位置空闲，0表示此
+Tx Buffer
+已经被占用。如下，Tx Buffer的位置0、2、3分别被0x160、0x18、0x230占用，所以对应
+Tx Buffer
+位置 = 0，空闲的位保持1，如下所示：
+Step2
+，缓存区中的发送报文成功发送到总线以后，发送信息保存到
+Tx Event FIFO空间。如果使用Interrupt方式，数据发送成功以后，进入发送中断例程，进行Confirmation处理，
+通过
+Tx Event FIFO空间存储的
+MM信息
+（存储Tx Buffer Index，0~31）可以知道Tx Buffer哪个位置上的数据发送成功，之后将对应的Tx Mask置位（=1），当再有数据要发送时，释放的
+Tx Buffer
+位置可以再次使用，如下所示：
+提示
+：
+Polling方式，
+Confirmation
+处理
+同Step2。
+3
+勘误
+最后，更正前文中的一个错误点，在
+Autosar通信栈：FullCAN和BasicCAN基础
+一文中，提到：
+“
+每
+个CAN Module（4个Controller）
+共用32个发送Tx Buffer，共用64个Rx Buffer
+...
+”，此理解有误，是每个Controller最多可以配置
+32个发送Tx Buffer，64个Dedicated Rx Buffers，64个Rx FIFO0和64个Rx FIFO1...
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+工程开发问题（四）：数组越界引发的刷写失败
+上下文(CSA)切换，需要花费多少时间？
+工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)
+Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态
+Autosar通信栈：FullCAN和BasicCAN基础
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

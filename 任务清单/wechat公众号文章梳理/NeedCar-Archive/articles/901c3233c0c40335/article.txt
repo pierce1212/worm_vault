@@ -1,0 +1,110 @@
+CAN通信基础：Tx Comfirmation、Rx Indication以及Ack
+2022-09-04T07:32:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489611&idx=1&sn=c0bac365da85592b44fc066aaf7bd0f2&chksm=fa2a463fcd5dcf29daf086565413619adfde83dce491defd0cd88e963151b2bd404be9459f22&scene=21#wechat_redirect
+
+嵌入式开发中，知识细碎，工程实际中，如果某些细碎的问题理解不到位，就可能成为Bug的拦路虎。本文，聊一聊CAN通信中的Tx Comfirmation、Rx Indication以及Acknowledgement（Ack）。
+1、Tx Comfirmation 与
+Acknowledgement(Ack)
+了解Tx Comfirmation之前，我们需要先清楚“发送请求（Transmit Request）”，只有先发送请求，才有对请求结果的确认（Comfirmation）。可以参考前文
+Autosar通信栈：发送返回OK和发送确认是一回事吗
+。
+先说发送请求
+，当用户请求发送CAN报文时，最终会调用Can_Write()接口，完成报文发送的请求动作，该接口有一个返回值，表示发送请求成功与否。如果
+发送请求成功
+，返回E_OK；如果发送请求不成功，返回E_NOT_OK。E_OK表示什么意思呢？意思是说：
+CAN驱动有可用的缓存空间（RAM），
+请求发送的报文信息已经被成功地放入CAN驱动缓存区（注意，还没有发送到CAN BUS)，这
+只是完成了发送请求
+，如下绿色框图：
+当发送的报文信息被成功添加到驱动缓存区以后，这些报文就时刻准备发送到总线。我们知道，一个网段内可以有多个节点，每个节点都等着发送各自缓存区中的报文，谁先发送呢？答：通过
+仲裁
+决定哪个节点可以使用CAN BUS，仲裁赢的节点，获取总线使用权，进而发送报文。谁发送的报文优先级高（CAN ID越小，优先级越高）谁就可以抢占总线使用权。可以参考前文
+CAN总线仲裁原理
+。
+当网段内的某个节点获取总线使用权以后，就开始发送缓存区中最高优先级的报文，发送节点为了获悉自己所发报文信息是否正确，在使用Tx Pin发送的同时，使用Rx Pin接收（
+CAN总线是串行总线
+)，当然，总线上的其他节点（处于监听状态的节点）也会通过CAN BUS接收总线上的报文。
+发送节点边发送边接收过程如下所示：
+发送节点按照CAN报文格式发送各个位域，
+发送节点发送ACK Field(ACL Slot、ACK Delimiter)时，2 Bit均发送隐性位
+（Recessive，1），当接收节点接收到ACK Field的第一个Bit（ACK Slot，ACK应答槽）时，
+接收节点将其置为显性位
+（Dominant，0），由于"线与"原则（显性位覆盖隐性位），所以，CAN BUS上，
+ACK Slot = 0，
+这个动作称为应答（Acknowledgement）
+，即：接收节点应答发送节点，告知发送节点，其发送的报文已被成功接收，如下所示
+：
+接收节点收到隐性（"1"）的Ack Slot时，将其置为显性（"0"），这个动作由
+接收节点
+的Tx Pin触发
+。
+提示
+：
+Ack动作由Controller完成
+，不是Transceiver；
+总线上可能有多个接收节点，
+只要其中一个应答（Ack）
+,发送节点就认为数据发送成功；
+当总线上
+没有节点应答发送节点时
+（即：总线上只有一个节点），发送节点检测到Ack Slot为隐性（"1"），会发出错误帧（Acknowledgment Error），同时，发送节点的TEC累加，
+之后发送节点尝试重传
+。所以，TEC很快会达到128，进入Error Passive模式。注意，如果一直是
+Acknowledgment Error
+，TEC不会再累加，不会进入Bus Off。
+当发送节点的发送报文被其他节点成功接收以后，发送节点就会将这个信息反馈给对应的User，告诉请求发送的User，这个过程就是
+Tx Comfirmation
+。
+这个反馈途径有两种：
+中断方式，成功将一帧报文发送到总线，且被其他节点有效接收以后，发送节点进入
+发送完成中断例程
+，调用User注册的回调接口，比如：CanIf_TxConfirmation()，CanIf在进一步调用目标上层Xx_TxComfirmation 回调接口告知User发送结果。
+Polling方式，CAN驱动的Main函数周期性（eg:5ms）的检测是否有报文被成功发送，如果有，则调用目标User的
+Xx_TxConfirmation()，告知其请求发送报文被接收的结果，即：已被其他节点成功接收，且被应答。
+2、Rx Indication
+什么是Rx Indication呢？CAN BUS上有节点发送报文，就有目标节点接收报文，当接收节点接收到所需的报文以后，需要将接收的信息给到目标User，如下所示：
+如何通知目标节点呢？两种方式：
+中断方式，当接收节点成功接收到一帧CAN报文以后，程序进入接收完成中断例程，在接收完成中断例程中，会通过上层注册好的Call Back（eg:
+CanIf_RxIndication()
+）将接收的报文信息送给目标上层。
+Polling方式，CAN驱动的Main主函数不断地查询是否有报文接收，如果有，则调用Xx_
+RxIndication()将接收信息送给目标User处理。
+如上，将接收报文信息通知到目标User的过程就是Rx Indication。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar Os：Spinlock基础
+Autosar网络管理：诊断报文能否唤醒网络？
+TriCore架构学习笔记（一）：架构总览
+工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败
+Aurix:初识Cached和Non-Cached
+Autosar网络管理：ERA/EIRA问题QA
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Uds诊断：Unexpected N_PDU处理策略
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+工程开发问题（八）：不满足STmin时间要求，中断接收丢帧
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

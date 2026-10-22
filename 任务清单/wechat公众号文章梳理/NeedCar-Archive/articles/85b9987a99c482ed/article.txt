@@ -1,0 +1,176 @@
+软件开发中的安全编码一二问题
+2026-03-02T06:20:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498004&idx=1&sn=756a06ff0e3a7ae27c04fa3ec34533c0&chksm=fa29a760cd5e2e7608c9214f7b56be8c635c485b3ca2110650b992c33b19446e2a419bdfc451#rd
+
+关于软件编码，不同的语言有不同的规范要求。比如：C语言需要满足MISRA‑C等。除了这些，你还见过哪些约束要求？本文，我们从信息安全的视角，聊一聊，编码需要注意的一二事项。
+避免使用单bit表示状态
+关键信息比较（eg：key）确保比对时间恒定，避免时间测信道攻击
+...
+1.避免单bit表示状态
+在软件开发中，我们习惯使用TRUE/FALSE表示一个boolean状态。但是，对于涉及安全的一些状态还是要慎用单bit表示。为什么呢？因为单bit相对容易反转。比如：使用单bit表示UDS 0x27 xx的解锁状态，对应的安全级有可能因为单bit的反转导致解锁，进而造成风险隐患。示意如下：
+所以，为了规避单bit表示状态带来的风险，软件编写过程中，应尽可能使用多bit表示解锁状态，比如：用4 bytes的0x8000AA55表示解锁状态，其他值不能解锁。
+2.避免时间测信道攻击
+在某些黑客攻击场景中，可能通过状态返回时间的长短来猜测系统的内部状态，进而达到破解系统的目的。比如：通过比对0x27服务key的时间来破解系统。
+常规的软件写法如下所示：
+对应的软件代码如下：
+#
+include
+<stdio.h>
+#
+include
+<stdint.h>
+uint32_t
+CompareKey_Function
+()
+{
+#
+define
+KEY_LEN             8
+#
+define
+KEY_RESULT_OK       0xA5A5A5A5
+#
+define
+KEY_RESULT_NOT_OK   0xAAAA5555
+uint32_t
+compareResult = KEY_RESULT_OK;
+uint8_t
+receiveKey[KEY_LEN]   = {
+0x01
+,
+0x02
+,
+0x03
+,
+0x08
+,
+0x05
+,
+0x06
+,
+0x07
+};
+const
+uint8_t
+CMPKey[KEY_LEN] = {
+0x01
+,
+0x02
+,
+0x03
+,
+0x04
+,
+0x05
+,
+0x06
+,
+0x07
+};
+for
+(
+uint16_t
+i =
+0
+; i < KEY_LEN; i++)
+{
+if
+(receiveKey[i] != CMPKey[i])
+{
+compareResult = KEY_RESULT_NOT_OK;
+break
+;
+}
+}
+return
+compareResult;
+}
+这会带来什么问题呢？也就是说，黑客可以通过测算key返回时间的长短，来破解哪些key值是对的，哪些是错的，进而破解真实key。所以，为了避免反馈key状态时间不一致问题，在
+代码编写过程中，需要确保返回状态的时间一致性
+。那么，代码如何编写才能达到目标要求呢？编码示例如下：
+对应的代码如下所示：
+#
+include
+<stdio.h>
+#
+include
+<stdint.h>
+uint32_t
+CompareKey_Function
+()
+{
+#
+define
+KEY_LEN             8
+#
+define
+KEY_RESULT_OK       0xA5A5A5A5
+#
+define
+KEY_RESULT_NOT_OK   0xAAAA5555
+uint32_t
+compareResult = KEY_RESULT_OK;
+uint32_t
+compVal =
+0x00
+;
+uint8_t
+receiveKey[KEY_LEN]   = {
+0x01
+,
+0x02
+,
+0x03
+,
+0x08
+,
+0x05
+,
+0x06
+,
+0x07
+};
+const
+uint8_t
+CMPKey[KEY_LEN] = {
+0x01
+,
+0x02
+,
+0x03
+,
+0x04
+,
+0x05
+,
+0x06
+,
+0x07
+};
+for
+(
+uint16_t
+i =
+0
+; i < KEY_LEN; i++)
+{
+compVal ^= receiveKey[i] ^ CMPKey[i];
+}
+(compVal ==
+0
+)?(compareResult = KEY_RESULT_OK):(compareResult = KEY_RESULT_NOT_OK);
+return
+compareResult;
+}
+我们知道，异或（^）操作时间恒定，所以，
+可以通过异或操作避免时间测信道攻击
+。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：511~565
+Logical Sector ≠ Flash 物理存储的完整比特流
+诊断，安全解锁中，Seed重复就立马否定响应？
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+关于Bootloader OTA的一种软件升级方案
+关于信息安全软件更新时的细碎点

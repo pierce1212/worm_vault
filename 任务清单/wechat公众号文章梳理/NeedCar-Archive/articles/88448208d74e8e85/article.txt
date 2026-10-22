@@ -1,0 +1,160 @@
+诊断交互文件之DEXT
+2025-09-04T06:20:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497412&idx=1&sn=78d5ab45691bb2df7b7484019cee0f40&chksm=fa29a8b0cd5e21a6aec580aae1f843a313be67de1640d453be4f33d6fb28aaa6611595bac132#rd
+
+车辆诊断涉及的内容庞杂而琐碎。尤其随着车辆智能化的发展，车辆
+诊断需求和数据不断增加
+。诊断数据文件有很多种，比如：*.cdd、*.odx、*.pdx，甚至Excel等。OEM（
+Original Equipment Manufacturer，原始设备制造商
+）和供应商在车辆诊断功能的开发中，需要使用多种不同的合作模式，并采用不同的数据交互格式和工具。我们知道，
+数据交互是一项耗时的工作，并且需要保证交互信息的完整性和正确性
+。那么，有没有什么方案可以提高协作的效率？降低诊断数据的交互成本呢？有的，AUTOSAR诊断数据文件DEXT（Diagnostic Extract Template）为诊断开发提供一种可能。
+1、什么是DEXT文件？
+DEXT
+最初在
+AUTOSAR 4.2.1
+中发布。
+AUTOSAR 4.3.0
+在标准
+UDS
+协议之外，增加了
+OBD-II
+、
+WWH-OBD
+、
+FIM
+（
+Function Inhibition Manager
+）和
+SAE J1939
+的相关扩展内容。
+简单理解，
+DEXT
+文件就是
+*.arxml
+文件
+。
+DEXT
+不仅描述通过各自协议传输的数据，还包括
+ECU
+应用层软件中初始数据。当上述两种数据的描述完整且正确时，即可通过
+DEXT文件
+配置
+AUTOSAR
+诊断相关
+BSW
+模块。
+AUTOSAR
+标准没有定义诊断协议、诊断服务和数据，而是直接使用了
+UDS
+和
+OBD-II
+的定义。
+2、DEXT的作用是什么？
+按照
+AUTOSAR
+规范解释：
+DEXT
+的主要目的是在诊断开发过程中，交互不同诊断模块的诊断数据，以便于诊断模块代码的自动生成
+。在
+AUTOSAR CP
+（
+Classic Platform
+）的软件架构中，诊断模块主要涉及
+DCM
+（
+Diagnostics Communication Manager
+）、
+DEM
+（
+Diagnostics Event Manager
+）、
+FIM
+（
+Function Inhibition Manager
+）。也就是说，如上诊断模块的配置信息可以定义、描述在
+DEXT
+文件中，通过导入配置工具，生成对应模块的配置代码，以此提升软件的开发效率。
+DEXT
+具有可交互特性，使得诊断工作分布式开发成为可能
+。一般来说，
+OEM
+会给出一个初版诊断需求（
+DEXT initV
+），
+Tirer-1
+拿到
+DEXT initV
+后，会进一步完善诊断细节，形成
+DEXT tirer1_V
+。如果
+Tirer-1
+的诊断工作进一步拆解到
+Tier-2
+，
+Tier-2
+会进一步形成
+DEXT tirer2_V...
+而它们彼此之间的软件开发速度和迭代速度存在一定差异，为了确保功能得到及时验证，需要交互诊断数据文件，而
+DEXT
+格式统一，即使多方数据文件产生了差异，也可以通过文件交互，最终保持版本一致，示意如下：
+AUTOSAR DEXT
+是专为
+满足
+BSW
+输入数据的需求而设计，其主要元素如下
+：
+>
+UDS
+、
+OBD
+、
+WWH-OBD
+、
+J1939
+诊断服务和相关子服务；
+>
+故障路径和故障存储；
+>
+诊断数据元素和相关的数据包；
+>
+诊断数据元素与应用层软件的映射；
+>
+功能禁用模块
+（
+FIM
+）
+；
+AUTOSAR DEXT
+提供了诊断开发领域的新特性，包括数据的精确描述（比如：
+BSW
+配置信息的获取），
+OEM
+和
+Tier1
+之间的
+分布式诊断开发，以及自顶向下自动集成
+ECU
+的诊断功能。
+AUTOSAR DEXT
+可以用于
+AUTOSAR Classic Platform
+和
+AUTOSAR Adaptive Platform
+。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+刷写压测能否超过1000次，极限在哪？
+不可不识“指令集”
+终于等到CANdelaStudio的“Check Consistency”配置功能
+功能安全，如何限定Task的访问内存区？（含源码）
+UDS 0x29入门实践（视频篇）
+如何安全的存储和获取Debug password
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+一种软件实现的双Bootloader SWAP方案讨论
+HSM Firmware更新的一种方案讨论

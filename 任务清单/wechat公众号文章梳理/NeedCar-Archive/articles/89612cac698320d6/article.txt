@@ -1,0 +1,14 @@
+基于Davinci的HSM开发实践（11）：安全启动开发实践及问题
+2024-11-15T06:31:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496111&idx=1&sn=5c19d0148f960500bd464ac4fcd06bc0&chksm=fa29afdbcd5e26cd9edcba7bc04b97d2a67ee01f37f58e6b65f1bef0ecac5b41ee5b450465db#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+提到信息安全，如果不讨论安全启动（Secure Boot），似乎就失去了信息安全存在的意义。安全启动旨在确保控制器在启动时，只加载经过认证的软件程序，防止软件程序被非法篡改，从而确保运行系统的可靠性。那么，如何基于Davinci配置
+Secure Boot呢？
+本文主要聚焦如下议题：
+基于Davinci
+配置
+Secure Boot的具体操作（含视频讲解）
+GroupId的判断问题（潜在静态代码bug分析）
+问题拓展延申思考

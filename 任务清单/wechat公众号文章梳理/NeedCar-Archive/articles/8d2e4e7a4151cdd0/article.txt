@@ -1,0 +1,141 @@
+基于Aurix的SOTA（A/B分区）实践指南
+2023-10-20T07:03:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493295&idx=1&sn=6dd7657822c0b12e32e0c672fd1703d2&chksm=fa29b8dbcd5e31cd9740a33bc6888748a3a31f57031d650efc691d45069d9b2053b517b4dfca&scene=21#wechat_redirect
+
+虽然没有天赋，也非科班出身。但是，内心热爱，所以，依然坚持。或许，某天，会与好运撞个满怀。--- 开心果 Need Car
+基于Aurix实现A/B分区功能，在之前的文章《
+基于Aurix TC3xx SWAP机制（A/B分区）的SOTA实现
+》已经聊了很多。可是，理论和实践有一些距离。在与小伙伴的交流中，一些小伙伴在实现的过程中还是会出现锁板等问题。基于此，本文再次描述实现的一些细节和注意点。
+提示
+：本文基于Tasking+TC397讨论
+1、SWAP实现的基本流程
+基于Aurix的SOTA（Software over the Air）功
+能实现，主要实现如下4个步骤，如下所示：
+（一）每个步骤实现注意事项
+修改链接文件（*.lsl）
+链接文件中A Group Banks/B
+Group Banks空间大小由芯片型号决定。比如：TC39X，
+A
+Group Banks
+/B
+Group Banks空间最大可用7M，
+TC
+38
+X
+，
+A
+Group Banks
+/B
+Group Banks最大可用4M。
+TC397一共有6个Core，Core0~Core3各分配1536Kbytes空间，Core4~Core5各分配512Kbytes空间，具体链接文件修改如下。
+以TC397为例（不使能HSM），链接文件修改对比如下：
+提示
+：本文选择Reset地址为0x80000000（对应NoCached地址0xA0000000）。
+注意
+：
+链接器不能将编译后的可执行文件（二进制应用程序代码）放入
+B -Group Banks或NoSwap-Banks
+中
+。也就是说，不管编译
+A Grou
+p Banks还是B
+Grou
+p Banks，
+均使用
+上述
+修改后的链接文件
+。
+编译APP程序
+此步骤，相对容易理解，开发人员按照需求完成应用软件开发，生成需要下载的镜像文件（Image）。
+下载镜像文件
+将编译后的Image文件下载到PFlash，假设当前
+A Grou
+p Banks处于激活（Active）状态，只能将程序下载到非激活状态（Inactive）的B
+Grou
+p Banks，反之，亦然。
+使能SWAP
+当Image下载完成以后，设置需要激活的A/B
+Grou
+p Banks，之后使能SWAP功能。
+当程序进行System Reset或者Power On以后，启动固件时，会
+根据UCB中配置，对有效的A或者B Group Banks进行对应使能。
+其中，
+0x55表示standard address
+，也就是
+A Group Banks有效，此时
+A Group Banks物理内存会映射到0xA0000000开始的虚拟地址处；
+0xAA表示
+alternate address
+，
+也就是B Group Banks有效，此时B
+Group Banks物理内存会映射到0xA0600000开始的虚拟地址处。
+通过操作UCB23和UCB31，交替设置A/B
+Grou
+p Banks使能，如下所示：
+2、使用Lauterbach烧录Image
+在开发阶段，大家可能使用Lauterbach下载Image A/Image B。当使用Lauterbach下载Image时，需要注意，
+Image B程序需要下载到0xA0600000起始的虚拟地址位置
+。
+当下载Image A程序时（将物理程序映射到虚拟地址0xA000000开始位置），*.cmm脚本如下所示：
+当下载
+Image B程序时
+（将物理程序映射到虚拟地址0xA060000开始位置
+）
+，
+*
+.cmm脚本如下所示
+：
+如上*.cmm文件中，使用了Lauterbach的脚本命令FLASH.CreateALIAS，具体格式（Format）如下：
+FLASH.CreateALIAS
+<
+address_range
+>
+<
+alias_address
+>
+举例
+：
+FLASH
+.CreateALIAS
+0
+x80000000--0x805FFFFF
+0
+xA0600000
+解释
+：将0x80000000起始的6MBytes地址空间
+重定向
+到0xA0600000起始的位置。
+不管是
+Image A程序还是
+Image B程序程序，复位地址均从0xA0000000虚拟地址开始，调试器复位以后，程序也是复位到0xA0000000，因为
+Im
+age A程序和
+Image B程序使用同一个链接文件，复位地址相同。复位如下所示：
+3、验证程序所在Group Banks
+本文在编译Image A和
+I
+mage B时，对
+Image_Flag变量设置了不同值，一个0x55，一个0xAA，A/B Group Banks交替切换示意如下所示：
+补充拓展：
+在进行SOTA功能开发过程中，少不了的UCB的配置。有些时候，为了方便，
+会单独将UCB对应的*.hex文件独立出来烧录
+。为了加速UCB 对应*.hex文件的修改，且熟悉修改位置时，
+使用HexView修改相对来说可能更快捷
+，而且，使用HexView修改某个字节，对应行的Checksum自动计算完成，确保修改的*.hex文件有效。
+具体操作如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+工程问题：ECC错误，无法获取HSM真随机数
+穷玩Aurix控制器：Memtool基础使用操作
+诊断基础：如何理解Operation Cycle？
+嵌入式开发：Multicore启动及同步
+UDS：Security Access service (0x27)，值得深聊
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

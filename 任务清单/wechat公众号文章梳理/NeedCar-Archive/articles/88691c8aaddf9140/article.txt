@@ -1,0 +1,26 @@
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+2025-08-04T06:31:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497269&idx=1&sn=b3bd7a481f1a4824e8baffc050bc14ee&chksm=fa29a841cd5e2157df2862076e52a8b92ef60b42380b176011d0a43bf75375c035cc8dffc594#rd
+
+最近安装了UDE21，满心期待的使用，打开以后，主界面中的工具栏小的实在无法忍受。如下所示：
+1、解决措施
+（一）右击"UDEVisualPlatform.exe"（软件图标）->
+属性->兼容性->更改DPI设置
+，示意如下：
+（二）勾选“替代高DPI缩放行为”->缩放执行选择“
+系统
+”，示意如下：
+修复后的效果如下所示：
+如上方法适用多数APP，如果你使用的APP出现类似情况，可以尝试如上操作。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+一种软件实现的双Bootloader SWAP方案讨论
+如何基于UDE/Memtool调试HSM？
+Memtool如何操作HSM Boot内存区？
+PN结为什么会单向导电？
+避免TC3xx HSM锁板的一种方案

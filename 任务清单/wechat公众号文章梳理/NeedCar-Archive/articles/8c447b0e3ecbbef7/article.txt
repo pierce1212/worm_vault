@@ -1,0 +1,78 @@
+诊断QA：CAN和CAN FD的诊断报文能否混用？
+2022-11-23T13:07:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490601&idx=1&sn=424a4c0c391597f0adc64971a765650c&chksm=fa2a425dcd5dcb4be0b33be818d6ff27077b6ce517ac02d7acfb4b93116b8901b3529c74991f&scene=21#wechat_redirect
+
+工程中，随着CAN FD的使用越来越普及，随之而来的问题，也越来越多。本文讨论一个问题：CAN总线既支持Classical CAN格式报文，也支持CAN FD格式报文，诊断的过程中，可以混合使用
+Classical
+CAN格式和CAN FD格式的诊断报文吗？
+1、N_AI定义
+找到这个问题的答案之前，我们先理解一下
+N_AI（Network Address Information）
+的概念。15765-2的规范中，这样解释N_AI，如下所示：
+解释：意思是说，N_AI这个参数用于识别诊断通信过程中的
+源地址和目标地址
+。
+解释：N_AI的另一种作用解释就是标识
+网络层
+的对等实体（peer entities）
+。什么是对等实体？
+答
+：个人理解，特定的信息只有到达指定的模块，才能被解析。也可以将其看作特定协议的解析者，比如：15765，CanTp层才能解析，如下所示：
+2、N_AI在CAN报文中的位置
+一个N_PDU包含三个部分：
+N_AI、N_PCI、N_Data
+。N_AI位于N_PDU中，具体位置如下所示：
+具体到CAN Frame，N_AI位置示意如下所示：
+这里可以看出：Classical CAN和CAN FD的不同，意味着N_AI的不同。
+N_AI信息会
+映射到网络传输层
+（
+Ca
+nTp
+），
+N_AI的不同，意味着寻址方式的不同，即使
+Classical CAN和CAN FD的
+CANID相同，CanTp层建立的Connection也不同
+。
+3、相同CAN ID（不同N_AI）的非预期帧处理策略
+之前我们聊过：诊断处理过程中，收到非预期诊断报文（Unexpected PDU）的处理方式，可以回顾前文
+Uds诊断：Unexpected N_PDU处理策略
+。
+这个策略适用于相同CANID，但是N_AI不同的诊断报文吗
+？看一下15765给出的解释，如下所示：
+解释：Unexpected N_PDU的处理只适用于
+相同N_AI的诊断报文
+。Classical CAN和CAN FD的N_AI本就不同，所以，互不干扰，可以并行处理；单个Message中不要混用
+Classical CAN和CAN FD。
+提示
+：工程开发中，即使CAN ID相同，也可以既支持Classical CAN，也支持CAN FD。
+综上，
+Classical CAN和CAN FD的CAN ID相同，但是Format不同，构成的N_AI不同，所以，在CanTp层建立的peer entity不同，工程使用过程中，可以并行使用，但是不能交叉混用。
+（一）完整的诊断请求时序中，独立使用Classical CAN或者CAN FD均可，示意如下：
+（二
+）
+完整的
+诊断请求
+时序中，不能混用Cla
+ssical CAN、CAN FD
+，示意如下：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

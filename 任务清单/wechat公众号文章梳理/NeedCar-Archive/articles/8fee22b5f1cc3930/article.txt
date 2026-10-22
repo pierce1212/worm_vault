@@ -1,0 +1,81 @@
+MCMCAN：CAN hardware object配置规则
+2022-11-04T11:20:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490354&idx=1&sn=49314155734c1f16db9e84d091e83764&chksm=fa2a4546cd5dcc50283378780f530492cbf0d93c0c386313e5b449c1a292e80e03e12aac8562&scene=21#wechat_redirect
+
+关于CAN的理解，前面讨论了很多，比如：
+CAN通信：Basic CAN与FIFO
+、
+CAN通信基础：采样原理
+、
+CAN通信基础：错误帧
+等等。当然，CAN还有很多细节值得细说，本文焦点：CAN hardware object配置规则。也就是Mailbox的配置规则，如果不按照规则配置，报文将无法达到预期的通信效果。
+提示
+：本文讨论英飞凌Mcal配置规则
+1
+HTH/HRH缓存空间配置规则
+MCMCAN模块的接收缓存区支持两种模式：
+Rx FIFO、Dedicated Rx Buffer
+。对于TC3xx系列，Rx FIFO又分为Rx FIFO0与Rx FIFO1；发送缓冲区也支持两种模式：
+Tx Queue、Tx Dedicated Buffer
+。
+配置的过程中，可以为
+HOH (hardware object handler)
+选择一种缓存方式。但是，配置要守规矩（rule），对于
+HTH（Hardware Transmit Handle）
+和
+HRH（Hardware Receive Handle）
+需要注意以下规则：
+CanObjectType配置成RECEIVE（接收），且
+CanHwObjectCount = 1
+，则HRH的缓存类型为
+Dedicated Rx Buffer
+，即：一个Mailbox只接收一个报文，也就是FULL模式；
+CanObjectType配置成RECEIVE（接收），且
+CanHwObjectCount ＞ 1
+，则HRH的缓存类型为
+Rx FIFO
+，即：一个Mailbox可以接收多个报文，也就是BASIC模式。接收的报文可以选择放在Rx FIFO0或者Rx FIFO1；
+CanObjectType配置成TRANSMIT（发送），且CanHwObjectCount = 1，则HTH的缓存类型为Dedicated Tx Buffer，即：一个Mailbox只发送一个报文，也就是FULL模式；
+CanObjectType配置成TRANSMIT（发送），且CanHwObjectCount ＞ 1，则HTH的缓存类型为 Tx Queue，即：一个Mailbox可以发送多个报文，也就是BASIC模式。
+2
+CanObjectId配置规则
+CanObjectId的配置规则如下：
+CanObjectId需要
+从0开始配置，且连续
+，中间不能有间隔（Gap），示意如下；
+同一个Controller的HRHs (CanObjectId)放在一起排布；
+同一个Controller的HTHs (CanObjectId)放在一起排布；
+如果配置了多个Controller，则每个Controller的HRHs (CanObjectId)放在一起排布；
+如果配置了多个Controller，则每个Controller的HTHs (CanObjectId)放在一起排布；
+Controller的
+HRHs要排布在HTHs之前
+；
+使用
+Dedicated Rx Buffer类型的HRHs排布在使用Rx FIFO类型的HRHs的前面
+，即：FULL CAN排在BASIC CAN之前；
+Dedicated Tx Buffer
+类型的
+HTHs
+排布在
+Tx Queue
+类型的
+HTHs的前面，即：FULL CAN排在BASIC CAN之前。
+按照上述规则，CanObject的配置示意如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+NVM存储：Flash操作时间验证
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

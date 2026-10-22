@@ -1,0 +1,150 @@
+DDS开发笔记：基于Ubuntu20.4跑micro-xrce-dds（一）
+2022-05-17T18:37:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487834&idx=1&sn=c36e4285d795ea86c507677fc65d3e8a&chksm=fa2a4f2ecd5dc63817a7636125ac727f5cf81653f7ccaec6863b2e9962810933b21cc993a4c1&scene=21#wechat_redirect
+
+想学习DDS(Data Distribution Service)，但是又没有配套的商用软/硬件，莫慌。虚拟机里跑开源DDS，一样可以玩DDS，本文给大家分享一下自己学习DDS过程中的一些总结。
+开始学习之前，先了解一下用到软/硬件环境，如下所示：
+Micro XRCE-DDS Gen工具，将*.idl文件配置信息生成对应目标代码；
+传输层可以使用TCP、UDP、Serial、Custom中的一种；
+在Client侧，使用MicroCDR库对数据进行序列化/反序列化操作；而在Agent侧，需要用FastCDR对数据进行序列化/反序列化操作。
+本文安装环境：
+虚拟机
+：
+VBox ，
+Ubuntu版本
+：
+20.4
+1
+运行Agent
+运行Agnet之前，需要先安装Agent，并且编译对应的Code，具体指令如下所示：
+$
+git
+clone
+https://github.com/eProsima/Micro-XRCE-DDS-Agent.git
+$
+cd
+Micro-XRCE-DDS-Agent
+$
+mkdir build &&
+cd
+build
+$
+cmake ..
+$
+make
+$
+sudo make install
+此示例中，Client-Agent通过 UDP 通信，使用端口 2019。
+$
+cd
+/usr/
+local
+/bin && MicroXRCEAgent udp4 -p 2019
+Agent进程运行如下所示：
+注意
+：需要先运行Agent进程，在运行Publisher/Subscriber进程，否则Session无法创建。
+clone代码时遇到的问题
+Error01：
+OpenSSL SSL_read: Connection was aborted,  errno 10053，如下所示：
+原因：
+Git默认限制推送的大小
+修改策略：
+运行命令更改限制大小即可，命令如下所示。
+git config --global http.postBuffer 524288000
+参考链接：
+https://blog.csdn.net/bigcat030/article/details/115742972
+2
+运行Publisher-Subscriber
+Publisher、Subscriber是两个不同的进程，本文创建的Publisher、Subscriber在Client侧。Client关联的工具和交互信息如下所示：
+同Agent一样，运行Client之前需要先下载对应的源码，并且进行编译，命令如下所示：
+$
+git
+clone
+https://github.com/eProsima/Micro-XRCE-DDS-Client.git
+$
+cd
+Micro-XRCE-DDS-Client
+$
+mkdir build &&
+cd
+build
+$
+cmake .. -DUCLIENT_BUILD_EXAMPLES=ON
+$
+make
+运行Publisher
+运行工程自带的PublishHelloWorldClient例子，如下所示：
+examples/PublishHelloWorld/PublishHelloWorldClient 127.0.0.1 2019
+PublishHelloWorldClient进行运行如下所示：
+命令"examples/PublishHelloWorld/PublishHelloWorldClient 127.0.0.1 2019"相当于给PublishHelloWorldClient进程（main函数）
+依次传递
+三个参数，如下所示：
+运行Subscriber
+运行工程自带的SubscribeHelloWorldClient例子，如下所示：
+examples/SubscriberHelloWorld/SubscribeHelloWorldClient 127.0.0.1 2019
+SubscribeHelloWorldClient例程运行如下所示：
+01
+Demo中的坑点
+SubscribeHelloWorldClient例程运行提示如下问题：
+解决策略：
+下载的examples中存在文件夹命名错误，根据提示重新命名（Subscrib
+e
+HelloWorld->Subscrib
+er
+HelloWorld）。
+3
+Micro XRCE-DDS Gen tool安装
+Micro XRCE-DDS的使用，需要配套对应的*.idl生成源文件，
+Micro XRCE-DDS-Gen tool
+的安装步骤如下所示：
+$ sudo apt install git openjdk-8-jdk gradle
+$ git clone https://github.com/eProsima/Micro-XRCE-DDS-Gen.git
+$ cd Micro-XRCE-DDS-Gen
+$ git submodule init
+$ git submodule update
+$ gradle build -Dbranch=v1.2.5
+查看Micro XRCE-DDS-Gen tool的使用帮助，命令如下所示：
+./scripts/microxrceddsgen -help
+Micro XRCE-DDS-Gen tool的使用帮助
+如下所示：
+使用Micro XRCE-DDS-Gen tool生成源文件
+在Micro XRCE-DDS-Gen tool安装目录下使用如下命令，生成HelloWorld示例源文件。
+本例Micro XRCE-DDS-Gen tool安装目录：~/DDS/Micro-XRCE-DDS-Gen/scripts
+./microxrceddsgen HelloWorld.idl
+运行如下所示：
+生成的HelloWorld源文件如下所示，也可以指定源文件的生成路径：
+提示
+：上图包含microxrceddsgen的运行脚本（*.sh/*.bat/*.in），HelloWorld的*.idl文件。
+Micro XRCE-DDS-Gen tool使用中遇到的Error
+Error01：
+Micro XRCE-DDS-Gen tool已安装，却找不到命令“microxrceddsgen”命令，提示如下Error:
+Error01解决策略：
+sudo ln -s /home/songxi/DDS/Micro-XRCE-DDS-Gen/scripts/microxrceddsgen /usr/bin/microxrceddsge
+参考链接：
+https://blog.csdn.net/clisten_/article/details/119573171
+Ubuntu使用中遇到的其他问题
+Error01：
+Virtualbox中Ubuntu安装增强功能报错：未能加载虚拟光驱 VBoxsGuestAdditions.iso到虚拟电脑
+解决策略：
+https://blog.csdn.net/zhangmeimei_pku/article/details/79597620
+参考资料
+SIMPLE TITLE
+https://micro-xrce-dds.docs.eprosima.com/en/latest/introduction.html
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+嵌入式开发笔记：空指针引起的Trap问题（二）补充
+Autosar通信栈：基础问题知多少
+Autosar开发：什么是“可重入/不可重入函数”？
+勘误篇(一)：Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+Uds诊断：这5个诊断问题，你能回答几个？（四）
+Uds诊断：Gateway节点的Timing，不简单
+Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？
+Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次
+Uds诊断：这5个诊断问题，你能回答几个？（三）
+点击
+下方
+关注，一起聊聊Autosar/嵌入式
