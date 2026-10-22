@@ -1,0 +1,97 @@
+Autosar通信，如何理解PNC、UB与信号的关系
+2024-07-10T06:43:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495151&idx=1&sn=6077e123f08b49a9869c8b324b528a21&chksm=fa29b39bcd5e3a8dc8690358ef2b85bc300d12290a0544e8d6094e639dd8470cd2daeacfd123&scene=21#wechat_redirect
+
+在CP Autosar的软件架构中，PNC（
+Partial Network Cluster
+）和UB（Update Bit）似乎是两个没有啥交集的概念。有些同学可能会迷糊PNC，确实，PNC是网络管理中比较难消化的部分，对于PNC和网络管理的解读，公众号有写过很多，感兴趣的同学可以翻翻前文。相对PNC的"迷糊"，UB的理解会相对容易些。那么，将PNC、UB与报文（Frame）串起来讨论，你是否还能理解？本文
+针对PNC、UB之间的关联
+展开讨论。
+1、什么是UB
+UB
+：表征发送端（Sender）的发送信号（Signal）或者发送信号组（Signal Groups）数据是否有更新，如果
+待发送的Signal/Signal Groups有更新
+，则发送对应的PDU时，由COM层自动置位对应的UB（=1），反之，不置位UB（=0）。
+关于何时置位发送的UB信号，可以参考前文《
+Autosar通信栈基础：如何理解和使用Update bit
+》。
+2、什么是PNC
+PNC，也就是局部网络簇。它存在的意义在于：
+节能
+，即：在某项功能使能时，仅唤醒关联的ECU即可，非关联的ECU不用唤醒，以此达到节能的目的。更多细节可以参考前文《
+Autosar PN网络管理：PNC信息的收/发流程
+》、《
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+》。
+3、PNC、UB与报文的关系
+工程中，使用PNC时，会约束每个网络簇关联的发送/接收报文。比如：Node #1在PNC #16网络簇中，当收到PNC #16的网络簇请求时，会接收Rx_Frame #1、
+Rx
+_Fram
+e
+#2报文，同时发送T
+x
+_Fram
+e
+#1、T
+x
+_Fram
+e
+#2报文；如果没有收到
+PNC #16的网络簇请求，关联的报文不会接收或者发送，
+示意如下：
+以Node #1接收Rx_Frame #1为例，解释PNC、UB与Frame的关系。我们知道，
+UB的本质也是一个Signal
+，并且UB需要包含在对应的Frame中。假设：在
+Node #1接收的Rx_Frame #1中，某个信号（Signal #1）设置了对应的UB信号
+（Signal #1 UB
+）
+，示意如下：
+那么，在Node #1接收
+Rx
+_
+Frame
+#1时，该如何理解接收该帧报文与PNC、UB的层级关系呢？
+首先
+，
+Node
+#1接收
+Rx
+_
+Frame
+#1之前，需要
+先判断
+PNC #16是否置位
+（=1），如果
+PNC #16置位，表示
+Rx_Frame #1可以被
+Node #1接收，否则，不接收。
+其次
+，当
+Rx
+_
+Frame
+#1被接收以后，需要判断
+Sig
+nal #1 UB是否置位（=1），
+如果
+Signal #1 UB置位，表示
+Signal #1有更新，该信号会传递给上层
+，供上层使用；如果
+Signal #1 UB = 0，表示Signal #1没有更新，如果超时，上层可以使用上次接收的值，或者使用默认值。
+Node #1接收Signal #1的流程示意如下：
+所以，当节点的网络管理属于局部网络管理时，对应的PNC #n有效是处理信号的前提，而信号的更新与否需要判断对应的UB信号。
+往期
+精彩
+回顾
+工程问题：基于Lin节点丢失，剖析我的解bug思路？
+Lin总线基础#1：基本构成及时间参数
+A/B分区，程序应该如何回滚？
+Bootloader开发：如何提高软件刷写效率？
+这些芯片内存（Memory）区，你真的用过？
+低优先级的诊断报文，不影响通信？
+信息安全：手撸RH850 Flash驱动的细节点
+C语言基础：uint32 Argu和uint8 Argu[4]效果真的一样？
+实践思考：为什么需要核间同步？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

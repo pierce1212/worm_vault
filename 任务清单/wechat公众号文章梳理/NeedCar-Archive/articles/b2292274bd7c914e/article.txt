@@ -1,0 +1,24 @@
+关于Bootloader OTA的一种软件升级方案
+2026-02-02T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497955&idx=1&sn=8b4f078ff36018ed75c59584409eb69e&chksm=fa29a697cd5e2f81b92c84ab90e9b954d1d72aae4eac25d8695d695a045e9d2af5939ea1a113#rd
+
+【仅保存公开试读，付费全文未获取】
+
+工程问题中，Bootloader的OTA或者更新是一个很棘手的问题。但是，如果Bootloader确实存在严重问题(比如：安全漏洞)，又不得不更新。Bootloader的更新牵扯的问题比较多，比如：OEM的软件版本管控问题。具体细节可以参考前文《
+工程思考：为什么OEM抵触Bootloader更新？
+》。
+那么，Bootloader的OTA又会带来哪些挑战呢？本文我们从工程现实角度思考这个问题。比如：
+1、原有的Bootloader没有考虑过升级，在原有基础上增加更新功能需要考虑内存分配问题
+2、原有的
+Bootloader使用绝对地址编译，无法动态调整
+Bootloader内存地址
+3、Bootloader不支持PBL（
+Primary Bootloader
+）和SBL（
+Secondary Bootloader
+）
+...
+问题可能远不止这些。这里我们基于问题2展开讨论。具体如何描述呢？我们知道，Bootloader的主要功能是更新程序。但是，更新
+Bootloader自己又该如何实现呢？新的
+Bootloader程序又
+应该放到哪个内存区更合适呢？示意如下：

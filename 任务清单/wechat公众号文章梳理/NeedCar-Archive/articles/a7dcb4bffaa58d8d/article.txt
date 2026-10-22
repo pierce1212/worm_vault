@@ -1,0 +1,95 @@
+Autosar网络管理：说说Busoff那点事
+2022-03-09T15:07:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485790&idx=1&sn=edb25567e52d9f4c3f31788033d90b1e&chksm=fa2a572acd5dde3ca104329bda62db64b0b946b3332fe59e137598caf0829a7520479f075a8f&scene=21#wechat_redirect
+
+首先，我们要知道Busoff问题与CAN/CANFD总线相关。在开发和测试时，
+Buso
+ff问题相对来说麻烦一点。就测试工程师来说，测试脚本需要好好思考一番，以确保测试覆盖度；对于开发人员来说就更麻烦了，一般专用的Busoff测试工具可能需要向测试组借，以确保开发的鲁棒性，实际上，很多开发工程师只是简单的验证一个Busoff故障可以上报就完事了，剩下的丢给测试组测试。
+1
+Busoff是个啥
+Busoff是个啥？这个单词拆开看，Bus Off，即总线掉线，这不是说总线不能用了，而是当前该节点脱离总线，不参与通信，说的更具体一点就是当前节点的
+Controller关闭
+，节点无法在此期间收/发报文。注意，此期间ECU依然在正常运行，所有的任务依然被OS调度。如果节点一直收不到网络管理报文，网络切换到Bus Sleep Mode，则ECU会进入下电流程。
+Busoff是如何出现的呢
+？这个问题我前面有提到过，大家可以回顾
+基于VH6501的BusOff快慢恢复测试
+。简单说就是节点的
+发送计数器（
+TEC
+）数值＞255
+。
+我们知道，NO ACK错误也会让发送节点的TEC不断累加计数，如果总线上就只有一个节点，该节点发送的报文没有节点应答，TEC是否会累加到255，进而产生Busoff呢？答：不会。这是一个特殊情况，当总线上只有一个节点时，该节点发送的报文确实没有其他节点可以应答，但是此节点的TEC不会累加到255，而是128。为什么会这样呢？如果一个总线只有一个节点，也就没有什么通信的必要性了，就一个节点，和谁通信呢？这不就是自言自语吗？既然就一个节点自己玩，那也别脱离总线了，即Busoff了，等到其他节点加入再说吧。
+既然TEC达到了128，当前节点也就进入了error passive模式，这点11898-1中是有明确规定的，Node的状态关系如下所示：
+TEC的计数实质是一个硬件计数，每个CAN模块会有一个专门的寄存器存储TEC，以英飞凌为例，如下所示。因此，Busoff状态最先由底层捕获，之后通过中断或者回调的方式告知上层模块。
+2
+如何制造Busoff
+开发Busoff功能，首先你得会制造Busoff。制造Busoff的手段有多种，一般来说可以使用如下手段：
+1、物理短接
+物理短接主要是操作物理线CANH和CANL。
+CANH短接GND；
+CANL短接电源；
+CANH与CANL短接。
+上述几种方式实质是干扰物理总线上的压差，物理总线压差出错以后，回踩的数据和实际发送的数据将不匹配，进而导致Busoff。
+这种方式也是开发人员最常用的方式，主要是验证Busoff对应的DTC是否会上报。
+在这里提一下，在测试中，物理干扰产生Busoff，再去掉干扰，需求会要求一个通信恢复时间。一般Bootloader和Application中，可能要求恢复的时间不一样，比如：Bootloader中，去除Busoff干扰以后，10ms内节点恢复正常通信；Application中，去除Busoff干扰以后，500ms内恢复节点通信。
+2、写测试脚本干扰发送Bit位
+相对于物理手段，写测试脚本制造Busoff会更加精准，这是测试人员所必备的测试方式。此方式可以精准地干扰发送报文的目标bit，至于干扰发送报文中的哪个bit，前面也已经聊过了，有需要的可以回顾前文。
+测试友情提示
+：
+在使用Capl编写Busoff测试脚本时，Canoe干扰以后，自身的Channel也会失效，可以使用
+resetCan()
+接口恢复Canoe的Channel。
+3
+Busoff开发要注意哪些细节
+对于Busoff的开发要注意哪些细节，这里说一下个人的经验。首先，还是
+对需求解读
+，只有对需求解读得足够到位，才能确保开发不会出现偏差。每家OEM的需求多少会存在一些区别，因此，开发工程师务必多和系统工程师沟通清楚需求的真正意图，这个我深有感触（犯过错，解读需求不清楚的情况下就Coding，导致后期只能推翻前面的设计框架，重来！）。
+1、Busoff DTC由哪个模块上报？
+首先，需要清楚Busoff DTC由哪个模块上报合理。Busoff DTC可以由CanSM模块上报给DEM，也可以由SWC，通过RTE上报给DEM。
+（1）CanSM模块上报
+如果是CanSM模块上报Busoff DTC，调用接口Dem_ReportErrorStatus()。按照Autosar规范，CanSM模块属于BSW，因此可以调用该接口，此接口只能由BSW模块调用，而SWC不能使用该接口上报故障状态。
+（2）SWC模块上报
+如果是SWC上报Busoff DTC，则调用Dem_SetEventStatus()接口，实际该接口会被RTE再封装一下（因为走RTE）。
+不管是Dem_ReportErrorStatus()还是Dem_SetEventStatus()，两者形参一样，只是为了将SWC和BSW做一个划分。
+2、Busoff的快/慢恢复
+Busoff产生以后，为保证节点功能的快速恢复，需求中会给出Busoff的快/慢恢复时间，即CanSMBorTimeL1与CanSMBorTimeL2。
+一般来说CanSMBorTimeL1周期会比CanSMBorTimeL2周期小，比如：CanSMBorTimeL1 = 10ms，CanSMBorTimeL2 = 1000ms。
+如果节点在快恢复期间，通信功能没有恢复正常，当快恢复次数达到阈值时就会进入慢恢复期，以此避免功能异常节点过多的干扰总线。Autosar定义了参数BusoffCanSMBorCounterL1ToL2 表示快恢复进入慢恢复的次数。
+CanSMBorTimeL1、CanSMBorTimeL2、BusoffCanSMBorCounterL1ToL2都是标准的Autosar参数，因此，各家Autosar供应商的配置工具里面也会提供这3个参数的配置，开发者直接按照需求配置即可。
+注意
+：在快/慢恢复期，节点可以接收总线报文。
+3、Busoff DTC上报的使能条件
+前面聊过DTC上报的使能条件，可以回顾前文
+通信诊断监控开启条件
+，对于Busoff有点特别，因为Busoff本身就是其他DTC事件能否监控的条件之一，这点在开发时注意一下。
+4、Busoff DTC何时上报
+一般来说，需求会明确Busoff DTC上报的阈值条件，假设要求快恢复3次，Busoff＞5次，上报对应的DTC。但是这5次在开发时，应该如何计数呢？
+如下工况，Busoff连续产生，通信功能没有恢复成功，那么从T1时刻起，Busoff DTC就应上报给DEM，且上报FAILED状态，当然，T1之后连续发生的Busoff，也超过了5次，还是会上报FAILED状态。
+如下工况，在T1时刻，连续发生了4次Busoff，T1~T2区间，节点通信功能恢复正常，在T2时刻又发生了Busoff，且T2时刻Busoff累积发生5次，应该报Busoff DTC吗？
+综上述，就是想说：一定把需求理解到位，解读不同，设计的开发框架就不同。
+参考资料
+AUTOSAR_SWS_DiagnosticEventManager.pdf
+AUTOSAR_SWS_CANStateManager.pdf
+ISO 11898-1-2015.pdf
+写在最后
+我曾经为怎么学习Autosar烦恼过，也曾对很多需求不理解，迷惑、困顿等都经历过。我曾想：“要是哪位厉害的大神带带我多好！”，可是到现在，自觉本人的能力有限，依然是一个Autosar的学徒，所以，我希望借助大咖的力量，帮助更多的Autosar学习者，我建了一个Autosar学习交流群，如果你感兴趣，请加作者微信
+songbjut
+，邀请你入群（目前只能以邀请方式进入，见谅）。不管你是初学者，还是一位久经沙场的大神，期待你的加入，我们一起玩Autosar。
+往期
+精彩
+回顾
+Autosar功能安全之E2E：别再发愁E2E了，我侃侃
+Uds诊断问题：偶发单帧不响应分析及解决策略
+Autosar DEM诊断事件管理（二）
+Autosar网络管理：从ComM模块看Partial Networking
+Autosar网络管理：从CanNM模块看Partial Networking
+Autosar网络管理:优化ECU启动时间切入点
+CANdelaStudio支持AUTOSAR DEM模块Event的描述
+Matlab:手写C MEX S-Function，没那么难
+Autosar网络管理：网管节点路由时间解读
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

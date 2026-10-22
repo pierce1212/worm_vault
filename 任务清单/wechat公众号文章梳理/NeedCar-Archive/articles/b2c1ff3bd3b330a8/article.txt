@@ -1,0 +1,56 @@
+Trace32实用操作：Profile使用、Data.Load.*、CPU负载查看
+2024-01-15T07:07:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493797&idx=1&sn=7883d92e73f04120c62b57ea83ed0c91&chksm=fa29b6d1cd5e3fc7bbb72bd8fb52dda1879127058864858f9443b65863f7a0aa5a4d0e1c4f20&scene=21#wechat_redirect
+
+工程开发，不仅仅考验我们对问题的认知和理解，而且，也考验着我们分析和解决问题的手段。基于认知和理解，我们去分析问题，而这个过程中，往往需要抓取所需数据，数据的获取自然脱离不了工具。面对不同的工程问题，需要使用不同的软/硬件工具去获取数据。本文，继续讨论TRACE32的一些基本使用技巧：
+使用Profile分析数据变化趋势
+Data.Load.*对应的Option选项
+CPU负载测量
+1、使用Profile分析数据变化趋势
+总线数据（eg：CAN报文）往往通过总线log即可分析，但是，软件内部变量并不发送到总线，因此，开发阶段可以利用标定工具或者调试工具进行观测。如果使用TRACE32，如何观测内部变量的变化呢？方式有多种，比如：通过Profile、SNOOPer等方式。
+（一）使用Profile观测内部变量变化
+举例
+：观察内部变量UartHandleData.pendingIdx变化.
+（1）操作如下：右击目标变量->other->Profile
+（2）运行程序，使用"Auto"功能观察变量的变化趋势
+（3）单击"Hold"停止记录，单击横轴"In"，放大数据观察，如下所示：
+提示
+：当需要观测的内部变量变化频率较快时，使用Profile并不是最优选择。因为Profile的采样精度只有100ms，如果观测的数据变化频率高于100ms，则数据会漏采，会对数据的分析产生一定影响。怎么办呢？可以使用SNOOPer功能，可以参考前文《
+TRACE32调试：基础调试技巧之SystemMode、SNOOPer
+》。SNOOPer的采样精度更高，更有助于问题分析。
+2、Data.Load.*的Option选项
+使用TRACE32脚本（*.cmm）下载程序时，会用到Data.Load.*命令，eg：
+Data.Load.Elf、Data.Load.IntelHex、Data.LOAD.auto
+等。
+示例：
+Data.LOAD.Elf ../myCode.elf /nocode
+当使用这些加载命令时，后面往往跟随Option选项，选项有很多，本文只讨论一些常用的Option选项。
+NoCODE：
+只加载symbolic信息，
+不下载Code
+NoClear：
+已经存在的symbols不用删除
+其他的选项，可以参考使用手册。
+3、CPU负载测量
+程序开发中，应尽量避免函数代码量过大，否则，有可能导致Task超差，进而影响软件运行的稳定性。因此，识别消耗时间过长的函数很有必要。
+TRACE32中识别函数运行时间百分比步骤如下：
+（1）Perf->Perf Configuration...->METHOD中选择"StopAndGo"或者"Snoop"->State选择"Arm"->Commands中选择"List"，如下所示：
+TRACE32计算函数运行百分比的基本原理：在
+动态的1秒内
+进行100次采样，统计每个函数运行时间。
+（2）切换Core，右击监控面板->Switch->选择目标Core，如下所示：
+提示：
+如上示例的采样，对PC（Program Counter）采样。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+信息安全：ECC（椭圆曲线密码学）验签性能测试
+工程问题：数据一致性被破坏，导致DMA CRC校验失败
+开源Fast-DDS安装示例及DDS模型架构
+Lin总线Transceiver基础
+CAN FD通信：数据段错误，错误帧的速率是500Kbps还是2Mbps？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

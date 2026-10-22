@@ -1,0 +1,312 @@
+Matlab:手写C MEX S-Function，没那么难
+2022-02-21T19:16:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485631&idx=1&sn=b4c1c069aa98ec115cd0c2ec6d53cd70&chksm=fa2a56cbcd5ddfdd03cb7283608540680bd54bf624fb07f1d8d9071595c796e961774e1de87b&scene=21#wechat_redirect
+
+前面基于m脚本编写C MEX S-Function进行了讨论，可以回顾
+MATLAB:自定义库&自定义C MEX S-Function,简单易学
+。虽然该方式简单，可以应对多数需求，但是还是不如手写方式灵活。当然，手写C MEX S-Function需要开发者有一定的C语言和tlc语言功底，不过，本文打算简化这个难度，直接给出模板，即使是初学者也可以在这个模板基础上完成项目开发。
+提示
+：本文不做源文件解释，大家可以在此模板的基础上实践，进而加深理解。
+1
+需求：参数动态选择
+有时在模型开发中会有这样的需求：使用底层接口获取数据，其中该接口需要调用多次，每次读取的句柄不同。比如：在Autosar中，使用标准接口
+Dio_ReadChannel()来读取不同通道值（获取对应Pin的电平值），要是每个通道都创建一个S-Function将带来巨大的工作量，如果可以通过Popup控件选择channel，复用接口，则将极大地减少工作量，如下所示。
+2
+手写C MEX S-Function步骤
+本文以Autosar标准接口Dio_ReadChannel为例，讲解Dio_ReadChannel接口的编写过程。如果你的项目需要，可以在此模板基础上进行消化和改写，加速C MEX S-Function的学习进程。
+1.源文件编写
+手写C MEX S-Function需要手动编写*.c和*.tlc文件。具体文件内容如下所示：
+Dio_ReadChannel *.c 文件编写
+/*=====================================*
+* Required setup for C MEX S-Function *
+*=====================================*/
+/**** S_FUNCTION_NAME ****/
+#
+define
+S_FUNCTION_NAME  Dio_ReadChannel
+#
+define
+S_FUNCTION_LEVEL 2
+/* define error messages */
+#
+define
+ERR_INVALID_SET_INPUT_DTYPE_CALL  \
+"Invalid call to mdlSetInputPortDataType"
+#
+define
+ERR_INVALID_SET_OUTPUT_DTYPE_CALL \
+"Invalid call to mdlSetOutputPortDataType"
+#
+define
+ERR_INVALID_DTYPE
+"Invalid input or output port data type"
+/*========================*
+* General Defines/macros *
+*========================*/
+/**** General Defines/macros ****/
+enum
+{
+g_pv =
+0
+,
+NUM_PARAMS =
+1
+};
+#
+define
+PV(S) (ssGetSFcnParam(S,g_pv))
+/*
+* Need to include simstruc.h for the definition of the SimStruct and
+* its associated macro definitions.
+*/
+#
+include
+"simstruc.h"
+/* Function: mdlInitializeSizes ===============================================
+* Abstract:
+*   Initialize the sizes array
+*/
+static
+void
+mdlInitializeSizes
+(SimStruct *S)
+{
+/* Set and Check parameter count  */
+//int notSizesOnlyCall = ( ssGetSimMode(S) != SS_SIMMODE_SIZES_CALL_ONLY );
+ssSetNumSFcnParams(S, NUM_PARAMS);
+if
+(ssGetNumSFcnParams(S) != ssGetSFcnParamsCount(S))
+return
+;
+if
+(!ssSetNumInputPorts(S,
+0
+)) {
+return
+;
+}
+if
+(!ssSetNumOutputPorts(S,
+1
+)) {
+return
+;
+}
+ssSetOutputPortWidth(S,
+0
+,
+1
+);
+//ssSetOutputPortDataType(S,0,SS_UINT8);
+/***** Set SFcn Param Untunable ****/
+ssSetSFcnParamNotTunable(S,
+0
+);
+/* sample times */
+ssSetNumSampleTimes(S,
+1
+);
+//ssSetInputPortDirectFeedThrough(S, 0, 1);
+/* options */
+ssSetOptions(S, (SS_OPTION_EXCEPTION_FREE_CODE |
+SS_OPTION_DISALLOW_CONSTANT_SAMPLE_TIME));
+}
+/* end mdlInitializeSizes */
+/* Function: mdlInitializeSampleTimes =========================================
+* Abstract:
+*    Initialize the sample times array.
+*/
+static
+void
+mdlInitializeSampleTimes
+(SimStruct *S)
+{
+ssSetSampleTime(S,
+0
+, INHERITED_SAMPLE_TIME);
+ssSetOffsetTime(S,
+0
+,
+0.0
+);
+ssSetModelReferenceSampleTimeDefaultInheritance(S);
+}
+/* end mdlInitializeSampleTimes */
+/* Function: mdlOutputs =======================================================
+* Abstract:
+*   Compute the outputs of the S-function.
+*/
+static
+void
+mdlOutputs
+(SimStruct *S, int_T tid)
+{
+}
+/* end mdlOutputs */
+/* Function: mdlTerminate =====================================================
+* Abstract:
+*    Called when the simulation is terminated.
+*/
+static
+void
+mdlTerminate
+(SimStruct *S)
+{
+}
+/* end mdlTerminate */
+#
+define
+MDL_RTW
+#
+if
+defined(MDL_RTW) && (defined(MATLAB_MEX_FILE) || defined(NRT))
+static
+void
+mdlRTW
+(SimStruct *S)
+{
+/**** s_function parameters define ****/
+char_T  *c_pv = (char_T *)
+malloc
+(mxGetNumberOfElements(PV(S)) +
+1
+);
+mxGetString(PV(S), c_pv, mxGetNumberOfElements(PV(S)) +
+1
+);
+/**** write out rtw parameters ****/
+if
+(!ssWriteRTWParamSettings(S,
+1
+,
+SSWRITE_VALUE_STR,
+"r_pv"
+,c_pv))
+{
+return
+;
+/* An error occurred which will be reported by SL */
+}
+}
+#
+endif
+#
+ifdef
+MATLAB_MEX_FILE
+/* Is this file being compiled as a MEX-file?    */
+#
+include
+"simulink.c"
+/* MEX-file interface mechanism                  */
+//# include "fixedpoint.c"   /* needed when it is configured with fixdt data type */
+#
+else
+/* Prevent usage by RTW if TLC file is not found */
+#
+include
+"cg_sfun.h"
+/* Code generation registration function */
+#
+endif
+Dio_ReadChannel *.tlc 文件编写
+%
+% File    : Dio_ReadChannel.tlc
+%
+% Abstract:
+%
+%      Target file
+for
+the C-Mex S-function crcengstat.c
+%
+% Author  :Songxin@2022/02/21
+%
+implements
+"Dio_ReadChannel"
+"C"
+%
+% Function: BlockTypeSetup ===========================================
+%
+%
+%
+function
+BlockTypeSetup(block, system) void
+%<LibAddToCommonIncludes("Dio.h")>
+%
+endfunction %% BlockTypeSetup
+%
+% Function: BlockInstanceSetup ===========================================
+%
+%
+%
+function
+BlockInstanceSetup(block, system) void
+%
+endfunction %% BlockInstanceSetup
+%
+% Function: Start ====================================================
+%
+%
+%
+function
+Start(block, system) Output
+%
+endfunction %% Start
+%
+% Function: Outputs ===================================================
+%
+%
+%
+function
+Outputs(block, system) Output
+%assign y = LibBlockOutputSignal(0, "", "", 0)
+%assign t_pv = SFcnParamSettings.r_pv
+%<y> =Dio_ReadChannel(%<t_pv>);
+%
+endfunction %% Outputs
+源文件编写后如下所示：
+将源文件（*.c）编译成二进制文件，命令窗口输入如下指令：
+mex
+Dio_ReadChannel
+.c
+文件编译成功后，在当前工作路径下生成*.mexw64文件（对应64位操作系统）。
+2.S-Function模块创建
+（1）创建模型，并在模型中搭建一个S-Function模块，如下所示：
+（2）右击S-Function模块，修改“Block Parameters(S-Function)”
+S-function name名称与源文件名称保持一致：Dio_ReadChannel，S-function parameters可以自定义，本例：ChannelID。
+注意
+：S-function parameters要与Mask中设置的参数保持一致。
+（3）Mask创建：右击S-Function->Mask->Create Mask...
+（4）添加Popup控件，配置参数如下所示：
+注意
+：ParameterGroupVar名称要与S-function parameters中参数名称保持一致。
+（5）编写Popup参数（根据项目需求写），如：P10_0、P10_1、P10_2。
+（6）由Popup设置接口参数，使用如下命令:
+set_param([gcb],
+'ChannelID'
+,
+get
+(gcbh,
+'MaskValueString'
+));
+get(gcbh)，获取当前选中模块句柄。
+对系统内部C MEX S-Function函数模块（Dio_ReadChannel）GUI中的ChannelID参数进行参数设置，这里的参数是获取的子系统封装中的MaskValueString值，由GUI的Popup控件获取。
+3
+代码生成
+通过GUI的Popup控件选择P10_0和P10_1，生成代码如下所示：
+往期
+精彩
+回顾
+Autosar网络管理：网管节点路由时间解读
+Flexray总线：Frame结构，几张图就能看明白
+MATLAB:自定义库&自定义C MEX S-Function,简单易学
+DEM 事件去抖：基于Counter
+Autosar网络管理：确保第一帧是网络管理报文方法
+嵌入式以太网：Lwip内存管理之内存堆
+Autosar DEM诊断事件管理（一）
+从开发的角度看电子驻车制动（EPB）
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

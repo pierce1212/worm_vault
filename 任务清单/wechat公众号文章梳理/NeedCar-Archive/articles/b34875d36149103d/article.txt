@@ -1,0 +1,65 @@
+VSCode实用技巧：local-history及.gitignore
+2024-03-22T07:05:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494224&idx=1&sn=dd77f395c5e2896783981d1cce58389f&chksm=fa29b424cd5e3d3234e9fecd4a72ec062808f12cc2eaa3170beb97c038d9ae073ff14e169c9a&scene=21#wechat_redirect
+
+开发的小伙伴，对VSCode应该并不陌生。对我来说，对VSCode的偏爱要高于其他的编码软件。丰富的插件（Plug-in），几乎可以拓展出你想要的绝大多数需求。本文，聊一聊两个比较实用的技巧。
+在开发阶段，
+工程师
+会不断的调试和修改代码，有时，某个文件改了很多次，还是觉得之前的某次修改好，但是，由于保存导致的覆盖，追不到当时的草稿。没关系，
+用
+local-history可以保存每次修改记录，以便于回溯
+；
+使用Git管控代码，是比较常见的一种方式。但是，每个工程师的工作内容/方式不同，有些本地测试文件或者编译文件，没有必要提交到远端仓库。因此，
+可以编写.gitignore文件，
+告诉Git，哪些文件或目录不再被纳入版本控制
+。
+1、local-history安装及文件保存路径设置
+打开VSCode，在"Extensions"中搜索"local history"，单击"install"即可，如下所示：
+使用local history有一点需要注意：
+文件保存路径不要与编译器编译路径重合
+，否则，编译器会将local history保存的文件也进行编译。很多时候，
+VSCode打开的工程也是编译器的搜索路径
+。所以，最好的处理方式就是将local history保存的历史文件保存到非编译器搜索路径中，具体操作如下：
+（一）自定义local history文件保存路径
+比如：本文将local history保存的历史文件放到
+D:\WorkSpace\Tasking\VSCode_CodeHistory\MulitiCAN
+路径。
+1、File->Preferences（首选项）->Extensions，如下所示：
+2、在弹出的界面中，搜索"local-history"->找到配置项->在Local-history：Path中输入修改文件历史保存路径，如下所示：
+3、单击"Workspace"，切换到"User"，输入要保存文件位置，如下所示：
+（二）将自定义保存文件路径加载到VSCode工程
+自定义
+保存文件路径设置好以后，为了编译查看文件的修改历史，可以将
+自定义
+保存文件
+加载到VSCode
+工程中，具体操作如下：
+自定义文件夹加载到VSCode工程，文件修改历史保存到自定义文件路径（
+VSCode_CodeHistory/MulitiCAN
+），示意如下：
+（三）排除文件夹及子目录搜索
+我们搜索内容时，不需要在某些文件夹及其子目录中搜索，如何操作呢？具体步骤如下所示：
+如上图，通过逗号"
+,"
+可以排除多个文件夹。
+（四）文件内容比较（compare）
+有时需要比对某个文件及其历史修改版本，具体操作如下：
+1、选择某个历史文件，具体操作如下
+2、选择要比对的文件
+3、文件进行比对
+2、.gitignore操作
+在VSCode工程下编写.gitignore文件，在
+.g
+itignore文件中编写要忽略的文件夹或者文件，即：目标文件夹（及其子目录）或者文件的更改不提交到远程仓库。如果设置成功，对应的文件夹或者文件将会呈现灰色，如下所示：
+如果.gitignore操作不成功，可以参考如下链接：
+https://blog.csdn.net/qq_21441663/article/details/134061627
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+Hightec基础：生成静态库（*.a）的第二种方法
+信息安全基础：Host与HSM通信科普
+Matlab:手写C MEX S-Function，没那么难
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+Autosar网络管理：再说CAN FD帧能否唤醒网络？

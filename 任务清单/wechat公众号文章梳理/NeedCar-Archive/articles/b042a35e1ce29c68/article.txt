@@ -1,0 +1,129 @@
+一种软件实现的双Bootloader SWAP方案讨论
+2025-08-01T06:31:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497244&idx=1&sn=14d1a8217e45d683ab036345185676d0&chksm=fa29a868cd5e217e8d305af5fcca7b46dc582685fc5bba4885c40b7306a30457c554c9bc53e4#rd
+
+我们知道，软件升级的过程中，可能存在异常工况使得软件升级过程被中断，eg:断电、程序卡死等等。同样的，如果Bootloader程序在升级（OTA，Over The Air）的过程中异常，比如：
+Bootloader程序更新到一半的时候异常断电，那么，这个程序将变成“砖”，即：功能失效，因为Application程序无法通过
+Bootloader程序进入
+。有的同学可能想到了软件回滚（rollback）的措施，如果芯片不支持硬件的A/B功能，进而程序也无法从另一个分区的
+Bootloader程序跳转到Application程序。
+本文要聊的是
+基于同一链接文件的软件
+双Bootloader SWAP方案
+，聊什么呢？
+如果硬件不支持A/B（SWAP）功能，是否可以用软件实现双Bootloader程序（基于同一链接文件）？
+实现软件双Bootloader方案，需要注意哪些事项呢？
+使用同一份链接文件（eg:*.lsl）编译程序，烧录到不同地址的方案是否可行？如果可行，该如何实现？
+1、需求背景
+软件开发阶段，只开发一份Bootloader程序，每次升级
+Bootloader程序
+时，
+避免
+Bootloader程序升级过程异常导致的软件不可用工况
+。这里只开发一份
+Bootloader程序的意思是：每次
+Bootloader程序更新，均使用同一份链接文件（eg：*.lsl），这样，
+Bootloader_V1、
+Bootloader_V2、
+Bootloader_V3...的内存布局（memory layout）不用改动。
+（一）只开发一份程序思考
+实现双Bootlader意味着需要两块物理内存区，存储两个
+Bootlader
+。可是，需求要求使用的链接文件是同一个，就像TC3xx支持的硬件A/B一样，用同一个链接文件。但是，本文讨论的是软件A/B分区，硬件不支持的方案。所以，是否可以将同一个
+Bootlader偏移，实现双
+Bootlader呢？示意如下：
+假设：每次软件更新时，先识别当前执行的Active
+Bootlader，然后每次更新Inactive Bootloader，这个方案是否可行呢？如果想确认这个方案是否可行，需要理解“程序链接”问题。
+（二）同一个链接文件编译程序的链接问题理解
+需求的要求之一：Bootloader软件使用同一个链接文件（*.lsl）链接程序。这样，编译器
+（compiler）
+编译后的程序变量、中断向量表、Trap向量表等按照
+链接文件指定位置存放。
+假设：
+Bootloader程序
+分配空间0xA0000000~0xA0018FFF。编译器编译程序 ，之后通过链接文件链接程序。其中，变量Ver_Num分配的内存地址0xA0001000。如果将Bootloader程序整体偏移0x32000，那么，当程序跳转0xA0032000启动时，
+Ver_Num地址是多少呢？问题示意如下：
+Ver_Num地址仍然是链接文件指定的地址，不会因为Bootlader程序偏移而改变变量的
+地址。具体说：
+程序会按照链接脚本中定义的地址去寻址全局变量
+。
+如果只是把程序“物理上”加载到了不同的地址，但没有修改链接脚本，那么
+程序仍然会尝试访问
+链接时指定的地址
+，而不是加载地址的偏移地址。
+示意如下：
+既然是这样，是不是意味着，程序必须编译两版？无法用一个链接文件达到目的？答：有办法。方案思路参考《
+HSM Firmware更新的一种方案讨论
+》。
+2、同一个链接文件的双Bootloader实现方案
+1、首先，旧的
+Bootloader
+#1
+_Old 将新的
+Bootloader
+#1
+_New 下载到偏移地址（eg：0xA0032000~0xA004AFFF）。注意，这个过程中，
+Bootloader
+#1
+_Old需要将接收到的
+地址
+（eg：0xA0000000~0xA0018FFF）
+做偏移处理（偏移0x32000）。如下所示：
+2、复位后，程序进入Bootloader
+#2
+，同时检查是否有新的
+Bootloader
+#1
+_New 下载到目标位置，示意如下：
+3、当Bootloader
+#2
+识别到有新的
+Bootloader
+#1
+_New 下载到目标位置后，将新的
+Bootloader
+#1
+_New 下载到链接文件指定的位置，示意如下：
+如此，即可避免
+Bootloader
+#1
+下载失败，没有挽救机制的问题。当然，有的小伙伴说，重新刷写不行吗？
+Bootloader
+#1
+出问题了，还如何重新刷写？
+这个过程中，还需要关注另一个问题：程序需要先知道何时进入Bootloader
+#2
+。正常启动是不需要进入
+Bootloader
+#2
+的。只有需要更新
+Bootloader
+#1
+时，才会让程序进入
+Bootloader
+#2
+，即：当旧的Bootloader
+#1
+_Old 将新的Boorloaer
+#1
+_New 下载到目标位置时通知程序需要进入Bootloader
+#2
+。正常工况，只使用
+Bootloader
+#1
+。
+还有小伙伴会说，这不就是PBL（Primary Bootloader）和SBL（Second Bootloader）方案吗？还是不一样的，SBL一般要求放入RAM，该方案中，Bootloader均放置在 Flash区。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：401~450
+信息安全，硬件Debug口，如何设置密码及解锁？
+Memtool如何操作HSM Boot内存区？
+如何基于UDE/Memtool调试HSM？
+PN结为什么会单向导电？
+Flexray总线基础#04：结合工程实际需求，解读时间参数概念
+基于Davinci的HSM开发实践（12）：安全日志（Event Log）的工程开发实践
+这些芯片内存（Memory）区，你真的用过？

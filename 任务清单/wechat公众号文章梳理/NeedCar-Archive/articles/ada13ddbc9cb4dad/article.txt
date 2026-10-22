@@ -1,0 +1,14 @@
+工程问题，关于Flash操作的碎碎念
+2025-12-15T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497754&idx=1&sn=eefd0eb11d62fbac2a0d66e0d6f5a102&chksm=fa29a66ecd5e2f78f9ac89899f7df331f114f2b771c75174cb61ce1820c19116b32458fcddc0#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+对于Flash的操作，比如：读、写、擦、校验等。我们并不陌生，而就是这些不陌生的操作，往往导致难缠的bug。写了很多Flash或者NVM的问题，但是，对于Flash，在工程问题上，我依然觉得知之甚少。本文基于TC3xx，聊一聊Flash的相关细碎问题，以便于更好的应对工程问题。
+本文聚焦的问题如下：
+Q1：什么是RWW？
+Q2：Host的Flash Driver放在哪个内存区更合适？
+Q3：Erase/Verify/Write操作时，Bank的状态是否Busy？
+Q4：多核共用一个Bank时的操作注意事项
+Q5：HSM CPU跳转RAM示例
+Q6：常遇到的一些Trap类型

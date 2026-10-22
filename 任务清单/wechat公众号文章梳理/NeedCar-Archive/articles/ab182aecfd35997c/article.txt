@@ -1,0 +1,61 @@
+Autosar往期精彩文章汇总：401~450
+2025-01-18T06:38:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496443&idx=1&sn=e42e361825507bd723194aa6b2887be5&chksm=fa29ac8fcd5e2599ae154e38a6698f73dd62864b5f52435993db1ec09fb4885ada57b5bcfe4e#wechat_redirect
+
+信息安全
+信息安全，HASH（MD5、SHA1、SHA256）性能到底怎样？
+信息安全，AES128_GCM性能满足项目需求吗？
+信息安全，HMAC基础及性能测试
+基于Davinci的HSM开发实践（13）：安全启动细节补充
+基于Davinci的HSM开发实践（12）：安全日志（Event Log）的工程开发实践
+基于Davinci的HSM开发实践（11）：安全启动开发实践及问题
+基于Davinci的HSM开发实践（10）：RSA2048算法的工程开发实践
+基于Davinci的HSM开发实践（9）：AES算法工程开发实践
+基于Davinci的HSM开发实践（8）：至关重要的存储栈开发实践及问题
+基于Davinci的HSM开发实践（7）：CMAC配置及开发细节
+基于Davinci的HSM开发实践（6）：真随机数、HASH算法配置及调试
+基于Davinci的HSM开发实践（5）：HSM与Host的IPC通信简介
+基于Davinci的HSM开发实践（4）：打通HSM与Host的IPC通信
+基于Davinci的HSM开发实践（3）：驱动模块安装及调试
+基于Davinci的HSM开发实践（2）：如何基于Lauterbach调试Host和HSM
+基于Davinci的HSM开发实践（1）：从安装到完成编译
+信息安全，RSA在逐渐被EdDSA替换？
+信息安全，为什么要用AES-GCM？
+HSM的使能时机，也会导致锁芯片吗？
+信息安全，单次服务请求有必要分多步执行吗？
+信息安全，验签的信息应该存储在何处？
+对称密钥，需要一机一密吗？
+结合工程实际，理解信息安全（Security）的基础概念
+Host和HSM通信，cache or not？
+CAN DOS攻击监控，实现难点是什么？
+网络安全（Cybersecurity），入门一下
+信息安全，悄然兴起的CAN IDS是什么？
+信息安全，RSA2048开源库及填充细节
+编译器操作
+基于IAR的多核调试及基础操作入门（视频篇）
+C语言&嵌入式基础
+C语言基础，指针操作与地址偏移的深入探讨
+中断系统，小白入门
+如何避免cache造成的核间数据不一致？
+多核通信的一种IPC通信方案
+如何理解通信使能与迟滞电压的关系
+怎能不了解数据压缩？从LZSS无损压缩算法开始
+同步接口，为什么不能长时间关闭中断？
+控制器的节点类型，还有ABCD之分？
+工程问题，CAN Busoff恢复不成功导致的通信中断
+CAN总线科普，Busoff与CC状态切换的本质
+A/B分区，软件实现方案思考
+调试
+调试技巧，如何将JTAG转换成DAP？
+异步Trap，该如何锁定问题点？
+别人的*.elf文件，该如何使用Lauterbach进行白盒调试？
+信息安全，硬件Debug口，如何设置密码及解锁？
+Lauterbach如何刷写UCB，你知道？
+芯片&存储
+你用芯片的UID干点啥？
+NvM存储的信息，你为什么看不懂？
+入门级讲解缓存（cache）原理
+内存与ECC的那点事
+生活
+美在东南，厦门
+神来人往，泉州

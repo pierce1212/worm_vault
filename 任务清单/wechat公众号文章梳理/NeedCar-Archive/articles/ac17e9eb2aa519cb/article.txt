@@ -1,0 +1,71 @@
+Autosar往期精彩文章汇总：151~200
+2023-01-25T07:46:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491119&idx=1&sn=15698cb9d2c5e39eca455f3bdcb933b2&chksm=fa2a405bcd5dc94d43ee463a9b4df8f50948a835a13de4ae0387a04264ab952f108e2ed2dedf#wechat_redirect
+
+能帮助到你，我就会继续写下去......
+生活感悟篇
+Autosar，好吗？
+2022，小结
+Debug篇
+Debug手段：使用I/O测量代码执行时间
+网络管理篇
+Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+Autosar网络管理：CanNM网络状态变化都要告知ComM吗？
+诊断&Boot篇
+诊断基础：NRC0x78（Pending）问题知多少？
+Autosar CanTp:什么是Connection？
+诊断基础：不同会话(Session)，诊断报文如何维持网络状态？
+队列刷写QA：队列刷写特点/APP是否需要支持队列刷写
+诊断基础：Event内存管理
+诊断QA：CAN和CAN FD的诊断报文能否混用？
+诊断基础：如何理解Operation Cycle？
+UDS：Security Access service (0x27)，值得深聊
+诊断开发：采样点引发的连续帧错序问题
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（三）
+诊断开发：Polling方式引发的诊断丢帧
+Bootloader开发：uC如何烧录第一个程序？
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（二）
+通信篇
+CAN FD通信：数据段错误，错误帧的速率是500Kbps还是2Mbps？
+通信问题：为什么周期Signal值会有抖动？
+CAN通信基础：L-PDU，到底如何理解？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar通信模块COM:Update-Bits详解
+CAN通信基础概念：Mailbox与Hardware Object
+MCMCAN：CAN hardware object配置规则
+CAN通信基础：采样原理
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+C语言实用篇
+C语言基础：&、>>在工程中的巧用
+嵌入式开发：void*在工程中的应用
+以太网篇
+以太网学习笔记：如何理解PHY的Link Up
+NVM篇
+NVM基础：解读"切页"的头部信息
+NVM基础概念
+NVM存储：Flash操作时间验证
+NVM存储：Flash操作注意事项
+编译、调试篇
+如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）
+如何基于HighTec，在链接文件（*.lsl）中设置自定义段
+嵌入式开发：.bss段数据为什么会被清零？
+功能安全、信息安全篇
+功能安全E2E：MaxNoNewOrRepeatedData配置错误导致进入SYNC状态
+功能安全E2E：浅谈Profile01（P01）
+信息安全（下）：软件认证（Authentication）
+信息安全（上）：软件认证（Authentication）
+嵌入式开发篇
+嵌入式开发：TLF35584（SBC）的SPI格式解读
+嵌入式开发：DMA何时使用更好？
+基于Aurix TC3xx SWAP机制（A/B分区）的SOTA实现
+嵌入式开发：Multicore启动及同步
+嵌入式开发：读懂C语言封装的汇编很重要
+未完待续
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

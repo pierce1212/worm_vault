@@ -1,0 +1,23 @@
+信息安全：HSM没有专用的密钥存储区，密钥该如何安全存储？
+2024-04-15T06:49:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494501&idx=1&sn=d1edb9af79aaa81bef64e06bcc764331&chksm=fa29b511cd5e3c0708cf2401b2424e30298fee3cb8ff820e562639c29319b79c243e5c2a167e&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+我们讨论汽车信息安全的话题，绕不开"密钥存储"。如标题：在信息安全的开发中，如果没有专属HSM(Hardware Security Module)访问的内存区，Host也能访问，那么，密钥不就暴露了吗？
+1、HSM具有专属的密钥存储区方案
+如果芯片的HSM有专属的访问内存区（eg：HSM DFlash），即：安全Core
+cs
+可以访问，主核Core
+host
+不能访问的区域。如此，
+可确保密钥不会暴露（
+主核Core
+host
+不能访问
+）
+，示意如下：
+可是，并不是每个芯片都有
+HSM专属内存区。因此，密钥可被Core
+host
+访问，而这样会增加信息泄露的风险，怎么办呢？

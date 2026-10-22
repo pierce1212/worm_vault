@@ -1,0 +1,61 @@
+诊断开发：老化（Aging）和愈合（Healing）
+2023-04-17T09:59:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491880&idx=1&sn=71805b125c51a8bbb3c8cb460871ded7&chksm=fa29bf5ccd5e364a7e4eebb3faae5b0a0691f80e0d1b873ef6c1ed5f69712f46502e7d2ec47b&scene=21#wechat_redirect
+
+做诊断开发的小伙伴或许比较熟悉Aging（老化）和Healing（愈合）这两个概念。对于刚接触诊断不久的小伙伴，有时会混淆这两个概念，本文，讨论一下这两个概念。
+Aging（老化）
+先看一下Autosar规范中对于Aging的解释，如下所示：
+解释
+：当某个失效事件（Event）或者DTC在一定次数的操作循环内，不再出现时，将此DTC对应的存储信息从内存中清除的行为称为Aging。
+再看一下14229-1中的解释，如下所示：
+相比如上的两个解释，如下的解释可能更好理解：
+举例
+：诊断设计中，会监控通信电压，如果通信电压＜6V或者＞18V，且状态维持2s，则认为
+通信电压异常，需要将此Event状态上报给DEM模块，DEM模块将与通信电压监控事件关联的DTC信息存储到内存中，这里的信息包括DTC快照数据和DTC拓展数据，示意如下：
+事件故障以后，信息被存储到内存中。是不是要一直存储呢？答：当然不是。任何事情，不应太绝对化的处理，需要留有容错处理机制。如果上述故障只是某个极端工况发生的事件，可以给一个恢复机制，也就是Aging。如何Aging呢？
+如上图，假设在第一个操作循环（Opt Cyc1）的T0时刻，检测到通信电压故障，在之后的40个操作循环内，该故障不再发生，一直处于良好状态，则不再记录此故障，将该Event关联的DTC快照数据和拓展数据从内存中清除，这个动作就是Aging。当然，具体需要多少操作循环，进行老化动作，根据需求开发。
+2、Healing（愈合）
+先看一下Autosar规范中对于Healing的解释，如下所示：
+解释
+：当一段时间/多个操作循环内，某DTC的Bit7不再置位，可以关闭指示灯的一种行为，称为Healing（愈合）。
+提到Healing，就不得不了解UDS status bit和Warning Indicator。
+（一）UDS status bit
+在之前的文章《
+Autosar DEM诊断事件管理（一）
+》、《
+Uds诊断：不同Operation Cycle下的DTC状态位变化
+》均有提到UDS status bit，需要了解的小伙伴可以参考。其中，Bit7是WarningIndicatorRequested，用于故障提示。此Bit的置位，可以通过故障指示灯、文言提示等，提醒车辆驾驶员，车辆发生故障。
+（二）
+W
+arning Indicator
+Warning Indicator方式有多种，eg：Malfunction Indicator Lamp (MIL)、文言提示等。
+CP Autosar的架构中，Dem模块处理healing、aging的时序如下所示：
+如上图，如果使能了healing，headling的处理优先aging。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+通信栈开发：任务（Task）抖动导致的UB失效问题
+Autosar网络管理：为什么需要2帧网络管理报文唤醒网络？
+交叉编译对应的Makefile编写
+嵌入式开发：如何识别PowerOn唤醒和总线唤醒
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,146 @@
+E2E工程问题：小周期转大周期Gateway
+2023-05-18T07:06:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492149&idx=1&sn=b61f9b0305699bc6dcbd9a9bdf068d0d&chksm=fa29bc41cd5e355745cd165ddf5f4297bcee28fe2c372991cbbc1f67c223aa825fedbbc5a5c6&scene=21#wechat_redirect
+
+工程中，网关节点很重要的一个功能就是
+路由
+。当然，
+E2E（End to End）报文也可路由，但是，路由的信号（Signal），如果周期不同，通信矩阵设计又未充分考虑，可能会带来一些预料之外的问题。本文，讨论一个具体的工程问题，E2E报文对应的信号，由小周期转大周期导致的E2E校验失败问题。
+1、问题描述
+节点Node1和节点Node2之间通过
+网关节点
+（Gateway Node）通信，其中，某帧PDU受E
+2E保
+护。
+Node1通过C
+AN总线，以10ms周期发送E2E Tx PDU，发送给网关节点（Gateway Node），
+Gateway Node再通过Flexray总
+线，以320ms周期将此PDU信息
+路由
+给Node2，Node2接收E2E Rx PDU，并对此PDU做E2E校验。
+此
+E2E PDU的传输
+示意如下：
+提示
+：
+Gateway Node仅仅是路由功能，不做E2E校验。路由时，如果Node1中的信号或者信号组配置了UB（Update Bit），
+路由信息之前
+，
+需要进行UB位检查
+。可以参考前文《
+通信栈开发：任务（Task）抖动导致的UB失效问题
+》。
+（一）问题现象
+采集的数据如下所示：
+如上图，在T1时刻，Node1停止发送E2E Tx PDU，即：
+E2E Tx PDU包含的信号Signal
+Cnt停发。
+而在T2时刻，Node2接收到的SignalCnt UB = 1，继续接收SignalCnt
+，但是，
+此时的SignalCnt = 11，而上一次的SignalCnt = 12，Node2做E2E校验时，认为此时Sequence Number Error
+，进而进行了故障处理，eg：故障指示灯提示等。
+具体错误
+：由于DeltaCounter >MaxDeltaCounter，导致E2EPW_STATUS_WRONGSEQUENCE。
+DeltaCounter的计算如下：
+(ReceiverCounter >= State->LastValidCounter)？(
+DeltaCounter
+= ReceivedCounter -State->LastValidCounter):(
+DeltaCounter
+= 15 + ReceivedCounter - State->LastValidCounter)
+由于Node2最新一次接收的值
+ReceiverCounter =
+11，
+State->LastValidCounter = 12，DeltaCounter = 14。而配置的
+State->MaxDeltaCounter = 8，最终导致E2EPW_STATUS_WRONGSEQUENCE。
+2、问题分析
+这个问题的本质是因为信号小周期（本文：10ms）转大周期（本文：320ms）过程中，UB处理问题。如下图：
+t0时刻
+，Node1正常发送E2E报文，且Tx UB = 1，Gateway Node正常路由信号
+Signal
+Cnt，Rx UB = 1，Node2正常接收E2E报文，并做E2E校验；
+t1时刻
+，Node1停发
+E2E报文，但是，t0~t1期间，由于
+Tx
+UB
+= 1，
+Ga
+tewa
+y
+Node仍
+正常路由信号
+Signal
+Cnt，且路由的
+Signal
+Cnt值为11；
+t1~t2期间
+，由于
+Tx
+UB
+= 0，
+Ga
+tewa
+y
+Node不再
+路由信号
+Signal
+Cnt；
+t2时刻
+，由于
+Ga
+tewa
+y
+Node所在的Flexray并没有停止通信，
+Ga
+tewa
+y
+Node继续路由数据，而此时路由的
+Signal
+Cnt = 11。由于t0~t1期间，
+Ga
+tewa
+y
+Node的发送缓冲区数据有更新，因此，t2时刻发送数据时，UB = 1，因此，
+Node2接收到的Rx UB = 1，进而Node2继续校验Node1发送的E2E报文，由于此时，
+Signal
+Cnt = 11，不是预期的
+Signal
+Cnt = 13，且DeltaCounter >MaxDeltaCounter，进而导致校验失败。
+3、处理措施
+如上的分析，问题并不出在收/发两方，而是通信矩阵设计时，未有充分考虑E2E路由的问题，即：小周期转大周期的E2E路由问题。
+如上的通信设计中，已经失去了E2E的保护意义。因为
+发送端的Counter值路由到接收端时，可能存在随机性
+。发送端每10ms发送一次，而接收端每320ms接收一次，也就是说，发送端的Counter更新了32次，接收端才接收到一次。
+收/发两端SignalCnt变化情况如下所示：
+如上图，可以看出，接收端在接收到
+SignalCnt存在一定的随机性。
+所以，上述问题，需要系统重新评估和设计通信矩阵，或者接收端优化网络休眠时的E2E处理策略。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+嵌入式开发：看门狗问题QA
+TRACE32调试：基础调试技巧之SystemMode、SNOOPer
+为什么需要外部看门狗？
+基于VN5650的以太网配置
+基于Makefile的C、C++混编
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

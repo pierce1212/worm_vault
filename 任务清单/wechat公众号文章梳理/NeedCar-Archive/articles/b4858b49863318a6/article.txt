@@ -1,0 +1,119 @@
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（三）
+2022-10-18T09:08:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490086&idx=1&sn=869c7d96904edf5834b9afc73327c0f7&chksm=fa2a4452cd5dcd447f5886ef333d4cf4bea4b7806f2f3655ca7622c99e927110565dd51a7cea&scene=21#wechat_redirect
+
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（二）
+中讨论：配置UCB（
+User Configuration Blocks），实现某些RAM区复位不清零。但是，此方式作用的RAM区域过大，工程中，Bootloader和Application交互的信息并不多，所以，不必操作整块RAM。本文继续沿着这个话题讨论第三种方式，也是工程中常用的方式：
+开辟一块RAM区（eg：1K），关联到自定义Section
+，实现软复位不清零。
+1
+如何开辟一块自定义RAM区？
+如果要实现特定RAM区复位不清零目的，需要先解决第一个问题：“
+如何开辟一块自定义RAM区？
+”不同的硬件平台，划分段（Section）方式不同，本文
+基于TC3xx，HighTec编译器讨论，其他的平台类似，思路相同。
+1、将Application请求信息放入自定义段（Section）
+本文将App与Boot交互的信息放入
+自定义段"
+.reset_No_Clc_RAM_Sec
+"
+，空间大小为80 Bytes，HighTec自定义段的方式如下所示：
+#
+pragma
+section
+".reset_No_Clc_RAM_Sec"
+aw
+uint32  App_Req_Info[
+20
+] = {
+0x00
+};
+#
+pragma
+section
+2、链接文件（*.lsl）添加自定义段
+如果想使用自定义段，还需要在链接文件中添加自定义段，并映射到对应的RAM区，
+本文将自定义段.reset_No_Clc_RAM_Sec映射到dsram0区域
+（0x70000000
+H
+~ 0x7003BFFF
+H
+），且指定起始位置（0x70010000），如下所示：
+......
+dsram0
+(w!xp): org = 0x70000000, len =
+240K
+.reset_No_Clc_RAM_Sec 0x70010000:
+{
+PROVIDE(
+__reset_No_Clc_RAM_Sec_begin
+= .);
+KEEP(*(.reset_No_Clc_RAM_Sec*))
+PROVIDE(
+__reset_No_Clc_RAM_Sec_end
+= .);
+. = ALIGN(4);
+} >
+dsram0
+......
+2
+使用示例
+1、存储App请求$10 02
+当App请求更新时，
+需要将请求信息（eg：$10 02）存储到指定位置
+（本文：0x70010000），而这个位置是App和Boot共享的，
+软复位时，此位置的信息依然存在
+，程序复位到Boot时，Boot读取此位置的信息，判断App是否请求升级，示意如下所示：
+代码如下所示：
+App_Req_Info[0]
+=
+0
+x1002;
+2、执行软复位
+调用IfxScuRcu_performReset()接口执行软复位，本文软复位是指系统复位（System Reset），示意代码如下所示：
+App_Req_Info[
+0
+] =
+0x1002
+;
+IfxScuRcu_performReset(SYSTEM_RESET ,USER_REQUEST_INFO);
+while
+(
+1
+)
+{
+}
+3、测试验证
+Step1
+：软件启动，程序
+第一次
+跑到如下断点位置，App_Req_Info[0] = 0x0；
+Step2
+：程序跑到IfxScuRcu_performReset()位置（还没有执行复位动作），
+此时App_Req_Info[0]已赋值0x1002（App请求升级）
+，如下所示：
+Step3
+：执行软复位（System Reset），程序重新跑到开始断点位置，
+App_Req_Info[0]依然是0x1002（工程中，此处为Boot程序，判断App是否有升级请求）
+，即：实现了软复位，RAM区不清零的目的，如下所示：
+提示
+：如果Application程序使用的是Autosar架构，执行软复位动作，可以调用MCU的标准接口
+Mcu_PerformReset()
+。本文使用到的IfxScuRcu_performReset()接口属于英飞凌封装的MCAL接口。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（二）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+诊断开发：Polling方式引发的诊断丢帧
+NVM存储：Flash操作注意事项
+诊断开发：Polling方式引发的诊断丢帧
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

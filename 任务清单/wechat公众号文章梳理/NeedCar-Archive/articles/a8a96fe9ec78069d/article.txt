@@ -1,0 +1,23 @@
+基于Davinci的HSM开发实践（9）：AES算法工程开发实践
+2024-10-31T06:31:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496047&idx=1&sn=15ebab70158437c75a98dfdcf176fdde&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+信息安全的开发中，常常会使用到AES（Advanced Encryption Standard）这种对称加密算法。常见的使用场景：
+UDS（统一诊断服务，Unified Diagnostic Services）的$27（Security Access，安全访问）服务；
+安全启动中的AES-CMAC校验，会使用到AES CBC（ Cipher Block Chaining，密码块链接模式 ）模式，具体原理可以参考《
+信息安全：AES-CMAC原理及验签策略
+》；
+安全Debug中的解锁策略，可以参考前文《
+信息安全，硬件Debug口，如何设置密码及解锁？
+》；
+SecOC（Secure Onboard Communication)通信中，需要用到MAC的生成和校验；
+...
+所以，信息安全中，AES的使用相对比较普遍。那么：
+如何基于Davinci配置AES的加密/解密呢？（文中含视频讲解HSM和Host的配置操作）
+如何使用AES算法呢？
+如何测试AES开发的功能呢？（文中含测试）
+基于
+Davinci开发AES，有什么需要注意的呢？
+1、基于Davinci配置AES功能的视频讲解

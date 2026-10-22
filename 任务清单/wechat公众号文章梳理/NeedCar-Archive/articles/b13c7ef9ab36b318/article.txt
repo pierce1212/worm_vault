@@ -1,0 +1,166 @@
+C语言基础：&、>>在工程中的巧用
+2023-01-13T16:06:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491076&idx=1&sn=231ea20562eaee6376268a5cfd0fa535&chksm=fa2a4070cd5dc9663beed8c577fcfb04728aef0ed48236fee9a89cd7b97d827dfbb5ec655d61&scene=21#wechat_redirect
+
+项目中，大家所用的芯片相比以往，不管是硬件资源还是处理性能，已经有了很大的提升。同时，编译器也已经帮我们做了很多代码优化方面的工作，所以，代码中，我们已不再苛求代码的简洁和优美，鲁棒性才是我们最关注的点。但是，这不能成为我们开发人员"任性"的资本，技术上想精进，学习+思考必不可少。本文，和大家分享一下：C语言中，除法（/）、取余（%）操作的另一种实用技巧。
+1、C语言除法操作
+嵌入式开发中，目前主流的单片机是32 Bit，数据类型的处理中，一般也是以字节（1 byte = 8 bit）为基础单位，比如：int8、uint8、int16、uint16、int32、uint32等。这样的数据类型会有怎样的一个特点呢？
+答
+：2的n次方（n ≥ 0的整数）。工程开发中，经常会遇到除法运算，
+除法运算除了使用"/"以外，还可以使用">>"
+。
+注意
+：>>操作表示除以
+2的n次方
+，即：只能除以2、4、8...这样的数据。
+举例
+：代码中，需要某个参数（eg：15）除以8。
+（一）"/"操作和">>"操作时间对比
+Start_Tick_01
+=
+GetSTM0_Tick();
+/*
+/ Operation */
+result
+=
+15 / 8;
+Stop_Tick_01
+=
+GetSTM0_Tick();
+ElapseTime01
+=
+Stop_Tick_01 - Start_Tick_01;
+Start_Tick_02
+=
+GetSTM0_Tick();
+/*
+>> Operation */
+result
+=
+15 >> 3;
+Stop_Tick_02
+=
+GetSTM0_Tick();
+15 / 8和15 >> 3的功能等价，操作所用时间如下所示：
+可以看出，进行1次除法操作，>>操作要比/操作更节省时间，即：需要更少的CPU Clock（>>操作比/操作
+节省了3个CPU Clock
+）
+。为什么>>操作要比/操作使用的CPU Clock更少呢？
+答
+：与C代码翻译后的汇编指令数，以及指令需要的CPU Clock有关。
+（2）"
+/"操作和">>"操作对应的汇编代码
+如上可以看出>>操作要比/操作使用更少的汇编指令，即：
+/操作比>>操作多了MOV操作
+，因此会消耗更多的CPU Clock。
+通过芯片手册，可以知道MOV（32 bit）需要消耗
+一个CPU Clock
+，即：理论上，/操作比>>操作要多消耗1个CPU Clock。因为本文使用STM接口计算CPU Clock，存在微小误差。
+所以，程序中，如果操作数（OptArgu）除以2、4、8、16...这样的操作时，可以进行
+右移位
+操作，即：OptArgu >> 1、OptArgu >> 2、OptArgu >> 3、OptArgu >> 4...
+提示
+：移位操作，除了进行除法操作（右移，>>），也可以左移位（<<），进行乘法运算。
+（3）>>操作在工程中应用
+代码Line5，计算Signal是否跨字节，如下所示：
+......
+if
+(Com_GetBitLengthOfRxAccessInfo(SignalId) >
+8
+u)
+{
+sint16_least i;
+nFullBytes = (uint16_least) (nBitsToWrite >>
+3
+u);
+if
+(((
+uint32
+) nFullBytes) <= destLength)
+{
+......
+2、C语言取余操作
+举例
+：代码中，需要某个参数取8的余数，进行偏移（offset）。这个操作，在诊断拆包处理中，比较常见。
+对于取余操作，除了%以外，还可以使用&操作。
+（一）%操作和&操作时间对比
+Start_Tick_01
+=
+GetSTM0_Tick();
+/*
+% Operation */
+result
+=
+5 % 8;
+Stop_Tick_01
+=
+GetSTM0_Tick();
+ElapseTime01
+=
+Stop_Tick_01 - Start_Tick_01;
+Start_Tick_02
+=
+GetSTM0_Tick();
+/*
+& Operation */
+result
+=
+5 & 7;
+Stop_Tick_02
+=
+GetSTM0_Tick();
+ElapseTime02
+=
+Stop_Tick_02 - Start_Tick_02;
+5 % 8与5 & 7操作效果等价，运行时间如下所示：
+可以看出，&操作比使用%操作更节省CPU Clock，即：更节省时间。
+（2）"%
+"操作和"&"操作对应的汇编代码
+如上可以看出&操作要比%操作使用更少的汇编指令，即：
+%操作比&操作多了MOV和MOVH.A两步操作
+，因此会消耗更多的CPU Clock。
+所以，以此类推，如果程序中需要对8、16、32...进行取余操作时，可以将操作数OptArgu进行如下操作：
+OptArgu
+&
+7、OptArgu
+&
+15、OptArgu
+&
+32....
+（3）&操作在工程中的应用
+使用&操作进行取余运算，在工程代码中比较常见，比如：COM层信号的Bit偏移计算，如下所示：
+#
+define
+Com_Signal_BitOffsetFromBitPos(pos)  (COM_CAST2UINT8((pos) & 7u))
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+功能安全E2E：MaxNoNewOrRepeatedData配置错误导致进入SYNC状态
+Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？
+如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）
+嵌入式开发：TLF35584（SBC）的SPI格式解读
+Autosar CanTp:什么是Connection？
+功能安全E2E：浅谈Profile01（P01）
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+嵌入式开发：DMA何时使用更好？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

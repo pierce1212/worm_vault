@@ -1,0 +1,87 @@
+Busoff后的快/慢恢复机制
+2023-03-01T11:25:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491469&idx=1&sn=f7ce96c01a17eb788ef18966f72b0fdb&chksm=fa2a41f9cd5dc8ef44ce73233c12d983aec3522f7b45b660a816eafd15be32c7351d6fd056e6#wechat_redirect
+
+关于Busoff的讨论，之前有写过，可以参考前文
+CAN通信：Busoff以后，为什么要等待128次连续11个隐性位？
+、
+Autosar开发：CanSM模块如何处理Busoff？
+等文章。但是，这个问题依然会困扰很多同学，本文，对Busoff的快/慢恢复机制再进行一个补充讨论。
+展开讨论之前，再次说明：CAN节点发生busoff，是因为
+TEC（Transmit Error Counter）＞255
+。总线上有错误帧，说明网段内有节点识别到总线错误，处于主动或者被动错误状态的节点会外
+发
+主动
+或者
+被动
+错误帧
+。但是，
+这并不意味着错误帧会使得正常节点也进入busoff状态
+，因为，这些节点
+只是收到其他节点发送的错误帧
+，接收错误，会使得REC（Receive Error Counter）累加，但是
+REC最大只能等于128，并不会使接收错误帧的节点进入busoff状态，最多只能进入Error Passive状态。
+节点进入busoff状态，一定是因为
+节点自身识别到自己发送错误，TEC大于255导致的
+。
+1、busoff恢复机制
+11898-1规范中，规定：当节点busoff以后，至少要等待
+连续128个11 bit隐性位
+，如下所示：
+假设，使用500Kbps的经典CAN帧，1 bit = 2µs，故障节点重新参与通信的最快时间 = 128 * 11 * 2 = 2816
+µs = 2.816ms。
+这与我们工程中常见的
+快/慢恢复需求
+时间有些不同，这又是为什么呢？
+2、工程快/慢恢复时间要求
+比如：工程中要求，节点busoff以后，快恢复时间10ms，慢恢复时间1000ms。第一小节中，计算busoff节点重新参与通信的最快时间= 2.816ms，也就是说，恰巧此时间范围内，同网段内的其他节点不需要使用总线。实际的工程中，该工况出现的可能性比较低，一个网段内，一般会有多个节点，构成的通信矩阵会比较复杂，所以，正常通信过程中，近3ms的时间没有节点使用总线的概率比较低。所以，每家OEM，会根据自家的EE架构，设计busoff的快/慢恢复时间，尽可能地使总线通信稳定。所以，当有节点发生busoff时，为了不干扰同网段内的其他节点通信，故障节点不应过快地参与通信。先让故障节点进行一个快恢复，这样，因为偶发干扰导致的节点故障可以快速恢复，重新参与通信。如果故障节点经过了几次快恢复，仍然没有恢复正常通信，
+为了尽可能地降低对同网段其他节点的通信干扰
+，可以让故障节点进入慢恢复，即：让故障节点不要过快地加入总线，降低其对总线的干扰。所以，这就是工程中提出快/慢恢复机制的原因。
+（一）busoff与DTC
+节点busoff，是一种故障行为，在满足一定次数后，需要记录对应的DTC，以便于车辆问题排查和维修。工程实际中，很少一次busoff就上报Busoff DTC，一般来说，需要
+连续
+多次
+busoff（eg：10次），才进行
+Busoff DTC处理。
+（二）busoff处理
+Autosar中，CanSM_ControllerBusOff()接口由CanIf调用，告知CanSM对应节点Busoff产生，之后，进行busoff的恢复处理机制。对于恢复机制的处理，可能因Autosar软件供应商的不同，代码上会有所不同。比如：有些供应商，会通过配置选项（一般在CanSM_Cfg.h文件）添加busoff处理前/后callout，对应的宏如下所示：
+#
+define
+CANSM_BUSOFF_BEGIN_INDICATION         STD_ON
+#
+define
+CANSM_BUSOFF_END_INDICATION           STD_ON
+如此配置以后，即可进行节点busoff前/后的自定义处理。BusOff Begin处理示意如下所示：
+#
+if
+( CANSM_BUSOFF_BEGIN_INDICATION == STD_ON )
+(*CanSM_CurrentChannelVarPtr).CanSM_TxOnlineDelayTime =
+0
+;
+(*CanSM_BusOffBeginIndicationFctPtr)( CanSM_GetNetworkHandleOfChannelConfig( CanSM_CanNetworkIdx ), &( (*CanSM_CurrentChannelVarPtr ).CanSM_TxOnlineDelayTime ) );
+#
+endif
+既然有callout，程序员处理busoff就有了很大操作性。
+（三）Flexray、Lin Busoff
+实际的项目中，大家可能听过Flexray Busoff和Lin Busoff的说法，相对于CAN总线，Flexray和Lin并没有真正意义上的busoff状态，只是对应controller错误状态的一种叫法，注意区分。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
