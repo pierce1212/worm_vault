@@ -1,0 +1,116 @@
+EB配置实践：STM配置及使用
+2024-01-02T07:19:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493738&idx=1&sn=8d76e6112e8c866abdbb3cd286ab7540&chksm=fa29b61ecd5e3f08efe3c2d3af2943adfc96bf4c9a1a30223e6e369031c34e03cdcb6028200e&scene=21#wechat_redirect
+
+搞MCAL开发的小伙伴，
+对EB Tresos的使用，
+应该不陌生。我们知道，每家芯片厂商不光是卖芯片，他们也会将对应芯片的MCAL开发好，配套对应型号的芯片。所以，一般来说，商用MCAL需要找芯片原厂或者指定的代理商购买。但是，对应MCAL的配置上位机，不一定原厂提供，比如本文要聊的EB Tresos软件，EB Tresos由Elektrobit(简称EB)开发的一款用于开发汽车ECU软件的工具。
+本文，主要讨论基于
+EB
+Tresos的STM配置及使用。
+1、EB tresos基础设置
+本文不具体讨论
+EB
+Tresos的安装。
+EB
+Tresos安装以后，在安装路径下会找到基础的软件使用手册及文档，同时，解压对应芯片版本的Package。本文，基于工程自带的Demo工程讨论。
+（一）工程导入
+File->Import->General->Existing Projects into Workspace，如下所示：
+单击"Next"，选择工程所在路径，如下所示：
+工程导入，如下所示：
+双击配置或者右击选择“Load Configuration”，加载“模块”，模块加载完成后，如下所示：
+（二）Code输出路径
+右击工程名称->Properties->Code Generator->Default Generation Path，如下所示：
+2、STM配置
+配置STM，我们需要先搞清楚一个问题：为什么使用STM？比如本文：基于STM，设置一个5ms定时器，以中断方式触发。
+（一）STM配置操作
+如果想要配置的STM按照预期目标工作，那么就需要先搞清楚配置STM所关联的对象。如果STM工作，需要配置MCU模块，即：MCU配置STM所需要的时钟，以及MCU所关联的STM。
+MCU配置
+由于需要5ms中断一次，因此，会使用到STM的比较寄存器，本文选择STM的CMP0，如下所示：
+ResourceM配置
+在多核系统中，每个Core所使用的硬件资源有所不同，本文将所用到的STM0分配到Core0，如下所示：
+Irq配置
+既然使用中断，自然需要配置Irq模块，如果没有使用操作系统，可以将中断配置成一类中断（CAT1），同时，根据实际情况设置对应的中断优先级，如下所示：
+（二）验证配置及代码生成
+当模块配置完成以后，进行配置验证，本文选择"Verify Project"，操作如下所示：
+验证通过以后，生成Code，操作如下：
+操作正确以后，会弹出提示，如果Errors为0，说明Code生成完成，如下所示：
+3、STM使用
+（一）MCU初始化
+在初始化STM或者其他模块以前，需要先初始化MCU模块，以便于完成各个模块的时钟初始化，MCU初始化程序如下所示：
+（二）STM初始化及中断使能
+STM初始化及中断使能对应的代码如下所示：
+（三）STM中断函数安装及使用
+如果要使用STM的中断，就需要安装中断例程，同时编写对应的中断例程函数。如果配置了中断回调函数，可以根据项目需求编写对应程序，示意如下：
+STM使用实例如下：
+void
+core0_main (
+void
+)
+{
+unsigned
+short
+cpuWdtPassword;
+unsigned
+short
+safetyWdtPassword;
+ENABLE();
+/*
+* !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+* Enable the watchdog in the demo if it is required and also service the watchdog periodically
+* */
+cpuWdtPassword = Ifx_Ssw_getCpuWatchdogPassword(&MODULE_SCU.WDTCPU[
+0
+]);
+safetyWdtPassword = Ifx_Ssw_getSafetyWatchdogPassword();
+Ifx_Ssw_disableCpuWatchdog(&MODULE_SCU.WDTCPU[
+0
+], cpuWdtPassword);
+Ifx_Ssw_disableSafetyWatchdog(safetyWdtPassword);
+/* MCU initializations */
+Mcu_Init(&Mcu_Config);
+Mcu_InitClock(
+0
+U);
+while
+(Mcu_GetPllStatus() != MCU_PLL_LOCKED);
+Mcu_DistributePllClock();
+/* Configure Interrupt priority */
+IrqStm_Init();
+SRC_STM0SR0.B.SRE =
+1
+U;
+/*Enable Stm interrupt*/
+Stm_EnableModule(STM_0);
+/*Enable interrupt and call-back */
+Stm_EnableAlarm(STM_0, STM_CMP0_USED, STM_CMP_MODE_CONTINUOUS , STM_500000_TICKS_5MS, Stm_CallbackFunction);
+while
+(
+1
+)
+{
+if
+(
+TRUE
+== TaskFlag_5ms)
+{
+TaskFlag_5ms =
+FALSE
+;
+TaskCnt++;
+}
+}
+}
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+工程思考：CAN Transceiver不工作，节点还会Busoff吗？
+工程问题：数据一致性被破坏，导致DMA CRC校验失败
+UDS基础：快照数据（Snapshot）格式详解
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（三）
+CAN总线仲裁原理
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

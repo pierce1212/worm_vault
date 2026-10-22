@@ -1,0 +1,70 @@
+Hightec基础实用技巧
+2023-04-20T07:10:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491907&idx=1&sn=bd0b98ccfb8e771f4030b92d3ed9f3f3&chksm=fa29bf37cd5e3621d3a821dfbe5a91de57b1cca9934c200d76b11473f09c2c6dc0b8bb0c51a3&scene=21#wechat_redirect
+
+搞汽车嵌入式开发，每个程序员都需要和编译器打交道，目前的编译器，功能非常强大。多数功能，我们用不到，只是使用一些常用的功能，eg：下载程序、断点调试、变量观测等。本文就Hightec编译器的使用，分享几个比较实用的操作技巧。
+1、添加头文件搜索路径
+编译时，有时会遇到如下错误，“
+No such file or directory
+”，这种错误，大多是编译器找不到对应的头文件造成的，如下所示：
+此时，需要在工程中添加头文件的搜多路径，如何更快捷和全面地添加头文件搜索路径呢？操作如下：
+（1）添加搜索路径
+（2）添加头文件搜索路径
+将
+需要搜索的文件夹逐一展开
+，可以使用
+shift+文件夹
+，选中需要搜索的文件夹，如下所示：
+（3）搜索路径添加完成，如下所示
+此方式加载地搜索路径相对更全。
+2、添加链接文件（eg：*.lsl）
+链接文件（本文：*.lsl）的添加操作如下所示：
+3、Hightec常见编译Error
+（一）
+recipe for target
+'post-build' failed
+问题现象如下所示：
+原因
+：HighTec安装路径和配置文件中设置不匹配
+解决措施
+：修改Hightec工程配置文件(.cproject)，将HighTec的安装路径替换为本机的安装路径
+全局搜索找到需要替换的文件位置如上所示，
+之后重新编译工程
+。
+(二)
+Can't connect JTAG target Message from component 'Tc2CoreTargIntf'
+问题描述
+：使用HighTec编译器进行调试的时候，UDE中报错，提示如下：Message from component
+'Tc2CoreTargIntf' : Can't connect target ! Message from component
+'Tc2CoreTargIntf' : Can't connect JTAG target Message from component
+'Tc2CoreTargIntf' : That's the wrong target type ! Please check target
+configuration ! UDE Target Configuration File选择的是AppKit_TC275C_singlecore.cfg
+解决措施：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+诊断开发：老化（Aging）和愈合（Healing）
+通信栈开发：任务（Task）抖动导致的UB失效问题
+Autosar网络管理：为什么需要2帧网络管理报文唤醒网络？
+交叉编译对应的Makefile编写
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

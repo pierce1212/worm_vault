@@ -1,0 +1,82 @@
+诊断，读到的DTC状态是0x6C，又该如何理解？
+2024-08-12T06:35:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495436&idx=1&sn=26cd90db9f46aaf7f3cae48657097ff2&chksm=fa29b178cd5e386eba12e59c708f88863c14ff5a2c754e52f1753efc7ad724248072744aee3b&scene=21#wechat_redirect
+
+车辆诊断中，DTC Status对于问题的分析至关重要。
+DTC Status用1个byte，也就是8 bit表示。
+这8个bit，看似简单，但是，这8个bit位却能排列出多种组合。恰恰有些组合，会让一些工程师很是费解，比如本文要聊的0x6C状态。
+1、如何理解DTC Status为0x6C
+关于DTC的每个bit位含义，已经在
+《
+诊断，为什么读到的DTC故障状态是0x20?
+》有过介绍，不再赘述。本文直接讨论DTC Status出现0x6C的场景，示意如下：
+具体解释：
+Step 1：
+Operation Cycle #n中，DTC Status初始状态为0x50，即：bit4 = 1，表示
+上次清除故障以后
+，故障对应的事件（Event）还
+未有完成
+一次完整的监控。bit6 = 1，表示
+当前循环
+，
+故障对应的事件（Event）还未有完成一次完整的监控。
+故而，此时的DTC Status为0x50;
+Step 2：
+Operation Cycle #n
+中，故障完成一次完整的监控后，bit4、bit6均从1切换成0，由于监控到故障，且故障成熟，所以，bit0 = 1，当前循环，发生故障；bit1 = 1，当前操作循环至少发生了一次成熟的故障；
+bit2 = 1，当前操作循环或者上一个操作循环发生了故障；bit3 = 1，表示故障可以存储到非易失内存区；bit 5 = 1，表示自从该故障清除以后，该故障再次发生，所以，故障状态为0x2F;
+Step 3：
+Operation Cycle #n
+中，故障恢复，
+bit0由1变成0
+，bit1、bit2、bit3、
+bit 5
+依然保持为1，所以，
+故障状态为0x2E
+；
+Step 4：
+Operation Cycle #n
+中，故障
+再次发生
+，
+bit0再次变成1
+，
+bit1、bit2、bit3、
+bit 5 依然保持为1，所以，故障状态为0x2F；
+Step 5：
+Operation Cycle #n
+中，故障
+再次恢复
+，
+bit0由1变成0
+，bit1、bit2、bit3、
+bit 5
+依然保持为1，所以，
+故障状态为0x2E
+；
+Step 6：
+Operation Cycle #n+1
+，
+诊断条件一直不满足
+，所以，bit 6 = 1（
+当前操作循环
+没有完成一次完整的故障监控），bit0=0，诊断条件不满足，当前循环没有发生故障；bit1 = 0，因为当前循环不满足监控条件，不识别故障，
+bit2、bit3、bit 5 依然保持为1，
+所以，故障状态为0x6C。
+综上，你是否理解，为什么可以读到DTC Status为0x6C了吗？
+往期
+精彩
+回顾
+诊断，为什么无效唤醒会加速DTC信息清除？
+信息安全，获取RSA密钥参数的简单做法
+诊断，到底该如何理解"一个操作循环"概念？
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+工程问题：电压瞬时异常导致的busoff与通信丢失
+信息安全，加密（encrypt）和签名（sign）是两回事
+A/B分区，程序应该如何回滚？
+深刻理解以太网发送，必经DMA Transmit Descriptor
+Bootloader开发：一种降成本的从节点升级方案
+如何诊断对地短路、对电源短路以及开路故障？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

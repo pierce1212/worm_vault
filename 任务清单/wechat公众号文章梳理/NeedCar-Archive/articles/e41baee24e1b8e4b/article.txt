@@ -1,0 +1,12 @@
+不直接存储Password本身的一种安全认证方案
+2025-09-15T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497435&idx=1&sn=7366fc24b549b224478cd102ab984420&chksm=fa29a8afcd5e21b9b0a96194d13d99b46b4881efc6e87527cccba77d0491d1fc9757bfaf34d5#rd
+
+【仅保存公开试读，付费全文未获取】
+
+在信息安全的议题中，Password和Key均属于敏感信息，一旦泄露，造成的后果不可估量。因此，各家OEM或者供应商在敏感信息的存储问题上，可谓是绞尽脑汁。前文《
+如何安全的存储和获取Debug password
+》介绍过一种方案。本文，进一步延申，讨论一种不存储password本身的方案。所谓不存储password本身，即：不在ECU内部存储
+password或者加密
+password后存储。那，这会是怎样的一种方案呢？
+1、不直接存储Password本身的一种安全认证方案

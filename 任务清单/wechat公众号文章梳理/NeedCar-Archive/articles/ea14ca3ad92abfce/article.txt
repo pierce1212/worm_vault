@@ -1,0 +1,51 @@
+CANoe基础：如何显示*.blf数据的时间戳
+2023-07-06T07:42:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492407&idx=1&sn=cb36238e95cb282a465f817f87884b63&chksm=fa29bd43cd5e3455d5a7ddf3af93c96adbaaaf90f5bd89cbacc66a42de6131d6dfab9804bead#wechat_redirect
+
+工程问题排查中，分析log数据（eg：*.blf）是确认问题的关键一环。有些时候，不仅需要数据log，还需要确认数据log记录的时间，以便于准确定位问题。比如：DT
+C（Diagnostic Trouble Codes）
+问题分析时，利用快
+照数据（
+Snapshot
+）
+记录的故障发生
+时间，
+可有效地确
+认当
+时的车辆工况，进而快速确认问题根因。如下图，T0时刻，故障发生，软件需要在T1时刻记录对应故障时间戳。如果问题上报方提供了故障对应的数据log以及故障DTC对应的snapshot（包含时间戳），那么，问题排查时，即可通过T1时间快速定位log中的T0时刻，进而着重分析T0时刻的车辆运行工况。
+问题来了：如何在CANoe中显示
+*
+.blf数据的时间戳呢?
+1、CANoe设置*.blf文件时间戳操作
+（一）加载目标*.blf文件
+首先，切换到“Measurement Setup”的Configuration界面，切换至Offline模式，加载log数据（eg：*.blf），如下所示：
+（二）Channel配置
+录制log的工程师，使用的CANoe Channel配置一般与分析工程师的本地CANoe Channel不同，分析工程师确定目标Channel以后，需要进行对应配置，即：Channel Number要保持匹配。
+（三）通信矩阵加载
+为了方便信号和数据的识别，通信矩阵加载很有必要，通信矩阵根据总线类型选择，eg：*.dbc、*.ldf、*.xml、*.arxml等。
+（四）加载分析信号
+切换至"Analysis"界面，加载需要分析的信号。
+（五）时间戳显示配置
+右击
+"Analysis"界面的空白位置->Configuration->在弹出界面选择Time，"Display mode"选择
+Data and Time
+（显示log记录的日期和时间）
+，如下所示：
+（六）启动数据回放，根据时间戳分析数据
+进行数据回访，可以在界面下方显示出log记录时的时间，如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+INCA基础操作：文件刷写
+为什么Tier1要开发控制器的电源管理芯片？
+基于Hightec+TC375TP的RT-Thread移植详解
+C语言基础：链表
+TRACE32调试技巧：如何加载自定应调试界面
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

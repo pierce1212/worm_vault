@@ -1,0 +1,123 @@
+Autosar通信模块COM:Update-Bits详解
+2022-11-27T13:28:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490618&idx=1&sn=bb5e8c87ad1f81037e070159ad481110&chksm=fa2a424ecd5dcb585b0db577be48fa1de6eb19184e30a34973b9806208603fce03c85436e31c&scene=21#wechat_redirect
+
+关于UB（Update-Bits）问题，之前有聊过，可以参考前文
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+。本文聚焦UB在收/发两个方向上的处理策略。
+如果要为某个Signal或者Signal Group设置UB，需要
+配置参数
+ComUpdateBitPosition，该参数消耗I-PDU中的一个bit位，且
+收/发双方均需要匹配该bit位
+。
+UB的具体含义如下所示：
+1
+Signal发送
+工程中，发送端的UB置位，由COM模块自动处理，到底在哪一步处理的呢？先看一下，COM模块将Signal/Signal Group组装到I-PDU的过程，如下所示：
+（1）上层的ASWC通过RTE调用对应的Signal/Signal Group接口（Com_SendSignal()/Com_SendSignalGroup()），请求发送；
+（2）COM层内部置位对应信号或者信号组的UB；
+（3）信号的超度超过一个Byte时，需要进行字节序的转换（即：大端模式或者小端模式）；
+（4）添加信号的发送属性。
+UB == 1时，表示Signal/Signal Group有更新。当Signal/Signal Group对应的I-PDU发送处理后，需要及时清除UB，发送端何时清除UB呢？
+答
+：取决于配置参数
+ComTxIPduClearUpdateBit。
+COM模块规定，ComTxIPduClearUpdateBit参数可以选择
+Transmit、Confirmation、TriggerTransmit
+。
+Transmit
+：当调用Pd
+uR_ComTransmit()接口，且返回E_OK（还未有发送到总线），即：请求发送成功时，
+清除I-PDU中所有
+Signal/Signal Group的UB。
+Confirmation
+:
+调用Pd
+uR_ComTransmit()接口返回E_OK，且对应的I-PDU被Confirmation时（已经被发送到总线），
+清除I-PDU中所有
+Signal/Signal Group
+的
+UB
+。
+Trigger Transmit
+:调用
+Com_TriggerTransmit()
+接口
+返回E_OK，
+清除I-PDU中所有
+Signal/Signal Group
+的
+UB
+。
+Autosar的架构中，COM层的每个I-PDU，均可以配置一个"
+I-PDU Callout
+"，可以在I-PDU
+发送请求之前
+，在此Callout中
+实现一些特殊功能
+。
+注意
+：
+当配置参数ComTxModeNumberOfRepetitions ≥1，且发送模式选择为DIRECT或者MIXED模式时，不能配置UB；
+UB由COM层内部处理，需要消耗额外的1个bit资源，且每个Signal或者Signal Group只能配置一个UB bit。
+2
+Signal接收
+当节点接收到某帧报文时，会通过Com_RxIndication()通知到COM层，之后再将PDU拆分成Signal。
+1、信号的非路由处理
+I-PDU接收以后的处理流程，如下所示：
+I-PDU接收以后的处理：
+（1）
+复位I-PDU对应的DMT（Deadline Monitor Timer），如果配置了回调函数，则调用Com_cbkRxTout();
+（2）
+如有配置的I-PDU Callout，调用对应的用户接口；
+（3）
+检查UB。如果一个Signal或者Signal Group配置了UB。只有UB置位（=1）时，此Signal或者Signal Group才会进一步的处理，处理包括：过滤、通知、信号路由、字节序转换等。规范解释如下所示：
+如果Signal的UB未有置位，当上层再次读取该信号值时，可以使用该信号的上次值或者初始值；
+（4）
+字节序转换；
+（5）
+无效数据处理，eg：接收到的信号超过了信号的阈值范围；
+（6）
+接收过滤处理；
+（7）
+复位Signal对应的DMT；
+（8）
+通知上层处理。
+2、信号路由处理
+信号路由示意如下所示：
+Autosar的架构中，
+COM层负责Signal的路由
+，如果Signal配置了UB，Signal在路由之前需要先识别UB == 1与否。如果UB = 0，则COM层不路由此Signal。规范中的解释如下所示：
+提示：
+即使是不同总线（eg：CAN <-> Flexray）之间的信号路由，也可以通过COM层实现。
+3、拓展思考
+不同总线的
+诊断报文
+是否可以通过COM层路由？
+答
+：可以。
+不同总线之间，通信速率往往会有所不同，比如：Flexray常用通信速率10Mbps，经典CAN总线常用通信速率500Kbps。如果诊断指令在Flexray和CAN之间进行路由，
+不同的通信速率及帧长度
+会使得两者之间产生速度差，即：一个快一个慢。对于这种速率存在差异的处理方式，可以在COM层路由。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+基于Aurix TC3xx SWAP机制（A/B分区）的SOTA实现
+诊断QA：CAN和CAN FD的诊断报文能否混用？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

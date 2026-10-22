@@ -1,0 +1,140 @@
+嵌入式开发：TLF35584（SBC）的SPI格式解读
+2023-01-08T11:39:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490984&idx=1&sn=e47451ff5da37e4eb307f73a0a011923&chksm=fa2a43dccd5dcacac5ee68bb151180d236648c579346feaf047a8f55ea4c69e62fc49dda1b69&scene=21#wechat_redirect
+
+TLF35584是Infineon的一款多路输出安全电源芯片，也就是工程上常说的SBC（System Basic Chip）。普遍适用于电动助力转向、网关、变速箱、ADAS(Advanced Driver Assistance Systems)等安全等级要求高的场景。和其他外设芯片一样，
+TLF35584的很多功能也需要通过SPI（
+Serial Peripheral Interface
+）与uC交互。SPI的使用中，
+极性、相位、通信速率
+等都是我们比较关注的细节。但是，有时，我们也会犯点迷糊，本文，聊一聊TLF35584的SPI格式，看一看其命令是如何发送的。
+1、TLF35584中的SPI
+TLF35584中的SPI如下所示：
+（一）SPI时序
+SPI时序如下所示：
+SPI的通信原理，相对来说，并不复杂。首先，拉低目标从设备的片选信号SCS（SPI Chip Select）；在时钟的驱动下SCL（SPI clock），数据由SDI（SPI Data Input）输入从设备，数据由从设备的SDO（SPI Data Output）输出。对于TLF35584的SPI来说，
+上升沿采样，下降沿移位
+。除了极性和相位以外，SPI的通信频率也是我们关注一个参数，如下所示：
+如上图，正常工作模式下，TLF35584的时钟频率为10MHz（一个Bit时间=100ns），当TLF35584进入SLEEP模式时，SPI的时钟频率会降低到1.5MHz。
+（二）TLF35584的SPI格式
+TLF35584的SPI格式如下所示：
+TLF35584的SPI格式：
+CMD（1bit）+ Address（6bit）+ Data（8bit）+ Parity（1bit）
+。总共占用16bit（2 byte），所以，命令传输中，使用uint16即可。其中，写操作时：CMD = 1，读操作时：CMD = 0。
+2、TLF35584 SPI 读/写操作示例
+清楚了
+TLF35584的SPI
+格式，就可以试试向目标寄存器发送指令了，如果第一次用，多少还是有点蒙。
+（一）TLF35584 SPI读操作示例
+示例
+：读取TLF35584的SYSPCFG0寄存器，代码如下所示：
+/* read SYSPCFG0 (0x04) */
+uiSyspcfg
+= IfxTLF35584_read_write(
+0
+x0801);
+传输的参数0x0801与SPI的格式什么关
+系？
+是不是有点迷糊，我们试着解析一下。
+首先
+，确认
+SYSPCFG0寄存器地址（0x04），如下所示：
+在SPI的格式中，Address占用6个bit，0x04 =
+000100
+B
+。
+其次
+，读取操作中，Data数据段可以全部为0（伪数据，Dummy Data），即0x00 =
+00000000
+B
+。同时，读取CMD =
+0
+。
+再次
+，整个数据中，读取操作时，需要对
+Address
+和
+Data
+中的数据进行奇偶校验，当1的个数为奇数时，Parity = 1；当1的个数为偶数时，Parity = 0。具体解释如下所示：
+所以，上述信息组装：
+0
+000100
+00000000
+1
+B
+= 0x0801
+H
+。所以，参数0x0801是这样来的。
+（二）
+TLF35584
+SPI写操作
+示例
+示例
+：通过SPI指令，切换TLF35584进入Normal状态，如下所示：
+/* DEVCTRL ，write Data：0xEA */
+IfxTLF35584_read_write(
+0xABD5
+);
+首先
+，确认
+DEVCTRL寄存器地址（0x15），如下所示：
+在SPI的格式中，Address占用6个bit，0x15 =
+01
+0101
+B
+。
+其次
+，写操作中，上述写入数据为0xEA，0xEA =
+111
+01010
+B
+。同时，写CMD =
+1
+。
+再次
+，整个数据中，写操作时，需要对
+CMD、Address
+和
+Data
+中的数据进行奇偶校验，当1的个数为奇数时，Parity = 1；当1的个数为偶数时，Parity = 0。具体解释如下所示：
+所以，上述信息组装：
+1
+010101
+11101010
+1
+B
+= 0xABD5
+H
+。
+如上的SPI读/写示例，是否可以让你对TLF35584的SPI更清楚，或者阅读到对应代码时，知其所以然呢？
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+功能安全E2E：MaxNoNewOrRepeatedData配置错误导致进入SYNC状态
+嵌入式开发：void*在工程中的应用
+Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？
+Autosar CanTp:什么是Connection？
+功能安全E2E：浅谈Profile01（P01）
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+嵌入式开发：DMA何时使用更好？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

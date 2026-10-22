@@ -1,0 +1,69 @@
+Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+2022-05-04T14:03:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487349&idx=1&sn=0f92da2bdcb0274256f8bf681ab8fcd6&chksm=fa2a5101cd5dd8170b4b7f1a8596b28f160bdb86ac0e996f18a6e032e09d0216f1ba134019af&scene=21#wechat_redirect
+
+如标题：RPB(Repeat Message Request Bit）干啥用的？此问题源于群内小伙伴的讨论，本文将该问题带来的思考分享给大家。
+提示
+：基于Can总线讨论
+1
+RPB的作用
+首先，确定一下RPB的位置，RPB在CBV字节的Bit0，如下所示：
+RPB的作用是什么呢？看一下Autosar的官方解释，如下所示：
+意思就是：RPB = 1，有RMS(Repeat Message State)请求，否则没有RMS请求。这里我们需要从收/发两个层面理解：
+接收
+：如果接收到的网络管理报文中，RPB = 1，请求当前的节点进入RMS状态。
+发送
+：如果本节点的
+上层逻辑主动
+请求进入RMS，则会主动调用接口CanNm_RepeatMessageRequest()，之后本节点外发的网络管理报文中RPB = 1。提示：RPB置位与否的操作需要静态配置
+CANNM_NODE_DETECTION_ENABLED
+参数。
+CanNm_RepeatMessageRequest()接口声明如下所示：
+2
+RPB的使用场景
+这里我们假设一种工况：某个网段存在3个ECU：ECU1、ECU2、ECU3，且ECU3具有PN功能，ECU1对应的网络管理报文0x501，ECU2对应的网络管理报文0x502，ECU3对应的网络管理报文0x503。三个ECU在总线上的拓扑关系如下所示：
+具体解释3个节点的网络状态切换时序：
+t0时刻
+：ECU1和ECU2正常通信，两者均处于NOS(Normal Operation State)状态，发送的网络管理报文中，RPB未置位(RPB = 0)。ECU3处于BSM(Bus-Sleep Mode)状态（ECU3具有PN功能，因为收到的网络管理报文中，对应的PNC未置位，所以此时ECU3处于休眠状态）。
+t1时刻
+：
+ECU1主动调用
+接口CanNm_RepeatMessageRequest()请求进入RMS(Repeat Message State)状态，此时：
+ECU1进入RMS状态，ECU1发送的网络管理报文中，
+PNI(Partial Network Information Bit)置位（PNI = 1）
+，且
+关联ECU3的
+PNC_ECU3 = 1
+，ECU3网络被唤醒；
+且RPB = 1，随即ECU2和ECU3进入RMS状态；
+ECU2和ECU3发送的网络管理报文中，RPB = 1，且稍微晚于ECU1。
+t2时刻：
+ECU1、ECU2、ECU3依次进入NOS状态，且三者的RPB = 0。
+如下所示：
+注意
+：同一网段内的所有节点，对应的CANNM_MSG_CYCLE_TIME、CANNM_REPEAT_MESSAGE_TIME、CANNM_WAIT_BUS_SLEEP_TIME、NM-TIME_OUT时间参数需要保持一致，以便于网段内所有节点在
+近似相等的时间
+内进入相同的网络状态。
+综上述：RPB具有协调不同ECU节点状态切换的作用，以便于网段内所有节点在近似相等的时间内进入相同的网络状态。
+RPB是否还有其他使用场景？期待你不同的看法。
+参考资料
+SIMPLE TITLE
+AUTOSAR_SWS_CANNetworkManagement.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+Uds诊断：Gateway节点的Timing，不简单
+Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？
+嵌入式开发笔记：空指针引起的Trap问题（一）
+Bootloader开发：并列刷写(Parallel Flash)你知道多少？
+Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次
+Uds诊断：这5个诊断问题，你能回答几个？（三）
+Autosar网络管理：基础问题知多少
+Autosar通信：网络管理报文和应用报文，谁先发？
+Uds诊断：Gateway节点响应$10 02服务时机，要精准拿捏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式
