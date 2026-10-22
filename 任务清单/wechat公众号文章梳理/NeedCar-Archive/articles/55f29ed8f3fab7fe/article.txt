@@ -1,0 +1,126 @@
+为什么选用外部看门狗（external watchdog）的监控MCU
+2026-03-10T08:06:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498019&idx=1&sn=5651d2bd80eed9cedfdd98178ba0218e&chksm=fa29a757cd5e2e41a3edbe92711c597e97baa5f703f954e1560250557fd94c4bb4a9f0eb79e3#rd
+
+在MCU的嵌入式开发中，不同的控制器有着不同的功能安全目标要求。但是 ，当讨论看门狗（watchdog）的时候，我们常常会感到困惑，比如：
+对于MCU的监控（monitor），为什么需要使用外部看门狗呢？使用内部看门狗不行吗？本文，基于这个问题，我们展开讨论。
+讨论这个话题，我们先从功能安全目标说起，示意如下：
+首先
+，设定的安全目标（SG，Safety Goal）是：
+MCU失控不等导致危险行为
+。
+其次
+，根据SG设计功能安全要求（FSR，Functional Safety Requment）：
+系统必须监控MCU时钟和程序执行异常。
+再次
+，针对FSR设计技术安全要求（TRS，Technical Safety Requment）:
+必须使用一套独立于MCU的监控机制
+。
+最后
+，落实TRS，即：选用外部窗口看门狗进行MCU的时钟和
+程序执行监控。
+这里延伸一下，MCU内部也有看门狗（internal watchdog），使用MCU内部的看门狗监控
+MCU时钟和程序执行异常不可以吗？回答这个问题，我们就得从两者功能的区别谈起。
+1.内部看门狗和外部看门狗的功能区别
+内部看门狗和外部看门狗的功能区别如下所示：
+检测目标
+内部看门狗
+（主时钟驱动）
+外部看门狗
+（独立RC时钟）
+程序跑飞、死循环、卡死
+✔
+能检测
+✔
+能检测
+程序执行异常（过快/过慢）
+普通WDT不行，时间窗口WDT可以
+普通WDT不行，时间窗口WDT可以
+主时钟故障
+（停振/频偏）
+❌ 无法检测
+✔
+能检测
+Note：
+RC(
+Resistor‑Capacitor Oscillator，
+电阻‑电容振荡器
+)
+如上表，由于内部看门狗不能监控MCU主要时钟的
+停振/频偏等异常，所以，这无法满足功能安全目标。所以，从这个角度，使用内部看门狗是不合适的。
+那么，内部看门狗就真的不能用吗？不是，如果内部看门狗
+使用独立时钟，可以对MCU主时钟进行监控，进而满足MCU的SG要求，如此，可以使用内部看门狗监控MCU。但是，目前，
+多数MCU芯片的MCU时钟和内部看门狗使用共源时钟，所以，内部看门狗也就无法监控MCU的时钟失效
+。
+2.对看门狗理解
+首先，看门狗（watchdog）是一种安全机制
+（Safety Mechanism）。项目中，是否使用
+watchdog，以及使用哪种
+watchdog
+（external /internal watchdog）需要看产品设计的安全目标。
+(一)系统架构设计中的功能安全要求
+在做系统架构、功能安全概念设计时，对系统的安全等级通常要求如下：
+ASIL A / ASIL B
+可使用MCU内部
+watchdog
+，视需求决定是否加外部
+watchdog
+ASIL C / ASIL D
+强烈建议（几乎默认）
+使用外部看门狗
+作为
+独立安全机制
+提升DC（diagnostic coverage）
+，以满足
+硬件架构指标
+SPFM（
+Single‑Point Fault Metric
+）/LFM（Latent‑Fault Metric）。
+所以，
+watchdog和
+系统要达到的安全目标关系应该这样理解：系统的
+安全要求来源自系统目标ASIL（Automotive Safety Integrity Level）。
+即：如果系统是ASIL D，那么
+看门狗必须能满足ASIL D所需的性能
+，比如：及时诊断
+程序执行顺序错误（program sequence failure）
+、时钟失效（clocking failure）等。
+高ASIL系统
+通常需要
+独立监控
+，
+很多ASIL C/D 系统会
+使用外部看门狗以满足SG
+。
+ISO 26262-10（2018版）中，在系统级设计（
+system level design
+）中提到了这样一个假设：
+The system will implement a
+windowed watchdog
+safety mechanism
+external to the MCU
+to detect either
+clocking
+or
+program sequence failures
+of the MCU.
+简而言之：系统层需要提供MCU外部的独立看门狗，
+用于监控MCU运行时序是否正常
+。也就是说，
+这个假设的成立才
+能够在真实系统中满足对应的ASIL要求
+。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：511~565
+诊断，关于安全访问0x27问题一二分享
+软件开发中的安全编码一二问题
+关于Bootloader OTA的一种软件升级方案
+信息安全，SHE是如何更新密钥的（含Python计算脚本）？
+为什么要对DFlash进行均匀磨损处理？
+Logical Sector ≠ Flash 物理存储的完整比特流
+诊断，安全解锁中，Seed重复就立马否定响应？

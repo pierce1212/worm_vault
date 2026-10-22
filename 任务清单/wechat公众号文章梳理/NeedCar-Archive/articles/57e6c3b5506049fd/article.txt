@@ -1,0 +1,122 @@
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（一）
+2022-09-29T19:11:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489807&idx=1&sn=324adab62ecbc8e52a5f3f53b9e9856b&chksm=fa2a477bcd5dce6dea40d3c818b74aadd74079daa615498859595634cbeeb6a4c2e734d4f986&scene=21#wechat_redirect
+
+做Bootloader（Boot）开发的小伙伴应该比较关注一个问题：“Application（App）程序升级，需要通过诊断服务（$10 02/82），让程序进入编程会话（跳转到Boot），请求Boot升级新的App程序。问题来了：
+App如何将"请求升级"信息传递给Boot呢？
+”
+进入编程会话会涉及一个Action，即：程序从App跳入Boot。因为
+App
+和
+Boot
+是独立的程序，会共用uC的资源，为了保证Boot使用uC资源的可靠性和安全性，App进入Boot程序之前，需要对App使用的资源进行去初始化（De-Init）操作，程序进入Boot程序之后，再重新初始化软/硬件资源。对于Boot，可以参考前文
+Bootloader开发：初识Bootloader
+。
+既然需要重新初始化软/硬件资源，那么
+大部分的RAM区会被清零
+，
+Boot如何知道App有“升级请求”呢
+？
+其实，方式有多种，根据项目情况，选择适合的方式即可。
+本文基于英飞凌tc3xx，分享一种方法：
+将诊断请求$10 02/82信息存RSTCON2寄存器
+，该寄存器特点：
+软复位，USRINFO位域不清零
+。
+1
+RSTCON2寄存器
+使用
+RSTCON2寄存器，
+实质是使用RSTCON2寄存器的
+USRINFO位域
+。RSTCON2寄存器有什么
+特点呢？如下所示：
+根据手册的说明，
+USRINFO位域只有冷启动的时候，信息被清除，软复位的时候（$10 02/82请求属于软复位），信息不清除
+。因此，可以利用该特性，在App中，向
+USRINFO位域写入“升级请求”信息（eg:10 02/82），程序跳转入Boot以后，Boot程序首先读取
+USRINFO位域信息，如果读取到10 02/82信息，则进入编程会话，执行App程序升级，否则，判断App Flag是否有效，如果有效则跳入App程序。
+实现示意如下所示：
+代码实现
+App中的代码实现如下所示：
+#define RSTCON2_ADDRESS
+0xF0036064
+if
+(APP Request Update)
+{
+/* App Write $10 02/82 Info to RSTCON2.USRINFO */
+*((*
+uint32
+)RSTCON2_ADDRESS) |=
+0x1002FFFF
+;
+}
+Boot中的代码实现如下所示：
+#define RSTCON2_ADDRESS
+0xF0036064
+/* Boot Read App diagnostic request($10 02/82) Info */
+uint16
+App_Update_Request =
+uint16
+((*((*
+uint32
+)RSTCON2_ADDRESS)) >>
+16
+);
+if
+((App_Update_Request ==
+0x1002
+) || (App_Update_Request ==
+0x1082
+))
+{
+/* Update Application Handle */
+}
+else
+{
+/* Jump App Handle */
+}
+参考资料
+Infineon-AURIX_TC3xx_Part1-UserManual-v01_00-EN.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+嵌入式开发：存储，从Flash Driver开始
+Autosar PN网络管理：PNC信息的收/发流程
+Bootloader开发：队列刷写（Queued Flash）基础
+Autosar网络管理：PNC = 0，为何不能路由？
+Autosar网络管理：为什么要网络管理
+CAN通信：Basic CAN与FIFO
+Autosar网络管理：被动唤醒和Passive Channel QA
+CAN通信基础：错误帧
+CAN通信：Busoff问题知多少
+CAN通信基础：Tx Comfirmation、Rx Indication以及Ack
+Autosar Os：Spinlock基础
+Autosar网络管理：诊断报文能否唤醒网络？
+TriCore架构学习笔记（一）：架构总览
+工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败
+Aurix:初识Cached和Non-Cached
+Autosar网络管理：ERA/EIRA问题QA
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Uds诊断：Unexpected N_PDU处理策略
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+通信栈基础：CAN发送报文如何赢得总线使用权
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

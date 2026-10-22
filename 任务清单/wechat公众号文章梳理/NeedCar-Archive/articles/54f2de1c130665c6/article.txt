@@ -1,0 +1,288 @@
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+2022-07-04T19:53:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488663&idx=1&sn=18067b431022af181509c2df83d1c4bb&chksm=fa2a4ae3cd5dc3f563875786d509c7998a27b2236beb443efb039742fc07b747533a1e430fa5&scene=21#wechat_redirect
+
+在
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+一文中，提到Application程序更新后，如果指定存储区新增变量，编译器重新编译程序后，RAM区参数和NVM中参数对应位置会错序，也提到了项目中的一种实现方式。经过群里小伙伴的讨论，该问题的实现还有其他方式，再次分享给大家！
+1
+巧用结构体
+群内小伙伴给的建议是：用结构体管理NVM存储的参数。
+1、为什么选择结构体管理存储NVM的参数呢？
+前文中，出现问题的本质是因为
+NVM和RAM区参数位置错序
+导致，而结构体元素编译后，结构体元素按照其在结构体中的先后顺序存放到内存中，如果Application新增元素，
+在结构体的后面插入新的元素即可，这样可以避免参数错序
+。
+举例：
+声明一个结构体类型NVM_StoreArgu_Type，结构体中包含三个uint8类型的元素(Argu01、Argu02、Argu03)，
+定义一个
+结构体参数
+NVM_ARGU_INIT_VAL存放三个元素的初始值 （存放到PFlash空间），
+如下所示：
+typedef
+unsigned
+char
+uint8;
+typedef
+struct
+{
+uint8 Argu01;
+uint8 Argu02;
+uint8 Argu03;
+}NVM_StoreArgu_Type;
+/* RAM Argu Value*/
+NVM_StoreArgu_Type  NVM_ARGU_RAM_VAL = {
+0x00
+};
+/* PFlash Argu Init Value*/
+const
+NVM_StoreArgu_Type  NVM_ARGU_INIT_VAL = {
+10
+,
+20
+,
+30
+};
+/* Copy PFlash Argu Value to RAM*/
+......
+当Application编译以后，
+Argu01、Argu02、Argu03在内存（RAM和ROM(PFlash)）中的存放顺序不会错乱。
+当有新的参数需要增加时，只要在
+结构体的末尾增加新的元素
+即可，如下所示：
+typedef
+unsigned
+char
+uint8;
+typedef
+struct
+{
+uint8 Argu01;
+uint8 Argu02;
+uint8 Argu03;
+uint32 Argu04;
+}NVM_StoreArgu_Type;
+/* RAM Argu Value*/
+NVM_StoreArgu_Type  NVM_ARGU_RAM_VAL = {
+0x00
+};
+/* PFlash Argu Init Value*/
+const
+NVM_StoreArgu_Type  NVM_ARGU_INIT_VAL = {
+10
+,
+20
+,
+30
+,
+40
+};
+/* Copy PFlash Argu Value to RAM*/
+......
+如上更改后，重新编译Application程序(Compile #2)，
+Argu01、Argu02、Argu03在内存（RAM、NVM、PFlash）中的存放顺序依然不会错乱。当识别到Application更新以后，只要将PFlash中的初始参数值（
+NVM_ARGU_INIT_VAL
+）Copy到RAM即可，这样ASWC获取的
+Argu01、Argu02、Argu03、Argu04
+初始数据值
+不会错序，如下所示：
+Application程序更新以后，
+ECU
+正常下电一次以后
+，NVM中存储的数据将是RAM中更新的值，PFlash中依然保存参数的初始值，如下所示:
+如上的策略有一个点需要注意：所有参数的初始值需要上层提供给底层，且每次有参数增/减/改，均需要告知底层。
+2、使用结构体带来的资源消耗问题
+凡事有利就可能有弊，使用结构体可以解决错序问题，但是可能会带来资源消耗的问题。
+比如：Application新增加了两个参数需要存储到NVM，一个uint32类型参数Argu04，
+一个uint8类型参数Argu05。
+编译器在编译结构体的时候，会以元素最宽类型对齐
+，本例：以uint32类型宽度对齐。Argu01~Argu05我们本希望消耗8 bytes资源，实际需要消耗12 bytes。
+新增数据结构如下所示：
+typedef
+unsigned
+char
+uint8;
+typedef
+unsigned
+int
+uint32;
+typedef
+struct
+{
+uint8 Argu01;
+uint8 Argu02;
+uint8 Argu03;
+uint32 Argu04;
+uint8 Argu05;
+}NVM_StoreArgu_Type;
+/* RAM Argu Value*/
+NVM_StoreArgu_Type  NVM_ARGU_RAM_VAL = {
+0x00
+};
+/* PFlash Argu Init Value*/
+const
+NVM_StoreArgu_Type  NVM_ARGU_INIT_VAL = {
+10
+,
+20
+,
+30
+,
+40
+,
+50
+};
+/* Copy PFlash Argu Value to RAM*/
+......
+Argu01~Argu05占用内存情况如下所示：
+测试程序1
+：
+#
+include
+<stdio.h>
+typedef
+unsigned
+char
+uint8;
+typedef
+unsigned
+int
+uint32;
+typedef
+struct
+{
+uint8 Argu01;
+uint8 Argu02;
+uint8 Argu03;
+uint32 Argu04;
+uint8 Argu05;
+}NVM_StoreArgu_Type;
+/* RAM Argu Value*/
+NVM_StoreArgu_Type  NVM_ARGU_RAM_VAL = {
+0x00
+};
+/* PFlash Argu Init Value*/
+const
+NVM_StoreArgu_Type  NVM_ARGU_INIT_VAL = \
+{
+10
+,
+20
+,
+30
+,
+40
+,
+50
+};
+int
+main
+()
+{
+printf
+(
+"NVM_ARGU_INIT_VAL Using %d bytes ! \n"
+,\
+sizeof
+(NVM_ARGU_INIT_VAL));
+return
+0
+;
+}
+运行结果1：
+NVM_ARGU_INIT_VAL
+Using
+12
+bytes !
+如何排序才能确保资源消耗最少呢？一般编码的过程中
+将数据类型宽的元素放在前面，数据类型窄的元素放在后面
+，这样可以尽可能地降低资源消耗，重新排序，
+Argu01~Argu05占用内存情况如下所示：
+测试程序2：
+#
+include
+<stdio.h>
+typedef
+unsigned
+char
+uint8;
+typedef
+unsigned
+int
+uint32;
+typedef
+struct
+{
+uint32 Argu04;
+uint8 Argu01;
+uint8 Argu02;
+uint8 Argu03;
+uint8 Argu05;
+}NVM_StoreArgu_Type;
+/* RAM Argu Value*/
+NVM_StoreArgu_Type  NVM_ARGU_RAM_VAL = {
+0x00
+};
+/* PFlash Argu Init Value*/
+const
+NVM_StoreArgu_Type  NVM_ARGU_INIT_VAL = \
+{
+10
+,
+20
+,
+30
+,
+40
+,
+50
+};
+int
+main
+()
+{
+printf
+(
+"NVM_ARGU_INIT_VAL Using %d bytes ! \n"
+,\
+sizeof
+(NVM_ARGU_INIT_VAL));
+return
+0
+;
+}
+运行结果2：
+NVM_ARGU_INIT_VAL
+Using
+8
+bytes !
+但是，按照
+上述节省资源的方式排序，打乱了之前的元素排序，会使得实际工程修改工作量增加
+，没有直接将新增变量追加在结构体后面方便。
+2
+资源消耗与代码鲁棒性之间的选择
+如上看到了资源消耗的问题，这个问题严重吗？相对于程序鲁棒性，可能我不会在意资源的消耗（资源足够的前提下），就目前主流芯片的性能来说，对于多数项目的开发都是足够的。所以，建议大家优先考虑程序的鲁棒性。
+群内小伙伴有建议：“
+在nvm配置引用自定义结构体，block大小和结构体保持一致。
+”，这也是一个不错的选择。再次感谢群内小伙伴的智慧，“三人行，必有我师焉”！
+对于具体的一个项目，可能存在一些“历史原因”，对具体问题修复时，可能已经无法用最恰当和常规方式解决。我的观点：只要代码经受住压力测试，它就是一个好的代码。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+工程开发问题（四）：数组越界引发的刷写失败
+上下文(CSA)切换，需要花费多少时间？
+工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)
+Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

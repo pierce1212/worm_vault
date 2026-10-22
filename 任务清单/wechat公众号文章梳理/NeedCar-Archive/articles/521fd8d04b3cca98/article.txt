@@ -1,0 +1,140 @@
+诊断基础：事件（Event）状态、DTC状态变化该如何理解？
+2024-04-07T11:55:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494438&idx=1&sn=06ba3e987e253f073e95223920561418&chksm=fa29b552cd5e3c4408e9460e7f1a39cd890c7fff5870e14611d51845a8aa4f3118b3dbdde221&scene=21#wechat_redirect
+
+搞诊断开发的小伙伴，对于事件（Event）状态应该并不陌生。在Event状态的讨论中，很多时候我们是在讨论Autosar DEM（Diagnostic Event Manager）
+规范中的事件状态。但是，有些小伙伴有时会与
+UDS（
+Unified diagnostic services
+）的DTC
+（Diagnostic Trouble Code）
+状态（Status）混淆。所以，本文聊一聊Event状
+态、DTC状态到底是怎么一回
+事，Event状态又是如何影响DTC状态变化的？
+1、事件（Event）状态
+在DEM规范中，事件状态包含
+五种
+状态
+：DEM_EVENT_STATUS_
+PASSED
+、
+DEM_EVENT_STATUS_
+FAILED
+、DEM_EVENT_STATUS_
+PREPASSED
+、DEM_EVENT_STATUS_
+PREFAILED
+、DEM_EVENT_STATUS_
+FDC_THRESHOLD_REACHED
+。具体描述如下所示：
+如上图，还是有些信息量的，值得我们细细的“咀嚼”一下：
+1、Event的五种状态是
+监控（Monitor）
+后的结果（Result），至于如何监控每一个事件（Event），依赖于事件的需求输入；
+2、对于DEM_EVENT_STATUS_FDC_THRESHOLD_REACHED，工程上似乎很少用，如何理解呢？这个状态的存在，主要是为了采样（Sample）数据（eg：拓展数据、冻结帧）设置的。更多信息，可以参考前文《
+诊断基础：你还见过怎样的快照数据（Snapshot Data）采样和存储策略？
+》；
+3、在Auotosar的软件架构中，
+事件状态最终由DEM模块处理
+，因此，事件状态可以通过
+Dem_SetEventStatus()
+上报。该接口可以由SW-Cs（上层应用组件）通过RTE（
+Runtime Environ
+ment
+）
+调用，也可以由BSW（Basic Software，基础软件）中的软件模块直接调用。有意思的是：规范中提到，
+BSW调用该接口时，不用判断返回值，也可认为是安全的
+。BSW和SW-Cs调用该接口的关系示意如下：
+提示：
+在Autosar 4.2（包含）之前的版本中，BSW模块中的事件状态还可以通过Dem_ReportErrorStatus()接口通知DEM，而且可以将事件状态异步（asynchronous）、队列（Queue）存储。
+在Autosar 4.2之后的软件版本中，
+Dem_ReportErrorStatus()接口不再使用
+，大家基于Autosar软件架构开发时，注意两个接口的使用。
+（一）DEM可以存储初始化或者Shutdown过程中的事件状态吗
+DEM可以
+存储
+初始化
+或者
+Shut
+down过程中的
+事件
+状态吗？答案是肯定的，Autosar DEM中给出的解释如下所示
+(1)
+：
+如上图，在软件初始过程中，某些模块（主要指BSW）初始化错误（eg：某驱动模块），但是DEM还没有正常工作，不能处理上报的事件状态。此时，故障模块可以将对应事件状态缓存（Buffer）起来，等到DEM被正常调度后，处理缓存的事件状态。
+2、DTC状态
+按照UDS规范的解释，DTC状态由
+一个字节（1 byte）的8个bit位表征故障状态
+。关于每个bit的具体含义，可以参考前文《
+Autosar DEM诊断事件管理（一）
+》。
+DTC不同
+状态bit的变化又因Event状态变化而触发，两者更详细的变化规律可以参考前文
+《
+Uds诊断：不同Operation Cycle下的DTC状态位变化
+》。
+本文着重聊一下UDS故障状态的bit0和bit3关系。
+DTC bit0（test Failed）
+：侧重描述当前驾驶循环中，被监控事件（Event）是否成熟（mat
+ured）。也就是说：被监控事件（eg：蓄电池欠压事件）经过去抖（debunce）处理后，确认故障真实发生（eg：蓄电池电压＜6V，持续1s），该bit状态由
+0->1
+变化。在
+一个驾驶循环内
+，被监控事件可以多次成熟，所以，DTC bit0可以多次由0->1变化，示意如下：
+DTC bit3（confirmed DTC）
+：侧重描述故障是否确认。而故障的确认需要满足故障的确认阈值（Confirmation Threshold），对于
+Confirmation Threshold，UD
+S的规范中用
+Trip Counter
+表征。也就是说，
+Trip Counter≥指定阈值（用户自定义）以后，DTC bit3由0->1变化。而
+Trip Counter与驾驶循环关联，即：一个操作循环内，Event多次成熟，即使DTC bit0多次由0->1，
+Trip Counter也只累加一次，
+示意如下：
+一
+般来说，对于non-
+OBD场景，
+Trip
+Counter一般设置为1，即：
+一个
+驾驶循环
+内，Event成熟，DTC bit0由0->1变化，
+Trip
+Counter = 1，进而
+DTC bit3
+由
+0-
+>1变化；
+对于
+OBD场景，Trip Counter一般设置＞1（eg：3），即：
+每个驾驶循环
+内，DTC bit0均至少经历一次0->1变化，Trip Counter累加1，当
+Trip
+Counter = 3后，
+DTC bit3由0->1变化。
+对于
+OBD场景，
+Trip
+Counter、
+DTC bit0、
+DTC bit3
+变化，示意如下：
+如上图，
+每个驾驶循环结束后，Trip Counter需要存储非易失内存（NVM，
+Non volatile Memory）
+，以便于下一个驾驶循环可以基于上次的计数进行操作。
+参考资料
+（1）Specification of Diagnostic Event Manager AUTOSAR CP Release 4.4.0
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+调试技巧：Trace32也可以当串口用（Printf功能）
+Autosar网络管理：ERA/EIRA问题QA
+以太网基础：Auto-Negotiation影响启动时间？
+通信问题：为什么周期Signal值会有抖动？
+Bootloader开发：并列刷写(Parallel Flash)你知道多少？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

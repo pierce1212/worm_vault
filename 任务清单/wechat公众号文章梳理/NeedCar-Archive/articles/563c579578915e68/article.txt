@@ -1,0 +1,33 @@
+基于CANoe的Automation测试
+2026-01-26T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497943&idx=1&sn=bfe816bb6a5d6b115c68512577b263dc&chksm=fa29a6a3cd5e2fb5bff42ddca4417361787a0ae128cac860abc2119d73b698bbcab8b54dad54#wechat_redirect
+
+工程项目中，软件开发的质量很大程度上取决于测试的粒度和覆盖度。对于软件工程自身，开发的功能，首先需要进行正向功能的自测。之后，测试工程师基于对需求的理解，设计各个维度的测试用例，测试用例应尽可能的增加覆盖度，避免漏测或者误测。既然是测试，就会牵扯测试用例的设计，当然，设计测试用例的工具或者方法各式各样。本文聊一下CANoe的
+Automation测试，这个工具对于设计简单的交互测试还是很给力的。
+如何使用
+Automation
+呢？本文做个简单的使用分享。
+1.Automation使用步骤
+对于测试的小伙伴来说，尤其UDS的测试，需要设计“乒乓”的交互方式。个人使用经验来说，
+Automation是一个不错的插件，具体使用步骤如下：
+（1）Simulation->Automation，如下所示：
+（2）单击"New Sequence"可以创建需要的Sequence，如下所示：
+（3）编辑"Sequence"，示意如下：
+（4）编辑Sequence中的"
+Command
+"
+(5)测试设计的用例，数据流显示如下：
+当然，如果测试的目标复杂，使用capl脚本编写测试用例更优。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+授权、认证和访问控制的区别
+不要混淆Fill Bytes和Pad Bytes，这是两个概念
+诊断，为什么无效唤醒会加速DTC信息清除？
+基于UDE的HSM调试及一些使用技巧
+密钥更新中的KeyID≠KeySlotNumber，困惑点分解！
+A/B分区，程序应该如何回滚？

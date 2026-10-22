@@ -1,0 +1,80 @@
+诊断基础：NRC0x78（Pending）问题知多少？
+2022-12-30T18:20:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490935&idx=1&sn=5b5bf71aff6891f786e2597f2e21d9a1&chksm=fa2a4303cd5dca15376272b8c1b1f22db4adddaf1b3c15afd1290bcb1d0763dbc8d8113032ed&scene=21#wechat_redirect
+
+关于ResponsePending(0x78)的问题，在之前的文章有聊过，可以参考前文
+Uds诊断：这10个诊断问题，你能回答几个？
+。虽然聊过，依然觉得这个话题有的聊，由于在工程实际中，关于NRC0x78要注意的东西不少。
+1、P4Server_max与NRC0x78关系
+先看一个数据流，如下所示：
+如上的数据流中，上位机使用功能寻址（0x7FF）发送了$10 82的诊断请求，Server端给了一个NRC0x78响应，并且没有最终响应。
+（一）需求解读
+如果单纯的看这个数据流，大家可能比较迷茫，不知这个问题是对还是错。我们先看一下需求，如下所示：
+解释
+：
+对于Diagnostic Session Control（$10）服务，
+P4Server_max = P2Server_max
+。P4Server_max = P2Server_max又会有怎样的约束呢？
+答
+：
+Server不能回复NRC0x78
+。此约束出自14229-2的约束，如下所示：
+项目中，一般会约束P2Server_max = 50ms，也就意味着P4Server_max = P2Server_max = 50ms。如上的解释中，
+P4时间表示接收到诊断请求到最终给出响应的时间
+，这里的最终响应是指正响应或者否定响应。当
+P4Server_max = P2Server_max时，P2和P4实质就是一个时间约束，如下所示：
+结论
+：上述的数据流中，并未有按照需求开发，即：当
+P4Server_max = P2Server_max时，Server仍然回复了NRC0x78。
+2、NRC0x78与正响应抑制位的关系
+问题数据流中，还有一个值得我们关注的点：
+功能寻址的正响应抑制位置位
+，即：suppressPosRspMsgIndicationBit = TRUE。什么意思呢？14229-1的解释如下：
+意思是说，
+诊断服务的正响应抑制位置位的时候，正响应可以不用回复
+。那么，否定响应需要回复吗？
+答
+：需要回复。正响应抑制位只是约束了正响应可以不用回复，但是，诊断请求的正响应抑制位置位碰到了否定响应的时候，需要给出否定响应，否定响应属于最终响应。
+再进一步思考:"
+功能寻址
+的所有否定响应否需要回复吗？"
+答
+：不是。怎么理解呢？14229-1给出的解释如下所示：
+功能寻址中，如果碰到了NRC0x11（serviceNotSupported）、NRC0x7F（
+serviceNotSupportedInActiveSession）、NRC0x12（sub-functionNotSupported）、NRC0x7E（sub-functionNotSupportedInActiveSession）以及NRC0x31（requestOutOfRange）时，可以不用回复。
+这就完了吗？上述的两个需求中，我们注意到：Annex A.1的约束除外，Annex A.1约束又是什么呢？如下所示：
+解释
+：
+当诊断服务请求中，Server如果先响应了NRC0x78，那么，不管诊断服务是否正响应抑制位置位还是功能寻址碰到
+NRC0x11、NRC0x7F
+、NRC0x12、NRC0x7E、NRC0x31，均需要给出最终的响应，即：正响应或者否定响应。
+所以，上述数据流的第二个问题：在Server响应了NRC0x78以后，没有给出最终响应。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+诊断基础：不同会话(Session)，诊断报文如何维持网络状态？
+Autosar CanTp:什么是Connection？
+功能安全E2E：浅谈Profile01（P01）
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+嵌入式开发：DMA何时使用更好？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

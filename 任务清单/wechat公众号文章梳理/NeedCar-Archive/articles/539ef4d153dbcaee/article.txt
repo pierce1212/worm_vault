@@ -1,0 +1,380 @@
+嵌入式开发：DMA何时使用更好？
+2022-12-24T00:06:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490826&idx=1&sn=ac808569a5f0db75361036caaab3742b&chksm=fa2a437ecd5dca68ee102e62ef4ea1129bfddefb0b29a9ae66b0c26188a3a50b55f6f587a3c0&scene=21#wechat_redirect
+
+嵌入式开发中，
+DMA（
+Direct Memory Access
+）
+的使用已经相当普遍。eg：SPI（QSPI）+DMA，UART+DMA，Ethernet+DMA等，DMA的使用似乎已经成为标配。我们清楚：使用DMA的主要目的是想释放CPU，将搬运数据的活交给DMA干，以便于CPU处理更重要的事情。但是，工程中，Copy数据的动作真的完全放手给DMA就可以吗？本文进行如下几点讨论：
+1、精简的DMA搬运驱动Code
+2、DMA概念基础
+3、何时使用DMA更合适？
+提示
+：基于英飞凌TC3xx。
+1、精简的DMA搬运驱动Code
+搞懂DMA并不难，难得是如何结合项目实际，恰当得使用DMA，起到事半功倍的目的。让DMA干活，最简单的就是告诉其4点内容：
+Source Address；
+Destination Address；
+Data Width;
+DMA Request。
+如下所示：
+DMA负责将数据由Origin Position搬运到Destination Position，这里的Position可以是内存区，也可以是外设的RAM区。
+（一）DMA Code示例
+举例：
+将一个数据宽度为32 bit的数据，由源地址（
+DMA_SAD_Adrr
+）搬运到目的地址（
+DMA_DAD_Adrr
+），使用软件触发请求。对应的示意代码如下所示：
+/* source address */
+DMA_SADR000.U = DMA_SAD_Adrr;
+/* destination address */
+DMA_DADR000.U = DMA_DAD_Adrr;
+/* channel data width,channel data width to 32 bit */
+DMA_CHCFGR000.U = (
+0x2
+<<
+21
+);
+/* disable DMA hardware requests */
+DMA_TSR000.U |= (
+1
+<<
+17
+);
+/* initiate DMA software request */
+DMA_CHCSR000.U |= (
+1
+<<
+31
+);
+Step1
+:
+准备将DMA_SAD_Adrr地址处的数据0x55667788搬运到DMA_DAD_Adrr，如下所示:
+Step2
+：
+数据0x55667788完成搬运，如下所示：
+可以看出，如上的几行代码即可实现DMA最本质功能。至于DMA的其他功能，对于初学者，可以在此精简的基础上不断地做加法，由简入繁地学习DMA。接下来，我们就在此精简的基础上进一步的学习一下DMA。
+2、DMA概念基础
+（一）数据搬运结构
+DMA Move
+：DMA搬运数据的最小单位是Move，一个完整的DMA Move包括Read Move和Write Move两部分。
+Read Move和Write Move要保持数据宽度（Width）一致
+，即：1 byte（8 bit）、2 byte（16 bit）、4 byte（32 bit）、8 byte（64 bit）、16 byte（128 bit）、32 byte（256 bit）。
+Read Move和Write Move关系如下所示：
+DMA Transfer
+：如果想进一步的扩大数据的搬运量，则需要使用DMA Transfer，
+一个DMA Transfer可以包含多个DMA Move
+（注意，TC3xx中规定一个DMA Transfer可
+以包含1, 2, 3, 4, 5, 8, 9 或者 16 DMA moves）。
+DMA Transaction
+：
+一个DMA Transaction可以包含多个DMA Transfer
+，但是，至少要包含一个DMA Transfer。
+Linked List
+：一个Linked List可以包含多个
+DMA
+Transaction。
+DMA数据结构的描述如下所示：
+将上述的概念，结合DMA的搬运过程理解一下，如下所示：
+解释：
+一个DMA Transaction包含n个DMA Transfer，搬运引擎（
+ME:Move Engine
+）执行搬运动作。ME每执行一次DMA Transfer，MEmCHSR (m=0-1)寄存器的TCOUNT位域数值减1（注意：TCOUNT数值由CHCFGR.TREL加载）。完成搬运以后（Transfer Count = 0），如果对应的DMA Channel使能了Interrupt，则进入对应的中断例程（eg：告知CPU，数据搬运完成）。
+（二）DMA Channel模式
+DMA的每个Channel主要包含两种模式：Single Mode和Continuous Mode。
+Single Mode
+：完成一次DMA Transaction以后，由硬件自动关闭DMA的硬件请求。
+Continuous Mode
+：完成一次DMA Transaction以后，硬件不会自动关闭DMA的硬件请求。
+（三）DMA使用示例
+举例
+：将源地址（空间大小 4 * 100 byte）数据搬运到目的地址（空间大小 4 * 100 byte）。源地址和目的地址连续，搬运的数据宽度为4 byte（32 bit）。示例代码如下所示：
+{
+Ifx_DMA_CH_CHCFGR chcfgr;
+chcfgr.U          =
+0
+;
+/* DMA channel TCS transfer reload value to control the number of DMA
+* transfers in a DMA transaction.25 * 4 = 100 32-bit data */
+chcfgr.B.TREL     =
+25
+;
+/* 010B One DMA transfer has 4 DMA moves */
+chcfgr.B.BLKM     =
+2
+;
+/* One DMA request starts a complete DMA transaction. */
+chcfgr.B.RROAT    =
+1
+;
+/* Single_Mode, is selected for DMA channel.*/
+chcfgr.B.CHMODE   =
+0
+;
+/* channel data width,channel data width to 32 bit */
+chcfgr.B.CHDW     =
+2
+;
+/* 000B No pattern compare operation. */
+chcfgr.B.PRSEL    =
+0
+;
+DMA_CHCFGR000.U = chcfgr.U;
+}
+{
+Ifx_DMA_CH_ADICR adicr;
+adicr.U       =
+0
+;
+/* 000B Address offset is 1 x CHDW */
+adicr.B.SMF   =
+0
+;
+/* 1B Address offset will be added. */
+adicr.B.INCS  =
+1
+;
+/* DMA channel TCS circular buffer source address update control bit */
+adicr.B.CBLS  =
+0
+;
+/* 0B Source circular buffer disabled. */
+adicr.B.SCBE  =
+0
+;
+/* 000B Address offset is 1 x CHDW */
+adicr.B.DMF   =
+0x00
+;
+/* 1B Address offset will be added. */
+adicr.B.INCD  =
+1
+;
+adicr.B.CBLD  =
+0
+;
+adicr.B.DCBE  =
+0
+;
+/* DMA channel TCS shadow control */
+adicr.B.SHCT  =
+0
+;
+/* Time Stamp */
+adicr.B.STAMP =
+0
+;
+/* DMA channel TCS source buffer interrupt trigger enable/disable. */
+adicr.B.WRPSE =
+0
+;
+adicr.B.WRPDE =
+0
+;
+/* DMA channel TCS interrupt control. */
+adicr.B.INTCT =
+0
+;
+/* Interrupt Raise Detect Value */
+adicr.B.IRDV  =
+0
+;
+DMA_ADICR000.U = adicr.U;
+}
+/* source address */
+DMA_SADR000.U = DMA_SAD_Adrr;
+/* destination address */
+DMA_DADR000.U = DMA_DAD_Adrr;
+/* disable DMA hardware requests */
+DMA_TSR000.U |= (
+1
+<<
+17
+);
+/* initiate DMA software request */
+DMA_CHCSR000.U |= (
+1
+<<
+31
+);
+运行结果如下所示：
+以上的讨论，是想让大家知道：DMA的使用和学习并不难，对于初学者，可以根据自己的情况，在此基础上增加DMA Interrupt、菊花链等功能。
+3、何时使用DMA更合适？
+如上的两个例子，大家已经感受到了，搬运数据这活，让DMA处理，似乎挺好。但是，我们也意识到，如果想让DMA干活，CPU首先要告诉DMA怎么干，即：DMA干活前的所有"准备"工作均由CPU"操心"，这势必需要耗费CPU的时间，所以，如果CPU需要Copy的数据量不大，或者说，
+CPU自己搬运数据花费的时间比"操心"DMA使能的时间还多，使用DMA就有点大可不必了
+。
+（一）DMA搬运与CPU搬运数据时间对比
+举例一
+：搬运4 * 100 byte数据时间对比
+TIMER0_START_TIME = MODULE_STM0.TIM0.U;
+{
+Ifx_DMA_CH_CHCFGR chcfgr;
+chcfgr.U          =
+0
+;
+/* DMA channel TCS transfer reload value to control the number of DMA
+* transfers in a DMA transaction.25 * 4 = 100 32-bit data */
+chcfgr.B.TREL     =
+25
+;
+/* 010B One DMA transfer has 4 DMA moves */
+chcfgr.B.BLKM     =
+2
+;
+/* One DMA request starts a complete DMA transaction. */
+chcfgr.B.RROAT    =
+1
+;
+/* Single_Mode, is selected for DMA channel.*/
+chcfgr.B.CHMODE   =
+0
+;
+/* channel data width,channel data width to 32 bit */
+chcfgr.B.CHDW     =
+2
+;
+/* 000B No pattern compare operation. */
+chcfgr.B.PRSEL    =
+0
+;
+DMA_CHCFGR000.U = chcfgr.U;
+}
+{
+Ifx_DMA_CH_ADICR adicr;
+adicr.U       =
+0
+;
+/* 000B Address offset is 1 x CHDW */
+adicr.B.SMF   =
+0
+;
+/* 1B Address offset will be added. */
+adicr.B.INCS  =
+1
+;
+/* DMA channel TCS circular buffer source address update control bit */
+adicr.B.CBLS  =
+0
+;
+/* 0B Source circular buffer disabled. */
+adicr.B.SCBE  =
+0
+;
+/* 000B Address offset is 1 x CHDW */
+adicr.B.DMF   =
+0x00
+;
+/* 1B Address offset will be added. */
+adicr.B.INCD  =
+1
+;
+adicr.B.CBLD  =
+0
+;
+adicr.B.DCBE  =
+0
+;
+/* DMA channel TCS shadow control */
+adicr.B.SHCT  =
+0
+;
+/* Time Stamp */
+adicr.B.STAMP =
+0
+;
+/* DMA channel TCS source buffer interrupt trigger enable/disable. */
+adicr.B.WRPSE =
+0
+;
+adicr.B.WRPDE =
+0
+;
+/* DMA channel TCS interrupt control. */
+adicr.B.INTCT =
+0
+;
+/* Interrupt Raise Detect Value */
+adicr.B.IRDV  =
+0
+;
+DMA_ADICR000.U = adicr.U;
+}
+/* source address */
+DMA_SADR000.U = DMA_SAD_Adrr;
+/* destination address */
+DMA_DADR000.U = DMA_DAD_Adrr;
+/* disable DMA hardware requests */
+DMA_TSR000.U |= (
+1
+<<
+17
+);
+/* initiate DMA software request */
+DMA_CHCSR000.U |= (
+1
+<<
+31
+);
+TIMER0_END_TIME = MODULE_STM0.TIM0.U;
+TIMER0_ELAPSE_TIME = TIMER0_END_TIME - TIMER0_START_TIME;
+TIMER1_START_TIME = MODULE_STM1.TIM0.U;
+for
+(idx =
+0x00
+; idx < DMA_TRANSACTION_LEN; idx++)
+{
+DMA_DAD_Adrr[idx] = DMA_SAD_Adrr[idx];
+}
+TIMER1_END_TIME = MODULE_STM1.TIM0.U;
+TIMER1_ELAPSE_TIME = TIMER1_END_TIME - TIMER1_START_TIME;
+运行时间结果对比：
+结论
+：使用DMA搬运4 * 100 byte数据，相比CPU搬运，
+更节省CPU时间
+。
+举例二
+：搬运8 byte数据时间对比
+代码同上，运行结果如下所示：
+结论
+：使用DMA搬运8 byte数据，相比CPU搬运，
+更浪费CPU时间
+。
+因为CPU设置DMA参数时间远比CPU自己搬运耗时
+。
+举例三
+：搬运4 * 13 byte数据时间对比
+代码同上，运行结果如下所示：
+结论
+：使用DMA搬运4 * 13 byte数据，与CPU自己搬运用时近乎相等。
+综上述：
+当搬运的数据量小时，没有必要使用DMA，需要大量搬运数据时，使用DMA，可以更节省CPU时间
+。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+CAN通信基础：L-PDU，到底如何理解？
+Autosar CanTp:什么是Connection？
+诊断基础：不同会话(Session)，诊断报文如何维持网络状态？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

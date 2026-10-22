@@ -1,0 +1,73 @@
+嵌入式开发：程序如何找到第一条指令位置？
+2023-11-28T07:13:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493564&idx=1&sn=6ef8d8e0ba29c16abece7318ca6d35a1&chksm=fa29b9c8cd5e30de9cb29be6154502288ae85b8bd9e8bbac8ae88275d86d9e9cb84cddaa2376&scene=21#wechat_redirect
+
+前文《
+英飞凌tc397:告诉你程序真正的启动过程
+》中，和大家聊过程序的启动流程，前文从链接文件（*.lsl）、*.map文件讨论了启动地址如何设置，但是，并没有讨论CPU从芯片何处获取启动地址。本文，接着讨论固件（Firmware），即：CPU如何从Firmware中获取启动地址。
+1、固件（Firmware）与Boot ROM
+（一）Firmware
+芯片固件（Firmware）是一段软件程序
+，通常由芯片厂商预先烧录。一般情况下，用户无法修改和升级Firmware。当然，有些芯片支持固件更新。如果对Firmware不熟悉，不建议修改Firmware，有锁死和损坏芯片的风险。
+（二）Boot ROM（BROM）
+BROM是内置在芯片内的一块存储区域
+，这块存储区通常为只读存储区，
+可用于存储Firmware程序
+，之后，由Firmware
+引导程序
+启动
+。如下，为Tc3xx的BROM地址，Segment 8为Cached地址，Segment A为NoCached地址，两者对应同一块物理内存区。
+关于内存，更多信息可以参考前文《
+内存管理（Memory）：NVM基础
+》、《
+NVM基础概念
+》。
+2、Firmware启动流程
+以Tc3xx为例，Firmware的启动流程如下所示：
+如上图，
+启动地址
+存储在
+BMHD.STAD
+中（即：Boot Mode Header的Start Address位域）。本文设置
+BMHD.STAD = 0xA0000000
+，如下所示：
+该启动地址才是第一个用户程序启动地址
+（User
+Start Address），
+即
+：
+芯片加电或者程序复位以后，CPU0的PC（Program Counter）寄
+存器指向的第一个地址。
+调试器复位以后，PC指向的复位地址如下所示
+如上图，用户程序入口地址（0xA0000000）在
+BMHDx
+.STAD（x=0~3）
+中设定，对应代码如下：
+在Tc3xx中，BMHD有4个BMHDx_ORIG（x=0~3）和4个BMHDx_COPY（x=0~3）,BMHDx均存储在UCB区域，每组BMHD（BMHD_ORIG和BMHD_COPY）需要同时设置。BMHD结构固定，如下所示：
+3、Firmware到用户程序
+芯片加电以后，BROM中的固件程序启动，随机安装BMHDx，之后评估BMHDx中的用户启动地址是否有效，如果有效，在Firmware程序结束以后，CPU0 PC寄存器指向的第一个用户启动地址（eg：启动地址0xA0000000），CPU0作为主核（Master Core），第一个运行，之后使能从核（Slave Core，eg：CPU1、CPU2...）。程序由Firmware到用户程序过程如下所示：
+提到用户程序，又分为多种：bootloader，application等。工程中常见的用户程序启动顺序：
+Firmware程序中安装的一般是供应商的Bootloader(eg：Bootloader_Sup)程序
+，如果供应商没有安装Bootloader_Sup，则Firmware中可以安装OEM的Bootloader（eg：Bootloader_OEM）；
+程序由Firmware引导，跳转（Jump）到Bootloader_OEM；
+Bo
+otloader_OEM程序检查OEM第一个Application的有效性（eg：完整性和兼容性检查），如果
+OEM
+第一个
+Applica
+tion有效，程序
+进一步跳转到OEM的第一个Application程序；
+如果OEM还有其他需要跳转的用户程序，由OEM First Application跳转到其他OEM用户程序。
+如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+以太网基础：RJ45如何与车规级以太网Phy连接？
+以太网基础：基于Lwip+Tc3xx的组播实现
+工程问题：实现与需求偏离，导致EPB故障
+信息安全：RSA-2048性能
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

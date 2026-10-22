@@ -1,0 +1,191 @@
+Flexray总线基础#03：基础概念图解
+2024-05-25T07:08:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494706&idx=1&sn=66b589519dd756ed054a64697d3a0c76&chksm=fa29b246cd5e3b501a40d03487f6f8d273fcb82c20e62f724323f84cc521627e19f20b22c986&scene=21#wechat_redirect
+
+深入理解Flexray，必须夯实基础。本文，以图表形式，解析Flexray中的一些名词。
+1、Flexray通信周期与时间分层
+Flexray
+静态段采用TDMA
+（Time Division Multiple Access，分时多路访问）策略。Flexray网段中的各节点，
+需要按照各自分配的时间片发送数据，非发送时段可以接收数据
+。为了确保各个节点的发送时序，Flexray的通信中，设计了通信调度表，
+通信调度表周期性执行，也就是通信循环（Communication Cycle）,
+Communication Cycle的时间层级如下所示：
+如上图，
+按照协议
+(1
+)
+规定，
+Flexray的
+一
+个通信
+周期可以包含
+四个部分：
+静态段（Static Segment
+）、
+动态段
+（Dynamic Segment
+）、
+符号窗（
+Symbo
+l
+Window
+）、
+网络空闲时间段（NIT，Network Idle Time
+）。
+静态段
+由多个静态时间片（
+Static Slot
+）构成，在一个Cycle中，必须包含静态段，
+所有Static Slot
+包含的
+macrotick相同
+；
+动态段
+由多个微时间片（
+Mini
+Slot
+）构成，
+在一个Cycle中，动态段
+可选
+，即：可以不配置动态段（minislot = 0）。动态段中，
+所有的mini slot包含的macrotick相同
+。
+动态段采用FTDMA
+（Flexible Time Division Multiple Access，柔性分时多路访问）策略通信，基于事件（Event Trigger）触发数据发送；
+符号窗
+可选
+，由一定数量的
+macrotick构成，如果不用符号窗，可以将该段的长度设置为0个
+macrotick；
+一个通信周期，
+必须包含
+网络空闲时间段
+，NIT的长度 = 一个循环的总长度 - 静态段长度 - 动态段长度（如果有）- 符号窗长度（如果有）
+。
+不管是哪个Segment，均由宏时钟（macrotick）构成，macrotick是表示
+全局时间的最小粒度单位
+。每个通信循环由
+固定数量
+的
+macrotick构成，eg：one cycle = 5000
+macrotick。
+其中，宏时钟又由多个微时钟（microtick）构成。
+微时钟直接从晶振产生，也就是时钟系统经过倍频和分频后的结果。
+微时钟不受时钟同步机制的影响，是
+一个结点里面的最小时间单位
+。
+microtick对应的时间长度是多少呢？
+mi
+cr
+otick既然由时钟产生，我们就的知道Flexray模块获取的时钟是多少，eg：80MHz。那么就意味着一个tick = 1/80000000 = 0.0125us，
+如果需要经过2次采样（sample）得到一个microtick
+，也就是意味着一个microtick = 0.025us。规范
+(1)
+描述如下：
+当microtick知道以后，即可推算macrotick。一般，
+macrotick长度可以设置在1us-6us，
+工程上，常常设置
+macrotick = 1us
+。如果
+设置macrotick = 1us，且一个
+microtick = 0.025us，
+参考
+规范
+(1)
+可知：一个
+macrotick = 40 microtick
+，如下所示：
+所以，如果一个Cycle = 5000 macrotick = 5000 * 1us = 5ms。一个Cycle需要包含5000 * 40 = 200000 microtick。
+提示：
+工程需求中，会具体要求时钟采样周期（gdSampleClockPeriod）、一个microtick的最大值（gdMaxMicrotick）、以及microtick的采样个数（pSamplesPerMicrotick），eg：gdSampleClockPeriod = 0.0125us，gdMaxMicrotick = 0.025us，pSamplesPerMicrotick = 2
+。
+（一）静态段时间分片
+为了便于理解，本文只讨论单通道（Signal Channel）的场景。对于一个Flexray网络簇，
+static slot数量固定不变
+，eg：
+gNumberOfStaticSlots = 60。
+而且，
+静态段中，
+所有static slot长度固定
+，即：static slot包含的
+macrotick个
+数固定，eg：gdStaticSlot = 61 MT（macrotick）。
+每个Flexray节点只能在所分配的时间槽内发送数据，其余时间只能接收数据。
+进一步细分Static Slot，其构成如下：
+工程上，Channel idle由参数gdDynamicSlotIdlePhase表示，eg：
+gdDynamicSlotIdlePhase = 0 minislot（不用该长度）。
+每个Static Slot包含一个动作偏移点（Action Point），对于Flexray网段，Action Point偏移值固定，eg：gdActionPointOffset = 9 MT
+。
+gdActionPointOffset 同样适用NIT中的动作偏移，示意如下：
+提示：
+MT是macrotick简称。
+（二）动态段时间分片
+Flexray网络簇中，mini slot个数固定不变，eg：
+gNumberOfMinislots = 129。且
+mini slot长度固定，
+eg：
+gdMinislot = 10 MT。
+动态段的长度可变，是指
+dynamic slot长度可
+变
+，一个dynamic slot
+由
+一个或者多个minislot
+构成。但是，动态段的总长度固定，动态段总长度 =
+gNumberOfMinislots  *
+gdMinislot ，eg：129 * 10 = 1290 MT = 1290us。
+如果发送的数据长，则占用的mini slot个数多；如果发送的数据短，则占用的minislot个数少。动态段的分片示意如下：
+每个mini slot会包含一个Minislot Action Point，同一网络簇中的
+Minislot Action Point固定不变，eg：gdMinislotActionPointOffset = 3 MT，
+示意如下：
+动态段
+发送数据终止也
+在minislot action point，示意如下：
+2、Frame编码
+认识了Flexray的时间分层以后，即可进一步了解Frame的编码规则。即static slot和dynamic slot发送的frame构成。谈到frame，本质上就是bit stream（位流）。
+（一）静态段Frame
+静态段Frame的编码构成如下所示：
+TSS
+：Transmission start sequence，当发送节点需要发送数据时，在所属的slot中，首先发送TSS，TSS由多个连续的低电平组成，eg：
+gdTSSTransmitter =
+9 gdB
+it
+=
+9
+*
+0.1
+us
+= 0
+.9us
+。
+FSS
+：Frame start sequence，由一个高电平组成。
+BSS
+：Byte start sequence，由一个高电平+一个低电平组成，后跟一个byte数据。
+FES
+：Frame end sequence，由一个低电平+一个高电平组成，表征数据传输结束。
+提示：
+如果使用10MHz通信速率，1gdBit = 1/10000000 = 0.1us。
+（二）动态段Frame
+动态段Frame的编码构成如下所示：
+相对于静态Frame，动态Frame多了一个DTS（dynamic trailing sequence）表征数据的结束。
+参考资料
+SIMPLE TITLE
+(1)FlexRay Communications SystemProtocol Specification
+V
+ersion 2.1.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：303~350
+Autosar往期精彩文章汇总：252~302
+信息安全：AES-CMAC原理及验签策略
+工程问题：电压瞬时异常导致的busoff与通信丢失
+包含信息安全、SWAP（A/B分区）功能的Bootloader开发思考
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+工程问题：读个DID，MCU怎么就Reset了呢？
+C语言基础：减少for循环，提升执行效率
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,166 @@
+AURIX TC397之ERU :外部中断
+2022-01-31T17:29:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485281&idx=1&sn=ef555d12aa9359ceb0ef7b2369ccdef4&chksm=fa2a5915cd5dd0032a05af9a1be8fd1d2b4319f742630ea1ada6d2cad034f7b8d7ea2eedfceb&scene=21#wechat_redirect
+
+嵌入式开发，了解使用的芯片是很有必要的，如果能了解使用的芯片对我们设计和解决问题大有裨益。本文开始撸TC397的外部中断，给你讲透外部中断怎么用。
+本文学习参考教程链接
+：
+https://www.infineon.com/cms/en/product/promopages/aurix-expert-training/?redirId=118978
+ERU具体参考的示例链接：
+https://www.infineon.com/dgdl/Infineon-ERU_Interrupt_1_KIT_TC397_TFT-Training-v01_02-EN.pdf?fileId=5546d4627883d7e00178a2d63d17391d
+AURIX TC397或者其它系列模块的学习均可在上述链接中找到，如果觉得有用，请分享给更多的汽车人，大家一起聊聊汽车嵌入式开发那点事。
+1
+基础知识
+说外部中断，其实主要是谈SCU(System Control Units)的外部请求单元ERU(External Request Unit)。首先我们需要清楚，一个芯片的引脚毕竟是有限的，不可能全部用来请求外部中断，因此在PCB设计之初就应考虑好哪些Pin用来作为外部中断触发源。
+比如我们讨论的
+TC397，
+外部直接输入端口也就17个可以作为直接外部触发源，当然，给到ERU的输入还有其它模块的输入信号（也是有限的）。在库文件
+IfxScu_PinMap.h
+中可以一目了然的知道直接外部请求端口有哪些，如下所示：
+ERU主要包含：输入通道、连接矩阵和输出通道三大部分。整个外部中断的配置也是围绕这三块寄存器配置。ERU模块如下所示：
+ERS(External Request Selector Unit )
+ERS可以理解为触发源，实际开发中选择哪个Pin作为触发的输入？刚才已经提到了，对于AURIX TC397，能直接选择的Pin只能是IfxScu_PinMap.h中给出的那些。除了这种确定方式之外，我们还可以通过《Infineon-AURIX_TC39x-UserManual-v01_00-EN》确定，比如：阅读手册可以知道P15.4可以作为外部请求源，且该Pin对应Channel0的0号Input Line。
+AURIX TC397一共有8个Channel，编号0~7，也就是有8个下图所示的输入通道，每个通道又可以连接6个输入Pin（编号A~F），而开发中使用哪个Channel的哪个Pin由
+寄存器EICR（External Input Channel Register）的EXIS位域
+决定。
+这里注意一下，每个EICR寄存器可以设置两个Pin。
+ETL(Event Trigger Logic )
+既然选择好了哪个Channel的哪个Pin作为输入源，那么就要确定这个输入源的何种行为可以作为触发中断的条件，比如这个Pin接收到下降沿、上升沿或者两者均可作为触发中断的使能条件。
+通过设置EICR寄存器的FEN和REN位域可以设置这个Pin的下降沿/上升沿触发，触发实际就是产生一个脉冲信号，脉冲信号的产生由EIEN位域决定，这个脉冲信号输出给哪个OGU（Output Gating Unit），由INP位域决定，整个事件触发逻辑如下所示：
+Connecting Matrix
+事件脉冲产生以后，需要将触发信号发送给OGU，这里就牵扯到具体给哪个OGU的问题。tc397有8个触发逻辑单元，每个触发逻辑单元产生的1个触发信号可以发送给任意的OGU单元，但是一次只能选择一个OGU。也就是说8个触发逻辑单元一次可以产生8个触发信号，这8个触发信号可以发送给一个OGU，也可以给多个OGU。
+OGU(Output Gating Unit )
+触发逻辑模块产生的触发信号如何输出，给哪些模块或是产生中断？这些行为需要根据我们设置的Pattern决定，我们本文主要讨论外部中断的直接触发，所以我们选择逻辑与操作之后中断输出，即输出
+ERU_IOUT中断信号
+。这里的中断输出就是输出到对应中断提供者的仲裁总线上，之后IR开始对中断优先级进行仲裁，进而决定中断的执行。
+IGCR(Interrupt Gating Control Registers)寄存器决定了Pattern的匹配，具体位域如下所示：
+2
+应用实例
+实例描述
+：中断检测端口选择P15_5，P15_5作为输入端口，与P14_9连接（P14_9设置输出模式），通过控制P14_9的边沿上升或者下降即可触发P15_5的中断产生。
+代码参考链接
+：
+ps://blog.csdn.net/weifengdq/article/details/109576804
+具体代码如下所示：
+#
+include
+"main.h"
+#
+define
+CPU0_INT_VECTOR_TABLE_NUM       0
+#
+define
+PER_PRI_NUM_6                   6
+IFX_ALIGN(
+4
+) IfxCpu_syncEvent cpuSyncEvent=
+0
+;
+#
+define
+TRIGGER_PIN                &MODULE_P14,9
+#
+define
+REQ_IN                     &IfxScu_REQ4D_P15_5_IN
+/* External request pin */
+typedef
+struct
+{
+IfxScu_Req_In *reqPin;
+/* External request pin                                             */
+IfxScuEru_InputChannel inputChannel;
+/* Input channel EICRm depending on input pin                       */
+IfxScuEru_InputNodePointer triggerSelect;
+/* Input node pointer                                               */
+IfxScuEru_OutputChannel outputChannel;
+/* Output channel                                                   */
+volatile
+Ifx_SRC_SRCR *src;
+/* Service request register                                         */
+} ERUconfig;
+ERUconfig g_ERUconfig;
+void
+core0_main
+(
+void
+)
+{
+IfxCpu_enableInterrupts();
+/*
+* !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+* Enable the watchdog in the demo if it is required and also service the watchdog periodically
+* */
+IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
+IfxScuWdt_disableSafetyWatchdog (IfxScuWdt_getSafetyWatchdogPassword ());
+/* Cpu sync event wait*/
+IfxCpu_emitEvent(&cpuSyncEvent);
+IfxCpu_waitEvent(&cpuSyncEvent,
+1
+);
+IfxPort_setPinMode(TRIGGER_PIN, IfxPort_Mode_outputPushPullGeneral);
+IfxPort_setPinState(TRIGGER_PIN, IfxPort_State_high);
+/* Trigger pin */
+g_ERUconfig.reqPin = REQ_IN;
+/* Initialize this pin with pull-down enabled
+* This function will also configure the input multiplexers of the ERU (Register EXISx)
+*/
+IfxScuEru_initReqPin(g_ERUconfig.reqPin, IfxPort_InputMode_pullDown);
+/* Determine input channel depending on input pin */
+g_ERUconfig.inputChannel = (IfxScuEru_InputChannel) g_ERUconfig.reqPin->channelId;
+/* Input channel configuration */
+IfxScuEru_enableRisingEdgeDetection(g_ERUconfig.inputChannel);
+/* Interrupt triggers on rising edge (Register RENx) and  */
+IfxScuEru_enableFallingEdgeDetection(g_ERUconfig.inputChannel);
+/* on falling edge (Register FENx)  */
+/* Signal destination */
+g_ERUconfig.outputChannel = IfxScuEru_OutputChannel_0;
+/* OGU channel 0                    */
+/* Event from input ETL0 triggers output OGU0 (signal TRx0) */
+g_ERUconfig.triggerSelect = IfxScuEru_InputNodePointer_0;
+/* Get source pointer depending on outputChannel (SRC_SCUERU0 for outputChannel0) */
+g_ERUconfig.src = &MODULE_SRC.SCU.SCUERU[
+0
+];
+/* Connecting Matrix, Event Trigger Logic ETL block */
+/* Enable generation of trigger event (Register EIENx) */
+IfxScuEru_enableTriggerPulse(g_ERUconfig.inputChannel);
+/* Determination of output channel for trigger event (Register INPx) */
+IfxScuEru_connectTrigger(g_ERUconfig.inputChannel, g_ERUconfig.triggerSelect);
+/* Configure Output channels, OutputGating Unit OGU (Register IGPy) */
+IfxScuEru_setInterruptGatingPattern(g_ERUconfig.outputChannel, IfxScuEru_InterruptGatingPattern_alwaysActive);
+IfxSrc_init(g_ERUconfig.src, IfxSrc_Tos_cpu0,
+6
+);
+IfxSrc_enable(g_ERUconfig.src);
+while
+(
+1
+)
+{
+IfxPort_setPinState(TRIGGER_PIN, IfxPort_State_toggled);
+}
+}
+IFX_INTERRUPT(Per_IntHandle, CPU0_INT_VECTOR_TABLE_NUM, PER_PRI_NUM_6);
+void
+Per_IntHandle
+(
+void
+)
+{
+/* interrupt handle */
+}
+往期
+精彩
+回顾
+英飞凌tx397:手撕中断，让你理解得更明白
+UDS诊断之刷写：Server响应时间对APP程序复位影响
+UDS之刷写：你真清楚Application和Bootloader如何沟通？
+英飞凌tc397:告诉你程序真正的启动过程
+Autosar以太网：Ethernet Transceiver基础（一）
+Autosar网络管理PN：路由超时大Bug
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

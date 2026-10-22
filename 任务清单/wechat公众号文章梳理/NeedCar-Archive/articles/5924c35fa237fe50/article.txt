@@ -1,0 +1,259 @@
+C语言引用来链接文件符号（symbol）知多少？
+2023-06-01T13:08:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492259&idx=1&sn=16ec1931933512b8ed051bf856ad862c&chksm=fa29bcd7cd5e35c12db2378236bd0d59246d481ca69b83fe457cea2cbd4967b731f1c833fc80&scene=21#wechat_redirect
+
+在阅读工程代码时，大家是否产生过这样的困惑：这个变量明明在源文件中没有定义，但是却声明为外部变量，如何理解呢？如下所示：
+/*Start: Common definitions ****************/
+#
+define
+IFXCOMPILER_COMMON_LINKER_SYMBOLS() \
+/**< center of A0 addressable area */
+\
+extern
+unsigned
+int
+__A0_MEM[];         \
+/**< center of A1 addressable area */
+\
+extern
+unsigned
+int
+__A1_MEM[];         \
+/**< center of A8 addressable area */
+\
+extern
+unsigned
+int
+__A8_MEM[];         \
+/**< center of A9 addressable area */
+\
+extern
+unsigned
+int
+__A9_MEM[];
+/*End: Common definitions *****************/
+/*C extern defintions */
+#
+define
+IFXCOMPILER_CORE_LINKER_SYMBOLS(cpu)  \
+/**< user stack end */
+\
+extern
+unsigned
+int
+__USTACK
+##cpu[];      \
+/**< interrupt stack end */
+\
+extern
+unsigned
+int
+__ISTACK
+##cpu[];      \
+/**< Interrupt vector table */
+\
+extern
+unsigned
+int
+__INTTAB_CPU
+##cpu[];  \
+/**< trap table */
+\
+extern
+unsigned
+int
+__TRAPTAB_CPU
+##cpu[]; \
+/**< context save area 1 begin */
+\
+extern
+unsigned
+int
+__CSA
+##cpu[];         \
+/**< context save area 1 begin */
+\
+extern
+unsigned
+int
+__CSA
+##cpu##_END[];
+一般，在编译器的头文件中，会声明一些外部变量，如上的__USTACK0、
+__ISTACK0等。这些声明的参数哪里来的呢？
+提示
+：C语言中，##是连接符，作用：将##左右两侧的符号连接，eg:A##B = AB。如上宏定义中，如果符号cpu = 0，宏展开就是：
+extern
+unsigned
+int
+__ISTACK0[];
+1、链接器与链接符号
+找到问题答案之前，先回顾一下链接器（Linker）的作用。百度百科对GNU链接器的解释如下：“GNU的链接器称为ld，它负责把
+若干目标文件
+与
+若干库文件
+链接起来，
+并重定位它们的数据位置
+。
+在编译一个程序时，最后一步就是运行ld命令
+，通常ld直接由gcc负责调用，对用户程序员透明。
+ld能接受链接描述文件的控制
+，这是一种用链接命令语言（LinkerScript）写成的控制文件，用来在链接的整个过程中提供显式的、全局的控制。ld比其他链接器更有用的地方在于它提供了诊断信息。许多链接器在碰到错误的时候立即放弃执行，但ld却能够继续执行，让程序员发现其他的错误，或者在某些情况下，产生一个带有错误信息的输出文件。”链接器作用如下所示：
+如上的解释中提到：
+链接器接受链接文件的控制
+。工程开发中，链接文件我们并不陌生，不管使用哪款编译器，均需要编写对应的链接文件。链接文件的作用简单说：控制工程文件的内存分配。而链接文件中，
+用户设置的链接符号（Symbol）实质就是一个地址
+。
+2、C文件中如何使用链接文件中Symbol
+（一）链接文件中定义符号
+以Hightec对应的链接文件为例（*.lsl），定义符号：USER_DATA、userStack、__USTACK0等，如下所示：
+USER_DATA = 0x70000000;
+SECTIONS
+{
+......
+CORE_SEC(.ustack) (LCF_DSPR0_START + LCF_USTACK0_OFFSET):
+{
+PROVIDE(__USTACK0_END = .);
+. = . + LCF_USTACK0_SIZE;
+userStack = .;
+PROVIDE(__USTACK0 = .);
+} > dsram0
+......
+}
+（二）在源文件中引用链接文件中的符号
+在链接文件中定义符号后，即可
+在源文件中进行外部声明
+，进而获取符号指定的
+地址
+，示例如下：
+......
+uint32 USTACK0_Address =
+0x00
+;
+uint32 UserData_Address =
+0x00
+;
+uint32 UserStack_Address =
+0x00
+;
+extern
+unsigned
+int
+__USTACK0[];
+extern
+unsigned
+int
+USER_DATA[];
+extern
+unsigned
+int
+userStack[];
+int
+core0_main
+(
+void
+)
+{
+......
+USTACK0_Address = __USTACK0;
+UserData_Address = USER_DATA;
+UserStack_Address = userStack;
+while
+(
+1
+)
+{
+}
+}
+运行结果如下所示：
+3、拓展思考
+工程上，经常遇到将某些参数放到指定地址的要求。实现方式多种多样，既然链接文件可以定义符号，且指定符号表示特定地址，是否可以通过此方式实现参数写入特定地址呢？
+答
+：可以。
+示例1
+：在指定地址0x70000000修改参数
+链接文件中直接定义符号，指定地址0x70000000，如下所示：
+USER_DATA
+=
+0
+x70000000;
+源文件在指定地址（0x70000000）进行写操作，如下所示：
+......
+extern
+unsigned
+int
+USER_DATA[];
+int
+core0_main
+(
+void
+)
+{
+......
+*((uint32*)USER_DATA) =
+0xA0A0A0A0
+;
+while
+(
+1
+)
+{
+}
+}
+运行结果如下：
+对应的MAP文件中，USER_DATA仅是一个表征地址的符号，并不消耗实际的内存，如下所示：
+示例2
+：将某个固定值（eg:0x14725836）写到PFlash指定地址（eg:0xA0003000），如何操作呢？
+1、在源文件中自定义段（eg：.SoftwareVersion），在自定义段中定义常量（eg:APP_SOFVER = 0x14725836），如下所示：
+#
+pragma
+section
+".SoftwareVersion"
+az
+const
+uint32 APP_SOFVER =
+0x14725836
+;
+#
+pragma
+section
+2、在链接文件中，增加自定义段，并指定段地址0xA0003000，如下所示：
+.UserStoreInfo (
+0xA0003000
+)
+:FLAGS
+(rxl)
+{
+KEEP(*(.SoftwareVersion));
+}> pfls0_nc
+3、编译工程，查看指定地址值，如下所示：
+提示
+：自定义段（SECTION）如何设置，因使用的编译器不同而有所区别，链接文件的格式也存在一定差异，需要根据使用的编译器进行对应设置。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+如何使用链接文件设置填充值（Fill Value）
+嵌入式开发：如何理解Local/Global寻址？
+嵌入式开发：CSA是什么？
+基于VN5650 TAP模式监控以太网数据交互
+E2E工程问题：小周期转大周期Gateway
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,90 @@
+Uds诊断：Gateway节点的Timing，不简单
+2022-05-03T15:01:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487271&idx=1&sn=4f6eb24af19a58db30a9b254356d2061&chksm=fa2a5153cd5dd84551f666ef14f13bdac57d53fa2f2df96a07dc2f7c30662f6c23338edc4dc7&scene=21#wechat_redirect
+
+汽车嵌入式开发中，开发ECU网关节点(GW:Gateway)时，难度会提升不少，这些难度中就包含对时间参数的解读问题。本文着重给大家聊一下P2Client、▲P2 =
+▲
+P2Request +
+▲
+P2Response、N_As时间参数。
+1
+背景介绍
+假设
+：Tester发送
+功能寻址
+指令Request01给GW::VCU，因为VCU的GW属性，VCU需要将Request01转发，即由Flexray总线路由到Can总线，进而将Request01发送给Ecu::Xx，Request01路由示意如如下所示：
+注意
+：诊断路由，需要通过Xx_Tp层。
+VCU既然是GW，相对于ECU::Xx，就是一个Tester。
+如果对各层的PDU类型不清楚，可以参考前文
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+。
+2
+P2Client、▲P2、N_As时间参数分析
+1、P2Client
+P2Client的时间定义如下所示：
+怎么理解呢？上位机（Tester）发送一个诊断指令以后，会等待Server(可以理解为某个ECU的节点)响应该诊断请求，如果在指定的时间内（P2Client_max/P2Client*_max）没有响应，Tester认为超时，并停止刷写流程，即：
+刷写失败
+。
+P2Client的时间范围是多少呢？如下所示：
+P2Client时间范围的表达式：P2Client_max＞
+P2Client
+＞P2Server_max + ▲P2max 。
+P2Client_max是一个性能参数
+，由OEM设定。
+这里假设：P2Server_max = 50ms，单向路由时间10ms，P2Client_max = 150ms，则70ms <
+P2Client
+< 150ms。为什么最小时间是70ms，不是60ms?稍后解释。
+2、▲P2
+▲P2的时间定义如下所示：
+怎么理解这个时间参数呢？诊断指令的发送依赖于ECU各个模块的处理，在诊断指令被ECU接收到发送到总线需要一定的时间，同时由于总线仲裁等原因，也会导致诊断指令发送的延阻，这些因素所造成的时间消耗就是▲P2。
+我们讨论路由时间，要分两种情况分析：
+发送路由
+：
+对应第一小节图中的Fr->Can路由，即▲P2request = t1 - t0
+响应路由
+：
+对应第一小节图中的Can->Fr路由，即▲P2response = t3 - t2
+所以，需要约束一般会规定
+单向路由时间
+GWTime_max，比如：GWTime_max= 10ms。所以：▲P2 = P2Server_max + ▲P2request + ▲P2response = P2Server_max + 2*GWTime_max = 50 + 2*10 = 70ms。这里的GWTime_max = ▲P2request = ▲P2response。虽然▲P2request和▲P2response会有所不同，但实际工程项目中，一般设置▲P2request = ▲P2response，即：给一个单向路由的最大时间参数GWTime_max，GWTime_max需求如下所示：
+3、N_As
+以Can总线为例，N_As的时间定义如下所示：
+意思就是：发送端（Tester）的
+Xx_Tp层
+，从发送到
+驱动层
+应答的
+最大时间
+。该时间只是约束Xx_Tp层的计时行为，和▲P2 时间无关。因此，
+开发必须要先符合▲P2 时间
+。
+3
+多路诊断路由
+我们将问题进一步拓展，如果GW节点将诊断指令路由到多个节点，如下图中的ECU::Xx01和ECU::Xx02。这里
+提一个问题
+：如果Can02不可用（比如：VCU Can02对应的Transceiver损坏或者未有连接），Can01上的刷写是否应该继续？
+我们先看一下Autosar的答案，如下所示：
+答案很明确：如果TPs间的路由，有一路Fail（调用发送接口返回值为E_NOT_OK），不应影响其他TPs间的路由。如果OEM约束了你的开发：要符合Autosar规范。那么PduR的路由功能应满足上述规范。
+写在最后
+诊断开发的琐碎细节很多，我会持续不断输出，其他的时间参数或者相关问题，后续再给大家分享我的理解。觉得有用，请分享给更多的朋友！
+参考资料
+AUTOSAR_SWS_PDURouter.pdf
+ISO 15765-2.pdf
+ISO 14229-1_2013(E).pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+基于UDS刷写，0x28、0x85服务可以不用吗?
+Uds诊断：这5个诊断问题，你能回答几个？（三）
+Autosar网络管理：基础问题知多少
+Uds诊断：Gateway节点响应$10 02服务时机，要精准拿捏
+Autosar通信：网络管理报文和应用报文，谁先发？
+Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？
+嵌入式开发笔记：空指针引起的Trap问题（一）
+Bootloader开发：并列刷写(Parallel Flash)你知道多少？
+Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

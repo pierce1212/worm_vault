@@ -1,0 +1,51 @@
+Autosar通信：网络管理报文和应用报文，谁先发？
+2022-04-15T19:23:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486740&idx=1&sn=b544701acdfe85701d08db240f2a7be9&chksm=fa2a5360cd5dda768d9b9abd6970500df872a9578396d7b9e8180afd2952f1a6d7f86090fd7c&scene=21#wechat_redirect
+
+汽车嵌入式开发中，具有
+周期性
+外发的报文目前只有网络管理报文和应用报文，当通信开启的时候，这两种类型的报文谁先外发呢？本文从需求角度，聊聊这两种报文到底该谁应该先发送，谁应该后发送。
+1
+IpduGroup概念
+为了便于对应用报文的管理，COM层将发送和接收的I-PDU进行分组处理（分组情况根据需求配置）。COM通过Com_IpduGroupControl()接口具体的控制I-PDUs的收/发行为。
+Com_IpduGroupControl()函数原型如下所示：
+以控制Tx PDU为例，ipduGroupVector、IpduGroup、I-PDU关系如下所示：
+再看看Autosar怎么描述IpduGroup、I-PDU关系的，如下所示：
+有点晕？没关系，咱们简单说说：
+一个I-PDU可以放在一个IpduGroup里，也可以放在多个IpduGroup里；
+一个I-PDU既可以放在Rx IpduGroup里，也可以放在Tx IpduGroup;
+一个I-PDU所在的
+任意一个
+IpduGroup激活，此I-PDU的收/发行为被激活。
+2
+网络管理报文和应用报文谁先发？
+首先，需要明确当前Node的网络类型，如果当前Node的网络类型是Active的，Node可以外发网络管理报文，那么就需要明确一下两者谁先发送的问题了。为了快速的唤醒网络，需求中多数会要求“
+外发的第一帧报文是网络管理报文
+”，且会有时间约束，比如：150ms＋10%。这个话题前面我们有提到过，可以回顾前文
+Autosar网络管理：确保第一帧是网络管理报文方法
+。
+如果当前Node的网络类型是Passive的，意味着本Node不会外发网络管理报文，只能接收网络管理报文。所以，此种情况，就
+只有应用报文先外发
+，即使是应用报文，第一帧报文的外发时间也是有约束的，比如：100ms＋10%。刚才我们提到Com_IpduGroupControl()控制应用报文的外发行为，当然COM层也管控着应用报文的外发时机，即：配置参数ComTxModeTimeOffset。不要忽视此参数的配置，如果ComTxModeTimeOffset ＞0，意味着应用报文的外发时机要Offset，如下所示：
+ComTxModeTimeOffset具体作用如下所示，可以看出，ComTxModeTimeOffset作用于PERIODIC or MIXED两种类型的应用报文。
+当ComTxModeTimeOffset ＞ 0时，会延迟Com_MainFunctionTx()的调用，进而使得第一帧应用报文的外发时间延长。所以，在实际项目的开发中，嫌少使用该参数，或者将其配置为0。
+如果遇到外发第一帧应用报文时间超时，可以看一下该参数的配置情况
+。
+这里还有一个问题我们没有解释：Com_MainFunctionTx()对应的ComTxModeTimeOffset谁来计时？既然Com_MainFunctionTx()需要周期性调度（比如：5ms调度一次），就会被OS管理，如果Com_MainFunctionTx()所在Task想延迟一段时间激活。可以，OsAlarm粉墨登场，ComTxModeTimeOffset延迟时间由OsAlarm精准把控，比如：延迟10ms，激活Com_MainFunctionTx()所在Task，那么周期性应用报文的第一次外发将会被延迟10ms。
+TaskOsAlarm作用如下所示：
+拓展思考
+前面我们讨论过：“如何确保外发第一帧报文是网络管理报文”。同样，我们可以利用ComTxModeTimeOffset参数，延迟Com_MainFunctionTx()所在任务的激活时机来实现该功能。注意：需要先确定使用的软件包是否具有该功能，因为并不是每家Autosar供应商都实现了该功能。
+参考资料
+AUTOSAR_SWS_COM.pdf
+AUTOSAR_SWS_OS.pdf
+往期
+精彩
+回顾
+‍
+Autosar往期精彩文章汇总：1~70
+‍
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

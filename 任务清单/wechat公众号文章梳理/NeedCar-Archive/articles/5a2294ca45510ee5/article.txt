@@ -1,0 +1,58 @@
+Lin总线基础：为什么Master节点需要外接上拉电阻
+2023-08-04T09:57:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492714&idx=1&sn=fd7fb0fc66bf3b8e29c7c018a4690818&chksm=fa29ba1ecd5e330812cd45451b2ecd59f7f207075628d29a40bbfe9d21b69e9cebf99a5e621f&scene=21#wechat_redirect
+
+Lin（Local Interconnect Network）总线
+开发的小伙伴是否有过这样的疑问：为什么主节点（Master）的设计中，需要增加一个1KΩ的上拉电阻呢？如下所示：
+提示
+：本文基于NXP TJA1021讨论
+1、Lin收发器的内部结构
+TJA1021内部结构如下所示：
+如上图，可以看出，在LIN端口的内部有一个30KΩ电阻（responder termination resistor），
+当收发器进入Standby Mode时，
+responder termination resistor打开
+，
+这个电阻相对较大，降低了总线的驱动能力。那么，如何才能增大总线的驱动能力呢？
+2、增强总线驱动能力措施
+增强LIN总线驱动能力的实质就是增强回路电流，而收发器内部本身就有一个30KΩ的
+responder termination resistor
+，如果想让LIN总线获取更大的电流，可以采用并联电阻的措施，示意如下所示：
+如上图
+，当并联一个小于30KΩ的电阻以后，形成两条通路：1通路、2通路。
+1通路和2通路的电压一样，均来自V
+bat
+（eg:12V，Standby Mode下，V
+bat
+= V
+INH
+= V
+Lin
+）
+，由于2通路上的电阻更小，所以，在1KΩ电路上的电流更强，进而达到增强LIN总线驱动能力的目的。
+（一）为什么需要增强LIN总线的驱动能力呢？
+主要考虑如下几点：
+减少延迟。加速信号的变化速度。
+提高信号输出的稳定性。
+当然，外部的上拉电阻也需要配合对应的电容，进而获取更稳定的波形。
+（二）为什么在Master端增加？
+同一个Lin网络，各Lin节点均挂接在一根Lin总线上，所以，在一个节点位置增强即可，而Master作为Lin通信的调度者，放在Master端增加
+1KΩ更合适。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+Debug调试：确认故障发生时间的一种方法
+Autosar网络管理：如何理解局部网络的VFC？
+UDS基础：正响应抑制位（suppressPosRspMsgIndicationBit）详解
+我的建议，无法替代你“硬刚”现实
+嵌入式开发：测量代码运行时间的第三种方法
+INCA基础操作：测量数据分析
+Cached段启动，导致调试断点失效
+基于VN5650的以太网配置
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
