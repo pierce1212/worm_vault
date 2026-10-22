@@ -1,0 +1,95 @@
+为什么要对DFlash进行均匀磨损处理？
+2026-02-09T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497964&idx=1&sn=46bab3eea3ac62222bfa3e492c1f538e&chksm=fa29a698cd5e2f8e95614d325e99a025949f4a640cd0f12cfed1ac7e3bcaea25a5e793b9979f#rd
+
+实际的工程项目中，我们常常听到一个关于DFlash内存操作的概念“
+均匀磨损（Wear Leveling）
+”。可是，为什么需要均匀磨损呢？均匀磨损的实现原理是什么呢？
+本文基于RH850 F1KM聊一聊EEL（
+EEPROM Emulation Library
+）的均匀磨损问题。
+1.为什么需要“均匀磨损”
+之所以要在项目中考虑均匀磨损，主要是因为
+Flash的物理限制
+。即：Flash擦除次数有限（eg:10万次）。注意，擦除是按“块（Block）”进行的
+如果总是反复擦同一个块，就会导致这个块最先坏。所以，
+为了避免某些block过快失效，导致整个Flash不能使用的情况
+，人们设计了
+均匀磨损机制。
+这里进一步延伸一个问题：为什么会有那么多次的擦除和写入数据呢？实际的工程中，有些关键信息需要存储到非易失内存中，比如：时时更新的里程数、故障信息、网络状态信息等。这些信息有些需要立即存储，有些需要下电存储，但是，不管何时存储，均有一个要求：不能丢失。以便于下次上电时使用。这就需要用到一种物理内存区，即能掉电以后保存数据，还能多次擦除和编程使用。而
+EEPROM就是最好的选择。所以，为了延长
+EEPROM的使用寿命，就有了
+“均匀磨损”的设计。
+所以，
+为了达到DFlash的
+均匀磨损，就不要在同一个DFlash块上反复擦写，而是让“写入和擦除”在所有块之间轮流发生
+。
+2.EEL 实现均匀磨损的三大核心机制
+（一）不覆盖写（Append-only 写入）
+传统EEPROM思路不适合Flash。示例如下：
+ID=1 → 地址 0x1000
+反复写 0x1000 → 反复擦同一块
+EEL的思路关键第一步，示意如下：
+ID=1 第1次写 → 新位置 A
+ID=1 第2次写 → 新位置 B
+ID=1 第3次写 → 新位置 C
+即：EEL从不覆盖旧数据，每次写都会生成一个新的Data Set实例，旧实例只是“过期”，
+不会立刻擦
+。这样的好处就是：
+写操作不集中在一个块，写分布自然扩散
+。
+（二）
+虚拟块环形缓冲（Ring Buffer）
+RH850 Data Flash的物理块（Physical Block）很小，只有64Byte。不适合直接做磨损均衡。怎么办呢？EEL的做法：
+把多个物理块合并成一个“虚拟块”（VB，
+Virtualization
+Block ）
+。
+所有虚拟块组成一个环
+。
+虚拟块大小的具体配置可以在瑞萨驱动库中的
+fdl_descriptor.h
+文件配置，比如：设计一个虚拟块的大小是16KB，则设置
+EEL_VIRTUALBLOCKSIZE = 256。256*64 bytes = 16384 bytes = 16KB。
+#
+define
+EEL_VIRTUALBLOCKSIZE    (256)
+示例：[VB0] → [VB1] → [VB2] → [VB3] → 回到 [VB0]
+写入规则：当前Active虚拟块写满 → 换下一个写指针只会向前移动，不会回头。结果：每个虚拟块都会轮流当Active，每个虚拟块的写/擦次数接近。
+这里延伸一个问题：使用DFlash模拟EEPROM的起始地址如何配置呢？瑞萨的设计很有意思，
+它不是直接给绝对地址
+，而是根据块号进行索引。比如：RH850 F1KMS4的DFlash大小是128KB，那么，DFlash每个物理块的大小是64 bytes，则DFlash一共有128 * 1024 / 64 = 2048个块。编号从0~2047。如果要使用最后的32KB作为EEL Pool，意味着使用编号1536~2047编号的DFlash块。而EEL只认识VB概念，假设一个VB是8KB，即：
+EEL_VIRTUALBLOCKSIZE = 128
+，也就是128个64 bytes。则
+EEL_POOL_START = 12 *
+EEL_VIRTUALBLOCKSIZE。
+而
+EEL_POOL_SIZE的范围是：
+4 * EEL_VIRTUALBLOCKSIZE <=
+EEL_POOL_SIZE <=
+FDL_POOL_SIZE - EEL_POOL_START
+（三）Refresh + Prepare（刷新与准备）
+这是均匀磨损真正“收尾”的关键。这里会牵扯一个问题：旧数据怎么办？一个虚拟块写满了，但是，里面可能还存着“某些DS的最新值”，不能直接擦。EEL的解决方案：Refresh。
+Refresh做什么？找到Active Zone Tail（最老的Active块）把仍然有效的DS最新实例，复制到Active Zone Head，确保数据“搬走了”。然后Prepare，原来的旧块只剩无效数据，执行擦除，标记为Prepared
+重新加入“可用块池”。
+这意味着什么？每一个虚拟块都会经历：
+Prepared → Active → Active(full) → Invalid → Erase → Prepared → …
+每个块都会被擦，没有哪个块被“特殊照顾”。 擦除次数天然趋同，所有块都在环里，一圈下来，每个块都擦一次，这就是“均匀磨损”的本质。
+注意：
+这里只是软件统计的虚拟块
+写/擦次数，并不代表物理内存区实际的
+写/擦次数，因为，某些物理内存区可能使用调试器或者其他设备进行了一定次数的
+写/擦操作。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+聊一聊RH850 F1KM芯片CPU的主频确认那点事
+关于Bootloader OTA的一种软件升级方案
+基于PBKDF2的Password生成方案
+基于CANoe的Automation测试
+授权、认证和访问控制的区别
+密钥更新中的KeyID≠KeySlotNumber，困惑点分解！

@@ -1,0 +1,127 @@
+Cached段启动，导致调试断点失效
+2023-06-04T09:22:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492277&idx=1&sn=a60ddf2fe5b10e242b446ead120ea34b&chksm=fa29bcc1cd5e35d78d9053710d16fbffee1a5196e993269dc09e8540609060372caa31f6d4c3&scene=21#wechat_redirect
+
+嵌入式开发过程中，有效的设置断点是排查bug的一大利器。最近遇到了一个断点设置失效的问题，本文做一个分享。
+1、问题描述
+（一）将程序烧录到目标板，在TRACE32中，Core0和Core1分别设置断点，如下所示：
+第一次运行调试，程序停在了预期的Core0断点位置，如下所示：
+使用调试器进行
+Target Reset
+设置，进行复位操作，如下所示：
+如上图，程序复位到了非缓存区地址0xA0000020。
+再次进行程序调试，
+程序停在了非预期的Core1断点位置
+，
+而不是预期的Core0断点位置
+，如下所示：
+2、问题分析
+查看工程对应的链接文件（*.lsl），如下所示：
+......
+#
+define
+RESET 0x80000020
+......
+SECTIONS
+{
+......
+.startup (
+0x80000020
+) : FLAGS(rxl)
+{
+BootModeIndex = .;
+. = ALIGN(
+8
+);
+KEEP (*(.start));
+. = ALIGN(
+8
+);
+} > pfls0 =
+0xFF
+......
+}
+启动地址（0x80000020）为Cached区，对应的*.map文件如下所示：
+而Debugger复位时，复位到了Non
+Cached区的启动地址（0xA0000020）,
+调试器在此区域找不到对应的Symbol
+，使得断点无效。
+3、解决措施
+方法一
+：启动地址设置到NonCached区
+......
+#define RESET 0xA0000020
+......
+SECTIONS
+{
+......
+.startup (0xA0000020)
+:
+FLAGS(rxl)
+{
+BootModeIndex
+=
+.;
+.
+=
+ALIGN(8);
+KEEP
+(*(.start));
+.
+=
+ALIGN(8);
+}
+> pfls0_nc =0xFF
+......
+}
+如上，启动地址为NonCached区，即：启动地址设置为0xA0000020。重新编译工程，生成的*.map文件如下所示：
+1、将程序烧录到目标板，在TRACE32中，Core0和Core1分别设置断点，如下所示：
+2、第一次运行调试，程序停在了预期的Core0断点位置，如下所示：
+3、使用调试器进行Target Reset设置，进行复位操作，
+程序
+复位到了非缓存区复位
+地址0xA0000020，且找到了对应的Symbol，
+如下所示：
+4、再次进行程序调试，程序停在了预期的Core0断点位置，如下所示：
+方法二
+：修改PC寄存器
+如果
+只是想临时
+调试使用，
+不想进行复位内存的修改，可以在每次复位后，通过PC寄存器设置软件的运行位置，具体操作如下：
+1、CPU->CPU Registers，如下所示：
+2、右击PC->Set...
+3、设置PC值为实际的启动地址0x80000020，如下所示：
+4、单击OK，程序跳转到启动位置，且出现Symbol，如下所示：
+5、调试程序，程序在停在预期的Core0断点位置，如下所示：
+如上两种方式，方式一措施一劳永逸，方式二临时设置。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+C语言引用来链接文件符号（symbol）知多少？
+如何使用链接文件设置填充值（Fill Value）
+嵌入式开发：如何理解Local/Global寻址？
+嵌入式开发：CSA是什么？
+基于VN5650 TAP模式监控以太网数据交互
+E2E工程问题：小周期转大周期Gateway
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

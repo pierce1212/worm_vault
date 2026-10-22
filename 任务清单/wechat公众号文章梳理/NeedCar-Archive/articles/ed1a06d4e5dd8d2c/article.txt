@@ -1,0 +1,77 @@
+C语言实用技巧：0x02 - 0xFE = ?
+2022-02-04T18:09:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485283&idx=1&sn=3f5c46be7c456301a57218323e85fcbb&chksm=fa2a5917cd5dd001057afe9a91c26438350eb98e386bbd65481ff4302192f8e37641632bbdad&scene=21#wechat_redirect
+
+如标题，假设Arg1 = 0x02，Arg2 = 0xFE，且两者数据类型均为unsigned char，结果是多少呢？
+不废话，示例如下：
+示例
+#
+include
+<iostream>
+#
+include
+<stdio.h>
+int
+main
+()
+{
+uint8_t
+Arg1 =
+0x02
+;
+uint8_t
+Arg2 =
+0xFE
+;
+uint8_t
+ret =
+0x00
+;
+ret = Arg1 - Arg2;
+printf
+(
+"ret Value =  %d\n"
+,ret);
+getchar();
+return
+0
+;
+}
+运行结果：
+ret
+Value =
+4
+和你预想的一样吗？
+使用场景
+嵌入式开发中，我们常用系统定时器（System Timer，ST）定时，比如延时1ms。一般来说，读取ST一个32bit寄存器值就够用了。
+需求场景
+：
+假设这样一个情况：使用ST0，我们需要
+延时1ms
+，即ST（时钟100MHz）经过
+1000个tick
+。第一次读取ST0时间为T1，在while中不断的判断，第二次读取的值T2与T1的差值，如果（T2 - T1）== 1000，则延时1ms时间到。
+这里需要注意：ST0不断地累加，独立运行。因此获取T1对应的ticks值是0~0xFFFFFFFF中的任意一个，如果此时T1 = 0xFFFFFFFE，当T2 = 998(0x3E6)时，
+T2 - T1 = 0x3E6 - 0xFFFFFFFE = 1000
+,即延时1ms(1000ticks)。
+提示
+：T1、T2数据类型为uint32。
+往期
+精彩
+回顾
+从开发的角度看电子驻车制动（EPB）
+AURIX TC397之ERU :外部中断
+英飞凌tx397:手撕中断，让你理解得更明白
+UDS诊断之刷写：Server响应时间对APP程序复位影响
+UDS之刷写：你真清楚Application和Bootloader如何沟通？
+Autosar网络管理：CanNM PN功能
+C语言开发实用技巧：准确分包&巧妙读Bit值
+UDS之$2E服务：NRC13和NRC33优先级
+CAN/CANFD的Bit Time深聊
+Ubuntu里玩VSOME/IP踩过的坑
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

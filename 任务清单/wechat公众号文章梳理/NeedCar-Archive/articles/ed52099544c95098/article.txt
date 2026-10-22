@@ -1,0 +1,67 @@
+Autosar往期精彩文章汇总：511~565
+2026-02-24T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497979&idx=1&sn=e96223d8d127c59e1cf37cc45f4f4731&scene=21#wechat_redirect
+
+往期文章汇总：511~565
+Bootloader
+关于信息安全软件更新时的细碎点
+关于Bootloader OTA的一种软件升级方案
+针对内存资源有限的一种软件升级方案
+刷写压测能否超过1000次，极限在哪？
+Flash Driver安全存放Flash内存区方案
+刷写时，为什么需要发送0x3E 80报文来维持会话？
+诊断
+UDS，进入Bootloader等同安全解锁，接受否？
+UDS，为什么解锁操作有必要限定时间窗口？
+诊断，很“炫”的退出编程会话方式
+如何理解诊断合理性检查（Rationality Checks）？
+安全访问（0x27）的Online解锁方案
+诊断，安全解锁（0x27服务）的替代方案
+是否需要禁用UDS 0x23/0x3D服务？
+终于等到CANdelaStudio的“Check Consistency”配置功能
+ODX和PDX是什么？傻傻分不清楚
+信息安全
+基于PBKDF2的Password生成方案
+AES-GCM和SecOC之间的抉择
+安全启动（SecureBoot）通识
+如何安全的存储和获取Debug password
+授权、认证和访问控制的区别
+密钥更新中的KeyID≠KeySlotNumber，困惑点分解！
+信息安全，SHE是如何更新密钥的（含Python计算脚本）？
+如何看懂验签的RSA2048-PSS算法？
+安全的使用密码（Password）与其衍生问题
+如何理解程序升级中的二级验签“妖”操作
+关于RSA密码学算法的通识问题QA
+信息安全视角，如何看“软件升级”这点事
+安全启动（SecureBoot），更在意什么？
+Miyaguchi-Preneel是压缩函数还是哈希函数？
+不直接存储Password本身的一种安全认证方案
+密码和密钥，两码事
+为什么不推荐使用JTAG的Password机制？
+Flash
+为什么要对DFlash进行均匀磨损处理？
+工程问题，关于Flash操作的碎碎念
+嵌入式
+聊一聊RH850 F1KM芯片CPU的主频确认那点事
+车规级芯片，为什么要选择BGA封装？
+系统复位，RAM区数据不清除操作
+不可不识“指令集”
+SecOC报文是否可以替代E2E报文？
+关于标定（XCP）和它的解锁，说两句
+不要混淆Fill Bytes和Pad Bytes，这是两个概念
+CAN的采样点和bit参数设置，如何“抄”？
+工程问题：A/B切区，为啥失败？
+SecOC Vs E2E，讨论的再深入点？
+功能安全，如何限定Task的访问内存区？（含源码）
+诊断交互文件之DEXT
+工具
+基于CANoe的Automation测试
+基于UDE的HSM调试及一些使用技巧
+如何基于PLS UDE调试他人的镜像文件（*.out/*.elf）？
+hexView无法Compare问题的修复方式
+Clangd+CMake+Tasking+VSCode构建工程之Ninja路径识别bug
+Clangd+CMake+Tasking+VSCode构建工程的琐碎
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+生活
+为什么常想去云南
+别来无恙

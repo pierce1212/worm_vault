@@ -1,0 +1,26 @@
+信息安全，硬件Debug口，如何设置密码及解锁？
+2024-10-29T06:35:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496023&idx=1&sn=7b350b49bbd3568c6049f2269137a2ae&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+在前文《
+信息安全，硬件Debug口，如何保护？
+》讨论了硬件Debug口的处理方式、调试接口的类型以及调试口解锁的几种方式。本文则进一步讨论如何通过调试器（eg：Lauterbach）设置密码及软件解锁。
+针对TC3xx芯片，我们知道，Debug的防护层级可以分为如下四个层级：Gate1、Gate2、Gate3、Gate4。
+本文聚焦如下问题：
+如何通过
+Lauterbach设置Debug密码及解锁（含脚本示例）；
+如何通过软件清除
+Debug
+密码及解锁（含代码示例）；
+Debug延申问题讨论
+提示：
+本文主要
+讨论Gate1、Gate
+2的
+防护
+1、如何通过Lauterbach设置Debug Password及解锁
+对于Gate1、Gate2的防护，密码存储有两种方式：密码存储在UCB区域或者密码存储在PFlash区域。假设密码设置在UCB区域，主要讨论UCB_DBG_ORIG（UCB18）和 UCB_DBG_COPY（UCB26）的操作。
+UCB_DBG_ORIG/
+UCB_DBG_COPY对应的内容如下所示：

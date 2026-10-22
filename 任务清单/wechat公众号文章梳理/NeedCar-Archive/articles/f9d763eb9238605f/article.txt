@@ -1,0 +1,101 @@
+为什么需要外部看门狗？
+2023-05-09T18:25:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492016&idx=1&sn=a7b273aca44cb50e43dc46ca630b8a52&chksm=fa29bfc4cd5e36d26f112c2468cbf0060280085f1437b8ffe3bd77f28800af9f794042d290e5&scene=21#wechat_redirect
+
+为了保证软件运行的鲁棒性，常常在软件设计中，启用看门狗功能。什么是看门狗呢？
+答
+：简单说，看门狗就是一个定时器（Timer）。如果没有在规定的时间内触发（Trigger）预期动作，则认为软件运行异常，进而程序进入异常处理程序，eg：执行Reset动作。一般的异常处理是软件复位，为什么要软件复位呢？
+答
+：异常的出现，可能是某些极端工况或者偶发状况导致，如果一个复位动作可以及时将程序拉回正常，可有效避免车辆故障等危险事件。
+1、看门狗分类
+工程上，常常听到"外狗"、"内狗"的说法。如何理解呢？
+外狗
+：外部看门狗，独立于uC，外部定时器。
+内狗
+：内部看门狗，在uC内部的定时器。
+工程中，一般来说，外狗置于电源管理芯片（SBC：System Basic Chip）的内部，而内狗置于主芯片（uC）中，关系示意如下：
+对于外狗，一般又可以细分
+窗口看门狗（WWD：W
+indow Watchdog）
+和
+功能看门狗（FWD：Functional Watchdog）
+。
+WWD的喂狗动作，一般可由IO、SPI触发，而FWD的喂狗动作，多数需要使用SPI触发。WWD和FWD相互独立，可单独使能，FWD一般用于功能安全监控。
+（一）Autosar中的Watchdog
+在Autosar的规范中，看门狗主要有三个作用：
+Alive Supervision、
+Deadline Supervision、
+Logical Supervision。
+Alive Supervision：监控
+周期性软件
+Deadline Supervision：监控非周期性软件
+Logical Supervis
+ion：监控软件逻辑
+工程中，用得最多的监控功能是
+Alive Supervision。
+如果仅使用看门狗的
+Alive Supervision功能，意味着喂狗动作需要在监控的周期性Task中执行。如果Task被周期性地调度，意味着操作系统（OS：Operation System）的启动。如果软件架构按照Autosar开发，OS在被启动之前和关闭之后的代码出问题怎么办呢？
+2、为什么需要外部看门狗
+（一）软件启动阶段的监控盲区
+如下是Autosar EcuM启动阶段的软件运行行为。如果软件只是开启了内狗，eg：仅使能
+Alive Supervision。需要等到
+OS启动以后，内狗功能才发挥作用。但是，在程序的初始阶段，OS启动之前，如果程序异常跑飞，内狗则无法起到监控作用，例如：如下红框内的程序无法监控。
+对于启动阶段，程序运行异常，如何监控呢？
+答
+：使能外部看门狗。即：在软件初始化之初，使能外部看门狗，由于外部看门狗独立于uC，一旦使能，uC必须进行喂狗操作。如果程序在初始化过程中，由于异常而没有给外部看门狗喂狗，就会导致外狗超时，进而触发uC的异常处理（eg：Reset），以此确保程序初始化过程中的稳定性。
+提示
+：工程中，一般采用中断的方式喂外狗。
+（二）软件Shutdown阶段的监控盲区
+当Os关闭以后，如果程序中还有一些手动代码（下图红框部分），如果
+在此期间程序运行异常
+，eg：程序进入while(1)，使得ECU无法正常休眠。此时的内狗已经关闭，无法监控到此异常，怎么办呢？
+答
+：使能外狗。
+因此，
+外狗很好得补充了内狗的监控盲区
+，即：外狗可以监控到程序的初始化及Shutdown阶段的运行状况。
+3、看门狗的喂狗原理
+（一）内狗喂狗原理
+当内狗使能以后，如果程序运行异常，没有有效喂狗，内狗会触发SMU（Safety Management Unit）
+的Alarm
+，
+进行
+异常处理，eg
+：
+通知
+复位控制单元（R
+CU：Reset Control Unit）进行
+复位。
+（二）外狗喂狗原理
+如果uC没有及时喂外狗，导致外狗超时，同时拉低ROT Pin，也就是拉低uC的Reset Pin，触发uC的复位。
+注意
+：外狗一旦被外部使能，一般不会关闭
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+基于VN5650的以太网配置
+基于Makefile的C、C++混编
+从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理
+算法执行时间过长导致的Task抖动问题
+Lin总线Transceiver基础
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

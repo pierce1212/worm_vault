@@ -1,0 +1,125 @@
+基于VN5650的以太网配置
+2023-05-06T18:15:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492006&idx=1&sn=978b718fdd09782e9db29e4c40c39006&chksm=fa29bfd2cd5e36c4c4c6d2b855e4a9acc83847085bf5c0f63d96e5fda8336c31c306edcbe9e0&scene=21#wechat_redirect
+
+嵌入式开发，仿真环节至关重要。仿真，自然脱离不了仿真设备的使用，本文基于VN5650，讨论一下以太网的配置与使用。
+本文使用软/硬件环境：CANoe 15.0，VN5650接口卡。
+1、待仿真物理环境搭建
+工程中，开发的节点（DUT：Device Under Test）支持Ethernet，开发过程中需要测试其通信状态。DUT、VN5650、监控设备之间的物理连接如下所示：
+其中，DUT与VN5650硬件接口卡通过以太网连接。对于DUT，一般使用双绞线，与仿真设备连接时，可以使用转换接口，转换成RJ45与VN5650的RJ45连接器连接，也可以粗暴地直接双绞线连接。VN5650与PC端通过USB连接。
+如上的连接，可以将VN5650看作交换机（Switch），最终形成网络结构如下所示：
+Switch提供的是
+二层交换机
+的功能，负责数据的转发，它可以连接多个PP（
+Physical Port）
+/VP（Virtual Port），
+但其中至少一个是PP
+。
+提示
+：CANoe中的虚拟端口（VP），一般不需要用户手动添加，CANoe会根据用户创建的模块（如IG/CAPL节点）与Segment绑定情况自动添加。
+2、CANoe配置
+完成物理连接以后，进行CANoe配置，以便于以太网数据的监控和仿真。
+（一）VN5650硬件网络（Network）配置
+安装CANoe 15.0软件以及VN5650驱动以后，在开始菜单中可以找到"
+Vector Hardware Configuration
+"，如下所示：
+在
+Vector Hardware Config的配置界面选择VN5650，右击->选择"Ethernet device Configuration"，如下所示：
+选择Port口，此处选择要使用的VN5650物理端口（PP），本文仅使用Port13[1G front]，即：目标DUT与VN5650通过RJ45连接，至于Ethernet的通信速率，使用默认的自协商（Auto-Negotiation）方式即可，配置如下：
+配置好网络以后，将配置好的网络下载到VN5650设备中，成功配置网络到VN5650后，提示如下：
+提示
+：配置好的Network信息可以保存为*.XML文件，方便复用。
+（二）CANoe软件配置
+1、Hardware::Channel Usage配置
+本文配置一个以太网网络，设置如下：
+Network访问方式选择"
+Network-based access
+"，如下所示：
+2、
+Hardware::Channel Mapping配置
+将配置的网络与硬件通道关联，如下所示：
+3
+、
+创建仿真IG（Interactive Generator）模块
+当需要模拟节点UDP/TCP报文发送时，可以通过IG等模块仿真，IG创建如下所示：
+IG属性配置，本文设置虚拟以太网节点（IG）的IPv4地址：192.168.0.10，网络掩码：255.255.255.0，默认网关地址：192.168.0.1，如下所示：
+本文配置UDP报文发送属性，发送的目标IPv4地址：192.168.0.12，目标端口号：8088，IG端口号设置为：8089，如下所示：
+添加仿真UDP报文，周期1000ms，如下所示：
+提示
+：DUT的IP地址、网关、掩码以及端口等信息，开发过程中配置。
+而本文的DUT型号是芯驰的G9H，基于Linux系统，可以通过命令行设置这些信息，本文只是
+临时配置
+，使用临时配置的方式修改DUT的
+IP地址、网关、掩码信息。
+没有设置之前，网卡eth0并未分配
+IP
+地址、网关
+、掩码等信息，如下所示：
+临时
+分配
+IP地址、网关、掩码操作如下：
+上述命令如下：
+//配置网卡eth0的IPv4地址，网络掩码
+ifconfig eth0
+192.168
+.0
+.12
+netmask
+255.255
+.255
+.0
+//配置默认路由地址
+route
+add
+default
+gw
+192.168
+.0
+.1
+再次通过ifconfig确认DUT的
+IP
+地址、网关
+、掩码等信息，如下所示：
+4
+、
+Hardware::Port Configurat
+ion配置
+将配置的PP端口以及仿真端口使能，
+右击对应端口->Active
+，如下所示：
+5
+、启动仿真
+UDP数据流如下所示：
+DUT的数据通过物理端口Port13将数据发送给Switch（VN5650），Switch在将数据转给虚拟节点（IG）的虚拟端口（EthernetIG）。
+虚拟节点（IG）通过虚拟端口（EthernetIG）将要发送的UDP数据发送给
+Switch（VN5650），Switch在将数据通过
+物理端口Port13将数据发送给DUT。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+基于Makefile的C、C++混编
+从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理
+算法执行时间过长导致的Task抖动问题
+Lin总线Transceiver基础
+Hightec基础实用技巧
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

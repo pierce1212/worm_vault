@@ -1,0 +1,58 @@
+基于Memtool/UDE的Debug口加密/解密
+2025-07-15T06:30:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497144&idx=1&sn=4cf923dc4e2881bbac5253722989faa1&chksm=fa29abcccd5e22da1696d083a0f86034bf9da738c9c75bca4878aaccd8914c4c575372514d46#rd
+
+信息安全的开发中，不同的小伙伴使用的工具链不同。富裕的时候打富裕仗，不富裕的时候有不富裕的路子。总之，不能让工具约束着我们开发的
+热情。Lauterbach不常有，也可以使用Memtool/UDE（
+Universal Debug Engine
+）。本文聊一下，如何基于
+Memtool/UDE进行Debug的加密和解密操作。
+1、Memtool对Debug口的加密和解密操作
+在JTAG（
+Joint Test Action Group
+）/DAP（
+Device Access Port
+）防护开发中，常常需要通过调试器输入密码解锁或者设置密钥操作。具体怎么做呢？
+（一）设置密码
+首先，需要确认Memtool已经连接目标板（“Ready for Memtool Command”），之后单击UCBs，示意如下：
+进行UCBs操作界面以后，选择UCB_DBG，即：
+UCB18 (UCB_DBG_ORIG，0xAF402400~0xAF4025FF)和
+UCB26 (UCB_DBG_COPY，
+0xAF403400~0xAF4035FF
+)。密码设置的具体步骤，示意如下：
+提示
+：UCB18对应Gate1和Gate2的防护，没有讨论HSM Debug的防护。
+Error
+：上图中的5应该是8。
+之后，弹出提示界面，注意，如果
+UCB_DBG设置过程中，使用了“confirmed”操作，意味着Flash操作将会受限制，更多细节可以参考前文
+关于Tricore Aurix Debug口的UCB Confirmed状态的正确解读
+。
+单击“是”以后，提示：Flash保护设置成功。如果要保护生效，需要执行Reset或者Reconnect操作。示意如下：
+本文执行Reconnect动作，示意如下：
+（二）Memtool输入密码解锁
+UCB_DBG设置密码以后，如果Memtool没有输入正确密码，将无法连接目标板，示意如下：
+具体解锁步骤：单击“Change...”->弹出如下界面中选择“Reset”->“Unlock Interface”，同时，勾选“Use this password”，示意如下：
+输入正确的密码以后，Memtool即可连接目标板，示意如下：
+（三）Memtool取消Password设置
+在开发阶段，debug功能验证的过程中，会取消Debug的password设置，以便于验证功能是否符合预期。具体操作步骤如下：
+2、UDE对Debug口的加密和解密操作
+如果你熟悉Memtool，那么，UDE的使用也不会太难。具体配置步骤如下所示：
+在UDE的主界面中选择“Config”->Target Interface...
+UDE中的密码设置/取消与Memtool类似。提示：取消密码设置时，将第四步的"Unlock Interface"勾选即可。示意如下：
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：401~450
+关于Tricore Aurix Debug口的UCB Confirmed状态的正确解读
+闲话CP Autosar技术面试问题（二）
+Timer或者ADC可以生成安全的伪随机数（PRN）？
+伪随机数（Pseudo）/真随机数，如何生成？
+UDS 0x29入门实践（视频篇）
+信息安全，如何证明certificate是有效的？
+信息安全：手撸RH850 Flash驱动的细节点
+Flash操作实践：还不清楚EC是什么？
+Bootloader开发：一种降成本的从节点升级方案

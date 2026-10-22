@@ -1,0 +1,256 @@
+基于Tricore的UDP/TCP入门工程
+2023-08-07T14:37:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492718&idx=1&sn=c9a21cd9fff16553ce98cdf425f17fc8&chksm=fa29ba1acd5e330c8fe39d9188e4f95a9a014abc04f4e1ae2639031dfb07f96aa638b29f1099&scene=21#wechat_redirect
+
+目前的整车电子电器架构中，Ethernet的应用已经非常普遍，可以说，到了整车标配的程度。所以，汽车嵌入式工程师掌握Ethernet，也愈发的必要。如果想透彻的理解Ethernet，不能仅仅停留在协议层面，结合实例"跑"起来，才能对问题有更深刻的理解。
+本文，基于TC375 Demo+Lwip，对UDP（User Datagram Protocol，用户数据报协议）、TCP（Transmission Control Protocol，传输控制协议）示例进行了二次开发。对于移植过程中的注意点进行说明，最后，给出工程源码。
+1、Lwip移植说明
+对于Lwip，本文不做过多说明，对于入门的同学，可以参考：
+https://doc.embedfire.com/net/lwip/zh/latest/index.html。
+（一）Phy对应Pin端口配置
+本文使用的开发板是TC375，使用的Phy型号为DP83825I，结合手册
+，确认使用的Pin脚，如下所示：
+对应的软件实现位置如下（...\Ethernet\lwip\port\src\netif.c）：
+（二）IP Address配置
+Server端IP Address配置（IP4），需要修改Ifx_Lwip.c文件的Ifx_Lwip_init()接口，本文IP4设置如下：
+（三）UDP Server初始化
+对应的实现代码如下：
+struct udp
+_pcb* g_
+UDPPcb;
+/
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+***
+* 描述  : 初始化UDP Server
+* 参数  : 无
+* 返回  : 无
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+***
+/
+static void UDP
+_server_
+init(void)
+{
+ip_addr_t rmtipaddr;
+IP4_ADDR(&rmtipaddr, 192,168,0,10);
+/* 创建UDP协议控制块 */
+g_UDPPcb = udp_new();
+if (g_UDPPcb != NULL)
+{
+#define  UDP_LOCAL_PORT    90
+/*  pcb：指定一个连接(pcb)
+ipaddr：绑定的本地IP地址。如果为IP_ADDR_ANY，则将连接绑定到所有的本地IP地址上
+port：绑定的本地端口号。
+注意：千万不要和其它的应用程序产生冲突  */
+err_t err = udp_bind(g_UDPPcb, IP_ADDR_ANY, UDP_LOCAL_PORT);
+if (err == ERR_OK)
+{
+/* ipaddr:设置连接的远程主机IP地址
+port:设置连接的远程主机端口号 */
+udp_connect(g_UDPPcb, &rmtipaddr, UDP_LOCAL_PORT);
+/* 注册接收回调函数 */
+udp_recv(g_UDPPcb, UDP_server_receive_callback, NULL);
+}
+else{
+/* 删除控制块 */
+udp_remove(g_UDPPcb);
+}
+}
+}
+static void UDP
+_server_
+receive
+_callback(void *arg, struct udp_
+pcb *upcb,\
+struct pbuf
+*p, const ip_addr_t *
+addr, u16_t port)
+{
+/* 数据回传 */
+udp_sendto(upcb, p, addr, port);
+/* 释放缓冲区数据 */
+pbuf_free(p);
+}
+提示
+：UDP绑定的Port Number = 90。
+（四）TCP Server代码实现
+相对于UDP，TCP稍微复杂一些，对应实现代码如下：
+struct
+tcp_pcb
+*
+g_TCPPcb
+;
+void
+TCP_server_init
+(
+void
+)
+{
+g_TCPPcb = tcp_new();
+if
+(g_TCPPcb !=
+NULL
+)
+{
+err_t
+err = tcp_bind(g_TCPPcb, IP_ADDR_ANY, TCP_LOCAL_PORT);
+if
+(err == ERR_OK)
+{
+g_TCPPcb = tcp_listen(g_TCPPcb);
+tcp_accept(g_TCPPcb, tcp_server_accept);
+}
+else
+{
+memp_free(MEMP_TCP_PCB, g_TCPPcb);
+}
+}
+}
+/******************************************************************************
+* 描述  : 客户端接收回调函数
+******************************************************************************/
+static
+err_t
+tcp_server_accept
+(
+void
+*arg, struct tcp_pcb *newpcb,
+err_t
+err)
+{
+/* 注册接收回调函数 */
+tcp_recv(newpcb, tcp_server_recv);
+return
+ERR_OK;
+}
+/******************************************************************************
+* 描述  : 接收回调函数
+******************************************************************************/
+static
+err_t
+tcp_server_recv
+(
+void
+*arg, struct tcp_pcb *tpcb,
+struct pbuf *p,
+err_t
+err)
+{
+#
+define
+TCP_SEND_DATA_LEN     20
+uint32_t
+i;
+if
+(p !=
+NULL
+)
+{
+struct
+pbuf
+*
+ptmp
+=
+p
+;
+while
+(ptmp !=
+NULL
+)
+{
+for
+(i =
+0
+; i < TCP_SEND_DATA_LEN; i++)
+{
+TCP_RecData[i] = *((
+char
+*)p->payload + i) +
+2
+;
+}
+ptmp = p->next;
+}
+tcp_recved(tpcb, p->tot_len);
+/* 释放缓冲区数据 */
+pbuf_free(p);
+/* 发送数据 */
+tcp_write(tpcb, TCP_RecData, TCP_SEND_DATA_LEN, TCP_WRITE_FLAG_COPY);
+}
+else
+if
+(err == ERR_OK)
+{
+tcp_recved(tpcb, p->tot_len);
+return
+tcp_close(tpcb);
+}
+return
+ERR_OK;
+}
+提示
+：TCP绑定
+的Port
+Number
+= 8088。
+（五）数据交互
+udp数据流的交互过程如下所示：
+tcp数据流的交互过程如下所示：
+udp、
+tcp数据流的交互过程如下所示：
+提示
+：接收到的信息递交给上层由
+端口号（Port Number）唯一标识
+，即：传输层将信息发送给目标应用层，由Port Number决定。而某些端口号已经使用，eg：53（DNS协议）、80（HTTP协议）、13400（DOIP协议）等。所以，实现过程中，如果没有使用这些协议，避免使用这些端口号。
+2、源码链接
+源码链接如下：
+https://github.com/Kaixinguo2021/TC375_Tasking_Ethernet.git
+（一）待优化
+本文的示例中，TCP的发送不稳定（发送一段时间挂掉），还需要优化。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+Lin总线基础：为什么Master节点需要外接上拉电阻
+Debug调试：确认故障发生时间的一种方法
+Autosar网络管理：如何理解局部网络的VFC？
+我的建议，无法替代你“硬刚”现实
+INCA基础操作：测量数据分析
+基于Hightec+TC375TP的RT-Thread移植详解
+Cached段启动，导致调试断点失效
+基于Makefile的C、C++混编
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

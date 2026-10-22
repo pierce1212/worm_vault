@@ -1,0 +1,156 @@
+嵌入式开发：Lin总线入门实践
+2023-08-30T07:06:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492882&idx=1&sn=6206a45afc5737f0b934797da87aa8b2&chksm=fa29bb66cd5e32706b60fb9dd30b102e5e6e2ef3dc5b8c348e10888fe0052dfa574a880bb2b4&scene=21#wechat_redirect
+
+从事汽车MCU开发的小伙伴，对CAN/CAN FD、Ethernet、Lin这几种总线，应该比较熟悉，即使没具体开发过，也应该听过。如果想更深刻的理解这些总线，实践是最行之有效的方法。在之前的文章中，已经分享了《
+基于Tricore的CANFD入门工程
+》、《
+基于Tricore的UDP/TCP入门工程
+》、《
+基于Aurix的以太网实践：TCP Client实现坑点
+》，本文基于TC397_5V_TFT开发板+Tasking编译器，对英飞凌官网的Master Lin进行了二次开发，助力需要的学习Lin总线的小伙伴，文末有工程源码链接。
+1、Lin收发器原理图
+TC397_5V_TFT开发板的原理图，可以在英飞凌官网下载，具体下载地址如下：
+https://www.infineon.com/dgdl/Infineon-ApplicationKitManual_TC3X7-UM-v02_00-EN.pdf?fileId=5546d462696dbf120169b454383c483d
+这里，我们关注
+Lin收发器（TLE7259-3GE）需
+要配置的端口
+，如下图：
+上图中，RxD需要使用P10.6，TxD需要使用P10.5，这两个Pin对应ASCLIN2模块。
+对于外接的Lin Connector，GND可以接跳线2或者跳线5，LIN BUS对应跳线4，如下所示：
+2、Lin Code
+本文Lin通信采用了
+中断收/发
+处理模式，且开发板采用Master模式。Master负责发送Header，ID=0x26（主响应）/ID=0x33（从响应），通信速率为19200bps。
+/* 主函数调用 */
+void
+ASCLIN_LIN_Master_Send_Message(
+void
+)
+{
+uint8
+id
+= MASTER_ID_0x26;
+HandleID = MASTER_ID_0x26;
+/* Send LIN header */
+IfxAsclin_Lin_sendHeader(&g_linMaster, &
+id
+);
+}
+/* 接收中断例程 */
+IFX_INTERRUPT(ISR_ASCLIN_Rx,
+0
+, ASCLIN_MASTER_RX)
+{
+/* check Rx response end acknowledgement*/
+if
+(IfxAsclin_getRxResponseEndFlagStatus(g_linMaster.asclin))
+{
+uint8
+id
+= MASTER_ID_0x26;
+IfxAsclin_Lin_clearFlagsStatus(g_linMaster.asclin);
+HandleID = MASTER_ID_0x26;
+IfxAsclin_Lin_sendHeader(&g_linMaster, &
+id
+);
+}
+}
+/* 发送中断例程 */
+IFX_INTERRUPT(ISR_ASCLIN_Tx,
+0
+, ASCLIN_MASTER_TX)
+{
+/* check Tx header end acknowledgement */
+if
+(IfxAsclin_getTxHeaderEndFlagStatus(g_linMaster.asclin))
+/* THE flag*/
+{
+if
+(HandleID == MASTER_ID_0x26)
+{
+IfxAsclin_Lin_sendResponse(&g_linMaster, Tx_data,
+8
+);
+}
+else
+if
+(HandleID == SLAVE_ID_0x33)
+{
+IfxAsclin_Lin_receiveResponse(&g_linMaster, Rx_data,
+8
+);
+/* Receive interrupt occurred */
+if
+(IfxAsclin_getRxFifoFillLevelFlagStatus(g_linMaster.asclin))
+{
+uint8
+id
+= MASTER_ID_0x26;
+HandleID = MASTER_ID_0x26;
+IfxAsclin_Lin_sendHeader(&g_linMaster, &
+id
+);
+}
+}
+IfxAsclin_Lin_clearFlagsStatus(g_linMaster.asclin);
+}
+/* check Tx completed */
+if
+(IfxAsclin_getTransmissionCompletedFlagStatus(g_linMaster.asclin))
+{
+uint8
+id
+= SLAVE_ID_0x33;
+IfxAsclin_Lin_clearFlagsStatus(g_linMaster.asclin);
+HandleID = SLAVE_ID_0x33;
+IfxAsclin_Lin_sendHeader(&g_linMaster, &
+id
+);
+}
+}
+3、通信上位机配置
+Lin上位机界面如下（淘宝采购），设置上位机为"从机"，通信速率"19200bps"，如下所示：
+在“从机写配置”界面配置一个响应ID = 0x33以及对应的数据，采用增强校验，如下所示：
+启动程序，Lin数据流如下所示：
+(一)Lin报文波形
+17987-3规范约束，一帧Lin报文构成如下：
+关于Lin帧结构，更多信息可以参考前文《
+Lin基础：从Lin Frame开始
+》。本文
+使用示波器抓取Lin波形如下所示：
+如上图，测量的Lin总线电压约等于电源电压（12V），略小于12V的原因：串联防反二极管（diodes）造成的部分压降。
+通信速率19200bps（1bit Time = 1/19200≈
+52.083us
+），传输8byte字节，一帧Lin报文用时6~7ms
+。
+波形的局部放大如下所示：
+波形的进一步放大如下所示：
+如上图，帧间隔段（Break Field）长度13 Bit显性位（0）+ 1bit隐性位（1），之后是Sync Byte Field（0x55）+ 字节空间 + PID（0x73）。关于Lin帧结构，更多信息可以参考前文《
+Lin基础：从Lin Frame开始
+》。
+（二）Master/Slave对应的Transceiver电阻不同
+前文《
+Lin总线基础：为什么Master节点需要外接上拉电阻
+》讨论过，Master节点外接1kΩ原因，这里再次提醒，Master节点需要通过并联一个阻值更小的电阻，增大Lin Bus的驱动能力，进而提高Lin报文的质量。17987-4中，对应Master/Slave与Transceiver形成的供电回路如下所示：
+4、Lin源码链接
+本文Lin工程源码如下（github）：
+https://github.com/Kaixinguo2021/Tasking_TC397_Lin.git
+英飞凌官网LIN_Master链接如下：
+https://github.com/Infineon/AURIX_code_examples/tree/master/code_examples
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+C语言基础：计算Struct成员偏移量的"骚操作"
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+Autosar EcuM：APP由RUN到POST_RUN浅析
+基于Hightec+TC375TP的RT-Thread移植详解
+工程问题：ECU休眠过程中，网络状态不同步引发的功能失效
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

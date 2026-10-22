@@ -1,0 +1,97 @@
+DEM 事件去抖：基于Counter
+2022-02-14T20:02:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485364&idx=1&sn=6f09f47692da02550993a53fd90c2f66&chksm=fa2a59c0cd5dd0d6272a5f8beff202900fed299da1e25fb14c4c947ac87311290737f3b2c418&scene=21#wechat_redirect
+
+防抖实质就是想对某件事的状态做一个确认，比如：某个按钮的按下，可能是由于某种原因误触碰了一下，并不是真正的想按下按钮。怎么判断到底是不是想真的按下按钮呢？聪明的人类总是能想到方法，比如：按钮按下1s表示想真正按下按钮或者按钮连续按下两次表示真正想按下按钮。
+在Autosar DEM中，去抖分为：Time、Counter、MonitorInternal。基于Time或者Counter比较常用。
+故障监控的基本单位
+：
+事件
+。
+当事件满足
+故障
+存储条件时
+，
+才会将相对应的
+故障信息
+进行存储
+。
+看DTC存储的需求可以看出，
+某个故障的存储其实并不容易
+，
+它需要经过层层过滤
+才能
+到达
+NVM。
+本文聊一下
+基于Counter的
+去抖。
+1
+如何理解Counter去抖
+个人理解：在DEM中，对事件去抖就是对事件状态的确认。事件如何确认呢？按照Autosar规范，
+上报的事件状态
+包括：
+FAILED、PREFAILED、PREPASSED、PASSED
+。比如：上报3次PREFAILED，事件变成FAILED，或者上报3次PREPASSED变成PASSED，如此才确认事件的发生，即事件状态（Event Status）。
+在DEM中，定义了FDC(Fault Detection Counter)表征事件将要达到的状态，这个值的范围是-127~128，即
+sint8类型
+。而每次FDC变化多大由step up/down度量，比如上报3次PREFAILED，事件变成FAILED，则step up设置的范围可以是
+64>step up≥43
+，这样即可满足FDC = 0时，上报3次事件状态变成FAILED；同样，上报3次PREPASSED变成PASSED，
+-43
+>step down>-64
+。
+如上图，在DEM中又给了jump down和jump up这样的功能，该功能感觉用的较少。与
+jump down和
+jump
+up
+对应的，还会设置
+jump down value和
+jump
+up
+value。什么意思呢？比如开启
+jump down
+功能，某次
+上报PREPASSED时
+，如果当前事件的
+FDC值大于
+jump down value
+，则FDC直接赋值
+jum
+p down value
+；同理，某次
+上报PREFAILED时
+，如果
+FDC小于
+jump
+up
+value
+，则FDC赋值
+jump
+up
+value
+。
+1
+DTC去抖行为
+解读DEM可以看出，在对事件（Event）进行去抖时，受使能条件和诊断命令的影响，去抖行为可以分为：FREEZE和RESET两种。
+FREEZE
+怎么去理解这个行为呢？谈一下个人的看法。如果某些诊断使能条件不满足，比如：诊断电压过低/过高、Busoff发生、KL15信号没有收到/或者失效等，此时去抖所记录的信息需要暂时保存（比如FDC值等），等待使能条件恢复以后在此基础上在进行去抖。
+或者收到诊断指令$85时，如果去抖策略是FREEZE，则暂存去抖记录的信息。
+RESET
+RESET比较直接，使能条件不满足或者收到诊断指令$85时，将针对事件去抖用到的信息全部复位。比如FDC重置为0。
+往期
+精彩
+回顾
+Autosar网络管理：确保第一帧是网络管理报文方法
+嵌入式以太网：Lwip内存管理之内存堆
+英飞凌tc397：基于Lwip以太网数据接收，小白级讲解
+Autosar DEM诊断事件管理（一）
+C语言实用技巧：0x02 - 0xFE = ?
+从开发的角度看电子驻车制动（EPB）
+AURIX TC397之ERU :外部中断
+英飞凌tx397:手撕中断，让你理解得更明白
+UDS诊断之刷写：Server响应时间对APP程序复位影响
+Ubuntu里玩VSOME/IP踩过的坑
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

@@ -1,0 +1,63 @@
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+2022-10-26T10:17:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490299&idx=1&sn=4fd541a962c42bdb345c920d2c662916&chksm=fa2a448fcd5dcd998005a8f94734bde144748c22310d300ecc113eae7ca44a8a04476b7d3a6a&scene=21#wechat_redirect
+
+如何将App诊断请求（$10 02/82）信息"传递"给Boot，前面我们已经讨论了三种方法，可以参考前文
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（三）
+等。本文接着输出，介绍第四种方式。工程中，大家可以通过前面介绍的几种方式，发散思考，利用这些方式，延申到其他问题的解决上。
+将
+App诊断请求（$10 02/82）信息"传递"给Boot，本文的思路：
+利用外设模块的User Memory存储App请求信息
+。这类似
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（一）
+中介绍的方法，不同点：本文利用外设的寄存器存储
+诊断请求（$10 02/82）信息，前文介绍的方法是利用uC内部的
+RSTCON2寄存器。
+1
+NXP TJA1145（General-purpose memory）
+）
+工程项目中，如果使用了NXP TJA1145收发器，可以利用General-purpose memory区域存储App诊断请求（$10 02/82）信息。
+General-purpose memory的描述如下所示：
+使用NXP TJA1145的General-purpose memory，实质是使用GPMn(n = 0~3)寄存器，该寄存器有什么特点呢？
+答
+：
+NXP TJA1145在非Off模式下，不清零
+。也就是说，
+在不断电的情况下
+，写入到
+General-purpose memory的数据不清零，如下所示：
+我们知道，
+Transceiver一般与KL30连接
+，意味着，
+只要车辆蓄电池不亏电，NXP TJA1145会一直保持在非Off模式
+，因此，
+写入到General-purpose memory的数据会一直保持
+。
+1、App与Boot交互流程
+工程实现中，可以这样操作：
+App请求升级（$10 02/82），
+通过SPI
+将请求信息存储到NXP TJA1145的GPMn寄存器中；
+App跳转到Boot；
+Boot初始化过程中，读取NXP TJA1145的GPMn寄存器中信息，如果读取到App请求升级的信息，则进入编程会话，之后，先清除NXP TJA1145的GPMn寄存器中的请求升级信息，升级App程序。
+流程示意如下：
+注意
+：NXP TJA1145与uC通过SPI通信，如果使用此方式，意味着Boot中需要使能SPI。
+除了我介绍的这四种方式，也有人用PFlash存储
+诊断请求（$10 02/82）信息的做法。不管何种方式，能满足项目的需求就好。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+诊断开发：Polling方式引发的诊断丢帧
+NVM存储：Flash操作注意事项
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

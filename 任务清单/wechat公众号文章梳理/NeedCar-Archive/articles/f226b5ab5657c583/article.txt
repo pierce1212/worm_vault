@@ -1,0 +1,93 @@
+基于VN5650 TAP模式监控以太网数据交互
+2023-05-21T10:04:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492167&idx=1&sn=d8e0e62d3ea0b441306e9df15a9c28e2&chksm=fa29bc33cd5e35251c2c7aff0b680e11efc6b483fd14247c8f749853c956e4a0c742533252d4&scene=21#wechat_redirect
+
+汽车以太网的开发中，不仅需要仿真，也需要数据监控。尤其在排查问题时，采样数据是问题分析的基础。
+在以太网配置中，Link和Switch的统称为Segment，所以也可以称为Link Segment和Switch Segment。之前文章《
+基于VN5650的以太网配置
+》讲过
+S
+witch Segme
+nt的配置。
+本文主要讨论
+L
+ink Segment，
+L
+ink S
+egment又分为Direct Connect（直连）和
+TAP（Bypass/旁通）两种模式。Link Segment
+最多只能连接两个Port
+，而其中
+一个必须为PP（Physical Port）
+。
+一个PP和一个VP（Virtual Port）的
+L
+ink S
+egment
+称为
+Direct Connect
+（直连），用于一个真实ECU节点和
+C
+ANoe
+仿真节点（IG）通信。
+本文基于VN5650，介绍一下，如何配置TAP（Test Access Point）模式，采样以太网数据。
+1、什么是TAP
+两个PP的Li
+nk Se
+gment
+称为
+TAP
+（
+Bypass/
+旁通）
+，此模式用于数据监控
+。以太网数据交互时，
+点对点通信
+，因此，如果使用CANoe采样两个控制器的以太网通信，需要先断开两者之间的以太网连接，使用VN5650硬件接口卡的PP分别连接控制器的PP，示意如下：
+2、CANoe配置操作
+（一）硬件配置
+1、在开始菜单中，选择"Vector Hardware Configuration"，如下所示：
+2、VN5650->Ethernet device configuration
+3、配置Link模式，选择需要使用的PP端口，本文使用了Port14和Port11两个端口，如下所示：
+Port配置后，将构建的Network（本文：Ethernet1）下载到VN5650硬件接口卡中（单击：Write）。
+（二）CANoe软件配置
+1、File->New->Ethernet（Simulation Setup）
+2、网络映射，Hardware->Channel Mapping，配置如下：
+3、Port激活，Haredware->Port Configuration，如下所示：
+提示
+：如果之前创建过IG模块，会自动生成一个仿真端口（EthernetIG）,使用TAP模式时，需要删除此仿真端口。
+如果要
+删除此EthernetIG端口
+，
+需要重新创建CANoe工程
+，即：File->New->Ethernet（Simulation Setup）。
+（三）启动CANoe，进行数据监控
+启动CANoe，监控的以太网数据流如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+E2E工程问题：小周期转大周期Gateway
+嵌入式开发：看门狗问题QA
+TRACE32调试：基础调试技巧之SystemMode、SNOOPer
+为什么需要外部看门狗？
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
