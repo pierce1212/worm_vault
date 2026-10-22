@@ -1,0 +1,20 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2384849831396950018#wechat_redirect",
+  "title": "Reset",
+  "advertised_count": 3,
+  "collected_count": 3,
+  "articles": [
+    {
+      "title": "为什么需要外部看门狗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492016&idx=1&sn=a7b273aca44cb50e43dc46ca630b8a52&chksm=fa29bfc4cd5e36d26f112c2468cbf0060280085f1437b8ffe3bd77f28800af9f794042d290e5#rd"
+    },
+    {
+      "title": "Boot开发：App诊断请求（$10 02/82）信息\"传递\"给Boot方式（三）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490086&idx=1&sn=869c7d96904edf5834b9afc73327c0f7&chksm=fa2a4452cd5dcd447f5886ef333d4cf4bea4b7806f2f3655ca7622c99e927110565dd51a7cea#rd"
+    },
+    {
+      "title": "嵌入式开发笔记：空指针引起的Trap问题（二）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487448&idx=1&sn=68f976a677eabd1d2323a701d06f65f5&chksm=fa2a51accd5dd8ba4af47b54f8228d43f37cc6cbb084840fc27558d29d55de2bbe8ebd30b6ec#rd"
+    }
+  ]
+}

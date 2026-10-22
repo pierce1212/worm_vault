@@ -1,0 +1,24 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2415453569593425925#wechat_redirect",
+  "title": "CAN FD",
+  "advertised_count": 4,
+  "collected_count": 4,
+  "articles": [
+    {
+      "title": "CAN和CAN FD组网思考",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492727&idx=1&sn=66104d0bceec459529520d3bfed3d0bb&chksm=fa29ba03cd5e3315635e5bf299c7ad8a79c55ff9463ade3d9aaf593effee6df279c009a6d545#rd"
+    },
+    {
+      "title": "CAN FD通信：数据段错误，错误帧的速率是500Kbps还是2Mbps？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491103&idx=1&sn=3cfe7e72c259664ab484d13796f8a84f&chksm=fa2a406bcd5dc97d20bcada7fa5277b007668df69670ca4a3ffb245adf13088206f7f1466bb2#rd"
+    },
+    {
+      "title": "诊断QA：CAN和CAN FD的诊断报文能否混用？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490601&idx=1&sn=424a4c0c391597f0adc64971a765650c&chksm=fa2a425dcd5dcb4be0b33be818d6ff27077b6ce517ac02d7acfb4b93116b8901b3529c74991f#rd"
+    },
+    {
+      "title": "Autosar网络管理：CAN FD帧能否唤醒网络？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487943&idx=1&sn=12ff7b088289e9b1af1ca8ac7e9e9b6d&chksm=fa2a4fb3cd5dc6a56826a8ed00b27746bbdf49bd86f9f4637e94fd5ede7b821e0becfd315e56#rd"
+    }
+  ]
+}

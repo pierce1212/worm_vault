@@ -1,0 +1,72 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2213421962268327938#wechat_redirect",
+  "title": "DEM",
+  "advertised_count": 16,
+  "collected_count": 16,
+  "articles": [
+    {
+      "title": "诊断基础：DEM的故障存储策略与NVM",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494577&idx=1&sn=95ddeb43dcefbae59d7b9636000e0a4e&chksm=fa29b5c5cd5e3cd3044fb04eb56f36f46bab930b7443d2320fef58e2b02e12b5228a28ef1248#rd"
+    },
+    {
+      "title": "诊断基础：事件（Event）状态、DTC状态变化该如何理解？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494438&idx=1&sn=06ba3e987e253f073e95223920561418&chksm=fa29b552cd5e3c4408e9460e7f1a39cd890c7fff5870e14611d51845a8aa4f3118b3dbdde221#rd"
+    },
+    {
+      "title": "诊断基础：你还见过怎样的快照数据（Snapshot Data）采样和存储策略？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494419&idx=1&sn=281eb5650f55071bd4d7eebe2961b603&chksm=fa29b567cd5e3c71b4894519fcd4fcf4b76e48440382dd505e0cb48958695c86434715ee9d07#rd"
+    },
+    {
+      "title": "DTC问题排查模板（三）：故障如何去抖？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494386&idx=1&sn=48b525f1f11fcd2f7c0c3f41ea9da493&chksm=fa29b486cd5e3d9059aabd3e2843183ecd8a7a6afd4cca9757a44ffc8f4a00e96931fefc7206#rd"
+    },
+    {
+      "title": "诊断基础：快照数据于DTC关系及存储时机",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494214&idx=1&sn=33bffa3ae0d74917d7cd1d9784fadcc8&chksm=fa29b432cd5e3d2487fdd85db98c86e08b1a24616a780dddad7e6245689f2ae3783a75520c7a#rd"
+    },
+    {
+      "title": "DTC问题排查模板（一）：诊断需求明确",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494050&idx=1&sn=3bf8dfcf0df2177b7b4a398ca37d0fb9&chksm=fa29b7d6cd5e3ec05532f73a14ad934ecbb836ee598670a5463be7c525a54d356f793489f793#rd"
+    },
+    {
+      "title": "诊断基础：Event内存管理",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490634&idx=1&sn=2fe62bac88d235a3b855c32e54dbc1f8&chksm=fa2a423ecd5dcb281cd5851643ea93b18e0fd7f18b3bc67afe844f6cdceabda697ac28742137#rd"
+    },
+    {
+      "title": "诊断基础：如何理解Operation Cycle？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490450&idx=1&sn=70d12e49e9cfd90f2ddd871b9076b8fc&chksm=fa2a45e6cd5dccf0f345bbbc9ca4acec673017e9027439a038787538728051c23e8e331f2632#rd"
+    },
+    {
+      "title": "工程开发问题（十）：数组越界引发的DTC不上报问题",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489264&idx=1&sn=b7a5553276bbef99a65931ae219abf24&chksm=fa2a4884cd5dc192855ddf5e67afee00c28c016d2301869f3325413e76a7c2f97ce0bbb06149#rd"
+    },
+    {
+      "title": "Uds诊断：不同Operation Cycle下的DTC状态位变化",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488085&idx=1&sn=3e438139c35d3a16513b4f4f4a9b571e&chksm=fa2a4c21cd5dc53726ee39168f375e343f2b126a9f90e3bdc402fe197b86a6fee042d804d0af#rd"
+    },
+    {
+      "title": "Uds诊断：这5个诊断问题，你能回答几个？（四）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487421&idx=1&sn=02df1b9411219e5f4f200f02734d0386&chksm=fa2a51c9cd5dd8dffab67ebe584c9d880ca462dd79c42f8b41e9a7a9acd0f5749d5ba83b587b#rd"
+    },
+    {
+      "title": "Autosar DEM诊断事件管理（二）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485731&idx=1&sn=3f1e35d756a3c8279e4cd74a4ee41c6d&chksm=fa2a5757cd5dde41fd0220fde8aa2e033cba69ed60ca5577779fc905f2fe37d4e338fef8ffcb#rd"
+    },
+    {
+      "title": "CANdelaStudio支持AUTOSAR DEM模块Event的描述",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485658&idx=1&sn=baa96dce1c338189ec2cbe4b63f717ff&chksm=fa2a56aecd5ddfb8d1bcd655ef25688d7f970e669be433e713dd2e5023da5ae34572a765c250#rd"
+    },
+    {
+      "title": "DEM 事件去抖：基于Counter",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485364&idx=1&sn=6f09f47692da02550993a53fd90c2f66&chksm=fa2a59c0cd5dd0d6272a5f8beff202900fed299da1e25fb14c4c947ac87311290737f3b2c418#rd"
+    },
+    {
+      "title": "Autosar DEM诊断事件管理（一）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485284&idx=1&sn=380915845cde1c5699ceb63e036bcfb6&chksm=fa2a5910cd5dd0063563456f971986ee4d8ec80522fa9ac8dbb6f111be539992f9477176d6c0#rd"
+    },
+    {
+      "title": "从开发的角度看电子驻车制动（EPB）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485282&idx=1&sn=1e1afd0c36b32867c6d16bf4db882db0&chksm=fa2a5916cd5dd000acd3110fe1ef7d9661a8b0e75e4395f51e275115d39965f7242a8fd01b76#rd"
+    }
+  ]
+}

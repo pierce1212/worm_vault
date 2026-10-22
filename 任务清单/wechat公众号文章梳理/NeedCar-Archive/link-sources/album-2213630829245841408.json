@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2213630829245841408#wechat_redirect",
+  "title": "EPB",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "工程问题：实现与需求偏离，导致EPB故障",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493417&idx=1&sn=a447601f1e3f7ca4a45f8dffe3dc9208&chksm=fa29b95dcd5e304bac3c8464b1277d7bd935e4eb1226f88d306e6dfffc1561e8fa8a3a8f941c#rd"
+    },
+    {
+      "title": "从开发的角度看电子驻车制动（EPB）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485282&idx=1&sn=1e1afd0c36b32867c6d16bf4db882db0&chksm=fa2a5916cd5dd000acd3110fe1ef7d9661a8b0e75e4395f51e275115d39965f7242a8fd01b76#rd"
+    }
+  ]
+}

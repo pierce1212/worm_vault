@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2980387885181009924#wechat_redirect",
+  "title": "链表",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "C语言基础：图解双向链表操作",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492901&idx=1&sn=29884cd1e8447d3ecd2472c5e1e72d45&chksm=fa29bb51cd5e3247879e5787b25ae4cddb60957be421c015bc0b2b4bec098b623f3c5325a07f#rd"
+    },
+    {
+      "title": "C语言基础：链表",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492336&idx=1&sn=90aeb42ad130e0a16ecec62d5b521236&chksm=fa29bc84cd5e35925ab8102c38ac95c7eb47963d73a00fa964561123224cd908b61022ec5e48#rd"
+    }
+  ]
+}

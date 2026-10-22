@@ -1,0 +1,48 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2169847358346313732#wechat_redirect",
+  "title": "英飞凌",
+  "advertised_count": 10,
+  "collected_count": 10,
+  "articles": [
+    {
+      "title": "Boot开发：App诊断请求（$10 02/82）信息\"传递\"给Boot方式（三）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490086&idx=1&sn=869c7d96904edf5834b9afc73327c0f7&chksm=fa2a4452cd5dcd447f5886ef333d4cf4bea4b7806f2f3655ca7622c99e927110565dd51a7cea#rd"
+    },
+    {
+      "title": "TriCore架构学习笔记（一）：架构总览",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489507&idx=1&sn=7d3187ab49db4c036d1857590699fddf&chksm=fa2a4997cd5dc081a6a6ebba04f4ef98e0442357e24b9845758622316e2d5369764359c1a81f#rd"
+    },
+    {
+      "title": "工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489494&idx=1&sn=6ba0e5a9ff224f997be21f57384d1bea&chksm=fa2a49a2cd5dc0b4dcc2d9a10ca88bc1c862b14cf449de35fb99d638026b3c7333e8bab74911#rd"
+    },
+    {
+      "title": "Aurix:中断仲裁过程",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489388&idx=1&sn=800283c4a3fb5d91d0533d9ead1d49da&chksm=fa2a4918cd5dc00eb17c40bd22f5f73be33e93757ad4003e464aeb2e75fb4bdc14a3d1b26041#rd"
+    },
+    {
+      "title": "Aurix:初识Cached和Non-Cached",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489328&idx=1&sn=260839e281c6b4f729c971fba5969e82&chksm=fa2a4944cd5dc052075ce2a64d89695e15a31e817432ff9a8ad443bef998232784656070c3d1#rd"
+    },
+    {
+      "title": "Autosar通信栈：Polling模式为什么容易引发丢帧？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488471&idx=1&sn=5c6e29734b5698611dc17f1b85c29b8d&chksm=fa2a4da3cd5dc4b5ab687e9c9a5b3a0c6fb8ad384353167f38f1618364f876f3d4416cbab2a8#rd"
+    },
+    {
+      "title": "英飞凌tc397：MCMCAN发送处理机制（Tx Handing）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488466&idx=1&sn=5dec50f219a14d5aa4ab6c118934d383&chksm=fa2a4da6cd5dc4b006b8929fac321e94eae1bc6108c7ebcaa0462e8b1f3428bc2ee022e775fe#rd"
+    },
+    {
+      "title": "工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488303&idx=1&sn=ee9b853719d266d35b1a2046eba8e8ef&chksm=fa2a4d5bcd5dc44d3bed287148c9fe7f06555fed5eb0ef847dc2af6afe4216558435655f82f9#rd"
+    },
+    {
+      "title": "AURIX TC397之ERU :外部中断",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485281&idx=1&sn=ef555d12aa9359ceb0ef7b2369ccdef4&chksm=fa2a5915cd5dd0032a05af9a1be8fd1d2b4319f742630ea1ada6d2cad034f7b8d7ea2eedfceb#rd"
+    },
+    {
+      "title": "英飞凌TriCore中断向量表的深度剖析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484104&idx=1&sn=fa4e965538b550e4929fbfaf96c1d586&chksm=fa2a5cbccd5dd5aad95d0bb8f8531e9d802061b1282264cc9697f728c07de0412a959b2c64ec#rd"
+    }
+  ]
+}

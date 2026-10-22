@@ -1,0 +1,64 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2806810116368072704#wechat_redirect",
+  "title": "调试",
+  "advertised_count": 14,
+  "collected_count": 14,
+  "articles": [
+    {
+      "title": "Lauterbach实用技巧，Hex文件导出（补充篇）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496679&idx=1&sn=df78b57df6e5f6f841e13e16f5b2db64&chksm=fa29ad93cd5e2485a1162a1bc983e515d72cd858930fe61ae4d74371257684065c66be237e1a#rd"
+    },
+    {
+      "title": "Lauterbach实用技巧，Hex文件导出及UCB写操作",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496657&idx=1&sn=e61d6782035352d2a62285e1bfd70074&chksm=fa29ada5cd5e24b39503b02146e86297a530cc825347aadaab124edf0c1f226c549fa936ac0f#rd"
+    },
+    {
+      "title": "基于IAR的多核调试及基础操作入门（视频篇）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496372&idx=1&sn=f55cbd7ce150c2418174b14a652e4dbb&chksm=fa29acc0cd5e25d66b910d2ab92921357e15eadfbed3bcf2c701eba4e98fa8681fb9e01ff0b9#rd"
+    },
+    {
+      "title": "调试技巧，如何将JTAG转换成DAP？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496293&idx=1&sn=0d9afdc74c9ba9310c7742f294fe1fce&chksm=fa29ac11cd5e2507b001b7a2e32dcfb7eed979669dfe69934dc9f5aca99639dcbcbba85b64ac#rd"
+    },
+    {
+      "title": "异步Trap，该如何锁定问题点？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496107&idx=1&sn=98fa83f35da997ed0e718bb487124a63&chksm=fa29afdfcd5e26c929943393f7cd76441d6ae3db68d29286fb4e9f12feeaf43e8c9815b07e98#rd"
+    },
+    {
+      "title": "别人的*.elf文件，该如何使用Lauterbach进行白盒调试？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496102&idx=1&sn=be6ae8d48ea7b8e88d39ddea06f0b819&chksm=fa29afd2cd5e26c4022fbca24b0e8f5743b1b196bad1262e8a01100b5d75d9934b8be709f01e#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（2）：如何基于Lauterbach调试Host和HSM",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495744&idx=1&sn=796889af9de82c13fb4a1f6f92915956&chksm=fa29ae34cd5e2722ecdb015c593b005ed16d0ef58333272b47959effcef335400b40c2ae50c0#rd"
+    },
+    {
+      "title": "Trace32实用操作：Profile使用、Data.Load.*、CPU负载查看",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493797&idx=1&sn=7883d92e73f04120c62b57ea83ed0c91&chksm=fa29b6d1cd5e3fc7bbb72bd8fb52dda1879127058864858f9443b65863f7a0aa5a4d0e1c4f20#rd"
+    },
+    {
+      "title": "MCU调试系统核心：重定向Printf()接口",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493036&idx=1&sn=607680413b582e8e1de86544b164deb5&chksm=fa29bbd8cd5e32ce592c98338ca52cf1658baf420b83387225d0dbb669dca6af57e62a6b3810#rd"
+    },
+    {
+      "title": "MCU开发利器：调试系统之UART",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492796&idx=1&sn=650f36d5e2f7151537909c5cf181853d&chksm=fa29bac8cd5e33de34a81d84833830ff56bf6f0cc3c7b31390aa5f0ca3b618edad55d6899e42#rd"
+    },
+    {
+      "title": "TRACE32调试技巧：如何加载自定应调试界面",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492333&idx=1&sn=543a3578f2194231332ba3729b0243c2&chksm=fa29bc99cd5e358fc2bec579fb408191150cc7caed039ba290229e7184e2d3b32ae54e34a693#rd"
+    },
+    {
+      "title": "Cached段启动，导致调试断点失效",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492277&idx=1&sn=a60ddf2fe5b10e242b446ead120ea34b&chksm=fa29bcc1cd5e35d78d9053710d16fbffee1a5196e993269dc09e8540609060372caa31f6d4c3#rd"
+    },
+    {
+      "title": "TRACE32调试：基础调试技巧之SystemMode、SNOOPer",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492128&idx=1&sn=8682abb3f4bf187351b1f41869aee7c4&chksm=fa29bc54cd5e354241bbf4471a576768e673af257dfd5e92dd88881d635ffb70d2f48987e721#rd"
+    },
+    {
+      "title": "TRACE32：多核调试配置",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491393&idx=1&sn=7c82fbe1c728992e4bb814f430decc6a&chksm=fa2a4135cd5dc82313a45665cf84905ddb39cc4cc4daed4d882d62269f54b2f0b18db8fcc719#rd"
+    }
+  ]
+}

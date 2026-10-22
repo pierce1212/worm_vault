@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2161711651308257285#wechat_redirect",
+  "title": "信号",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "通信：跨Core读取信号，Signal值偶发反转",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492568&idx=1&sn=598aade67e18342baceddd71fc53e9f1&chksm=fa29bdaccd5e34bad7ddc6d409025b4a7a410ec66f045660f49160a9af1a8709aed51bbb23dc#rd"
+    },
+    {
+      "title": "Autosar Com基于Update Bit路由功能浅谈",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483786&idx=1&sn=d1205e96b585546901036086c9432d5c&chksm=fa2a5ffecd5dd6e8483b1668b7b85b2059220031f904fbfae563a8626ec23bd9ec130a59d31c#rd"
+    }
+  ]
+}

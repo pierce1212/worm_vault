@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=3217875049517645826#wechat_redirect",
+  "title": "vlan",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "CANoe基础：仿真节点VLAN配置、UDP Capl编写",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493631&idx=1&sn=6a88fd38df588acd2abc6dcb550805e0&chksm=fa29b98bcd5e309dce07855eec698ff05fe9f91c44eb10be198ca0d4dd3e99689a094f9914aa#rd"
+    },
+    {
+      "title": "以太网基础：为什么需要VLAN？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493621&idx=1&sn=ca9ab17f3c9741aa0cc894982f334636&chksm=fa29b981cd5e30978de999a0bb218f2e564b1971da59432e1f44fdfdfe28b498b6e88332df31#rd"
+    }
+  ]
+}

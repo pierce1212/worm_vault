@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2564386234144620546#wechat_redirect",
+  "title": "Error Passive",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "CAN通信基础：错误帧",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489656&idx=1&sn=1334b271d5630c54572614a70379b323&chksm=fa2a460ccd5dcf1a181d140a791ba6fe157fe3351155ec5a61858f454106b3e978e0c01e383a#rd"
+    },
+    {
+      "title": "CAN通信：Busoff问题知多少",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489626&idx=1&sn=206bbad2b433dd8fd7463430d6dd4c84&chksm=fa2a462ecd5dcf380552a152ea820173d2e07d6c258ecfa373cbc752f7b5636a4f0c870f0333#rd"
+    }
+  ]
+}

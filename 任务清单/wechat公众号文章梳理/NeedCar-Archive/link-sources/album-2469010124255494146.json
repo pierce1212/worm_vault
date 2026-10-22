@@ -1,0 +1,44 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2469010124255494146#wechat_redirect",
+  "title": "NVM",
+  "advertised_count": 9,
+  "collected_count": 9,
+  "articles": [
+    {
+      "title": "这些内存（Memory）名词，Get了？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494201&idx=1&sn=b73d657a490511d9a01c4534bd32d3bc&chksm=fa29b44dcd5e3d5bd66099f50bc2b6e1c960f600cb73d36f0526be840fed21c7cfd81c6af540#rd"
+    },
+    {
+      "title": "内存应用场景（一）：数据单次存储",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493411&idx=1&sn=7dd5da74f6aa162f79f62d848a652145&chksm=fa29b957cd5e3041ffe0a2f0d6ce81b2c43a15afc9a23168c68ae45e2180f9c5913cfb883c53#rd"
+    },
+    {
+      "title": "NVM基础：解读\"切页\"的头部信息",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490694&idx=1&sn=c9faaeaf78fbfed50c7aa25e69138328&chksm=fa2a42f2cd5dcbe4d8b2165d92c775a17d64fea4feb5b159cfa924b2322f5ba30f337c11ca5a#rd"
+    },
+    {
+      "title": "NVM基础概念",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490381&idx=1&sn=74bcefbdbe16b68163dc0478932c35e3&chksm=fa2a4539cd5dcc2ff982335d5ab22c873d6b31443c602d1f3b95c1449480d657f28ce807f365#rd"
+    },
+    {
+      "title": "NVM存储：Flash操作注意事项",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490025&idx=1&sn=a6c8f459baaaf007fb09eca59ffcab67&chksm=fa2a479dcd5dce8b85eb7b7745b692be16f93430cf1dbf84ab6cb9d74aea05cfed518dd2b297#rd"
+    },
+    {
+      "title": "嵌入式开发：存储，从Flash Driver开始",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489795&idx=1&sn=146716e4085b9c050fdf43294f0e5faa&chksm=fa2a4777cd5dce61440474d031654ead7c5faafcf9d73c0c34cc90f638afeae9da34ce8fea6d#rd"
+    },
+    {
+      "title": "内存管理（Memory）：NVM基础",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488841&idx=1&sn=f3f300ef2875e252841f6cbac9a3a716&chksm=fa2a4b3dcd5dc22b3a4931d1585a13db4e35d1c3fb2551d93a626057f99bea1c1b63de1170d1#rd"
+    },
+    {
+      "title": "工程开发问题（六）补充：Application程序更新，读取NVM数据异常",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488663&idx=1&sn=18067b431022af181509c2df83d1c4bb&chksm=fa2a4ae3cd5dc3f563875786d509c7998a27b2236beb443efb039742fc07b747533a1e430fa5#rd"
+    },
+    {
+      "title": "工程开发问题（六）：Application程序更新，读取NVM数据异常",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488644&idx=1&sn=a762d6fb45813a72ce8780fbca5d8f06&chksm=fa2a4af0cd5dc3e6a0ec105267eac19ca70ebd7552cd3d4e2506e38711ca8e86cc22a28a30c3#rd"
+    }
+  ]
+}

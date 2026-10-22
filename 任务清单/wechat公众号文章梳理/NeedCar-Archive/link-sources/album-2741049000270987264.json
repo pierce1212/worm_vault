@@ -1,0 +1,20 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2741049000270987264#wechat_redirect",
+  "title": "SBC",
+  "advertised_count": 3,
+  "collected_count": 3,
+  "articles": [
+    {
+      "title": "为什么Tier1要开发控制器的电源管理芯片？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492358&idx=1&sn=ad0c7b2e33395f98425ded75f7822b76&chksm=fa29bd72cd5e3464be48be34738fd8f63f517242c8025090e5e5ca437f371d646e0866ba5718#rd"
+    },
+    {
+      "title": "如何理解KL15与PORST Pin",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491781&idx=1&sn=a2f4dc8bba4a805a3253441f13997a69&chksm=fa29beb1cd5e37a75ae1e04c8b1bdd054cc8eacded87ef958b6525c9c1c480dda9ca86f97951#rd"
+    },
+    {
+      "title": "嵌入式开发：TLF35584（SBC）的SPI格式解读",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490984&idx=1&sn=e47451ff5da37e4eb307f73a0a011923&chksm=fa2a43dccd5dcacac5ee68bb151180d236648c579346feaf047a8f55ea4c69e62fc49dda1b69#rd"
+    }
+  ]
+}

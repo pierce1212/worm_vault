@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2788837879858036741#wechat_redirect",
+  "title": "CANFD",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "基于Tricore的CANFD入门工程",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492422&idx=1&sn=e7aa1232bbe55475388548f0590627cc&chksm=fa29bd32cd5e342481b7c800f85c97d48ff6cd062426dcf24af15e92ce195d695afa32faa810#rd"
+    },
+    {
+      "title": "Autosar网络管理：再说CAN FD帧能否唤醒网络？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491214&idx=1&sn=42a4358d446f91ad29225d38ebedecff&chksm=fa2a40facd5dc9ec4ad42a1d3c6c9be74e9cffcf81055904b28b996d7e4506ea12c725c4139a#rd"
+    }
+  ]
+}

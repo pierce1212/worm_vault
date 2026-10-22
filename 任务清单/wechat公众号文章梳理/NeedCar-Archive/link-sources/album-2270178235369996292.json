@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2270178235369996292#wechat_redirect",
+  "title": "matlab",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "Matlab:手写C MEX S-Function，没那么难",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485631&idx=1&sn=b4c1c069aa98ec115cd0c2ec6d53cd70&chksm=fa2a56cbcd5ddfdd03cb7283608540680bd54bf624fb07f1d8d9071595c796e961774e1de87b#rd"
+    },
+    {
+      "title": "MATLAB:自定义库&自定义C MEX S-Function,简单易学",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485544&idx=1&sn=269f2ac91a026e52da2d24435f776a33&chksm=fa2a561ccd5ddf0a89a6ffc3c0aad8ac99fc8322ac4c145d049a857b4465ad6a019e1d75d065#rd"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2822460807107280897#wechat_redirect",
+  "title": "VSCode",
+  "advertised_count": 4,
+  "collected_count": 4,
+  "articles": [
+    {
+      "title": "Clangd+CMake+Tasking+VSCode构建工程之Ninja路径识别bug",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497657&idx=1&sn=f227432e49d97c906c4f1713492201c5&chksm=fa29a9cdcd5e20db00acb4c264ab774abf501c8913493e1c31bb89f08257db23d186fef6eeae#rd"
+    },
+    {
+      "title": "Clangd+CMake+Tasking+VSCode构建工程的琐碎",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497610&idx=1&sn=4dc3a72517f05ce02090388f1d003105&chksm=fa29a9fecd5e20e815079fb1f63ee46ef8d2e33f316d1ceeb305a5e9b6051be97fa3aa91cb41#rd"
+    },
+    {
+      "title": "VSCode实用技巧：local-history及.gitignore",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494224&idx=1&sn=dd77f395c5e2896783981d1cce58389f&chksm=fa29b424cd5e3d3234e9fecd4a72ec062808f12cc2eaa3170beb97c038d9ae073ff14e169c9a#rd"
+    },
+    {
+      "title": "嵌入式开发：VSCode中，基于CMake开发",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491602&idx=1&sn=68d2019e595af2207b1c15b172704ccc&chksm=fa29be66cd5e377029674253e1cc90626116c348aefa512bc799856aa322d1d3e72180aa6ef6#rd"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2099076368771661825#wechat_redirect",
+  "title": "数据分析",
+  "advertised_count": 3,
+  "collected_count": 3,
+  "articles": [
+    {
+      "title": "INCA基础操作：测量数据分析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492566&idx=1&sn=0bacedacaaa2b489ba0170db40e8f92c&chksm=fa29bda2cd5e34b40441edd9553b6ecf362f906c240d298dab5615881283013562b7294ddae7#rd"
+    },
+    {
+      "title": "CANoe基础：如何显示*.blf数据的时间戳",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492407&idx=1&sn=cb36238e95cb282a465f817f87884b63&chksm=fa29bd43cd5e3455d5a7ddf3af93c96adbaaaf90f5bd89cbacc66a42de6131d6dfab9804bead#rd"
+    },
+    {
+      "title": "故障快照信息上传云端浅谈",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483738&idx=1&sn=b809daf9b32967dd3c68eec3c5736a81&chksm=fa2a5f2ecd5dd63823c261c16f10848cc4c80ca2136a160f89282c0ce87edcca45af1437dac8#rd"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2335075794689245186#wechat_redirect",
+  "title": "队列刷写",
+  "advertised_count": 3,
+  "collected_count": 3,
+  "articles": [
+    {
+      "title": "队列刷写QA：队列刷写特点/APP是否需要支持队列刷写",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490659&idx=1&sn=e1b72ad4c9fb9a80383108443ac03554&chksm=fa2a4217cd5dcb01f0cae8156ee991bdb013744c98fed2ca132b47bc88c56682d99c17c81c0b#rd"
+    },
+    {
+      "title": "Bootloader开发：队列刷写（Queued Flash）基础",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489740&idx=1&sn=6e0e1ab030f954b2d4fdf52dfd1d37cb&chksm=fa2a46b8cd5dcfae778895a11d071a8ace0c7505294fd1d857c43a5d3e01ef5bdf1290df0fb4#rd"
+    },
+    {
+      "title": "Bootloader开发：队列刷写(Queued Flash)你知道多少？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486406&idx=1&sn=1b8c29173a565aa1d0619890234b87f4&chksm=fa2a55b2cd5ddca4a7a855bdd515e0ecb29f8879b459df1c44b339ee9c2bc96f8182025522a6#rd"
+    }
+  ]
+}

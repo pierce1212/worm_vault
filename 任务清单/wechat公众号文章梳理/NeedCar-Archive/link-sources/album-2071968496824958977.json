@@ -1,0 +1,32 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2071968496824958977#wechat_redirect",
+  "title": "汽车行业",
+  "advertised_count": 6,
+  "collected_count": 6,
+  "articles": [
+    {
+      "title": "CAN总线采样点分析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483733&idx=1&sn=55e2c3f110b0ee6261428606b5bb8c1d&chksm=fa2a5f21cd5dd637b4ebf5c38c55eac98705278d54d6ed07cb97facfe471332876c3ae8f6c03#rd"
+    },
+    {
+      "title": "基于VH6501的BusOff快慢恢复测试",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483725&idx=1&sn=de1567ac1a03acbaef4a68a4a5175675&chksm=fa2a5f39cd5dd62f7e909cceb891ebc88dbb11022ec9f05d3d143a8834482f70f7e8d398b6ff#rd"
+    },
+    {
+      "title": "通信诊断监控开启条件",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483718&idx=1&sn=892cd65b90afa81690a144becb08dc13&chksm=fa2a5f32cd5dd6242273879e347699707a665f9a98d37c8b1ba424463eeca1c6e4295e67d8fa#rd"
+    },
+    {
+      "title": "网络管理中，这几个概念你清楚吗",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483713&idx=1&sn=8e8573ae9029f2c45e17ae8027d507a0&chksm=fa2a5f35cd5dd623d33c058b333b7e7470a25ed5e38c2e0bb9e49bdec98ce016eaf7b4447b8e#rd"
+    },
+    {
+      "title": "网络管理为什么需要ECU保持激活一段时间",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483708&idx=1&sn=d09f54361827d6282e3ea33cb2a6e8ab&chksm=fa2a5f48cd5dd65ed0b9994a2fb09fe8b7749780ed931e8a11983db85bb30d9797538a2252b1#rd"
+    },
+    {
+      "title": "AUTOSAR网络管理与Transceiver/Controller关系",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483701&idx=1&sn=0e1499eee129b8a3a1da862c66d1f74b&chksm=fa2a5f41cd5dd657dececa2cdce89cb5e01f34e1be46ecd1672a58dac68fd01208e768e46941#rd"
+    }
+  ]
+}

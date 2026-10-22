@@ -1,0 +1,36 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2335075795142230017#wechat_redirect",
+  "title": "软件升级",
+  "advertised_count": 7,
+  "collected_count": 7,
+  "articles": [
+    {
+      "title": "差分升级，真的能提高升级效率？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494862&idx=1&sn=8390b1a9ee4b1292e27502b3faf84152&chksm=fa29b2bacd5e3bac4e889bfaa8fc6ec14a2c32160d9a44872fa17288c4d9c995f097bf2828f2#rd"
+    },
+    {
+      "title": "工程思考：为什么OEM抵触Bootloader更新？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493062&idx=1&sn=980b8c6dcb4c54fe93bed40eb1ff0d0e&chksm=fa29bbb2cd5e32a4ba3064bdd96adde00e95dc10df4166979f3a87a42eec9cd2bbd8a07398b5#rd"
+    },
+    {
+      "title": "Boot开发：App诊断请求（$10 02/82）信息\"传递\"给Boot方式（四）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490299&idx=1&sn=4fd541a962c42bdb345c920d2c662916&chksm=fa2a448fcd5dcd998005a8f94734bde144748c22310d300ecc113eae7ca44a8a04476b7d3a6a#rd"
+    },
+    {
+      "title": "Bootloader开发：uC如何烧录第一个程序？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490011&idx=1&sn=4493790e3e8e31b8f9c29823d086dfc3&chksm=fa2a47afcd5dceb9d0454d14541f0e5db185e44e79e33ceef4447bcaa9991aa7f44b2173f233#rd"
+    },
+    {
+      "title": "Boot开发：App诊断请求（$10 02/82）信息\"传递\"给Boot方式（二）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489960&idx=1&sn=8f06dbd72befb8fe45571715e21b8b81&chksm=fa2a47dccd5dceca6034a6cda256075378628f4eb519f2bc80b9e4a1f6d7fc7c6c45a9cabb8f#rd"
+    },
+    {
+      "title": "工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489494&idx=1&sn=6ba0e5a9ff224f997be21f57384d1bea&chksm=fa2a49a2cd5dc0b4dcc2d9a10ca88bc1c862b14cf449de35fb99d638026b3c7333e8bab74911#rd"
+    },
+    {
+      "title": "Bootloader开发：队列刷写(Queued Flash)你知道多少？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486406&idx=1&sn=1b8c29173a565aa1d0619890234b87f4&chksm=fa2a55b2cd5ddca4a7a855bdd515e0ecb29f8879b459df1c44b339ee9c2bc96f8182025522a6#rd"
+    }
+  ]
+}

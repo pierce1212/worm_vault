@@ -1,0 +1,216 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2071968500213956609#wechat_redirect",
+  "title": "网络管理",
+  "advertised_count": 52,
+  "collected_count": 52,
+  "articles": [
+    {
+      "title": "Autosar通信，如何理解PNC、UB与信号的关系",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495151&idx=1&sn=6077e123f08b49a9869c8b324b528a21&chksm=fa29b39bcd5e3a8dc8690358ef2b85bc300d12290a0544e8d6094e639dd8470cd2daeacfd123#rd"
+    },
+    {
+      "title": "Autosar网络管理：为什么PN功能更节能？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492854&idx=1&sn=136b23f7746612e9c9a6eb80c323a1c2&chksm=fa29ba82cd5e33945b8baabc52b74e8d81e52b02cdba242e8763390d77a6a91fbe2d65d4a18b#rd"
+    },
+    {
+      "title": "Autosar网络关系：网络主动唤醒细细碎",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492768&idx=1&sn=6ff6e837b4b39be77f789644e1728768&chksm=fa29bad4cd5e33c2e065a74c04f8b6c459601372c450bf3ef8527a85edd025928e2058ce946b#rd"
+    },
+    {
+      "title": "Autosar网络管理：如何理解局部网络的VFC？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492674&idx=1&sn=b59503fe6740bed637e6bf7cea46fe2c&chksm=fa29ba36cd5e3320693403e9cf9b49fd3804e1b87743dd2bcb0fc2500a88a5099555be9cad19#rd"
+    },
+    {
+      "title": "从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491959&idx=1&sn=ed290e8d3a90f0ea28a94f931893120c&chksm=fa29bf03cd5e361550f4d3a39a88573a9574963a2b86ef874d700ea3ad31eef26b7438c034c0#rd"
+    },
+    {
+      "title": "Autosar网络管理：为什么需要2帧网络管理报文唤醒网络？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491833&idx=1&sn=3c001adc4f5e7f2d9962268b97e94658&chksm=fa29be8dcd5e379bdca9d2fcc435b5aefcf97a18da9963f0d754f2e2d7fa0166542284cd6030#rd"
+    },
+    {
+      "title": "Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490941&idx=1&sn=460e2f2e58e8809197a73a9f87cd4f21&chksm=fa2a4309cd5dca1fcdd0c9df38414469379ee825e8079b5f384ca0948ab6d2af542e831b196f#rd"
+    },
+    {
+      "title": "Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490883&idx=1&sn=b849717d534e0bbe8944e09d78eeabe9&chksm=fa2a4337cd5dca21037b09ef20fe6261f31481c3786ca6117d4327c31a9e99bc3deb78ed3f9a#rd"
+    },
+    {
+      "title": "诊断基础：不同会话(Session)，诊断报文如何维持网络状态？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490801&idx=1&sn=41a3d3da9867298b0cbcd34bac7e2773&chksm=fa2a4285cd5dcb9310c99604eff9fbb4740eddc96978df1386a3190e39e551ae162c27706666#rd"
+    },
+    {
+      "title": "Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490747&idx=1&sn=aba9d447f40ac8321f48946ce9f1ad37&chksm=fa2a42cfcd5dcbd9b8cc2dc98c25b76052cc0ec198028173f94dbb91caf480f91a3537a6e4b6#rd"
+    },
+    {
+      "title": "Autosar网络管理：CanNM网络状态变化都要告知ComM吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490649&idx=1&sn=362bafbadf3834ba090569d7bbb43b22&chksm=fa2a422dcd5dcb3be71ab82e2d20bdafd24179adc8c47c89c3363bd1d1a9ecb516a7e40e87eb#rd"
+    },
+    {
+      "title": "Autosar PN网络管理：PNC信息的收/发流程",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489767&idx=1&sn=964678c0928fffacf4681911fb533843&chksm=fa2a4693cd5dcf8510069928c7adde39c26029295e67ff24244d9603659f40fb5b020d5f5220#rd"
+    },
+    {
+      "title": "Autosar网络管理：PNC = 0，为何不能路由？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489724&idx=1&sn=4589d25d6373e18da36ff7ff499ae464&chksm=fa2a46c8cd5dcfde544ea6836e1edc54461e6e608b2c9db720c3fed5d1ab11cfceb0af720bad#rd"
+    },
+    {
+      "title": "Autosar网络管理：为什么要网络管理",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489704&idx=1&sn=ed7f7de143dd3648a9626f43b088c067&chksm=fa2a46dccd5dcfca54eba4d7e97f345c72aa84933af0e4a41cfb0d45bb8be9ce5a6919496f3a#rd"
+    },
+    {
+      "title": "Autosar网络管理：被动唤醒和Passive Channel QA",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489662&idx=1&sn=b054f7120d721fd1f2327f0f74c114af&chksm=fa2a460acd5dcf1ce5dd8c59a422adf73ece06a8e17dcdb57e7e81d3eea9f28d18a4ea0cfded#rd"
+    },
+    {
+      "title": "Autosar网络管理：诊断报文能否唤醒网络？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489549&idx=1&sn=b1d5dfa2029e1733a1b04b6ff1f8cefb&chksm=fa2a4679cd5dcf6f0c1c74b4ab91c20da74bb336ea2695f8785b568bd94914bca43cdb51344d#rd"
+    },
+    {
+      "title": "Autosar网络管理：ERA/EIRA问题QA",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489285&idx=1&sn=284490bc7494012a4b62fbdc63a21823&chksm=fa2a4971cd5dc067134144f819405f188d6ea7667ca8571a65bbd423ec86edbfefd5ab58c24b#rd"
+    },
+    {
+      "title": "Autosar网络管理：网络问题QA",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489209&idx=1&sn=2219467f52033537a5172dc7b6a68280&chksm=fa2a48cdcd5dc1dbe8d3925e2c8a3747e4a3bbe5d5ef8ec556f6452c6025e086d45243e536b9#rd"
+    },
+    {
+      "title": "Autosar网络管理：问题纠错篇",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489201&idx=1&sn=ba21135b8e23b5315a07a764d309b00f&chksm=fa2a48c5cd5dc1d39b3d94355d32ed3616f234183b3aaaff254d4c169fe932a81bb70d2d635c#rd"
+    },
+    {
+      "title": "Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489138&idx=1&sn=6975890311fad819099b92c96df00c77&chksm=fa2a4806cd5dc11017a8c3bd833a596005101c028d55467134baaff978653e7bb31c12493956#rd"
+    },
+    {
+      "title": "Autosar网络管理：CanNM网络状态机真的全看懂了？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489129&idx=1&sn=e48a7aad6abfac17d6e0966ac70c4ab8&chksm=fa2a481dcd5dc10bb25cc38560a902361ec7edd8fe353e872a72fe6b8910e27c7b6e619f6b82#rd"
+    },
+    {
+      "title": "工程开发问题（七）：Flexray网络状态切换错误，通信异常",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488954&idx=1&sn=ff07bd826e514cc2f70605a9f2124594&chksm=fa2a4bcecd5dc2d81f605918b23a52dfcd946ed0efbb5b103f514608d289e5de6f617aa02e48#rd"
+    },
+    {
+      "title": "Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488904&idx=1&sn=3c2edb2298cdbeee772471a70241f56c&chksm=fa2a4bfccd5dc2ea2beb373cfea36e63d37e0882d664794e1b86c4de49f7a21b89c653362b1d#rd"
+    },
+    {
+      "title": "Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488858&idx=1&sn=163dd2e1d9000507d5a726543a8d5c21&chksm=fa2a4b2ecd5dc238db82f4e6ba7be2accd7e50b5e30f0f506b860b0351c097df8b3f5510c1bd#rd"
+    },
+    {
+      "title": "Autosar网络管理：Partial Network基础",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488696&idx=1&sn=33bb533107d4eb07a77c1cea5169fe64&chksm=fa2a4acccd5dc3da7776c36b928fe40c8a329634836a745cda514346ba299fc2f648fe80b296#rd"
+    },
+    {
+      "title": "Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488418&idx=1&sn=71fdca5ab4735096f76884647177d8c8&chksm=fa2a4dd6cd5dc4c0edbe4aa4fe8697ecc5419dea1e7341013deb9f93d46a5a934a5ab689691f#rd"
+    },
+    {
+      "title": "Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488335&idx=1&sn=76d48dd4dd329a78efd8b769f8d1e682&chksm=fa2a4d3bcd5dc42d6c5886f05daa6ce6748244fed2e3483c235396d0c5eddcc9f83a7d859258#rd"
+    },
+    {
+      "title": "Autosar开发：CanSM模块如何处理Busoff？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488189&idx=1&sn=f5ffc7640ca31d059e6dc0510559c6e7&chksm=fa2a4cc9cd5dc5dfb1d0f428f27c1b732f31ef9219d9074361bc05bc31ebe707e4a5c295c22f#rd"
+    },
+    {
+      "title": "Autosar网络管理：Bus Load Reduction Mechanism干啥的？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488141&idx=1&sn=92ee9839fd99da880a9a5fd5eb96e5a7&chksm=fa2a4cf9cd5dc5ef85c5130c736d765168063a6c1b1c0b326f526985eeb458c678e46894744b#rd"
+    },
+    {
+      "title": "Autosar网络管理：网络管理报文的收/发与网络管理时间配置参数解析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488000&idx=1&sn=fae533f0404e3c5cf4d570e9d625ba6d&chksm=fa2a4c74cd5dc562ba7be2c1e59dab384aaaf00efd597ed2d724c0ed56fc5c3a06447299ae1d#rd"
+    },
+    {
+      "title": "Autosar网络管理：CAN FD帧能否唤醒网络？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487943&idx=1&sn=12ff7b088289e9b1af1ca8ac7e9e9b6d&chksm=fa2a4fb3cd5dc6a56826a8ed00b27746bbdf49bd86f9f4637e94fd5ede7b821e0becfd315e56#rd"
+    },
+    {
+      "title": "Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487349&idx=1&sn=0f92da2bdcb0274256f8bf681ab8fcd6&chksm=fa2a5101cd5dd8170b4b7f1a8596b28f160bdb86ac0e996f18a6e032e09d0216f1ba134019af#rd"
+    },
+    {
+      "title": "Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487235&idx=1&sn=a4734e29214629e8b38e2772d041cc57&chksm=fa2a5177cd5dd861998ba8e445dad5a524a63d1368e1892997022b15c01c25b613976103c8f1#rd"
+    },
+    {
+      "title": "Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486922&idx=1&sn=9d117fafa7061f1be1c3e18f9f4bc48f&chksm=fa2a53becd5ddaa88bf47a4bfc1d9b7568a4428010a0e63abbd7f5e45e8a31e56b726b1cab93#rd"
+    },
+    {
+      "title": "Autosar网络管理：基础问题知多少",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486784&idx=1&sn=bf632b1d953d812193a355a7b4e85b1e&chksm=fa2a5334cd5dda220361c955fa9f42850979a105977c0a97a8ae5fb5327bbbbd8e06c194f215#rd"
+    },
+    {
+      "title": "Autosar通信：网络管理报文和应用报文，谁先发？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486740&idx=1&sn=b544701acdfe85701d08db240f2a7be9&chksm=fa2a5360cd5dda768d9b9abd6970500df872a9578396d7b9e8180afd2952f1a6d7f86090fd7c#rd"
+    },
+    {
+      "title": "Autosar网络管理：唤醒源的Check和Set",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486550&idx=1&sn=7005420549c282d303587799ad9f5a8a&chksm=fa2a5222cd5ddb34affecc231964686d81efbc6a7420f2437c56dbd5e42b7fd62a8eb3d6e8cf#rd"
+    },
+    {
+      "title": "Autosar网络管理：没说清楚的PN功能，再说一遍",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486194&idx=1&sn=1c0c73bf8bd8ed68a75dd4bac515652e&chksm=fa2a5486cd5ddd9076d94688176f27ba699c29d0aeb763858a301467562c451b1af7bd588e66#rd"
+    },
+    {
+      "title": "Autosar网络管理：说说Busoff那点事",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485790&idx=1&sn=edb25567e52d9f4c3f31788033d90b1e&chksm=fa2a572acd5dde3ca104329bda62db64b0b946b3332fe59e137598caf0829a7520479f075a8f#rd"
+    },
+    {
+      "title": "Autosar网络管理：从ComM模块看Partial Networking",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485690&idx=1&sn=41fbe614aa3b2b5d3961e291b86db03c&chksm=fa2a568ecd5ddf988f4039202a519a311c52ae19492db4121d405219661a6fde6ffedb57e3bf#rd"
+    },
+    {
+      "title": "Autosar网络管理：从CanNM模块看Partial Networking",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485683&idx=1&sn=47c6527a7b6dabb3d60a3ca5f17d2c3b&chksm=fa2a5687cd5ddf91c55c850897f28e09c1697acdcd912009c1ef97787993f8bb2058a48a7b8f#rd"
+    },
+    {
+      "title": "Autosar网络管理:优化ECU启动时间切入点",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485663&idx=1&sn=49e283ab9a35570196ba5c711ea3f5c0&chksm=fa2a56abcd5ddfbdc7957393f7c38f0defde09bf272a234173a42a3e58100b1fb26b8fadc118#rd"
+    },
+    {
+      "title": "Autosar网络管理：网管节点路由时间解读",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485612&idx=1&sn=e69784d13da7a0d34ad68b02ebdfe923&chksm=fa2a56d8cd5ddfcec37a54767789a96de4bdba5d7ab02e73310f3ca0a0798abadbd1f9386379#rd"
+    },
+    {
+      "title": "Autosar网络管理：确保第一帧是网络管理报文方法",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485362&idx=1&sn=36ba60564be3450103d2575922f3e1d4&chksm=fa2a59c6cd5dd0d004ff096c6127049f345227e20b7843f0d2f8638f9ade44fe205d2f872b9a#rd"
+    },
+    {
+      "title": "Autosar网络管理PN：路由超时大Bug",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484944&idx=1&sn=796eb70b20d845359f5e019656773d1a&chksm=fa2a5864cd5dd17285e66df13316d623d54c04647e9a19bd697311df110883dbf8cb7a91a0ea#rd"
+    },
+    {
+      "title": "Autosar网络管理：CanNM PN功能",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484915&idx=1&sn=3bd7013e8fd42df0f8e3a0775c4d433a&chksm=fa2a5b87cd5dd291f68216955dfd7930926be9934d6c3f007e443502550921de7fdfe82d63b9#rd"
+    },
+    {
+      "title": "Autosar网络管理，你不能不清楚节点的唤醒方式",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484642&idx=1&sn=caab0c96dfcdc40909015becb48e66ca&chksm=fa2a5a96cd5dd380b9bd345cd282073d0969b665b53661fce84e1954169acde2986f9068c727#rd"
+    },
+    {
+      "title": "（节点唤醒==网络唤醒）？FALSE:TRUE；",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483765&idx=1&sn=eddd18684737ed67aff7da4b7b6bd501&chksm=fa2a5f01cd5dd61735d991cf0e4a34a14d8fbb6f81274e5f8c96a6cf93ad5c80b363c6d06c25#rd"
+    },
+    {
+      "title": "从EcuM角度看唤醒源状态切换",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483759&idx=1&sn=29f2b1ceb5baaf05f63c20b6807d24b5&chksm=fa2a5f1bcd5dd60d0bb5dd0a414782975f30767b5d0f429b2f3955a2803d419e310188663df9#rd"
+    },
+    {
+      "title": "网络管理中，这几个概念你清楚吗",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483713&idx=1&sn=8e8573ae9029f2c45e17ae8027d507a0&chksm=fa2a5f35cd5dd623d33c058b333b7e7470a25ed5e38c2e0bb9e49bdec98ce016eaf7b4447b8e#rd"
+    },
+    {
+      "title": "网络管理为什么需要ECU保持激活一段时间",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483708&idx=1&sn=d09f54361827d6282e3ea33cb2a6e8ab&chksm=fa2a5f48cd5dd65ed0b9994a2fb09fe8b7749780ed931e8a11983db85bb30d9797538a2252b1#rd"
+    },
+    {
+      "title": "AUTOSAR网络管理与Transceiver/Controller关系",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483701&idx=1&sn=0e1499eee129b8a3a1da862c66d1f74b&chksm=fa2a5f41cd5dd657dececa2cdce89cb5e01f34e1be46ecd1672a58dac68fd01208e768e46941#rd"
+    }
+  ]
+}

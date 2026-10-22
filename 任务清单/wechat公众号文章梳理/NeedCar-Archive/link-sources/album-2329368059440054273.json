@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2329368059440054273#wechat_redirect",
+  "title": "共享资源",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "Autosar开发：什么是“可重入/不可重入函数”？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487544&idx=1&sn=68698a1952d597db2de664f4f409b8b4&chksm=fa2a4e4ccd5dc75a3540786f54e4b27b270b9fb23ce479f8aa5abf5e86b89d61dc011360598b#rd"
+    },
+    {
+      "title": "Autosar开发：没有临界区保护，带来的后果很严重",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486287&idx=1&sn=504854af638e3d4ad80a39607e110206&chksm=fa2a553bcd5ddc2da9542d5fa993c3313e9728590cc09fc912cb11b190e706fd94b57e7b22c1#rd"
+    }
+  ]
+}

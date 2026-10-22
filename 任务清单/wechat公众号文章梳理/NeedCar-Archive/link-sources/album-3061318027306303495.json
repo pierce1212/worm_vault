@@ -1,0 +1,20 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=3061318027306303495#wechat_redirect",
+  "title": "UART",
+  "advertised_count": 3,
+  "collected_count": 3,
+  "articles": [
+    {
+      "title": "调试技巧：Trace32也可以当串口用（Printf功能）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494012&idx=1&sn=8f4d36416f7afa6c85239277cce79852&chksm=fa29b708cd5e3e1ee920556d4cb0f77a95e33f4c0144932890b55b6ed37a1e4ab5160f1c7ab2#rd"
+    },
+    {
+      "title": "MCU调试系统核心：重定向Printf()接口",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493036&idx=1&sn=607680413b582e8e1de86544b164deb5&chksm=fa29bbd8cd5e32ce592c98338ca52cf1658baf420b83387225d0dbb669dca6af57e62a6b3810#rd"
+    },
+    {
+      "title": "MCU开发利器：调试系统之UART",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492796&idx=1&sn=650f36d5e2f7151537909c5cf181853d&chksm=fa29bac8cd5e33de34a81d84833830ff56bf6f0cc3c7b31390aa5f0ca3b618edad55d6899e42#rd"
+    }
+  ]
+}

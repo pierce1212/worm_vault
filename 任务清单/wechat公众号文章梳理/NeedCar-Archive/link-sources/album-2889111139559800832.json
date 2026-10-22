@@ -1,0 +1,24 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2889111139559800832#wechat_redirect",
+  "title": "Hightec",
+  "advertised_count": 4,
+  "collected_count": 4,
+  "articles": [
+    {
+      "title": "如何基于Hightec编译器添加编译时间戳和软件版本号？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496721&idx=1&sn=80dba2cfca8df6287ce34f24c9839f73&chksm=fa29aa65cd5e2373dfbab2d9c593699beaed96008e18c0b5f51c48fb2af7efb124d92d70d93a#rd"
+    },
+    {
+      "title": "Hightec基础：生成静态库（*.a）的第二种方法",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494035&idx=1&sn=8a63a26ffa4960ca43b07f2755624b5d&chksm=fa29b7e7cd5e3ef1f210abe8613175eea014f1b883e80aac06ca3c388a51a141928d8bf0ef51#rd"
+    },
+    {
+      "title": "Hightec基础使用技巧：*.hex、*.bin文件生成及自定义Section",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493733&idx=1&sn=9cbb5d758d552143955729612b7be659&chksm=fa29b611cd5e3f070dba88e056d64c8c1cec27f3a68aa71cc6314e6088cb6ba548ca4180c357#rd"
+    },
+    {
+      "title": "Hightec基础实用技巧",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491907&idx=1&sn=bd0b98ccfb8e771f4030b92d3ed9f3f3&chksm=fa29bf37cd5e3621d3a821dfbe5a91de57b1cca9934c200d76b11473f09c2c6dc0b8bb0c51a3#rd"
+    }
+  ]
+}

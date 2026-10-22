@@ -1,0 +1,44 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=3480581352758542336#wechat_redirect",
+  "title": "RH850",
+  "advertised_count": 9,
+  "collected_count": 9,
+  "articles": [
+    {
+      "title": "为什么更新 SSA 之后还要 TAG Update？把它理解成“先写草稿，再盖章生效”",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498276&idx=1&sn=913432d5767de47586af1a52ec413e09&chksm=fa29a450cd5e2d46979f674ebc7d17702122e813b7be88ce09c2ebdf38777546129d795a794a#rd"
+    },
+    {
+      "title": "瑞萨 RH850/F1KM 的 Challenge–Response 安全机制解析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498254&idx=1&sn=e92dbff9e1ff51113cb6f45e4ad3a417&chksm=fa29a47acd5e2d6c66f6b34d34be559eece805e95309185c686414b217b755b3ee26e2c0d9f0#rd"
+    },
+    {
+      "title": "深入理解RH850/F1KM互补读取数据闪存技术",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498223&idx=1&sn=47484db3acc2a0d2dbcd3483d90fc280&chksm=fa29a79bcd5e2e8d73e907ce7a22c6fd6f97798ea3fdbcadf896e8198f38515446205554e779#rd"
+    },
+    {
+      "title": "【经验】关于RH850 F1KM系列CAN接收中断实践指南",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498134&idx=1&sn=66396b6bba7731e2e7faf428dd6d372e&chksm=fa29a7e2cd5e2ef4ff9ecb3424231cdf77f2660825d20748bca77cbac9163f7c94100edb3cc5#rd"
+    },
+    {
+      "title": "基于RH850 F1KM的JTAG一种使能/关闭方案",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498094&idx=1&sn=ab51c665a2463454391bd52dad026373&chksm=fa29a71acd5e2e0c8af6691b6b002491513a377cc8b023bc2f2b9de262948a1ba14b2c5642c6#rd"
+    },
+    {
+      "title": "为什么要对DFlash进行均匀磨损处理？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497964&idx=1&sn=46bab3eea3ac62222bfa3e492c1f538e&chksm=fa29a698cd5e2f8e95614d325e99a025949f4a640cd0f12cfed1ac7e3bcaea25a5e793b9979f#rd"
+    },
+    {
+      "title": "聊一聊RH850 F1KM芯片CPU的主频确认那点事",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497961&idx=1&sn=ee7e1aac6b6561463064273d4ca756f5&chksm=fa29a69dcd5e2f8be46d9383d4ace323c190b2229e29a38c64fff9d33c5ca07c8d19d22fc6e7#rd"
+    },
+    {
+      "title": "信息安全：手撸RH850 Flash驱动的细节点",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494797&idx=1&sn=ce52036d7ff7a5189ae22bd0ce699dc8&chksm=fa29b2f9cd5e3bef452b7bfe295ba7697f910b2f671774bbf90b0579c4d46d77b355803b702a#rd"
+    },
+    {
+      "title": "RH850实践：中断入门",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494723&idx=1&sn=f103fd9a3ffa5753a8f5c74dbd3f8a58&chksm=fa29b237cd5e3b219af7ae6de7a09319b1789d78dae1c2d1ef7dea29240438ad34432312307c#rd"
+    }
+  ]
+}

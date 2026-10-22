@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2718665596225421313#wechat_redirect",
+  "title": "dma",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "以太网基础：DMA Descriptor到底在描述什么？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493602&idx=1&sn=66e0208e4f30fae1e9a18a2bf1f50333&chksm=fa29b996cd5e3080fb2fe340ab852272cabdd8478f14451fbdf9436560b6771ad3bbe4402ee7#rd"
+    },
+    {
+      "title": "嵌入式开发：DMA何时使用更好？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490826&idx=1&sn=ac808569a5f0db75361036caaab3742b&chksm=fa2a437ecd5dca68ee102e62ef4ea1129bfddefb0b29a9ae66b0c26188a3a50b55f6f587a3c0#rd"
+    }
+  ]
+}

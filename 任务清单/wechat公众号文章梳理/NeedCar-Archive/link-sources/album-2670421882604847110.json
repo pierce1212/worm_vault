@@ -1,0 +1,343 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2670421882604847110#wechat_redirect",
+  "advertised_count": 84,
+  "collected_count": 84,
+  "articles": [
+    {
+      "title": "ECC公钥压缩与非压缩格式在汽车电子中的应用分析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498280&idx=1&sn=99696ca13ca6b2113cffeb470f8a4ded&chksm=fa29a45ccd5e2d4a268115e1e79224edd4d109b4930b9b82ee267ed59cabc09b380e35b61209#rd"
+    },
+    {
+      "title": "主机厂公钥如何安全下发？X.509证书在汽车网络安全中的应用",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498257&idx=1&sn=acf3bdc2db74e705642a3dbe90c88965&chksm=fa29a465cd5e2d736445bf4437fd74c5e5f2a635b3ad52f3eea13e7aa617913b65049d0e3d09#rd"
+    },
+    {
+      "title": "时间：整车电子电气架构中被低估的安全资产",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498213&idx=1&sn=bb0c27a01e9440a0580d3763615aa4af&chksm=fa29a791cd5e2e87f02711a5ed1b1d491ba6c8ea3cee493312276c04f1f3a6a313fb058d998f#rd"
+    },
+    {
+      "title": "SecOC从ECU上电周期的重放攻击风险分析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498205&idx=1&sn=cba56e9cb4a37d4beb81e14f7f2734c7&chksm=fa29a7a9cd5e2ebf24521687c36018732d3d814b7240c8b3b86b8eeff2e616d7caa8b7dcc904#rd"
+    },
+    {
+      "title": "车内通信安全新策略：AUTOSAR SecOC的新鲜度值管理技术解析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498192&idx=1&sn=db5d2fdedffd27528859457a3d174bef&chksm=fa29a7a4cd5e2eb2e8746ecab73e60d8b2581e8bd618ab2396f0f30f8f0b63b742a08ea73437#rd"
+    },
+    {
+      "title": "从“有没有”到“对不对”：理解 Complete、Integrity 与 Compatible",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498178&idx=1&sn=0d2c5870151cb865f93a8f4cf423dd13&chksm=fa29a7b6cd5e2ea04b51236a64ce940cd373b485068f221ec6dd5ac754b6494d98798dfc4ec2#rd"
+    },
+    {
+      "title": "LiBST 放在 Secure Boot 前还是后更合理——从安全与功能安全的系统性分析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498125&idx=1&sn=2fc11acaf6866b8442b0da9822984c7e&chksm=fa29a7f9cd5e2eeffe4ff10eeabb95df81a2556d9b9e21d641409540f4ea9801620183c0ac74#rd"
+    },
+    {
+      "title": "算法“位数”≠ 实际强度：一次常见但危险的误解",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498121&idx=1&sn=8d6266de6713e54300ca04c92b9a1db3&chksm=fa29a7fdcd5e2eeba21515ce03ea15fbf0375ccc873abc5febc6915c40df7ecb6bf7e938c515#rd"
+    },
+    {
+      "title": "随机数的每字符熵≥7.5，啥意思？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498043&idx=1&sn=c5b76a68b97ddfe7358fbfa2923b70d6&chksm=fa29a74fcd5e2e59154295bd8f593dd90a5b66ed096c9625cc1d62b3470f310ba4353da4067b#rd"
+    },
+    {
+      "title": "关于信息安全软件更新时的细碎点",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497972&idx=1&sn=25238012323fc521896e0e946b08e954&chksm=fa29a680cd5e2f96015e91a3764b51345bde97b6dea6f65ad0903c83ca07605e19a73df6f593#rd"
+    },
+    {
+      "title": "基于PBKDF2的Password生成方案",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497953&idx=1&sn=4fcdb8fb1d850f70cdc611129dffafe4&chksm=fa29a695cd5e2f8358ec92ec9be0f56cefe9d90338435f7928dcf8d70d1398f44c9c942ac037#rd"
+    },
+    {
+      "title": "安全的使用密码（Password）与其衍生问题",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497708&idx=1&sn=8eebf680751d6ab526a65eb06babd337&chksm=fa29a998cd5e208e25562c34611ae51aa04f865803fb459c88e4a6682d4f632ff62a4dbbb565#rd"
+    },
+    {
+      "title": "如何理解程序升级中的二级验签“妖”操作",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497702&idx=1&sn=63b7c3565b03740d94af2abe09b1100c&chksm=fa29a992cd5e208450649f32d8c0c227492a6afe3e25314f4c87cf9d7941019cf2abfce8cf91#rd"
+    },
+    {
+      "title": "AES-GCM和SecOC之间的抉择",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497644&idx=1&sn=92ff66a93b4e8089822b08bff68ccce2&chksm=fa29a9d8cd5e20ce78abbfab2c943e329a57fb666fc3c34a6d587c05dda478c99d135f8c1951#rd"
+    },
+    {
+      "title": "安全启动（SecureBoot），更在意什么？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497503&idx=1&sn=3817004317394bac4296ef8784e0961c&chksm=fa29a96bcd5e207d91b61ba7ec942aa39ac83c58f02ebfaeac877471485362bf8fed0dc0983a#rd"
+    },
+    {
+      "title": "车规级芯片，为什么要选择BGA封装？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497481&idx=1&sn=fcf29602bdb492fc67c92ba709ec6f76&chksm=fa29a97dcd5e206ba4acc8157ab9df551d9cb3defc9eeb765070ef8b20d6e2d472eef961a4c2#rd"
+    },
+    {
+      "title": "Miyaguchi-Preneel是压缩函数还是哈希函数？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497443&idx=1&sn=01d4cd8064178b42a616b2811c6cce6d&chksm=fa29a897cd5e21817bc4809248a7b8731b15dafeeecb4790e7ad82242e4d93a9c16f45b28135#rd"
+    },
+    {
+      "title": "不直接存储Password本身的一种安全认证方案",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497435&idx=1&sn=7366fc24b549b224478cd102ab984420&chksm=fa29a8afcd5e21b9b0a96194d13d99b46b4881efc6e87527cccba77d0491d1fc9757bfaf34d5#rd"
+    },
+    {
+      "title": "安全启动（SecureBoot）通识",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497427&idx=1&sn=36fe8b9dee499f7ad6405a8653c4da21&chksm=fa29a8a7cd5e21b1b6b59d637471e1e2e4ab19549857036bafaccc3d7405d2fbe53b2eb1b62e#rd"
+    },
+    {
+      "title": "不可不识“指令集”",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497398&idx=1&sn=45b6b92e8ded56f8710e7a366ee0f116&chksm=fa29a8c2cd5e21d45c17a6150f38e28e5a07f6cd60adf80bdb4d2e91ea0b9f439b1f21022510#rd"
+    },
+    {
+      "title": "密码和密钥，两码事",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497387&idx=1&sn=c1443cd96b314ae6b8a2148d2498519e&chksm=fa29a8dfcd5e21c9251e4411e0b8af6f02d19b2290387931df001684a7fcbc6364edd43740dc#rd"
+    },
+    {
+      "title": "为什么不推荐使用JTAG的Password机制？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497349&idx=1&sn=8311291226878a95fb3fb90cf5db6e78&chksm=fa29a8f1cd5e21e7de0b7f4d12ed3c720e570e3bb91e327702e6bf9add46607bd13e78d8f6f4#rd"
+    },
+    {
+      "title": "如何安全的存储和获取Debug password",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497291&idx=1&sn=15d2a064b54c3de1b3946bc5a7f04aa3&chksm=fa29a83fcd5e2129c941d03ec55d4aa0013ced4e38156cf0dd4fda17869fdc2f0f0b168fb872#rd"
+    },
+    {
+      "title": "关于Tricore Aurix Debug口的UCB Confirmed状态的正确解读",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497130&idx=1&sn=742f9a4c9f24585aaf0e33611ff3af44&chksm=fa29abdecd5e22c85f10ade926f68b0d552a7935afe0fed77759541d368b3dcbabc713a7ca5f#rd"
+    },
+    {
+      "title": "避免TC3xx HSM锁板的一种方案",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496973&idx=1&sn=babc8363bd1dac0ecb36fd0095adc94e&chksm=fa29ab79cd5e226ff4a7995e10d97e77164aaaaedd4d1c8526cdf482968a25d79d6008bc9501#rd"
+    },
+    {
+      "title": "OTA升级，一种加密传输方案思考",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496935&idx=1&sn=a4b125fc45d2430af7def89af33a5229&chksm=fa29aa93cd5e23855772995a6be58bdfe25047807710d4111897d80bd1f17b38b0d467e85fc8#rd"
+    },
+    {
+      "title": "信息安全，国密SM4各模式实现源码",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496897&idx=1&sn=042603e7879208aafe65cf12b40a2639&chksm=fa29aab5cd5e23a3567e55f2c6a195c36c7cd602eb7f60c100c555624fe63fb808db82b2df81#rd"
+    },
+    {
+      "title": "OTA升级，是否需要加密处理的深入思考",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496821&idx=1&sn=d0e2fac4adc4b81201c3424e3911c03a&chksm=fa29aa01cd5e231767828a7d0f40b27cedf8164fe9a899039de065bf5334b24bb167eac8ff26#rd"
+    },
+    {
+      "title": "信息安全技术，有必要全功能上吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496772&idx=1&sn=b403d3571a925390f6824b2579fb3b32&chksm=fa29aa30cd5e23268d0cf6f000f0b8689764b542db40f396d93538c15ae57c0997c6eb966f93#rd"
+    },
+    {
+      "title": "信息安全基础：HSM与Host通信实现原理",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496588&idx=1&sn=93f34e11d5dd7a872c1bf33d56403609&chksm=fa29adf8cd5e24ee03237a4eecd24947d9a1f8f5a8394ca6b406f7403cc8012a8670b6aa9e90#rd"
+    },
+    {
+      "title": "信息安全，RSA密钥对生成原理，懂了？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496533&idx=1&sn=fb62596a38e7d6db44660ce2d1767e29&chksm=fa29ad21cd5e2437fac4310622eea37bf50fe2f87b572de96a135fc25f80df55862a5a7a311c#rd"
+    },
+    {
+      "title": "信息安全，国产SM2、SM3算法实践",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496530&idx=1&sn=e7d718197436403f6f294161f2ba3829&chksm=fa29ad26cd5e24304762da44a7779696c2dec36984bdf884d3c7887f87129465b018cc54da9b#rd"
+    },
+    {
+      "title": "信息安全：X25519的密钥交换性能怎样？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496525&idx=1&sn=3744a32da757d8bdcbd3c33888818a9f&chksm=fa29ad39cd5e242f17843e2604d577ee3a463b8abe060bf9f823fd325ff29fd452c850c2e614#rd"
+    },
+    {
+      "title": "信息安全，ECDSA（SECP256R1/K1曲线）和它的性能",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496512&idx=1&sn=063c9cfea4c7f014086de6eb758207d3&chksm=fa29ad34cd5e2422f2f07e96f2291a177a946bd2a7b1ce28340a21d853531d00b6ab4f4bf5fd#rd"
+    },
+    {
+      "title": "这一次，Ed25519性能优化了，也更具象化了",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496482&idx=1&sn=14ddc991ca29b3b5994ecc9d497e5135&chksm=fa29ad56cd5e244054639a21e0244026c74590f8cfd3596f87c6ae0cb5d41722d3444f4bf0a3#rd"
+    },
+    {
+      "title": "信息安全：密钥交换之X25519",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496472&idx=1&sn=f25fb725fbb06c8deb647f3e1859f628&chksm=fa29ad6ccd5e247a1d100954294444ae3dd35134aa52c4e7752c136ac9893a812d07b9251467#rd"
+    },
+    {
+      "title": "信息安全：Ed25519性能评估及实践细节思考（上）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496463&idx=1&sn=6edef37be882fe38eab9e04a716cadb3&chksm=fa29ad7bcd5e246d5604d8e9d6a330fcdf00947daddb7d196c9de324d3c1ed17f8e97ac729b3#rd"
+    },
+    {
+      "title": "信息安全，小白渐进式理解ECC",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496446&idx=1&sn=1f3564a4f99bac38301fb8e8b98068c7&chksm=fa29ac8acd5e259c5353a1181158ca22fda0a96a17418d598a341ce6cae8cce59ebfd29db9a5#rd"
+    },
+    {
+      "title": "信息安全，HASH（MD5、SHA1、SHA256）性能到底怎样？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496437&idx=1&sn=1334dfc1abe65e4d1b730599064dc879&chksm=fa29ac81cd5e25978dd9865bbb2075ed6f4a735ee8683dc66c354bab4bdff9e970172eb82c26#rd"
+    },
+    {
+      "title": "信息安全，AES128_GCM性能满足项目需求吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496402&idx=1&sn=4b33887e9e37379129a24ea89a1d06a0&chksm=fa29aca6cd5e25b0d00bdaa1ad0a8936aa0a0b717863f79383bae43a7056f77296b9ea5c04a7#rd"
+    },
+    {
+      "title": "信息安全，HMAC基础及性能测试",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496395&idx=1&sn=28a0fb03c33205fa480b1827932be3af&chksm=fa29acbfcd5e25a97e47b9e7f4d9960a4455839ca4bd78c054ff5d6a378a822962c634d2f926#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（13）：安全启动细节补充",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496384&idx=1&sn=d98ca96db7f0fabdcabfeeffba3c1a04&chksm=fa29acb4cd5e25a205784815ed664e6686ce0f8938f8b3afc0beb98db17ecee83bcef5746c56#rd"
+    },
+    {
+      "title": "信息安全，RSA在逐渐被EdDSA替换？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496363&idx=1&sn=7c0120b3dad7323d73089a980e8adc21&chksm=fa29acdfcd5e25c989bd09732a68157603c94e88271d989529ef703be3e441a36e1dd3cd52bf#rd"
+    },
+    {
+      "title": "信息安全，为什么要用AES-GCM？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496306&idx=1&sn=019ca33d18088d60bfacbe04c02d65f9&chksm=fa29ac06cd5e2510c88a0796d00dc3299376ab9ce2db734278c178daf1f0f8ec4c665419e2a7#rd"
+    },
+    {
+      "title": "HSM的使能时机，也会导致锁芯片吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496283&idx=1&sn=51ce8f2bdfd63757c648ab8d609517f1&chksm=fa29ac2fcd5e25398a38e1226e643ee8018e51d709ae937c88ebfe8fbdd38b72492f8f4b913a#rd"
+    },
+    {
+      "title": "信息安全，单次服务请求有必要分多步执行吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496244&idx=1&sn=05fd8dd829527cfae0af0cc370c271b3&chksm=fa29ac40cd5e2556e062e46ca750c199c93c759ad30d7382c9ecb080452f67b68bfccaf51d14#rd"
+    },
+    {
+      "title": "信息安全，验签的信息应该存储在何处？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496221&idx=1&sn=ebd7c5206cf323df7895c5a5b36da6ab&chksm=fa29ac69cd5e257f314c25c8260d8f7bc4e6a4d617fce421ec9424fcefe995ee90b8f3589486#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（12）：安全日志（Event Log）的工程开发实践",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496192&idx=1&sn=aa4cce70cc1ba8ff95ca45269a40b1d9&chksm=fa29ac74cd5e2562d82b2f5b5abea10cbffaf912100426bdae4a471d6b06b56f94e4e65a03ee#rd"
+    },
+    {
+      "title": "对称密钥，需要一机一密吗？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496153&idx=1&sn=3082fc601dbbdb320ffbc3ee1f13fd6a&chksm=fa29afadcd5e26bb36eedd43f4e843bafd44b8074281fd5aa3b74852a227efe4bbef7c44484c#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（11）：安全启动开发实践及问题",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496111&idx=1&sn=5c19d0148f960500bd464ac4fcd06bc0&chksm=fa29afdbcd5e26cd9edcba7bc04b97d2a67ee01f37f58e6b65f1bef0ecac5b41ee5b450465db#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（10）：RSA2048算法的工程开发实践",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496084&idx=1&sn=9214b654444ac27ddf731ede044087a9&chksm=fa29afe0cd5e26f6816db6e518a333e8c99105cdfb7896ec776d2e4a99161d06038bef33e75e#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（9）：AES算法工程开发实践",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496047&idx=1&sn=15ebab70158437c75a98dfdcf176fdde&chksm=fa29af1bcd5e260d8405192f5fcf8a4cee20d280abf2951911ff2f2af874a1e758bd4e39f88e#rd"
+    },
+    {
+      "title": "信息安全，硬件Debug口，如何设置密码及解锁？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496023&idx=1&sn=7b350b49bbd3568c6049f2269137a2ae&chksm=fa29af23cd5e2635a486e872a60b73e4d6badaddb5d15e6304638b456da265b7c029900413c3#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（8）：至关重要的存储栈开发实践及问题",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496004&idx=1&sn=af8afa089f9e8ee411101c95783e462c&chksm=fa29af30cd5e2626eda80d759a51158b4cbbc5515ef5bd1211ad55f970e1b8aa7db88b8b6dce#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（7）：CMAC配置及开发细节",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495959&idx=1&sn=2194544044601c30e19328973ae04bd4&chksm=fa29af63cd5e26755e8f1858303d030e226569ebc2a1a9d672d506adae436b6334329d5176b6#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（6）：真随机数、HASH算法配置及调试",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495934&idx=1&sn=eebb6e988d5e84344853bd537a669a81&chksm=fa29ae8acd5e279c888c3c39e39ef39b485243aac8273c26d687060dac312a227d8e3056b904#rd"
+    },
+    {
+      "title": "结合工程实际，理解信息安全（Security）的基础概念",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495888&idx=1&sn=e97e55d24304c039c58fbaab112d84f5&chksm=fa29aea4cd5e27b2de05d083bdd41f5c2f21b8fc54d17954e4ad3ab1bf37d45141aa071e4d98#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（5）：HSM与Host的IPC通信简介",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495863&idx=1&sn=1a9af2b4ba46a35a84d7c79594239d0e&chksm=fa29aec3cd5e27d5d896ee2b694312a5b8244013ff5da49d626ee22adcafcfc9966e463adc31#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（4）：打通HSM与Host的IPC通信",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495820&idx=1&sn=01856297e2e216e967f0e72b096a87e4&chksm=fa29aef8cd5e27eebcc5c4070c95e607b45dfcbc14c01118a045619bac554dea5d67ce405882#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（3）：驱动模块安装及调试",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495795&idx=1&sn=636642cafe7f1a3d9dc449bdcbc785ec&chksm=fa29ae07cd5e2711db6355a6a07ec1bf7037ee885f14d5a3dcbcfe45c94fb9d0a7ee449d00c6#rd"
+    },
+    {
+      "title": "Host和HSM通信，cache or not？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495785&idx=1&sn=cd0b7deddcd03e70afc7e49e11661849&chksm=fa29ae1dcd5e270b916f520316e57999731eb81b0806de87a661377ea60e632672a50d10c182#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（2）：如何基于Lauterbach调试Host和HSM",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495744&idx=1&sn=796889af9de82c13fb4a1f6f92915956&chksm=fa29ae34cd5e2722ecdb015c593b005ed16d0ef58333272b47959effcef335400b40c2ae50c0#rd"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（1）：从安装到完成编译",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495730&idx=1&sn=29b98106d80962cd4c35f2da2a0f7852&chksm=fa29ae46cd5e2750f339c8573abbd2dbcb07226ff1d9cfcf9fc3a84254575c936dd281e0f37c#rd"
+    },
+    {
+      "title": "信息安全，悄然兴起的CAN IDS是什么？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495627&idx=1&sn=c2bb20627b1ab017082bc5d1fdb7a5d0&chksm=fa29b1bfcd5e38a9f5695e56f2fd894a3577f5a2695370741747e43af89b479d409927ca2038#rd"
+    },
+    {
+      "title": "信息安全，RSA2048开源库及填充细节",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495527&idx=1&sn=87d8df52f34c626775eaa854ee4d4394&chksm=fa29b113cd5e38053cc282b4e81cc26684997b2423736c7a24693bab86e323182b348da7bb52#rd"
+    },
+    {
+      "title": "信息安全，硬件Debug口，如何保护？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495433&idx=1&sn=899705e36c1b84f742dd7718904fa5cd&chksm=fa29b17dcd5e386bb409d26177258249b5cb2c32e91acdaf3483cc8e56074874bef05e0ce8be#rd"
+    },
+    {
+      "title": "信息安全，获取RSA密钥参数的简单做法",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495323&idx=1&sn=b0b7e0a49eb8040cc1b2c5172ba97f76&chksm=fa29b0efcd5e39f916ab3d9c19f7b4aab839ffe6bb5238047a9e3f25eeae5f2e04a77e9e9380#rd"
+    },
+    {
+      "title": "信息安全，加密（encrypt）和签名（sign）是两回事",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495279&idx=1&sn=d359885e2005e41410bb2333af63f692&chksm=fa29b01bcd5e390d8d7d114f469395a35a24756211ecd774dcc154734f89564889127ac60aa2#rd"
+    },
+    {
+      "title": "实践思考：为什么需要核间同步？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494760&idx=1&sn=dfb84587686429ffa60b3ea011ca4079&chksm=fa29b21ccd5e3b0a2ee66cd33a701def65ec8ad469831210681681094a3be584273f995bcedd#rd"
+    },
+    {
+      "title": "信息安全：AES-CMAC原理及验签策略",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494597&idx=1&sn=ef64f24e5706c693cd06b8257b2eef06&chksm=fa29b5b1cd5e3ca7d6b2f463b9017e8c5ff5e580389158c42a2f98203f3ba5ecb3258ad3e3a1#rd"
+    },
+    {
+      "title": "基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494573&idx=1&sn=b2024bf7269a9a31e8bd2fdb5e0ba472&chksm=fa29b5d9cd5e3ccfbcd290ed0439379d334160b90e3d4d890af19bac92b202283bf7cafd20d0#rd"
+    },
+    {
+      "title": "包含信息安全、SWAP（A/B分区）功能的Bootloader开发思考",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494551&idx=1&sn=e59ce22e793803b74bff1c459a5f1ff4&chksm=fa29b5e3cd5e3cf5182e35d927c8922b799b766ecdf738d0a2ba425b58627767411bdb3f0bc7#rd"
+    },
+    {
+      "title": "信息安全：HSM没有专用的密钥存储区，密钥该如何安全存储？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494501&idx=1&sn=d1edb9af79aaa81bef64e06bcc764331&chksm=fa29b511cd5e3c0708cf2401b2424e30298fee3cb8ff820e562639c29319b79c243e5c2a167e#rd"
+    },
+    {
+      "title": "开发实践：A/B升级方案的实践思考",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494010&idx=1&sn=502f6a011d2e08bb967c8fc25b4c0e9f&chksm=fa29b70ecd5e3e189cf1e84eeeddca471fc096be9223219c6a460a3d04227f46f5b523dfb21e#rd"
+    },
+    {
+      "title": "信息安全：AES算法简介",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493923&idx=1&sn=a1d3a3d2c309333f6215922330fb2b13&chksm=fa29b757cd5e3e413c7a838ea2d1625a5307f94caf9829d2efd1133c3ce00ba3b5e38e106ab2#rd"
+    },
+    {
+      "title": "信息安全：ECC（椭圆曲线密码学）验签性能测试",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493793&idx=1&sn=d631c80f29a947b945c2af097ac45d83&chksm=fa29b6d5cd5e3fc3c1bc29af854edda916701c14bf3cadb4275ff7d4970ced60d28234132135#rd"
+    },
+    {
+      "title": "信息安全：安全启动的信任链如何建立？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493672&idx=1&sn=8d5e2400f300c8988541554a5b4419ec&chksm=fa29b65ccd5e3f4afa16c8af806efc12efd262f0be4b760d2c6c805bfa2023e0eabf2cf619cf#rd"
+    },
+    {
+      "title": "信息安全：RSA-2048性能",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493454&idx=1&sn=1f4fb30a10933a836fe924f666a4d30e&chksm=fa29b93acd5e302c638f9d4728ebc06376567040c1aa03e8924a994737047fbbceab688a4873#rd"
+    },
+    {
+      "title": "信息安全：SHA-256性能",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493435&idx=1&sn=15554bf3ae1ad0362b02a53e384af363&chksm=fa29b94fcd5e30598adf71249320e0dfb9d872c36d3653d06714ff4234090945eaf2d355f510#rd"
+    },
+    {
+      "title": "信息安全：软件认证，知识点梳理",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493331&idx=1&sn=684ae1c22eaa1bb9dcd45eb8f69ae322&chksm=fa29b8a7cd5e31b108595938a8b126381c1f3f159370515e78aa8939788dc89f7d155477a649#rd"
+    },
+    {
+      "title": "信息安全基础：Host与HSM通信科普",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493271&idx=1&sn=c2c859f48e5404537f3acceb33be6b80&chksm=fa29b8e3cd5e31f58e2e84b433d43faa6550e3fccb94366a78a5570bcadd9b0756cbae3f4286#rd"
+    },
+    {
+      "title": "信息安全基础：初识Public Key",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493115&idx=1&sn=adf1317139707f6c694ac555c41e810d&chksm=fa29bb8fcd5e3299dbe821e6eff819457a31bf384b52cf82bd20a941045aa551a0c7e2997170#rd"
+    },
+    {
+      "title": "信息安全（下）：软件认证（Authentication）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490586&idx=1&sn=2be4a4463af77a9e06b1d5e8234e2a32&chksm=fa2a426ecd5dcb7887cc052269b0a3aac3519e833fc3345629d8337529ccff8f4245fdd9ed6b#rd"
+    },
+    {
+      "title": "信息安全（上）：软件认证（Authentication）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490561&idx=1&sn=cd3ad56c4d24b4474dd0e1cb2bb10a6a&chksm=fa2a4275cd5dcb63436b8f45ba9ad3d25b296bdbc246829456b1ea63625e817d02ff8e6014fe#rd"
+    }
+  ]
+}

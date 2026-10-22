@@ -1,0 +1,16 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2573236584817590275#wechat_redirect",
+  "title": "FIFO",
+  "advertised_count": 2,
+  "collected_count": 2,
+  "articles": [
+    {
+      "title": "嵌入式开发：避免Xcp报文被阻塞的一种开发技巧",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489843&idx=1&sn=d3e2a1c058c48b453715144427e1f5e3&chksm=fa2a4747cd5dce51640e01f15cf2b38d5754d46aa1739f3eeae3df981f65131717b14571e352#rd"
+    },
+    {
+      "title": "CAN通信：Basic CAN与FIFO",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489683&idx=1&sn=992967af223228245cbb919d4c289505&chksm=fa2a46e7cd5dcff1e20d0e1e516853c13109dba0f8e41bbf452413ce55c917a188040e45a77a#rd"
+    }
+  ]
+}

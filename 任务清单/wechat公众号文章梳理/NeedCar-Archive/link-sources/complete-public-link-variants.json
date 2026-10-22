@@ -1,0 +1,41 @@
+{
+  "source": "已读取的作者合集和相邻文章链接",
+  "articles": [
+    {
+      "title": "信息安全，验签的信息应该存储在何处？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496221&idx=1&sn=ebd7c5206cf323df7895c5a5b36da6ab&chksm=fa29ac69cd5e257f314c25c8260d8f7bc4e6a4d617fce421ec9424fcefe995ee90b8f3589486#rd"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496111&idx=1&sn=5c19d0148f960500bd464ac4fcd06bc0&chksm=fa29afdbcd5e26cd9edcba7bc04b97d2a67ee01f37f58e6b65f1bef0ecac5b41ee5b450465db#wechat_redirect",
+      "title": "基于Davinci的HSM开发实践（11）：安全启动开发实践及问题"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496084&idx=1&sn=9214b654444ac27ddf731ede044087a9&chksm=fa29afe0cd5e26f6816db6e518a333e8c99105cdfb7896ec776d2e4a99161d06038bef33e75e#wechat_redirect",
+      "title": "基于Davinci的HSM开发实践（10）：RSA2048算法的工程开发实践"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496004&idx=1&sn=af8afa089f9e8ee411101c95783e462c&chksm=fa29af30cd5e2626eda80d759a51158b4cbbc5515ef5bd1211ad55f970e1b8aa7db88b8b6dce#wechat_redirect",
+      "title": "基于Davinci的HSM开发实践（8）：至关重要的存储栈开发实践及问题"
+    },
+    {
+      "title": "基于Davinci的HSM开发实践（7）：CMAC配置及开发细节",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495959&idx=1&sn=2194544044601c30e19328973ae04bd4&chksm=fa29af63cd5e26755e8f1858303d030e226569ebc2a1a9d672d506adae436b6334329d5176b6#rd"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495888&idx=1&sn=e97e55d24304c039c58fbaab112d84f5&chksm=fa29aea4cd5e27b2de05d083bdd41f5c2f21b8fc54d17954e4ad3ab1bf37d45141aa071e4d98#wechat_redirect",
+      "title": "结合工程实际，理解信息安全（Security）的基础概念"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495785&idx=1&sn=cd0b7deddcd03e70afc7e49e11661849&chksm=fa29ae1dcd5e270b916f520316e57999731eb81b0806de87a661377ea60e632672a50d10c182#wechat_redirect",
+      "title": "Host和HSM通信，cache or not？"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496102&idx=1&sn=be6ae8d48ea7b8e88d39ddea06f0b819&chksm=fa29afd2cd5e26c4022fbca24b0e8f5743b1b196bad1262e8a01100b5d75d9934b8be709f01e#wechat_redirect",
+      "title": "别人的*.elf文件，该如何使用Lauterbach进行白盒调试？"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495657&idx=1&sn=8bc71e98724703d303836b5f5e5d44bd&chksm=fa29b19dcd5e388b6caf75de9bf297f529e9e3b9049b0e9204bb6417c7c2b6ea77f138510b3d#wechat_redirect",
+      "title": "网络安全（Cybersecurity），入门一下"
+    }
+  ]
+}

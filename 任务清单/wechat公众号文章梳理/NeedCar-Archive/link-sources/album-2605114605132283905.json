@@ -1,0 +1,20 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2605114605132283905#wechat_redirect",
+  "title": "HighTec",
+  "advertised_count": 3,
+  "collected_count": 3,
+  "articles": [
+    {
+      "title": "如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491023&idx=1&sn=a08631111638d4efdaf307e5216ce9fc&chksm=fa2a43bbcd5dcaadc5a75c15655ff20cf9d1076432a493bb95c533c293b31ff79687ce6c72c6#rd"
+    },
+    {
+      "title": "如何基于HighTec，在链接文件（*.lsl）中设置自定义段",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490499&idx=1&sn=352c77e16a1ed5f1fb1a57f82382b681&chksm=fa2a45b7cd5dcca153e7325b00c5cc9283c76100bae439b5944f7e5f04059096659bbb1c5cad#rd"
+    },
+    {
+      "title": "嵌入式开发：读懂C语言封装的汇编很重要",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489902&idx=1&sn=e3c839bee87394090b05d35374146038&chksm=fa2a471acd5dce0c1e2e18f12f29c665a7f216068a4d9b75ea1320a0011d320f7722a1472299#rd"
+    }
+  ]
+}

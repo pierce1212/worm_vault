@@ -1,0 +1,20 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=3123965484229689344#wechat_redirect",
+  "title": "OTA",
+  "advertised_count": 3,
+  "collected_count": 3,
+  "articles": [
+    {
+      "title": "OTA技术，谁在受益？谁又在收益？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493317&idx=1&sn=5c72651a0d8e01a8a7fa763e87086753&chksm=fa29b8b1cd5e31a745c55590dca31fc63bee9c9b94f9f62bdc7429ffeb53b1b1226e212719d4#rd"
+    },
+    {
+      "title": "基于Aurix的SOTA（A/B分区）实践指南",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493295&idx=1&sn=6dd7657822c0b12e32e0c672fd1703d2&chksm=fa29b8dbcd5e31cd9740a33bc6888748a3a31f57031d650efc691d45069d9b2053b517b4dfca#rd"
+    },
+    {
+      "title": "工程问题：进入编程会话条件不满足，能否OTA？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493121&idx=1&sn=9418a949dd82fd7ecf34138086e0a625&chksm=fa29b875cd5e31639938111344b1147e565e6cc2c332456fbed1e13289547aea615d5e466939#rd"
+    }
+  ]
+}

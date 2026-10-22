@@ -1,0 +1,56 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2169847358849630210#wechat_redirect",
+  "title": "中断",
+  "advertised_count": 12,
+  "collected_count": 12,
+  "articles": [
+    {
+      "title": "中断系统，小白入门",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496349&idx=1&sn=ff9a39ce83e45e8a2847aea3a653b01a&chksm=fa29ace9cd5e25ff1bc6086b569d3dda989b01eb6376e207e26b0e2b0770da8bcef047142168#rd"
+    },
+    {
+      "title": "同步接口，为什么不能长时间关闭中断？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495693&idx=1&sn=4b1196563aa11136eca4d6849e94f19a&chksm=fa29ae79cd5e276f9e3246c6c870b3bc0a3602b5ea70243a51baa60b7b0cfc833162642faeb6#rd"
+    },
+    {
+      "title": "RH850实践：中断入门",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494723&idx=1&sn=f103fd9a3ffa5753a8f5c74dbd3f8a58&chksm=fa29b237cd5e3b219af7ae6de7a09319b1789d78dae1c2d1ef7dea29240438ad34432312307c#rd"
+    },
+    {
+      "title": "开发实践：中断向量表与它的空间",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493813&idx=1&sn=0c647d2629b936df1ece3ae987ed9c2e&chksm=fa29b6c1cd5e3fd795a48f3615d3c66af630198a5534600cc1b125104c6eb452d551431d9c7f#rd"
+    },
+    {
+      "title": "Polling模式，为什么会引发诊断丢帧",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492319&idx=1&sn=0d825db0a6dee7bbb8e2b7f396acbba4&chksm=fa29bcabcd5e35bd5121444c2205a42945acaa58927b80a20558e1096330a704afdfa300c067#rd"
+    },
+    {
+      "title": "工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489494&idx=1&sn=6ba0e5a9ff224f997be21f57384d1bea&chksm=fa2a49a2cd5dc0b4dcc2d9a10ca88bc1c862b14cf449de35fb99d638026b3c7333e8bab74911#rd"
+    },
+    {
+      "title": "Aurix:中断仲裁过程",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489388&idx=1&sn=800283c4a3fb5d91d0533d9ead1d49da&chksm=fa2a4918cd5dc00eb17c40bd22f5f73be33e93757ad4003e464aeb2e75fb4bdc14a3d1b26041#rd"
+    },
+    {
+      "title": "工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489125&idx=1&sn=2296e67ec3440454643ae29b6c0eae11&chksm=fa2a4811cd5dc1072d07e14116d654c0f412a3bf9bfccebe834a28884c9ddfaeac1a410e6c55#rd"
+    },
+    {
+      "title": "Autosar开发：没有临界区保护，带来的后果很严重",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486287&idx=1&sn=504854af638e3d4ad80a39607e110206&chksm=fa2a553bcd5ddc2da9542d5fa993c3313e9728590cc09fc912cb11b190e706fd94b57e7b22c1#rd"
+    },
+    {
+      "title": "英飞凌tx397:手撕中断，让你理解得更明白",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485220&idx=1&sn=5fe09a4acb79a2e2c849c5f50bd29829&chksm=fa2a5950cd5dd046cc07d55a9c161c4a862f719688896d634e5d4e19d4c9a7f9f1b27db11c1b#rd"
+    },
+    {
+      "title": "英飞凌tc397:告诉你程序真正的启动过程",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485101&idx=1&sn=15b383b78c7e2eba0fa0547751b89a8d&chksm=fa2a58d9cd5dd1cf40589815dd4196b3b966126b4a4e16cde13bc1fb36b1185e38585752818c#rd"
+    },
+    {
+      "title": "英飞凌TriCore中断向量表的深度剖析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484104&idx=1&sn=fa4e965538b550e4929fbfaf96c1d586&chksm=fa2a5cbccd5dd5aad95d0bb8f8531e9d802061b1282264cc9697f728c07de0412a959b2c64ec#rd"
+    }
+  ]
+}

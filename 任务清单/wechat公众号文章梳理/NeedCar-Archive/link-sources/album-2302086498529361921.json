@@ -1,0 +1,28 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2302086498529361921#wechat_redirect",
+  "title": "busoff",
+  "advertised_count": 5,
+  "collected_count": 5,
+  "articles": [
+    {
+      "title": "工程问题，CAN Busoff恢复不成功导致的通信中断",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495630&idx=1&sn=c519101003d5a1e82289f3a3611e8a9d&chksm=fa29b1bacd5e38ac326f8ce888938da64c34070ec048ee9cc9f0688876f6fa3bc8ea82bcaa0b#rd"
+    },
+    {
+      "title": "工程问题：电压瞬时异常导致的busoff与通信丢失",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494644&idx=1&sn=9809bc3289bf44ef15d97c9bb5fedd0e&chksm=fa29b580cd5e3c968deaa82d4a1eb7d88f8959cca6a79110591755b3598ebc8f1adedd37b83d#rd"
+    },
+    {
+      "title": "Busoff后的快/慢恢复机制",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491469&idx=1&sn=f7ce96c01a17eb788ef18966f72b0fdb&chksm=fa2a41f9cd5dc8ef44ce73233c12d983aec3522f7b45b660a816eafd15be32c7351d6fd056e6#rd"
+    },
+    {
+      "title": "Autosar开发：CanSM模块如何处理Busoff？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488189&idx=1&sn=f5ffc7640ca31d059e6dc0510559c6e7&chksm=fa2a4cc9cd5dc5dfb1d0f428f27c1b732f31ef9219d9074361bc05bc31ebe707e4a5c295c22f#rd"
+    },
+    {
+      "title": "Autosar网络管理：说说Busoff那点事",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485790&idx=1&sn=edb25567e52d9f4c3f31788033d90b1e&chksm=fa2a572acd5dde3ca104329bda62db64b0b946b3332fe59e137598caf0829a7520479f075a8f#rd"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2238204796132474881#wechat_redirect",
+  "title": "刷写",
+  "advertised_count": 9,
+  "collected_count": 9,
+  "articles": [
+    {
+      "title": "OEM为什么要不断提高刷写效率？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495345&idx=1&sn=7ade9749ba40d1dd0ce88e401be972d9&chksm=fa29b0c5cd5e39d3732522deabbf9b21318cce48dab3df25f2a714f4b2e276d462e3503b2da8#rd"
+    },
+    {
+      "title": "INCA基础操作：文件刷写",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492396&idx=1&sn=f10ebb231234171d01fcc7138368a14f&chksm=fa29bd58cd5e344edc1894711fc4b0bdd993fd62c8269a23bb663bbd40140d1cd14a7e9b4ac4#rd"
+    },
+    {
+      "title": "工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489494&idx=1&sn=6ba0e5a9ff224f997be21f57384d1bea&chksm=fa2a49a2cd5dc0b4dcc2d9a10ca88bc1c862b14cf449de35fb99d638026b3c7333e8bab74911#rd"
+    },
+    {
+      "title": "工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489125&idx=1&sn=2296e67ec3440454643ae29b6c0eae11&chksm=fa2a4811cd5dc1072d07e14116d654c0f412a3bf9bfccebe834a28884c9ddfaeac1a410e6c55#rd"
+    },
+    {
+      "title": "工程开发问题（四）：数组越界引发的刷写失败",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488240&idx=1&sn=3196cd45ab4141c5242f49f3d564cbfa&chksm=fa2a4c84cd5dc5927dbe2a0b13d4f63a4e90e39a085cdde460b3ab810e249fd4af2e724b36d0#rd"
+    },
+    {
+      "title": "Bootloader开发：并列刷写(Parallel Flash)你知道多少？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487180&idx=1&sn=9df39b10d7b16550e44bbe91d481ebd4&chksm=fa2a50b8cd5dd9ae3705f614c6b84797e9576a086ed14198886290d1a5476ccd95b02c5206c6#rd"
+    },
+    {
+      "title": "基于UDS刷写，0x28、0x85服务可以不用吗?",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486671&idx=1&sn=20428b27771e42ac83ebb658c81c4013&chksm=fa2a52bbcd5ddbadb0d3ae6f022011b3c0235fce89d91bcc2c48e35f2d3e8e7bd6e415a8fd24#rd"
+    },
+    {
+      "title": "UDS诊断之刷写：Server响应时间对APP程序复位影响",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485208&idx=1&sn=316a25d2e4ab2d593f2ad41c47e7db9f&chksm=fa2a596ccd5dd07a1a77f44fd830b556351de06f60e9ee250012034c255289e4cc856b0cd3bb#rd"
+    },
+    {
+      "title": "UDS之刷写：你真清楚Application和Bootloader如何沟通？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485129&idx=1&sn=fa7581856d36a274aebcf664cbc7cfa8&chksm=fa2a58bdcd5dd1aba9ffafebd62dd754ee851f9d839c3c986d746f00493828bc1b16a271e5ae#rd"
+    }
+  ]
+}

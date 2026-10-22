@@ -1,0 +1,32 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2132200474106740742#wechat_redirect",
+  "title": "EcuM",
+  "advertised_count": 6,
+  "collected_count": 6,
+  "articles": [
+    {
+      "title": "Autosar EcuM：APP由RUN到POST_RUN浅析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491219&idx=1&sn=c2574d9d8784242842adc08f6ba5163a&chksm=fa2a40e7cd5dc9f16a0d603b0301a13c3eee9c5f71084f5a6bbae7ae7172e05d639dcdd261b2#rd"
+    },
+    {
+      "title": "Autosar EcuM：ECU的启动、关闭流程",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491161&idx=1&sn=59986333142cc5793f06fc8a2dbb8d41&chksm=fa2a402dcd5dc93b9f25ac2311e0f2ff6c16b38951b80bf9c5588078c1b9002fe2f66e151768#rd"
+    },
+    {
+      "title": "Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487235&idx=1&sn=a4734e29214629e8b38e2772d041cc57&chksm=fa2a5177cd5dd861998ba8e445dad5a524a63d1368e1892997022b15c01c25b613976103c8f1#rd"
+    },
+    {
+      "title": "Autosar网络管理：唤醒源的Check和Set",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486550&idx=1&sn=7005420549c282d303587799ad9f5a8a&chksm=fa2a5222cd5ddb34affecc231964686d81efbc6a7420f2437c56dbd5e42b7fd62a8eb3d6e8cf#rd"
+    },
+    {
+      "title": "Can Wakeup时序，简单点说（一）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486083&idx=1&sn=b861ffa051e705a9934f42be81011e13&chksm=fa2a54f7cd5ddde10ee15d33303bd70b47276584dcfaaa1315998a822a2170a57170924b34f9#rd"
+    },
+    {
+      "title": "（节点唤醒==网络唤醒）？FALSE:TRUE；",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483765&idx=1&sn=eddd18684737ed67aff7da4b7b6bd501&chksm=fa2a5f01cd5dd61735d991cf0e4a34a14d8fbb6f81274e5f8c96a6cf93ad5c80b363c6d06c25#rd"
+    }
+  ]
+}

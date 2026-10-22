@@ -1,0 +1,76 @@
+{
+  "source": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2170344841421864961#wechat_redirect",
+  "title": "通信",
+  "advertised_count": 17,
+  "collected_count": 17,
+  "articles": [
+    {
+      "title": "E2E VS SecOC的立场分析",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498034&idx=1&sn=30b706261e9520c634eeb35a0326368c&chksm=fa29a746cd5e2e50ec24ffab11f7eb8e41b41e3534234f6473ba76edd3859aa53db8f42b8ada#rd"
+    },
+    {
+      "title": "Autosar通信，信号长度过长如何配置？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496628&idx=1&sn=e0133de71af6315b51d53faf8309eb3a&chksm=fa29adc0cd5e24d6fbd7feae95a40b96ee56c9b4dd9542cab47383c98eae8e9be7a4993d4fac#rd"
+    },
+    {
+      "title": "如何理解通信使能与迟滞电压的关系",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496226&idx=1&sn=be19f04c3b340abe570dfb00872b0919&chksm=fa29ac56cd5e2540f38d54f987fd58040c337e40438ee31183f82009d763dc52352014243985#rd"
+    },
+    {
+      "title": "E2E的Rolling Counter与COM的UB是一回事吗",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494586&idx=1&sn=b1cb0acf6c61f9c8c6b7153769e2c2f4&chksm=fa29b5cecd5e3cd8a04407f29c63a9f1a124c986e263aa4bdfc7183d665d2bf7090c54250f7e#rd"
+    },
+    {
+      "title": "Lin总线基础：为什么Master节点需要外接上拉电阻",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492714&idx=1&sn=fd7fb0fc66bf3b8e29c7c018a4690818&chksm=fa29ba1ecd5e330812cd45451b2ecd59f7f207075628d29a40bbfe9d21b69e9cebf99a5e621f#rd"
+    },
+    {
+      "title": "通信栈开发：任务（Task）抖动导致的UB失效问题",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491876&idx=1&sn=94ea5497c543aa91470a2c2abbdbd75c&chksm=fa29bf50cd5e36461c1be511a12472e45f1bdd17d33918e1f601bdbd63a795a499f23199deaa#rd"
+    },
+    {
+      "title": "CAN FD通信：数据段错误，错误帧的速率是500Kbps还是2Mbps？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491103&idx=1&sn=3cfe7e72c259664ab484d13796f8a84f&chksm=fa2a406bcd5dc97d20bcada7fa5277b007668df69670ca4a3ffb245adf13088206f7f1466bb2#rd"
+    },
+    {
+      "title": "通信问题：为什么周期Signal值会有抖动？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491084&idx=1&sn=c230f49b3b168fc5bc9d5b815376c0aa&chksm=fa2a4078cd5dc96e4f03806a4e4766488dc5447ac3d86b71211698bdc034f3dfd9b518f62324#rd"
+    },
+    {
+      "title": "功能安全E2E：浅谈Profile01（P01）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490898&idx=1&sn=ccc9ee594ed8c149dded4a74b67b413b&chksm=fa2a4326cd5dca30543225ff1267f573a041e425e85fa4b31084b46cb26accfd8982aa5b2186#rd"
+    },
+    {
+      "title": "Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490883&idx=1&sn=b849717d534e0bbe8944e09d78eeabe9&chksm=fa2a4337cd5dca21037b09ef20fe6261f31481c3786ca6117d4327c31a9e99bc3deb78ed3f9a#rd"
+    },
+    {
+      "title": "嵌入式开发：DMA何时使用更好？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490826&idx=1&sn=ac808569a5f0db75361036caaab3742b&chksm=fa2a437ecd5dca68ee102e62ef4ea1129bfddefb0b29a9ae66b0c26188a3a50b55f6f587a3c0#rd"
+    },
+    {
+      "title": "CAN通信基础：L-PDU，到底如何理解？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490810&idx=1&sn=34ab9c4dfb5e86105ad61a6838c9afc8&chksm=fa2a428ecd5dcb98bc39cd9e633e86104d7c5778f725502608fe75d9dbd394598bd1dce9e7a5#rd"
+    },
+    {
+      "title": "诊断基础：不同会话(Session)，诊断报文如何维持网络状态？",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490801&idx=1&sn=41a3d3da9867298b0cbcd34bac7e2773&chksm=fa2a4285cd5dcb9310c99604eff9fbb4740eddc96978df1386a3190e39e551ae162c27706666#rd"
+    },
+    {
+      "title": "Lin基础：从Lin Frame开始",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490764&idx=1&sn=883ba798aa6be269d5d1fca248665e44&chksm=fa2a42b8cd5dcbae390f7d482b0f617493977dda1272b8f217177babe44aee4ad0c430f168c8#rd"
+    },
+    {
+      "title": "CAN XL抢先看，从Frame格式开始",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490754&idx=1&sn=e65ea0632bab1cc69c178ffc8c57735f&chksm=fa2a42b6cd5dcba09b44c1a7bcd9cd97cfe8794e3b71cd4ac47b60d7c6a64abd4d4fdd73fcf8#rd"
+    },
+    {
+      "title": "Autosar通信模块COM:Update-Bits详解",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490618&idx=1&sn=bb5e8c87ad1f81037e070159ad481110&chksm=fa2a424ecd5dcb585b0db577be48fa1de6eb19184e30a34973b9806208603fce03c85436e31c#rd"
+    },
+    {
+      "title": "Autosar通信栈：发送返回OK和发送确认是一回事吗",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487913&idx=1&sn=a5e02e3ae6887dd7f14ac617ad6b4623&chksm=fa2a4fddcd5dc6cb2e7f894df52815da7aabb2daf503448f1096f8ed65ccb034b95a826cc56e#rd"
+    }
+  ]
+}
