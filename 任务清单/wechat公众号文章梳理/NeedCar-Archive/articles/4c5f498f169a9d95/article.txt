@@ -1,0 +1,88 @@
+Autosar CanTp:什么是Connection？
+2022-12-18T12:42:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490806&idx=1&sn=90dd653a20e16944fb7ff6cfaceb7e62&chksm=fa2a4282cd5dcb946568e05575e34723e359192ba35e6bf7a3c0e2991b5c84014cad2aca681c&scene=21#wechat_redirect
+
+工程中，诊断功能必不可少，不管是开发还是测试，占据着很大的人力资源，足见其重要性。所以，更好的理解诊断，就需要不断地积累诊断的工程细节问题。本文，着重讨论CanTp的Channel和Connection概念。
+1、什么是Connection
+Autosar规范中，对Connection的具体解释如下：A transport protocol session,either is a transmission
+or
+a reception session on a N-SDU.
+解释：Connection是一个N-SDU的发送或者接收协议会话。理解没？
+答
+：我没太理解。但是有一个词很重要，即："or"，就是说，
+这个会话要么处于接收状态，要么处于发送状态
+。这与诊断的"乒乓"交互规则相对应。
+（一）Channel
+理解"Connection"，先从CanTp的"Channel"说起。CanTp是软件抽象模块，也
+是ISO 15765-2规范的具体实现
+。CanTp处于中间模块，向上传递接收到的数据，向下发送上层的请求（诊断响应），而这个向上或者向下的Path需要Channel搭建。在CanTp层，"Channel"可以创建多个，当需要传输
+SF（Single Frame）、FF（First Frame）、CF（Consecutive Frame）、FC（Flow Control）
+时，需要找到可用的Channel，进而connect上/下软件模块。CanTp Channel如下所示：
+2、Connection的创建和释放时机
+Connection的创建和释放与Buffer相关，而
+CanTp是没有缓存数据能力的
+，只能将接收到的数据或者上层请求发送的数据传送给对应的上层或者底层。Autosar中，对CanTp处理N-PDU的描述如下所示：
+既然CanTp不能缓存数据，意味着：CanTp接收到数据以后，要将接收到的数据Copy到目标上层（e.g. PduR, DCM, or COM），或者将上层要发送的数据直接缓存到底层（驱动层，eg：CAN RAM）。
+（一）Connection时机
+发送端（Transmitter）的Connection与释放：
+（1）
+如上图，对于发送端（Transmitter），也可以说上位机，请求发送一个N-SDU（SF）时，调用CanTp的发送接口CanTp_Transmit()，请求发送。
+注意
+：
+此时返回E_OK只是表示发送请求成功
+，可以参考前文
+Autosar通信栈：发送返回OK和发送确认是一回事吗
+。也意味着当前的N-SDU找到了一个可用的CanTp Channel，且成功的Connection，即：
+上层请求发送模块（eg:DCM）->PduR->CanTp->CanIf->CanDriv
+成功开辟了一条可用链路。如果返回E_NOT_OK，表示请求失败，可能是CanTp没有可用的Channel，也可能是底层硬件缓存区已经满了，无法再缓存数据；
+注意
+：由于诊断半双工（half duplex）的通信特点，CanTp会在已经建立连接的N-SDU中查找是否此N-SDU处于接收状态，如果处于接收状态，则Connection失败。
+（2）
+N-SDU的Connection创建以后，CanTp即可通过标准接口PduR_CanTpCopyTxData()去目标上层Copy要发送的数据；
+（3）
+当数据成功发送到总线（BUS）以后，底层会通过上层注册的Callback(eg，CanTp_TxConfirmation()接口)将发送完成信息通知到目标上层，进而释放Connection，也意味着释放上层的缓存区（Buffer）。
+接收端（Receiver）的Connection与释放：
+（1）
+CanTp收到一帧诊断请求以后，会先调用PduR_CanTpStartOfReception()接口，去目标上层查找可用的Buffer，查找的依据是
+PCI（Protocol Control Information）
+中的帧长度信息；
+（2）
+如果目标上层有可用的缓存区，调用PduR_CanTpCopyRxData()接口将数据Copy到目标上层，也意味着Connection的建立；
+注意
+：CanTp会在已经建立连接的N-SDU中查找是否此N-SDU处于发送状态，如果处于发送状态，则Connection失败。
+（3）
+当数据完整Copy到目标上层以后，通过回调函数
+PduR_CanTpRxIndication()，释放Connection。
+上述时间参数解释
+：
+N_Cs
+：下一个连续帧发送等待或者
+Buffer等待超时时间
+；
+N_As
+：等待发送确认时间；
+N_Br
+：单帧接收或者流控帧发送请求时间。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+CAN XL抢先看，从Frame格式开始
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+诊断基础：不同会话(Session)，诊断报文如何维持网络状态？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

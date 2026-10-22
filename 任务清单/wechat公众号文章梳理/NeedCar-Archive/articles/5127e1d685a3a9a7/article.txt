@@ -1,0 +1,43 @@
+Autosar往期精彩文章汇总：71~100
+2022-06-10T08:35:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488190&idx=1&sn=c9913a494a74aeed1ba76a6928a28b7e&chksm=fa2a4ccacd5dc5dcaa9fe80ddf504444fedfbf51d345dc5afef8084dad5233055aa2e077b48e&scene=178&cur_album_id=2434132054117498881&search_click_id=#rd
+
+1->10->100->?
+71 ~ 80
+，青铜篇
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+Autosar通信：网络管理报文和应用报文，谁先发？
+Uds诊断：Gateway节点响应$10 02服务时机，要精准拿捏
+Autosar网络管理：基础问题知多少
+Uds诊断：这5个诊断问题，你能回答几个？（三）
+Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次
+Bootloader开发：并列刷写(Parallel Flash)你知道多少？
+嵌入式开发笔记：空指针引起的Trap问题（一）
+Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？
+81 ~ 90，
+青铜篇
+Uds诊断：Gateway节点的Timing，不简单
+Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+Uds诊断：这5个诊断问题，你能回答几个？（四）
+勘误篇(一)：Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+嵌入式开发笔记：空指针引起的Trap问题（二）
+Autosar开发：什么是“可重入/不可重入函数”？
+Autosar通信栈：基础问题知多少
+嵌入式开发笔记：空指针引起的Trap问题（二）补充
+DDS开发笔记：基于Ubuntu20.4跑micro-xrce-dds（一）
+Autosar通信栈：基础问题知多少(二)
+91 ~ 100
+，青铜篇
+工程开发问题（一）：诊断指令不路由
+Autosar通信栈：发送返回OK和发送确认是一回事吗
+Autosar网络管理：CAN FD帧能否唤醒网络？
+Autosar网络管理：网络管理报文的收/发与网络管理时间配置参数解析
+Uds诊断：不同Operation Cycle下的DTC状态位变化
+工程开发问题（二）：同步(Synchronization)错误带来的问题
+工程开发问题（三）：WatchDog临界区保护不够引发的Reset问题
+Autosar网络管理：Bus Load Reduction Mechanism干啥的？
+Uds诊断：这几个诊断问题，你能回答几个？（五）
+Autosar开发：CanSM模块如何处理Busoff？
+写在最后
+继续坚持把一线的东西分享给大家，未完待续...

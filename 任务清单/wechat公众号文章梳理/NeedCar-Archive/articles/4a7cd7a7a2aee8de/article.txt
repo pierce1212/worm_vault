@@ -1,0 +1,136 @@
+如何基于HighTec，在链接文件（*.lsl）中设置自定义段
+2022-11-17T07:07:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490499&idx=1&sn=352c77e16a1ed5f1fb1a57f82382b681&chksm=fa2a45b7cd5dcca153e7325b00c5cc9283c76100bae439b5944f7e5f04059096659bbb1c5cad&scene=21#wechat_redirect
+
+软件开发中，不管是底层软件开发还是上层软件开发，多少都会与段（Section）产生交集。什么是Section？如何在链接文件中自定义Section?Autosar中如何分配Section？本文，带着这些疑惑，我们聊一聊。
+提示
+：基于HighTec编译器对应的链接文件（*.lsl）讨论
+1、什么是Section？
+HighTec的用户手册中，对于"Section"的解释如下所示：
+意思是说：Section是一段没有间隔（gaps）的连续地址空间。这段地址具有特定的目的，eg：将其设定"只读"。
+实际的工程中，我们会将函数或者变量放入指定的Section，或者说自定义的Section。这又是如何操作的呢？
+2、如何在链接文件中自定义Sections呢？
+设置Section的目的是将Object（函数或者变量）放入指定的地址空间。所以，搞清楚如何在链接文件中定义Section之前，
+需要先在源文件（eg：*.c）中创建Object，并把Object放入指定的Section
+。
+（一）源文件中，创建Object
+在源文件中，将Object放入自定义Section的方式有两种：
+1、#pragma section方式
+语法规则：
+#
+pragma
+section
+"<name>"
+[
+<flags>] [<alignment>]
+<objects>
+#
+pragma
+section
+解释
+：
+name
+：自定义Section的名称，eg: .mySection
+flags
+：object的属性，常用的属性如下
+a：
+allocatable. 这是一个常设属性，即：必须有
+B：uninitialized，未初始化
+w：writable，可写
+x：
+executable，可执行
+s：
+using small addressing，小端模式
+z：
+using absolute addressing，使用绝对地址
+aligment
+：对齐
+示例
+：自定义段.mySection，段内的对象可写，4字节对齐
+#
+pragma
+section
+".mySection"
+aw 4
+uint32 MySection_Data1 =
+0x00
+;
+uint16 MySection_Data2 =
+0x01
+;
+uint8  MySection_Data3 =
+0x02
+;
+#
+pragma
+section
+2
+、ase
+ction方式
+语法规则：
+__attribute__
+((asection(
+"<name>"
+,
+"a=<align>"
+,
+"f=<flags>"
+)))
+属性部分和方法1等同。
+示例：
+（二）链接文件中，创建自定义Section(.mySection)
+源文件创建好Object以后，也指定了Section。如果想让编译器HighTec将源文件（eg：*.c）中的Object放入指定的位置，还需要修改链接文件（*.lsl）。
+示例：将段.mySection放入dsram0区，且指定起始地址0x70001000
+SECTIONS
+{
+".mySection"
+0x70001000
+:
+{
+. = ALIGN(
+4
+) ;
+//4字节对齐，这一行很有必要
+*(.mySection.*)
+} > dsram0
+}
+（三）*.map文件确认变量是否放入指定地址
+查看编译后的*.map文件，可以确认.mySection段的起始地址为设定的0x70001000，且每个变量均占用4字节（因为属性中设置了4字节对齐），具体如下所示：
+3、Autosar如何分配Section？
+阅读Autosar代码的时候，大家应该会注意到如下的特点：
+#
+define
+CAN_START_SEC_CONST_8BIT
+#
+include
+"MemMap.h"
+......
+#
+define
+CAN_STOP_SEC_CONST_8BIT
+#
+include
+"MemMap.h"
+MemMap.h文件通过定义的
+Xx_START__Xx
+和
+Xx_STOP__Xx
+标识，将Object分配到指定的Section。这种写法很优秀，值得借鉴。示意代码如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+诊断基础：如何理解Operation Cycle？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

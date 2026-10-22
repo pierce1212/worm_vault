@@ -1,0 +1,222 @@
+以太网基础：DMA Descriptor到底在描述什么？
+2023-12-01T08:50:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493602&idx=1&sn=66e0208e4f30fae1e9a18a2bf1f50333&chksm=fa29b996cd5e3080fb2fe340ab852272cabdd8478f14451fbdf9436560b6771ad3bbe4402ee7&scene=21#wechat_redirect
+
+之前的文章，聊过
+DMA（
+Direct Memory Access
+）
+，可以参考前文《
+嵌入式开发：DMA何时使用更好？
+》。我们知道，DMA的主要作用：
+搬运数据
+。为了加快以太网（Ethernet）数据传输效率，降低CPU负载，离不开DMA的使用。如果想更清楚的了解以太网通信机制，需要了解DMA在以太网通信中如何搬运数据，而弄懂以太网的DMA数据搬运原理，怎能不知道DMA Descriptor？。
+提示
+：基于TC3xx讨论
+1、DMA位置
+在Ethernet的通信过程中，数据搬运由DMA负责。Ethernet使用专属的DMA Channel，不占用外设DMA模块的Channel。对于TC3xx，Ethernet最多可以使用4个Tx DMA和4个Rx DMA。发送数据时，DMA负责将目标内存区（Tx Memory）数据搬运到MTL（MAC Transaction Layer）的
+Tx FIFO（最大4Kb），然后由MAC内核负责数据发送
+；接收数据时，DMA将
+MTL Rx FIFO（最大8Kb）
+收到的数据搬运到接收内存区（Rx Memory），如下所示：
+提示
+：Tx FIFO或者Rx FIFO可由
+多个队列（Queue）
+共享
+，TC3xx最多可以设置4个Tx Queue、4个Rx Queue。
+每个Queue的大小必须是256 Byte的倍数
+。
+（一）Lwip中的DMA
+熟悉Lwip(Light weight IP)的小伙伴，对如下流程应该不陌生。其中，DMA所处的位置如下所示：
+如上图，以发送数据为例：
+首先，应用层（Application）将数据
+缓存
+到Tx Memory；
+其次，
+DMA搬运
+Tx Memory数据到MTL Tx FIFO；
+之后，
+MTL Tx FIFO中数据被发送到总线。
+如上三个过程属于异步行为
+，且各自干活的
+速率不同
+。之所以速率不同，因为应用层搬运数据、MAC发送数据使用的Clock不同。
+如果想让DMA按照预期方式干活，就需要告诉DMA如何干，也就是干活的规则，对于Ethernet数据的传输也不例外。不同于外设DMA模块，
+对于Ethernet使用的DMA，CPU会将干活的规则放在
+DMA Descriptor
+中。
+2、DMA Descriptors
+对于TC3xx的DWC_ether_qos控制器，支持两种描述符（Descriptor）：
+Normal
+和
+Context
+。对于Descriptor，常使用链式结构（Link List）。
+Normal Descriptor
+：用于Packet数据和控制信息传输的描述。每个Normal描述符包含
+两个缓存区（Buffer）和两个地址指针
+；
+Context Descriptor
+：主要用于控制信息传输的描述。
+（一）Descriptor Struct
+DWC_ether_qos支持
+Ring Struct
+DMA Descriptor，一种实现方式如下所示：
+所谓DMA Descriptor Ring Struct，就是DMA Descriptor
+base address
+到达Ring End再复位到开始的位置，如下所示：
+如果要知道何时到达Ring End，则需要约束Descriptor Ring Length。通过上图，可以看出：对于Descriptor，需要消耗实际的资源（RAM），且该资源属于Application和DMA共享，即：
+Application使用时，将要搬运数据的规则写到Descriptor中，DMA使用时，先查阅一下Descriptor，知道如何搬运数据
+。软件在实现DMA Descriptor时，类型定义示意如下：
+/*
+brief Rx Descriptor */
+typedef
+struct
+{
+IfxGeth_RxDescr0
+RDES0;
+IfxGeth_RxDescr1
+RDES1;
+IfxGeth_RxDescr2
+RDES2;
+IfxGeth_RxDescr3
+RDES3;
+}
+IfxGeth_RxDescr;
+/*
+brief Tx Descriptor */
+typedef
+struct
+{
+IfxGeth_TxDescr0
+TDES0;
+IfxGeth_TxDescr1
+TDES1;
+IfxGeth_TxDescr2
+TDES2;
+IfxGeth_TxDescr3
+TDES3;
+}
+IfxGeth_TxDescr;
+（二）
+Transmit Descriptor
+DWC_ether_qos可以支持
+Read
+和
+Write-back
+格式的Transmit Descriptor。
+Transmit Normal Descriptor (Read Format)
+包含TDES0，TDES1， TDES2，TDES3，如下所示：
+（三）Receive Descriptor
+DWC_ether_qos也可以支持
+Read
+和
+Write-back
+格式接收描述符。
+Receive Normal Descriptor (Read Format)
+包含RDES0, RDES1, RDES2, and RDES3，如下所示：
+本文不讨论Transmit/Receive Normal Descriptor (Write-back Format)及Transmit/Receive Context Descriptor。
+3、Ethernet DMA初始化的软件实现
+功能脱离不了代码实现，在TC3xx的用户手册中，也详述了Ethernet的DMA初始化步骤，本文，结合Code，分析一下Ethernet DMA初始化关键点的实现。
+（1）
+Software Reset
+，主要操作DMA Bus Mode Register的SWR位域，以便于完成DMA, MTL和MAC内部寄存器复位，当完成DWC_ether_qos Clock的复位动作以后，
+此位域自动清零
+。DMA_MODE寄存器的软复位动作如下所示：
+IFX_INLINE
+void
+IfxGeth_dma_applySoftwareReset
+(
+Ifx_GETH *gethSFR
+)
+{
+gethSFR->DMA_MODE.B.SWR =
+1
+;
+}
+（2）
+在进行后续的DMA, MTL和MAC配置之前，需要等待复位完成，即，直到
+gethSFR->
+DMA_MODE.B.SWR
+== 0
+。
+（3）
+创建发送/接收Descriptor List，注意：对于接收描述符，由DMA占用。
+发送描述符链表创建示意如下：
+/* Initialize descriptors in ring mode */
+for
+(i =
+0
+; i < IFXGETH_MAX_TX_DESCRIPTORS; i++)
+{
+descr->TDES0.U           = (uint32)(config->txBuffer1Size * i) + buffer1StartAddress;
+descr->TDES1.U           =
+0
+;
+/* buffer2 not used */
+descr->TDES2.R.B1L       = config->txBuffer1Size;
+descr->TDES2.R.VTIR      =
+0
+;
+/* do not use VLAN tag */
+descr->TDES2.R.B2L       =
+0
+;
+/* buffer2 not used */
+descr->TDES2.R.TTSE_TMWD =
+0
+;
+/* timestamp not used */
+descr->TDES2.R.IOC       =
+0
+;
+/* interrupt disabled */
+/* TDES3 will be configured while trasmitting each packet */
+descr = &descr[
+1
+];
+}
+接收描述符链表创建示意如下：
+/* Initialize descriptors in ring mode */
+for
+(i =
+0
+; i < IFXGETH_MAX_RX_DESCRIPTORS; i++)
+{
+descr->RDES0.U       = (uint32)(config->rxBuffer1Size * i) + buffer1StartAddress;
+descr->RDES2.U       =
+0
+;
+/* buffer2 not used */
+descr->RDES3.R.BUF1V =
+1
+;
+/* buffer 1 valid */
+descr->RDES3.R.BUF2V =
+0
+;
+/* buffer 2 not valid */
+descr->RDES3.R.IOC   =
+1
+;
+/* interrupt enabled */
+descr->RDES3.R.OWN   =
+1
+;
+/* owned by DMA */
+descr                = &descr[
+1
+];
+}
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+Uds诊断：这5个诊断问题，你能回答几个？（四）
+嵌入式开发：程序如何找到第一条指令位置？
+以太网基础：基于Lwip+Tc3xx的组播实现
+工程偶发类问题，如何破局？
+信息安全：RSA-2048性能
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

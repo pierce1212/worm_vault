@@ -1,0 +1,97 @@
+RH850实践：中断入门
+2024-05-31T07:03:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494723&idx=1&sn=f103fd9a3ffa5753a8f5c74dbd3f8a58&chksm=fa29b237cd5e3b219af7ae6de7a09319b1789d78dae1c2d1ef7dea29240438ad34432312307c&scene=21#wechat_redirect
+
+汽车领域使用的芯片中，中断系统已然是标配。掌握中断系统是一个工程师的基本技能。了解一个事物，最好的方式就是实践。本文，基于RH850 F1KM，聊一聊"中断"。中断系统主要包含三个部分：中断触发源、中断控制及中断处理，示意如下：
+讲到中断，本质是在讨论CPU的行为，即：中断针对CPU。在没有中断系统之前，CPU按照命令时序，
+顺序执行
+。为了能让CPU处理更紧急的任务（eg：刹车任务），设计了中断，即：让正在运行的CPU停下当前任务，去处理更高优先级的任务，示意如下：
+1、中断基地址及中断函数入口地址
+在一个具有中断系统的芯片中，每个CPU会有一个中断向量表基地址寄存器（eg：INTBP， Base address of the interrupt handler address table）。
+那么，中断向量表地址寄存器存储的地址是多少呢？
+答：
+用户自定义，即：中断向量表寄存器存储的地址，可根据芯片资源自行设定，eg：0x00000200，这个地址将成为中断向量表的基地址。注意，
+该地址一般需要放在PFlash内存区
+。知道了中断向量表入口位置，即可通过每个中断的偏移（Offset）查找到对应中断函数入口地址。
+（一）CPU如何找到中断函数入口地址
+如上提到：CPU会对应一个中断向量表基地址寄存器（eg：INTBP），而
+INTBP存放着
+中断向量表的基地址
+，同时，
+中断向量表存放着
+每个中断函数的入口地址
+，示意如下：
+中断向量表基地址可以在
+链接文件
+中设定，也可以在头文件（eg：*.h）等位置设定。
+2、中断函数注册
+中断函数的处理，需要注册中断函数，即：将目标中断函数放入指定位置。具体操作：
+（一）编写中断函数
+中断函数需要用#pragma进行声明，示意如下：
+#
+pragma
+INTERRUPT inticup2pe_DataFlashRq_handler(vect=359)
+void
+inticup2pe_DataFlashRq_handler
+(
+void
+)
+{
+/* do something*/
+}
+使用#pragma声明，也可以用如下方式：
+#
+pragma
+ghs interrupt
+void
+inticup2pe_DataFlashRq_handler
+(
+void
+)
+{
+/* do something*/
+}
+（二）在启动文件（*.850）中注册中断函数
+......
+.offset (IRQ_TABLE_START+
+0x059C
+)
+#
+if
+(INTICUP_DATAFLASHPRQT_ENABLE > 0x00000000)
+.
+extern
+_inticup2pe_DataFlashRq_handler
+.word _inticup2pe_DataFlashRq_handler
+#
+else
+.word __unused_isr
+#
+endif
+......
+注意：
+链接文件注册中断函数时，
+函数前需要添加下划线"_"
+。
+3、中断触发方式及中断控制
+在RH850中，中断触发方式可以是Level（eg："1"），也可以是Edge触发（eg：上升沿、下降沿或者双边沿）。在芯片的datasheet中，每个中断源的触发方式会给出具体约束，每个中断源在中断向量表中的偏移地址、中断Channel也会给出具体约束，示意如下：
+对于每个中断，中断优先级、中断触发方式等需要通过
+中断控制寄存器
+（Interrupt Control Registers）配置。
+（一）中断使能
+中断的使能包含两个部分：
+1、中断触发源使能，即：使能对应中断源的触发能力
+2、中断控制的使能，即：中断控制单元使能，使其可以接收中断源的请求，并把仲裁后的结果传递给CPU。
+示意如下：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：303~350
+Autosar往期精彩文章汇总：252~302
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+信息安全：AES-CMAC原理及验签策略
+工程问题：读个DID，MCU怎么就Reset了呢？
+E2E的Rolling Counter与COM的UB是一回事吗
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

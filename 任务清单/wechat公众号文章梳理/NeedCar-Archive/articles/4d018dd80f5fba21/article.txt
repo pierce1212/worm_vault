@@ -1,0 +1,145 @@
+工程问题：读个DID，MCU怎么就Reset了呢？
+2024-01-25T14:38:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493876&idx=1&sn=cd23b80d8d71d84b42956a527ecb93a6&chksm=fa29b680cd5e3f960ca97bc03b8f0e3d59830cacecb5b5a15f93d6376cc6cf3ff185068d39f9&scene=21#wechat_redirect
+
+如标题，使用诊断0x22（Read Data By Identifier service）服务，读个DID（
+Data
+I
+dentifier
+），也能导致MCU（Microcontroller Unit， 微控制器单元）复位？答：没错，MCU就任性地Reset了。本文，分享一个工程案例，让我们一探究竟。
+1、问题背景描述
+问题背景：车辆发现了某器件功能异常，导致车辆故障，而这个器件异常行为的主要诱因：MCU异常reset。所以，“MCU异常Reset”、“车辆故障”等词汇聚焦在一起时，绝对不是什么好事。
+简化问题描述：MCU通过IO（Input/output）Pin脚控制某个执行器，示意如下：
+功能需求：在MCU复位过程中，
+如果
+复位过程
+超过
+2s，
+执行器IO状态维持2s，之后
+IO恢复到默认状态
+（断开
+）
+；如果复位过程小于2s，
+执行
+器
+IO状态保持不变
+。
+而实际引发问题时，IO状态并没有符合功能需求，即：MCU复位超过2s时，IO没有维持2s原有状态，进而导致车辆故障。
+如上问题中，有两个点需要理解：
+（一）MCU复位，软件跳转过程
+我们知道，MCU中，至少包含两个用户程序，用户的Bootloadr程序和用户的Application程序，如下所示：
+冷启动或者软复位过程中，CPU会先进入Bootloader程序，之后跳转到Application程序；
+程序在Application发生异常Reset时，程序会从
+Application程序跳转进入Trap程序
+，在Trap程序中，可以
+执行MCU Reset（eg：调用MCU_PerformReset()接口）
+，程序进入Bootloader程序，如果Application程序可以进入，程序再次跳转到Application；
+所以，在程序异常复位（Reset）以后，IO的状态需要在进入
+Bootloader程序到
+Application程序初始化（操作IO）之前保持一定状态。假设IO保持时间为Time
+IO
+，如果
+Time
+IO
+≤
+2s，则保持IO之前的状态，如果
+Time
+IO
+＞2s，则IO保持2s之前的状态，之后切换到默认状态（eg：断开）。
+（二）MCU异常Reset的因素
+假设，MCU在T2时刻发生异常Reset，此时，IO的状态为High；
+MCU异常Reset，程序回到Bootloader程序后，IO没有保持之前的状态，IO状态切换成Low；
+如果在
+Time
+IO
+时间内，
+保持非预期状态，则执行器异常，进而导致车辆故障
+。
+如上描述示意如下：
+那么，问题来了，
+什么因素触发的MCU Reset呢？
+2、问题根因分析
+关于MCU Reset的工况，之前聊过一种情况：一个CPU执行Flash的Verify期间，另一个CPU对
+相同Bank内存区进行数据操作时
+，会触发
+Bus Error错误
+，进而导致程序的Reset行为。更多细节可以参考前文《
+Debug手段：基于Lauterbach的Onchip调试
+》。
+（一）异核Trap
+当某个CPU（假设：CPU0）正在对某个Page（Flash最小写操作单位，eg：32 byte）进行Verify操作时，
+对应的Bank（假设：Bank0，Size = 3 MBytes）将处于Busy状态
+，即：其他CPU不可操作，包括读操作也不允许；
+如果此时（假设：T0时刻），其他CPU（假设：CPU1）读取Bank0中的某个变量，将会导致
+Bus Error错误
+，进而触发
+对应CPU的Trap
+，之后，MCU异常Reset。
+如上描述，示意如下：
+（二）同核Trap
+当某个CPU（假设：CPU0）正在对某个Page进行Verify操作，
+对应Bank0将处于Busy状态
+。Verify在Task1中，优先级低（Low）
+；
+如果此时（假设：T0时刻，Verify操作期间），Task1被高优先级的Task2抢占，而Task2中，会读取Bank0中的某个变量，将会导致
+Bus Error错误
+，进而触发对应CPU0的Trap。
+如上描述，示意如下：
+提示
+：一个Bank包含多个Logical Sector（Logical Sector是最小擦除单位）。
+对应到本文的问题，读取某个DID时，实质是
+读取PFlash中的某个变量（读取常量）
+，如果此时遇到变量所属Bank区，正在Verify操作，MCU将会Reset，进而导致IO状态不能保持，最终车辆故障。
+3、问题修复措施
+讨论修复措施之前，还需要理解一个点：对于Verify操作的目的是什么呢？
+答
+：根据Tc3xx手册描述，原因如下：
+即：为了确保Flash被有效擦除。
+修复策略：
+去除Verify操作。由于Verify操作会使得整个Bank处于Busy状态，影响的范围更大，在不确定影响范围的前提下，避免Verify操作。
+4、Trap排查技巧提示
+当Trap问题发生时，为了缩小问题的排查范围，可以将
+对应CPU
+Trap
+的
+Class
+和
+TIN
+（Trap Identification Number）存储在NVM中，以便于问题排查。除此之外，可以将
+DEADD（Data Error Address Register）寄存器存储的内存地址一并存储，此内存地址可以定位问题发生时，具体对哪个内存地址进
+行
+操作
+。
+DEADD寄存器记录问题时，记录问题地址示意如下：
+如果对DEADD寄存器（
+每个CPU对应一个
+）没有足够的认识，看看它的描述，我们就知道它
+对于问题排查的意义
+了，DEADD描述如下：
+DEADD具体描述如下所示：
+除了DEADD寄存器以外，其他的错误寄存器（Error Information Registers）也可以进行存储，以便于问题排查有更多的数据。eg：DIEAR（Data Integrity Error Address Register）、DIETR（Data Integrity Error Trap Register）、PSTR（CPUx Program Synchronous Trap Register
+）
+等。PMI（Program Memory Interface）、DMI（Data Memory Interface）相关错误寄存器如下所示：
+（一）DIEAR、PSTR记录的错误信息
+本文故意制造读取0xA0090000错误，DIEAR和PSTR记录信息如下：
+通过芯片手册，即可获取
+PSTR中，每个位域的信息，如上示例由FBE造成，描述如下所示：
+DIEAR中，记录了Trap发生时，对应的物理地址，DIEAR寄存器描述如下：
+提示
+：
+基于T
+c3xx
+讨论
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+信息安全：ECC（椭圆曲线密码学）验签性能测试
+诊断开发：老化（Aging）和愈合（Healing）
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+CANoe基础：仿真节点VLAN配置、UDP Capl编写
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

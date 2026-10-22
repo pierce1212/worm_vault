@@ -1,0 +1,112 @@
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+2022-07-19T12:54:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488954&idx=1&sn=ff07bd826e514cc2f70605a9f2124594&chksm=fa2a4bcecd5dc2d81f605918b23a52dfcd946ed0efbb5b103f514608d289e5de6f617aa02e48&scene=21#wechat_redirect
+
+工程中，Flexray总线的项目相对较少，但是，带来的问题可并不少。本文分享一下Flexray网络基础，同时把遇到的一些排查细节做一个分享。
+1
+Flexray网络管理基础
+1、Cycle、Repetition
+Flexray(Fr)总线基于调度表（S
+chedule
+）通信，Schedule每调度一次就是一个Cycle（比如：5ms）。为了降低总线负载，Fr的NM Msg发送周期一般约束为n*Cycle（n为大于0的正整数），在Autosar的概念中，
+n*
+Cycl
+e = Repetition，假设n = 4，则
+Repe
+ti
+ti
+on = 4 * 5 = 20ms，因此Fr NM Msg的发送周期为20ms，如下所示：
+2、FlexRay NM-PDU format
+FlexRay NM-Data PDU Format的格式如下所示，这里注意一下Byte0的Bit7，此处设置为“0”，假设Fr NM Msg的长度为8 byte，其结构如下所示：
+Byte0表示CBV时，对应的Bit位如下所示：
+不同于CAN NM Msg，Fr NM Msg可以发送Vote Bit，NM-Vote PDU Format结构如下所示：
+在实际的项目中，一般不会将NM Data和Vote分配到不同的Slot发送，而是将CBV和Vote合并，在一个Slot中发送，合并后的Byte0格式如下所示：
+3、Fr网络状态机
+Fr的网络状态机和CAN的网络状态机大体相同，不同点：
+Fr没有PBSM(Pre-Bus Sleep Mode)，而是多了一个Synchronize Mode
+。Fr的Network Mode与CAN Network Mode一样，也包含三个子状态：RMS（Repeat Message State）、NOS（Normal Operation State）、RSS（Ready Sleep State），如下所示：
+4、Fr Transceiver唤醒原理
+本文以TJA1081G为例，讨论TJA1081G的唤醒原理，TJA1081G可以Remote wake-up，也可以local wake-up，
+local wake-up一般是指WAKE pin唤醒方式
+，
+Remote wake-up是指接收到特定的唤醒时序
+，比如：
+什么意思呢？就是
+总线变化
+满足上述时序，即可使能
+TJA1081G（这点和CAN的Transceiver类似）。这里要额外提一下Null Frame（空帧），因为
+空帧的Header部分可能会满足上述时序
+，即
+使Fr节点发送空帧，也可能唤醒Fr总线节点
+。
+2
+工程问题
+上述铺叙了这么多，就是为了介绍本文遇到的Fr网络管理工程问题，希望能给大家带来一些思考。
+1、问题描述
+分析Fr数据总线数据发现，Fr Node1的Vote变化如下所示：
+t0时刻
+，所有Fr节点进入Bus Sleep；
+t1时刻
+，问题节点Fr Node1
+发送wake-up pattern(WUP)唤醒其他节点
+，但是
+Fr Node1自身网络却没有有效唤醒
+；
+t2时刻
+，所有节点再次进入Bus Sleep模式，但是Fr Node1并没有休眠，而是
+发送Null Frame
+；
+t3时刻
+，由于Fr Node1发送Null Frame，导致其他节点再次被唤醒而无法休眠。
+2、问题分析
+t0时刻，Fr Node1发送
+WUP，说明其
+CC（Communication Controller）重启过
+，排查代码发现：手动代码中手动调用过FrNm_NetworkRelease()和FrNm_NetworkRequest()。
+t2时刻，Fr Node1发送Null Frame，是因为Fr Node1的网络状态在Bus Sleep Mode，但是手动将
+Transceiver和CC切换到Normal模式
+，由于网络模式没有满足（处于Bus Sleep Mode），导致Fr NM Msg不能外发，进而App Msg也不能外发（需求：第一帧必须是NM Msg）。
+发送Null Frame，当满足TJA1081G唤醒时序时，其他节点被Fr Node1唤醒
+。
+3、解决策略
+Fr的网络管理按照Autosar架构实现，去除手动代码，此处不展开。
+4、问题排查细节点
+Fr节点进入RSS状态后，NM Msg的Vote( = 0)和Data( = 0)，如果PN使能，所有的PNC复位（=0） ；
+由RMS进入NOS状态时（主动请求FrNm_NetworkRequest()），如果FrNmActiveWakeupBitEnabled = TRUE时，ActiveWakeupBit置位（=1），直到节点脱离NM模式，
+ActiveWakeupBit
+复位（=0）；
+Fr除了收到WUP可以唤醒网络以外，收到其他节点Vote = 1或者网络管理报文也可以唤醒Fr网络；
+Fr节点进入RSS状态以后，即使
+本节点有
+内部网络请求
+（Network Request，比如：VFC置位），节点也不会进入NOS状态
+。这点在Autosar的规范中有说明，如下所示：
+参考资料
+SIMPLE TITLE
+Flexray_TJA1081G.pdf
+AUTOSAR_SWS_FlexRayNetworkManagement.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+工程开发问题（四）：数组越界引发的刷写失败
+上下文(CSA)切换，需要花费多少时间？
+工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)
+Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+CAN物理层测试：延时补偿、位干扰
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

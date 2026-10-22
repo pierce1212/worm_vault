@@ -1,0 +1,79 @@
+Tasking基础：将变量放入指定内存的两种方式
+2024-01-09T07:08:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493771&idx=1&sn=fac0c3cda6e7b1404bb8c41014712ba7&chksm=fa29b6ffcd5e3fe99ea8c660d2df40b2eb4357830534a0ef6bfd105f1dfd4892a1c290dca6d7&scene=21#wechat_redirect
+
+搞嵌入式开发的小伙伴，对编译器应该再熟悉不过了。如果没有编译器，就好比做饭没有锅。所以，如果要更好或者更高效的干活，自然需要对所使用的编译器有所了解才行。本文，基于Tasking，聊聊如何将变量放入指定内存。
+1、链接器（Linker）的输入、输出
+我们知道，编译器完成编译以后，需要靠链接器（Linker）将目标对象（*.a、*.o等）整合成可以烧录的镜像文件（*.hex、*.bin、*.elf、*.sre等）。那么，Linker需要哪些输入信息？又可以输出哪些信息呢？对于Tasking，链接过程所需要的输入和输出信息如下所示：
+如上图，Linker需要依赖链接文件（*.lsl）将编译后的对象放入指定内存位置。因此，如果想把目标变量放入指定内存位置，多少会与链接文件扯上关系。
+2、将变量放入指定内存位置的方法
+举例
+：将变量rt_uint8_t led_thread_stack[512]放入0x70003000起始位置。
+（一）方法一
+首先，在源文件（eg：*.c）中，将rt_uint8_t led_thread_stack[512]放入
+自定义段（.mySection）
+，如下所示：
+__attribute__((section(
+".mySection"
+)))
+rt_uint8_t
+led_thread_stack[
+512
+];
+其次，修改链接文件（*.lsl），将自定义段放到目标group，如下所示：
+......
+section_layout
+:vtc:linear
+{
+group
+(ordered, contiguous, align =
+1
+, attributes=rw, run_addr=0x70003000)
+{
+select
+"(*.mySection)"
+;
+}
+}
+......
+解释：
+在group中，通过设置"
+run_addr
+"属性，设置段的起始地址；
+align：内存对齐（单位：byte）
+最后，重新编译工程，查看*.map文件，确认
+led_t
+h
+read_stack所在位置，如下所示：
+（二）方法二
+该方法简单粗暴，直接利用
+__at()
+属性指定变量要存放的
+绝对地址
+即可，
+不需要设置链接文件
+，示例如下：
+rt_uint8_t
+led_thread_stack[
+512
+] __at(
+0x70003000
+);
+重新编译工程，
+查看*.map文件，确认
+led_t
+h
+read_stack所在位置，如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+工程问题：数据一致性被破坏，导致DMA CRC校验失败
+以太网基础：DMA Descriptor到底在描述什么？
+诊断基础：NRC0x78（Pending）问题知多少？
+从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理
+信息安全：安全启动的信任链如何建立？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

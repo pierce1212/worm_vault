@@ -1,0 +1,169 @@
+CAN通信：Basic CAN与FIFO
+2022-09-13T19:51:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489683&idx=1&sn=992967af223228245cbb919d4c289505&chksm=fa2a46e7cd5dcff1e20d0e1e516853c13109dba0f8e41bbf452413ce55c917a188040e45a77a&scene=21#wechat_redirect
+
+Basic CAN和Full CAN，实质是CAN报文的不同处理模式。虽然，多数工程师对CAN总线比较熟悉。但是，实际工程中，对
+Basic C
+AN
+和F
+ull CAN的理解，还是有点似是而非感觉（包括我自己）。本文除了和大家在回顾一下
+Basic C
+AN
+和F
+ull CAN，
+主要聊一下Basic CAN与FIFO关系。
+我们带着几个疑问来深入的分析
+Basic CAN与FIFO。也可以参考前文
+Autosar通信栈：FullCAN和BasicCAN基础
+(提示：文中提到4个Controller共用32个发送缓冲区，表述不准，是每个Controller最多可以配置32个发送缓冲)。
+1、什么是FIFO？
+2、Basic CAN和Full CAN区别？
+3、Basic CAN和FIFO有什么关系？
+4、Basic CAN使用FIFO结构引发的工程问题。
+1、什么是FIFO
+FIFO
+：First Input First Output，即：先进先出，是一种
+数据结构
+。在CAN Driver部分，CAN报文的收/发配置有多种选择，其中，FIFO就是一个选配项。在实际的项目开发中，FIFO适用于哪些场景呢？
+答
+：
+队列诊断
+。目前，有些OEM为了提高App程序刷些的效率，提出了队列刷写的要求。因此，Bootloader也需要相应的支持队列刷写功能。队列刷写意味着：Bootloader需要接收多个诊断指令，然后按照诊断指令收到的先后顺序处理，不能错序。对于此场景，使用FIFO接收和发送处理就是一种不错的选择。
+以FIFO
+接收
+为例，理解一下FIFO的特征，如下所示：
+如上图，假设某个CAN节点需要
+接收8个CAN报文
+，对应的CAN ID分别是：0x80、0x70、0x100、0x50、0x32、0x201、0x16、0x320。最先接收到0x80报文，最先被上层接收，这种
+按照CAN报文收到的次序，依次送给上层处理的数据结构就是FIFO
+。
+注意
+：这里FIFO的深度配置为8（depth = 8），即：使用8个
+HOH（
+hardware object）缓存接收的信息。
+在英飞凌的tc3xx中，为避免Rx FIFO溢出（Overflow），可以使用
+环形接收FIFO模式
+，对于每个接收节点，可以配置两个Rx FIFO（
+Rx FIFO 0
+和
+Rx FIFO 1
+），每个Rx FIFO最多可以配置64个元素（depth max = 64）。因为是环形FIFO，
+当Rx FIFO满的时候，需要一个水印(watermark)提示
+，如何提示呢？一般会选择中断方式。如果通过配置
+RXFnC.FnWM
+（Rx FIFO 0/1 Watermark）置位
+IR.RF0/1W
+，触发中断。可能一不留心就会整出一个Bug，稍后咱们聊一个工程问题。
+每接收到一个报文，放入环形缓存区（Ring Buffer，假设Size = 8），Put Index加1，取数据的时候；
+当Put Index +1 = Get Index时，说明Ring Buffer已满，对应的
+RXFnS.FnF置位，
+且IRi (i=0-3).RFnF，进而提示，Ring Buffer已满。环形FIFO如下所示：
+2、Basic CAN和Full CAN的区别
+不管是Basic CAN还是Full CAN，均需要消耗硬件资源HOH，HOH也就是常说的邮箱（mailbox），进一步细化HOH，又分为HRH（CAN hardware receive handle）和HTH（
+CAN hardware transmit handle
+）。
+Full CAN
+：一个
+HOH只能接收或者发送
+一个
+CAN报文（或者说一个L-PDU），HOH可以配置成HTH或者HRH。
+Basic CAN
+：一个HOH接收或者发送
+多个
+CAN 报文
+（或者说多个L-PDU）
+，
+HOH可以配置成HTH或者HRH
+。
+HOH实质就是存放收/发CAN报文信息的RAM区，该区域可以按需所取，也就是说：根据项目的情况（收/发的CAN报文数目），配置Message RAM使用的空间，
+实际工程，建议全部使用
+。
+Message RAM
+就好比一块蛋糕，总大小是一定的，你能吃多少，就切多少。根据处理CAN报文的方式不同，
+Message RAM可以分配三种Buffer处理方式：
+Dedicated、Queue、FIFO
+，如下所示：
+在回顾一下，HOH和HRH、HTH的关系。分配
+Message RAM时，
+一般会要求HRH在前，HTH在后，如下所示：
+资源（HOH）占用上，Full CAN和Basic CAN有什么区别呢？如下所示：
+当
+一个
+HRH/HTH配置成Full Can类型时，此
+HRH/HTH仅能被
+一个CAN报文引用
+，硬件资源可以
+配置成
+Dedicated Buffer
+。
+当
+一个
+HRH/HTH配置成Baisc Can类型时，此HRH/HTH可以被
+多
+个CAN报文引用
+，硬件资源可以配置成
+Dedicated Buffer，也可以是FIFO Buffer
+。
+3、Basic CAN和FIFO有什么关系？
+Basic CAN和FIFO本没太大关系，只是工程配置中，可以组合使用，如下所示：
+如上例：当
+多个
+HRH配置成Baisc Can类型时，此HRH可以被
+多
+个CAN报文引用
+，硬件资源配置成
+FIFO Buffer（depeth =4 ）
+。
+4、Basic CAN使用FIFO结构引发的工程问题
+（一）问题现象
+一个200ms周期的
+接收报文
+（应用报文，eg：PDU_A，CAN ID = 0x100），实际接收需要6.4s。
+（二）原因分析
+排查发现：PDU_A配置成Basic CAN类型（只接收PDU_A），使用FIFO模式，且depth = 32，中断接收。而接收时，
+只有32个缓存区满了，达到水印(watermark)位置才触发接收中断
+。所以使得PDU_A由200ms变成200 * 32 = 6.4s接收一次。PDU_A配置如下所示：
+（三）解决策略
+修改PDU_A配置的Depth，配置Depth = 1，即：每次接收到PDU_A就触发中断。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar网络管理：被动唤醒和Passive Channel QA
+CAN通信基础：错误帧
+CAN通信：Busoff问题知多少
+CAN通信基础：Tx Comfirmation、Rx Indication以及Ack
+Autosar Os：Spinlock基础
+Autosar网络管理：诊断报文能否唤醒网络？
+TriCore架构学习笔记（一）：架构总览
+工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败
+Aurix:初识Cached和Non-Cached
+Autosar网络管理：ERA/EIRA问题QA
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Uds诊断：Unexpected N_PDU处理策略
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+工程开发问题（八）：不满足STmin时间要求，中断接收丢帧
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
