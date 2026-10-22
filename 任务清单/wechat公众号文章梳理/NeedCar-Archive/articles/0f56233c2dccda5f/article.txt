@@ -1,0 +1,68 @@
+嵌入式开发：如何识别PowerOn唤醒和总线唤醒
+2023-04-03T18:30:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491804&idx=1&sn=ecb41d63e5299f141723a961cc0a1777&chksm=fa29bea8cd5e37bee17b73895f14c291217d92e9d50bbb2e7733b90154f9cd9384af9e5b42aa&scene=21#wechat_redirect
+
+本文要讨论的问题，如标题。这个问题源于群内小伙伴的提问，具体描述一下Ta的问题：“使用TJA 1043 CAN收发器，如何识别MCU是被PowerON唤醒还是被Bus（总线）扰动唤醒”。如果要想真正识别出MCU被PowerON唤醒还是被Bus唤醒，需要从软/硬件两个方向分析。
+1、硬件
+硬件层面，确切说，需要清楚自家产品的硬件原理图。一般来说，在产品硬件设计中，
+可以在主芯片（uC）中预留Trcv INH状态和KL15状态监控的Pin
+，以此判断MCU的唤醒源，示意如下：
+如上图，SBC（System Basic Chip）被使能，分为两种情况：第一、类似KL15硬线，通过ENA Pin使能；第二、类似Trcv INH，通过WAK Pin使能。而这两种方式，是
+或
+的关系。所以，当KL15硬线拉高，也就是PowerOn方式使能SBC时，MCU可以通过监控KL15硬线的电平知道此次MCU的唤醒是否由KL15（PowerOn）触发。同理，当Bus有扰动或者特定报文（eg：网络管理报文）时，Trcv被唤醒，使得Trcv进入Standby Mode，进而拉高INH，INH Pin的拉高，会使能SBC，SBC再唤醒MCU，此时MCU可以通过监控INH的电平状态知道是否属于Bus唤醒。
+有人说：“如果PowerOn（KL15）唤醒，INH也会拉高，INH Pin和KL15 Pin都拉高，还是区分不出。”这个表述可能不太准确，PowerOn以后，只能使得MCU唤醒，但是，网络唤醒与否，还需要软件的处理。此时，INH是否被拉高，要分情况讨论。具体说：切换Trcv状态，会改变INH Pin的状态，而Trcv状态的改变不仅受总线唤醒控制，还受到uC控制。所以，
+INH Pin的拉高是由于软件切换Trcv状态导致还是Trcv自身被Bus扰动导致的
+，还需进一步分析。所以，理清这个问题，我们就需要从另一个方面着手：软件处理。
+2、软件
+首先，我们要清楚，Trcv状态切换与INH Pin的关系。以TJA1043为例，状态机如下所示：
+如上的状态机中，
+INH Pin仅在Sleep Mode模式下，处于floating状态，其余模式下均处于active状态，即：INH拉高（12V）
+。所以，当总线（Bus）有扰动以后，Trcv会由Sleep Mode进入Standby Mode，此时INH拉高，之后，在软件初始化的过程中，判断INH Pin的状态，如果INH拉高，说明是Bus唤醒，如果INH没有拉高，而KL15 Pin拉高，说明是PowerOn唤醒。总线扰动，Trcv状态进入Standby Mode，可以将INH Pin拉高，还有另外一种方式可以使得INH Pin拉高，即：
+Trcv由Sleep Mode，直接进入Normal Mode
+。Sleep Mode直接切换Normal Mode属于软件行为，即：软件的初始化过程中，一般会将Trcv状态切换到Normal Mode，以便于报文的接收。所以，需要在软件设置Trcv进入Normal Mode之前判断INH Pin的状态，否则，将不能区分是否Bus唤醒。
+（一）思考延伸
+既然，可以通过捕获INH的电平状态获取是否Bus唤醒，是否可以区分哪个Trcv唤醒的呢？
+答
+：可以。可以在MCU初始化的过程中，获取不同Trcv的INH状态获取唤醒源，如下所示：
+提示
+：此方式，会消耗MCU的Pin资源。
+3、工程思考
+工程中，见过一种电路设计，如下所示：
+如上的电路原理图，有什么特别的呢？就是Trcv INH Pin不使用，仅使用KL15方式唤醒MCU，之后，等待总线收到网络管理报文以后，再唤醒MCU的网络。
+Q
+：这样的设计是否合理呢？
+A
+：工程中，多数需求可实现（包括如上需求），能否落地实现，就是供应商和客户从各自角度要去battle的事情了。如果项目的软件架构使用CP Autosar，对于PowerOn的唤醒方式，EcuM默认Validation，也就是说：此方式，唤醒MCU时，可以唤醒网络，进而建立通信。Autosar解释如下：
+Q
+：此方式会带来什么问题呢？
+A
+：第一帧报文外发时间的延长，工程中，MCU第一帧报文外发时间是一个测试项，如果采样上述方式，即：PowerOn以后，软件判断是否收到NM Msg以后使能通信，会使得外发第一帧报文的时间延长，开发中，需要留意。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+如何理解KL15与PORST Pin
+嵌入式开发：MCU的上、下电解读
+安装eProsima Fast DDS坑点
+车载以太网：姗姗来迟的以太网
+复位控制单元（RCU）学习笔记
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

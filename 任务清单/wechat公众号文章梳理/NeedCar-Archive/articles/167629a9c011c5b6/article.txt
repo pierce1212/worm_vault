@@ -1,0 +1,170 @@
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+2022-06-27T17:55:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488494&idx=1&sn=85a345c2ca4b56eaed903efad6c36f1e&chksm=fa2a4d9acd5dc48c069b491e3a3152a16e9555f8ed9793ee9e358d9d1245da0fb2514e51017e&scene=21#wechat_redirect
+
+对于开发人员来说，只有准确地理解需求才能开发出符合预期的Code，避免Bug。虽然是老生常谈的话题，但是，实际开发我们依然会对需求的理解产生偏差。本文妄谈一下对于UB、UD的需求理解，抛砖引玉。
+1
+UB和UD是什么
+UB
+：Update-Bits，来自Autosar COM模块的一个概念，作用：接收端在接收Signal/Signal Group之前识别发送方是否更新过
+Signal
+/Signal Group中的数据。
+注意：
+Update-Bits由COM模块设置。
+UD
+：
+Update Deadline，这个概念，Autosar中并没有定义。UD的作用类似COM模块的Deadline monitoring功能，即：对
+Signal/Signal Group超时监控。在Autosar COM模块中，配置参数ComTimeout可实现
+Signal/Signal Group
+超时监控。
+1、UB更新策略
+上述两个概念可以看出，UB绑定
+Signal/Sig
+nal Group，如何绑定呢？发送端，UB更新操作如下：
+SWC通过RTE调用Com_SendSignal()更新
+Si
+gn
+al
+02
+时，COM模块置位
+Si
+gn
+al
+02
+对应的
+UB 02（UB 02 = 1）；
+SWC通过RTE调用
+Com_SendSignalGroup
+()更新
+Si
+gn
+al Group 01
+时，COM模块置位
+Si
+gn
+al Group 01
+对应的
+UB
+Grp 01
+（
+UB
+Grp 01
+= 1
+）；
+Si
+gn
+al Group 01包含Signal06、
+Signal
+07；
+Group Signal调用
+Com_SendSignal()
+时，更新Shadow Buffer中信号数据，
+调用
+Com_SendSignalGroup
+()
+时，将
+Sha
+dow
+Buffer
+中信号
+数据
+更新到I-PDU Buffer中。
+如下所示：
+提示
+：
+一个I-PDU可以包含多个Signal Group
+，比如：Tx I-PDU 02包含Tx Signal Group 01、
+T
+x
+Signal Group 02
+；
+一个Signal Group必须在一个I-PDU内，不能将跨I-PDU的信号放入同一个Signal Group，比如：Tx I-PDU 01中的信号Tx Signal 02与
+Tx I-PDU 02中的信号Tx Signal 05不能放入Tx Signal Group 03，如下所示：
+2、为什么需要UD
+UB用来表示
+Signal/Signal Group数据是否更新，而UD类似去抖功能，即：多次UB对应的
+Signal/Signal Group
+数据没有更新时，算法层（SWC）认为接收信号异常，需要进行异常处理（比如：功能降级），以此确保车辆运行在安全工况，保证驾/乘人员的安全。
+3、UB和UD的关系
+OEM中会这样约束UB、UD的关系：
+接收到UB = 1以后，重置UB的监控计数器
+Monitor_CNT
+（Autosar中可以设置配置参数ComTimeout），
+Monitor_CNT
+=
+max（250ms，5*信号周期）
+，同时将UB复位（UB = 0）;
+没有接收到UB，或者接收到UB=0，则对应的
+Monitor_CNT
+计数器递减，直到
+Monitor_CNT =
+0，将该信号对应的
+UD置0
+，上层通过RTE interface轮循获取UD信息进行处理；
+UB与UD变化关系如下所示：
+2
+UB信号的监控需要考虑PNC吗
+当项目中的网络管理使用PN（Partial Network）功能时，应用报文的外发行为会关联PNC（Partial Network Cluster）。因为UB信号包含在Tx I-PDU中，因此，UB信号所在的
+Tx
+I-PDU停发，UB也会停发。所以，本小节讨论一下：“UB信号对应的PNC无效（PNC = 0）,需要监控UB吗。”
+第一、不监控PNC策略
+UB、UD的实现逻辑如下所示：
+UB监控使能，判断收到的UB是否等于1。如果UB == 1，则Monitor_CNT = max（250ms，5*信号周期），继续下一个Cycle监控。如果UB == 0，则判断
+Monitor_CNT是否大于0；
+如果Monitor_CNT > 0，则
+Monitor_CNT --，
+Monitor_CNT 递减到0，则UD = 0（正常保持为1），否则进行下一个Cycle监控。如果
+Monitor_CNT == 0，则
+UD = 0或者保持上次值（与算法层沟通确认此处的处理策略）。
+对于不监控PNC，需要注意以下问题：
+某段时间内，节点不需要某些应用报文参与通信。比如：
+t1时刻
+，将PNC1 = 0，与PNC1关联的应用报文停发（PNC1关联的UB信号也停发）。
+t2时刻
+，UB信号Timeout，
+此时操作UD信号（UD = 0）
+。由于网络管理报文中的PNC 1 = 0，停发UB信号，
+属于正常通信行为
+，所以上层在处理此策略时需要留意，如下所示：
+第二、监控PNC策略
+监控PNC与不监控PNC策略对比，
+唯一的区别在于PNC信息的判断。
+UB、UD的实现逻辑如下所示：
+相对于
+不监
+控PNC
+策略，可以规避
+PNC = 0，停发UB信号时，UD = 0的问题。
+如上的两种处理策略，没有优劣，取决于具体需求。
+3
+工程问题
+第一、问题描述
+使用监控PNC策略
+，与UB关联的PNC均为0时，UD = 0（预期是UD = 1），即：t1时刻不应再监控UB，实际UB依然在监控，且t2时刻UB超时，UD = 0。期望t1之后UD = 1，如下所示：
+由于UD = 0，上层的处理策略不同于正常模式，引发其他问题（本文不展开讨论）。
+第二、原因分析
+分析问题代码发现，实现者误将NM I-PDU当作PNC处理，即：收到NM I-PDU就认为PNC = 1。实际工况只是PNC = 0，网络管理报文并没有停发。
+问题代码中：
+NM I-PDU的接收状态由COM模块获取，实际应通过每个XxNM模块的EIRA（
+External Internal Request Array）或者ComM，获取PNC信息，进而决定是否监控UB信号。
+第三、解决策略
+通过
+每
+个XxNM模块的EIRA
+识别真正的PNC信息。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+工程开发问题（四）：数组越界引发的刷写失败
+上下文(CSA)切换，需要花费多少时间？
+工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)
+Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

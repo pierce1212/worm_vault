@@ -1,0 +1,95 @@
+终于等到CANdelaStudio的“Check Consistency”配置功能
+2025-08-22T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497365&idx=1&sn=bcfc93a8c6eeea466b0942c74d0f199a&chksm=fa29a8e1cd5e21f7baf6e812a5301ff370527523ab5ef5d38be58af30d9d37c54fc6faee9641#rd
+
+从事车载诊断的小伙伴，对于
+CANdelaStudio这个工具应该并不陌生。但
+是，在
+CANdelaStudio的软件使用中，是否想过：
+CANdelaStudio
+如何检查
+冲突或重复定义？
+引用是否有效？配置项之间逻辑是否合理等问题呢？
+不用想了，
+CANdelaStudio v19之前的版本并没有可配置、可见的一致性检查功能。所以，对于用惯了
+CANdelaStudio的小伙伴来说，增加一个
+“
+Check Consistency
+”控件是多么美好的一件事情。就像其他配置工
+具
+（如 EB tresos、DaVinci Developer），通过一致性检查控件，及时发现问题并修复。如此，可避免工作的重复。
+1、CANdelaStudio v19新增的“Check Consistency”规则可配置功能
+CANdelaStudio v19新增的
+“
+Check Consistency
+”规则可配置功能控件，如下图所示：
+当编辑
+完
+CDD
+（
+CANdela Diagnostic Description
+）文件以
+后
+，可以点击“
+Check Consistency
+”按钮（快捷键“
+F9
+”）对
+编辑的内容进行
+规则
+检查。
+提示信息会在“
+Output
+”窗口显示提示信息，如果文件没有违反
+CANdelaStudio
+定义的规则，会显示“
+Document is consistent
+”等“
+Info
+”类型信息；
+当编辑
+的内容违反了
+CANdelaStudio
+定义的规则时，将在“
+Output
+”窗口提示“
+Error
+”、或者“
+Warning
+”类型信息。
+对于“
+Error
+”或者“
+Warning
+”提示信息，可以通过下图的绿色箭头定位文件中出错位置。根据错误或警告提示信息，针对性的修改错误或警告，这将极大的提高CDD文件编辑效率。
+从CANdelaStudio v19版本开始，
+除了原有的检查规则以外，还新增了符合
+UDS
+、
+AUTOSAR
+、
+MICROSAR
+定义的检查规则，并且在
+CANdelaStudio
+中可以勾选是否使能对应的检查规则。
+更多的规则的定义，描述以及版本信息等，可以点击下图红框处查看。
+查看支持的规则，如下所示：
+CANdelaStudio v19版本开始，
+CANdelaStudio后续版本会
+不断增加检查规则，不断完善“
+Check Consistency
+”功能。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+功能安全，如何限定Task的访问内存区？（含源码）
+为什么不推荐使用JTAG的Password机制？
+刷写时，为什么需要发送0x3E 80报文来维持会话？
+如何安全的存储和获取Debug password
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+一种软件实现的双Bootloader SWAP方案讨论
+HSM Firmware更新的一种方案讨论

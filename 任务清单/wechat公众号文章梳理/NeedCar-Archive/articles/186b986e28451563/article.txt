@@ -1,0 +1,40 @@
+CAN的采样点和bit参数设置，如何“抄”？
+2025-11-27T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497705&idx=1&sn=01e5cd70883d7925213e0dd933468a81&scene=21#wechat_redirect
+
+关于CAN总线的细枝末节，聊过很多。实际的工程使用中，我们也知道，采样点（Sample Point）或者bit参数设置不当，轻则通信不稳定，重则总线busoff，所以，对于
+CAN的采样点和bit参数设置需要格外关注，即：按照需求开
+发。
+而在开发过程中，对于bit的各个参数：
+TSEG1
+、
+TSEG12、
+SJW（
+Synchronization Jump Width，同步跳转宽度
+）
+以
+及分频值（
+prescaler
+）等，总有“吃不准”的时候。按照公式确实可以计算，但是，这样总是有点费脑子，甚至可能计算错，有没有可以直接“抄”的地方呢？答：有的。
+1、"抄"CANoe中的CAN bit参数配置
+一个bit的构成，示例如下：
+那么，这些参数如何“抄”CANoe的配置呢？具体操作如下：
+Step1：Hardware->NetworkHardware->选择目标Channel的Setup->确认时钟主频（Clock frequency），比如：80MHz。示意如下：
+Step2：打开仲裁段的采样点和bit参数，根据项目要求的
+采样点
+选择合适的bit参数设置，如下所示：
+Step3：如果使用的是CANFD，
+打开数据段的采样点和bit参数
+，根据项目要求的采样点选择合适的bit参数设置，如下所示：
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+如何理解程序升级中的二级验签“妖”操作
+hexView无法Compare问题的修复方式
+诊断，很“炫”的退出编程会话方式
+工程问题：A/B切区，为啥失败？
+如何理解诊断合理性检查（Rationality Checks）？

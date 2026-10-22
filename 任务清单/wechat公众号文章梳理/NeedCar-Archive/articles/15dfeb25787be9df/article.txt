@@ -1,0 +1,154 @@
+从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理
+2023-04-28T13:33:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491959&idx=1&sn=ed290e8d3a90f0ea28a94f931893120c&chksm=fa29bf03cd5e361550f4d3a39a88573a9574963a2b86ef874d700ea3ad31eef26b7438c034c0&scene=21#wechat_redirect
+
+前文讨论过，网络唤醒，有时需要两帧网络管理报文，可以参考前文《
+Autosar网络管理：为什么需要2帧网络管理报文唤醒网络？
+》，前文给出的观点：第一帧网络管理报文需要唤醒SBC，第二帧网络管理报文才能真正唤醒网络。此表述要结合产品PCB设计及软件处理策略，并不绝对。本文针对该问题再次展开讨论。本文从CAN Transceiver角度，讨论如下几个问题：
+TJA1145与CAN Transceiver关系
+为什么需要两帧网络管理报文唤醒？
+第一帧网络管理报文到底在唤醒谁？
+提示
+：本文基于TJA1145收发器讨论
+1、TJA1145与CAN Transceiver关系
+在平时的交流中，我们经常说TJA1145、Transceiver这两个词，然而，有时这样的表述可能让人产生误解，认为这俩是一个东西，其实不然。如下图，TJA1145包含HS-CAN（High Speed CAN Transceiver）
+，这里的HS-CAN不能等同TJA1145。
+TJA1145内部结构关系，示意如下：
+HS-CAN≠
+TJA
+1145，所以，两者的状态机就不能混为一谈。
+（一）TJA1145状态模式
+TJA1145对应的模式
+包括Normal、Standby、
+S
+le
+ep、Overtemp
+以及
+Off五种模式，如下所示：
+（二）HS-CAN状态模式
+HS-CAN状态包括：Active、 Listen-only、Offline、Offline Bias、Off五种模式，如下所示：
+2、两帧网络管理报文唤醒网络的原因
+两帧网络管理报文就一定能唤醒网络吗？
+答
+：不一定。为什么不一定呢？这要看
+两帧报文的发送间隔
+。这里做一个测试，在CANoe中打开
+Tx Self-ACK
+选项，分两种工况发送网络管理报文，测试网络的唤醒情况。
+（一）＞1s的间隔发送多次网络管理报文（本文：0x52C）
+当两帧网络管理报文的间隔＞1s时，不管发送多少帧有效的网络管理报文，均不能唤醒网络，如下所示：
+发送多次有效的网络管理报文，网络均不能唤醒，如下所示：
+（二）＜
+1s的间隔发送多次网络管理报文（本文：
+0x52C）
+当两帧网络管理报文的间隔＜1s时，网络管理报文可以
+唤醒网络
+，如下所示：
+如上的测试可以看出：
+当网络管理报文的间隔＞1s时，网络无法唤醒，当
+两帧网络管理报文的间隔＜1s时，网络可以唤醒
+。也就是说，网络唤醒不仅与网络管理报文的次数有关，还与网络管理报文发送的间隔有关。
+（三）网络管理报文次数对网络唤醒的作用
+网络的唤醒，为什么需要≥2帧网络管理报文呢？换一个思考方向：第一帧网络管理报文的作用是什么？是唤醒SBC吗？
+答
+：先说答案，这里的
+第一帧网络管理报文不是唤醒SBC，而是激活Bus Bias和CAN Decoder，解释如下：
+（1）激活Bus Bias
+当TJA1145休眠以后，CAN_H与CAN_L没有电平，也就是0V，而HS-CAN空闲状态下，CAN_H与CAN_L均为2.5V，所以，CAN_H、CAN_L电压偏置2.5V就是激活Bus Bias，示意如下：
+如上图，TJA1145在Sleep模式下，CAN_H和CAN_L可能是0V，因此需要进行Bus Bias，达到2.5V，才有可能进行后续的数/模转换。
+（2）激活CAN Decoder
+激活
+CAN D
+ecode
+r以后，方可根据CAN Protocol解析CAN报文。
+（四）网络管理报文间隔对网络唤醒的影响
+本文最开始，澄清了TJA1145与HS-CAN的关系，两者是不同的概念，对应不同的状态机。HS-CAN的主要作用：
+转换数字信号和模拟信号
+。更具体说：HS-CAN在
+Active Mode
+下，通过发送器(transmitter)将CAN Controller要发送的数字信号转换成模拟信号（CAN_H、CAN_L之间形成压差）；通过接收器（receiver）将总线接收到的模拟信号转化成数字信号，通过RxD传输给CAN Controller。具体解释如下所示：
+HS-CAN工作的一个前提：
+HS-CAN进入Active Mode
+。如果HS-CAN不能进入Active Mode，意味着：即使总线上存在有效的网络管理报文，CAN Controller也接收不到，
+HS-CAN仅在Active Mode下工作
+。HS-CAN如何进入Active Mode呢？如果HS-CAN在CAN Offline模式下，需要满足如下任意一个条件：
+Normal && [CMC = 10 Or ( CMC = 01 && Vcc＞90%）]，即：TJA1145在Normal模式下，要么CMC = 10要么
+CMC = 0
+1
+&&
+Vcc
+＞
+90
+%。
+[Standby Or Sleep Or (Normal & CMC =00 ) Or
+( CMC = 01 && Vcc＜90%）
+] && t＞t(silence)，即：
+TJA1145在Standby
+或者
+Sleep模式
+下或者
+Normal & CMC =00或者
+CMC = 01 && Vcc＜90%，
+同时
+t＞t(silence)
+。
+如上，有一个时间参数（
+t
+to(silence)
+）值得关注，该参数如下所示：
+如何理解呢？
+答
+：当TJA1145处于Sleep模式下时，如果在1s左右的时间内，总线处于空闲（隐性电平，recessive）状态，则HS-CAN返回到CAN Offline模式。所以，
+如果TJA1145处于Sleep Mode，HS-CAN处于CAN Offline模式，收到第一帧网络管理报文，使得HS-CAN进入
+非
+CAN Offline模式
+，此时
+t
+to(silence)
+计数器计时，如果1s内收到有效的网络管理报文或者唤醒事件，则TJA1145会从Sleep Mode切换到Standby Mode，同时INH拉高，进而使能SBC
+，SBC在给uC等外围器件提供工作电压。
+（五）Tx Self-ACK不启动测试
+如果CANoe不勾选Tx Self-ACK，"一帧网络管理报文"就唤醒了网络，如下所示：
+如上图，为什么一帧网络管理报文就能唤醒网络呢？不是至少需要两帧吗？如上可以看出，在CANoe模拟发送的网络管理报文（0x501）被应答之前，总线上有大量的错误帧，错误类型为
+Not Acknowledge error（NAck）
+。如果总线出现NAck错误，说明发送节点发送的报文，没有节点应答。但是，发送节点已经将这帧报文传发送到了总线上，所以，
+这里的错误帧一样起到了激活Bus Bias和CAN Decoder的作用
+，同时被识别为有效的唤醒事件，因为此报文是有效的网络管理报文，只是应答槽位没有被应答，但是TJA1145已将应答槽之前的部分接收并识别。当uC完成初始化，CAN Controller正常工作以后，即可正常接收报文，进而应答报文。
+之所以总线上出现多次错误帧，是因为CANoe的重发机制。
+如果错误帧都能激活Bus Bias和CAN Decoder，是不是任意一帧报文均能做到？
+答
+：个人理解，是的。打开Tx Self-ACK，测试如下所示（打开Tx Self-ACK)：
+如上的数据流，0x01不是有效的唤醒源，网络并未唤醒，但是激活来了
+Bus Bia
+s和CA
+N Decoder。之后，
+第一帧网络管理报文（本文：0x50C）属于有效唤醒源（本文TJA1145使用了PN功能），拉高INH，但是第一帧网络管理报文并没有唤醒网络，这是软件处理策略问题（理论可以做到），而是第二帧有效的网络管理报文把网络唤醒，即：总线发送第二帧有效网络管理报文时，软件才识别到并唤醒网络。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+算法执行时间过长导致的Task抖动问题
+Lin总线Transceiver基础
+Hightec基础实用技巧
+诊断开发：老化（Aging）和愈合（Healing）
+通信栈开发：任务（Task）抖动导致的UB失效问题
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

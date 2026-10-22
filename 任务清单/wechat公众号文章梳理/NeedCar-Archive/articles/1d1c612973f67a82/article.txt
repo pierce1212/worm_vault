@@ -1,0 +1,105 @@
+Debug手段：使用I/O测量代码执行时间
+2023-01-23T13:28:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491114&idx=1&sn=422873827c18ca8ba7313a011f583aac&chksm=fa2a405ecd5dc948cd0373d97e3b5f387ca13d65ad20769279f235b38f66a79a82d757c4cfa8&scene=21#wechat_redirect
+
+嵌入式开发中，Debug是我们工程师解决Bug的必备技能，每个人都有自己擅长的调试方法和习惯，没有优劣之分，能解决问题就是最好的方法。本文和大家聊聊
+如何使用I/
+O( Input/Output port)测
+量代码执行时间
+。为什么要讨论这个主题呢？工程中，大家是否遇到如下一些场景：
+场景一
+：网络唤醒，第一帧报文的外发时间超过需求时间（eg：100ms），这种场景，就需要定位启动代码中，哪些函数执行的时间过长，进而优化；
+场景二
+：确认Bootloader程序进入Application程序消耗的时间有多少；
+......
+如上两个时间的测试，定位消耗时间的位置是关键点。对于场景一，STM
+（System Timer）/GTM
+（Generic Timer Module）也
+可以，但是，需要确保STM/GTM优先于其他模块完成初始化，否则，使用STM/GTM则无法有效测量代码的执行时间；
+对于场景二，程序由Bootloader进入Application，STM需要重新初始化，无法有效的测量代码在Bootloader执行时间。
+此时，使用
+I/O
++示波器
+测量就是一种不错的选择。
+就我个人而言，我很喜欢这种方式。
+1、I/O测量代码执行时间原理
+适用I/O测量代码执行时间的原理如下所示：
+首先
+，需要完成时钟的初始化。
+其次
+，需要完成使用Pin #n脚本的配置工作，eg：Pin需要配置为输出模式。
+再次
+，开始测量，具体测量步骤如下：
+测量之前，记录Pin #n的初始状态，eg：设置为低电平；
+在被动代码之前反转Pin #n电平，eg：高电平，同时记录测量起始时间T0；
+在被动代码之后反转Pin #n电平，eg：低电平，同时记录测量结束时间T1；
+通过T1 - T0即可算出被测代码的执行时间▲T。
+2、端口设置
+使用示波器测量时间，一般是通过测量
+输出Pin脚的边沿变化
+计算代码执行时间。所以，PORTn_PINm应设为
+输出模式
+，改变输出Pin脚的高低电平即可。
+（一）对目标端口进行输出设置
+本例，将Port 23的Pin 0设置为推挽输出，如下所示：
+IfxPort_setPinModeOutput(&MODULE_P23, OPT_PIN_NUM,  IfxPort_Mode_outputPushPullGeneral, IfxPort_OutputIdx_general);
+3、代码执行时间测试示例
+如下所示：在5ms的中断函数中反转Port23 Pin0的电平。
+void
+STM_5ms_ISR
+(
+void
+)
+{
+/* Configure STM to generate an interrupt in 1 ms */
+IfxStm_increaseCompare(&MODULE_STM0, IfxStm_Comparator_0, IFX_CFG_STM_TICKS_PER_MS);
+if
+(Timer5ms ==
+5
+)
+{
+IfxPort_togglePin(&MODULE_P23, OPT_PIN_NUM);
+Timer5ms =
+0
+;
+}
+}
+示波器采样结果如下所示：
+如上图，可以看出I/O两次反转，测出代码运行时间为5ms，可以调整示波器的放大比例（本文放到到200us/div），更精确的知道代码运行时间。工程中，我们碰到耗时的量级多数是ms级，而
+示波器的采样精度一般都达到ns级别，测量精度足够。
+因此，可以通过这种方式精确的知道代码运行时间。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar，好吗？
+功能安全E2E：MaxNoNewOrRepeatedData配置错误导致进入SYNC状态
+CAN FD通信：数据段错误，错误帧的速率是500Kbps还是2Mbps？
+通信问题：为什么周期Signal值会有抖动？
+C语言基础：&、>>在工程中的巧用
+如何基于HighTec将源文件（*.c）打包成静态库文件（*.a）
+嵌入式开发：TLF35584（SBC）的SPI格式解读
+Autosar CanTp:什么是Connection？
+功能安全E2E：浅谈Profile01（P01）
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+嵌入式开发：DMA何时使用更好？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

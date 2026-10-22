@@ -1,0 +1,516 @@
+Bootloader开发：初识Bootloader
+2022-07-24T08:33:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489086&idx=1&sn=9b5f545f5ab8ce1542cfccacd1e8c66b&chksm=fa2a484acd5dc15c3a20eeeb6567ed8b0b074e42516ab127d8af6ca1bb10463ab085a2f45267&scene=21#wechat_redirect
+
+1
+‍什么是Bootloader
+1.
+什么是
+Bootloader
+@font-face{
+font-family:"Times New Roman";
+}
+@font-face{
+font-family:"宋体";
+}
+@font-face{
+font-family:"仿宋";
+}
+@list l0:level1{
+mso-level-number-format:decimal;
+mso-level-suffix:space;
+mso-level-text:"%1.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level2{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level3{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level4{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.%4.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level5{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.%4.%5.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level6{
+mso-level-number-format:decimal;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.%4.%5.%6";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:163.0000pt;text-indent:-56.7000pt;font-family:宋体;}
+@list l0:level7{
+mso-level-number-format:decimal;
+mso-level-suffix:tab;
+mso-level-text:"%1.%2.%3.%4.%5.%6.%7";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:191.3500pt;text-indent:-63.8000pt;font-family:宋体;}
+@list l0:level8{
+mso-level-number-format:decimal;
+mso-level-suffix:tab;
+mso-level-text:"%1.%2.%3.%4.%5.%6.%7.%8";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:219.7000pt;text-indent:-70.9000pt;font-family:宋体;}
+@list l0:level9{
+mso-level-number-format:decimal;
+mso-level-suffix:tab;
+mso-level-text:"%1.%2.%3.%4.%5.%6.%7.%8.%9";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:255.1000pt;text-indent:-85.0000pt;font-family:宋体;}
+p.MsoNormal{
+mso-style-name:正文;
+mso-style-parent:"";
+margin:0pt;
+margin-bottom:.0001pt;
+text-indent:10.0000pt;
+mso-char-indent-count:2.0000;
+mso-pagination:none;
+text-align:justify;
+text-justify:inter-ideograph;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-size:14.0000pt;
+mso-font-kerning:1.0000pt;
+}
+h1{
+mso-style-name:"标题 1";
+mso-style-next:正文;
+margin-top:12.0000pt;
+margin-bottom:12.0000pt;
+margin-left:0.0000pt;
+text-indent:0.0000pt;
+mso-char-indent-count:0.0000;
+page-break-after:avoid;
+mso-pagination:lines-together;
+text-align:left;
+mso-outline-level:1;
+line-height:240%;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-weight:bold;
+font-size:14.0000pt;
+mso-font-kerning:22.0000pt;
+}
+p.MsoHeader{
+mso-style-name:页眉;
+mso-style-noshow:yes;
+margin:0pt;
+margin-bottom:.0001pt;
+text-indent:10.0000pt;
+mso-char-indent-count:2.0000;
+border-top:none;
+mso-border-top-alt:none;
+border-right:none;
+mso-border-right-alt:none;
+border-bottom:none;
+mso-border-bottom-alt:none;
+border-left:none;
+mso-border-left-alt:none;
+padding:1pt 4pt 1pt 4pt ;
+layout-grid-mode:char;
+mso-pagination:none;
+text-align:justify;
+text-justify:inter-ideograph;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-size:9.0000pt;
+mso-font-kerning:1.0000pt;
+}
+p.MsoFooter{
+mso-style-name:页脚;
+mso-style-noshow:yes;
+margin:0pt;
+margin-bottom:.0001pt;
+text-indent:10.0000pt;
+mso-char-indent-count:2.0000;
+layout-grid-mode:char;
+mso-pagination:none;
+text-align:left;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-size:9.0000pt;
+mso-font-kerning:1.0000pt;
+}
+span.msoIns{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:underline;
+text-underline:single;
+color:blue;
+}
+span.msoDel{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:line-through;
+color:red;
+}
+@page{mso-page-border-surround-header:no;
+mso-page-border-surround-footer:no;}@page Section0{
+}
+div.Section0{page:Section0;}1.
+什么是
+Bootloader
+1.
+什么是
+Bootloader
+@font-face{
+font-family:"Times New Roman";
+}
+@font-face{
+font-family:"宋体";
+}
+@font-face{
+font-family:"仿宋";
+}
+@list l0:level1{
+mso-level-number-format:decimal;
+mso-level-suffix:space;
+mso-level-text:"%1.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level2{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level3{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level4{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.%4.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level5{
+mso-level-number-format:decimal;
+mso-level-legal-format:yes;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.%4.%5.";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:0.0000pt;text-indent:0.0000pt;margin-left:0.0000pt;
+text-indent:0.0000pt;
+font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-ansi-font-weight:bold;mso-ansi-font-style:normal;font-size:14.0000pt;}
+@list l0:level6{
+mso-level-number-format:decimal;
+mso-level-suffix:space;
+mso-level-text:"%1.%2.%3.%4.%5.%6";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:163.0000pt;text-indent:-56.7000pt;font-family:宋体;}
+@list l0:level7{
+mso-level-number-format:decimal;
+mso-level-suffix:tab;
+mso-level-text:"%1.%2.%3.%4.%5.%6.%7";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:191.3500pt;text-indent:-63.8000pt;font-family:宋体;}
+@list l0:level8{
+mso-level-number-format:decimal;
+mso-level-suffix:tab;
+mso-level-text:"%1.%2.%3.%4.%5.%6.%7.%8";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:219.7000pt;text-indent:-70.9000pt;font-family:宋体;}
+@list l0:level9{
+mso-level-number-format:decimal;
+mso-level-suffix:tab;
+mso-level-text:"%1.%2.%3.%4.%5.%6.%7.%8.%9";
+mso-level-tab-stop:none;
+mso-level-number-position:left;
+margin-left:255.1000pt;text-indent:-85.0000pt;font-family:宋体;}
+p.MsoNormal{
+mso-style-name:正文;
+mso-style-parent:"";
+margin:0pt;
+margin-bottom:.0001pt;
+text-indent:10.0000pt;
+mso-char-indent-count:2.0000;
+mso-pagination:none;
+text-align:justify;
+text-justify:inter-ideograph;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-size:14.0000pt;
+mso-font-kerning:1.0000pt;
+}
+h1{
+mso-style-name:"标题 1";
+mso-style-next:正文;
+margin-top:12.0000pt;
+margin-bottom:12.0000pt;
+margin-left:0.0000pt;
+text-indent:0.0000pt;
+mso-char-indent-count:0.0000;
+page-break-after:avoid;
+mso-pagination:lines-together;
+text-align:left;
+mso-outline-level:1;
+line-height:240%;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-weight:bold;
+font-size:14.0000pt;
+mso-font-kerning:22.0000pt;
+}
+p.MsoHeader{
+mso-style-name:页眉;
+mso-style-noshow:yes;
+margin:0pt;
+margin-bottom:.0001pt;
+text-indent:10.0000pt;
+mso-char-indent-count:2.0000;
+border-top:none;
+mso-border-top-alt:none;
+border-right:none;
+mso-border-right-alt:none;
+border-bottom:none;
+mso-border-bottom-alt:none;
+border-left:none;
+mso-border-left-alt:none;
+padding:1pt 4pt 1pt 4pt ;
+layout-grid-mode:char;
+mso-pagination:none;
+text-align:justify;
+text-justify:inter-ideograph;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-size:9.0000pt;
+mso-font-kerning:1.0000pt;
+}
+p.MsoFooter{
+mso-style-name:页脚;
+mso-style-noshow:yes;
+margin:0pt;
+margin-bottom:.0001pt;
+text-indent:10.0000pt;
+mso-char-indent-count:2.0000;
+layout-grid-mode:char;
+mso-pagination:none;
+text-align:left;
+font-family:'Times New Roman';
+mso-fareast-font-family:仿宋;
+font-size:9.0000pt;
+mso-font-kerning:1.0000pt;
+}
+span.msoIns{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:underline;
+text-underline:single;
+color:blue;
+}
+span.msoDel{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:line-through;
+color:red;
+}
+@page{mso-page-border-surround-header:no;
+mso-page-border-surround-footer:no;}@page Section0{
+}
+div.Section0{page:Section0;}1.
+什么是
+Bootloader
+首先
+Bootloader
+是一个独立的程序，如同
+Application
+程序一样，虽然
+Bootloader
+的体量小，但是“五脏俱全”，启动代码、中断、主程序（
+Boot_main
+函数）、操作系统（非必须）都有。
+百度百科的词条中，这样解释
+Bootloader
+：“
+Bootloader是嵌入式系统在加电后执行的第一段代码，在它完成CPU和相关硬件的初始化之后，再将操作系统映像或固化的嵌入式应用程序装载到内存中然后跳转到操作系统所在的空间，启动操作系统运行
+”。
+但是，这和汽车嵌入式开发多少有点不一样，具体先看一下
+ISO 14229-1
+给出的程序执行流程：
+图
+1 Application
+与
+Boot Software
+交互
+上图我们可以看出，一个ECU包含了三个独立部分：
+Boot Manager、Application Software、Reprogramming Software
+。Boot Software = Boot Manager + Reprogramming Software。而汽车嵌入式开发中，我们常说的“Bootloader”是指Boot Software，后面我们简称Bootloader。
+2
+为什么要用Bootloader
+我们先假设这样一个场景：车辆某个ECU只有Application Software，由于某种故障导致该ECU的Application Software异常，进而导致车辆故障，不能使用。既然属于Application Software问题，软件工程师修复好Application Software以后，重新将Application Software刷写进该ECU即可。问题来了：怎么将修复好的Application Software刷写进该ECU？
+为了解决这个问题，Bootloader应运而生，即：Bootloader是为更新Application Software而存在。既然是为更新Application Software而存在，Bootloader就没有必要时常更新。当车辆下线以后，Bootloader就固化在ECU指定内存区，不做更新，而Application Software可能会因用户的需求存在升级的可能。
+3
+Bootloader如何更新App Software
+1、程序上电流程
+了解Bootloader如何更新Application Software之前，我们需要先了解程序上电的执行流程。
+如“图1 Application与Boot Software交互”所示：当ECU上电或者程序复位以后，最先执行Boot Manager代码，在这个过程中检查一下Application程序更新标志：ProgrammingRequest，判断一下Application是否请求升级。如果Application没有请求升级，那么再判断一下ApplicationValid标志，看看Application程序是否有效，如果有效就跳转到Application程序，即Application的主程序(main函数)。注意：如果是多核系统，跳转到core0_main()主程序，如果是单核系统，跳转到单核的main()程序；如果Application请求升级，程序跳转到Reprogramming Software，此时开始，Reprogramming Software对Application Software进行升级。
+多核系统补充：以英飞凌tc397为例，其包含6个核，1个主核与5个从核。为了区分每个核的应用程序主函数，用户可以自定义应用程序主函数名称，示例：
+void
+core0_main
+(
+void
+)
+;
+void
+core1_main
+(
+void
+)
+;
+void
+core2_main
+(
+void
+)
+;
+void
+core3_main
+(
+void
+)
+;
+void
+core4_main
+(
+void
+)
+;
+void
+core5_main
+(
+void
+)
+;
+2、Application Software程序升级步骤
+对于汽车ECU的Application Software升级，OEM几乎都是遵循UDS规范。
+Application Software程序升级主要分为三个阶段：
+Pre-Programming Step、Programming Step、Post-Programming Step
+。
+Pre-Programming Step
+此阶段的主要
+​
+做一些Application Software升级前的检查，确保正式升级Application软件之前，车辆工况的安全性。这里举几个常见的检查条件：车速、诊断电压、KL15信号有效性等。
+车速
+：约束车速＜3Km/h，也就是说不允许车辆行驶过程中进行软件升级。
+诊断电压
+：诊断电压会约束在一定的范围，比如：9V~16V，避免升级过程中，因电压过低或者过高导致刷写失败。
+KL15信号有效性
+：为了确保收到的信号质量，一般会检查这个信号的有效性（Valid or Invalid），有效的信号才能确保升级过程中的稳定性。
+当然，每家OEM的条件检查可能有所区别，但是，都为一个目的：
+安全
+。
+Programming Step
+经过了前面车辆工况的安全检查，此时可以进行Application Software的软件升级。Application Software的软件遵循UDS协议，主要流程如下：
+Step1
+:进入编程会话，只有特定的工况下（编程会话）才能进行Application Software升级。
+Step2:
+进行安全检查，通过OEM指定的算法进行Key的比对，主要是确认操作人员的合法性。就好比每个人只有自家的钥匙，自家的钥匙只能打开自家的门，而不能打开别人家的门一样，也就是Key的唯一性。
+Step3
+：写指纹信息，比如Application程序的软件版本号等。
+Step4
+：此过程将Flash Driver下载到ECU中，为擦除旧的Application Software做准备，确切说是下载内存擦除例程(memory erase routine)。一般Flash Driver不会放在ECU内部，担心程序异常跑到Flash Driver位置，将有效的Application擦除，所以，Flash Driver只有在Application程序升级时下载到ECU的RAM区。
+Step5
+：检查Flash Driver的有效性，只有Flash Driver成功下载，之后的Application程序擦除和更新才能成为可能。
+Step6
+：执行旧Application程序的擦除。
+Step7~Step8
+：与Step4~Step6功能类似，这里是下载Flash Driver的内存编程例程(memory programming routine)。在实际项目中，Step4~Step8就是Flash Driver的下载，包括memory erase routine和memory programming routine。
+Step9
+：刷写新的Application Software到ECU。
+Step10
+：更新Application Software以后，需要检查下载数据的完整性，确保数据可靠。
+Step11
+：检查Application Software的有效性，比如签名（signature）是否正确等。
+Step12
+：写配置信息，比如车辆VIN等。
+Post-Programming Step
+此阶段主要是Application Software更新后的网络恢复，即：Application Software更新好以后，重新参与工作。
+常用的做法就是执行ECU Reset，也可以让诊断刷写的S3时间超时，程序重新复位。
+参考资料
+https://baike.baidu.com/item/Bootloader/8733520
+ISO 14229-1_2013(E).pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+工程开发问题（四）：数组越界引发的刷写失败
+上下文(CSA)切换，需要花费多少时间？
+工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)
+Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+工程开发问题（八）：不满足STmin时间要求，中断接收丢帧
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

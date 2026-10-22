@@ -1,0 +1,17 @@
+无效唤醒，ECU需要立即休眠吗？
+2024-07-22T06:37:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495251&idx=1&sn=07a51cb32ec57dd01952c47b258ee3f7&chksm=fa29b027cd5e3931777017f2bfb2981dee5bd6cee1938e581eb34b0b5899872c2dab4dc0bc5c&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+软件开发中，ECU的休眠、唤醒是一个需要着重关注的点，工程中，很多bug会牵扯到控制器休眠或者唤醒流程。即使是资深或者专家级的软件工程师，也难免在这个点载跟头。所以，如果"不怵"此类问题，就得深入理解控制器的休眠和唤醒流程。本文聚焦与休眠、唤醒关联的一个问题，即：
+ECU收到了无效唤醒，是否需要立即休眠？
+1、ECU唤醒流程
+以常见的CAN报文唤醒ECU为例，在一般的电路设计中，会外置一个CAN收发器（transceiver），其中，transceiver的INH Pin与电源管理模块SBC（System Basis Chip）连接，当transceiver被总线扰动（eg：一帧报文）唤醒后，会拉高INH Pin脚，之后激活SBC
+，由SBC输出
+transceiver、主芯片（uC）以及其他用电外设的
+工作电压
+。
+主芯片（uC）被唤醒的
+动态过程
+，演示如下：

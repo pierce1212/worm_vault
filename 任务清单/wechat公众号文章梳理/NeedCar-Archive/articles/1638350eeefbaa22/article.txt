@@ -1,0 +1,182 @@
+基于Tricore的CANFD入门工程
+2023-07-08T09:30:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492422&idx=1&sn=e7aa1232bbe55475388548f0590627cc&chksm=fa29bd32cd5e342481b7c800f85c97d48ff6cd062426dcf24af15e92ce195d695afa32faa810&scene=21#wechat_redirect
+
+汽车嵌入式开发，很多时候，想学一些东西（eg：CANFD），但又不知道如何下手，这应该是大多数刚入行工程师的苦恼。目前项目上，CANFD的使用已经很普遍，而单纯阅读芯片手册，可能无法透彻的理解CANFD，如果想透彻的理解CANFD，结合目标板去实践是不二选择。
+官网的MCMCAN_FD_1_KIT_TC375_LK工程用的回环模式，并不能真实发送/接收报文，本文基于官网工程做了二次开发，
+希望此Demo可以助力大家高效学习CANFD
+。
+本文环境：TC375开发
+板+Tasking编译器。
+1、TC375 CANFD实现注意事项
+本文对实现过程中的几处细节，展开讨论。
+（一）Transceiver的使能
+按照手册描述，Transceiver型号为TLE9251V，
+Transceiver的
+使能
+需要
+拉低P20.6
+，使其进入Normal工作模式。
+对应的代码实现如下：
+void
+GPIO_init
+(
+void
+)
+{
+IfxPort_setPinMode(&MODULE_P20,
+6
+,  IfxPort_Mode_outputPushPullGeneral);
+IfxPort_setPinLow(&MODULE_P20,
+6
+);
+}
+（二）CAN_H、CAN_L Pin配置
+代码实现如下：
+IFX_CONST
+IfxCan_Can_Pins Can0PortInfo = {
+.txPin
+=
+&IfxCan_TXD00_P20_8_OUT,
+.txPinMode
+=
+IfxPort_OutputMode_pushPull,
+.rxPin
+=
+&IfxCan_RXD00B_P20_7_IN,
+.rxPinMode
+=
+IfxPort_InputMode_pullUp,
+.padDriver
+=
+IfxPort_PadDriver_cmosAutomotiveSpeed1
+};
+（三）波特率设置
+配置代码如下：
+.baudRate                                    = {
+.baudrate      = 500000,
+.samplePoint   = 8000,
+.syncJumpWidth = 2000,
+.prescaler     = 0,
+.timeSegment1  = 3,
+.timeSegment2  = 10
+},
+.fastBaudRate                                = {
+.baudrate              = 2000000,
+.samplePoint           = 8000,
+.syncJumpWidth         = 2000,
+.prescaler             = 1,
+.timeSegment1          = 3,
+.timeSegment2          = 10,
+.tranceiverDelayOffset = 0
+},
+如上，设置Normal段速率为500Kbps，Data段速率为2000Kbps，采样点均设置80%。
+（四）接收过滤配置
+配置代码实现如下所示：
+.filterConfig                                = {
+.messageIdLength                    = IfxCan_MessageIdLength_standard,
+.standardListSize                   =
+0
+,
+.extendedListSize                   =
+0
+,
+.rejectRemoteFramesWithStandardId   =
+0
+,
+.rejectRemoteFramesWithExtendedId   =
+0
+,
+.standardFilterForNonMatchingFrames = IfxCan_NonMatchingFrame_acceptToRxFifo0,
+.extendedFilterForNonMatchingFrames = IfxCan_NonMatchingFrame_acceptToRxFifo0
+},
+g_mcmcan.canFilter.number =
+2
+;
+g_mcmcan.canFilter.elementConfiguration = IfxCan_FilterElementConfiguration_storeInRxFifo0;
+g_mcmcan.canFilter.
+type
+= IfxCan_FilterType_range;
+g_mcmcan.canFilter.id1 =
+0x166
+;
+g_mcmcan.canFilter.id2 =
+0x168
+;
+g_mcmcan.canFilter.rxBufferOffset = IfxCan_RxBufferId_0;
+（五）接收报文过滤实现
+本文可以接收报文的范围为：0x166~0x168。
+代码实现：
+void IfxCan_Can_setStandardFilter(IfxCan_Can_Node *node, IfxCan_Filter *filter)
+{
+/* enable configuration change CCCR.CCE = 1, CCCR.INIT = 1 */
+IfxCan_Node_enableConfigurationChange(node->node);
+Ifx_CAN_STDMSG *standardFilterElement = ((uint32*)(node->messageRAM.baseAddress + node->messageRAM.standardFilterListStartAddress));
+standardFilterElement->S0.B.SFID2 = filter->id2;
+/* First ID of standard ID filter element. */
+standardFilterElement->S0.B.SFID1 = filter->id1;
+/* 001B Store in Rx FIFO 0 if filter matches */
+standardFilterElement->S0.B.SFEC =
+0x01
+;
+/* 00B Range filter from SF1ID to SF2ID (SF2ID ≥ SF1ID) */
+standardFilterElement->S0.B.SFT =
+0x00
+;
+/* Defines how received messages with 11-bit IDs that do not match any
+* element of the filter list are treated. (0x03)11B Reject */
+node->node->GFC.B.ANFS =
+0x03
+;
+/* disable configuration change CCCR.CCE = 0, CCCR.INIT = 0 */
+IfxCan_Node_disableConfigurationChange(node->node);
+}
+CAN报文的接收过滤主要设置两部分：
+1、Global Filter Configuration
+主要配置GFC寄存器，本文对Standard帧进行过滤处理，如果与设置的接收范围不匹配，则Rejet，设置
+GFC寄存器的
+ANFS位域
+，如下所示：
+2、Standard Message ID Filter处理
+标准CAN报文的ID过滤处理，即：设置每个邮箱过滤报文的范围或者指定一帧或者两帧CANID，如下所示：
+注意
+：Standard Message 0并不是一个具体的寄存器，而是CAN模块专用的RAM区，由实现者根据需要配置所使用的SRAM大小和起始地址。
+而CAN模块SRAM区的切割要按照手册要求划分，如下所示：
+如上的过滤设置好以后，CAN Controller即按如下流程进行标准CAN FD报文的接收。
+如上图，当接收设置了过滤以后，会对接收到的报文进行匹配，如果匹配则接收。当然，也可以不配置接收过滤，任意一帧报文均接收，但是，这样会增加CPU的开销。
+2、CANFD对应的CAN_H、CAN_L波形
+在500Kbps/2000Kbps通信速率下，一帧64Byte数据长度的CANFD报文（CANID 0x55），数据内容0x55或者0xAA，大概需要320us,如下所示：
+利用示波器的Decode功能，对CAN报文进行解码，示例如下：
+对应发送的报文如下所示，CAN ID = 0x55，可以对应如上的解析。
+提示
+：本文使用的示波器不能解析CANFD，只能解析CAN，如上图，仅仅对Normal段的解析有效。
+（一）一帧CAN报文的传输用时
+如下图，一帧报文传输用时是一个范围，统计如下所示：
+注释
+：上图来源群内小伙伴的分享，具体出处不详，此处分享做学习使用。
+解释：为了确保数据传输的可靠，CAN在传输数据时，每5个相同位会插入一个反向位，也就是位填充（bit stuffing），eg
+：
+00000
+1
+B，这里的1就是因为传输的0超过5个时，插入的反向位。
+所以，由于一帧CAN报文传输数据的变化，所以，一帧CAN报文传输用时会在一个范围内动态变化，如果CAN ID是0x555（10101010101B）或者0xAA（00010101010B），同时，数据段数据都是0x55或者0xAA，则这帧报文几乎不用额外插入反向位，因此用时更短。
+如果传输的数据是0x00（00000000B）或者0xFF（11111111B），则需要插入大量的反向位，因此，传输用时更长。
+3、工程源码
+工程源码链接如下：
+https://github.com/Kaixinguo2021/TC375_CanFD_Tasking.git
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+CANoe基础：如何显示*.blf数据的时间戳
+INCA基础操作：文件刷写
+为什么Tier1要开发控制器的电源管理芯片？
+基于Hightec+TC375TP的RT-Thread移植详解
+C语言基础：链表
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,114 @@
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+2022-06-22T12:00:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488418&idx=1&sn=71fdca5ab4735096f76884647177d8c8&chksm=fa2a4dd6cd5dc4c0edbe4aa4fe8697ecc5419dea1e7341013deb9f93d46a5a934a5ab689691f&scene=21#wechat_redirect
+
+进一步细化问题:"如果总线上某个节点进入了
+RSS(Ready Sleep State)状态
+，周期性地接收到其他节点发送的网络管理报文，此节点会进入PBSM（Prepare Bus-Sleep Mode），进而休眠吗?"
+提示：
+基于CAN总线讨论
+1
+节点进入RSS状态路径
+节点如果想进入RSS状态，有两条路径：
+第一、由RMS（Repeat Message State）进入RSS状态
+第二、由NOS（Normal Operation State）进入RSS状态
+如下所示：
+对于上述两种进入RSS状态的方式，实质由节点的网络类型决定：
+节点网络类型
+是Passive Mode
+：节点只能由RMS进入RSS
+节点网络类型
+非Passive Mode(Active Mode)
+：如果节点是
+被动唤醒
+（比如：收到网络管理报文唤醒），
+节点
+只能由
+RMS
+进入
+RSS；如果节点是
+主动唤醒
+（比如：KL15硬线唤醒，外部定时器主动触发唤醒等），则节点由RMS进入NOS状态（主动请求网络），在NOS状态下，收到上层进入RSS的主动请求（主动调用接口
+CanNm_NetworkRelease()
+），进入RSS状态。
+2
+网络管理报文能让节点不休眠吗
+回答这个问题，我们需要先确定当前节点是否使用PN（Partial Network）功能。
+1、节点没有PN功能
+对于没有使用PN功能的节点
+，在RSS状态下收到其他节点发送的NM Msg，会重置NM-Timeout Timer，让节点保持在RSS状态，也就是说：网络管理报文可以让节点保持在RSS状态，维持正常通信，节点不休眠；
+2、节点具有PN功能
+如果节点有PN功能
+，还需要关注配置参数
+CanNmAllNmMessagesKeepAwake
+的使能情况。
+如果PNI = 1，且
+CanNmAllNmMessagesKeepAwake = TRUE
+，
+在RSS状态下收到NM Msg，
+当前节点需要重置
+NM-Timeout Time
+r，节点的网络状态保持在RSS。
+如果与节点相关的所有PNC = 0，不关联PNC的发送报文保持发送。如果与节点相关的PNC = 1，
+关联此PNC
+的发送报文和
+不关联PNC
+的发送报文保持发送
+；
+如果PNI = 1，
+CanNmAllNmMessagesKeepAwake = FALSE
+，
+在RSS状态下收到NM Msg，
+与节点相关的PNC均为0，当前节点不重置NM-Timeout Timer，
+当NM-Timeout Timer = 0时，节点进入PBSM状态，如果CANNM_WAIT_BUS_SLEEP_TIME超时，节点进入BSM(Bus-Sleep Mode)，节点休眠。
+Autosar解释如下所示：
+如果PNI = 0，且
+CanNmAllNmMessagesKeepAwake = TRUE
+，
+在RSS状态下收到NM Msg，
+当前节点需要重置
+NM-Timeout Time
+r，节点的网络状态保持在RSS，
+Autosar解释如下所示：
+如果PNI = 0，且
+CanNmAllNmMessagesKeepAwake = FALSE
+，
+在
+RSS状态下收到NM Msg
+，当前节点
+不需要重置NM-Timeout Timer
+，
+当NM-Timeout Timer = 0，节点进入PBSM
+，
+如果
+CANNM_WAIT_BUS_SLEEP_TIME
+超时，节点进入BSM(
+Bus-Sleep Mode
+)，节点休眠
+，Autosar解释如下所示：
+也就是说，
+在RSS状态下，节点即使周期性接收到其他节点发送的网络管理报文，节点也可能休眠
+。
+如上，就是本文的答案。
+提示：
+某些OEM中会要求：CanNmAllNmMessagesKeepAwake的设置与CAN transceiver的选型有关。比如：如果选择
+具有
+wakeup CAN的transceiver，CanNmAllNmMessagesKeepAwake = FALSE；如果选择
+没有
+wakeup CAN的transceiver，CanNmAllNmMessagesKeepAwake = TRUE。
+参考资料
+SIMPLE TITLE
+AUTOSAR_SWS_CANNetworkManagement.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+工程开发问题（四）：数组越界引发的刷写失败
+上下文(CSA)切换，需要花费多少时间？
+工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)
+Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态
+Autosar通信栈：FullCAN和BasicCAN基础
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

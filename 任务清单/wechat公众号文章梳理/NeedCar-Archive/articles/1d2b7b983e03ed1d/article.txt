@@ -1,0 +1,212 @@
+英飞凌tc397:告诉你程序真正的启动过程
+2022-01-22T11:19:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485101&idx=1&sn=15b383b78c7e2eba0fa0547751b89a8d&chksm=fa2a58d9cd5dd1cf40589815dd4196b3b966126b4a4e16cde13bc1fb36b1185e38585752818c&scene=21#wechat_redirect
+
+嵌入式开发中，main函数似乎成了我们很多开发人员理解的程序入口，真的是这样吗？main函数只能说是应用程序恢复到了一个初始状态，对CPU来说，它可不认为自己在main函数处开始执行程序的。本文通过链接文件(*.lsl)、*.map文件以及启动文件详细地聊一聊tc397（其它英飞凌系列类似）的启动过程。
+1
+PC寄存器值哪里来？
+我们知道程序的执行需要
+获取指令地址
+->
+执行指令
+。那么第一个指令的地址如何来的呢？
+答：嵌入式开发中，我们会在链接文件（比如：*.lsl）中规定好程序复位地址，而这个地址就是CPU程序指针寄存器（PC：Program Counter）获取的第一个地址，即
+程序真正的入口点
+。在链接文件中用标号
+RESET
+（不同链接器识别的标号可能不同）设置程序复位地址。
+如下所示，链接文件设置了复位地址：0xA0000000。这里注意：在程序中设置了.start段，并将.start段的起始地址设为0xA0000000，也就是说，.start段里的程序才是系统复位后执行的第一个程序，这个程序是执行main函数之前所必需的，因为每个CPU的中断向量表入口点、Trap入口点等均需要提前告知，否则CPU不知道程序异常或者发生中断时该做啥。
+...
+LCF_STARTPTR_NC_CPU0
+=
+0
+xA0000000;
+LCF_STARTPTR_NC_CPU1
+=
+0
+xA0300100;
+LCF_STARTPTR_NC_CPU2
+=
+0
+xA0600100;
+LCF_STARTPTR_NC_CPU3
+=
+0
+xA0900100;
+LCF_STARTPTR_NC_CPU4
+=
+0
+xA0C00100;
+LCF_STARTPTR_NC_CPU5
+=
+0
+xA0F00100;
+RESET
+= LCF_STARTPTR_NC_CPU0;
+....
+SECTIONS
+{
+.start_tc0 (LCF_STARTPTR_NC_CPU0) : FLAGS(rxl) { KEEP (*(.start))
+; } > pfls0_nc
+.interface_const (0x80000020) : { __IF_CONST = .
+; KEEP (*(.interface_const)); } > pfls0
+PROVIDE(__START0 = LCF_STARTPTR_NC_CPU0)
+;
+PROVIDE(__ENABLE_INDIVIDUAL_C_INIT_CPU0 = 0)
+; /* Not used */
+PROVIDE(__ENABLE_INDIVIDUAL_C_INIT_CPU1 = 0)
+;
+PROVIDE(__ENABLE_INDIVIDUAL_C_INIT_CPU2 = 0)
+;
+PROVIDE(__ENABLE_INDIVIDUAL_C_INIT_CPU3 = 0)
+;
+PROVIDE(__ENABLE_INDIVIDUAL_C_INIT_CPU4 = 0)
+;
+PROVIDE(__ENABLE_INDIVIDUAL_C_INIT_CPU5 = 0)
+;
+}
+...
+2
+第一个程序执行过程
+本例将_START函数放置到.start段，即_START函数地址是0xA0000000，而程序刚上电时，PC寄存器获取了0xA0000000地址，即执行_START函数。
+#
+pragma
+section
+".start"
+x
+void
+_START(
+void
+)
+{
+0xA0000000
+91
+00
+00
+F8  MOVH.A    a15,
+0x8000
+0xA0000004
+D9 FF B4
+91
+LEA       a15,[a15]
+0x1A74
+0xA0000008
+DC
+0F
+JI        a15
+0xA000000A
+00
+90
+RET
+Ifx_Ssw_jumpToFunction
+(__StartUpSoftware)
+;
+}
+/* reset the sections defined above, to normal region */
+#
+pragma
+section
+通过调试，我们可以看到，程序上电或者复位执行的第一个指令如下所示。
+_START函数要执行的指令在二进制文件（*.hex）具体体现如下所示：
+3
+中断向量表基地址设置
+刚才提到，在真正执行main函数之前，有很多前置功能需要设置，这里主要讲一下中断向量表基地址的设置。我们知道，中断发生时，CPU根据中断向量号及中断向量表基地址即可找到中断处理函数。但是大家是不是好奇这样的问题：
+每当中断发生的时候，CPU是如何知道中断向量表基地址的呢
+？
+首先，我们在链接文件（*.lsl）中通过标号设置每个CPU的中断向量表基地址，如下所示：
+...
+LCF_INTVEC0_START
+=
+0
+x802FE000;
+LCF_INTVEC1_START
+=
+0
+x805FE000;
+LCF_INTVEC2_START
+=
+0
+x808FE000;
+LCF_INTVEC3_START
+=
+0
+x80BFE000;
+LCF_INTVEC4_START
+=
+0
+x80EFE000;
+LCF_INTVEC5_START
+=
+0
+x80FFE000;
+__INTTAB_CPU0
+= LCF_INTVEC0_START;
+__INTTAB_CPU1
+= LCF_INTVEC1_START;
+__INTTAB_CPU2
+= LCF_INTVEC2_START;
+__INTTAB_CPU3
+= LCF_INTVEC3_START;
+__INTTAB_CPU4
+= LCF_INTVEC4_START;
+__INTTAB_CPU5
+= LCF_INTVEC5_START;
+...
+在启动程序中，我们将链接文件中设定的基地址赋给CPU的CPU_BIV寄存器，这样每个CPU就可通过其特殊功能寄存器
+CPU_BIV
+知道其中断向量表的基地址了，如下所示。
+注意
+：需要使用内嵌函数__mtcr()操作特殊功能寄存器。
+...
+Ifx_Ssw_MTCR(CPU_BTV, (
+unsigned
+int
+)__TRAPTAB(
+0
+));
+/* Base interrupt vector table initialized */
+Ifx_Ssw_MTCR(CPU_BIV, (
+unsigned
+int
+)__INTTAB(
+0
+));
+...
+通过调试，我们可以看到，CPU0的CPU_BIV寄存器存储CPU0中断向量表的基地址：0x802FE000，与我们链接文件中CPU0设置的基地址一致，这样，每次CPU0有中断发生，CPU0就知道通过其中断向量表的基地址及中断向量号查中断函数的入口地址了。同样，其它CPU也通过这样的方式查找中断处理函数。
+中断如何通知CPU/DMA
+当外部某个条件满足时，会触发一个中断请求给ICU，ICU再将中断分配给对应的CPU/DMA，如下所示：
+当多个中断同时请求时，ICU通过中断优先级（中断向量号）决定将哪个中断请求先送给CPU/DMA，具体仲裁过程如下所示。
+4
+执行main函数
+如下所示，执行完必要的启动流程之后，程序跳转到用户的main程序。一般来说是先跳转到Boot的main程序，如果不需要刷新App/Boot程序，且App程序标志位有效，程序跳转到App的main函数，之后用户真正的功能得以运行。
+...
+/* Initialization of C runtime variables */
+Ifx_Ssw_C_Init();
+Ifx_Ssw_enableSafetyWatchdog(safetyWdtPassword);
+#
+if
+(IFX_CFG_SSW_ENABLE_TRICORE0 == 0)
+/* Set the CPU 0 to Idle mode, if it is not needed to be enabled */
+Ifx_Ssw_setCpu0Idle();
+#
+endif
+Ifx_Ssw_enableCpuWatchdog(&MODULE_SCU.WDTCPU[
+0
+], cpuWdtPassword);
+/*Call main function of Cpu0 */
+Ifx_Ssw_jumpToFunction(core0_main);
+}
+往期
+精彩
+回顾
+Autosar以太网：Ethernet Transceiver基础（一）
+Autosar网络管理PN：路由超时大Bug
+Autosar网络管理：CanNM PN功能
+C语言开发实用技巧：准确分包&巧妙读Bit值
+UDS之$2E服务：NRC13和NRC33优先级
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

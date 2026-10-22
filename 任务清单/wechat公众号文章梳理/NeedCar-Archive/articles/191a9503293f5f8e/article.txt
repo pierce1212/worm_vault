@@ -1,0 +1,121 @@
+如何基于IAR编译器添加编译时间戳和软件版本号？
+2025-04-25T06:32:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496711&idx=1&sn=fc89bb4b31bc01a0fdfe020e7534b65f&chksm=fa29aa73cd5e2365e6c23aa576f6b34d153282ba3236d0118c8f553fb3dc02e761c3682fd6fc#rd
+
+软件的开发过程中，需要经常编译不同版本的软件。有时为了测试某个功能，需要临时添加一个版本；有时为了查找bug，需要不断编译和调试...如果编译的版本多了，可能自己都会混淆。所以，为了更好的识别软件的版本信息，最好的方式就是让工具“操心”这个容易忘记的事情。怎么做呢？让编译器每次编译时，自动添加软件编译的时间戳。
+提示
+：IAR软件版本9.40.1
+1、获取时间戳和软件版本方式
+关于软件版本，可以使用宏等方式自行定义，对于编译软件的时间和日
+期，可以分别使用宏
+__TIME__
+和
+__DATE__
+。
+使用这两个宏，需要包含
+stdio.h头文件
+。
+设置软件的编译时间戳和版本号，目的是为了识别版本，所以，就需要预留对外的接口，供外部调用。
+本文编写的hsm_firmware_version_info.h文件内容如下：
+/**
+* \file hsm_firmware_version_info.h
+* \brief This file contains the version information of the HSM firmware.
+*
+*/
+#
+ifndef
+HSM_FIRMWARE_VERSION_INFO_H_
+#
+define
+HSM_FIRMWARE_VERSION_INFO_H_
+#
+include
+<stdio.h>
+#
+include
+"zf_common_headfile.h"
+#
+define
+VERSION
+"1.0.3"
+extern
+void
+Get_HSMFirmwareVersionInfo
+(uint8* HSMInfoPtr)
+;
+#
+endif
+/* HSM_FIRMWARE_VERSION_INFO_H_ */
+本文编写的hsm_firmware_version_info.c文件内容如下：
+#
+include
+"HSMFirmwareVersionInfo.h"
+const
+uint8 *HSMBuildInfo =
+"HSM Firmware Version: "
+VERSION
+" "
+__DATE__
+" "
+__TIME__;
+void
+Get_HSMFirmwareVersionInfo
+(uint8* HSMInfoPtr)
+{
+memcpy
+(HSMInfoPtr, HSMBuildInfo,
+strlen
+(HSMBuildInfo));
+}
+将如上的两个文件加载到软件工程中
+。
+外部调用示例：
+uint8
+HSMInfo[
+50
+] = {
+0
+x00};
+Get_HSMFirmwareVersionInfo
+(HSMInfo);
+2、如何实现编译软件时的时间戳更新？
+软件开发过程中，一般使用增量编译的方式加速软件编译速度。但是，
+如果时间戳的源文件没有修改，那么，编译器会忽略该文件，不做编译
+。如此，会带来一个问题：
+编译后，时间戳没有更新
+。那么，使用全量编译（rebuild All）可以吗？采用全量重编的方案确实可以，但是，这也意味着编译时间增加。那么，能不能只对特定源文件编译呢？答：可以。
+（一）使用预编译指令删除目标对象文件，实现特定源文件重编
+关于IAR如何添加时间戳，可以在Help文档中找到，具体操作步骤如下：
+具体操作步骤：
+如上命令中，目标对象地址使用的是相对地址，如下所示：
+del
+"
+$OBJ_DIR$
+\HSMInfo_8669503957828126332.dir\HSMFirmwareVersionInfo.o"
+使用
+相对地址好处就是便于移植
+。当然，
+也可以使用绝对地址
+。
+除了使用命令行删除目标对象文件（*.o），实现目标源文件（*.c）每次编译的方式以外。不同的IAR版本也可能有针对特定源文件的“Always Build”选项，本文对应的版本没有找到，知道的小伙伴可以留言指教。
+（二）软件编译时间戳测试
+第一次编译：
+第二次编译：
+第三次编译：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+包含信息安全、SWAP（A/B分区）功能的Bootloader开发思考
+EB Tresos，修改Mcal版本号的非常规操作
+Lauterbach实用技巧，Hex文件导出（补充篇）
+信息安全，硬件Debug口，如何设置密码及解锁？
+工程问题，CAN Busoff恢复不成功导致的通信中断
+Flexray总线基础#05：为什么要进行节点间时钟同步？
+Bootloader开发：一种降成本的从节点升级方案
+Bootloader开发：如何提高软件刷写效率？
+这些芯片内存（Memory）区，你真的用过？
+基于Davinci的HSM开发实践（10）：RSA2048算法的工程开发实践
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

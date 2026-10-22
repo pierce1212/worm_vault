@@ -1,0 +1,85 @@
+信息安全，RSA2048开源库及填充细节
+2024-08-23T06:38:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495527&idx=1&sn=87d8df52f34c626775eaa854ee4d4394&scene=21#wechat_redirect
+
+我们知道，在bootloader中，常常使用RSA算法（eg：RSA2048）进行软件校验，即：对上位机下发的
+签名信息（Signature）
+使用
+配对的公钥
+进行验签（verify），以此证明信息来源的合法性和完整性。如果上位机或者云端用私钥
+直接对原始数据进行加密（encrypt）
+，并传输给目标节点，就会存在一定的风险，什么风险呢？假设：
+加密的数据内容一直不变，那么，加密后的密文也就不变
+，所以，一定程度上来说，这是不安全的。
+为了进一步确保信息的安全性，引入了一种安全机制：填充（padding）机制，即：通过添加随机值的方式，使得每次加密/签名后的密文数据不同。
+本文讨论一下RSA签名时用到的填充算法、一些概念，以及开源的RSA算法库（eg：mbedtls），当然，
+mbedtls包含的算法不仅仅只有RSA，还有SHA、AES、ECC等算法。
+1、RSA填充机制基本概念
+谈到RSA，就会牵扯到PKCS（Public Key Cryptography Standards）版本问题，比如：PKCS #1 、PKCS #2、PKCS #3...
+PKCS#1
+：定义
+私钥签名
+的填充方式，
+v1.5是PKCS1_PADDING, v2.2是 PKCS1_PSS_PADING
+；
+PKCS#8
+：
+私钥信息
+语
+法标准，定义了私钥信息语法和加密私钥语法。
+其余PKCS版本信息，感兴趣的朋友可以自行查阅
+。
+对于公钥算法，主流方案是使用《PKCS #1 v2.2: RSA Cryptography Standard, RSA Laboratories, October 27, 2012》。
+（一）RFC8017
+RFC8017中，支持两种签名填充方案：
+RSASSA-PKCS1-v1_5和RSASSA-PSS。
+实际的RSA签名应用中，一般
+推荐使用
+RSASSA-PSS
+填充方案。
+关于RFC8017，可以参考如下链接：
+https://datatracker.ietf.org/doc/html/rfc8017
+名词解释：
+SSA
+（Signature Scheme with Appendix）
+PSS
+(Probabilistic Signature Scheme，
+概率签名方案
+)是
+私钥（private key）签名的一种填充方式
+。
+2、PSS模式的RSA签名流程
+PSS模式的RSA签名流程如下所示：
+具体签名流程，描述如下：
+1、对明文（M）进行哈希计算（eg：SHA256），得到mHash；
+2、M' = Pad（8 byte全0）|| mHash || Salt；
+3、M'进行哈希计算得到H，同时，构造数据块DB = PS || 0x01 || Salt；
+4、通过MGF函数，计算H的MGF值，
+MGF值与DB进行异或操作得到MaskedDB;
+5、EM = MaskedDB || H || 0xbc；
+如上5步就是RSA-PSS的填充过程。
+6、使用私钥对EM进行加密得到签名信息EM'。
+其中，
+盐（Salt）的长度与哈希值长度相等
+。使用填充机制以后，也就意味着：即使每次对同一个消息进行签名，每次得到的签名信息也会不同，进而增加了对明文的保护。
+3、mbedtls库移植
+目前，很多MCU级的芯片还不支持硬件RSA算法，如果软件实现RSA算法，可以参考一些开源库，比如：mbedtls。
+（一）mbedtls下载地址
+https://github.com/Mbed-TLS/mbedtls
+或者
+https://github.com/Mbed-TLS/mbedtls/releases/tag/v2.16.9
+（二）ASN.1在线解析地址
+对于使用PEM格式存储的密钥，可以使用如下网址解析
+PEM格式的密钥
+，链接地址如下：
+https://www.the-x.cn/zh-CN/encodings/Asn1.aspx
+对于存储密钥的PEM格式，更多细节可以参考RFC1421，链接如下：
+https://datatracker.ietf.org/doc/html/rfc1421
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+A/B分区，软件实现方案思考
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
