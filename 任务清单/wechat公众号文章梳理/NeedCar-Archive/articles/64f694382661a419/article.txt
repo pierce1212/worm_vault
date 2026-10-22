@@ -1,0 +1,134 @@
+以太网学习笔记：如何理解PHY的Link Up
+2022-10-20T09:50:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490141&idx=1&sn=7df662dea10173fde1bdbe54802e394d&chksm=fa2a4429cd5dcd3f28c7586b8783b1ee6522e5ea94635d8d2ba14c80efaa6f974fe4b07a2e28&scene=21#wechat_redirect
+
+以太网的学习中，不说十万个为什么，100个为什么还是有的。本文，针对
+PHY（Physical）
+的Link Up，分享一下个人理解。
+提示：基于英飞凌TC3xx讨论。
+1
+PHY配置
+PHY的主要作用是数/模信号转换，功能等同于其他总线的Transceiver。所以，uC如果想发送/接收以太网数据，就需要依赖PHY（确切说是PHY芯片）。如果想让PHY按照预期的状态工作，uC就需要通过接口告诉PHY如何工作，这个接口是指
+MAC（Media Access Control）
+/PHY 接口。MAC/PHY的接口关系如下所示：
+MAC通过接口可以访问PHY的内部寄存器，进而设置PHY的工作模式，以此实现PHY的Link Up。MAC访问PHY内部寄存器，主要通过
+MDC（Management Data Clock）
+和
+MDIO（Management Data Input Output）
+实现。手册中描述：PHY内部寄存器的访问，通过
+SMA（Station Management Agent）
+。而SMA中的操作信息来自MAC，所以，两种表达，本质是一个意思。
+MDC的最大配置时钟频率为2.5MHz
+，用于驱动MDIO。
+MDIO是双向控制线
+，操作MDIO时，需要基于(Clause 22或者Clause 45)。
+1、Clause 22/Clause 45
+Clause 22或者Clause 45是什么呢？
+答
+：一种访问PHY内部寄存器的报文协议。既然是协议，就会有格式要求，Clause 22或者Clause 45格式的各个位域如下所示：
+使用Clause 22还是Clause 45，需要配置
+MAC_MDIO_ADDRESS
+寄存器的C45E位域，
+默认情况下，使用Clause 22
+，如下所示：
+一、Clause 22
+Clause 22格式的位域描述如下所示：
+解释：
+IDLE
+：空闲状态，
+此时MDIO没有时钟驱动
+；
+PREAMBLE
+：前导码，由32个连续的"1"构成；
+START
+：起始位域，2 Bit = 01
+B
+；
+OPCODE
+：操作码，2 Bit，10
+B
+表述读取PHY寄存器操作，01
+B
+表示写PHY寄存器操作；
+PHY ADDR
+：要访问的PHY地址，MAC最多可以访问32个PHY，编号0~31；
+REG ADDR
+：PHY寄存器地址，最多可以访问32个PHY寄存器，这里表示要访问哪个PHY寄存器；
+TA
+：Turn Around，反转位（2 Bit），当SMA
+读
+PHY寄存器时
+，
+在TA第一个Bit之前，由MAC（SMA）控制MDIO，请求目标PHY寄存器的信息；
+在TA第一个Bit之后，由PHY控制MDIO，输出对应PHY寄存器中的信息
+。
+这也是MDIO双向的原因，操作时序如下所示：
+DATA
+：PHY寄存器中的数据信息。
+当MAC
+写
+PHY寄存器时，MDIO完全由MAC控制，操作时序如下所示：
+二、
+Clause 45
+Clause45与Clause22的格式一样，只是
+个别位域信息有所不同
+，如下所示：
+因此，基于Clause 22或者Clause 45协议，完成对PHY内部寄存器的配置，比如：通信速率（100Mbps/1000Mbps）配置、是否全双工、自协商使能与否（
+auto-negotiation
+）、指示灯等。
+PHY配置完成，且配置成功，意味着：Link Up
+。
+2、PHY Link状态的软件实现
+在软件层面，程序初始化或者Reset以后，需要重新初始化PHY，通过读取PHY寄存器的Link位域确定PHY的Link状态，eg：RTL8211F(I)
+BMSR (Basic Mode Status Register, Address 0x01)
+寄存器，Bit2（Link Status）指示PHY的Link状态。代码实现示意所示：
+boolean
+PHY_link_Status
+(
+void
+)
+{
+boolean linkEstablished = FALSE;
+uint32
+value
+;
+do
+{
+IfxGeth_phy_Clause22_readMDIORegister(
+0
+, PH_BMSR, &
+value
+);
+linkEstablished = ((
+value
+& (
+1
+<<
+2
+)) !=
+0
+) ? TRUE : FALSE;
+}
+while
+(!linkEstablished);
+return
+linkEstablished;
+}
+注意
+：获取PHY的Link状态之前，需要完成Ethernet驱动的初始化，不然MAC没办法操作PHY。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（二）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（三）
+诊断开发：Polling方式引发的诊断丢帧
+NVM存储：Flash操作注意事项
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

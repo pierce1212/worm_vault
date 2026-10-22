@@ -1,0 +1,34 @@
+hexView无法Compare问题的修复方式
+2025-11-21T06:20:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497699&idx=1&sn=dc4f0b91e650eb22c2f1b3519dd18f4b&scene=21#wechat_redirect
+
+不管对于软件开发还是测试，亦或者是其他角色的工程师，在工程问题上，有时不得不查看*.hex等二进制文件，甚至在一些bug排查中，还需要对比二进制文件。当然，干活最需要“趁手的家伙”，即：工具。当然，对比hex文件的工具有很多，比如：Beyond Compare等。但是，就我个人使用而言，针对hex对比，还是
+hexView用的“
+得手
+”。
+但是，这得手的工具，偶有“作妖”的时候，即：比对时，自动退出。如何破？本文聊一聊这个话题。
+1、hexView比对时的问题
+有时，一旦使用
+hexView进行对比时，就会出现如下的错误提示：
+最后，无法正常使用，很是困惑，怎么办呢？
+2、解决措施
+将hexview.exe所在路径的PBuild.dll文件进行重命名
+，示意如下：
+修复以后，重新使用比对功能，如下所示：
+参考链接
+https://support.vector.com/kb?id=kb_article_view&sysparm_article=KB0017271&sys_kb_id=02adf2db2bb6ae1034d2f47ebe91bf36&spa=1
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+诊断，很“炫”的退出编程会话方式
+工程问题：A/B切区，为啥失败？
+如何理解诊断合理性检查（Rationality Checks）？
+Bootloader开发：基于以太网的软件刷写思考
+如何安全的存储和获取Debug password
+UDE或者APP的界面显示bug（工具栏显示太小）如何解？
+一种软件实现的双Bootloader SWAP方案讨论
+HSM Firmware更新的一种方案讨论

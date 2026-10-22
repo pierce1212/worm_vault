@@ -1,0 +1,67 @@
+Autosar往期精彩文章汇总：252~302
+2023-10-31T07:05:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493391&idx=1&sn=68dc84b89534eb2e25b6d5554153e63a&chksm=fa29b97bcd5e306d7b8fcb7d505a48aa26c09ce95963dcf734adbb71614a0c30bc7077273aa2#rd
+
+开心果 Need Car 两岁了，它努力而笃定。它曾因为读者一句“上班不方便看微信”，把文章同步到知乎；它曾因为被大量“洗稿”、“抄袭”...懊恼不已，但它依然坚持免费分享，因为读者说“希望还能免费看到博主文章”；它也曾被个别人“diss”，扣上Flag......不管怎样，
+开心果 Need Car在长大，它知道：它曾真实地帮助到一些需要的工程师。它不花哨，它说细节，它不语，它却已经很"大声"的告诉你，它知道的、学会的、悟到的......就像某个读者说的：“博主像坐在身边的同事”。
+提示
+：目前，开心果 Need Car 被360个人图书馆转载（账号同名），可以搜索到文章（免费），知乎的更新会放缓，微信公众号依然是第一时间发布载体。个人IP，有些东西不太擅长（eg：如何准确给读者推送关键字文章），目前还是笨办法。
+思考 & 感悟
+工程思考：CAN Transceiver不工作，节点还会Busoff吗？
+工程思考：为什么OEM抵触Bootloader更新？
+CAN和CAN FD组网思考
+为什么Tier1要开发控制器的电源管理芯片？
+路过春秋
+我的建议，无法替代你“硬刚”现实
+通信
+Autosar通信栈基础：如何理解和使用Update bit
+基于Tricore架构的RTThread多核实现
+嵌入式开发：Lin总线入门实践
+基于Aurix的以太网实践：TCP Client实现坑点
+基于Tricore的UDP/TCP入门工程
+Lin总线基础：为什么Master节点需要外接上拉电阻
+通信：跨Core读取信号，Signal值偶发反转
+基于Tricore的CANFD入门工程
+基于Hightec+TC375TP的RT-Thread移植详解
+Polling模式，为什么会引发诊断丢帧
+网络管理
+Autosar网络管理：为什么PN功能更节能？
+Autosar网络关系：网络主动唤醒细细碎
+Autosar网络管理：如何理解局部网络的VFC？
+诊断
+UDS基础：正响应抑制位（suppressPosRspMsgIndicationBit）详解
+UDS之Snapshot：全局快照和私有快照的区别和联系
+UDS基础：快照数据（Snapshot）格式详解
+Debug & 工具
+Debug手段：基于Lauterbach的Onchip调试
+穷玩Aurix控制器：Memtool基础使用操作
+MCU调试系统核心：重定向Printf()接口
+MCU开发利器：调试系统之UART
+Debug调试：确认故障发生时间的一种方法
+嵌入式开发：测量代码运行时间的第三种方法
+CANoe基础：数据Replay及录制操作
+INCA基础操作：测量数据分析
+CANoe基础：如何显示*.blf数据的时间戳
+INCA基础操作：文件刷写
+TRACE32调试技巧：如何加载自定应调试界面
+信息安全 & OTA
+信息安全：软件认证，知识点梳理
+OTA技术，谁在受益？谁又在收益？
+基于Aurix的SOTA（A/B分区）实践指南
+信息安全基础：Host与HSM通信科普
+信息安全基础：初识Public Key
+工程问题
+工程问题：ECC错误，无法获取HSM真随机数
+工程问题：读取DID导致ECU不在线
+工程问题：进入编程会话条件不满足，能否OTA？
+工程问题：Full CAN与Basic CAN配置错误，导致信号跳变
+工程问题：RAM区未初始化，导致HSM失效
+工程问题：ECU休眠过程中，网络状态不同步引发的功能失效
+工程问题：PWM诊断失效，导致故障不记录
+功能安全
+功能安全基础：内存保护（MPU）浅析
+嵌入式开发：安全架构核心组件之SMU
+C语言基础
+C语言基础：图解双向链表操作
+C语言基础：计算Struct成员偏移量的"骚操作"
+C语言基础：链表

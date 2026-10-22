@@ -1,0 +1,88 @@
+Clangd+CMake+Tasking+VSCode构建工程之Ninja路径识别bug
+2025-11-10T06:20:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497657&idx=1&sn=f227432e49d97c906c4f1713492201c5&chksm=fa29a9cdcd5e20db00acb4c264ab774abf501c8913493e1c31bb89f08257db23d186fef6eeae#rd
+
+前文《
+Clangd+CMake+Tasking+VSCode构建工程的琐碎
+》留了一个问题，使用
+Ninja增量编译时
+出错，具体问题描述如下：
+[build] ninja: error: FindFirstFileExA("C:/Code/HSM/tc3xx_hsm_cmake
+/01_Source/app/secure_boot):
+The filename, directory name, or volume label syntax is incorrect.
+所以，当使用Ninja构建时，一直提示：输入的路径不对，也就是路径有特殊字符等，导致路径未闭合，找不到指定路径文件，进而编译器无法编译程序。
+1、问题原因
+排查问题，发现：
+删除ninja的依赖文件，重新编译没有问题
+，
+只有增量编译时出错
+。
+ninja的依赖文件
+.ninja_deps如下所示：
+.ninja_deps是Ninja构建系统中的一个
+依赖数据库文件
+，它在构建过程中自动生成并维护，用于加速和优化增量构建。
+.ninja_deps
+记录文件依赖关系，
+这些依赖信息会被存储在 .ninja_deps中，以便后续构建时快速判断哪些文件需要重新编译。
+通过
+检查
+.ninja_deps文件
+，
+检测到路径冲突（C:/ 和 C_）
+。检测的Python脚本链接：
+https://onlinegdb.com/FGK8ucJeq
+所以，
+报路径不识别的原因是因为
+.ninja_deps存储了不正确的路径信息，导致
+.ninja_deps损坏，进而
+使得增量编译时出错
+。
+为什么推荐Ninja?之所以想用Ninja构建，还是因为看重它的速度，即：
+Ninja构建速度远快于Make
+。
+Ninja优势如下：
+优点
+说明
+快速
+Ninja 构建速度远快于Make
+简洁
+Ninja 文件格式简单，易于调试
+与clangd配合好
+Ninja支持生成
+compile_commands.json
+，clangd 可用来做智能补全
+VSCode支持好
+VSCode的CMake Tools 插件原生支持Ninja 构建器
+2、解决措施
+这个问题的解决，首先需要排查
+CMakeLists.txt文件中的
+输入路径是否有问题
+。但是 ，经过一番折腾均未解决我遇到的问题。
+本文的解决措施：
+切换Ninja版本，本文从Ninja 1.131切到1.11.1即可
+。切换到Ninja 1.11.1，示意如下：
+提示：
+需要将Ninja的路径添加到
+系统变量
+中
+。
+再次增量编译，成功，如下所示：
+3、Unix Makefiles切Ninja
+Unix Makefiles切Ninja，修改
+CMakePresets.json文件
+修改CMakePresets.json后的内容，参考如下链接：
+https://onlinegdb.com/j2JBvjhuq
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+AES-GCM和SecOC之间的抉择
+如何理解诊断合理性检查（Rationality Checks）？
+关于RSA密码学算法的通识问题QA
+针对内存资源有限的一种软件升级方案
+不直接存储Password本身的一种安全认证方案
+刷写压测能否超过1000次，极限在哪？

@@ -1,0 +1,404 @@
+嵌入式开发：.bss段数据为什么会被清零？
+2022-10-29T14:13:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490330&idx=1&sn=6ee19c42ab5d29b0346af7f99e5f5822&chksm=fa2a456ecd5dcc78a8d7c6cafa9b8f517b35d2d634db9d719bb3cf282ebd612639a817acd378&scene=21#wechat_redirect
+
+BSS(Block Started by Symbol)
+有什么作用呢？百度百科的释义如下："BSS段通常是指用来
+存放程序中未初始化的或者初始化为0的全局变量和静态变量的一块内存区域
+。特点是
+可读写
+的，在程序执行之前BSS段会自动清0。"程序初始化时，BSS段为什么会被清零呢？围绕这个话题，
+本文聚焦以下几点：
+Reset对RAM区的影响
+主程序执行之前，*.bss段为什么会自动清零
+调试器Reset（Debug Reset），如何实现RAM区不清零
+1
+Reset对RAM区影响
+因为*.bss段会映射
+到RAM区（DSPR：Data Scratch-Pad SRAM），所以，在弄清楚*.bss段为什么会自动清零之前，我们先了解一下Reset对RAM区域的影响。
+查看TC3xx的用户手册，发现：除了Cold power-on Reset以外，其他Reset类型，对DSPR和PSPR没有影响，也就是说，实际上，非Cold power-on Reset对RAM区（DSPR）没有影响，
+为什么软复位后，对应的*.bss RAM区（DSPR）清零了呢？
+Reset类型对RAM区的影响如下所示：
+注意
+：Cold Power-on Reset，RAM区受影响，会初始化为0x00。
+诊断服务的$10 02/82，一般对应Application Reset或者System Reset
+。调试器的
+DAP(Debug Access Port)/JTAG（Joint Test Action Group）
+调试口对应Debug Reset。
+不同Reset请求，触发的Reset方式，如下所示：
+2
+主程序执行之前，*.bss段为什么会自动清零
+主程序执行之前，*.bss段为什么会自动清零？搞清楚这个问题之前，需要先认识一下
+链接文件
+和
+启动文件
+。
+1、链接文件（*.lsl）
+本文基于HighTec编译器讨论。链接文件（*.lsl）中，
+会将所有的*.bss段的起始地址和对应的长度记录
+，
+形成一个Table表
+，
+即：__clear_table
+。
+代码中所有未初始化的全局变量，或者初始化为零的全局变量，
+启动代码会按照
+__clear_table记录的
+*.bss段起始地址和长度完成清零动作
+。__clear_table示意如下：
+......
+/*
+* Create the clear and copy tables that tell the startup code
+* which memory areas to clear and to copy, respectively.
+*/
+PROVIDE(__clear_table = .);
+LONG(
+0
++ ADDR(.CPU5.zbss));       LONG(SIZEOF(.CPU5.zbss));
+LONG(
+0
++ ADDR(.CPU5.bss));        LONG(SIZEOF(.CPU5.bss));
+LONG(
+0
++ ADDR(.CPU5.lmubss));     LONG(SIZEOF(.CPU5.lmubss));
+......
+LONG(
+-1
+);                         LONG(
+-1
+);
+......
+解释：
+ADDR(.CPU5.zbss)表示获取".CPU5.zbss"段的地址；
+LONG(0 + ADDR(.CPU5.zbss))意思是".CPU5.zbss"段地址占用4个字节;
+LONG(SIZEOF(.CPU5.zbss))意思是".CPU5.zbss"段的长度占用4个字节；
+LONG(-1)等价于0xFFFFFFFF，主要用于标识清零操作的结束。
+即：
+4字节存储".CPU5.zbss"段地址+4字节存储".CPU5.zbss"段长度
+，以此类推，其他*.bss段对应的RAM区也这样存储（存储到PFlash），以便于启动代码查找需要清零的RAM区地址和长度。
+__clear_table对应的*.map文件如下所示：
+0
+x0000000080100444
+PROVIDE
+(__
+clear_table
+, .)
+0
+x0000000080100444
+0
+x4
+LONG
+0
+x10000000
+(0
+x0
++
+ADDR
+(
+.CPU5
+.zbss
+))
+0
+x0000000080100448
+0
+x4
+LONG
+0
+x0
+SIZEOF
+(
+.CPU5
+.zbss
+)
+__copy_table操作，类似__clear_table。__copy_table在链接文件中，需要定义
+源地址、目标地址、长度
+，示意如下：
+PROVIDE(__copy_table = .);
+LONG(LOADADDR(.CPU5.zdata));      LONG(
+0
++ ADDR(.CPU5.zdata));      LONG(SIZEOF(.CPU5.zdata));
+LONG(LOADADDR(.CPU5.
+data
+));       LONG(
+0
++ ADDR(.CPU5.
+data
+));       LONG(SIZEOF(.CPU5.
+data
+));
+LONG(LOADADDR(.CPU5.lmudata));    LONG(
+0
++ ADDR(.CPU5.lmudata));    LONG(SIZEOF(.CPU5.lmudata));
+LONG(LOADADDR(.CPU4.zdata));      LONG(
+0
++ ADDR(.CPU4.zdata));      LONG(SIZEOF(.CPU4.zdata));
+LONG(LOADADDR(.CPU4.
+data
+));       LONG(
+0
++ ADDR(.CPU4.
+data
+));       LONG(SIZEOF(.CPU4.
+data
+));
+......
+__copy_table对应的*.map文件如下所示：
+0
+x0000000080100514
+PROVIDE
+(__
+copy_table
+, .)
+0
+x0000000080100514
+0
+x4
+LONG
+0
+x80000200
+LOADADDR
+(
+.CPU5
+.zdata
+)
+0
+x0000000080100518
+0
+x4
+LONG
+0
+x10000000
+(0
+x0
++
+ADDR
+(
+.CPU5
+.zdata
+))
+0
+x000000008010051c
+0
+x4
+LONG
+0
+x0
+SIZEOF
+(
+.CPU5
+.zdata
+)
+提示：
+非零全局变量的初始值存放在PFlash中，初始化时，即：此处的__copy_table，完成非零全局变量的赋值动作。
+2、启动文件(eg：Ifx_Ssw_Tc0.c）
+启动文件（eg：Ifx_Ssw_Tc0.c）中，会有一个对变量初始化操作的接口（Ifx_Ssw_C_InitInline()），如下所示：
+/* Initialization of C runtime variables */
+void
+Ifx_Ssw_C_Init(
+void
+)
+{
+Ifx_Ssw_C_InitInline();
+}
+这个函数，干两件事：
+初始化没有赋值的全局变量，给有初始值的全局变量赋初始值
+。Ifx_Ssw_C_InitInline()内容如下所示：
+extern
+unsigned
+int
+__clear_table[];
+/**< clear table entry */
+extern
+unsigned
+int
+__copy_table[];
+/**< copy table entry */
+IFX_SSW_INLINE
+void
+Ifx_Ssw_C_InitInline
+(
+void
+)
+{
+Ifx_Ssw_CTablePtr pBlockDest, pBlockSrc;
+unsigned
+int
+uiLength, uiCnt;
+unsigned
+int
+*pTable;
+/* clear table */
+pTable = (
+unsigned
+int
+*)&__clear_table;
+while
+(pTable)
+{
+pBlockDest.uiPtr = (
+unsigned
+int
+*)*pTable++;
+uiLength         = *pTable++;
+/* we are finished when length == -1 */
+if
+(uiLength ==
+0xFFFFFFFF
+)
+{
+break
+;
+}
+/* ALIGN == 8 */
+uiCnt = uiLength /
+8
+;
+while
+(uiCnt--)
+{
+*pBlockDest.ullPtr++ =
+0
+;
+}
+if
+(uiLength &
+0x4
+)
+{
+*pBlockDest.uiPtr++ =
+0
+;
+}
+if
+(uiLength &
+0x2
+)
+{
+*pBlockDest.usPtr++ =
+0
+;
+}
+if
+(uiLength &
+0x1
+)
+{
+*pBlockDest.ucPtr =
+0
+;
+}
+}
+/* copy table */
+pTable = (
+unsigned
+int
+*)&__copy_table;
+while
+(pTable)
+{
+pBlockSrc.uiPtr  = (
+unsigned
+int
+*)*pTable++;
+pBlockDest.uiPtr = (
+unsigned
+int
+*)*pTable++;
+uiLength         = *pTable++;
+/* we are finished when length == -1 */
+if
+(uiLength ==
+0xFFFFFFFF
+)
+{
+break
+;
+}
+uiCnt = uiLength /
+8
+;
+while
+(uiCnt--)
+{
+*pBlockDest.ullPtr++ = *pBlockSrc.ullPtr++;
+}
+if
+(uiLength &
+0x4
+)
+{
+*pBlockDest.uiPtr++ = *pBlockSrc.uiPtr++;
+}
+if
+(uiLength &
+0x2
+)
+{
+*pBlockDest.usPtr++ = *pBlockSrc.usPtr++;
+}
+if
+(uiLength &
+0x1
+)
+{
+*pBlockDest.ucPtr = *pBlockSrc.ucPtr;
+}
+}
+}
+提示：
+C语言中，
+"
+*
+"优先级高于"
+++
+"
+，所以"*pTable++"表示先取值，再自增。
+所以，
+对于全局变量给初始值，或者给零值，是程序初始化时的软件行为，属于人为的一种预定义行为
+。所以，
+工程中的软复位，RAM区清零
+，
+属于软件行为
+。
+3
+调试器Reset（Debug Reset），如何实现RAM区不清零？
+第一小节，我们已经知道，Debug Reset实际不会导致RAM区的清零。但是，在实际的调试程序中，
+利用调试器Reset时，RAM区会清零
+，需要如何设置，才能实现Debug Reset，RAM区不清零呢？
+回答这个问题之前，先延伸一下调试接口连接的Reset Trigger方式，JTAG复位原理图示意如下：
+DAP复位原理图示意如下：
+如上原理图可以看出，不管是DAP还是JTAG接口，均连接TRST Pin，调试时，调试器的TRST Pin会触发uC对应的TRST Pin脚，TC3xx中的TRST Pin连接示意如下所示：
+TRST Pin会触发PORST Pin的下拉，进而触发CPU的Reset
+。TC3xx中，PORST Pin触发Reset示意如下所示：
+PORST Pin复位时，因为其不影响uC供电的稳定性，一般称为Warm Reset
+。习惯上，将外部电压（eg：5v，3.3v，1.3v等）过低，导致的Reset称为Cold Reset，这种复位输出给PORST Pin，使PORST Pin强制拉低，
+非电压类型的复位，一般称为Warm Reset
+。PORST Pin设计中，会设置一个上拉电阻，上电（Power ON）以后，外部上拉电阻将PORST Pin拉高，完成复位。Debug Reset时，也会作用到PORST Pin，使得PORST Pin有一个瞬间的下拉动作，类似于诊断的硬复位($11 01/81)。
+回到本小节聚焦的问题，其实，单机调试器
+Reset Button
+（本文：UDE的Reset，如下图），RAM清零，
+与调试器的设置相关
+。Reset Button如下所示：
+调试器Reset模式设置
+使用UDE调试时，如果单击"Reset"按键，实现RAM区不清零，可以进行如下设置，
+Reset Mode
+选择
+"Don't Reset"
+：
+对于其他的调试器，应该也可以有同样的设置操作。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+诊断开发：Polling方式引发的诊断丢帧
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

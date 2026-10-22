@@ -1,0 +1,61 @@
+内存应用场景（一）：数据单次存储
+2023-11-03T07:47:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493411&idx=1&sn=7dd5da74f6aa162f79f62d848a652145&chksm=fa29b957cd5e3041ffe0a2f0d6ce81b2c43a15afc9a23168c68ae45e2180f9c5913cfb883c53&scene=21#wechat_redirect
+
+工程开发中，数据有效存储与读取是一个不可忽视的话题。只有数据有效存储，准确读取，方能确保上层软件模块按照预期执行。但是，内存需求部分，又是甲方输入比较模糊的点，导致乙方经验主义。很多时候，工程开发到后期，各种各样的内存问题，如扎堆生长的"蘑菇"，一个又一个。本文，从内存应用场景，讨论内存议题（一）：数据单次存储。
+1、内存简介
+对于MCU级芯片，从数据存储易失性角度考虑，内存分为两类：易失性内存和非易失性内存。
+易失性内存
+：比如，RAM（Random Access Memory，随机存储内存），此类内存，断电后，数据丢失。提示：软复位，RAM区数据未必丢失。软件开发中，常常设置共享RAM区进行进程间数据交互。例如，Bootloader和Application程序、Host与HSM程序等。
+工程中，使用的RAM常常是指SRAM（Static Random Access Memory）。根据使用场景，SRAM又分为DSPR（Data Scratch-Pad SRAM），用于存储全局变量等；PSPR（Program Scratch-Pad SRAM），用于存放Code，eg：SBL（Secondary Bootloader）或者Flash Driver。对于Data和Program又分为Cache和NonCache。
+TC3xx CPU4的SRAM分配示意如下：
+非易
+失性内存
+：
+比如，
+Flash
+存储器（FLASH EEPROM，也称闪存）
+，此类内存
+，
+断电后，数据不
+丢失
+。Flash又分为PFlash和DFlash，
+PFlash主要用于存储代码和常量，即：不可修改的数据；而DFlash主要用于存储记录信息，比如：快照数据、拓展数据、日志信息等。
+既然内存有分类，就意味着这些内存的物理特性存在一定区别。比如：TC3xx单片机，对于PFlash擦除操作，
+最小擦除单位为一个Logical Sector
+，擦除的大小为16KByte，但是对于DFlash，单次擦除的大小为2KByte/4KByte；对于PFlash的写操作，
+操作的最小单位为Page
+，一次最小写32 Byte，而对于DFlash，一次最小需要写8 Byte。不同于Flash，RAM没有擦除的概念，可以直接进行覆写操作。
+当我们对一个单片机的内存特性有所认知以后，即可根据项目情况，设计内存的Layout，示意如下：
+2、数据单次存储
+在工程场景中，你面对过哪些数据需要单次存储？不绕圈子，这里举几个例子。eg：公钥（Public Key）、安全常量（Security Const）、车主生物信息（eg：指纹等）等。为什么会有这样的需求呢？单看如上的存储信息，大家应该能意识到：单次存储的信息具有
+不可修改性
+，甚至还需要保密（
+不可获取
+）。所以，对于这些信息的存储位置需要施加限制。那么，问题来了：工程上，你是如何存储的呢？存储到什么样的内存区呢？
+（一）存储位置选择
+对于需要进行单次存储的数据，重复存储会如何提示呢？对于需要单次存储的数据，多数情况，需要在产线存储，eg：通过诊断方式写入。如果使用诊断方式存储，当多次进行写操作时，
+一般会要求回复诊断负反馈NRC0x22
+（Conditions Not Correct，条件不满足）。回到问题本身：存储到什么位置合适呢？
+对于非易失数据的存储，显然数据需要存储到Flash区域，对于Flash，又分为PFlash和DFlash。这两个区域均可以存储吗？
+答
+：可以。
+1、PFlash存储
+如果要把数据存储到PFlash，意味需要独立划分一个PFlash Logical Sector，用于存储这类信息。但是，PFlash具有可擦除属性，如何做到只写一次呢？这需要配合软件逻辑实现，示意如下所示：
+当设计了这样的PFlash区域，意味着对应的Logical Sector #n，
+在产品的整个生命周期内，不应再被擦除
+。一般来说，PFlash区域，芯片的主核（Host Core）具有访问权限，存在着信息泄露的风险，怎么办呢？虽然可以加密处理，但是这并不是最优选择。
+2、DFlash存储
+如果要把数据存储到DFlash，也需要独立划分一个DFlash Logical Sector，存储这类信息，原理类似PFlash。但是，在一些芯片中，DFlash有另外一种操作模式：设置成OTP（One Time Program）。当DFlash特定区域设置成OTP时，意味着：
+硬件限制指定DFlash内存的操作次数
+。相比于软件判断会更安全，因为这样就从物理上限制了数据被改写的可能。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+CAN通信：Busoff以后，为什么要等待128次连续11个隐性位？
+DDS概述及DCPS模型
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

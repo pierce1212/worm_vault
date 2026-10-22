@@ -1,0 +1,183 @@
+Vector代码这样过滤CanID Range，你Get到没？
+2021-12-28T19:07:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484415&idx=1&sn=fa61cf742eea5843605b453b82117f7f&chksm=fa2a5d8bcd5dd49d3ecfcbecb820d5a12d05cf77d0cb9d6b7bab0c3ec43e5bd7304b81b5e7fa&scene=21#wechat_redirect
+
+如果你用过Vector的CP Autosar，是否注意过CanIf模块过滤一段范围CAN ID报文的操作？Vector代码中操作确实有点“骚”，这样优秀的写法，咱得拿来用用。
+过滤需求
+对于Basic CAN，可以接收一组CAN Messages。如果当前节点只接收指定范围的网络管理报文，比如CANID:0x400~0x43F的网络管理报文，我们如何做呢？
+我第一个想到的写法是：
+if((canid >= 0x400) && (0x43F <= canid))
+{
+/* do something */
+}
+这样的写法没问题，我想大多数人也这样写，但是Vector不这样干，老鸟和菜鸟的区别就此体现了。
+上述的写法应该Vector也能想到，为什么不用呢？背后一定有原因，咱得刨一刨。
+Vector与我过滤写法对比
+示例：
+#
+include
+<iostream>
+#
+include
+<time.h>
+#
+define
+RUN_TIMES          100000000
+#
+define
+CANIF_CANID_MASK   ((uint16_t)0x7C0)
+#
+define
+CANIF_CANID_LOWER  ((uint16_t)0x400)
+#
+define
+CANIF_CANID_UPPER  ((uint16_t)0x43F)
+#
+define
+CANIF_CANID_CODE  0x400
+static
+bool
+CanIf_FilterCANid
+(
+uint16_t
+_canid)
+{
+bool
+ret =
+false
+;
+clock_t
+start_time1 = clock();
+for
+(
+int
+idx =
+0
+; idx < RUN_TIMES; idx++)
+{
+((CANIF_CANID_MASK & CANIF_CANID_CODE) == \
+(CANIF_CANID_MASK & _canid))?(ret =
+true
+):(
+0
+);
+}
+clock_t
+end_time1 = clock();
+std
+::
+cout
+<<
+"Mask Method:Running time is: "
+\
+<<
+static_cast
+<
+double
+>(end_time1 - start_time1) \
+/ CLOCKS_PER_SEC *
+1000
+<<
+"ms"
+<<
+std
+::
+endl
+;
+clock_t
+start_time2 = clock();
+for
+(
+int
+idx =
+0
+; idx < RUN_TIMES; idx++)
+{
+((CANIF_CANID_UPPER >= _canid) && \
+(CANIF_CANID_LOWER <= _canid))?(ret =
+true
+):(
+0
+);
+}
+clock_t
+end_time2 = clock();
+std
+::
+cout
+<<
+"LowerUpper Method:Running time is: "
+\
+<<
+static_cast
+<
+double
+>(end_time2 - start_time2) \
+/ CLOCKS_PER_SEC *
+1000
+<<
+"ms"
+<<
+std
+::
+endl
+;
+return
+ret;
+}
+int
+main
+()
+{
+(
+void
+)CanIf_FilterCANid(
+0x410
+);
+return
+0
+;
+}
+运行结果（机器不同运行时间差异可能不同）：
+Mask Method : Running time is : 209ms
+LowerUpper Method : Running time is : 239ms
+这样一对比，是不是看出啥了？写法不同，效率不同，
+与操作运算要比大小比较运算的效率高
+。
+代码剖析
+我们的目的是过滤CANID:0x400~0x43F范围内的网络管理报文。Vector的过滤可以简化成如下算法：
+<
+CAN
+identifier
+>
+&
+<
+mask
+>
+==
+<
+code
+>
+&
+<
+mask
+>
+code如何计算？
+答：code =
+Lower CAN ID，即过滤范围的最小值，本例：0x400
+mask如何计算？
+答：
+upper CAN ID – lower CAN ID，即0x43F – 0x400 = 0x3F
+。
+mask = ~0x3F & 0x7FF = 0x7C0。这是针对11bit格式的CANID，如果是拓展CANID，则
+mask = ~0x3F & 0x1FFF FFFF = 0x1FFFFFC0
+。
+其实这样的写法我们可以延伸到任何判断范围的代码中。
+往期精彩推荐：
+结构体，重新认识一下
+匿名函数Lambda认识一下
+英飞凌TriCore中断向量表的深度剖析
+从EcuM角度看唤醒源状态切换
+网络管理为什么需要ECU保持激活一段时间
+AUTOSAR网络管理与Transceiver/Controller关系
+英飞凌OKT507如何捕获按键事件

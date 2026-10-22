@@ -1,0 +1,91 @@
+诊断基础：不同会话(Session)，诊断报文如何维持网络状态？
+2022-12-15T10:45:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490801&idx=1&sn=41a3d3da9867298b0cbcd34bac7e2773&chksm=fa2a4285cd5dcb9310c99604eff9fbb4740eddc96978df1386a3190e39e551ae162c27706666&scene=21#wechat_redirect
+
+之前的文章提到过：“诊断报文可以保持网络状态”的观点，可以参考前文
+Autosar网络管理：诊断报文能否唤醒网络？
+本文，进一步细化这个问题：
+默认会话（
+Default Session
+）
+，诊断报文如何影响网络状态
+非默认会话，诊断报文如何影响网络状态？
+默认会话下，周期性发送$3E 80，网络状态还会保持吗？
+诊断报文能否保持网络状态取决于
+DCM
+（Diagnostic Communication Manager）
+的激活状态
+，即：
+DCM处于"active"状态时，会主动请求ComM进入"FULL COMMUNICATION"的通信模式；
+DCM处于"inactive"状态时，会请求ComM进入"NO COMMUNICATION"的通信状态。
+1、默认会话（Default Session），诊断报文对网络状态的影响
+在
+默认会话下（Default Session）
+，DCM收到PduR诊断请求以后，DCM会调用接口ComM_DCM_ActiveDiagnostic()，请求ComM进入COMM_FULL_COMMUNICATION模式，保持通信，进而保持网络状态（或者请求网络）；当DCM的响应被确认以后（即：Confirmation），DCM调用接口ComM_DCM_InactiveDiagnostic()请求ComM释放通信，释放网络。Autosar规范的描述如下所示：
+解释
+：默认会话下，收到诊断请求，DCM进入"active"状态，请求通信，也就请求了网络。
+也就是说：
+在默认会话下，每次处理诊断请求的时候，DCM均会请求ComM保持通信，诊断处理完成（Finish）再通知ComM释放通信，进而释放网络
+。
+默认会话下，诊断报文处理对应的模块交互如下所示：
+2、非默认会话，诊断报文对网络状态的影响
+当DCM
+由默认会话（Default Session）进入非默认会话（Non-Default Session）
+以后，DCM会调用接口ComM_DCM_ActiveDiagnostic()通知ComM，请求COMM_FULL_COMMUNICATION，保持通信，进而保持网络状态（
+或者说请求网络
+）；当DCM再次回到默认会话以后，DCM调用接口ComM_DCM_InactiveDiagnostic()请求ComM释放通信，释放网络。Autosar的解释如下所示：
+解释
+：非默认会话（Non-Default Session）下，DCM处于"active"状态，也就意味着：通信一直保持，网络状态保持。如果
+非默认会话进入默认会话
+（包括Server3超时进入默认会话），DCM进入"inactive"状态，DCM会请求ComM释放通信请求，进而释放网络。
+默认会话与非默认会话跳转，通信请求交互如下所示：
+3、默认会话下，周期性发送$3E 80，网络状态还会保持吗？
+A
+：个人理解，默认会话下，收到
+功能寻址的$3E 80
+（Tester Present）请求，该请求虽然还会通知DCM，但是DCM不会进一步的通知ComM保持通信，因此，也不会保持网络状态。此时，功能寻址的$3E 80等同于一个应用报文处理。Autosar中给出了几种诊断请求Finish的工况，如下所示：
+解释：
+DCM给出了
+非NRC0x78
+的最终响应，
+且被Confirmation
+（表示成功发送到总线）；
+DCM收到的诊断请求中，
+响应抑制位置位
+（SPRMIB=1），即：
+无需给出最终的正响应
+；
+功能寻址
+中，几种否定响应可以不发送的工况。可以参考前文
+Uds诊断：这10个诊断问题，你能回答几个？
+。
+如上三种情况，均可以看作是诊断报文处理完成，如果是在
+默认会话
+下，意味着DCM会请求ComM释放通信，进而释放网络。
+除了如上的三种情况，在讨论诊断报文是否能维持网络状态时，还需要考虑服务的类型，比如：$10 02/82 、$11 Xx，这些诊断指令要求ECU复位。ECU的复位，意味着状态的重新初始化，包括通信状态。所以，在我们讨论诊断报文可以维持网络状态的时候，需要根据诊断报文的
+服务类型、响应抑制位情况、寻址类型、会话状态
+讨论，且不能一概而论。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

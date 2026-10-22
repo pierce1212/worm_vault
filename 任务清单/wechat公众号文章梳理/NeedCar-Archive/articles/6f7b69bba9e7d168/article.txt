@@ -1,0 +1,59 @@
+Autosar通信，信号长度过长如何配置？
+2025-04-01T06:39:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496628&idx=1&sn=e0133de71af6315b51d53faf8309eb3a&chksm=fa29adc0cd5e24d6fbd7feae95a40b96ee56c9b4dd9542cab47383c98eae8e9be7a4993d4fac#rd
+
+在Autosar的软件开发中，如果一个信号（Signal）的长度超过32 bit或者更长，你是如何选择的呢？具体描述：如果一个信号Signal_A长度是6 bytes，如何处理？
+1、Data Type和Signal Type
+（一）data type
+对于开发通信模块的小伙伴，Data Type/
+Signal Type应该并不陌生。SWS_Com_00675要求，
+COM模块需要支持以下数据类型，示意如下：
+如上的数据类型中，uint8[n]有点陌生？
+uint8[n]需要映射ComSignalType中的UINT8_N 或者UINT8_DYN。
+UINT8_N和
+UINT8_DYN主要用于多字节的信号处理
+。
+UINT8_N具体指定信号的字节长度，
+UINT8_DYN用于设定信号的最大字节长度，即：信号动态变化，但是最长不会超过设定的最大长度。
+（二）Signal Type
+在COM模块的配置中，在每个信号属性配置中，会对应一个Signal Type，如下所示：
+如果信号长度不超过64 bit，在实际配置中，似乎没有什么难度。但是，如上的UINT8_N是什么类型呢？与本文关切的问题又有怎样的联系呢？如果要使用好
+UINT8_N，就不得不提“Signal Endianness”。
+2、Signal Endianness
+ComSignalEndianness用于描述信号的字节序，Com模块支持的字节序如下所示：
+也就是说，一个信号如果长度＞1 byte，那么，就需要考虑字节序问题。在字节序设置的问题中，大端（BIG_ENDIAN）和小端（LITTLE_ENDIAN）比较常用，那么，
+OPAQUE又属于什么字节序？
+OPAQUE是指数据的字节顺序是不透明的
+，即：数据的内部结构或者字节顺序对于COM模块不可知。
+OPAQUE修饰的信号信息将由收/发双方自行处理
+。
+3、多字节信号配置
+回到文章开篇的问题：如果
+Signal_A长度是6 bytes时，
+可以将该信号ComSignalType配置成UINT8_N，如果
+ComSignalType配置成UINT8_N，那么
+ComSignalEndianness需要配置成
+OPAQUE，规范要求如下：
+注意，如果想使用
+OPAQUE类型的字节序，还必须注意ComBitPosition问题，具体约束如下：
+即：信号（Signal）在I-PDU中的起始位置，必须从某个Byte的bit0开始。示意如下：
+对于UINT8_N类型的数据，初始值需要按照字节设置
+。所以，在设置通信矩阵时需要注意这一点。
+配置示意如下：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+安装后的Tasking，不能正常启动
+信息安全基础：HSM与Host通信实现原理
+诊断，如何速记多帧传输中的时间参数？
+结合工程实际，理解信息安全（Security）的基础概念
+基于Davinci的HSM开发实践（5）：HSM与Host的IPC通信简介
+Flexray总线基础#05：为什么要进行节点间时钟同步？
+诊断，为什么读到的DTC故障状态是0x20?
+Bootloader开发：如何提高软件刷写效率？
+如何诊断对地短路、对电源短路以及开路故障？
+这些芯片内存（Memory）区，你真的用过？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
