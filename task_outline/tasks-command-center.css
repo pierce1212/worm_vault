@@ -5,6 +5,14 @@
 .tasks-command-center .tcc-habits h3 span { color: var(--text-muted); font-size: 13px; margin-left: 8px; }
 .tasks-command-center .tcc-habit-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 12px 0; }
 .tasks-command-center .tcc-habit-row > div { min-width: 0; }
+.tasks-command-center .tcc-habit-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; max-width: 340px; }
+.tasks-command-center [data-habit-note-path] { max-width: 100%; white-space: normal; overflow-wrap: anywhere; height: auto; text-align: left; }
+.tcc-editor-dialog [data-note-open][hidden],
+.tcc-editor-dialog [data-note-attach][hidden] { display: none; }
+.tcc-editor-dialog [data-note-create]:not([hidden]) { display: grid; gap: 10px; }
+.tcc-editor-dialog .tcc-checkin-note-toggle { margin-top: 16px; }
+.tcc-editor-dialog [data-note-options]:not([hidden]) { display: grid; gap: 6px; margin-top: 12px; }
+.tcc-editor-dialog [data-linked-note] { margin-top: 10px; }
 .tasks-command-center .tcc-habit-row p,
 .tasks-command-center .tcc-habit-row small { display: block; margin: 4px 0 0; font-size: 12px; color: var(--text-muted); }
 .tasks-command-center .tcc-habit-status { font-size: 13px; color: var(--text-muted); }
@@ -114,7 +122,7 @@
 .tasks-command-center [data-create-task-record] svg { width: 16px; height: 16px; }
 .tasks-command-center .tcc-related-docs [role="link"] { cursor: pointer; }
 .tasks-command-center .tcc-related-docs [role="link"]:focus-visible { outline: 2px solid var(--tcc-blue); }
-.tcc-editor-dialog .tcc-record-location { color: var(--text-muted); font-size: 12px; margin: 0; }
+.tcc-editor-dialog .tcc-record-location { color: var(--text-muted); font-size: 12px; margin: 0; overflow-wrap: anywhere; }
 .tcc-record-sync-error { color: var(--text-error, #e55f67); font-size: 13px; overflow-wrap: anywhere; }
 
 /* State colors are shared by parent tasks and nested subtasks. */

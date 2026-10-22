@@ -1,0 +1,252 @@
+C语言基础：利用uint8设计循环队列
+2024-01-05T07:34:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493765&idx=1&sn=6882aac7dbd340087ebb596f3689525d&chksm=fa29b6f1cd5e3fe74ca0a4982a896755d180bcb8e0b7f07c3454531b438d0517ffbf4d5b4072&scene=21#wechat_redirect
+
+"一千个读者就有一千个哈姆雷特"，同样，一千个软件开发者就有一千种软件设计风格。同样一个功能需求，不同的设计者有不同的思路。工程中，我们可能会面对这样一个场景：资源有限，但是，又要按照信息缓存的先后顺序输出。举例：利用串口输出log信息，由于使用串口的模块有多个，也就意味着某些信息无法及时输出，需要暂存，而且这些信息需要按照缓存的顺序依次打印，如果缓存的顺序不对，将影响问题的排查和分析。
+面对如上的工程场景，大家可能会想到用循环队列。本文，基于循环队列和uint8数据类型的特点，设计一种方案，以此实现顺序输出缓存信息的功能。
+1、循环队列
+什么是循环队列呢？在理解循环队列之前，我们先搞清楚Ring Buffer概念。受限于硬件资源（eg：RAM空间不足），我们不能一次开辟太大的空间缓存信息。为了节约资源，可以将
+一段连续的内存空间
+循环利用
+，即：从头（eg：编号0）使用到尾（eg：编号15），之后，再从头开始使用。其中，每个缓存区的大小根据项目情况设定（eg：200 bytes），如此，如下的缓存区需要使用16*200 = 3200 bytes即可，如果觉得还是太大，可以根据实际需要，降低每个缓存区大小
+（e
+g：
+50 bytes）
+。
+如上图，用一个
+头索引（headIdx）表征当前正在使用的缓存区位置
+，一个
+尾索引（tailIdx）表征当前可用缓存区位置
+。如果tailIdx没有超过headIdx，即：两者的差值没有超过15，缓存区（队列）就没有满（可以继续缓存信息）。
+那么，队列什么时候满呢？本文利用uint8特性，判断队列是否满。uint8可以表示的变量（Var）范围：0x00~0xFF，当变量达到0xFF以后，再加一就等于0。而且，(Var & 0x0F)的范围只能是0~15。所以，
+每使用一个缓存区，
+(uint8)
+tailId
+x递增一次，循环累加（0->255->0）；
+每释放一个缓存区，(uint8)head
+Id
+x递增一次
+。
+当
+((
+headIdx !=
+tailIdx) && ((
+headIdx & 0x0F
+) ==
+(tailIdx & 0x0F)))
+时，说明队列已经满了，即：
+tailIdx比
+headIdx 多走了一圈。
+同时，利用
+(Var & 0x0F)只能表示0~15的特性，
+开辟16个缓存区
+。如此，不用使用指针表征首、尾，也能实现循环队列的功能。
+举例
+：当
+tailId
+x = 18时，(18 & 0x0F) = 2，即：当前缓存区2可用。虽然
+tailId
+x的范围是0~0xFF，但是
+，(
+tailId
+x
+& 0x
+0F)
+一直在0~15之间循环，即：循环使用缓冲区。
+2、代码示例
+设计一个功能，自然离不开对象（Object）的构建，C语言中，构建对象的最佳选择就是结构体（struct）。本文构建的RingQueue_ObjectType如下所示：
+（一）RingQueue.h文件内容
+#
+ifndef
+__RINGQUEUE_H_
+#
+define
+__RINGQUEUE_H_
+#
+include
+<stdint.h>
+#
+define
+RINGQUEUE_IDX(x)         ((x)&(0x0F))
+#
+define
+RINGQUEUE_ELEMENT_LEN    200
+#
+define
+RINGQUEUE_ELEMENT_NUM    16
+typedef
+enum
+{
+RINGQUEUE_STATUS_IDLE =
+0
+,
+RINGQUEUE_STATUS_PENDING ,
+}RingQueue_Enum;
+typedef
+struct
+{
+RingQueue_Enum  elementStatus;
+uint8_t
+elementCnt;
+char
+elementArr[RINGQUEUE_ELEMENT_LEN];
+}RingQueue_ElementType;
+typedef
+struct
+{
+uint8_t
+headIdx;
+uint8_t
+tailIdx;
+RingQueue_ElementType elementNum[RINGQUEUE_ELEMENT_NUM];
+}RingQueue_ObjectType;
+#
+endif
+（二）
+main.c文件内容
+本文构建一个使用缓存区接口RingQueue_Using()、一个释放缓存区接口RingQueue_Release()。
+#
+include
+<stdio.h>
+#
+include
+<string.h>
+#
+include
+"RingQueue.h"
+RingQueue_ObjectType  RingQueue_Obj = {
+0x00
+};
+static
+void
+RingQueue_Using
+(
+void
+)
+;
+static
+void
+RingQueue_Release
+(
+void
+)
+;
+static
+uint32_t
+cnt_test;
+int
+main
+()
+{
+while
+(
+1
+)
+{
+cnt_test++;
+if
+((RINGQUEUE_IDX(RingQueue_Obj.headIdx) == RINGQUEUE_IDX(RingQueue_Obj.tailIdx)) \
+&& (RingQueue_Obj.headIdx != RingQueue_Obj.tailIdx))
+{
+/* ring queue full */
+printf
+(
+"ring queue full.\n"
+);
+break
+;
+}
+if
+(
+0
+== (cnt_test %
+10
+))
+{
+RingQueue_Using();
+}
+if
+(
+20
+== cnt_test)
+{
+cnt_test =
+0
+;
+RingQueue_Release();
+}
+}
+return
+0
+;
+}
+static
+void
+RingQueue_Using
+(
+void
+)
+{
+RingQueue_Obj.elementNum[RINGQUEUE_IDX(RingQueue_Obj.tailIdx)].elementStatus = RINGQUEUE_STATUS_PENDING;
+memcpy
+(&RingQueue_Obj.elementNum[RINGQUEUE_IDX(RingQueue_Obj.tailIdx)].elementArr[
+0
+],\
+"Using Ring Queue."
+,
+sizeof
+(
+"Using Ring Queue."
+));
+printf
+(
+"%s %d times\r\n"
+,&RingQueue_Obj.elementNum[RINGQUEUE_IDX(RingQueue_Obj.tailIdx)].elementArr[
+0
+],RingQueue_Obj.tailIdx+
+1
+);
+RingQueue_Obj.tailIdx++;
+}
+static
+void
+RingQueue_Release
+(
+void
+)
+{
+printf
+(
+"Release Ring Queue %d times.\r\n"
+,RingQueue_Obj.headIdx+
+1
+);
+if
+(RINGQUEUE_STATUS_PENDING == RingQueue_Obj.elementNum[RINGQUEUE_IDX(RingQueue_Obj.headIdx)].elementStatus)
+{
+RingQueue_Obj.elementNum[RINGQUEUE_IDX(RingQueue_Obj.headIdx)].elementStatus = RINGQUEUE_STATUS_IDLE;
+RingQueue_Obj.headIdx++;
+}
+}
+Case1：
+使用缓存区速度与释放缓存区速度相同，使用缓存区和释放缓存区域交替进行，如下所示（本文打印的次数数值多加1处理）：
+源码链接：
+https://onlinegdb.com/WBZPoTV22
+Case2：
+使用
+缓存区速度是释放缓存区速度的2倍，缓存区很快耗尽，如下所示：
+源码链接：
+https://onlinegdb.com/M848zX6x_
+如上示例，队列深度为16，每个缓存区可以缓存200字节信息。一般来说，这样的设置可以应对绝大多数的MCU功能场景。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+工程问题：数据一致性被破坏，导致DMA CRC校验失败
+Uds诊断：这几个诊断问题，你能回答几个？（五）
+Autosar网络管理：如何理解局部网络的VFC？
+以太网基础：为什么需要VLAN？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

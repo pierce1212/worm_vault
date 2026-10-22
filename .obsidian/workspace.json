@@ -4,38 +4,55 @@
     "type": "split",
     "children": [
       {
-        "id": "e1663601f95a758a",
+        "id": "22ce85b037959661",
         "type": "tabs",
         "children": [
           {
-            "id": "fc479400d23b4103",
+            "id": "7ca00279879900a4",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "task_outline/今日任务.md",
+                "mode": "preview",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "今日任务"
+            }
+          },
+          {
+            "id": "88d5192f0bb196b3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daliy record/2026.06.10 IDE环境设置.md",
+                "file": "task_outline/obsidian_tasks_command_center.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026.06.10 IDE环境设置"
+              "title": "obsidian_tasks_command_center"
             }
           },
           {
-            "id": "c230bc073f7b0ad5",
+            "id": "ba0a661112cced68",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task_outline/任务详情.md",
-                "mode": "preview",
+                "file": "daliy record/2026.10.22 奇瑞DTC规范需求问题排查和待确认项.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "任务详情"
+              "title": "2026.10.22 奇瑞DTC规范需求问题排查和待确认项"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -60,7 +77,7 @@
                 "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
-              "title": "文件列表"
+              "title": "Files"
             }
           },
           {
@@ -69,7 +86,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#工作",
+                "query": "freezeframe",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -97,7 +114,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 413.5
+    "width": 253.5
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -213,14 +230,14 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:打开快速切换": false,
-      "graph:查看关系图谱": false,
-      "canvas:新建白板": false,
-      "daily-notes:打开/创建今天的日记": false,
-      "templates:插入模板": false,
-      "command-palette:打开命令面板": false,
-      "bases:新建数据库": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
       "obsidian-git:Open Git source control": false,
       "gemini-scribe:Gemini Scribe: Agent Mode": false,
       "templater-obsidian:Templater": false,
@@ -229,53 +246,54 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "fc479400d23b4103",
+  "active": "ba0a661112cced68",
   "lastOpenFiles": [
-    "task_outline/今日任务.md",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019170045690.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019164627097.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019162458880.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019162442511.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019162211510.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019162131040.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019161658974.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019161057718.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019150301466.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复/file-20261019135213063.png",
-    "daliy record/assets/2026.10.19 autosar NM及CAN 通讯测试报告bug修复",
-    "daliy record/2026.10.19 autosar NM及CAN 通讯测试报告bug修复.md",
-    "daliy record/assets/2026.10.16",
-    "task_outline/工作任务.md",
-    "task_outline/obsidian_tasks_command_center.md",
     "task_outline/任务详情.md",
-    "daliy record/打卡记录/2026-10 英语学习 4b23c1f2.md",
-    "daliy record/打卡记录/2026-10 沟通思维方式跟读 295dedf0.md",
-    "00_Inbox/生活随想/2026.10.18 完美主义.md",
-    "00_Inbox/灵感/投资心得.md",
-    "00_Inbox/灵感/健康.md",
-    "00_Inbox/灵感/人生感悟.md",
-    "00_Inbox/灵感/灵感收集箱.md",
-    "00_Inbox/灵感/DONE.md",
-    "00_Inbox/灵感/TODO.md",
-    "task_outline/tests/task-checkins.test.cjs",
-    "task_outline/task-checkins.js",
-    "output/playwright/checkins-final",
-    "output/playwright/checkins-20261014",
-    "daliy record/打卡记录/2026-10 金融总结计划 a232b3a4.md",
-    "daliy record/打卡记录/2026-10 健身 2e2a71eb.md",
-    "daliy record/打卡记录",
-    "daliy record/assets/2026.10.15 集成电路方案提供商",
-    "daliy record/assets/2026.10.15 奇瑞需求整理",
-    "daliy record/assets/2026.10.14 采样点修改",
-    "daliy record/2026.10.16.md",
-    "daliy record/2026.10.15 集成电路方案提供商.md",
-    "daliy record/2026.10.15 奇瑞需求整理.md",
-    "daliy record/2026.10.14 采样点修改.md",
-    "daliy record/2026.10.12 AI生成婚纱照.md",
-    "daliy record/2026.10.12 工程调试脚本接入 vscode，可以实现一键调试.md",
-    "task_outline/复习时间轴.md",
-    "daliy record/2026.10.12 通信需求 ：6-16 v 能通信 16-18 v 能通信 1 小时.md",
+    "daliy record/2026.10.22 奇瑞DTC规范需求问题排查和待确认项.md",
+    "task_outline/今日任务.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.10.21 DMA.md",
+    "daliy record/assets/2026.10.21 DMA/file-20261022134534484.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022133141525.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022133123696.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022132633369.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022132543845.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022132238480.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022132142951.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022131624311.png",
+    "daliy record/assets/2026.10.21 DMA/25708a31edd4dd9e32bccd346a6971ae.png",
+    "daliy record/assets/2026.10.21 DMA/file-20261022110505490.png",
+    "daliy record/assets/2026.10.21 DMA",
+    "daliy record/2026.10.21 下电误触复位.md",
+    "任务清单/金融总结计划/2026.10.22 李录演讲总结.md",
+    "任务清单/金融总结计划",
+    "daliy record/assets/2026.10.21 下电误触复位",
+    "任务清单/wechat公众号文章梳理/2026.10.21 AUTOSAR网络管理与TransceiverController关系.md",
+    "任务清单/沟通思维方式跟读/2026.10.20 沟通思维方式跟读.md",
+    "任务清单/wechat公众号文章梳理/2026.10.21 网络管理为什么需要ECU保持激活一段时间.md",
+    "任务清单/wechat公众号文章梳理/2026.10.21 NM中的关键词.md",
+    "output/playwright/multi-text-final",
+    "output/playwright/run-checkin-ui.cjs",
+    "output/playwright/update-checkin-links-ui.cjs",
+    "output/playwright/checkin-link-inspect.cjs",
+    "任务清单/wechat公众号文章梳理/NeedCar-Archive/link-sources/bridge-201.json",
+    "任务清单/wechat公众号文章梳理/NeedCar-Archive/link-sources/complete-public-link-variants.json",
+    "任务清单/wechat公众号文章梳理/NeedCar-Archive/link-sources/article-album.json",
+    "daliy record/打卡记录/2026-10 wechat公众号文章梳理 7fa493b9.md",
+    "daliy record/2026.10.21 S32K324 上电流程.md",
+    "daliy record/2026.10.21 LLM 架构师行业了解.md",
+    "任务清单/英语学习/英语计划.md",
+    "daliy record/2026.10.20 沟通思维方式跟读.md",
+    "daliy record/2026.10.20 E2E 偏差修改.md",
     "daliy record/2026.10.08 报文唤醒时间项目优化.md",
+    "AUTOSAR/UDS/0x85(ControlDTCSetting).md",
+    "daliy record/2026.07.31 诊断其他功能.md",
+    "daliy record/2026.06.10 IDE环境设置.md",
+    "daliy record/2026.06.10 cpu load & stack deap.md",
+    "daliy record/2026.10.19 autosar NM及CAN 通讯测试报告bug修复.md",
+    "daliy record/未命名.md",
+    "daliy record/2026.06.29 UDS故障排查.md",
+    "daliy record/2026.09.17  奇瑞 NM 新需求.md",
     "未命名.canvas",
     "未命名 1.canvas"
   ]

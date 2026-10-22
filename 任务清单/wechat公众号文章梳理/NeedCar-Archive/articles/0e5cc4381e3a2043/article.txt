@@ -1,0 +1,52 @@
+队列刷写QA：队列刷写特点/APP是否需要支持队列刷写
+2022-12-04T19:16:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490659&idx=1&sn=e1b72ad4c9fb9a80383108443ac03554&chksm=fa2a4217cd5dcb01f0cae8156ee991bdb013744c98fed2ca132b47bc88c56682d99c17c81c0b&scene=21#wechat_redirect
+
+队列刷写（Queued Flash）,在标准的规范中，没有太多的输入信息。国内要求队列刷写的OEM也不多，做过队列刷写的朋友，可能或多或少的有些疑问。本文要和大家聊一下队列刷写中的两个问题：
+队列刷写的特点
+Application中是否需要支持队列刷写？
+Q1：Queued Flash特点是什么？
+答：
+传统的诊断刷写流程是一个“乒乓”过程，即：一问一答。为了加速软件的刷写速度，
+节省诊断请求时间
+，提出了队列刷写（Queued Flash），即ECU在处理一帧诊断请求的同时，可以再缓存一帧诊断请求，如下所示：
+Queued Flas
+h特点：
+队列刷写是对同一个ECU而言的，具体说，
+针对同一个CanID
+。当ECU包含多个总线，多个Node时，每一个Node对应一个唯一CanID；
+当响应存在Pending（0x78）时，
+Pending响应和最终（Final）响应需要按照顺序执行
+，如下所示：
+Q2：Application下是否需要支持队列刷写？
+答
+：看OEM需求。看一个具体的企业规范要求，如下所示：
+这个需求如何理解呢？个人看法：编程会话（$10 02/82）下，需要支持全双工，如果支持全双工，需要进一步支持队列刷写。如果在非编程会话下，需支持半双工。半双工也就是诊断中的"乒乓"过程。工程中，Application下，一般支持默认会话（$10 01）、拓展会话（$10 03），或者OEM自定义的其他会话，不支持编程会话。
+进入编程会话，意味着程序进入了Bootloader程序
+。所以，这样分析，即：
+Application下，支持半双工，如果不支持全双工，即可不支持队列刷写
+。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+诊断基础：Event内存管理
+Autosar通信模块COM:Update-Bits详解
+基于Aurix TC3xx SWAP机制（A/B分区）的SOTA实现
+Autosar网络管理：CanNM网络状态变化都要告知ComM吗？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

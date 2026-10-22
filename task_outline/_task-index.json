@@ -43,8 +43,8 @@
       "aliases": [
         "wechat公众号文章梳理"
       ],
-      "hash": "8ac032b7",
-      "updated": "2026-10-15 16:26"
+      "hash": "e13e869d",
+      "updated": "2026-10-21 15:19"
     },
     "tcc-027c4b35-ff72-4303-b701-ae55e4fb5e8c": {
       "path": "task_outline/工作任务.md",
@@ -115,8 +115,8 @@
       "aliases": [
         "S32K324 上电流程"
       ],
-      "hash": "cf9a249a",
-      "updated": "2026-10-12 13:46"
+      "hash": "5b85030a",
+      "updated": "2026-10-21 13:55"
     },
     "tcc-95d87ed7-0b2d-4ea9-8c48-7b7322ab834f": {
       "path": "task_outline/工作任务.md",
@@ -124,8 +124,8 @@
       "aliases": [
         "DMA"
       ],
-      "hash": "a64ffbc8",
-      "updated": "2026-10-12 13:51"
+      "hash": "85d86fcd",
+      "updated": "2026-10-22 13:47"
     },
     "tcc-3c93cc03-3be6-4980-9859-23510478cb9f": {
       "path": "task_outline/工作任务.md",
@@ -397,8 +397,8 @@
       "aliases": [
         "摄影"
       ],
-      "hash": "d27ff1c6",
-      "updated": "2026-10-18 17:12"
+      "hash": "bb2265",
+      "updated": "2026-10-21 09:58"
     },
     "tcc-01404688-0b25-466d-bf05-37826726d6dd": {
       "path": "task_outline/工作任务.md",
@@ -515,8 +515,8 @@
       "aliases": [
         "LLM 架构师行业了解"
       ],
-      "hash": "ff17f681",
-      "updated": "2026-09-16 16:56"
+      "hash": "34539d92",
+      "updated": "2026-10-21 10:36"
     },
     "tcc-f660729a-0efe-41e2-89b8-1248fecdc750": {
       "path": "task_outline/工作任务.md",
@@ -533,8 +533,8 @@
       "aliases": [
         "美股雷达"
       ],
-      "hash": "35c0a418",
-      "updated": "2026-09-16 16:56"
+      "hash": "d72f70b9",
+      "updated": "2026-10-21 09:48"
     },
     "tcc-c192e835-3b55-4a16-b0fa-6d4968e7ec60": {
       "path": "task_outline/工作任务.md",
@@ -843,8 +843,8 @@
         "报文唤醒时间项目优化 4ac9d308f578",
         "报文唤醒时间项目优化"
       ],
-      "hash": "badbc549",
-      "updated": "2026-10-19 09:24"
+      "hash": "2ea9be9c",
+      "updated": "2026-10-20 14:12"
     },
     "tcc-ec3ae0d1-9ba0-456a-a349-f4fee7706c26": {
       "path": "task_outline/工作任务.md",
@@ -1153,8 +1153,8 @@
       "aliases": [
         "ESP32应用"
       ],
-      "hash": "de37504f",
-      "updated": "2026-10-13 15:02"
+      "hash": "3fb80bbc",
+      "updated": "2026-10-21 09:48"
     },
     "tcc-a6c1bccd-ce3e-44e2-b7ca-6bd433572d18": {
       "path": "task_outline/工作任务.md",
@@ -1194,8 +1194,8 @@
         "boot+信息安全 ^tcc-ea 25 fd 7 b-6 f 30-470 a-b 996-38 e 2578 bbe 81",
         "boot+信息安全"
       ],
-      "hash": "b9805f58",
-      "updated": "2026-10-19 09:26"
+      "hash": "ef8473ef",
+      "updated": "2026-10-20 14:23"
     },
     "tcc-afd6be86-445c-4f3e-84f4-17dad0e03025": {
       "path": "task_outline/工作任务.md",
@@ -1203,8 +1203,8 @@
       "aliases": [
         "autosar NM及CAN 通讯测试报告bug修复"
       ],
-      "hash": "d08f0e41",
-      "updated": "2026-10-19 09:24"
+      "hash": "b1e6a48",
+      "updated": "2026-10-20 14:12"
     },
     "tcc-ce001ec1-2d9f-4ebe-9943-f4ff550fda57": {
       "path": "task_outline/工作任务.md",
@@ -1356,8 +1356,44 @@
       "aliases": [
         "DTC前置条件的修改"
       ],
-      "hash": "3e7b4b67",
-      "updated": "2026-10-19 09:43"
+      "hash": "ce9b72d2",
+      "updated": "2026-10-21 16:17"
+    },
+    "tcc-790158f7-607c-44fa-969d-f81c1033fce5": {
+      "path": "task_outline/工作任务.md",
+      "title": "MU 外设了解",
+      "aliases": [
+        "MU 外设了解"
+      ],
+      "hash": "17d10a16",
+      "updated": "2026-10-20 14:23"
+    },
+    "tcc-384abd5d-6ccf-41f8-baa0-6ab1f81a4c77": {
+      "path": "task_outline/工作任务.md",
+      "title": "E2E 偏差修改",
+      "aliases": [
+        "E2E 偏差修改"
+      ],
+      "hash": "8e7b7810",
+      "updated": "2026-10-20 16:35"
+    },
+    "tcc-3d85a883-d35f-46ef-b149-547a6ff19f2e": {
+      "path": "task_outline/工作任务.md",
+      "title": "下电误触复位",
+      "aliases": [
+        "下电误触复位"
+      ],
+      "hash": "e1299339",
+      "updated": "2026-10-22 10:33"
+    },
+    "tcc-662d2add-19c5-4060-bda9-5a51c51004f4": {
+      "path": "task_outline/工作任务.md",
+      "title": "奇瑞DTC规范需求问题排查和待确认项",
+      "aliases": [
+        "奇瑞DTC规范需求问题排查和待确认项"
+      ],
+      "hash": "f5f0cbd3",
+      "updated": "2026-10-22 13:53"
     }
   }
 }

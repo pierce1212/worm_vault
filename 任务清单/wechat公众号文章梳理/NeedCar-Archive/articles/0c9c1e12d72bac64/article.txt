@@ -1,0 +1,111 @@
+Autosar开发：什么是“可重入/不可重入函数”？
+2022-05-11T11:38:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487544&idx=1&sn=68698a1952d597db2de664f4f409b8b4&chksm=fa2a4e4ccd5dc75a3540786f54e4b27b270b9fb23ce479f8aa5abf5e86b89d61dc011360598b&scene=21#wechat_redirect
+
+Autosar的每个模块都含有标准的API接口函数，这些函数可以分为可重入（Reentrant）/不可重入
+（Non-Re
+entr
+ant
+）
+两种类型。如何去理解函数的
+Reentrant
+/
+Non-Re
+entr
+ant呢？
+1
+Reentrant/Non-Reentrant函数
+我们先看一下百度词条对
+Reentrant
+/
+Non-Re
+entr
+ant
+函数的定义：
+如上的解释我们可以捕获与
+Reentrant
+/
+Non-Re
+entr
+ant
+函数
+相关的几个关键词：多任务、中断、系统资源。
+假设存在3个Task：TaskA、TaskB、TaskC，三个任务的属性如下所示：
+在TaskA、TaskC中均调用函数Function_Opt()，Function_Opt()中对
+全局变量Argu_A
+进行
+写操作
+。
+Tick = 4 时刻，开始执行TaskC，在Tick = 4~5期间调用Function_Opt()，对Argu_A写操作，Argu_A = 5；
+Tick = 5 时刻，由于TaskA优先级高于TaskC，TaskC任务被迫中止，OS调度，执行TaskA任务，TaskA在Tick = 5~6期间调用Function_Opt()，
+也对Argu_A写操作，Argu_A = 6。
+Tick = 6 时刻，程序重新返回TaskC，此时，TaskC计算的Argu_A值被修改。对于TaskC来说，再使用Argu_A值进行后续逻辑的处理，将会带来非预期的结果。
+上述的Argu_A可以理解为
+系统资源
+，TaskC被TaskA抢占，Argu_A被修改，导致TaskC出现问题。进一步分析：Function_Opt()函数被多个Task调用时，未对系统共享资源保护导致数据被破坏。
+通过这个例子，我们意识到：
+约束系统资源（全局变量、局部static变量）的访问，保证数据的一致性，很重要
+。
+函数的多处调用，可能导致系统资源一致性被破坏，而函数的多处调用又不可避免。那么，就从函数入手，先约定其操作的可重入性开始。
+因为TaskA的优先级比TaskC高，导致TaskC任务被抢占。问题来了：是什么触发了抢占这个行为呢？答：
+中断。
+中断发生，使高优先级的任务进入Ready状态，随即OS进行任务调度，运行高优先级的任务。所以，
+避免任务被抢占的一种方式：关中断
+。也就是说：
+关中断，可以避免任务被抢占
+。
+进一步思考：
+开/关中断类似于一对互斥信号量，只是开关中断方式来的更粗暴。此前看到过一个问题：“关中断可以禁止任务被调度吗？”不会，虽然关中断可以避免任务被抢占，但是当前运行的任务可以再去调度其他任务。
+Autosar中的Reentrant/Non-Reentrant函数示例
+可重入函数示例所示：
+不可重入函数示例如下所示：
+Autosar函数中，如有对共享资源进行保护，则该函数就是不可重入函数，以Com_IpduGroupControl()为例，看一下不可重入函数是如何保护共享资源的：
+...
+Com_TxIPduGroup_EnterExclusiveArea();
+for
+(idx =
+0
+; idx < Com_GetSizeOfActivatableTxComIPdus(); idx++)
+{
+Com_TxPduInfoIterType ComTxPduId = Com_GetTxPduInfoIdxOfActivatableTxComIPdus(idx);
+/* Evaluate requested active state of the I-PDU */
+boolean
+bRequestedActiveState = Com_IpduGroupControl_EvaluateActiveState(ipduGroupVector, ComTxPduId);
+/* SBSW_COM_PTR_API_VALID_PTR */
+/* COM615 For all I-PDUs that do not change their activation state, the function Com_IpduGroupControl shall do nothing. */
+Com_IpduGroupControl_SetRequestedActiveState(ComTxPduId, initialize, bRequestedActiveState);
+Com_TxIPduGroup_ThresholdCheck();
+}
+Com_TxIPduGroup_ExitExclusiveArea();
+...
+上述ExclusiveArea区域（Line2~Line17）即临界区，此区间通过开/关中断方式对共享资源保护，避免程序执行过程中被打断，进而破坏共享资源数据的一致性。
+2
+不可重入函数特点
+如上述，使用不可重入函数似乎更安全，在任务抢占返回后，系统资源不受影响。那么，在实际的嵌入式开发中，不可重入函数有什么特点呢？
+函数体内操作全局变量时，需要进行临界区访问限制，即操作全局变量之前关中断，操作全局变量之后开中断，或者对全局变量上锁等
+；
+函数体内不嵌套不可重入函数
+。
+为什么操作全局变量会不安全呢？因为全局变量的作用域更大，可以被多个模块改写，而局部变量的作用域只在函数内，随着函数的出栈，局部变量销毁。
+参考资料
+AUTOSAR_SWS_COM.pdf
+AUTOSAR_SWS_OS.pdf
+https://baike.baidu.com/item/%E5%8F%AF%E9%87%8D%E5%85%A5%E5%87%BD%E6%95%B0
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+基于UDS刷写，0x28、0x85服务可以不用吗?
+嵌入式开发笔记：空指针引起的Trap问题（二）
+勘误篇(一)：Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？
+Uds诊断：这5个诊断问题，你能回答几个？（四）
+Uds诊断：Gateway节点的Timing，不简单
+Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？
+Bootloader开发：并列刷写(Parallel Flash)你知道多少？
+Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次
+Uds诊断：这5个诊断问题，你能回答几个？（三）
+Autosar网络管理：基础问题知多少
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

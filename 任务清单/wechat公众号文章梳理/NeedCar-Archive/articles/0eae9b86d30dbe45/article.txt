@@ -1,0 +1,104 @@
+CAN通信基础：L-PDU，到底如何理解？
+2022-12-21T08:22:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490810&idx=1&sn=34ab9c4dfb5e86105ad61a6838c9afc8&chksm=fa2a428ecd5dcb98bc39cd9e633e86104d7c5778f725502608fe75d9dbd394598bd1dce9e7a5&scene=21#wechat_redirect
+
+对于一些学习Autosar的朋友，有时会对一些细节犯迷糊，老实说，我自己很多时候也有这样的困惑。因为Autosar是一个软件架构，将许多底层具体的对象进行了抽象和封装，因而会使得我们对一些概念模糊不清。学习Autosar，不要急，也别气馁（很多时候，我也觉得Autosar很难理解）。因为Autosar的准入门槛本来就高，需要学习和理解的东西很多，希望"
+开心果 Need Car
+"公众号能帮助到你，解答你的一些困顿。本文，聚焦一下CAN总线的L-PDU。关于
+PDU（Protocol Data Unit）
+的讨论，可以参考前文
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+。但是，有小伙伴依然对L-PDU有些困惑，eg:"L-PDU具体包含些什么呢？"，带着这个疑问，我们试着找找答案。
+1、CAN Frame格式
+真正的解惑，需要先从CAN的格式（Frame）说起，参考11898 - 1，CAN的Frame可以分为如下几种：
+（一）Classical Base Frame Format
+经典CAN基本格式如下所示：
+其中：SOF Bit、IDE Bit、FDF Bit为常显性（logic 0）。
+（二）FD Base Frame Format
+CAN FD的基本格式如下所示：
+其中：SOF Bit、RSS Bit、IDE Bit、res Bit为常显性，
+FDF Bit为常隐性（ logic 1）
+。
+（三）Classical Extended Frame Format
+经典拓展格式CAN格式如下所示：
+其中：SOF Bit、FDF Bit、r0 Bit、res Bit为常显性，SRR Bit、IDE Bit为常隐性。
+（四）FD Extended Frame Format
+拓展CAN FD格式如下所示：
+其中：
+S
+OF Bit、
+RRS
+Bit、
+res
+Bit为常显
+性，
+SRR
+Bit、IDE Bit、FDF Bit
+为常隐性
+。
+上述的4种格式，
+需要完整地在CAN BUS上传输
+，接收端才能正确识别发送端所发送的信息。但是，在软件开发的过程中，我们感觉：似乎并没有完全的设置这些信息，eg：CRC校验、Stuff Count等。我们好像只是设置了CAN ID、Data Length以及要发送的数据。确实，很多上层模块发开的小伙伴确实不会太在意MCAL的这些配置信息，以及相关寄存器的配置），但是，并不是说这些信息没有设置，而是驱动层小伙伴已经帮你做了。
+认识了CAN的Frame，再回到问题：“CAN L-PDU包含了些啥呢？”先看一下Autosar的解释：
+Data
+Link Layer Protocol Data Unit
+. Consists of
+Identifier
+,
+Data Length
+and
+Data (SDU)
+.
+解释
+：CAN L-PDU包含
+CAN ID、Data Length、Data
+，而这三个信息就是我们常说的
+HOH（Hardware Object Handle）
+，
+HO
+H又进一步地细分
+HRH（Hardw
+are
+Receive Handle
+）
+和
+HTH（
+Hardware
+Transmit Handle
+）
+。而HOH属于软件抽象的东西（Struct数据类型），关于HOH、HTH、HRH的关系可以参考前文
+CAN通信基础概念：Mailbox与Hardware Object
+。
+所以，
+CAN Frame信息在物理链路层传输，格式符合11898-1的规范要求，而
+L-PDU是软件抽象
+，仅就用户关注的CAN ID、Data Length、Data信息抽象，以便于适用到不同的平台。而
+L-PDU信息包含在CAN Frame中
+。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar CanTp:什么是Connection？
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+信息安全（下）：软件认证（Authentication）
+CAN通信基础概念：Mailbox与Hardware Object
+诊断基础：如何理解Operation Cycle？
+Lin基础：从Lin Frame开始
+CAN XL抢先看，从Frame格式开始
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+NVM基础：解读"切页"的头部信息
+Autosar CanTp:什么是Connection？
+诊断基础：不同会话(Session)，诊断报文如何维持网络状态？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

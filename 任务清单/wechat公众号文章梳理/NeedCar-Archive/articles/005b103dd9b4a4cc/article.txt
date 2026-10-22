@@ -1,0 +1,135 @@
+如何使用链接文件设置填充值（Fill Value）
+2023-05-30T09:41:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492246&idx=1&sn=5d4dbbe713d2a4aa21e170e5262723e8&chksm=fa29bce2cd5e35f4b3863e05de31edbbc5637ec72ca08964142b1631bea3756c3273726296e3&scene=21#wechat_redirect
+
+在嵌入式开发中，大家是否遇到这样一种场景：段（SECTIONS）中不用的字节填充特定的填充值（eg：0xFF）。预期效果如下所示：
+实现的方式很多，本文介绍一种方式：
+通过设置链接文件，编译器编译时自动填充。
+提示
+：本文使用的编译器Hightec，链接文件格式（*.lsl）
+1、Hightec的Section格式
+首先，先了解一下Hightec中，Section的格式定义，如下所示：
+section [address] [(type)] :
+[
+AT(lma)
+]
+[
+ALIGN(section_align)
+]
+[
+FLAGS(section_flags)
+]
+[
+SUBALIGN(subsection_align)
+]
+[
+constraint
+]
+{
+output-section-command
+output-section-command
+...
+} [>region] [AT>lma_region] [:phdr :phdr ...] [=fillexp]
+其中，在格式的最后，有一个
+[=fillexp]
+，所以，如果想在Section不用的字节中填充特定填充值，可以在此处设置填充值。
+2、填充值设置操作
+（一）在链接文件（eg：*.lsl），将目标Section设置特定填充值0xFF
+MEMORY
+{
+......
+pfls0
+(rx!p): org = 0x80000000, len = 2M
+pfls0_nc
+(rx!p): org = 0xa0000000, len = 2M
+......
+}
+......
+SECTIONS
+{
+......
+.startup
+(0xA0000020) : FLAGS(rxl)
+{
+BootModeIndex
+=
+.;
+.
+=
+ALIGN(16);
+KEEP
+(*(.start));
+.
+=
+ALIGN(16);
+} > pfls0_nc
+=
+0xFF
+......
+}
+......
+如上，段（.startup）对应的起始地址0xA0000020，该段放置自定义段（.start）内容，
+.
+start的定义方式如下所示：
+#
+pragma
+section
+#
+pragma
+section
+".start"
+x
+void
+_START(
+void
+)
+{
+__non_return_call(_Core0_start);
+}
+#
+pragma
+section
+解释
+：将函数_START()，放到.start段，.start段的起始地址为0xA0000020。此段16 Byte对齐（ALIGN(16)）。该段放置到pfls0_nc内存中，不用的字节使用0xFF填充。
+（二）编译器编译
+（三）填充值确认
+首先，查看
+.start段实际使用量，实际
+.start
+段消耗6 Byte，如下所示：
+本文采用16 Byte对齐，意味着有10 Byte未使用，即：未使用的10 Byte需要填充为0xFF。使用Notepad++检查生成的*.hex文件，
+未使用的1
+0
+Byte
+填充
+为预期的0xFF，如下所示：
+所以，如上通过修改链接文件，编译器在生成最终的*.hex文件时，即可将不使用的字段填充为特定的填充值。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+嵌入式开发：如何理解Local/Global寻址？
+嵌入式开发：CSA是什么？
+基于VN5650 TAP模式监控以太网数据交互
+E2E工程问题：小周期转大周期Gateway
+嵌入式开发：看门狗问题QA
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

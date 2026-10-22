@@ -1,0 +1,88 @@
+诊断，如何速记多帧传输中的时间参数？
+2025-03-17T13:18:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496583&idx=1&sn=b39fc8b3cbab5d33fbb65166ca220177&chksm=fa29adf3cd5e24e5dba059f80da1e8b76d7ad55e3cf89ac2cf9fd021862cf1aecb103767be4d#rd
+
+做诊断开发的工作小伙伴是否有这样的感触：诊断的知识繁杂，很多知识点记不牢。对我来说，确实如此。或许碳"C"基物种不如硅"Si"基物质擅长存储，随着时间的推移，很多知识我们会遗忘，需要时不时的去“温故”。但是，我们擅长对事件进行关联，进而帮助我们回忆事物。
+在诊断的话题里，有很多知识点需要时不时的“追忆”，eg：多帧传输中，As、Bs、Cs、Ar、Br、Cr时间参数等。本文，聊一聊我是如何速记这些参数的话题。
+1、多帧传输的时间参数
+不管是基于CAN总线通信还是Flexray总线等诊断通信方式，上位机（eg：Tester or Sender）和下位机（eg：ECU）的诊断报文交互需要考虑两者的通信能力，以此确保诊断功能的正常执行。为了达到这个目的，相关规范（15765-2、10681-2等）约束了对应的时间参数。
+（一）As、
+Bs、Cs、Ar、Br、Cr时间参数
+对于两者之间约束的一些时间参数，比如：
+As、Bs、Cs、Ar、Br、Cr时间参数等，我们很多时候不太在意，用到的时候再去查阅。不过，也可以试着关联一下，这些参数你又是如何有效记忆的呢？
+As、Bs、Cs、Ar、Br、Cr具体位置如下所示：
+通过上图，可以将
+As、Bs、Cs、Ar、Br、Cr这6个参数分两部分记忆：
+As、Bs、Cs位于发送端
+，"s"可以关联
+S
+ender记忆，
+Ar、Br、Cr位于接收端
+，"r"可以关联
+R
+eceiver记忆。
+记住位置之后，具体理解一下各个时间参数的含义：
+As
+：发送端（Sender）发送首帧（Frist Frame）请求（request）至首帧发送确认（confirm）的时间。
+Bs
+：
+发送端（Sender）首帧确认（confirm）至收到流控帧（Flow Control）的时间。
+Cs
+：
+发送端（Sender）流控帧（Flow Control）通知至发送连续帧（Consecutive frame）请求的时间。相比于
+编程会话（programming sessions），由于
+非编程会话（non-programming sessions）中的Application程序在运行，
+非编程会话中的Cs可以比
+编程会话的Cs宽松一些
+。
+Ar
+：接收端（Receiver）发送流控帧请求至流控帧确认的时间。
+Br
+：接收端（Receiver）接收到首帧通知至发送流控帧请求的时间。
+Cr
+：
+接收端（Receiver）流控帧确认至接收到连续帧的时间。
+C
+s和
+C
+r都与连续帧（
+C
+onsecutive Frame）时间有关。
+对我来说，知道了
+As、Bs、Cs、Ar、Br、Cr含义，关联一下它们的位置，脑海里大体就可以关联出上图。
+As、Bs、Cs、Ar、Br、Cr参数的具体数值与项目相关，可能存在一定差异，需要结合具体的项目情况讨论。
+注意：
+一般来说，
+As、Bs、Cs、Ar、Br、Cr参数值在编程会话（programming sessions）和非编程会话（non-programming sessions）会有所不同，注意区分。实际的应用中，
+这些时间参数的阈值应考虑总线偶尔的高负载工况，避免数值不合理造成的通信不稳定性
+。
+（二）
+STmin时间参数
+多帧传输中，除了
+As、Bs、Cs、Ar、Br、Cr时间参数，还需要关注STmin（Separation Time minimum），如下所示：
+STmin时间参数在Receiver响应的流控帧中体现，用于告知Sender，它的接收能力。
+STmin时间约束的是
+流控帧之间的最小发送间隔
+，eg：≥ 1ms，即：Sender不要发送的太快，
+连续帧的发送间隔
+≥ 1ms
+，如果＜1ms，
+Receiver处理不了，无法保证后续的诊断通信稳定性。如果
+STmin = 0，
+Sender可以以它最快速度发送，即：
+Receiver处理能力足够，Sender可以快点发。
+STmin = 0也意味着数据交互速率更高，尤其在刷写流程中，刷写速度会更快。
+STmin时间并不约束首帧和第一个连续帧之间的时间间隔
+。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：401~450
+如何基于HexView完成自动化填充？
+CAN总线科普，Busoff与CC状态切换的本质
+基于Davinci的HSM开发实践（11）：安全启动开发实践及问题
+信息安全，国产SM2、SM3算法实践
+以太网基础：为什么需要VLAN？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

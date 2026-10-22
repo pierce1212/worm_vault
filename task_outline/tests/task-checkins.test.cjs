@@ -10,7 +10,7 @@ Settings.now = () => new Date('2026-10-14T12:00:00+08:00').getTime();
 const taskPath = 'task_outline/工作任务.md';
 const data = new Map([[taskPath, '- [/] 英语学习 [tcc_habit:: true] [tcc_habit_goal:: 5]\n  - [ ] 语法复习\n']]);
 const app = { vault: {
-  getAbstractFileByPath: p => data.has(p) ? { path: p } : null,
+  getAbstractFileByPath: p => data.has(p) ? { path: p, ...(!/\.(md|json)$/.test(p) ? { children: [] } : {}) } : null,
   read: async file => data.get(file.path),
   create: async (p, content) => { assert(!data.has(p)); data.set(p, content); return { path: p }; },
   createFolder: async p => data.set(p, ''),
@@ -51,8 +51,41 @@ const store = checkinModule.create({ app, core, DateTime, parseYaml: JSON.parse,
   assert(data.get(file).indexOf('<!-- tcc-checkin:2026-10-12') < data.get(file).indexOf('<!-- tcc-checkin:2026-10-14'));
   assert.equal([...data.keys()].filter(p => p.startsWith('daliy record/') && p.endsWith('.md')).length, 2);
   const filesBefore = JSON.stringify([...data]);
-  for (const invalid of [{ day: '2026-10-15' }, { day: '2026-02-30' }, { minutes: -1 }, { minutes: 2.5 }, { minutes: 1441 }, { content: '' }]) await assert.rejects(store.saveEntry(task, { ...entry, ...invalid }));
+  for (const invalid of [{ day: '2026-10-15' }, { day: '2026-02-30' }, { minutes: -1 }, { minutes: 2.5 }, { minutes: 1441 }, { content: '', reflection: '', next: '' }]) await assert.rejects(store.saveEntry(task, { ...entry, ...invalid }));
   assert.equal(JSON.stringify([...data]), filesBefore);
+  assert.equal([...data.keys()].filter(p => p.startsWith('任务清单/')).length, 0, 'ordinary check-ins never create text records');
+  data.set('任务清单', '');
+  data.set('任务清单/英语学习', '');
+  data.set('任务清单/英语学习/英语计划.md', '# Existing plan');
+  const existingText = '任务清单/英语学习/2026.10.14 跟读素材.md';
+  data.set(existingText, '# Existing user text');
+  let notePath = await store.createTextRecord(task, '2026-10-14', file, '跟读素材');
+  assert.equal(notePath, '任务清单/英语学习/2026.10.14 跟读素材 (2).md');
+  assert.equal(data.get(existingText), '# Existing user text');
+  assert.equal(data.get('任务清单/英语学习/英语计划.md'), '# Existing plan');
+  assert(!data.get(notePath).includes('tcc:task-summary'), 'standalone body must not require generated summary markers');
+  data.set(notePath, data.get(notePath) + '\n## 自己编写的详细内容\n![[素材.png]]\n');
+  const writtenNote = data.get(notePath);
+  await store.saveEntry(task, { ...entry, content: '', reflection: '只记心得', next: '' });
+  assert.equal(data.get(notePath), writtenNote);
+  await store.load([task]);
+  assert.equal(store.stats(task).current.notePath, notePath);
+  assert.equal(await store.createTextRecord(task, '2026-10-14', file, '跟读素材'), notePath);
+  assert.equal(data.get(notePath), writtenNote);
+  const movedPath = '任务清单/英语学习/重命名正文.md';
+  data.set(movedPath, data.get(notePath));
+  data.delete(notePath);
+  notePath = await store.createTextRecord(task, '2026-10-14', file);
+  assert.equal(notePath, movedPath, 'metadata recovers a renamed text record without duplicating it');
+  await store.load([task]);
+  assert.equal(store.stats(task).current.notePath, movedPath);
+  assert.equal(store.stats(task).weekCount, 2, 'text creation must not add another check-in');
+  const emptyNoteDay = '2026-10-11';
+  await store.saveEntry(task, { ...entry, day: emptyNoteDay, content: '', reflection: '', next: '', withTextRecord: true });
+  const note2 = await store.createTextRecord(task, emptyNoteDay, file, '../Path: test');
+  assert(note2.startsWith('任务清单/英语学习/2026.10.11 '));
+  assert(!note2.slice('任务清单/英语学习/'.length).includes('/'));
+  assert.equal(shared.scan(data.get(taskPath)).tasks[0].status, '/');
   await core.save(task, { title: 'English learning', weeklyGoal: 4 });
   assert.equal(await store.saveEntry(task, { ...entry, minutes: 35 }), file, 'renaming a task must reuse its monthly record');
   data.set(file, data.get(file).replace(/\n/g, '\r\n'));
@@ -61,7 +94,7 @@ const store = checkinModule.create({ app, core, DateTime, parseYaml: JSON.parse,
   await core.save(task, { habit: 'false' });
   await assert.rejects(store.saveEntry(task, entry), /开启/);
   await store.load([task]);
-  assert.equal(store.stats(task).count, 3, 'turning off habit mode retains history');
+  assert.equal(store.stats(task).count, 4, 'turning off habit mode retains history');
   assert.equal(shared.scan(data.get(taskPath)).tasks[0].status, '/');
   assert.equal(shared.scan(data.get(taskPath)).tasks[1].status, ' ');
   const damaged = data.get(file).replace('<!-- /tcc-checkin:2026-10-14 -->', '');
@@ -73,5 +106,44 @@ const store = checkinModule.create({ app, core, DateTime, parseYaml: JSON.parse,
   await store.load([task, another]);
   assert.equal(store.stats(another).weekCount, 1);
   assert.equal(store.stats(another).minutes, 10, 'statistics must remain separate by task ID');
+  const anotherJournal = [...data.keys()].find(p => p.startsWith('daliy record/打卡记录/') && p.includes('另一项学习'));
+  const normalProcess = app.vault.process;
+  app.vault.process = async (target, fn) => {
+    if (target.path === anotherJournal) throw new Error('Simulated link write failure');
+    return normalProcess(target, fn);
+  };
+  await assert.rejects(store.createTextRecord(another, entry.day, anotherJournal), /Simulated/);
+  app.vault.process = normalProcess;
+  const pendingText = [...data.keys()].find(p => p.startsWith('任务清单/另一项学习/') && p.endsWith('.md'));
+  assert(pendingText, 'a failed link must not delete an already created text record');
+  data.set(pendingText, data.get(pendingText) + '\n保留已经写入的正文\n');
+  assert.equal(await store.createTextRecord(another, entry.day, anotherJournal), pendingText);
+  assert(data.get(pendingText).includes('保留已经写入的正文'));
+  assert.equal([...data.keys()].filter(p => p.startsWith('任务清单/另一项学习/') && p.endsWith('.md')).length, 1);
+  const second = await store.createTextRecord(another, entry.day, anotherJournal, '第二篇专题', { subfolder: 'NeedCar-Archive/articles' });
+  assert(second.includes('/NeedCar-Archive/articles/'));
+  assert.notEqual(second, pendingText);
+  const attached = '任务清单/另一项学习/资料/随手笔记.md';
+  data.set(attached, '# 手工笔记\n正文保留');
+  await store.attachTextRecord(another, entry.day, anotherJournal, '../../' + attached.replace(/\.md$/, ''));
+  assert.equal(data.get(attached), '# 手工笔记\n正文保留');
+  const shortLink = '../../' + pendingText.replace(/\.md$/, '') + '#摘录|显示名';
+  data.set(anotherJournal, data.get(anotherJournal).replace('[[' + pendingText + ']]', '[[' + shortLink + ']]'));
+  let multi = store.parse(data.get(anotherJournal), anotherJournal).entries[0];
+  assert.deepEqual(new Set(multi.notePaths), new Set([pendingText, second, attached]));
+  assert.equal(store.resolveNotePath(second.split('/').at(-1).replace(/\.md$/, ''), anotherJournal), second);
+  assert.equal(store.resolveNotePath('另一项学习/资料/随手笔记', anotherJournal), attached);
+  await store.saveEntry(another, { ...entry, content: '更新心得', expected: multi.raw });
+  assert(data.get(anotherJournal).includes('[[' + shortLink + ']]'), 'editing must preserve relative links and aliases');
+  await store.attachTextRecord(another, entry.day, anotherJournal, attached);
+  multi = store.parse(data.get(anotherJournal), anotherJournal).entries[0];
+  assert.equal(multi.notePaths.length, 3, 'linking the same note again is idempotent');
+  await store.load([another]);
+  assert.equal(store.stats(another).weekCount, 1, 'multiple text notes still count as one check-in day');
+  assert.equal(await store.createTextRecord(another, entry.day, anotherJournal, '第二篇专题'), second);
+  data.set('任务清单/其他/随手笔记.md', '# 同名');
+  assert.throws(() => store.resolveNotePath('随手笔记', anotherJournal), /多个同名/);
+  assert.throws(() => store.resolveNotePath('../../其他目录/外部正文', anotherJournal), /以外/);
+  await assert.rejects(store.createTextRecord(another, entry.day, anotherJournal, '越界目录', { subfolder: '../other' }), /相对子目录/);
   console.log('PASS: daily editing, backfill, rest days, weekly targets, totals, monthly grouping, rename identity, optimistic conflict checks, CRLF, validation and task-state isolation.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

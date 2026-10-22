@@ -1,0 +1,158 @@
+CMake实践（一）
+2021-12-29T20:30:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484466&idx=1&sn=1c34ca5c310a1a27e7cca17e88252c02&chksm=fa2a5a46cd5dd35096edfaf9d5b0273a33f2ae430fac4e15f11fc181347ceed4bd409737d874&scene=21#wechat_redirect
+
+搞嵌入式开发？是时候学学CMake了，大家在github或者gitee上下载开源项目时，有没有发现很多开源项目在使用CMake。如果“嗅觉”灵敏，你应该意识到这是技术发展的趋势，为什么大神们在不约而同的使用CMake，一定有“妖”。来，咱们也试试手。
+提示：
+本文在linux中操作，编译C++工程。
+C工程一样操作
+，
+将源文件和头文件编写成C的即可
+。
+为什么有CMake
+在嵌入式开发中，尤其做Autosar BSW的开发人员知道，项目如果使用的平台是一家还好（比如都使用英飞凌的芯片，TC233/TC297/TC387...），但是做供应商有时由不得你，可能你下一个项目就是瑞萨的RH850。不同的平台，编译器、调试器可能都得换，作为开发人员，你说心累不心累？别慌了，CMake可以治愈我们脆弱的玻璃心。CMake不仅
+可以跨平台
+，而且还
+免费
+，
+生成可移植的makefile
+，这样构建工程项目能不爽？
+入门示例
+假设有main.cpp文件需要编译，
+首先需要编写CMakeLists.txt文件
+，CMake_Build.sh是一个shell脚本文件（windows下可以写*.bat脚本文件），自动执行编译过程指令（等会儿提一下）。
+文件结构如下所示：
+01
+CMakeLists.txt
+# cmake最低版本要求
+cmake_minimum_required(VERSION
+3.10
+.2
+)
+# 设置项目名称
+project(
+CMake_Pro
+)
+# 设置使用C++标准版本
+set(
+CMAKE_CXX_STANDARD
+11
+)
+set(
+CMAKE_CXX_STANDARD_REQUIRED
+True)
+# 编译源码生成目标
+add_executable(
+CMake_Pro
+main.cpp)
+如上就是一个CMake工程最精简的CMakeLists.txt文件，文件中必须包含
+CMake版本要求
+、
+语言编译版本
+、
+构建可执行文件的源文件
+。
+如果不确定自己的CMake版本，可以先确定一下：
+02
+main.cpp
+#
+include
+<iostream>
+typedef
+int
+(*calOpt)
+(
+int
+,
+int
+)
+;
+int
+add
+(
+int
+x,
+int
+y)
+{
+return
+(x + y);
+}
+int
+main
+()
+{
+int
+result;
+calOpt optFunc;
+optFunc = add;
+result = optFunc(
+0x10
+,
+0x20
+);
+std
+::
+cout
+<<
+"result = "
+<< result <<
+std
+::
+endl
+;
+return
+0
+;
+}
+源文件主要功能是计算两个数的和（增加了点函数指针的练习）。
+03
+CMake_Build.sh
+#!/bin/bash
+dir=
+"./build/"
+if
+[ ! -d
+$dir
+];
+then
+mkdir
+$dir
+fi
+chmod -R 777
+$dir
+cd
+$dir
+echo
+"***************:Execute cmake ***************"
+cmake ..
+echo
+"***************:Execute make ***************"
+make
+exec
+/bin/bash
+CMake生成的中间产物过多，如果和源文件在一个文件下会导致源文件和生成文件混杂，本例在源文件的目录中创建一个build文件夹，将CMake过程的中间产物都放到该文件夹，然后修改该文件的权限，确保文件可操作。之后执行CMake和Make。
+04
+执行编译
+在源文件目录下执行bash指令进行文件编译：
+bash
+CMake_Build
+.sh
+指令执行过程如下所示：
+在当前目录下生成build文件夹，如下所示：
+最终在build文件下生成CMake_Pro
+可执行文件
+，如下所示：
+05
+运行进程
+测试一下进程的运行是否符合预期，在可执行文件下执行如下指令（启动进程）：
+./CMake_Pro
+运行结果如下所示：
+CMake小试牛刀，敬请期待后续...
+往期精彩推荐：
+Vector代码这样过滤CanID Range，你Get到没？
+英飞凌OKT507如何捕获按键事件
+结构体，重新认识一下
+匿名函数Lambda认识一下
+SOME/IP-SD分析—Find Service
+Wireshark分析SOME/IP，试试这个方式
