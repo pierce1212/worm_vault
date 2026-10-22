@@ -1,0 +1,277 @@
+C语言基础：do{...}while(0)的使用，很秀
+2023-01-27T15:46:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491125&idx=1&sn=6fcc81ec4f7f5731d7b500821c0e9f3e&chksm=fa2a4041cd5dc95763150e31c9a5d177ddda279bcb78cd03dcf09a76ead494b67cb0823ca1e5#wechat_redirect
+
+工程开发中，尤其阅读代码时，有时会碰到一些让我们内心"嗯哼"一下的代码。比如：
+#define Call_Mcal_DmaMux_Init(u32ptr) \
+do
+\
+{ \
+Mcal_Trusted_Call1param(Mcl_DmaMux_Init,(u32ptr)); \
+} \
+while(0)
+如上的宏定义，是否能理解？本文，我们就聊聊宏定义与do{...}while(0)的结合。
+1、宏的使用
+开发中，宏的使用很频繁。为了精简代码的编写过程，有时，我们会
+将多条语句用一个宏表示
+。
+示例 1
+：
+#define PBUF_POOL_FREE_OOSEQ_QUEUE_CALL()  do { \
+if
+(tcpip_try_callback(pbuf_free_ooseq_callback, NULL) != ERR_OK) { \
+SYS_ARCH_PROTECT(old_level); \
+pbuf_free_ooseq_pending = 0; \
+SYS_ARCH_UNPROTECT(old_level); \
+} } while(0)
+示例 2
+：
+#
+define
+IPADDR_PORT_TO_SOCKADDR(sockaddr, ipaddr, port) do { \
+if
+(IP_IS_ANY_TYPE_VAL(*ipaddr) || IP_IS_V6_VAL(*ipaddr)) { \
+IP6ADDR_PORT_TO_SOCKADDR((
+struct
+sockaddr_in6*)(
+void
+*)(sockaddr), ip_2_ip6(ipaddr), port); \
+}
+else
+{ \
+IP4ADDR_PORT_TO_SOCKADDR((
+struct
+sockaddr_in*)(
+void
+*)(sockaddr), ip_2_ip4(ipaddr), port); \
+} }
+while
+(
+0
+)
+熟悉Lwip（
+Light Weight (轻型)IP协议
+）的小伙伴，应该比较熟悉上述两个示例。在Lwip中，会经常看到宏定义do{...}while(0)的结构。如上示例可以看出，使用宏替换多条语句，会方便的多。但是，为什么要使用do{...}while(0)这样的结构形式呢？
+答
+：
+使用do{...}while(0)构造后的宏定义，可避免大括号、分号等的影响
+。有点难以理解是吗？看一个例子消化一下。
+（一）不用do{...}while(0)结构进行宏定义带来的影响
+示例
+：定义宏
+Get_OptResult(a, b, c, d)
+精简代码
+c = ((a) + (b));
+和
+d = ((a) * (b));
+，如下所示：
+#
+include
+<stdio.h>
+#
+define
+Get_OptResult(a, b, c, d) \
+c = ((a) + (b)); \
+d = ((a) * (b));
+int
+main
+(
+void
+)
+{
+int
+JudgeFlag =
+0
+;
+int
+cResult, dResult;
+if
+(JudgeFlag ==
+0
+)
+Get_OptResult(
+60
+,
+20
+, cResult, dResult);
+else
+{
+cResult =
+100
+;
+dResult =
+1000
+;
+}
+printf
+(
+"cResult = %ld, dResult = %ld.\n"
+, cResult,dResult );
+getchar();
+}
+如上代码有什么问题呢？宏展开以后，如下所示：
+#
+include
+<stdio.h>
+#
+define
+Get_OptResult(a, b, c, d) \
+c = ((a) + (b)); \
+d = ((a) * (b));
+int
+main
+(
+void
+)
+{
+int
+JudgeFlag =
+0
+;
+int
+cResult, dResult;
+if
+(JudgeFlag ==
+0
+)
+c = ((a) + (b));
+d = ((a) * (b));;
+else
+{
+cResult =
+100
+;
+dResult =
+1000
+;
+}
+printf
+(
+"cResult = %ld, dResult = %ld.\n"
+, cResult,dResult );
+getchar();
+}
+在Line14处，分号";"这将会带来什么影响呢？
+答
+：
+else语句永远不会被执行，此时，else没有对应的if，编译器可能会报语法错误
+，如下所示：
+面对这个问题，怎么办呢？
+答
+：使用do{...}while(0)，吸收分号";"带来的影响。
+（二）使用do{...}while(0)结构进行宏定义
+#
+include
+<stdio.h>
+#
+define
+Get_OptResult(a,b,c,d) do {\
+c = ((a) + (b)); \
+d = ((a) * (b)); \
+}
+while
+(
+0
+)
+int
+main
+(
+void
+)
+{
+int
+JudgeFlag =
+0
+;
+int
+cResult, dResult;
+if
+(JudgeFlag ==
+0
+)
+Get_OptResult(
+60
+,
+20
+, cResult, dResult);
+else
+{
+cResult =
+100
+;
+dResult =
+1000
+;
+}
+printf
+(
+"cResult = %ld, dResult = %ld.\n"
+, cResult,dResult );
+getchar();
+}
+宏展开，如下所示：
+#
+include
+<stdio.h>
+#
+define
+Get_OptResult(a,b,c,d) do {\
+c = ((a) + (b)); \
+d = ((a) * (b)); \
+}
+while
+(
+0
+)
+int
+main
+(
+void
+)
+{
+int
+JudgeFlag =
+0
+;
+int
+cResult, dResult;
+if
+(JudgeFlag ==
+0
+)
+do
+{
+c = ((a) + (b));
+d = ((a) * (b));
+}
+while
+(
+0
+);
+else
+{
+cResult =
+100
+;
+dResult =
+1000
+;
+}
+printf
+(
+"cResult = %ld, dResult = %ld.\n"
+, cResult,dResult );
+getchar();
+}
+如上，使用do{...}while(0)结构，宏展开以后，吸收了分号";"带来的影响，进而确保else语句可以被执行到。
+综上，在使用宏定义多条语句时，do{...}while(0)结构不妨一试。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

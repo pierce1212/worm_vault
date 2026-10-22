@@ -1,0 +1,101 @@
+开发实践：如何修改用户程序启动地址？
+2024-01-19T07:00:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493809&idx=1&sn=1e7af764b134e7d1b5f4851c26dec655&chksm=fa29b6c5cd5e3fd3a54e82353fc3ce36ac72f569d3eda1f25ef1b850789e93a3858ee0e35efc&scene=21#wechat_redirect
+
+搭建过项目工程的小伙伴，对于用户启动地址设置应该不陌生。如果有祖传的项目Base，且Memory Layout未有改动，可以直接移植，工作相对会轻松一些。如果项目使用的芯片类型有变化，或者
+Memory Layout重新划分，那么，启动地址很可能需要重新设置，否则，程序将无法按照预期运行。如果要修改用户启动地址，如何操作呢？本文，基于TC3xx，聊一聊用户启动地址设置的问题。
+1、程序启动流程
+关于启动，在之前的文章中，有过介绍。可以参考前文《
+英飞凌tc397:告诉你程序真正的启动过程》、
+《
+嵌入式开发：程序如何找到第一条指令位置？
+》。本文，针对
+链接文件如何修改
+，
+BMHD（Boot Mode Header）如何操作
+进一步展开。
+（一）链接文件修改
+不管使用何种编译器，
+链接文件
+必不可少，因为它约束着程序、变量存放的位置。对于启动地址也不例外，也需要在链接文件中指定，以便于程序入口地址可以被分配到用户指定的位置，这样，CPU就可以准确的获取第一条指令位置。
+链接文件中，用户可以
+自定义
+程序
+启动地址
+（eg：0xA0020000），同时，将该启动地址赋给复位标号（RESET），即：每次程序复位时，复位到程序的入口位置，如下所示：
+......
+LCF_STARTPTR_NC_CPU0
+=
+0
+xA0020000;
+LCF_STARTPTR_NC_CPU1
+=
+0
+xA0110200;
+RESET
+= LCF_STARTPTR_NC_CPU0;
+......
+将
+启动程序
+设置到
+启动地址开始的位置
+，对应段（Sections）的设置如下所示：
+/*Fixed memory Allocations for _START*/
+CORE_ID = GLOBAL;
+SECTIONS
+{
+.start_tc0 (LCF_STARTPTR_NC_CPU0) : FLAGS(rxl) {KEEP (*(.start));}> pfls0_nc
+......
+}
+如上仅仅对启动地址设置做了改动，对于
+Memory Layout的设计
+，因项目不同而有所不同，这个大家可以根据实际情况自行设定。
+使用调试器执行复位动作，程序复位到自定义的启动位置，如下所示：
+（二）BMHD设置用户启动地址
+之前已经聊过，芯片加电以后，最先启动固件（BootROM）内容，而用户启动地址将安装在
+BMHD的STAD（Start Address）
+中，如下所示：
+为了增加程序的可靠性，TC3xx设计了8个
+BMHD，4个
+BMHD_ORIG和4个
+BMHD_COPY，以此确保程序能有效启动。
+BMHD的内容需要修改启动文件，如下所示：
+一般，将
+8个
+BMHD的结构内容设置成一样。其中，
+CRC32计算采用大端模式
+（big-endina），计算示例如下：
+* 计算内容:
+*    bmi    =
+0x003E
+*    bmhdid =
+0xB359
+*    stad   =
+0xA0020000
+* 计算输入及结果:
+*    Input        =
+0xB359003EA0020000
+*    CRC
+value
+=
+0xDBE869C5
+*    CRC Inverted =
+0x2417963A
+BMHD结构内容存
+放在
+UCB（User Configuration Block）所属区
+域
+，操作时需要小心。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+信息安全：ECC（椭圆曲线密码学）验签性能测试
+开源Fast-DDS安装示例及DDS模型架构
+Uds诊断：Unexpected N_PDU处理策略
+Lin总线Transceiver基础
+C语言基础：利用uint8设计循环队列
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

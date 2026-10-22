@@ -1,0 +1,248 @@
+CMake实践（二）
+2021-12-30T20:30:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484530&idx=1&sn=0719bd9011376f4354b36c48b0a26d35&chksm=fa2a5a06cd5dd310966c06b8b8e364192d277bb182d2e7d182079b5646d25e46d64f6ad1430a&scene=21#wechat_redirect
+
+一个大的项目，会包含多个源文件和头文件，一般会分门别类的放置在不同文件夹下。那么问题来了，多个源文件如何编译？多个头文件如何包含？我们接着对CMake试刀。
+多个源文件
+同一目录下多个源文件，文件结构如下所示：
+对应的文件内容如下所示：
+01
+main.cpp
+#
+include
+<iostream>
+#
+include
+"Cal.hpp"
+int
+main
+()
+{
+int
+result;
+calOpt optFunc = add;
+result = optFunc(
+0x10
+,
+0x20
+);
+std
+::
+cout
+<<
+"result = "
+<< result <<
+std
+::
+endl
+;
+return
+0
+;
+}
+02
+Cal.cpp
+#
+include
+"Cal.hpp"
+int
+add
+(
+int
+x,
+int
+y)
+{
+return
+(x + y);
+}
+03
+Cal.hpp
+#
+ifndef
+_CAL_HPP_
+#
+define
+_CAL_HPP_
+typedef
+int
+(*calOpt)
+(
+int
+,
+int
+)
+;
+extern
+int
+add
+(
+int
+x,
+int
+y)
+;
+#
+endif
+04
+CMakeLists.txt
+# cmake最低版本要求
+cmake_minimum_required(VERSION
+3.10
+.2
+)
+# 设置项目名称和版本号
+project(
+CMake_Pro
+)
+# 设置使用C++标准版本
+set(
+CMAKE_CXX_STANDARD
+11
+)
+set(
+CMAKE_CXX_STANDARD_REQUIRED
+True)
+# 编译源码生成目标
+add_executable(
+CMake_Pro
+main.cpp Cal.cpp)
+编译多
+个源文件方式1：
+当同一文件夹下有多个源文件的时候，
+CMakeLists.txt
+加载方式如上所示，将多个需要编译的源文件进行编译。
+05
+CMake_Build.sh
+#!/bin/bash
+dir=
+"./build/"
+if
+[ ! -d
+$dir
+];
+then
+mkdir
+$dir
+fi
+chmod -R 777
+$dir
+cd
+$dir
+echo
+"***************:Execute cmake ***************"
+cmake ..
+echo
+"***************:Execute make ***************"
+make
+exec
+/bin/bash
+06
+执行编译
+运行CMake_Build.sh脚本文件，编译过程如下所示：
+在build文件夹下运行生成的CMake_Pro可执行文件，结果符合预期。
+头文件包含问题
+如上，我们发现即使头文件没有包含也能编译，这是因为编译器默认会在当前文件夹下查找头文件。如果将Cal.hpp头文件放到include文件夹下，再编译结果会如何呢？
+文件结构修改如下所示：
+再次执行编译，结果报错，如下所示：
+那么问题就来了，头文件在不同的文件夹下如何处理呢？
+07
+头文件在不同文件夹
+如果要让编译器找到头文件所在路径，需要修改CMakeLists.txt文件，告诉编译器需要查找的头文件路径，CMakeLists.txt文件修改如下所示：
+# cmake最低版本要求
+cmake_minimum_required(VERSION
+3.10
+.2
+)
+# 设置项目名称和版本号
+project(
+CMake_Pro
+)
+# 设置使用C++标准版本
+set(
+CMAKE_CXX_STANDARD
+11
+)
+set(
+CMAKE_CXX_STANDARD_REQUIRED
+True)
+# 编译源码生成目标
+add_executable(
+CMake_Pro
+main.cpp Cal.cpp)
+# 包含头文件路径
+target_include_directories(
+CMake_Pro
+PUBLIC
+"./include/"
+)
+重新编译：
+头文件在不同的文件夹，同样，项目中源文件也会放置在不同的文件夹，又该如何处理呢？
+08
+源文件在不同文件夹
+将main.cpp（. 当前文件夹）和Cal.cpp（./src文件夹）放在不同的文件夹下。
+文件结构修改如下所示：
+当源文件在不同的文件夹时
+，
+不同的文件夹下均需要编写CMakeLists.txt文件
+。文件结构修改如下所示：
+顶层CMakeLists.txt文件修改如下所示：
+# cmake最低版本要求
+cmake_minimum_required(VERSION
+3.10
+.2
+)
+# 设置项目名称和版本号
+project(
+CMake_Pro
+)
+# 设置使用C++标准版本
+set(
+CMAKE_CXX_STANDARD
+11
+)
+set(
+CMAKE_CXX_STANDARD_REQUIRED
+True)
+# 添加src子目录
+add_subdirectory(src)
+# 编译源码生成目标
+add_executable(
+CMake_Pro
+main.cpp)
+# 包含头文件路径
+target_include_directories(
+CMake_Pro
+PUBLIC
+"./include/"
+)
+# 添加链接库
+target_link_libraries(
+CMake_Pro
+Cal)
+注意：
+顶层的文件夹里面此时只有main.cpp文件，这和我们平时的项目开发类似，顶层文件夹下只留一个主函数（单核情况），其它源文件分类放置在不同的源文件下。
+src文件夹CMakeLists.txt文件修改如下所示：
+# 查找当前目录下的所有源文件,并将名称保存到 CUR_DIR_SRCS 变量
+aux_source_directory
+(. CUR_DIR_SRCS)
+# 生成链接库
+add_library
+(Cal
+${CUR_DIR_SRCS}
+)
+target_include_directories
+(Cal PUBLIC
+"../include/"
+)
+编译多
+个源文件方式2：
+src文件夹中的CMakeLists.txt文件使用了第二种查找方式，将当前文件夹下的源文件名称统一放在一个变量（本例：CUR_DIR_SRS）中，生成链接库。
+编译运行如下所示：
+运行结果符合预期，如下所示：
+至此，生成可执行文件的主干我们有了一定的认知，之后即是对CMake的细节功能展开学习，敬请期待后续...
+往期精彩推荐：
+CMake实践（一）
+Vector代码这样过滤CanID Range，你Get到没？
+英飞凌OKT507如何捕获按键事件
+结构体，重新认识一下

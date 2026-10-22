@@ -1,0 +1,6 @@
+更换芯片（四）_清洁PCB
+2025-07-06
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497111&idx=1&sn=13e2c17b55db7fc98d28166ba8ce4e7f&scene=21#wechat_redirect
+
+这是一条视频内容。视频尚未离线保存，需在微信客户端打开原文播放。以下仅为公开说明。
+使用吸锡带清洁PCB表面残留的锡，使用洗板水清洁。

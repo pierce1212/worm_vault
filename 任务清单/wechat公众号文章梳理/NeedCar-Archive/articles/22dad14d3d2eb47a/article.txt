@@ -1,0 +1,75 @@
+基于IAR的多核调试及基础操作入门（视频篇）
+2025-01-03T06:36:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496372&idx=1&sn=f55cbd7ce150c2418174b14a652e4dbb&chksm=fa29acc0cd5e25d66b910d2ab92921357e15eadfbed3bcf2c701eba4e98fa8681fb9e01ff0b9#rd
+
+项目开发过程中，不同的芯片平台，使用的编译和调试环境会有所不用。以编译器为例，常用的有Tasking、Hightec、GreenHills、IAR等。除此之外，调试器和仿真器也各式各样。所以，熟悉所使用的软/硬件环境是软件开发工程师的基本功。
+本文，主要讨论一下IAR编译器的基本操作和多核调试。
+1、IAR基础操作及多核调试视频教程
+IAR基础操作及多核调试视频教程如下所示：
+已关注
+Follow
+Replay
+Share
+Like
+观看更多
+开心果 Need Car
+0
+/
+0
+00:00
+/
+28:03
+进度条，百分之0
+Play
+00:00
+/
+28:03
+28:03
+倍速
+全屏
+倍速播放中
+0.5倍
+0.75倍
+1.0倍
+1.5倍
+2.0倍
+超清
+流畅
+Your browser does not support video tags
+继续观看
+基于IAR的多核调试及基础操作入门（视频篇）
+Original
+,
+基于IAR的多核调试及基础操作入门（视频篇）
+开心果 Need Car
+Added to Top Stories
+Enter comment
+Video Details
+2、多核Debug配置加载操作
+通过脚本（*.xml）加载多核的基本操作步骤：右击当前激活（Active）的工程->Options...->Debugger->Multicore->Advanced->加载多核调试的配置文件，示意如下：
+多核
+调试的配置文件示意如下：
+多核
+调试的配置文件内容示意如下：
+多核
+调试调试界面，示意如下：
+如上的IAR操作视频，
+基本囊
+括了常用的操作，
+可以快速入门IAR多核的编译和调试。在此基础上，也可以根据自己的需要，研究其他高级操作。
+本文使用的IAR工程链接如下：
+https://gitee.com/seekfree/CYT4BB7_Library
+往期
+精彩
+回顾
+信息安全，RSA在逐渐被EdDSA替换？
+NvM存储的信息，你为什么看不懂？
+Bootloader开发：基于以太网的软件刷写思考
+多核通信的一种IPC通信方案
+HSM的使能时机，也会导致锁芯片吗？
+如何避免cache造成的核间数据不一致？
+调试技巧，如何将JTAG转换成DAP？
+异步Trap，该如何锁定问题点？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

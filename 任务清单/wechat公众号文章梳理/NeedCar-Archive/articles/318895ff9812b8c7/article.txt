@@ -1,0 +1,22 @@
+如何避免cache造成的核间数据不一致？
+2024-12-21T06:36:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496346&idx=1&sn=34a4d58c49c1b220f3918a639994d129&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+核间通信（IPC，Inter-processor communication）是多核系统不可规避的一个话题。前文《
+多核通信的一种IPC通信方案
+》曾介绍过IPC通信的一种方式。但是，实际的工程使用中，涉及到Core之间的数据交互时，还是会出现这样或者那样的问题。本文，聚焦cache造成的核间数据不一致问题。主要讨论以下几个议题：
+什么是cache？
+核间数据不一致造成的原因？
+如何避免cache导致的数据不一致（结合一个示例分析）？
+1、什么是cache
+前文《
+入门级讲解缓存（cache）原理
+》已经提到过，
+cache是介于CPU与主存（Memory）之间的
+高速缓冲存储器
+。
+设计cache的主要目的是为了解决
+Core与主存（memeory）之间速度不匹配问题
+，示意如下：

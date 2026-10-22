@@ -1,0 +1,126 @@
+Autosar网络管理：为什么要网络管理
+2022-09-16T17:48:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489704&idx=1&sn=ed7f7de143dd3648a9626f43b088c067&chksm=fa2a46dccd5dcfca54eba4d7e97f345c72aa84933af0e4a41cfb0d45bb8be9ce5a6919496f3a&scene=21#wechat_redirect
+
+近几年，汽车智能化和网联化的发展，使得更多的控制器（ECU）被部署到E/E(Electronic/ Electrical)架
+构中。更多的ECU被部署到整车网络拓扑中，意味着：总线中的Message（报文）数量增加，网络系统的复杂度提高。虽然，单个节点（eg：CAN节点）的容错很高，但是，当多个节点放到整车环境中，工况复杂多变时，整车通信的稳定性是否还能像单节点那样，稳定可靠呢？没人敢保证。实际的工程开发中，我们也能体会到这一点：明明单件开发时，功能都很正常，但是，将单件集成到整车环境中，一测试，问题总是不停的报出来。为了提高整车网络的稳定性，网络管理必不可少，网络管理通过协调各个节点的网络状态，进而控制节点间的通信行为，增加车辆的安全与稳定。
+提示：
+本文讨论CAN总线网络管理。
+不管何种总线，它们的载体都是Message，也就是我们常说的"报文"。报文中携带着信号（Signal），通过Signal的接收、处理、发送，控制着车辆的各个功能，当然，也会因这些信号的收/发时机不对带来各种各样的问题。为了更好的约束这些信号的收/发时机，Autosar CanNM定义了网络管理状态：
+Network Mode
+（Repeat Message State、Normal Operation State、Ready Sleep State）、
+Prepare Bus-Sleep Mode
+、
+Bus-Sleep Mode
+。不同的网络状态下，约束着各类报文报文的收/发行为，进而管理好整车网络。
+1、常见NM工程需求
+工程中，比较常见的一种CAN网络管理需求如下所示：
+需求解读：
+（一）
+Bus-Sleep Mode：
+不能发送NM Msg
+，
+可以接收NM Msg
+，App Msg既不能发送，也不能接收。这里解释一下App Msg，App Msg包括：诊断报文、标定报文、应用报文、测试报文等。这里的测试报文是一种预留报文，主要用于开发阶段，携带一些目标信息，便于Bug问题排查。
+（二）
+Prepare Bus-Sleep Mode：
+不能发送NM Msg
+，
+可以接收NM Msg
+，App Msg既不能发送，也不能接收。
+（三）
+Neteork Mode：
+Repeat Message State
+：NM Msg和App Msg即可以收，也可以发送。
+Normal Operation State
+：NM Msg和App Msg即可以接收，也可以发送。进一步细化，对于能进入NOS状态的节点来说，意味着该节点是主动网络节点，在该状态下，会
+周期性地发送网络管理报文
+。
+Ready Sleep State
+：
+NM Msg可以接收，不能发送
+，App Msg即可以收，也可以发送。进入RSS状态，意味着节点网络的“Release”，所以释放网络的节点就停发NM Msg，表达自己不想通信的意愿。
+通过如上的需求可以看出，整个网络管理依赖一个特征报文（NM Msg），这个特征报文可以控制着整个网段内各个节点的网络状态。网络状态的切换进而控制着各类报文的收/发行为。
+所以，
+网络管理的实质是在管理各类报文的收/发时机
+。可是，
+网络管理的目的是“
+节能
+”，如何节能呢？节能的本质是降低对车辆蓄电池的耗电，工作的ECU越多，耗电量就越多，所以，减少非必要工作ECU的数量就可以降低电量消耗。我们进一步想：怎样让非必要的ECU不工作呢？通过停发NM Msg协调网段内的ECU节点进入BSM模式，进而再停发App报文，最终，让这些ECU休眠，以此达到节能的目的。
+比如：
+某一时刻，CAN 1总线上的ECU1和ECU2没必要参与工作，可以让ECU1和ECU2释放网络（停发NM Msg），进而切换两者的网络状态，最终让ECU1和ECU2休眠。
+2、局部网络管理(PN：Partical Network)
+对于刚才所讨论的网络管理问题，有一个特点：
+一个网段内的节点要不一起醒，要不一起睡
+。如此这样，就不能满足一些工况的需求。我们假设几个场景：
+场景一
+：对于新能源车，插枪充电时，一个网段内的部分节点（ECU）没必要工作，只要参与充电功能的节点工作即可。
+场景二
+：ECU下电，同一个网段内的某些节点有延时下电要求（eg:5min），有些节点则不需要延时下电，如果延时下电的节点一直拉着非延时下电节点，不让其休眠，势必增加蓄电池的耗电，怎么办呢？
+场景三：
+车辆无钥匙进入功能，车主携带钥匙靠近车辆
+时，车门自动开锁并解除防盗警戒状态，同时车灯闪烁，这些功能是不需要所有ECU参与工作的。
+上述的场景很多，不一一列举。对于这样的工况，局部网络管理（PN）应运而生。PN的目的：
+在全局网络管理的基础上进一步节能
+。
+与全局网络管理不同，局部网络管理根据组件功能划分不同的网络簇（PNC：Partial Network Cluster），每一个PNC就是一个虚拟的局部网络。
+PNC可以在同一个网段，也可以跨不同的网段
+。
+（一）PNC在同一个网段，如下所示：
+如上，ECU6、ECU7、ECU8均在CAN 3总线，其中，ECU6、ECU7构成PNC 16局部网络簇，ECU7、ECU8构成PNC 17局部网络簇。注意：
+一个节点可以被划分到不同的局部网络簇
+，eg：ECU7。
+（二）PNC在不同的网段，如下所示：
+如上，ECU3在CAN 2总线，ECU6、ECU7、ECU8在CAN 3总线，其中，ECU3、ECU6构成PNC 16局部网络簇，这里的PNC16就是跨网段管理。ECU7、ECU8构成PNC 17局部网络簇。
+全局网络管理通过特征报文（NM Msg）管理各个节点的网络状态，同样，对于局部网络管理，也是通过特征报文管理PNC的网络状态。每个PNC包含两个网络模式：
+PNC_FULL_COMMUNICATION
+与
+PNC_NO_COMMUNICATION
+。其中，
+PNC_FULL_COMMUNICATION网络模式又包含三个网络状态：
+PNC_PREPARE_SLEEP、PNC_READY_SLEEP 、PNC_REQUESTED
+。
+不同于全局网络管理，局部网络管理的PNC信息存放在NM Msg的User Data部分，如下所示：
+每个局部网络簇分配一个PNC ID，每个PNC ID占用User Data的一个Bit。进行PN网络状态管理时，PNI（Partial Network Information）必须有效，只有PNI有效以后，才去进一步识别PNC ID是否关联对应的节点（ECU）。
+PNI在NM Msg中的位置如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+CAN通信：Basic CAN与FIFO
+Autosar网络管理：被动唤醒和Passive Channel QA
+CAN通信基础：错误帧
+Autosar Os：Spinlock基础
+Autosar网络管理：诊断报文能否唤醒网络？
+TriCore架构学习笔记（一）：架构总览
+工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败
+Aurix:初识Cached和Non-Cached
+Autosar网络管理：ERA/EIRA问题QA
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Uds诊断：Unexpected N_PDU处理策略
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+工程开发问题（八）：不满足STmin时间要求，中断接收丢帧
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

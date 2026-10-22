@@ -1,0 +1,159 @@
+嵌入式开发：存储，从Flash Driver开始
+2022-09-27T18:55:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489795&idx=1&sn=146716e4085b9c050fdf43294f0e5faa&chksm=fa2a4777cd5dce61440474d031654ead7c5faafcf9d73c0c34cc90f638afeae9da34ce8fea6d&scene=21#wechat_redirect
+
+嵌入式开发中，会涉及大量的信息“存储”工作。不管是算法开发工程师，还是基础软件开发工程师，两者均需要考虑信息存储问题。关于“存储”，上层和下层关注的点不同。本文讨论如下几个话题：
+1、为什么需要Flash Driver？
+2、Flash Driver如何操作？
+3、哪些模块涉及Flash Driver的操作？
+1
+为什么需要Flash Driver
+我们先思考这样一个问题：“当车辆下线（EOL:End of Line）或者某个ECU的Application需要更新时，如何将Application程序更新到ECU内存中？”大家可能都会说：Bootloader。没错，确实需要依赖Bootloader更新ECU的Application程序，可是Bootloader更新Application程序又依赖什么呢？
+答：
+Flash Driver。
+当然，Flash Driver的用武之地不仅于此。
+工程中，常常会采用时时存储、事件存储以及下电存储策略，保存一些重要信息到DFlash中，eg：诊断的拓展数据（ExtendedData）和快照数据（Snapshot Data）；
+标定工程师完成标定工作时，需要将标定好的数据存储到PFlash中；
+信息安全中，eg：Public Key等安全常量信息需要存储到PFlash中；
+...
+如上，这些信息均需要存储，存储的位置一般选择PFlash或者DFlash。考虑项目成本，多数项目会选择DFlash模拟EEPROM（本文不讨论存储EEPROM的情况）。
+不管选择PFlash存储还是DFlash存储，均需要依赖Flash Driver。因此，涉及“存储”时，Flash Driver扮演着至关重要的角色。
+提示：
+对于英飞凌芯片，操作PFlash/DFlash的Flash Driver接口，可以共用一套，通过地址区分Flash类型。
+2
+Flash Driver如何操作
+对于Flash Driver的操作接口，芯片手册中，会提示：“
+Flash Driver不要存放在PFlash中
+。”为什么呢？我们试想这样一种场景：某外部环境干扰，程序异常跑飞，程序异常调用PFlash区中的Flash_erase()/Flash_write()接口，破坏原有的Code区，最终导致ECU不能正常工作。
+所以，为了规避这样的风险，工程开发中要求：
+当程序（Application）需要升级时，将Flash Driver下载到RAM区，一般选择PSPR（Program Scratch-Pad SRAM）区
+。
+实际的工程中，可以将Flash Driver直接映射到PSRAM区，eg:0x70100000~0x70100800，
+注意
+：在链接文件中定义好Flash Driver的段空间。之后在生成的工程Hex File中，将Flash Driver部分独立保存一个Hex File（或者其他二进制文件格式，eg:Bin文件），可以用HexViewer实现。Flash Driver Hex File截取，如下所示：
+当程序上电时，对应Flash Driver的PSPR区，初始化为0。如果Bootloader需要更新Application程序时，可通过通信接口（eg:CAN）将Flash Driver下载到对应的PSPR区，之后就可以正常使用Flash Driver，如下所示：
+当Flash Driver需要将存储信息存储到指定位置时，底层又是如何实现的呢？我们先从
+Host命令序列解释
+聊起。
+1、Host命令序列解释器
+不管对于DFlash的操作还是PFlash的操作，
+读/写均需要按照手册要求的Flash指令顺序执行
+。以英飞凌tx3xx系列为例，Flash操作命令序列如下所示：
+而这些指令顺序由谁来“翻译”呢？
+答：
+命令序列解释器
+。命令序列解释器又分为Host命令序列解释器与HSM命令序列解释器。
+Host命令序列解释器负责PFlash和DFlash操作的命令解释
+，HSM命令序列解释器负责HSM相关的操作解释。本文关注PFlash和DFlash操作，Host命令序列解释器在哪呢？
+大家在阅读芯片手册的时候，是否注意到地址Mapping中的如下部分：
+对于0xAF000000~0xAF0FFFFF地址范围，
+写访问
+的时候，有额外的提示说明。意思是说：对此区域进行写操作时，可以用作Host命令序列解释。
+比如
+：擦除0xA00E0000起始地址处的一个Sector，按照手册要求，擦除动作需要4个Cycle，如下所示：
+void
+IfxFlash_eraseMultipleSectors
+(
+uint32 sectorAddr, uint32 numSector
+)
+{
+*(
+volatile
+uint32 *)(
+0xAF00AA50
+) = sectorAddr;
+*(
+volatile
+uint32 *)(
+0xAF00AA58
+) = numSector;
+*(
+volatile
+uint32 *)(
+0xAF00AAA8
+) =
+0x80
+;
+*(
+volatile
+uint32 *)(
+0xAF00AAA8
+) =
+0x50
+;
+__dsync();
+}
+如上的接口，传参示例：sectorAddr = 0xA00E0000，numSector = 1。
+2、Flash Driver操作中的注意事项
+1、关中断
+在Flash Driver操作（erase/read/write）期间，为确保动作的连贯性，不要有中断操作。即：
+Flash操作前，关闭全局中断，Flash操作后，再开启全局中断
+。
+英飞凌系列芯片，为了确保关键寄存器的操作安全性，设置了Safety ENDINIT功能，简单理解就是一个“内狗”。操作关键寄存器的时候，给设定一个访问时间，在指定的访问时间内还没有完成操作，则视为“隐患”，执行异常处理动作（eg：Reset）。
+2、__dsync()
+每个PFlash Bank均对应一个PFRWB（PFlash Read 
+Write Buffer) ，
+PFlash读/写数据均需要经过PFRWB
+；
+操作DFlash时，读/写数据需要经过DFRWB
+（DFlash Read Write Buffer) ，如下所示。
+为了确保数据操作的可靠性，每次执行FLASH操作命令序列后，可以对
+PFRWB或者DFRWB进行__dsync()操作。
+3
+哪些模块涉及Flash操作
+1、DEM模块
+当车辆故障发生时，DEM需要将DTC产生的快照数据和拓展数据存储，且这些数据一般选择存储在DFlash中。
+前面主要讨论Flash Driver操作PFlash的约束，即：需要将Flash Driver存放到RAM区。其实，
+不同PFlash Bank之间的擦/写操作
+，
+可以不将Flash Driver放到RAM区
+（不建议固化Flash Driver到PFlash）。比如：Public Key存储，一般需要将其存储到PFlash中，因此，Flash Driver和Public Key需要存放在
+不同的PFlash
+，以此实现Flash Driver操作PFlash。
+对于DFlash的操作，Flash Driver有必要放到RAM区域吗？
+答：
+不需要。我个人理解是不需要的，下电存数据时（常说的NVM存储），在操作DFlash前，通过检查地址的合法性（是否是配置的DFlash区域）确保Flash Driver不要操作到非法地址空间即可。一般来说，项目使用DFlash模拟EEPROM，存储的是数据，不涉及Code，所以不必担心Code被擦除。
+2、Ccp/Xcp模块
+整个软件开发的最后环节：标定。标定工程师会在台架或者对应的试验环境中，对算法中的常量参数进行标定（或者说参数影响因子修正），以此达到最佳的车辆运行工况。这些常量参数存储在PFlash中，如果使用INCA，可以加载Prof文件，将标定好的参数下载到标定区（PFlash），Prof文件中包含Flash Driver的下载流程。当然，标定上位机不止INCA，其他的标定上位机（CANape等）也可实现类似的功能。
+......
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar PN网络管理：PNC信息的收/发流程
+Bootloader开发：队列刷写（Queued Flash）基础
+Autosar网络管理：PNC = 0，为何不能路由？
+Autosar网络管理：为什么要网络管理
+CAN通信：Basic CAN与FIFO
+Autosar网络管理：被动唤醒和Passive Channel QA
+CAN通信基础：错误帧
+CAN通信：Busoff问题知多少
+CAN通信基础：Tx Comfirmation、Rx Indication以及Ack
+Autosar Os：Spinlock基础
+Autosar网络管理：诊断报文能否唤醒网络？
+TriCore架构学习笔记（一）：架构总览
+工程开发问题（十一）：软件升级，中断标志位清除导致的连续帧刷写失败
+Aurix:初识Cached和Non-Cached
+Autosar网络管理：ERA/EIRA问题QA
+Autosar网络管理：问题纠错篇
+上下文(CSA)切换，需要花费多少时间？
+CAN总线仲裁原理
+Uds诊断：Unexpected N_PDU处理策略
+Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机
+Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+通信栈基础：CAN发送报文如何赢得总线使用权
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+Bootloader开发：初识Bootloader
+Autosar网络管理：CanNM网络状态机真的全看懂了？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

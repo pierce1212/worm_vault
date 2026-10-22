@@ -1,0 +1,15 @@
+CAN总线科普，Busoff与CC状态切换的本质
+2024-08-30T06:38:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495619&idx=1&sn=433e91214456f5b12a05f2a8c3ff7199&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+对于CAN Busoff问题，“开心果 Need Car”写过多篇，更多文章可以参考文末链接。而本文主要聚焦一下CC（Communication Controller）不同状态的发送行为以及CAN的延伸细节问题，主要聚焦如下问题：
+busoff事件针对哪个硬件？
+busoff以后，等待128次连续的11个隐性位，如何理解128次及连续11个隐性位？
+为什么Error Passive的节点竞争不过Error Active节点？
+Busoff事件由谁识别并上报给上层软件模块？
+ACK的应答动作是CC完成还是Transceiver完成？
+CC如何知道收到了128次连续11个隐性位？
+软件如何识别CAN的错误类型？
+......

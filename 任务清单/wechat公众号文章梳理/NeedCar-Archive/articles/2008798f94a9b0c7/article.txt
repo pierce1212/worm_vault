@@ -1,0 +1,57 @@
+Autosar EcuM：APP由RUN到POST_RUN浅析
+2023-02-10T11:52:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491219&idx=1&sn=c2574d9d8784242842adc08f6ba5163a&chksm=fa2a40e7cd5dc9f16a0d603b0301a13c3eee9c5f71084f5a6bbae7ae7172e05d639dcdd261b2&scene=21#wechat_redirect
+
+前面聊过ECU的启动、关闭流程，可以参考前文
+Autosar EcuM：ECU的启动、关闭流程
+。本文再聊一下EcuM的RUN Phase，主要是想聊一下RUN Phase中的APP RUN和APP POST_RUN仲裁。
+1、UP Phase主要功能
+在UP Phase阶段，
+EcuM_MainFunction()
+周期性执行，它主要有三个功能：
+检查（Check）是否有唤醒源唤醒，以及初始化唤醒验证（Validation）；
+更新Alarm Clock timer；
+仲裁RUN和POST_RUN的请求情况
+本文侧重讨论RUN和POST_RUN请求、释放的仲裁问题，因为POST_RUN是ECU进入Shutdown的前提。
+（一）RUN、POST_RUN的请求仲裁
+首先，我们需要先清楚：什么是RUN请求？所谓RUN请求，是指ECU在UP Phase阶段中，使能ECU控制的各个功能，eg：通信功能，诊断功能，执行器、传感器的功能等等。在软件处理的层面，这些功能往往Mapping到对应的User，所以，RUN请求也可以理解为User请求功能行为。User有哪些呢？Autosar中的User如下所示：
+这些User，是
+或
+的关系，即：谁都可以单独得请求ComM，进而保持着通信。而EcuM主要管理唤醒源，每个唤醒事件都会对应唤醒源，因此，EcuM有一个义务：
+当有效的唤醒事件发生时，请求ComM，进行通信
+。
+EcuM检测唤醒事件，不仅在程序初始化阶段，在程序运行的整个生命周期内都在检测，即：在EcuM_MainFunction()中周期检测（eg：5ms）。如果有
+任意User
+有通信请求，ECU就会一直处于APP RUN状态。当
+所有的User没有通信请求
+时，ECU就会从APP RUN进入APP POST_RUN状态，如下所示：
+工程中，没有User请求，意味着：
+没有诊断请求；
+ECU所有的通信Channel不再收到有效的网络管理报文；
+SWC不再请求通信（对应VFC不再置位）；
+所有硬线信号无效（eg：KL15拉低）等。
+（二）EcuM状态进入APP POST_RUN之前的动作（Action）
+EcuM状态进入APP POST_RUN，是因为在APP RUN状态下，所有的User，均不再请求通信，也没有挂起（Pending）的唤醒事件。所以，为了确保ECU下电过程中，可能出现的唤醒事件，并准确捕获唤醒事件，需要：
+清除所有唤醒事件挂起标志位；
+关闭通道通信请求，此动作通过标准接口ComM_CommunicationAllowed()；
+将模式设置为APP POST_RUN，准备进入APP POST_RUN状态，同时通知到BswM，通过标准接口BswM_EcuM_CurrentState()。
+（三）EcuM进入APP POST
+_RUN之后的动作（Action）
+当EcuM状态进入APP POST_RUN状态以后，首先，检查是否有有效的唤醒事件挂起，如果有有效的唤醒事件挂起，则跳回到APP RUN状态；如果没有有效的唤醒事件挂起，则请求NVM进行下电前关键信息的存储，一般是请求NVM_WriteAll()，注意：
+此阶段
+只是一个请求动作，真正执行存储动作在Shutdown阶段
+。之后，设置EcuM模式，进入Pre_Shutdown阶段。同时，通知BswM状态的切换。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

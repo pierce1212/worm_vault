@@ -1,0 +1,118 @@
+Flash操作实践：还不清楚EC是什么？
+2024-07-03T06:55:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495062&idx=1&sn=c168489b69a0daef3dda1dd58afbda8a&chksm=fa29b3e2cd5e3af4acdda33aec3c52dd7ada31128a7514819bc6953d4ed901221275d597f691&scene=21#wechat_redirect
+
+嵌入式开发，内存是一个无法规避的话题，内存承载着各种各样的信息，程序运行过程中，读取信息和存储信息都得依赖内存。内存的分类中，Flash是最常用的内存类型，我们可能对Flash不陌生，但是，Flash对应的
+EC（Erase counter）是否熟悉呢？本文，聊一聊EC。
+提示：
+基于英飞凌TC3xx讨论
+1、什么是EC
+EC是一块特殊的存储区，用于记录擦除事件。确切的说，是记录
+PFlash擦除事件
+的一块只读（Read-Only）内存区。在TC3xx的产品中，
+每个PFlash Bank对应一个EC
+。在TC4xx中，EC的结构和记录起始位置，稍有不同，注意区分。
+2、EC结构及log
+每个EC的大小为
+16 Kbyte
+，存储在
+PFlash区域
+。每个EC所在的PFlash内存区，可以分为两个部分，每个部分可以记录256条信息（entries），其中，每个部分的
+第一条记录信息为预编程
+（pre-programmed）
+ECC
+有效信息
+，实际用于记录PFlash擦除事件信息的个数为255。
+前256个擦除事件记录entry所在区，称为：Low priority area；后
+256个
+擦除事件
+记录entry
+所在区
+，称为：High
+priority area。因此，使用时，可以为每个逻辑扇区（Logical Sector）设置优先级。EC划分High Prio Entries和Low
+Prio Entries示意如下：
+注意：
+每个部分的
+第一个记录entry，Marker != 0
+，记录的信息为空，
+仅作为查找擦除事件信息的入口
+。
+（一）物理扇区和逻辑扇区关系
+一个物理扇区（Physical Sector）可以包含多个逻辑扇区（Logical Sector），本文：一个物理扇区对应32个逻辑扇区（总大小为512 Kbyte），每个逻辑扇区的大小为16 Kbyte，示意如下：
+每次
+调用Flash的
+Erase
+命令时，NVM会
+自动地
+记录擦除逻辑
+扇区的
+起始地址
+和个数。记录的
+逻辑扇区
+起始地址是
+相对所选物理扇区的起始地址
+。更多内存信息可以参考前文《
+这些芯片内存（Memory）区，你真的用过？
+》。
+（二）EC的记录格式
+既然要记录
+逻辑扇区
+擦除事件信息，就需要一定的记录格式。每个entry使用256bit（32 byte）记录信息，每个entry恰好对应一个PFlash Page（
+最小写单位
+），具体格式定义如下：
+其中，Marker用于查询最后一个有效的EC记录实体（可以理解为最近的一次有效擦除操作），
+如果
+Marker != 0，就继续查找下一个EC entry
+，如果下一个
+EC entry的
+Marker == 0，则查找到
+EC entry记录的最后一次有效擦除操作
+。
+Marker == 0以后的信息为empty，empty信息应禁止访问，避免Bus Error
+。
+举例：
+擦除PFlash Bank0的S61（Logical Sector 61）开始的连续3个Logical Sector，所在Physical Sector的偏移地址为0xF4000。
+每次执行擦除操作后，对应的EC0（Erase Counter 0）记录的信息如下：
+上图示例中，执行了
+两次
+擦除动作，每次擦除3个
+Logical Sector，擦除起始地址0xF4000（相对地址）。
+注意：
+Flash Driver对
+PFlash操作时
+，擦除操作
+受到Safety Endinit功能保护
+，需要先解除保护，在进行擦除操作，对应示例代码如下：
+/* Flash Operation */
+{
+/* Get the current password of the Safety WatchDog module */
+uint16
+endInitSafetyPassword = IfxScuWdt_getSafetyWatchdogPasswordInline();
+/* Erase the sector */
+IfxScuWdt_clearSafetyEndinitInline(endInitSafetyPassword);
+IfxFlash_eraseMultipleSectors(
+0xA00F4000
+,
+3
+);
+IfxScuWdt_setSafetyEndinitInline(endInitSafetyPassword);
+}
+提示
+：
+执行
+擦除动作时，使用绝对地址（eg：0xA00F4000），EC记录时，使用相对地址（eg：0xF4000）。
+有些朋友可能觉得：实际工程中，没感觉EC有啥用处。但是，EC这种记录信息的方式很值得学习和运用。
+往期
+精彩
+回顾
+A/B分区，程序应该如何回滚？
+低优先级的诊断报文，不影响通信？
+Bootloader开发：如何提高软件刷写效率？
+Flexray总线基础#04：结合工程实际需求，解读时间参数概念
+差分升级，真的能提高升级效率？
+Bootloader开发：一种降成本的从节点升级方案
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+信息安全：AES-CMAC原理及验签策略
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

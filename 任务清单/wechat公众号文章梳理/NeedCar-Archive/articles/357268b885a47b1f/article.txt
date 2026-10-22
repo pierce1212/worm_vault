@@ -1,0 +1,117 @@
+0x3E 与 S3 Timer 的实现细节
+2026-04-28T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498146&idx=1&sn=7361234f7f2ad3ea7028bbe207bf55da&chksm=fa29a7d6cd5e2ec05516def3593eeccf028eb054f4484d3e22a752bf594baf37896ae4965d2c#rd
+
+在上一篇《
+刷写测试时，为什么需要保持 0x3E 80 的发送？
+》中，我们已经从使用层面解释了 TesterPresent 的必要性。但在真实 ECU 项目中，很多问题并不是“知不知道要发 0x3E 80”，而是：S3 Timer 在 ECU 内部到底是怎么实现的？哪些请求会刷新 S3 Timer，哪些不会？0x3E 80 与普通诊断请求，在 ECU 里的处理有什么不同？
+这一篇，我们就从 ECU 软件实现视角，把 0x3E 和 S3 Timer 的机制拆开讲清楚。
+一、什么是 S3 Timer（Server S3 Timeout）？
+在 ISO 14229（UDS）中，S3 Timer 通常被称为：Server S3 Timeout
+它的核心定义是：ECU 在“当前诊断会话”中，允许 Tester 保持不活动的最大时间。如果在 S3 时间内，ECU 没有检测到有效的诊断活动（可以理解为没有收到对应的诊断报文），它就会认为：“诊断通信已经结束。”于是 ECU 会：自动退出当前诊断会话，回到 Default Session，或者重新进入Application程序。
+一个工程化的理解：你可以把 S3 Timer 理解为 ECU 内部的一个 “会话看门狗”：有“合法诊断互动”，则计时器被刷新；长时间没动静则会话被关闭。
+二、S3 Timer 在 ECU 中通常怎么实现？
+在大多数 ECU 软件中，S3 Timer 的实现形式都非常相似，典型结构如下：
+- 当前诊断会话状态
+- S3_Timer_Count
+- S3_Timer_Threshold
+一个非常典型的逻辑流程：
+（1）ECU 进入非默认诊断会话（如 Programming / Extended）
+（2）S3 Timer 被启动
+（3）每当收到“有效诊断活动”：S3 Timer 重新装载（reload）
+（4）周期任务（如 10 ms）递减 S3 Timer
+（5）一旦计数归零：触发会话超时处理
+用伪代码表示会更直观：
+if
+(diagnostic_session !=
+DEFAULT_SESSION
+) {
+if
+(received_valid_diagnostic_activity) {
+S3_Timer = S3_Threshold;
+}
+else
+{
+S3_Timer -= cycle_time;
+if
+(S3_Timer <=
+0
+) {
+exit_current_session
+();
+}
+}
+}
+三、什么算“有效诊断活动”？
+这是理解 0x3E 的关键点。并不是所有 CAN 报文，都能刷新 S3 Timer.一般来说，以下类型会刷新 S3 Timer：
+合法的 UDS 请求（SID + 长度正确）
+TesterPresent（0x3E）服务
+会话匹配的诊断请求
+而以下情况，通常不会刷新：
+非 UDS 报文
+格式错误的请求
+会话不允许的服务
+被安全机制直接丢弃的请求
+ECU 并不是“听到动静就续命”，而是“确认你还在合法对话”。
+四、0x3E 在 ECU 中的特殊地位
+在 UDS 服务中，0x3E 的设计目标非常明确：它就是用来刷新 S3 Timer 的。与普通服务（如 0x22、0x34）的区别如下：
+项目
+普通诊断服务
+0x3E TesterPresent
+是否有业务语义
+有
+几乎没有
+是否访问应用数据
+常有
+不需要
+是否进入复杂流程
+可能
+否
+主要作用
+功能操作
+刷新 S3 Timer
+在 ECU 软件中，0x3E 往往走的是：最短路径，最轻量逻辑，不依赖当前系统状态。
+五、0x3E 80：对 ECU 内部有什么不同？
+0x3E 80 中的 0x80，代表 Suppress Positive Response。对 ECU 来说：不返回 0x7E 正响应。但仍然需要：解析服务 ID，校验格式，刷新 S3 Timer。
+换句话说：Suppress Positive Response 不影响“会话活性判断”。只影响一件事：ECU 不往总线上回正响应。
+六、为什么刷写期间 S3 Timer 特别敏感？
+从 ECU 角度看，刷写期间存在几个“危险因素”：
+（1）Flash 操作时间长，单次擦写可能几十到几百毫秒
+（2）ECU 主循环被阻塞
+（3）诊断请求间隔异常拉长
+（4）部分实现中，
+Flash 期间不产生任何新请求
+这就导致一个结果：从 ECU 看来，“Tester 很久没动静了”。如果没有 0x3E，S3 Timer 就会自然倒计时到 0。
+七、ECU 是“什么时候”检查 S3 Timer 的？
+在大多数架构中：S3 Timer 检查并不是“立即发生”，而是在：周期任务，主循环尾部或诊断管理状态机中，这就是为什么你经常看到现象：
+刷写进行到一半突然失败，而不是立刻失败
+。
+八、常见实现陷阱（真实项目中很容易踩）
+（一）0x3E 收到了，但没刷新 S3 Timer
+原因：
+被过滤在网络层
+被安全模块提前丢掉
+TesterPresent 只在 Default Session 有效
+结果：照样会话超时
+（二）只在某些状态刷新 S3 Timer
+例如：只在 Idle 状态刷新，Programming 状态忽略。在刷写中高概率超时。
+（三）把 0x3E 当成“普通服务”
+导致：
+卡在任务队列
+被 Flash 操作延迟
+刷新 S3 太晚
+九、一句话工程级总结
+S3 Timer 是 ECU 内部用于判断诊断会话是否仍然有效的核心机制，而 0x3E TesterPresent 是唯一一个“专门为维持会话而存在”的 UDS 服务。刷写测试中持续发送 0x3E 80，本质上是与 ECU 内部 S3 Timer 进行的一次明确的“会话保活约定”。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：511~565
+【经验】关于RH850 F1KM系列CAN接收中断实践指南
+刷写测试时，为什么需要保持 0x3E 80 的发送？
+LiBST 放在 Secure Boot 前还是后更合理——从安全与功能安全的系统性分析
+算法“位数”≠ 实际强度：一次常见但危险的误解
+基于RH850 F1KM的JTAG一种使能/关闭方案
+针对内存资源有限的一种软件升级方案
