@@ -22,37 +22,8 @@
               "icon": "lucide-file",
               "title": "今日任务"
             }
-          },
-          {
-            "id": "88d5192f0bb196b3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "task_outline/obsidian_tasks_command_center.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "obsidian_tasks_command_center"
-            }
-          },
-          {
-            "id": "ba0a661112cced68",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "daliy record/2026.10.22 奇瑞DTC规范需求问题排查和待确认项.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026.10.22 奇瑞DTC规范需求问题排查和待确认项"
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -114,7 +85,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 253.5
+    "width": 348
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -246,12 +217,21 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "ba0a661112cced68",
+  "active": "7ca00279879900a4",
   "lastOpenFiles": [
-    "task_outline/任务详情.md",
-    "daliy record/2026.10.22 奇瑞DTC规范需求问题排查和待确认项.md",
-    "task_outline/今日任务.md",
     "task_outline/obsidian_tasks_command_center.md",
+    "task_outline/任务详情.md",
+    "任务清单/wechat公众号文章梳理/2026.10.21 AUTOSAR网络管理与TransceiverController关系.md",
+    "任务清单/wechat公众号文章梳理/2026.10.21 网络管理为什么需要ECU保持激活一段时间.md",
+    "任务清单/wechat公众号文章梳理/2026.10.21 NM中的关键词.md",
+    "daliy record/2026.10.08 报文唤醒时间项目优化.md",
+    "daliy record/2026.10.20 E2E 偏差修改 、唤醒时间复测.md",
+    "daliy record/assets/2026.10.20 E2E 偏差修改 、唤醒时间复测",
+    "daliy record/2026.10.19 autosar NM及CAN 通讯测试报告bug修复.md",
+    "daliy record/2026.10.16 BOOT IDE测试.md",
+    "daliy record/assets/2026.10.16 BOOT IDE测试",
+    "task_outline/今日任务.md",
+    "daliy record/2026.10.22 奇瑞DTC规范需求问题排查和待确认项.md",
     "daliy record/2026.10.21 DMA.md",
     "daliy record/assets/2026.10.21 DMA/file-20261022134534484.png",
     "daliy record/assets/2026.10.21 DMA/file-20261022133141525.png",
@@ -268,32 +248,22 @@
     "任务清单/金融总结计划/2026.10.22 李录演讲总结.md",
     "任务清单/金融总结计划",
     "daliy record/assets/2026.10.21 下电误触复位",
-    "任务清单/wechat公众号文章梳理/2026.10.21 AUTOSAR网络管理与TransceiverController关系.md",
     "任务清单/沟通思维方式跟读/2026.10.20 沟通思维方式跟读.md",
-    "任务清单/wechat公众号文章梳理/2026.10.21 网络管理为什么需要ECU保持激活一段时间.md",
-    "任务清单/wechat公众号文章梳理/2026.10.21 NM中的关键词.md",
     "output/playwright/multi-text-final",
     "output/playwright/run-checkin-ui.cjs",
     "output/playwright/update-checkin-links-ui.cjs",
     "output/playwright/checkin-link-inspect.cjs",
     "任务清单/wechat公众号文章梳理/NeedCar-Archive/link-sources/bridge-201.json",
-    "任务清单/wechat公众号文章梳理/NeedCar-Archive/link-sources/complete-public-link-variants.json",
-    "任务清单/wechat公众号文章梳理/NeedCar-Archive/link-sources/article-album.json",
     "daliy record/打卡记录/2026-10 wechat公众号文章梳理 7fa493b9.md",
     "daliy record/2026.10.21 S32K324 上电流程.md",
     "daliy record/2026.10.21 LLM 架构师行业了解.md",
     "任务清单/英语学习/英语计划.md",
     "daliy record/2026.10.20 沟通思维方式跟读.md",
-    "daliy record/2026.10.20 E2E 偏差修改.md",
-    "daliy record/2026.10.08 报文唤醒时间项目优化.md",
     "AUTOSAR/UDS/0x85(ControlDTCSetting).md",
     "daliy record/2026.07.31 诊断其他功能.md",
     "daliy record/2026.06.10 IDE环境设置.md",
     "daliy record/2026.06.10 cpu load & stack deap.md",
-    "daliy record/2026.10.19 autosar NM及CAN 通讯测试报告bug修复.md",
     "daliy record/未命名.md",
-    "daliy record/2026.06.29 UDS故障排查.md",
-    "daliy record/2026.09.17  奇瑞 NM 新需求.md",
     "未命名.canvas",
     "未命名 1.canvas"
   ]
