@@ -1,0 +1,146 @@
+用“节奏”和“批量”管理诊断通信—通俗理解 STmin 与 BlockSize
+2026-05-14T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498170&idx=1&sn=8e83ea5787eac2557c1dafe224e13580&chksm=fa29a7cecd5e2ed88d03aad145c70dc9821436bb4f2fb213496cc1ed5b39cb1f7ca471888fc5#rd
+
+在汽车电子系统中，诊断通信就像 ECU 与诊断仪之间的一次“对话”。当数据很少时，一问一答非常简单（也就是我们常说的"乒乓"通信）；但当数据很多（eg：软件升级、日志读取）时，这场对话就变成了连续不断的数据传输。
+为了让这场对话既不“噎住”接收方，也不“拖慢”发送方，诊断规范引入了两个非常关键的参数：
+BlockSize
+和
+STmin
+（Separation Time）。
+可以这样理解这两个概念：
+BlockSize（BS）
+：一次最多说多少句。专业解释：
+接收方（ECU）在发送一次 Flow Control（FC）帧后，允许发送方在无需再次等待 Flow Control 的情况下，
+连续发送的 Consecutive Frame（CF）数量上限
+。
+BS 由接收方在Flow Control（FC）帧中声明，对发送方具有强制约束力。
+BS 值
+规范含义
+BS = 1…4095
+允许发送这么多个 CF 后，发送方必须停止并等待新的 FC
+BS =
+0x00
+发送方可连续发送整个剩余报文，不再需要中间 Flow Control
+STmin
+：两句话之间至少要隔多久。
+发送方在发送两个相邻的 Consecutive Frame（CF）之间，必须遵守的最小时间间隔。
+STmin 同样由接收方在 Flow Control 帧中给出，并由发送方严格遵守。
+Flow Control 帧的 Protocol Control Information（PCI） 固定占用前 3 个字节，如下所示：
+Byte
+0
+Byte
+1
+Byte
+2
++-----------+-------------+-------------+
+| PCI Type  | Block Size  | STmin       |
++-----------+-------------+-------------+
+一、为什么需要 BlockSize 和 STmin？
+想象一个生活场景：一个人（发送方）语速很快，情绪激动，一口气说很多话；另一个人（接收方）需要边听边记，如果对方说得太快、太多，就会跟不上。在诊断通信中，发送方是 Tester（诊断上位机），接收方是 ECU（也称为Server）。
+ECU 的处理能力是有限的：RAM 可能不大，CPU 还在运行控制任务，有时还要擦写 Flash 或做安全运算。
+如果 Tester 不加控制地连续发送数据帧，ECU 很容易发生缓冲溢出或超时，通信就会失败。于是，规范给了 ECU 两个“调节手段”：BlockSize 和 STmin。
+二、BlockSize：控制“一批能发多少”
+1. BlockSize 是什么？
+BlockSize（BS） 表示发送方在不等待新的流控帧之前，最多可以连续发送多少个数据帧（CF）。简单说：
+BS = 8 → 一次最多发 8 帧，然后必须等 ECU 点头
+BS = 1 → 每发 1 帧就要停下来确认
+BS = 0 → 不限数量，直接发完
+2. 为什么 BlockSize 很重要？
+BlockSize 反映的是接收方的缓冲能力。
+RAM 小、处理慢 → BS 应该小
+RAM 大、DMA 强 → BS 可以设很大，甚至 0
+如果 BS 设得太大，而 ECU 吃不下：ECU 来不及处理，后面的帧就可能丢失；如果 BS 设得太小：Tester 频繁等待流控，通信效率就会下降。BlockSize 的核心是“批量”控制。
+三、STmin：控制“节奏有多快”
+1. STmin 是什么？
+Separation Time（STmin） 表示：发送方在
+两个连续数据帧
+之间，必须等待的最小时间间隔。
+例如：
+STmin = 5 ms → 每发一帧至少等 5 毫秒
+STmin = 0 ms → 不限制节奏，
+能多快多快
+在 CAN FD 中，还可以是 100 µs、200 µs 这样的微秒级。
+STmin = 0x00 ～ 0x7F（毫秒级）
+STmin 值
+含义
+0x00
+0 ms（连续发送，不强制等待）
+0x01
+1 ms
+…
+…
+0x7F
+127 ms
+STmin = 0xF1 ～ 0xF9（微秒级，
+仅 CAN‑FD
+）
+STmin 值
+含义
+0xF1
+100 µs
+0xF2
+200
+µs
+…
+…
+0xF9
+900
+µs
+2. 为什么需要 STmin？
+即使 BlockSize 合理，也可能出现问题：一次能吃 10 口，但你 10 口“瞬间全塞进嘴里”，还是会噎住。
+STmin 的作用就是：给接收方“喘气和消化”的时间。
+ECU 可以在两帧之间：
+把数据搬进 RAM
+更新状态机
+执行校验或处理
+STmin 管的是“节奏”，不是数量
+。
+四、STmin + BlockSize 是如何配合的？
+只有把两者放在一起，流控机制才完整。你可以这样理解：BlockSize 决定一轮最多发多少帧，STmin 决定这一轮里每帧之间的节奏。
+一个典型传输过程是：
+（1）ECU 发送 Flow Control：BS = 8，STmin = 2 ms。
+（2）Tester：发第 1 帧 → 等至少 2 ms，发第 2 帧 → 等至少 2 ms，……，发满 8 帧。
+（3）Tester 停下来，等待下一次 Flow Control
+五、不同场景下的典型组合
+1. 普通诊断读取
+BlockSize：4～8
+STmin：1～5 ms
+特点：节奏温和，适合小 RAM ECU。
+2. CAN FD 编程 / OTA
+BlockSize：0（不限）
+STmin：0 或 100 µs
+特点：追求最大吞吐，ECU 有大缓冲。
+3. ECU 负载很高的场景
+BlockSize：1～2
+STmin：较大（5～10 ms）
+特点：优先稳定性，宁可慢，也不要失败。
+六、几个常见误解
+误解 1
+：STmin = 精确等待时间，❌ 不对。
+STmin 是最小值
+，发送方可以等更久，但不能更早。
+误解 2
+：BlockSize 越大越好，❌ 不一定。
+BlockSize 超出 ECU 实际能力，只会增加风险。
+误解 3
+：有 STmin 就不需要 BlockSize，❌ 不够。
+STmin 控节奏，BlockSize 控批量，缺一不可。
+七、总结
+BlockSize 决定“这一次能吃多少”，STmin 决定“吃得有多快”。两者配合，才能让诊断通信既高效，又不把 ECU 压垮。
+BlockSize 用于从“数量维度”限制连续帧的发送规模，STmin 用于从“时间维度”限制连续帧的发送节奏；二者共同构成 DoCAN 多帧传输的流量控制机制，以确保诊断通信在不同系统能力条件下的可靠性与稳定性。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：511~565
+基于CANoe的Python操作入门指南
+编程会话中的 queued request：为什么“支持队列”意味着更高的接收能力要求？
+一颗汽车“大脑”的成长之路：ECU 软件从工厂到上路的全过程
+基于 TC397 的 FreeRTOS 移植实践与经验总结
+0x3E 与 S3 Timer 的实现细节
+【经验】关于RH850 F1KM系列CAN接收中断实践指南
+避免TC3xx HSM锁板的一种方案
+A/B分区，软件实现方案思考

@@ -1,0 +1,27 @@
+诊断，到底该如何理解"一个操作循环"概念？
+2024-07-29T06:33:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495282&idx=1&sn=236d3439d3c02c22711e159b1e6e62d3&chksm=fa29b006cd5e39103999245d7a76b8f345899c1939bfcc31b4ff6e6a45d97f70327318a1e8d8&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+搞诊断的小伙伴，对于"操作循环"（Operation Cycle）这个概念应该并不陌生。但是，你能否具体定义
+Operation Cycle？
+Operation Cycle的起点和终点又如何理解？诊断复位或者软件复位后，算一个新的操作循环吗？软件设计中，如何对应一个操作循环......除了如上几个问题，
+Operation Cycle还与DTC Status变化有着千丝万缕的关系。所以，准确理解
+操作
+循环是搞好诊断的基础。本文，带着这些疑惑，一一解读。
+1、"一个操作循环"的定义
+就操作循环的定义来说，UDS 14229-1给出的解释相对规整，定义如下：
+Operation Cycle
+:
+An operation cycle specifies the
+start
+and
+end
+c
+onditions
+for monitors to run.
+During an operation cycle several monitoring cycles may have completed (regardless of their test results).
+如何解读这个定义呢？直白的解释：一个操作循环需要明确监控者的起、止条件。其中，一个操作循环可以完成多次监控循环，不管监控结果如何。
+直白的翻译总是很难让人理解的，如何对应到实际的需求和工程实践呢？
+2、监控循环与操作循环的关系

@@ -1,0 +1,175 @@
+嵌入式开发：CSA是什么？
+2023-05-24T09:28:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492212&idx=1&sn=bd145b1446d1458deb27183e30037534&chksm=fa29bc00cd5e351626de5da44c790948e0092838545ee6632f72f3b2e61241f1aba75d82acca&scene=21#wechat_redirect
+
+汽车嵌入式开发中，经常听到一个名词：CSA（Context Save Area），上下文存储区。简单说，就是
+上下文信息保存的内存区
+。展开讨论之前，回顾一下Cortex内核运行机制，发生中断或者Trap时，程序需要先保护现场信息，将现场信息压栈（Push），之后程序跳转到中断服务例程执行对应程序，处理完异常后，程序返回现场，恢复现场信息，即：出栈（Pop）。现场信息的压栈和出栈示意如下：
+不同于Cortex内核的处理机制，Tricore使用CSA方式保存和恢复上下文信息。本文，针对CSA，讨论如下几点：
+CSA
+是什么呢？
+CSA
+如何管理呢？
+CSA使用示例
+？
+提示
+：本文基于
+TriCore
+架构讨论
+1、CSA是什么呢？
+程序执行过程中，发生
+Task抢占
+/外部中断/
+Function Call
+时，
+CPU
+程序
+通过存储/恢复上下文（
+Context
+）信息
+返回原有程序
+。如下图，分析如下：
+某个CPU在执行主程序（Code A）过程中，T0时刻，需要调用另一个程序（Code B）获取某个结果再继续执行主程序。
+如果CPU要准确的返回到原来主程序，CPU在执行Code B之前，需要先记录CPU此时运行的一些状态信息（eg：
+当前主程序运行地址、当前程序运行状态等），这个过程就是上下文保存（Save），保存的这些信息，是程序能回到原始状态的基础。
+当CPU执行完Code B以后，回到原来的运行状态时，需要恢复之前CPU的状态，这个过程称为上下文恢复（Restore）。
+（一）CSA区域划分
+如上的过程中，如果要存储Context信息，就需要一块地址存放此信息。这个地址如何划分？
+答
+：用户自定义一块RAM区。工程中，针对不同的CPU，根据实际情况划分每个CPU的CSA区域大小与起始地址。
+在
+TriCore架构中，
+一个CSA区域占用64 Bytes
+。具体一个CPU分配多少个CSA，取决于硬件资源及用户的自定义分配。
+举例：假设为CPU0分配8KBytes的CSA空间，起始地址：0x70019C00，一共可以分配8*1024 / 64 = 128个CSA。
+CSA的起始地址可以在链接文件中（eg：*.lsl）指定，如下定义CPU0的CSA0大小为8K，起始地址：0x70019C00，64Byte对齐。
+CORE_SEC
+(
+.csa
+) (
+LCF_DSPR0_START
++
+LCF_CSA0_OFFSET
+):
+{
+PROVIDE(__CSA0 = .);
+. = . + LCF_CSA0_SIZE;
+PROVIDE(__CSA0_END = .);
+} > dsram0
+（二）每个CSA存储什么？
+每个CSA要么存储
+上文
+（Upper Context）
+，要么存储
+下文
+（Lower Context）
+。上文和下文对应的内容如下所示：
+不管上文还是下文，存储内容实质就是CPU的特定寄存器内容。对于32 bit位宽的CPU，如上每个寄存器占用4 Bytes，上文或者下文分别由16个寄存器组成，因此，每个CSA存储16*4 = 64 Bytes信息。
+提示
+：对于
+外部中断
+、
+Trap
+以及
+Function Call
+，
+硬件自动保存
+Upper Context到CSA区域，Lower Context由程序员视情况保存/恢复。
+2、CSA管理
+既然CSA有多个，也就意味着，程序运行过程中，即使嵌套多层，也能依赖CSA返回主程序。如果要使用多个CSA，就意味着上下文的多次保存和恢复，如果要CPU正确运行，就需要确保上下文保存的顺序和恢复的顺序。在TriCore架构中，不管上文还是下文，均包含一个PCXI寄存器，而
+CSA的地址信息
+管理
+通过PCXI/Link Word管理。
+每个
+Link Word
+占用4 Byte，Link Word的Segment和offset存放在PCXI寄存器。如下图：bit16~bit19存储Link Word的段（Segement），bit0~bit15
+存储Link Word
+的偏移（Offset）。
+举例
+：假设PCXI此时寄存器的信息为0x00
+1
+7
+0670
+。其中，
+1
+表示存储上文信息，
+7
+表示CSA信息存放在段7，
+0670
+表示此CSA在段7偏移0x670*64 = 0x19C00，即：0x70019C00处存放Upper Context。PCXI的位域信息如下所示：
+单个CSA容易维护，多个CSA如何管理呢？
+答
+：
+使用单链表方式
+。在
+TriCore
+架构架构中，有三个寄存器用于CSA信息的管理：
+PCX
+：previous context list，指向使用了的CSA链表；
+FCX
+：free context list，指向当前可用的CSA链表；
+LCX
+：Last context，指向链表最后一个CSA区域。
+1、Context Save
+比如：某个CPU的运行状态如下，此时，有3个CSA可用，FCX指向CSA3，CSA3通过Link Work指向CSA4，CSA4通过
+Link
+Work指向
+CSA5，CSA5指向空（没有可用的CSA）。有2个CSA已经被使用，PCX指向CSA2，CSA2通过Link Word指向CSA1，如下所示：
+当程序再次被外部中断/Trap/Function Call时，FCX指向CSA4，上/下文信息保存到CSA3，PCX指向CSA3，CSA3链接到CSA2，如下所示：
+2、Context Restore
+当CPU返回时，通过CSA3恢复上/下文信息，CPU返回到上次的运行状态，PCX重新指向CSA2，FCX重新指向CSA3，CSA3再次通过Link Word指向CSA4，如下所示：
+（一）Context异常
+CSA使用过程中，如果发生溢出等错误时，程序进行异常处理，在Tricore中，Context异常对应
+3类异常
+（Class 3），具体故障细分如下所示：
+提示
+：如果使能调用深度检查（Call Depth），最大可以设置调用深度64，该参数设置可以操作PSW（CPUx Program Status Word）寄存器的CDC（Call Depth Counter，bit0~bit6）位域。
+如果深度最大64，意味着最多可以保存64个CSA，至少需要划分64*64 = 4096 Byte = 4KByte空间。如果想设置更大的Stack空间，则关闭CDC的检查（设置PSW.CDC = 111111
+B
+）。
+3、示例
+工程开发中，程序在启动时，
+每个CPU
+会有一个CSA初始化接口（eg：
+IfxCpu_initCSA()
+）
+，此接
+口执行后，上文或者下文的
+Link Work则建立好链接
+（64 Byte对齐），示例如下：
+1、程序运行到目标Function Call之前，
+CPU0寄存器信息如下，此时PCXI指向空，即：没有使用CSA，如下所示：
+CSA起始位置（0x70019C00）信息，如下所示（
+之前被使用过
+）：
+2、CPU0调用目标Function，PCXI指向被使用的CSA区域，FCX指向下一个空闲的CSA区域，LCX指向最后一个CSA区域，如下所示：
+被使用的CSA区域存储的上文信息如下所示，即：没有调用目标Function之前的上文信息。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+基于VN5650 TAP模式监控以太网数据交互
+E2E工程问题：小周期转大周期Gateway
+嵌入式开发：看门狗问题QA
+TRACE32调试：基础调试技巧之SystemMode、SNOOPer
+为什么需要外部看门狗？
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

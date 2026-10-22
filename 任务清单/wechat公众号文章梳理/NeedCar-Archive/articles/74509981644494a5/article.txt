@@ -1,0 +1,78 @@
+信息安全，如何证明certificate是有效的？
+2025-05-16T06:38:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496760&idx=1&sn=8abc50a8c328a1ef0bf1d28619cbb714&scene=21#wechat_redirect
+
+在信息安全的范畴里，经常会提到密钥管理KeyM（Key Manager），KeyM主要讨论两部分内容：crypto key submodule和certificate submodule。
+对于
+certificate submodule，与我们参与的具体项目有关，如果项目对应的控制器开发不使用诊断的0x29服务，或者不涉及TLS(Transport Layer Security)时，涉及
+certificate的内容不多。但是，关注信息安全，有必要了解一下
+certificate。本文主要讨论一个点：
+如何证明certificate是有效的？
+1、UDS 0x29服务与certificate
+搞诊断的小伙伴，对
+UDS（Unified diagnostic  services）的0x29服务（Authentication service，认证服务）应该有所了解。
+0x29服务涉及的内容如下所示：
+其中，APCE（Authentication with PKI Certificate Exchange）会涉及
+Certificate。讨论本文的话题，我们从APCE的认证流程开始，我们以
+单向证书认证（verifyCertificateUnidirectional）为例，简化流程如下所示：
+Step1
+：上位机（eg：诊断仪）启动认证流程，询问Server端支持的认证方式。Server给出支持的认证方式
+（eg：APCE认证）；
+Step2
+：
+Client将包含自身公钥和CA（certificate authority）签名的证书给到Server
+，
+Server用CA的公钥验证
+Client证书；
+Step3
+：如果
+Client证书有效，则发送Challenge Server给到Client；
+Step4
+：Client用对应的私钥对
+Challenge Server签名；
+Step5
+：Server用Client的公钥验签，确认Client身份合法性。
+针对该认证流程，我们提出一个问题：Server端怎么知道Client发送的证书（Certificate）是否合法呢？
+如何确保该证书没有被篡改过？
+2、Certificate Chain
+Step2中有提到CA和CA的公钥，这又是怎样的关系呢？我们可以参考（1），如下所示：
+如上的certificate分为Root Certificate、Intermediate Certificate、End user Certificate。其中，
+Root Certificate（根证书）是信任的起点，可以看作是无条件信任的
+，根证书只能自己给自己签名。
+Intermediate Certificate（中间证书）由根证书签名，
+End user Certificate（终端用户证书）由中间证书签名。
+其中，
+Root Certificate、Intermediate Certificate需要提前罐装在ECU内部的非易失内存区
+（eg：产线通过诊断刷写到特定内存区，当然，需要确保该内存区是安全的）。为了简化流程，节约认证时间，可以省略
+Intermediate Certificate。所以，对应到0x29服务的认证流程上，
+可以将
+Root Certificate的公钥Kpub CA提前罐装在ECU内
+，Client发送证书之前，请求CA使用对应私钥Kpriv CA对Client Certificate进行签名。只有合法的Client，CA才会进行签名。如此，Server收到
+Client Certificate时，使用提前存储的CA公钥对
+Client Certificate中的签名信息进行验签。如果验签成功，说明
+Client身份合法，之后，Server提取
+Client Certificate的公钥Kpub Client，为了确保
+Kpub Client有效，所以，Server会发送Challenge Server给Client，让
+Client使用
+Kpriv Client对
+Challenge Server签名，之后，
+Server使用
+Kpub Client对签名Client签名的信息进行验签，证明
+Kpub Client的数据有效性。示意如下：
+参考资料：
+1、Specification of Key Manager AUTOSAR CP Release 4.4.0.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+Lauterbach实用技巧，Hex文件导出（补充篇）
+基于Davinci的HSM开发实践（11）：安全启动开发实践及问题
+诊断，为什么无效唤醒会加速DTC信息清除？
+差分升级，带来了哪些好处？
+诊断，为什么读到的DTC故障状态是0x20?
+诊断，如何速记多帧传输中的时间参数？
+Bootloader开发：如何提高软件刷写效率？
+这些芯片内存（Memory）区，你真的用过？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

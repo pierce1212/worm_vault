@@ -1,0 +1,92 @@
+控制器的节点类型，还有ABCD之分？
+2024-09-06T06:36:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495639&idx=1&sn=01e6a72fde342149f166fa559baffdcd&scene=21#wechat_redirect
+
+项目开发过程中，大家对自己开发的控制器并不陌生，但是，如果有人提出这样的问题：项目所用控制器的节点属于ABCD中的哪一个类型？你能否回答？本文，就聊一聊这个有点"偏"的知识点。
+1、控制器的节点类型如何划分
+在整车EEA（Electrical/Electronic Architecture，电子电器架构）中，包含各种类型的控制器，每个控制器的PCB（Printed Circuit Board，印刷电路板）也各不相同。由于每个控制器的功能和角色不同，在设计时，控制器的
+节点（Node）个数
+、
+供电方式、唤醒方式
+也会有所不同。
+在搞清楚问题之前，需要先区分“控制器”和“节点”的区别。一个控制器，根据功能需求，可能会使用不同的总线协议，eg：CAN/Lin/Flexray/Ethernet等，而针对每种总线（BUS）又会使用不同数量的Node，比如：我们常说的1路CAN，其实就是指1个CAN Node。如果控制器包含2路CAN、4路Lin、1路Ethernet，我们可以说这个控制器包含7个节点（Node）：2个CAN Node、4个Lin Node以及1个Ethernet Node。控制器和Node，示意如下：
+每个控制器除了Node个数不同，每个Node在
+唤醒方式
+和
+供电方式
+上也会有所不同。所以，要区分每个Node的类型，我们就需要从Node的供电方式和唤醒方式聊起。
+（一）Node的供电方式和唤醒方式
+A、B类型的Node，uC（microcontroller）和
+Transceiver的供电方式、唤醒方式如下所示：
+对于Type A类型的节点
+，即使KL15处于Off状态，节点依然可以保持所有功能，这是因为常电源（Permanent Battery，eg：KL30）一直保持着uC和transceiver的供电状态。当然，应用程序可以关闭整个系统的供电，即：关闭uC和
+transceiver的工作电压（一般是关闭Vcc电压），但是，
+transceiver依然保持着供电（
+Permanent Battery提供
+），使其处于低功耗模式（eg：低于100uA），以便于监听总线的唤醒信号。
+关于Vcc和Vio的区别，可以参考前文《
+嵌入式开发，Vio和Vcc有什么区别？
+》。
+对于Type B类型的节点
+，
+因为
+常
+电源（Permanent Battery，eg：
+KL30
+）一直保持着
+uC和transceiver的供电状态
+。
+所以，
+整个
+系统一直处于供电状态，如果需要节省能量，在节点不需要工作时，可以控制
+uC、
+transceiver进入低功耗模式。
+transceiver除了可以监听总线唤醒信号以外，还可以通过本地唤醒源唤醒（local wakeup），本地唤醒源一般指节点关联的硬线，eg：传感器硬线信号、Wakeup Pin等。
+C
+、D类型的Node
+，uC和Transceiver的供电方式
+、唤醒方式如下所示：
+对于Type C类型的节点
+，
+因为
+常
+电源（Permanent Battery，eg：
+KL30
+）一直保持着
+uC的供电状态
+。
+所以，uC
+一直处于供电状态，而且uC可以控制
+transceiver的供电状态。所以，相对于Type B节点
+，Type C类型的节点更节省能量，因为在低功耗模式下，
+transceiver可以完全断电
+。
+uC
+可以通过本地唤醒源唤醒（local wakeup），之后，重新使能uC和
+transc
+eiver的供电，进而恢复通信，使系统进入工作模式
+。
+对于Type D类型的节点
+，对于该类型的节点，唤醒方式主要受Switched Supply影响，比如：KL15硬线。如果KL15进入ON模式，电源管理模块（Vreg）唤醒，进而给uC和
+transc
+eiver供电，系统进入正常工作模式
+。
+提示：
+Permanent Battery除了KL30以外，一些高端新能源车上还可以指
+超级电容
+。在一些功能安全要求的范畴内，KL30和超级电容两类常电互补，以便给控制器提供稳定电源。
+往期
+精彩
+回顾
+A/B分区，软件实现方案思考
+工程问题，CAN Busoff恢复不成功导致的通信中断
+CAN总线科普，Busoff与CC状态切换的本质
+Bootloader开发：一种降成本的从节点升级方案
+包含信息安全、SWAP（A/B分区）功能的Bootloader开发思考
+诊断，为什么无效唤醒会加速DTC信息清除？
+诊断，读到的DTC状态是0x6C，又该如何理解？
+信息安全，RSA2048开源库及填充细节
+诊断，到底该如何理解"一个操作循环"概念？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

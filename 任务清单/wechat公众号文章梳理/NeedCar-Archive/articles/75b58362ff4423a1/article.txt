@@ -1,0 +1,81 @@
+C语言的#很“秀”
+2021-12-09T12:16:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483815&idx=1&sn=953ea1ef8247509bb32daf1412db487d&chksm=fa2a5fd3cd5dd6c5d98fa0a7d281e5fc7b36c1dba1a56244c97a1e9fd3c364cb6077e5be8299&scene=21#wechat_redirect
+
+前言
+嵌入式开发中，C语言的地位真的是稳坐“C”位。当然，项目讲究的是代码的鲁棒性，并不要求写的太“秀”。但有时我会有一种感觉：写的越优秀的代码，你开始看不懂，当你看懂了你会觉得，“哇塞/还能这么写/还能这么玩/太秀了......”。言归正传，本文聊聊“#”在C中的使用。
+#作用
+#
+主要是在
+预处理阶段
+将宏参数转化为字符串
+。
+#include
+<stdio.h>
+#include
+<stdlib.h>
+//#输出信息
+#define
+ExportInfo(
+info
+)
+printf
+(
+" Export information:
+%s
+\r\n
+"
+,
+#info
+)
+int
+main
+(
+int
+argc
+,
+char
+*
+argv
+[]) {
+ExportInfo
+(I Love My Family!);
+return
+1
+;
+}
+运行结果：
+如上是#的简单玩法，在实际的嵌入式很少用，如果使用UART输出打印信息可以这样操作一番。
+#在开发中的应用
+#在实际的开发中的使用还是有很多的，这里结合__asm()，举一个例子。
+示例：启动代码调用主函数
+/* Function call without return */
+#define
+__non_return_call(
+fun
+)  __asm__ volatile (
+"j "
+#fun)
+/* Call main function of Cpu0 */
+......
+__non_return_call
+(
+core0_main
+)
+......
+如上代码真正表意如下所示：
+__non_return_call
+(
+core0_main
+)
+等价
+__asm__ volatile (
+"j " "core0_main"
+)
+上述代码是不是有点“秀”，可能我们自己写就直接使用跳转指令（“j”）操作了。
+简单讲解一下__asm()。这里使用__asm()编写了一个没有输入和输出参数列表的自定义指令程序，目的：跳转到用户主函数且不返回。
+使用场景
+其实，思考一下，我们发现，这样的操作可以在如下场景中使用，如：
+有Boot程序，在Boot中，跳转App主程序
+没有Boot程序，启动程序结束，跳转用户主程序
+总之，实际开发中，我们并不一定会这样写，能看懂即可。

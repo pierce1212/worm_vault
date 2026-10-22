@@ -1,0 +1,270 @@
+基于CMake，交叉编译C、C++
+2023-02-24T12:00:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491412&idx=1&sn=166e161734caaa3b5262e42821432e47&chksm=fa2a4120cd5dc836956e1e97ec2f3ff1c6d249ddf6089f3cbf35d0067f89b555fd517fb05417#wechat_redirect
+
+嵌入式开发，尤其SOA（Service Oriented Architecture，面向服务架构
+）的工程开发中，会碰到这样一种的场景：一部分业务功能使用C开发，且比较成熟，
+想直接复用
+。但是，业务层获取的底层服务是C++编写，如果要将两者放到一个进程里，需要将C、C++对应的源码交叉编译生成可执行文件。本文，针对C和C++交叉编译展开聊聊。
+1、C与C++区别
+首先，我们知道：C是面向过程（
+Procedure Oriented，简称PO
+）的编程语言，而C++是面向对象（
+Object Oriented ，简称OO
+）的编程语言。C++可以看作C的超集，C++包含了更多的特性。
+（一）PO与OO的区别
+PO优势
+：效率更高，因为PO语言（eg：C语言）不用实例化对象，消耗的资源更少；
+PO不足
+：移植性差，维护成本高。
+OO优势
+：复用性高，维护成本低；
+OO不足
+：效率低，使用之前，需要先实例化一个对象（Object）。
+2、编译原理
+不管是C还是C++，这些易于人类阅读的
+高级语言
+，终究要
+进行编译
+，最终转换成
+机器可识别的二进制语言
+。
+编译一般分为四个步骤
+：
+预处理
+->
+编译
+->
+汇编
+->
+链接
+。
+（一）预处理
+预处理由预处理器（Preprocessor）处理，删除注释，引入头文件或者包，将宏定义内容在源文件（*.c、*.cpp等）中进行替换。
+（二）编译
+汇编阶段，编译器（Compiler）将经过预处理的高级语言翻译成机器可识别的汇编语言。
+（三）汇编
+由汇编器（Assembler），将汇编语言转换成机器语言（二进制文件），并进行重定位（Relocatable）。再由加载器（Loader）将重定向后的
+指令
+和
+数据
+放到
+内存指定位置
+。
+（四）链接
+最终，由链接器（Linker）将多个可重定位的机器代码文件（
+包括库文件
+）连接到一起形成可执行文件。
+编译过程，如下所示：
+3、基于CMake，进行C、C++交叉编译
+说明：主函数（main.cpp）使用C++编写，并在main()中调用C编写的
+add()接口。文件结构如下所示：
+提示
+：Windows下，获取某个文件夹下的文件结构，可以使用命令：
+Get-ChildItem . -recurse
+（一）文件内容
+1、Cal.h文件
+#
+ifndef
+_CAL_H_
+#
+define
+_CAL_H_
+typedef
+int
+(*calOpt)
+(
+int
+,
+int
+)
+;
+#
+ifdef
+__cplusplus
+extern
+"C"
+{
+#
+endif
+extern
+int
+add
+(
+int
+x,
+int
+y)
+;
+#
+ifdef
+__cplusplus
+}
+#
+endif
+#
+endif
+如上，为了实现C和C++的混合编程，需要在头文件中，使用
+extern "C"
+。extern “C”是Ｃ++提供的一个
+连接交换指定符号
+，用于告知编译器：这是Ｃ编写的函数。
+extern “C”后面声明的函数，不再使用C++编译的修饰符
+。因为C++编译后，函数名会增加额外的修饰符，而C语言生成的函数不含额外的修饰符，因此，
+两者对同一个函数编译后的名称不同
+，这样，就使得Ｃ++无法直接调用C函数。
+2、Cal.c文件
+#
+include
+"Cal.h"
+int
+add
+(
+int
+x,
+int
+y)
+{
+return
+(x + y);
+}
+与Cal.c相同文件夹（src）下的CMakeLists.txt文件内容如下所示：
+# 查找当前目录下的所有源文件,并将名称保存到 CUR_DIR_SRCS 变量
+aux_source_directory
+(. CUR_DIR_SRCS)
+# 生成链接库
+add_library
+(Cal
+${CUR_DIR_SRCS}
+)
+target_include_directories
+(Cal PUBLIC
+"../include/"
+)
+3、main.cpp文件
+#
+include
+<iostream>
+#
+include
+"Cal.h"
+int
+main
+()
+{
+int
+result;
+calOpt optFunc = add;
+/* 通过函数指针调用add函数 */
+result = optFunc(
+0x10
+,
+0x20
+);
+std
+::
+cout
+<<
+"result = "
+<< result <<
+std
+::
+endl
+;
+return
+0
+;
+}
+与main.cpp相同文件夹下的CMakeLists.txt文件内容如下所示：
+# cmake最低版本要求
+cmake_minimum_required(VERSION
+3.10
+)
+# 设置项目名称和版本号
+project(
+CMake_Pro
+)
+# 设置使用C++标准版本
+set(
+CMAKE_CXX_STANDARD
+11
+)
+set(
+CMAKE_CXX_STANDARD_REQUIRED
+True)
+set(ENV{myEnvVar}
+"80"
+)
+MESSAGE(STATUS
+"myEnvVar: $ENV{myEnvVar}"
+)
+# 添加src子目录
+add_subdirectory(src)
+# 编译源码生成目标
+add_executable(
+CMake_Pro
+main.cpp)
+# 包含头文件路径
+target_include_directories(
+CMake_Pro
+PUBLIC
+"./include/"
+)
+# 添加链接库
+target_link_libraries(
+CMake_Pro
+Cal)
+4、运行编译的批处理脚本（*.bat）
+@echo off
+set buildDir=build
+@REM build的文件夹不存在则创建
+if not exist %buildDir% md %buildDir%
+if exist %buildDir% cd %buildDir%
+echo "
+*****
+*****
+*****
+:Execute cmake
+*****
+*****
+*****
+"
+cmake -G"Unix Makefiles" ../
+echo "
+*****
+*****
+*****
+:Execute make
+*****
+*****
+*****
+"
+make
+pause
+（二）编译
+运行CMake_Build.bat脚本，编译过程如下所示：
+可以看出，如上编译过程中，先将Cal.c文件编译成
+静态库文件（libCal.a）
+，最终在链接的时候，链接器将其链接成一个完整的可执行文件。这样处理的好处：
+保留了原有C文件的高效
+。
+运行结果：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+DDS概述及DCPS模型
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+以太网笔记：快速以太网100Base-TX接口及编码
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,168 @@
+嵌入式开发：读懂C语言封装的汇编很重要
+2022-10-07T18:34:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489902&idx=1&sn=e3c839bee87394090b05d35374146038&chksm=fa2a471acd5dce0c1e2e18f12f29c665a7f216068a4d9b75ea1320a0011d320f7722a1472299&scene=21#wechat_redirect
+
+汽车嵌入式开发的小伙伴，在实际的工程项目中，或多或少地能看到汇编语言的影子。这里，我不推崇一定学会汇编语言，因为汇编语言不像C语言（高级语言）那样，编写一个功能模块，可以复用到不同的硬件平台，即：
+汇编语言没有可移植性
+。
+但是我们要学会读懂汇编语言。编译器强大的优化能力，使得C语言和汇编语言的执行效率相差无几，所以我们不必刻意追求写汇编语言。开发过程中，我们确实会阅读到使用__asm()封装相关代码，里面的汇编语言是否困扰过你？让你无从继续阅读，甚至不能理解代码？本文，谈一下个人阅读汇编代码的一点总结。
+1
+C语言内联汇编
+常说道：“磨刀不误砍柴工”，阅读汇编语言代码也是一样。首先：先明确使用的编译器和芯片类型。使用的编译器不同，支持的汇编指令可能有所不同，使用的芯片不同，其内核架构也有所不同。
+对于Aurix芯片，多数会使用HighTec和Tasking编译器。本文以HighTec编译器、英飞凌TC3xx芯片为例，聊一聊C语言内联汇编。
+1、C语言内联汇编格式
+使用Tasking编译器，C语言内联汇编的格式如下所示：
+__asm(
+"instruction_template"
+[
+: output_param_list
+[ : input_param_list
+[ : register_reserve_list
+]]] );
+使用HighTec编译器，C语言内敛汇编的格式如下所示：
+asm (
+<
+assembly
+language
+template
+>
+:
+<
+output
+operands
+>
+:
+<
+input
+operands
+>
+:
+<
+clobber
+list
+>
+);
+如上两个编译器的asm()语句格式类似，本文讨论HighTec编译器的asm()汇编格式，其他编译器，可以触类旁通。
+assembly language template是必须要实现的操作
+。output operands、input operands、clobber list这三个选项是可选的，即：可以用，也可以不用，根据要实现的功能决定。
+提示：
+clobber list干啥的呢？
+答：
+clobber list内包含的寄存器不要操作。
+2、HighTec编译器对应的asm()汇编实例
+实例一
+：对两个uint16类型的输入参数进行加法计算，示例代码如下所示：
+uint32
+Add_TwoNum(
+uint16
+var1,
+uint16
+var2)
+{
+uint32
+ret;
+asm (
+"add %0, %1, %2"
+"\n\t"
+:
+"=d"
+(ret) :
+"d"
+(var1),
+"d"
+(var2) :
+"a11"
+,
+"d15"
+);
+return
+ret;
+}
+解释：
+asm是内联汇编的
+关键字
+，()内是要编写的汇编内容；
+%0表示使用到的第一个数据寄存器
+，即：将第一个数据寄存器的内容输出
+到ret变量中。寄存器编号顺序：
+从左到右，下标0开始，依
+次编号
+；
+assembly language template对应
+"add %0, %1, %2" "\n\t"
+，add是加法汇编指令，%0 %1 %2对应用到的
+通用数据寄存器
+编号，这里用到了3个数据寄存器。\n换行符，\t空格符；
+output operand对应
+"=d" (ret)
+，d：
+data register，这里使用第一个数据寄存器，编号为0，
+=
+表示输出
+；
+input operands对应
+"d" (var1),"d" (var2)
+，这里使用第二个和第三个数据寄存器，编号1和2。
+TriCore的数据寄存器一共有15个
+；
+clobber list对应
+"a11","d15"
+，意思是使用数据寄存器和地址寄存器的时候，a11和d15寄存器不要用。
+TriCore一共有15个地址寄存器。
+实例二
+：获取A11和D15寄存器信息，实例代码如下所示：
+void
+GetA11D15Reg_Info(uint32*
+info
+)
+{
+__asm__
+__volatile__ (
+"mov.d %0,%%a11\n\t"
+"mov   %1,%%d15\n\t"
+:
+"=d"
+(
+info
+[
+0
+]),
+"=d"
+(
+info
+[
+1
+])::
+"a11"
+,
+"d15"
+);
+}
+解释：
+%%a11，这里使用了双%，这是HighTec手册的规定，
+对于已知寄存器操作时，使用双%
+；
+mov.d %0,%%a11，意思：将a11寄存器存储的地址移动到编号为0的数据寄存器中（d0），之后d0将存储的地址内容输出给参数info[0]；
+mov   %1,%%d15，意思：将d15寄存器中的数据移动到编号为1的数据寄存器中（d1），之后d1将存储的地址内容输出给参数info[01]。
+注意：
+A[11]和D[15]寄存器中存储的信息有助于排查项目中遇到的Bug，
+A[11]中存储Return Address
+，即：当函数调用或者中断执行完成后，返回地址。尤其程序发生Trap时，可以通过A[11]寄存器快速定位问题发生的位置。
+D[15]记录TIN（Trap Identification Number）
+，即：Trap发生时的异常识别号，以便于知道Trap发生的原因。
+汇编指令很多，本文不逐一介绍，本文想表达：学会阅读汇编指令。用到的时候去查手册，弄清楚Code要表达的意思，不困惑。
+参考资料
+SIMPLE TITLE
+Infineon-AURIX_TC3xx_Architecture_vol2-UserManual-v01_00-EN.pdf
+ctc_user_guide_v6.3r1.pdf
+HighTec User’s Guide.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,131 @@
+Autosar通信栈基础：如何理解和使用Update bit
+2023-09-28T07:04:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493107&idx=1&sn=10a0430ea0e54b20ffa8f11aa30eb641&chksm=fa29bb87cd5e3291a1b7b971b05fc22ce499db30ee50b2f46728f2fb5c147c01b0f397f29f88&scene=21#wechat_redirect
+
+随着汽车智能化发展，整车通信矩阵越来越复杂，即：不同电控单元之间需要交互的信息越来越多，这些信息通过报文（Message）传输。在Autosar的软件分层架构中，Message在不同的软件层级会拆分出不同的形式，具体层级的表示，可以参考前文《
+Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚
+》。Message中携带的信号（Signal）最终要传递给软件的上层模块，参与算法处理，之后再将处理后的信息形成Signal发送出去。Autosar通信栈，简化示意如下：
+不管车辆通信变得如何复杂，均需要确保车辆运行的安全性，而车辆是否能按照预期状态工作，离不开控制器对Signal的及时响应，所以，及时的获取Signal状态尤为重要。
+为了满足此需求，
+在Autosar的架构中，
+对于
+发送端（Sender
+）和接收端
+（Receiver
+）设计了不同的
+信号状态处理
+策略。其中，超时机制（Timeout）与信号更新机制（UB，Update bit）最为典型。
+本文，着重讨论UB相关的几点内容：
+1、UB概念
+2、
+U
+B在发送端的处
+理
+3、
+UB在接收端的
+处理
+4、
+UB对应的工程问
+题
+除了本文，UB（Update Bits）在之前的文章已经聊过，可以参考前文《
+Autosar Com基于Update Bit路由功能浅谈
+》、《
+Autosar通信模块COM:Update-Bits详解
+》。
+提示
+：由于Signal Group UB与Signal UB实现类似，本文侧重
+Signal UB的讨论。
+1、UB概念
+UB
+：表示发送端（Sender）所发送信号（Signal）/信号组（Signal Groups）数据是否有更新，如果发送端发送的Signal/Signal Groups有更新，由COM层自动置位对应的UB（=1），反之，复位UB（=0）。
+为什么需要用UB位表示
+Signal
+/Signal Groups的数据有没有更新呢？假设如下场景，报文Message_A包含信号Signal_A、Signal_B等，
+Message_A的发送周期为10ms，而
+Signal_A的更新周期为30ms
+，示意如下：
+面对如上的场景，接收端（Receiver）应当检测Sender是否更新过Signal_A的值，以便于Receiver更好的进行算法处理。因此，为了表示
+Signal/Signal Groups数据是否有更新，设计了UB，UB需要消耗Message中的资源。举例：设计Signal_A_UB信号用于表示
+Signal
+_A数据是否更新过。
+由于UB需要消耗Message资源，因此，可以根据工程场景，对重要信号进行UB配置，对非重要信号，不配置UB，即：UB是一个选配项。同时，UB本身也是一个Signal。
+在如上的表述中，Sender和Receiver如何理解呢？
+（一）同一网段Signal传输
+如果Sender、Receiver在同一个局域网内，两者之间的信号传输如下所示：
+（二）跨网段Signal传输
+如果Sender、Receiver在不同局域网内，两者之间的信号传输如下所示：
+2、UB在发送端的处理
+如果为某个信号配置UB时，需要思考两个问题：
+1、何时置位发送端的UB位？
+2、何时复位发送端的UB位？
+（一）何时置位发送端的UB位？
+当上层软件模块（Upper Layer）需要发送Signal时，会通过RTE（Run-Time Environment）调用COM层的发送接口Com_SendSignal()/
+Com
+_Send
+SignaGroup
+()更新Signal或者Signal Group值，与此同时，COM模块自动将Signal/Signal Group对应的UB置位，示意如下：
+（二）何时复位发送端的UB位？
+在Autosar的架构设计中，何时复位发送端的UB信号，有三种模式供开发者选择：Transmit、Confirmation、TriggerTransmit。而这三种模式的选择，通过
+参数ComTxIPduClearUpdateBit
+配置。
+如何理解这三种模式呢？
+1、Transmit模式复位UB
+配置参数ComTxIPduClearUpdateBit = Transmit，当COM模块请求PduR模块发送接口PduR_ComTransmit()发送数据，当该接口返回E_OK时，COM模块复位UB，具体流程如下：
+2、Confirmation模式复位UB
+配置参数ComTxIPduClearUpdateBit = Confirmation，当Message成功发送到总线以后，从驱动层通过Callback层层向上通知，直到COM模块收到
+Message成功发送到总线的确认信息，
+COM模块复位UB，具体流程如下：
+3
+、
+TriggerTransmit
+模式复位UB
+此种模式在工程中，不多见，本文不做过多讨论。
+3、UB在接收端的处理
+Receiver成功从总线接收到目标Message以后，驱动层通过Callback层层向上通知，直到COM模块收到Message，PduR模块通Com_RxIndication()接口将数据通知COM某块，示意如下：
+其中，接收到的UB信息在Com_RxIndication()接口中进行处理，具体的处理如下所示：
+接收处理解读：
+1、当Message信息层层向上传递到COM模块时，
+Com_RxIndication()处理UB相关操作，如果在Receiver中配置了I-PDU Callout，则程序进行Callout处理，Callout主要进行用户自定义处理。如果
+Receiver中未
+配置
+I-PDU Ca
+llout，则进行后续处理
+；
+2、进行UB检查，如果UB = 0，COM丢弃UB对应的信号。如果UB = 1，程序进行后续的
+字节序转化
+（针对跨字节信号），
+Signal路由
+等操作。
+提示
+：Autosar架构中，
+COM层处理Signal级别路由
+，PduR处理PDU（可以看作帧）的路由。
+（一）Receiver何时复位UB
+Receiver处理收到的UB，需要与reception deadline monitor逻辑配合处理，即：如果信号deadline超时，则对应信号的UB位需要复位（=0）。
+reception deadline
+monitor属于选配项，
+如果信号没有配置
+reception deadline monitor，则接收端接收到的UB信号值会一直保持上次的接收值
+。
+4、UB对应的工程问题
+UB看起来似乎不难，但是，当其成为通信栈的一部分时，可能会因系统工程的复杂性，而引发各种各样的问题。如下两个问题来自工程实际，需要的小伙伴自行参考：
+通信栈开发：任务（Task）抖动导致的UB失效问题
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+嵌入式开发：安全架构核心组件之SMU
+NVM基础：解读"切页"的头部信息
+Lin总线Transceiver基础
+Autosar EcuM：APP由RUN到POST_RUN浅析
+UDS：Security Access service (0x27)，值得深聊
+嵌入式开发：Multicore启动及同步
+诊断基础：如何理解Operation Cycle？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

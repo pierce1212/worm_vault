@@ -1,0 +1,163 @@
+安装eProsima Fast DDS坑点
+2023-03-22T17:02:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491748&idx=1&sn=76622a01085deed6f59e152992caba47&chksm=fa29bed0cd5e37c6bceda04e6e26702321b97f6f30b1b8d1bfaadcc84759d3ad2f1b96c498d2&scene=21#wechat_redirect
+
+在电脑端（eg：Linux系统）或者虚拟机中安装Fast DDS，虽然按照eProsima的提示，大部分操作都没问题，但是，实际操作，多少会遇到点坑。本文是《
+开源Fast-DDS安装示例及DDS模型架构
+》一文的补充。希望两篇文章，可以助力你成功安装Fast DDS，enjoy DDS学习。
+安装参考链接：
+https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_linux.html#cmake-installation
+提示
+：本文使用Ubuntu20.04版本
+1、本地方式安装
+参考"
+3.1.4.1. Local installation
+"小节。
+（一）创建本地文件夹
+创建本地文件夹，本文文件夹命名Fast-DDS，命令如下：
+mkdir
+Fast-DDS
+（二）
+Foonathan memory
+安装命令如下：
+cd Fast-DDS
+git
+clone https://github.com/eProsima/foonathan_memory_vendor.git
+mkdir
+foonathan_memory_vendor/build
+cd
+foonathan_memory_vendor/build
+cmake
+.. -DCMAKE_INSTALL_PREFIX=/usr/local/ -DBUILD_SHARED_LIBS=ON
+sudo
+cmake --build . --target install
+CMAKE_INSTALL_PREFIX是cmake内置变量，用于指定cmake 执行install目标时，
+安装的路径前缀
+。本文直接安装到
+系统文件夹/usr/local/下
+，操作系统文件时，如果需要用户权限，使用sudo命令执行。
+（三）
+Fast CDR
+Fast CDR的安装命令如下所示：
+cd Fast-DDS
+git
+clone https://github.com/eProsima/Fast-CDR.git
+mkdir
+Fast-CDR/build
+cd
+Fast-CDR/build
+cmake
+.. -DCMAKE_INSTALL_PREFIX=/usr/local/
+sudo
+cmake --build . --target install
+（四）eProsima Fast DDS
+Fast DDS的安装命令如下：
+cd Fast-DDS
+git
+clone https://github.com/eProsima/Fast-DDS.git
+mkdir
+Fast-DDS/build
+cd
+Fast-DDS/build
+cmake
+..  -DCMAKE_INSTALL_PREFIX=/usr/local/ -DBUILD_SHARED_LIBS=ON
+sudo
+cmake --build . --target install
+（五）链接已经安装的库
+添加环境变量
+，命令如下：
+export
+LD_LIBRARY_PATH=
+/usr/
+local/lib/
+echo
+'export LD_LIBRARY_PATH=/usr/local/lib/'
+>> ~
+/.bashrc
+在编译过程中，需要搜索和使用（2~4步骤）中的动态库（*.so），因此，需要添加环境变量，以便于后续的搜索。在
+.bashrc
+文件中添加环境变量操作如下所示：
+在
+.bashrc
+文件中添加环境变量或者库的搜索路径，可以对
+当前用户
+永久生效，因此，每次
+安
+装软件、添加库
+，及时添加对应的环境变量。
+每次添加环境变量或者库的搜索路径以后（即：修改.bashrc），使用
+source ~/.bashrc
+使设置
+立即生效
+。
+2、Java JDK & Gradle安装
+（一）Java JDK、Gradle安装
+1、Java JDK的安装，参考"
+3.3.1.1. Java JDK
+"小节，但是本文安装使用如下命令：
+sudo
+apt install openjdk-
+11
+-jdk
+安装
+JDK 11
+版本是为了与jar的版本匹配
+，否则使用./gradlew assemble命令时，会提示Java版本出错问题。
+提示
+：使用
+./gradlew assemble
+安装，遇到JDK版本不匹配问题时，可以参考链接：
+https://blog.51cto.com/u_6650004/6114605
+2、Gradle安装，参考"
+3.3.1.2. Gradle
+"小节。
+（二）Fast-DDS-Gen安装
+命令如下所示：
+cd
+Fast-DDS
+git
+clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git
+cd
+Fast-DDS-Gen
+gradle
+assemble
+安装Fast-DDS-Gen是为了通过*.idl文件生成
+源码文件
+。
+（三）通过*.idl生成源文件注意事项
+成功执行
+./gradlew assemble
+安装以后，会生成share/fastddsgen文件夹，且在*/Fast-DDS-Gen/share/fastddsgen/java路径下生成fastddsgen.jar文件，如下所示：
+通过*.idl文件生成源码时，
+注意fastddsgen
+批处理文件
+中的fastddsgen.jar文件路径修改
+，否则，通过*.idl生成源文件时，会提示没有fastddsgen.jar文件，本文修改如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+嵌入式开发：周期调度和代码执行时间理解
+车载以太网：姗姗来迟的以太网
+Bootloader开发：刷写时，被刷节点和非刷写节点行为有何不同？
+复位控制单元（RCU）学习笔记
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

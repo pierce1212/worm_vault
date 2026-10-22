@@ -1,0 +1,73 @@
+Bootloader开发实践的几个细节点
+2024-03-04T06:58:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494101&idx=1&sn=fd41d0dd4b6b4fb916b25cab03bffe93&chksm=fa29b7a1cd5e3eb7a1027e9ddade58a20b537337c9d0b62734af454afc8529b2af156f649527&scene=21#wechat_redirect
+
+相对于Application程序，Bootloader程序相对较小。然而，麻雀虽小，五脏俱全。作为一个独立的进程，Bootloader的使命主要是更新软件程序，所以，Bootloader程序必不可少。认识Bootloader，可以参考前文《
+Bootloader开发：初识Bootloader
+》。
+而Bootloader程序质量的高低关系着程序升级的可靠性。本文，聊一聊Bootloader实践过程中的一些细节点。
+Q1：Application如何通知Bootloader更新请求？
+A1
+：Application程序想要通知Bootloader更新，需要先设置一个标志位（eg：ProgSign_Flag），当Bootloader识别到
+ProgSign_Flag请求更新程序时（eg：
+ProgSign_Flag
+= 1），不再跳入Application程序，而是等待上位机的刷写指令，更新待升级软件，示意如下：
+Q2：更新标志位ProgSign_Flag应该设置到哪里？
+A2
+：工程中常见的做法，将
+ProgSign_Flag设置在软复位不清除内存区，即：
+Static RAM（静态RAM）
+，该区域由Application程序和Bootloader程序共享，
+地址固定
+，示意如下。此方法的具体操作，可以参考前文《
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（三）
+》。
+如果Application设置了
+ProgSign_Flag，当Bootloader识别到
+ProgSign
+_Flag更新请求以后，
+Bootloader
+需要清除
+ProgSign
+_Flag（eg：
+ProgSign
+_Flag = 0
+）。
+当然，这并不是唯一实现方式。也可以通过一些寄存器实现，具体可以参考前文《
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（一）
+》。
+Q3：ESS更新时机
+A3
+：关于ESS（ECU Software Structure）是什么？
+什么作用？可以参考前文《
+信息安全：软件认证，知识点梳理
+》。ESS中包含着整个软件内存分布、验签等重要信息，只有这些信息可靠，方可进行后续软件组件的更新，因此，
+ESS的刷写需要
+在SBL（Secondary Bootloader）
+之后
+。
+提示：
+并不是每家OEM都会要求ESS，具体看甲方需求。
+Q4：SBL是否需要验证（Verfication）?
+A4
+：需要。工程上，为了简化实现难度，很多时候，SBL只是一个Flash Driver。但是，不管SBL是真正意义上的SBL还只是一个Flash Driver，从安全的角度考虑，都应确保SBL的有效与合法性，所以，SBL需要验证。如果验证失败就呆在Bootloader中，等待重新SBL。
+提示
+：一般来说，SBL需要下载到指定的RAM区。
+Q5：擦除例程是否需要检查接收内存的合法性？
+A5：
+需要。不同的芯片系列、同一芯片系列不同型号之间的Memory存在一定差异。如何对无效的内存区进行操作（eg：读、擦、写），
+常常会出发Bus Error的Trap
+。所以，为了提高程序刷写的可靠性，在Erase Memory时，需要先检查操作内存范围的合法性。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：252~302
+Autosar往期精彩文章汇总：201~251
+调试技巧：Trace32也可以当串口用（Printf功能）
+Hightec基础：生成静态库（*.a）的第二种方法
+车载以太网：姗姗来迟的以太网
+Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？
+Uds诊断：这10个诊断问题，你能回答几个？（二）
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

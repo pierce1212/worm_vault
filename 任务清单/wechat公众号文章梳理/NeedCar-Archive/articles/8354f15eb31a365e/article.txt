@@ -1,0 +1,271 @@
+C语言开发实用技巧：准确分包&巧妙读Bit值
+2022-01-15T11:19:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484897&idx=1&sn=d1c84a7c172cd927cab10357ac96fecf&chksm=fa2a5b95cd5dd283907d82dcb023d6badfd1b2782b3ae6459a11fdf70ef2361f023003d8e693&scene=21#wechat_redirect
+
+C语言在CP Autosar开发中的地位，想必大家是清楚的，作为开发人员，还是需要有过硬的C语言功底。老实说，成为C高手也不是一蹴而就的，都是一个菜鸟到老鸟的过程。而这个过程是需要我们不断的学习、模仿高手的写法，在运用到实践中。来，本文分享两个实际开发中的C技巧。
+准确分包
+需求：诊断开发中，需要通过$2E服务写一个安全认证文件，文件的大小约2K（假设：2001Bytes），每次对方只能接收57bytes，如何确保分包的准确性？
+1
+第一种分包方法
+#
+include
+<iostream>
+#
+define
+SEND_INFO_NUM_BYTES        (uint16_t(2001))
+#
+define
+PACKAGE_MAX_NUM_BYTES      (uint16_t(57))
+int
+main
+()
+{
+uint16_t
+Package_Num =
+0x00
+;
+Package_Num = SEND_INFO_NUM_BYTES/PACKAGE_MAX_NUM_BYTES +
+1
+;
+std
+::
+cout
+<<
+"Frist Method: Package_Num =  "
+\
+<< Package_Num <<
+" Packages\n"
+;
+getchar();
+return
+0
+;
+}
+运行结果：
+Frist
+Method: Package_Num =
+36
+Packages
+看起来貌似没有太大问题，如果要发送的文件大小恰好是57的整数倍，这个方法貌似就有问题了，比如文件大小是2052bytes，我们再试一次。
+运行结果：
+Frist
+Method: Package_Num =
+37
+Packages
+2052bytes，实际发送36包就可以了，而这种方法却发送了37包。当发送文件大小是每次发包的整数倍时，这种算法就多发送了一包，这会使得对方接收数据错误，导致文件校验错误，因此这种算法存在漏洞。
+2
+第二种分包方法
+#
+include
+<iostream>
+#
+define
+SEND_INFO_NUM_BYTES        (uint16_t(2052))
+#
+define
+PACKAGE_MAX_NUM_BYTES      (uint16_t(57))
+int
+main
+()
+{
+uint16_t
+Package_Num =
+0x00
+;
+Package_Num = (SEND_INFO_NUM_BYTES + \
+(PACKAGE_MAX_NUM_BYTES -
+1
+))/PACKAGE_MAX_NUM_BYTES;
+std
+::
+cout
+<<
+"Second Method: Package_Num =  "
+\
+<< Package_Num <<
+" Packages\n"
+;
+getchar();
+return
+0
+;
+}
+运行结果：
+Second
+Method: Package_Num =
+36
+Packages
+相比第一种分包方式，第二种方式是不是更准确点，即使发送数据是每包数据的整数倍也不会出错。
+技巧点：
+分包数 = (发送数据总数 + (每包发送最大数 - 1))/(每包发送最大数)
+读取寄存器bit值
+场景：读取寄存器的某
+一个
+bit值，比如读取某个IO口的Level(0或者1)。其中，第三种写法是我曾经读到某个公众号文章，具体忘记了，这里根据记忆写了自己的理解，希望分享给更多的人。
+1
+第一种写法
+#
+include
+<iostream>
+#
+include
+<stdio.h>
+#
+define
+IO_PIN_6               ((uint32_t)(0x00000020))
+#
+define
+IO_PIN_6_POSITION      5
+typedef
+struct
+IOA_Tag
+{
+uint32_t
+IDR;
+}IOA_t;
+IOA_t IOA_Data =
+{
+.IDR =
+0x2F1
+};
+int
+main
+()
+{
+uint8_t
+bit6 =
+0x00
+;
+//第一种写法
+bit6 = (
+uint8_t
+)((IOA_Data.IDR & IO_PIN_6) >> IO_PIN_6_POSITION );
+printf
+(
+"IOA_PIN_6 Value =  %d\n"
+,bit6);
+getchar();
+return
+0
+;
+}
+运行结果：
+IOA_PIN_6
+Value =
+1
+技巧解析：
+使用位操作运算，程序的效率相对较高。
+1
+第二种写法
+#
+include
+<iostream>
+#
+include
+<stdio.h>
+#
+define
+IO_PIN_6               ((uint32_t)(0x00000020))
+typedef
+struct
+IOA_Tag
+{
+uint32_t
+IDR;
+}IOA_t;
+IOA_t IOA_Data =
+{
+.IDR =
+0x2F1
+};
+int
+main
+()
+{
+uint8_t
+bit6 =
+0x00
+;
+//第二种写法
+bit6 = (IOA_Data.IDR & IO_PIN_6)?
+1
+:
+0
+;
+printf
+(
+"IOA_PIN_6 Value =  %d\n"
+,bit6);
+getchar();
+return
+0
+;
+}
+运行结果：
+IOA_PIN_6
+Value =
+1
+技巧解析：
+此方法在于使用了三目运算符，相比满屏的if else，三目运算符的使用要清爽的多。
+1
+第三种写法
+#
+include
+<iostream>
+#
+include
+<stdio.h>
+#
+define
+IO_PIN_6               ((uint32_t)(0x00000020))
+typedef
+struct
+IOA_Tag
+{
+uint32_t
+IDR;
+}IOA_t;
+IOA_t IOA_Data =
+{
+.IDR =
+0x2F1
+};
+int
+main
+()
+{
+uint8_t
+bit6 =
+0x00
+;
+//第三种写法
+bit6 = !!(IOA_Data.IDR & IO_PIN_6);
+printf
+(
+"IOA_PIN_6 Value =  %d\n"
+,bit6);
+getchar();
+return
+0
+;
+}
+运行结果：
+IOA_PIN_6
+Value =
+1
+技巧解析：
+此方法的巧妙点在于“!!”使用，这种写法确实少见，但在运算0和非0时，此方法确实简洁。这种方法就像老酒，需要品！
+往期
+精彩
+回顾
+UDS之$2E服务：NRC13和NRC33优先级
+CAN/CANFD的Bit Time深聊
+Ubuntu里玩VSOME/IP踩过的坑
+诊断激活：诊断电压与诊断开启时间关系
+Autosar网络管理，你不能不清楚节点的唤醒方式
+结构体，重新认识一下
+C语言的#很“秀”
+匿名函数Lambda认识一下
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

@@ -1,0 +1,26 @@
+基于Davinci的HSM开发实践（7）：CMAC配置及开发细节
+2024-10-21T06:32:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495959&idx=1&sn=2194544044601c30e19328973ae04bd4&chksm=fa29af63cd5e26755e8f1858303d030e226569ebc2a1a9d672d506adae436b6334329d5176b6#rd
+
+【仅保存公开试读，付费全文未获取】
+
+在汽车MCU级的控制器开发中，使用
+CMAC（Cipher based Message Authentication Code，基于分组加密消息的认证码
+）进行程序有效性验证是一种比较常见的方案。相比于RSA或者其他非对称验签算法，
+CMAC验签速度更快，更能满足控制器的启动时间（eg：200ms）要求
+。
+CMAC的具体计算，可以参考前文《
+信息安全：AES-CMAC原理及验签策略
+》。
+本文聚焦以下问题：
+CMAC基本原理；
+如何在HSM和Host工程配置CMAC的生成和校验；
+如何将HSM预配置信息导入Host端；
+如何在Host端使用CMAC接口及测试验证（含测试示例）；
+CMAC接口使用的一些细节；
+MAC功能使用的Key应该如何存储？
+1、CMAC的基本原理
+CMAC的基本原理：发送方使用MAC算法（eg：AES）得到一个是固定长度消息认证块（eg：MAC1）。接收方对原始数据使用相同的
+MAC算法获得MAC2，接收方通过对比MAC1和MAC2确认Plain Data是否被篡改，示意如下：
+2、Davinci配置CMAC操作视频
+基于Davinci配置CMAC的具体操作视频如下：

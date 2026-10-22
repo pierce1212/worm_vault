@@ -1,0 +1,76 @@
+如何理解KL15与PORST Pin
+2023-03-28T19:44:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491781&idx=1&sn=a2f4dc8bba4a805a3253441f13997a69&chksm=fa29beb1cd5e37a75ae1e04c8b1bdd054cc8eacded87ef958b6525c9c1c480dda9ca86f97951&scene=21#wechat_redirect
+
+KL15和PORST Pin看似简单，仅仅是两个Pin，但是，如果不深刻地理解两个Pin变化的场景，有些工程问题，会很伤脑壳。本文，着重讨论一下KL15硬线和PORST Pin。
+1、KL15硬线
+KL15硬线与Battery(KL30)、SBC、uC之间的关系示意如下：
+KL15由OFF->On的过程，可以看作拧钥匙动作，也就是我们常说的I
+gnition On。
+假设，车辆处于熄火状态。当KL15由OFF->On变化时，也就是我们常说的冷启动。由于KL15 Pin电平由低拉高，使能SBC
+（System Basic Chip）的ENA Pin，SBC状态进行切换，进入工作模式。之后，SBC给Trcv和uC等外围器件提供工作电压。同时，SBC也会主动拉低一下PORST Pin，让uC复位一次，这类似一个”同步“动作。
+这里提一个问题，如果KL15由
+高电平变为低电平，
+SBC和uC有何变化？
+当KL15硬线电平由高->低时:
+（一）uC所受影响
+如果此时，uC的其他唤醒源均不再请求通信，uC会走下电流程（Shutdown）；
+如果还有KL15以外的任一通信请求（eg：诊断请求、收到其他节点网络管理报文、上层应用通信请求等），uC状态保持不变，维持正常通信和工作状态。
+（二）SBC所受影响
+SBC所受影响，很大程度取决于uC的请求。
+如果uC走下电流程，uC将会请求SBC进入休眠状态，即：切断uC等器件的工作电压；
+如果uC维持在正常通信状态，SBC状态不受影响。
+提示
+：如上图，
+uC仅仅获取KL15的电平信号，而不控制KL15电平变化
+。uC监控KL15电平变化，因为
+KL15状态是uC执行下电流程的条件之一
+。
+2、PORST Pin
+PORST Pin是一个双向Pin，即：uC和SBC均可主动控制。
+（一）uC控制PORST Pin
+当uC主动复位时，可以通过下拉PORST Pin告知SBC，uC需要复位，此时，SBC也执行一次复位动作，保持uC和SBC状态的同步。
+uC主动复位的场景：
+诊断复位，eg：$11服务、$10 82/02
+程序异常，eg：程序进入trap，调用Mcu_PerformReset()执行复位动作。
+（二）SBC控制PORST Pin
+SBC下拉PORST Pin的场景：
+SBC对应的看门狗超时，即：uC没有按时喂狗（外狗）；
+冷启动阶段等。
+如上，可以看出，不管是SBC还是uC控制PORST Pin，均是为了两者的状态同步。但是，此期间，uC的供电稳定，并不受影响。除此之外，
+调试设备一般也与PORST Pin连接
+，即：复位操作时，调试设备也会相应的执行复位动作。JTAG
+(Joint Test Action Group)
+对应的电路设计，示意如下所示：
+如上图，当SBC或者uC主动拉低PORST时，会使得JTAG或者DAP（Device Access Port）复位，也就是Debug Reset。
+使用调试设备调试时，经常会进行复位调试，此时，
+调试设备会主动拉低TRST Pin（双向Pin），
+复位调试设备的同时，软件执行Debug Reset，拉低PORST Pin，使得SBC、uC等相关器件也复位，完成复位同步。示意如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+安装eProsima Fast DDS坑点
+嵌入式开发：MCU的上、下电解读
+车载以太网：姗姗来迟的以太网
+Bootloader开发：刷写时，被刷节点和非刷写节点行为有何不同？
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
