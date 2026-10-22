@@ -1,6 +1,7 @@
 {
   "enabledCssSnippets": [
-    "tasks-command-center"
+    "tasks-command-center",
+    "hide-output-folders"
   ],
   "theme": "obsidian"
 }
