@@ -1,0 +1,101 @@
+诊断，为什么读到的DTC故障状态是0x20?
+2024-07-19T06:39:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495237&idx=1&sn=9fbec9b27d7c7e11eb8eef5b78e85952&chksm=fa29b031cd5e3927160bef924e2e50892c43f74e47ba3e69902d2e5f072a9109ace48f395bed&scene=21#wechat_redirect
+
+我们知道，车
+辆状态的监控离不开诊断，而某个
+诊断对象的故障状态需要通过特定的方式表达出来，以便于我们理解故障的类型。对于搞诊断开发和测试的小伙伴，理解故障状态最直接的方式就是看DTC故障状态码，工程上，接触最多的，莫过于U
+DS（Unified diagnostic services）
+中描述的
+DTC Status。
+即使老道的诊断工程师，面对工程问题，有时也会犯点迷糊。如文章标题，车辆故障，读到了0x20的DTC Status如何理解？
+1、DTC Status
+如果要理解本文聚焦的问题，首先便是理解DTC Status。我们再温故一下
+14229-1规范中的DTC Status。
+DTC Status用
+一个Byte
+表示
+，也就是用
+8个bit位
+表示故障不同时段的状态，总结如下：
+对于DTC Status，bit 3(confirmedDTC)是理解本文问题的核心。按照规范的解释，bit 3存在的目的：
+表征故障信息是否可以存储到非易失内存，
+即：bit3 == 1时，将故障信息存储到非易失内存中。
+（一）bit 3何时置位?
+我们需要进一步思考的问题：什么条件下，bit 3置位（==1）呢？按照规范解释，
+当故障次数达到确认阈值（confirmation threshold）时
+，
+bit 3置位
+，那么，怎么理解
+confirmation threshold呢？理解
+confirmation threshold，就不得不提到
+Trip Counter
+。
+Trip Counter：
+记录故障发生的操作循环（Operation Cycle）次数
+。举例：如果两个驾驶循环（driving cycle）均发生故障，则
+Trip Counter累加2。
+对应实际诊断需求，一般会约束每个DTC对应的
+confirmation threshold参数，比如：
+confirmedDTCLimit = 1、3、5...这个参数本质就是Trip Counter。如果DTC #1的
+confirmed
+DTCLi
+mit = 3，也就意味着，3个连续的驾驶循环均发生了故障时，bit 3由0变成1。
+（二）故障状态变化
+假设，DTC #1的
+confirmed
+DTCLi
+mit = 3，其中，某种故障场景变化如下：
+Operation Cycle #n：
+1、程序没有完成一次诊断监控之前，
+DTC
+#
+1的故障状态为0x50；
+2、某一个时刻，发生了一次故障，且故障成熟，
+DTC
+#
+1的故障状态为0x27。
+由于trip counter没有到3，所以bit 3依然是0
+；
+3、当故障消失后，
+DTC
+#
+1的故障状态为0x26，即：
+bit 0由1变成0
+.
+Oper
+ation Cycle
+#n+1
+：
+1、由于该驾驶循环一直没有发生故障，所以，
+bit 1 = 0
+，
+DTC #1的故障状态变为0x24。但是，bit2依然为1，表示上一个驾驶循环曾发生过故障；bit5也
+依然为
+1，表示上次清除该故障后，发生过故障。bit 5可以这样理解，
+只要该DTC没有被$14服务清除或者老化（aging）,该bit位会一直位置
+。
+Oper
+ation Cycle
+#n+2
+：
+1、由于该驾驶循环一直没有发生故障，且
+Operation Cycle #n+1也没有发生故障，
+所以，bit 2 = 0，DTC #1的故障状态变为0x20
+。
+所以，读到0x20的DTC Status，你知道是怎么回事了吗？
+往期
+精彩
+回顾
+英飞凌TC4xx之CAN模块新特性：硬件周期发送
+如何诊断对地短路、对电源短路以及开路故障？
+Lin总线基础#2：节点是如何唤醒的？
+Autosar通信，如何理解PNC、UB与信号的关系
+A/B分区，程序应该如何回滚？
+Bootloader开发：如何提高软件刷写效率？
+基于SWAP（AB分区）的SOTA实践：内存与分区关系&锁芯片后的特征
+包含信息安全、SWAP（A/B分区）功能的Bootloader开发思考
+信息安全：HSM没有专用的密钥存储区，密钥该如何安全存储？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,108 @@
+工程开发问题（九）：中断嵌套，状态机状态错序，刷写失败
+2022-07-25T16:05:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489125&idx=1&sn=2296e67ec3440454643ae29b6c0eae11&chksm=fa2a4811cd5dc1072d07e14116d654c0f412a3bf9bfccebe834a28884c9ddfaeac1a410e6c55&scene=21#wechat_redirect
+
+最近查问题，涉及中断的问题比较多，此文分享一个中断嵌套引发的刷写失败问题。
+问题描述
+1
+问题描述
+程序刷写过程中，Sender和Receiver在多帧传输过程中，Sender端
+偶发性地
+不能发送连续帧
+，导致程序刷写失败。
+失败时的log流程如下：
+Sender
+：发送首帧FF（Frist Frame）;
+Receiver
+：响应流控帧FC（Flow Control）；
+Sender
+：发送连续帧CF（Consecutive Frame），
+CF概率性没有发出（一帧都没有发出）
+，导致程序升级失败。比如：$36 01对应的CF可以发出，且完成传输，可能$36 02的连续帧不能发送，进而刷写失败。
+示意如下：
+2
+问题分析
+1、数据处理方式确认
+经确认，诊断报文的收/发使用中断（Interrupt）方式处理，且
+接收中断优先级高于发送中断优先级
+。
+2、数据交互处理流程
+本文使用的Bootloader属于手写代码，像其他软件模块一样，在处理诊断数据流时，发送端（Sender）使用状态机维护发送流程，如下所示：
+对于Sender端，涉及问题的主要状态机包括：Send_FF、Wait_FC、Send_CF。
+Send_FF
+：处理首帧数据，数据打包后，
+使能发送中断
+，等待发送确认（Confirmation），如果数据成功发送到总线，进入发送中断例程，将状态切换到
+Wait_FC
+;
+Wait_FC
+：等待Receiver端发送流控帧，当接收到流控帧以后将状态切换到
+Send_CF，
+如果没有接收到流控帧，则一直等待
+；
+Send_CF
+：发送连续帧，直到数据发送完毕。
+其他模式，本文不展开，主要讨论上述三个状态切换的问题。
+3、中断嵌套引发状态错序
+Sender端打包FF数据，数据打包后，使能发送中断；
+t0时刻
+，数据成功发送到总线，Tx Interrupt发生，程序进入Tx Interrupy Routine;
+t1时刻
+，接收到FC帧，
+由于配置的接收中断优先级比发送中断优先级高
+，发送中断例程被打断，执行接收中断例程（Rx Interrupt Routine）。在接收中断例程中，
+识别到收到的报文是FC类型，将Sender的状态机切换到Send_CF状态
+；
+t2时刻
+，程序返回发送中断例程，
+将Sender的状态机由
+Send_CF
+切换到Wait_FC
+；
+t3时刻
+，发送中断例程执行完毕，Sender继续处理下一帧发送，
+由于识别到Sender状态处于Wait_FC，Sender不发送CF
+，
+一直等待对方发送FC
+，而Receiver实际已经将FC发送完成，导致Sender一直处于Wait_FC状态而不能发送CF，最终导致程序刷写失败。
+问题示意如下所示：
+不出问题时，T
+x Interrupt Routine执行完成，
+Rx Interrupt没有打断
+T
+x Interrupt Routine，Sender的状态机可以正常切换，如下所示：
+所以，这也问题偶发的原因，发送中断例程被接收中断打断的时候，问题产生，没有被打断时，问题不产生。
+3
+解决措施
+可以看出，上述问题的实质是
+中断抢占导致状态机被切换
+。因此处理策略是：使能发送中断之前将状态机提前切换到Wait_FC状态。
+当然，解决策略可能远不止这一种方式，比如：提高发送中断的优先级，避免被抢占。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+工程开发问题（四）：数组越界引发的刷写失败
+上下文(CSA)切换，需要花费多少时间？
+工程开发问题（二）补充：使用GTM/TOM实现精准同步(Synchronization)
+Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态
+Autosar通信栈：FullCAN和BasicCAN基础
+Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？
+Autosar通信栈：Polling模式为什么容易引发丢帧？
+英飞凌tc397：MCMCAN发送处理机制（Tx Handing）
+工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现
+通信栈基础：CAN发送报文如何赢得总线使用权
+工程开发问题（六）：Application程序更新，读取NVM数据异常
+工程开发问题（六）补充：Application程序更新，读取NVM数据异常
+Autosar网络管理：Partial Network基础
+内存管理（Memory）：NVM基础
+Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway
+Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响
+CAN物理层测试：延时补偿、位干扰
+工程开发问题（七）：Flexray网络状态切换错误，通信异常
+工程开发问题（八）：不满足STmin时间要求，中断接收丢帧
+Bootloader开发：初识Bootloader
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

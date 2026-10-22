@@ -1,0 +1,71 @@
+穷玩Aurix控制器：Memtool基础使用操作
+2023-10-10T08:22:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493194&idx=1&sn=d559f810dcf84553f289ef78bd56bb64&chksm=fa29b83ecd5e3128f59f529904c539708383e4bae9155343b2662fa3e10eb6c78d3df708729b&scene=21#wechat_redirect
+
+玩嵌入式，
+很多时候，是兴趣在驱使着我们。
+如果是自己玩，有些调试器或者编译器的开销会大大超出我们的经济承受范畴。
+所以，穷有穷的玩法，富有富的路子。
+本文，就给大家搭配一套穷玩方法：
+Hightec（编译器，官方免费注册下载）+ Memtool（烧录上位机软件，官方免费下载）。对于开发板，大家可以去某鱼等地方淘一个（不必用最新的型号，满足诉求即可，eg：想学习CAN），再加一个DAP miniWiggler，所有的预算可以500RMB以内搞定。
+关于Hightec的基础使用，可以参考前文《
+Hightec基础实用技巧
+》，本文着重介绍
+Memtool的基础使用。
+1、Memtool下载及安装
+（一）
+Memtool下载
+Memtool烧录上位机软件可以在英飞凌的官网免费下载，下载链接：
+https://www.infineon.com/cms/en/search.html#!view=all&term=Memtool
+Mem
+to
+ol安装包下载位置如下所示：
+（二）
+Memtool安装
+Memtool安装教程可以参考英飞凌官网视频，本文不做介绍。
+提示
+：Memtool的使用需要安装
+DAS
+。
+2、Memtool基础使用技巧
+（一）使用前准备
+在使用Memtool进行程序烧录之前，需要先确认板子的物理线束是否正确连接。可以使用"
+DAS Device Scanner
+"进行扫描，如果搜索到"TriCore-Family"，则说明当前连接OK，如下所示：
+（二）Memtool烧录步骤
+1、目标芯片配置
+如果没有正确选择目标芯片配置文件，启动Memtool时，弹出如下界面：
+当目标芯片配置文件选择不对或者未选择时，会提示初始化错误，
+具体的错误log提示如下：
+单击上图的"ignore"，之后，Target->Change...，如下所示：
+按照如下图示操作：
+选择芯片配置文件的保存路径，如下所示：
+完成芯片配置，单击"确定"，如下所示：
+2、连接目标芯片
+单击"Connect"，连接目标芯片，如下所示：
+目标芯片连接成功，如下所示：
+3、烧录目标*.hex文件
+具体操作，按照如下图示：
+先擦除（Erase...），如下所示：
+再烧录（Program all），如下所示：
+3.1 UCB刷写注意
+如果加载的*.hex数据中包含UCB等未使能（not ready）刷写的区域时，需要使能对应区域操作，即：选择对应数据区，勾选Enable，如下所示：
+使能以后，对应类型的内存区即可刷写，不再有not ready标识，如下所示：
+4、Reset程序
+Reset目标板，使程序生效。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+功能安全基础：内存保护（MPU）浅析
+工程问题：进入编程会话条件不满足，能否OTA？
+信息安全基础：初识Public Key
+Autosar通信栈基础：如何理解和使用Update bit
+诊断基础：NRC0x78（Pending）问题知多少？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

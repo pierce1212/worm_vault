@@ -1,0 +1,515 @@
+交叉编译对应的Makefile编写
+2023-04-08T17:41:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491831&idx=1&sn=4a96a7b555e0dfc35252c75845ade535&chksm=fa29be83cd5e37953295346fbd5f0f43902f756fbac40d873b35d4b195b4aadde14dc81aba77&scene=21#wechat_redirect
+
+讨论本文问题之前，先聊一个话题：“目前，CP Autosar已经支持Some/IP和DDS（Data Distribution Service），DDS看起来只是另一个协议而已，汽车上，真有必要搞DDS吗？”。针对这个问题，说一下个人理解。在CP Autosar中，Some/IP出现地更早，就目前，量产的车型中，也应该有了Some/IP的身影。可以说，Some/IP专门为汽车量身定制。对于DDS，在其他工控领域早已应用，只是近些年，随着汽车智能化的发展，尤其域控等新技术的应用，DDS逐渐拓展到了汽车领域。如果汽车最终要成为万物互联的一部分，那我更看好DDS，相对于Some/IP，DDS协议在其他工控领域早已应用，这使得万物互联实现更容易。从这个意义上说，DDS不只是比Some/IP丰富了Qos，而是其能更好的接入万物互联。当然，并不能说Some/IP就不用了，在整车设计阶段，会根据不同的场景，选用不同的方案，而不是绝对地只用某种方案。
+1、交叉编译是什么
+回到主题，最近在移植eProsima Fast DDS，目标机：芯驰的G9H。使用的开发环境：Ubuntu20.4。如上可以看出，在Ubuntu20.4上安装的
+eP
+rosima Fast DDS，使用默认编译，即使编译出可执行文件，也无法在
+G
+9H运行，因为两者的架构不同，运行指令不一样。
+Ubuntu20.4对应x86_64，而
+G
+9H对应Arm aarch64。
+所以，如果要在Ubuntu20.4编译出可以在G9H运行的可执行文件，就需要
+在Ubuntu20.4环境下安装目标机对应的工具链
+，编译出目标机能运行的可执行文件，这也就是我们常说的“交叉编译”。
+对于Makefile，我是一个菜鸟。有需要学习的小伙伴，可以网上查阅资料。本文主要目的：
+提供一个makefile示例，希望能
+帮助移植eProsima Fast DDS到ARM架构的小伙伴。
+2、Makefile编写
+在Ubuntu20.4中，要编译出可以在G9H上运行的可执行文件，有几个问题要解决：
+选用G9H对应的编译工具链；
+调用Arm aarch64架构的eProsima Fast DDS动态库链接。
+本文以HelloWorld为例，文件结构如下（部分），目标：编译出可以在Arm平台运行的可执行文件。
+（一）Makefile内容
+#指定编译器路径
+CROSS_COMPILE =
+/tool/gcc
+_linaro/gcc-linaro-
+7.3
+.
+1
+-
+2018.05
+-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+#gun汇编器
+AS    = $(CROSS_COMPILE)as
+#gnu 链接器
+LD    = $(CROSS_COMPILE)ld
+CXX    = $(CROSS_COMPILE)g++
+#用于创建，修改和提取档案的实用程序
+AR    = $(CROSS_COMPILE)ar
+#列出目标文件中的符号
+NM    = $(CROSS_COMPILE)nm
+#丢弃的符号
+STRIP    = $(CROSS_COMPILE)strip
+#复制并转换目标文件
+OBJCOPY    = $(CROSS_COMPILE)objcopy
+#显示目标文件中的信息
+OBJDUMP    = $(CROSS_COMPILE)objdump
+export AS LD CXX AR NM
+export STRIP OBJCOPY OBJDUMP
+CFLAGS +=-I. -g -O
+0
+-Wall -DUSE_LINUX -D__YOCTO_G2D_TEST_
+_
+-fpermissive
+CPPFLAGS
+:
+= -g -O
+0
+-Wall -Wno-reorder  -std=c++
+11
+-fpermissive -fPIC
+#–L -l (大写L指定动态库的路径，小写L指定动态库的名称)，PWD表示当前路径
+LDFLAGS += -lstdc++ -lpthread -fPIC -L. -L${PWD}/fastdds_dep/lib  \
+-
+l:
+libfastcdr.so \
+-
+l:
+libfastcdr.so.
+1
+\
+-
+l:
+libfastcdr.so.
+1.0
+.
+27
+\
+-
+l:
+libfastrtps.so \
+-
+l:
+libfastrtps.so.
+2.10
+\
+-
+l:
+libfastrtps.so.
+2.10
+.
+0
+\
+-
+l:
+libfoonathan_memory-
+0
+.
+7.3
+.so \
+-
+l:
+libtinyxml2.so \
+-
+l:
+libtinyxml2.so.
+9
+\
+-
+l:
+libtinyxml2.so.
+9.0
+.
+0
+INCLUDE
+:
+= \
+-I ./ \
+-I${PWD}/fastdds_dep/ \
+-I${PWD}/fastdds_dep/
+include
+/ \
+-I${PWD}/fastdds_dep/
+include
+/fastcdr/ \
+-I${PWD}/fastdds_dep/
+include
+/fastcdr/exceptions/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/builtin/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/builtin/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/builtin/topic/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/builtin/typelookup/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/builtin/typelookup/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/core/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/core/condition/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/core/policy/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/core/status/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/domain/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/domain/qos/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/log/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/publisher/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/publisher/qos/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/subscriber/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/subscriber/qos/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/topic/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/dds/topic/qos/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/attributes/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/builtin/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/builtin/data/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/builtin/discovery/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/builtin/discovery/endpoint/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/builtin/discovery/participant \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/builtin/liveliness/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/exceptions/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/flowcontrol/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/history/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/interfaces/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/messages/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/network/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/participant/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/reader/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/resources/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/security/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/security/accesscontrol/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/security/authentication/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/security/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/security/cryptography/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/security/exceptions/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/security/logging/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/transport/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/shared_mem/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/rtps/writer/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/dds/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/dds/domain/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/dds/publisher/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/dds/publisher/qos/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/dds/subscriber/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/dds/subscriber/qos/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/statistics/rtps/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/thirdparty/optionparser/ \
+-I${PWD}/fastdds_dep/
+include
+/fastdds/thirdparty/optionparser/optionpars \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/attributes/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/config/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/log/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/participant/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/publisher/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/qos/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/attributes/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/builtin/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/builtin/data/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/builtin/discovery/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/builtin/discovery/endpoint/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/builtin/discovery/participan \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/builtin/liveliness/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/exceptions/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/flowcontrol/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/history/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/messages/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/network/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/participant/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/reader/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/resources/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/security/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/security/accesscontrol/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/security/authentication/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/security/common/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/security/cryptography/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/security/exceptions/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/rtps/writer/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/subscriber/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/transport/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/types/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/utils/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/utils/collections/ \
+-I${PWD}/fastdds_dep/
+include
+/fastrtps/xmlparser/ \
+-I${PWD}/fastdds_dep/
+include
+/foonathan_memory/foonathan/memory/ \
+-I${PWD}/fastdds_dep/
+include
+/foonathan_memory/foonathan/memory/detail/
+#生成目标文件，命名为HelloWorld
+TARGETS = HelloWorld
+#将当前文件夹下所有以.cpp结尾的文件放到SRC_CPP变量中
+SRC_CPP=$(wildcard *.cpp)
+#将当前文件夹下所有以.cxx结尾的文件放到SRC_CXX变量中
+SRC_CXX=$(wildcard *.cxx)
+#将SRC_CPP变量中，后缀.cpp替换成.o，并赋给变量APP_CPP_OBJS
+APP_CPP_OBJS=$(
+SRC_CPP:
+.cpp=.o)
+#将SRC_CXX变量中，后缀.cxx替换成.o，并赋给变量APP_CXX_OBJS
+APP_CXX_OBJS=$(
+SRC_CXX:
+.cxx=.o)
+all:
+$(TARGETS)
+#输出APP_CXX_OBJS信息
+@echo $(APP_CXX_OBJS)
+#-g可执行程序包含调试信息
+HelloWorld:
+$(APP_CPP_OBJS) $(APP_CXX_OBJS)
+$(CXX) $(LDFLAGS) $(CPPFLAGS) $(INCLUDE) -o $(TARGETS) -g $(APP_CPP_OBJS) $(APP_CXX_OBJS) $(LDLIBS) -lpthread -lfastcdr -lfastrtps -lfoonathan_memory-
+0
+.
+7.3
+-ltinyxml2
+#$@--目标文件，$^--所有的依赖文件，$<--第一个依赖文件
+#-c 只编译不链接。产生.o文件，不产生执行文件；-o指定输出文件名
+%.
+o:
+%.cpp
+$(CXX) -c $(CFLAGS) $(INCLUDE) $(CPPFLAGS) -o $@ $<
+%.
+o:
+%.cxx
+$(CXX) -c $(CFLAGS) $(INCLUDE) $(CPPFLAGS) -o $@ $<
+clean:
+rm -rf $(TARGETS) *.o
+对于makefile的使用和规则，资料很多，我不做过多赘述。这里仅作一些编写提示：
+CROSS_COMPILE指定交叉编译要使用的
+编译器路径
+，否则使用默认编译，最终无法编译出预期的可执行文件；
+每行命令的开始使用TAB键分隔，不能使用空格
+，否则make时会提示“
+***缺失分割符。停止
+”提示，如下所示：
+本文的源文件需要使用到eProsima Fast DDS动态库，且
+eProsima Fast DDS动态库（本文已提前编译好对应架构的动态库）需要是ARM aarch64架构
+，以便于生成可执行文件时能够有效链接，进而能够生成目标机对应的可执行文件，本文所需要的动态库（ARM aarch64格式）如下所示：
+可以使用命令：
+file 动态库名
+确认动态库是否匹配，示例如下所示：
+默认编译器编译的动态库格式为：x86-64，如下所示：
+参考链接
+https://www.cnblogs.com/daocaisheng/p/15633120.html
+https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+嵌入式开发：如何识别PowerOn唤醒和总线唤醒
+写字楼里，留不住回忆
+如何理解KL15与PORST Pin
+安装eProsima Fast DDS坑点
+嵌入式开发：MCU的上、下电解读
+嵌入式开发：周期调度和代码执行时间理解
+嵌入式开发：VSCode中，基于CMake开发
+Bootloader开发：为什么需要SBL（Secondary Bootloader）?
+Busoff后的快/慢恢复机制
+开源Fast-DDS安装示例及DDS模型架构
+DDS概述及DCPS模型
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

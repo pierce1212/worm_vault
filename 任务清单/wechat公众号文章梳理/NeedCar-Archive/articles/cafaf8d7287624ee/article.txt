@@ -1,0 +1,83 @@
+Autosar往期精彩文章汇总：1~70
+2022-04-09T09:00:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect
+
+前言
+近期，将以往的文章做了一个汇总，看到了自己写文章后的变化，也感谢读者的建议和交流。文章里的问题，有的来源于我的工作思考，有的来源于读者的反馈，有的是我请教他人后做的整理...不管来源于哪里，我的目的是想把自己学到的，分享给更多需要的朋友。
+61~70篇，白银篇
+Autosar网络管理：唤醒源的Check和Set
+Uds诊断：这10个诊断问题，你能回答几个？（二）
+Bootloader开发：队列刷写(Queued Flash)你知道多少？
+Autosar开发：没有临界区保护，带来的后果很严重
+嵌入式开发：基于Visual Studio的*.dll文件生成，不求人
+Autosar网络管理：没说清楚的PN功能，再说一遍
+Uds诊断：这10个诊断问题，你能回答几个？
+Can Wakeup时序，简单点说（一）
+Uds诊断：P2server与P4server时间，说点你不知道的
+Autosar网络管理：你知道ECU如何被供电的吗？
+51~60篇，白银篇
+Autosar概念：Callout与Callback，请不要混肴
+Uds诊断：$27服务，ECU如何产生随机种子
+Autosar网络管理：说说Busoff那点事
+Autosar功能安全之E2E：别再发愁E2E了，我侃侃
+Uds诊断问题：偶发单帧不响应分析及解决策略
+Autosar DEM诊断事件管理（二）
+Autosar网络管理：从ComM模块看Partial Networking
+Autosar网络管理：从CanNM模块看Partial Networking
+Autosar网络管理:优化ECU启动时间切入点
+CANdelaStudio支持AUTOSAR DEM模块Event的描述
+41~50篇，青铜篇
+Matlab:手写C MEX S-Function，没那么难
+Autosar网络管理：网管节点路由时间解读
+Flexray总线：Frame结构，几张图就能看明白
+MATLAB:自定义库&自定义C MEX S-Function,简单易学
+DEM 事件去抖：基于Counter
+Autosar网络管理：确保第一帧是网络管理报文方法
+嵌入式以太网：Lwip内存管理之内存堆
+英飞凌tc397：基于Lwip以太网数据接收，小白级讲解
+Autosar DEM诊断事件管理（一）
+C语言实用技巧：0x02 - 0xFE = ?
+31~40篇，青铜篇
+从开发的角度看电子驻车制动（EPB）
+AURIX TC397之ERU :外部中断
+英飞凌tx397:手撕中断，让你理解得更明白
+UDS诊断之刷写：Server响应时间对APP程序复位影响
+UDS之刷写：你真清楚Application和Bootloader如何沟通？
+英飞凌tc397:告诉你程序真正的启动过程
+Autosar以太网：Ethernet Transceiver基础（一）
+Autosar网络管理PN：路由超时大Bug
+Autosar网络管理：CanNM PN功能
+C语言开发实用技巧：准确分包&巧妙读Bit值
+21~30篇，青铜篇
+UDS之$2E服务：NRC13和NRC33优先级
+CAN/CANFD的Bit Time深聊
+Ubuntu里玩VSOME/IP踩过的坑
+诊断激活：诊断电压与诊断开启时间关系
+Autosar网络管理，你不能不清楚节点的唤醒方式
+CMake实践（三）— 变量
+CMake在Windows下的使用
+CMake实践（二）
+CMake实践（一）
+Vector代码这样过滤CanID Range，你Get到没？
+11~20篇，青铜篇
+英飞凌OKT507如何捕获按键事件
+结构体，重新认识一下
+匿名函数Lambda认识一下
+SOME/IP-SD分析—Find Service
+Wireshark分析SOME/IP，试试这个方式
+英飞凌TriCore中断向量表的深度剖析
+C语言的#很“秀”
+Autosar Com基于Update Bit路由功能浅谈
+CAN FD第二采样点SSP
+Autosar里的函数指针(C)和std::function(C++)
+1~10，青铜篇
+（节点唤醒==网络唤醒）？FALSE:TRUE；
+从EcuM角度看唤醒源状态切换
+基于SomeIp SD的Subscribe/Notify 数据交互
+故障快照信息上传云端浅谈
+CAN总线采样点分析
+基于VH6501的BusOff快慢恢复测试
+通信诊断监控开启条件
+网络管理中，这几个概念你清楚吗
+网络管理为什么需要ECU保持激活一段时间
+AUTOSAR网络管理与Transceiver/Controller关系

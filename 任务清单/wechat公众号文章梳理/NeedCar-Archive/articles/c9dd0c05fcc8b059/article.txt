@@ -1,0 +1,182 @@
+嵌入式开发：Multicore启动及同步
+2022-11-11T09:54:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490423&idx=1&sn=40ce806682c20cf7bbe4190c1462d8a7&chksm=fa2a4503cd5dcc15dc11734c7e61da62bff02127fb5fc8a49f63d2c6352b550be96b5f67a4c7&scene=21#wechat_redirect
+
+工程项目中，多核（multicore）的使用也非常普及。当然，只有深入地了解多核系统，才能更好地发挥其作用，减少Bug。本文，聚焦以下几点问题：
+多核启动时序
+如何实现多核同步
+1
+多核启动时序
+在多核的架构中，一般设计成
+主从模式
+，即：一个主核（Master），多个从核（Slave）。
+主核先启动，之后主核激活从核。也可以主核激活部分从核，从核激活从核
+。eg：TC387，共4个Core，Core0为主核，Core1、Core2、Core3为从核。
+举例：
+主核Core0激活从核Core1，从核Core1激活从核Core2、Core3，如下所示：
+1、软件的启动时序
+对于Tricore系列，uC加电以后的软件执行时序：
+SSW（
+S
+tartup Software
+）
+->Bootloader->Application。程序进入Bootloader或者Application均可以启动多核。本文，我们着重讨论Application的多核启动。
+2、如何执行第一条指令
+在启动多核之前，我们先搞清楚一个问题：uC如何知道程序的入口（Entry）呢？换句话说：uC去哪里执行第一条指令？
+答
+：通过链接文件的链接符指定。以HighTec编译器为例（其他编译器类似），HighTec设置程序入口地址的操作说明如下：
+什么意思呢？就是说，
+在HighTec对应的链接文件中，可以用ENTRY()设定第一条指令位置，也就是程序的入口地址
+。其中"
+symbol"可以是一个函数名
+（函数名就是一个地址），指定程序的入口地址，比如：
+ENTRY(_START)
+之后，在源文件（eg：IfxCpu_CStart0.c）实现_START()函数，如下所示：
+void
+_START
+(
+void
+)
+{
+__non_return_call(_Core0_start);
+}
+如上，_START()调用Core启动接口，先调用主核Core0的启动接口_Core0_start()。
+3、Core的初始化操作
+每个Core需要初始化一些内核寄存器，比如：用户栈、中断栈、中断向量表起始地址、Trap向量表起始地址、Cache使能、RAM区数据的初始化与Copy等。
+当然，主核Core0还担负着从核的启动任务，代码示意如下：
+/*Start remaining cores */
+#
+if
+(IFX_CFG_CPU_CSTART_ENABLE_TRICORE1 != 0)
+(
+void
+)IfxCpu_startCore(&MODULE_CPU1, (uint32)&_Core1_start);
+/*The status returned by function call is ignored */
+#
+endif
+#
+if
+(IFX_CFG_CPU_CSTART_ENABLE_TRICORE2 != 0)
+(
+void
+)IfxCpu_startCore(&MODULE_CPU2, (uint32)&_Core2_start);
+/*The status returned by function call is ignored */
+#
+endif
+#
+if
+(IFX_CFG_CPU_CSTART_ENABLE_TRICORE3 != 0)
+(
+void
+)IfxCpu_startCore(&MODULE_CPU3, (uint32)&_Core3_start);
+/*The status returned by function call is ignored */
+#
+endif
+启动Core的实质是设置Core对应的
+PC（Program Counter）
+寄存器与
+PMCSRx（Power Management Control and Status Register)
+寄存器。代码示意如下所示：
+boolean
+IfxCpu_startCore
+(Ifx_CPU *cpu, uint32 programCounter)
+{
+boolean
+retVal = TRUE;
+/* Set the PC for Core 1 */
+retVal &= IfxCpu_setProgramCounter(cpu, programCounter);
+/* Get the mode for Core 1 and set it to RUNNING */
+/* Core not running already */
+if
+(IfxCpu_getCoreMode(cpu) == IfxCpu_CoreMode_halt)
+{
+retVal &= IfxCpu_setCoreMode(cpu, IfxCpu_CoreMode_run);
+}
+return
+retVal;
+}
+如果要获取CPU的运行状态，可以读取SCU模块的
+PMSTATx（Power Management Status Register x）
+寄存器。
+（一）PC（Program Counter）寄存器
+PC寄存器如下所示，注意：
+操作PC寄存器时，需要Core处于halt模式
+，这也意味着：uC上电以后，从核默认进入Halt模式。
+（二）PMCSRx（Power Management Control and Status Register)寄存器
+PMCSR寄存器如下所示：
+注意：
+REQSLP位域受CPU Endinit或者Safety Endinit保护，操作时需要注意。示意代码如下所示：
+/*Check if the same core is requesting to change the core run mode */
+if
+(IfxCpu_getCoreIndex() != index)
+{
+/*Request is for the other core */
+/*To access PMCSR of other CPUs handle the safety EndInit protection */
+uint16
+safetyWdtPw = IfxScuWdt_getSafetyWatchdogPassword();
+IfxScuWdt_clearSafetyEndinit(safetyWdtPw);
+MODULE_SCU.PMCSR[(
+uint32
+)IfxCpu_getIndex(cpu)].B.REQSLP = reqslp;
+IfxScuWdt_setSafetyEndinit(safetyWdtPw);
+cpu->DBGSR.B.HALT =
+2
+;
+/*reset the HALT bit, if it is already done it is no harm in writing again */
+}
+else
+{
+/*Request is for self, this request normally only for halt, otherwise the core is already running anyway! */
+/*To access PMCSR of self handle the cpu EndInit protection */
+uint16
+cpuWdtPw = IfxScuWdt_getCpuWatchdogPassword();
+IfxScuWdt_clearCpuEndinit(cpuWdtPw);
+MODULE_SCU.PMCSR[(
+uint32
+)index].B.REQSLP = reqslp;
+IfxScuWdt_setCpuEndinit(cpuWdtPw);
+}
+4、各核main()函数的执行顺序
+主核（Core0）调用IfxCpu_startCore()接口启动从核，从核的主运行程序（eg:
+core1_main()
+）同时被执行，之后主核的主运行程序（
+core0_main()
+）启动。即：从核的主函数在主核的主函数之前运行，但是，真正的用户程序还没有执行，需要等待各核之间完成同步，方可执行。
+2
+如何实现多核同步
+什么是同步呢？举个例子：甲周末约朋友乙和朋友丙小聚，约定到A点集合，等甲乙丙都到达A点，之后一起去小馆喝酒，这就是一种同步。对应到主从Core，它们之间如何同步呢？
+软件代码示意如下所示：
+/* Wait for CPU sync event */
+IfxCpu_emitEvent(&g_cpuSyncEvent);
+IfxCpu_waitEvent(&g_cpuSyncEvent,
+1
+);
+代码中，大家会发现，每个Core的主程序都会有类似上述的代码，以此实现各Core的同步。主要思路：
+主核（Core）设置一个全局变量（g_cpuSyncEvent），等同于集合地点；
+各核进入主程序（
+main()
+）后，置位全局变量对应的Bit（一个核对应一个Bit），等同于到达集合地点；
+各核在while()中轮询检查全局变量等于预期值（比如：0x0F，0000
+1111
+B
+），如果g_cpuSyncEvent == 0x0F，说明4个Core均进入各自的主函数，之后所有Core跳出While()循环，执行各自的用户程序，等同去小酒馆喝酒。
+至此，完成同步。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+诊断开发：采样点引发的连续帧错序问题
+NVM基础概念
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

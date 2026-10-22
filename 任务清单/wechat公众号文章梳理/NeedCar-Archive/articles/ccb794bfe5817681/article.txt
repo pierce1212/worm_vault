@@ -1,0 +1,179 @@
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（二）
+2022-10-10T18:44:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489960&idx=1&sn=8f06dbd72befb8fe45571715e21b8b81&chksm=fa2a47dccd5dceca6034a6cda256075378628f4eb519f2bc80b9e4a1f6d7fc7c6c45a9cabb8f&scene=21#wechat_redirect
+
+上一篇
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（一）
+中，使用
+RSTCON2寄存器的
+USRINFO位域
+，存储诊断的$10 02/82信息，主要是利用了
+软复位，
+RSTCON2.
+USRINFO不清零的特点。本文接着讨论一种软复位不清零的方法：
+配置U
+CB17中的HF_PROCONRAM寄存器
+。
+提示：
+基于Aurix tc3xx讨论。
+1
+UCB
+UCB（User Configuration Blocks）：
+用户配置块
+。用于配置安装信息，位于DFlash0中，具体位置如下所示：
+由于UCB位于DFlash0中，因此可以通过Flash Driver驱动修改UCB中的配置信息。
+本文就是利用了该特性，修改RAM区配置，实现软复位不清零操作。更进一步说：
+修改UCB17中的PROCONRAM寄存器
+。
+1、UCB17扇区
+UCB所在的地址空间如下所示，即：0xAF400000~0xAF405FFF（24 Kbyte）。
+由上图可以看出，DF0包含三个部分：
+Data Flash 0 EEPROM、Data Flash 0 UCB、Data Flash 0 CFS
+。UCB的Logical Sector和Mini Sector划分如下所示：
+对于PFlash和DFlash的擦除操作，最小单位：Logical Sector，对于UCB也不例外，如上图，可以看出，
+UCB的最小擦除单位是512 Byte
+。如果要修改UCB17的
+PROCONRAM配置
+，意味着需要
+先擦除UCB17，之后再写入
+PROCONRAM区的
+配置
+。
+2、UCB17中的PROCONRAM寄存器
+PROCONRAM在
+UCB17结构中位置，如下所示：
+3、HF_PROCONRAM寄存器
+HF_PROCONRAM寄存器如下所示：
+通过配置LMUINSEL或者RAMINSEL 决定哪些RAM区，软复位不清零。
+配置
+RAMINSEL位域
+，可以决定CPU对应的
+PSPR、 DSPR、PCACHE、 DCACHE
+是否软复位清零。
+eg
+：0x00010000，配置CPU0对应的PSPR、DSPR、PCACHE、DCACHE软复位不清零。
+配置
+LMUINSEL 位
+域
+，可以决定CPU对应的
+LMU（
+Local Memory Unit
+）
+是否软复位清零。
+eg：
+0x01000000，配置CPU0对应的LMU软复位不清零。
+2
+Aurix RAM
+如上的讨论中，焦点都是RAM区。PSPR、DSPR、PCACHE、DCACHE、LMU都是RAM区域，这些RAM区位置与CPU是怎样对应的呢？如下所示：
+PSPR、DSPR、PCACHE、DCACHE、LMU均具有真实的物理内存区，其中：
+PSPR、DSPR、PCACHE、DCACHE位于CPU的内部
+，而
+LMU位于CPU的外部
+。
+LMU SRAM
+：可用于代码执行、数据存储和标定的Overlay使用。访问方式即可以使用缓存方式访问（Segment 9），也可以使用非缓存方式访问（Segment B）。
+3
+示例
+目标
+：实现CPU0的DSPR软复位不清零，配置HF_PROCONRAM为0x00010000。其中，CPU0 DSPR映射的地址空间和大小如下所示：
+验证结果
+：
+（1）确认UCB17的PROCONRAM寄存器已经配置成预期的0x00010000（本文利用Flash Driver写入），如下所示：
+（2）读取0x70010000地址软复位前和软复位后的run_Cnt_CPU0_DSPR数值。
+run_Cnt_CPU0_DSPR采用直接地址访问方式
+，如下所示：
+volatile
+uint32
+*  run_Cnt_CPU0_DSPR = (
+uint32
+*)
+0x70010000
+;
+1、软复位前，0x70010000地址数据为0，如下所示：
+2、对参数run_Cnt_CPU0_DSPR进行两次累加计算
+(*run_Cnt_CPU0_DSPR)++;
+(*run_Cnt_CPU0_DSPR)++;
+运行后，0x70010000地址数据为2，如下所示：
+3、
+进行软复位
+（本文用Debug复位）
+如上，实现了软复位，DSPR区域不清零的操作，其他RAM区域，可自行尝试。
+可以利用上述方式，实现Application程序和Bootloader程序之间信息交互的功能，即：指定一个特定的RAM区地址（eg:0x70010000），每次程序复位时，Bootloader可以获取Application是否有请求升级应用程序的信息（$10 02/82）。
+但是，本方法控制的空间区域有点大，实际的工程中，Bootloader和Application交互的信息量不多，不用对如此大的RAM区操作，一般给1K的空间足够。对于这一部分的其他操作方式，未完待续......
+本文代码
+void
+core0_main
+(
+void
+)
+{
+volatile
+uint32*  run_Cnt_CPU0_DSPR = (uint32*)
+0x70010000
+;
+IfxCpu_enableInterrupts();
+/* !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+* Enable the watchdogs and service them periodically if it is required
+*/
+IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
+IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
+/* Wait for CPU sync event */
+IfxCpu_emitEvent(&cpuSyncEvent);
+IfxCpu_waitEvent(&cpuSyncEvent,
+1
+);
+UCB17_DataArr[
+2
+] =
+0x00010000
+;
+UCB17_DataArr[
+124
+] =
+0x43211234
+;
+/* Flash the Data Flash memory and verify the written data */
+writeDataFlash();
+verifyDataFlash();
+(*run_Cnt_CPU0_DSPR)++;
+(*run_Cnt_CPU0_DSPR)++;
+while
+(
+1
+)
+{
+}
+}
+4
+RSTCON2寄存器操作补充
+RSTCON2寄存器受CPU的"内狗"的保护，操作时，
+注意Cpu Endinit操作
+，示例代码如下所示：
+void
+SCUResetCon2
+(
+void
+)
+{
+uint16  password;
+password = IfxScuWdt_getCpuWatchdogPasswordInline(&MODULE_SCU.WDTCPU[IfxCpu_getCoreIndex()]);
+IfxScuWdt_clearCpuEndinitInline(&MODULE_SCU.WDTCPU[IfxCpu_getCoreIndex()], password);
+MODULE_SCU.RSTCON2.B.USRINFO =
+0x1002
+;
+IfxScuWdt_setCpuEndinitInline(&MODULE_SCU.WDTCPU[IfxCpu_getCoreIndex()], password);
+}
+参考资料
+SIMPLE TITLE
+（1）Infineon-AURIX_TC3xx_Part1-UserManual-v01_00-EN.pdf
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：读懂C语言封装的汇编很重要
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

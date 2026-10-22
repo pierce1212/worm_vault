@@ -1,0 +1,43 @@
+调试技巧，如何将JTAG转换成DAP？
+2024-12-11T06:30:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496293&idx=1&sn=0d9afdc74c9ba9310c7742f294fe1fce&scene=21#wechat_redirect
+
+开发的小伙伴对于DAP（Debug Access Port）和JTAG（Joint Test Action Group）两种调试端口应该比较熟悉。调试端口无非就是为了方便程序调试，但是，项目做多了，不同项目中使用的调试端口可能会不同。比如，有的控制器预留了DAP端口，有的控制器却是JTAG端口。那么，有没有可能通过端口转换，让现有调试器的DAP端口通过控制器上的JTAG端口进行程序调试呢？答：可以。
+1、DAP和JTAG端口定义
+首先，我们需要清楚
+DAP和
+JTAG
+端口每个Pin脚的定义，下图左侧为DAP端口，右侧为JTAG端口，如下所示：
+V_UC
+：Microcontroller Supply Voltage
+两者如何对应呢？
+DAP0接口TCK（Test Data Clock）,DAP1接TMS（Test Data Select），DAP2接TDO（Test Data Output），TRST（Test Reset）接TRST，PORST接PORST
+。
+其中，
+DAP2是一个Option项
+，如果需要将调试器当串口使用，即：将芯片内部信息通过调试器传输给上位机，可以使用该端口。具体配置实践可以参考前文《
+调试技巧：Trace32也可以当串口用（Printf功能）
+》。
+英飞凌的芯片，
+如果大家使用
+MiniWigger烧录器下载和调试，DAP和JTAG两种调试端口均会支持，两者对应解释如下：
+如果使用的调试器是Lauterbach调试器，调试端口类型选择配置如下：
+2、DAP与JTAG互转注意事项
+如果使用的Lauterbach只有DAP端口（10 Pin，间距1.27mm），转接到JTAG（14Pin，2.54mm），需要注意哪些事项呢？
+1、供电，Lauterbach需要供电和接地，如果所用的控制器（简单的芯片母版）不能给V_UC Pin供电（eg：3.3V），则需要额外供电，额外供电示意如下：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+HSM的使能时机，也会导致锁芯片吗？
+信息安全，单次服务请求有必要分多步执行吗？
+信息安全，验签的信息应该存储在何处？
+结合工程实际，理解信息安全（Security）的基础概念
+如何诊断对地短路、对电源短路以及开路故障？
+Bootloader开发：基于以太网的软件刷写思考
+诊断，为什么读到的DTC故障状态是0x20?
+诊断，到底该如何理解"一个操作循环"概念？
+这些芯片内存（Memory）区，你真的用过？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

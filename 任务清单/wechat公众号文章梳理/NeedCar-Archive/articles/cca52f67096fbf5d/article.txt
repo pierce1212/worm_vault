@@ -1,0 +1,111 @@
+开源Fast-DDS安装示例及DDS模型架构
+2023-02-26T13:52:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491422&idx=1&sn=33978a7e81633c56a897cf4f07fbc8ae&chksm=fa2a412acd5dc83c9570822bffb9a804f098d05961b7eb9e772649cd06f31a2621218c2ddfc0&scene=21#wechat_redirect
+
+讨论本文的主题之前，先更正一个错误，在
+DDS概述及DCPS模型
+一文中提到：
+CP Autosar中，暂时不支持DDS
+。此处表述有误，
+CP Autosar R22-11版本中，已开始支持DDS
+。
+提示
+：本文使用Linux(Ubuntu20.4)操作系统
+DDS和Autosar一样，
+是一套标准
+，任何组织或者个体，均可以去实现它。不同组织或者公司实现该标准时，会形成不同的风格和版本。比如：
+Fast-DDS
+就是一套
+开源的DDS标准
+实现
+，由eProsima维护。之前讨论的
+MICRO-XRCE-DDS也由
+eProsima发布。
+MICRO-XRCE-DDS需要代理（Agent），面向的对象是MCU这种资源紧缺的Device，如果使用域控或者中央大脑对应的平台，在资源和算力足够的情况下，可以使用
+Fast-DDS，不用代理。
+1、Fast-DDS安装及注意事
+本文讨论的开源Fast-DDS
+采用
+源码
+安装方式
+，安装参考链接：
+https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_linux.html
+（
+一）3.1. Fast DDS library installation
+本文选择"
+3.1. Fast DDS library installation
+"小节的方式安装，按照提示，逐步安装。
+安装遇到的问题
+Q1
+：
+command vcs not found
+A1
+：解决措施，修改PATH环境变量：
+PATH=$PATH:~/.local/bin
+参考链接：https://www.cnblogs.com/tengzijian/p/15541952.html
+（二）3.3. Fast DDS-Gen installation
+安装
+Fast DDS-Ge
+n的主要目的是根据用户自定义idl文件生成对应的源文件。
+编译Fast DDS-Gen之前，需要先安装
+Java JDK
+和
+Gradle。
+Fast DDS-Ge
+n使用
+需要将编辑好的*.idl文件放置在
+~~/Fast-DDS/Fast-DDS-Gen/Scripts
+文件下，*
+.idl文件放置位置如下所示：
+在此文件夹下打开
+终端
+，并
+输入如下命令
+：
+./fastddsgen -example
+CMake
+HelloWorld.idl
+生成的源文件如下所示：
+2、HelloWord示例
+（一）启动Publisher
+在示例进程中，使用命令行启动Publisher进程，如下所示：
+（二）启动Subscriber
+在示例进程中，使用命令行启动Subscriber进程，如下所示：
+（三）订阅/发布的通信示意
+Publisher与Subscriber之间的发布、订阅行为如下所示：
+3、DDS模型架构
+DDS模型架构可以分为四层：Application、DDS、RTPS、Transport。如下所示：
+（一）Application
+如果用户应用程序需要通过DDS协议与对等实体通信，可以直接调用封装的DDS API。发布数据时，可以调用DataWriter对象的Write()接口；接收数据时，可由SubscriberListener触发DataReader注册的
+on_data_on_readers()
+接口。
+（二）DDS
+DDS层可以部署多个DDS Domian，相同DDS Domian下的DomainParticipant通过Publish/Subscribe方式交互信息。关于DDS，后续文章会展开细节讨论，不在这过多赘述。
+（三）RTPS
+RTPS（Real-Time Publish-Subscribe），抽象传输层，为什么要抽象传输层呢？
+答
+：DDS协议并未有明确使用什么方式传输数据，但是，数据的交互又脱离不开通信方式。所以，这就是RTPS出现的目的。
+（四）Transport
+可使用多种方式传输DDS数据，eg：UDP、TCP、SHM（Shared Memory）。不管UDP还是TCP，使用的总线类型均为Ethernet，使用CAN或者其他总线是否可行呢？
+答
+：个人理解，可以。但是，任何方案的落地均脱离不了使用场景，如果使用场景是高速、大数据传输，选用CAN总线可不是一个明智之举。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+DDS概述及DCPS模型
+嵌入式开发：使能Cached功能，导致数据一致性破坏
+Autosar EcuM：APP由RUN到POST_RUN浅析
+Autosar网络管理：再说CAN FD帧能否唤醒网络？
+嵌入式开发：TLF35584外狗之WWD
+嵌入式开发：如何理解ECU唤醒、休眠、Reset?
+C语言基础：do{...}while(0)的使用，很秀
+Autosar EcuM：ECU的启动、关闭流程
+基于CMake，交叉编译C、C++
+TRACE32：多核调试配置
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

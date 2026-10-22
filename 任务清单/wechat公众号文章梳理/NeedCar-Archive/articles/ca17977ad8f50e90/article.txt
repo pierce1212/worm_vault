@@ -1,0 +1,115 @@
+CANoe基础：数据Replay及录制操作
+2023-07-19T07:22:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492590&idx=1&sn=a0e044c40a141648405d5dadbbf43957&chksm=fa29bd9acd5e348cb22525eda9b78a7c7a65ed40af6cc15bc0d1df82c7a48028ca9d3331ef78&scene=21#wechat_redirect
+
+对于经常排查bug的同学来说，Replay（回放）数据并不陌生。很多时候，受限于资源，排查问题的工程师，不能获取到问题车辆。所以，为了更好的模拟整车问题时的通信工况，将车辆问题时的数据（log）在小台架上replay就是一个不错的选择。本文，基于CANoe，分享Replay的基本操作步骤。
+1、CANoe Replay操作配置步骤
+（一）Replay blocks配置
+1、Simulation->Simulation Setup->在需要回放的Network（eg：CAN Network）中添加Replay blocks
+2、Replay blocks添加完成，如下所示：
+（二）Replay配置
+1、基本配置设置
+2、Channel Mapping配置
+这里的Source通道是指录取的log中，要回放数据的Channel。eg：录取数据为A.log，其中目标Network在Channel 2，此处的Target选择CAN2。
+3、CAN options设置
+一般CAN Options无需做改动，如下所示：
+（三）Databases和Channels配置
+1、
+Data
+bases选择
+为了便于信号的识别，Data
+bases选择对应Network的通信矩阵。
+2、Channels选择
+这里的Channel选择要与log（eg：*.blf）中Network Channel保持一致，此处为CAN2。
+对应设置如下所示：
+（四）回放数据过滤设置
+1、右击Replay blocks虚拟线->Insert Filter
+2、过滤模块添加如下所示
+3、过滤配置
+右击添加的过滤模块->Configuration...
+4、选择过滤节点（Nodes）
+本文使用过滤节点方式进行过滤设置，eg：过滤VDDM的发送报文（Transmitted messages）。这里选择Stop filter，即：不回放log中VDDM的发送数据。
+提示
+：回放数据的目的，让整车其他节点的报文发送给目标节点，同时，过滤掉log中目标节点的发送报文，让目标节点真实的发送报文。
+2、数据回放
+（一）启动回放
+单击启动按钮，开始回放数据
+如果有未关联的Channel，需要Deactive Unmapped，操作：
+Deactive
+Un
+ma
+pped->OK
+Deactive
+Un
+ma
+pped以后，未关联的Channel变成灰色，不再使用，如下所示：
+数据流如下：
+其中VDDM节点真实发送的数据，由CANoe接收（Rx），其他节点数据，由CANoe发送（Tx）给VDDM节点。
+3、操作注意点
+1、需要回放数据的目标板确认物理连接正确（eg：供电是否正常、总线连接是否正常等）；
+2、回放数据开始阶段，由于节点需要唤醒，可能存在错误帧，属于正常现象。如果不可用，
+可以重新给目标板上电
+。
+4、Flexray总线replay配置操作
+（一）配置Fr对应的Replay blocks
+配置如下所示：
+（二）Replay配置
+1、General界面配置
+General界面
+配置与CAN总线类似，如下所示：
+2、Channel Mapping配置
+3、Flexray Option配置
+注意：这里取消目标节点VDDM和VectorSimulationNode的勾选，如下所示：
+4、Flexray唤醒配置
+为了确保目标板的Flexray能被唤醒，可以在Hardware中进行如下配置：
+（三）Flexray回放操作问题
+目前在实现Flexray的回放时，回放的数据流中，其他节点发空帧（NULL Frame），目前还不能确认配置操作哪里设置不对，或者存在怎样冲突，示意如下：
+针对此问题的措施：
+（1）措施一
+关闭Flexray回放操作，使用IG模拟其他节点的NM发送，唤醒目标板的Flexray。
+（2）措施二
+回放原始录制的log数据，单独将Flexray总线数据重新录制。具体操作步骤如下：
+1、选择需要过滤的Flexray Channel并回放原始log数据，过滤"Chn"如下所示：
+2、保存过滤后的
+Fl
+exray
+Channel数据，操作：右击Trace界面->Import/Export->Export...
+3、选择文件的具体保存路径->Save
+4、在Flexray的Replay blocks中，重新加载录制后的Fr数据
+5、重新Replay
+提示
+：上述措施一、措施二如果均无效，参考措施三中的Flexray数据重新录制和Replay操作。
+（3）措施三（测试有效）
+参考下一小节
+5、Flexray数据重新录制及回放
+（一）数据录制
+1、加载原始log数据（*.blf）
+Analysis->Measurement Setup->切换至Offline模式，加载原始log数据。
+2、数据录制过滤（Filter）设置
+右击->Insert Event Filter->Flexray
+3、设置Flexray的过滤规则
+从通信矩阵中选择要过滤的节点（eg：VDDM），选择VDDM的所有发送报文，即：回放数据时，VDDM节点的所有外发报文不回放，由真实节点发送。之后Apply->OK
+过滤添加完成如下：
+4、设置数据保存路径，如下所示
+5、开始录制Flexray数据
+单机回放，开始录制数据。
+6、重新添加Flexray的数据，如下所示
+7、切换回Online模式
+（二）数据回放
+单击启动按钮，数据开始回放。VDDM节点数据由真实控制器发送（CANoe Rx），其他节点数据由CANoe通过数据log仿真发送（Tx），如下所示：
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Autosar往期精彩文章汇总：151~200
+Autosar往期精彩文章汇总：201~251
+通信：跨Core读取信号，Signal值偶发反转
+INCA基础操作：测量数据分析
+UDS基础：快照数据（Snapshot）格式详解
+基于Tricore的CANFD入门工程
+CANoe基础：如何显示*.blf数据的时间戳
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

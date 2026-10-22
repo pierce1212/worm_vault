@@ -1,0 +1,15 @@
+Flash Driver安全存放Flash内存区方案
+2025-08-15T06:28:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497338&idx=1&sn=9cac8d1347fc0402eafd4c80c05e84fb&chksm=fa29a80ecd5e2118ca02e32e83a6fe08e99b4174c4b1d1d1f132ec2dd5cdf365f72e2cbdfab6#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+我们知道，对于Flash程序的更新，离不开操作Flash内存区的驱动程序，即：
+Flash Driver
+。一般来说，在程序更新过程中，会将
+Flash Driver放置在RAM区域。为什么要放置在RAM区域呢？担心程序异常跑飞后，执行了Flash区域的
+Flash Driver，进而擦除了Flash区域的程序，造成功能异常。示意如下：
+那么，
+Flash Driver放置在Flash区域就不可行吗？可行，本文讨论将
+Flash Driver安全存放Flash内存区的几种方案。
+1、Flash Driver安全存放Flash内存区的几种方案

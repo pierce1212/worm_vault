@@ -1,0 +1,120 @@
+CMake在Windows下的使用
+2022-01-02T20:42:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484580&idx=1&sn=bf921e191d16b2acca69d77807585a57&chksm=fa2a5ad0cd5dd3c6c528bc4a6f6d6796e65647faa7579125f3e3ebbd1aaeb4a43bd64d8b70ac&scene=21#wechat_redirect
+
+前面CMake的讨论基于Linux系统，因为CMake可以跨平台使用，因此本文聊聊在Windows下如何使用。
+CMake在Windows下的安装
+CMake的Windows版本或者其它版本可以在官网下载，下载链接：
+https://cmake.org/download/
+在Windows下需要安装mingw，下载链接：
+https://sourceforge.net/projects/mingw-w64/
+Windows下使用CMake所需软件及配置，具体可以参考链接：
+https://www.cnblogs.com/herelsp/p/8679200.html
+Windows下的CMake过程
+前面我们一直在讨论在linux下的CMake过程，如果不清楚的大家可以回顾
+CMake实践（一）
+、
+CMake实践（二）
+。本文不再贴源码，源码继续沿用linux中使用的源码。
+前面提过，在Windows中使用的脚本不同于linux，在Windows中使用*.bat脚本文件运行命令行。使用脚本的好处是避免每次敲同样的命令行。
+先看一下文件结构：
+Windows中使用的脚本文件如下所示：
+01
+CMake_Build.bat
+@echo off
+set buildDir=build
+@REM build的文件夹不存在则创建
+if not exist %buildDir% md %buildDir%
+if exist %buildDir% cd %buildDir%
+echo "
+*****
+*****
+*****
+:Execute cmake
+*****
+*****
+*****
+"
+cmake -G"Unix Makefiles" ../
+echo "
+*****
+*****
+*****
+:Execute make
+*****
+*****
+*****
+"
+make
+pause
+CMake过程运行结果：
+PS D:\WorkSpace\VSCode\CMake_Pro> .\CMake_Build.bat
+"***************:Execute cmake ***************"
+-- The C compiler identification
+is
+GNU
+8.1
+.0
+-- The CXX compiler identification
+is
+GNU
+8.1
+.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check
+for
+working C compiler: D:/App/Work/Mingw64/mingw64/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check
+for
+working CXX compiler: D:/App/Work/Mingw64/mingw64/bin/c++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- myEnvVar:
+80
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/WorkSpace/VSCode/CMake_Pro/build
+"***************:Execute make ***************"
+[
+25%
+] Building CXX
+object
+src/CMakeFiles/Cal.dir/Cal.cpp.obj
+[
+50%
+] Linking CXX
+static
+library libCal.a
+[
+50%
+] Built target Cal
+[
+75%
+] Building CXX
+object
+CMakeFiles/CMake_Pro.dir/main.cpp.obj
+[
+100%
+] Linking CXX executable CMake_Pro.exe
+[
+100%
+] Built target CMake_Pro
+请按任意键继续. . .
+PS D:\WorkSpace\VSCode\CMake_Pro>
+运行结果：
+提示：
+本例使用powershell运行
+CMake_Build.bat
+，快捷键：
+Shift+鼠标右键
+，可以快速在当前文件夹打开powershell。
+往期精彩推荐：
+Vector代码这样过滤CanID Range，你Get到没？
+基于VH6501的BusOff快慢恢复测试
+通信诊断监控开启条件
+CAN总线采样点分析

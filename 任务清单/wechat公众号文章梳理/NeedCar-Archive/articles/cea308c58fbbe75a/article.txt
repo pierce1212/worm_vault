@@ -1,0 +1,56 @@
+Lauterbach实用技巧，Hex文件导出（补充篇）
+2025-04-17T06:38:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496679&idx=1&sn=df78b57df6e5f6f841e13e16f5b2db64&chksm=fa29ad93cd5e2485a1162a1bc983e515d72cd858930fe61ae4d74371257684065c66be237e1a#rd
+
+前文《
+Lauterbach实用技巧，Hex文件导出及UCB写操作
+》给大家分享了Lauterbach实用技巧中的Hex文件导出。在导出Intel格式（*.hex）文件时，
+默认的导出地址不是绝对地址
+，
+如此，前文中设计了批处理脚本（*.bat）转换绝对地址，但是，这并不是最优方案。
+“
+止匕木”小伙伴
+留言给出了解决方案，本文借花献佛，讨论如何基于
+Lauterbach直接导出
+Intel格式（*.hex）的绝对地址。
+1、如何基于Lauterbach直接导出Intel格式的绝对地址
+如前文，目标：导出绝对地址0xA0010000--0xA001001F范围的数据（长度32 bytes），格式为
+Intel格式（*.hex）。需要导出的内容如下：
+在Lauterbach的命令行中输入如下指令：
+具体指令如下：
+Data
+.SAVE.IntelHex D:/SaveHex/HexSave.hex
+0
+xA0010000--
+0
+xA001001F /TYPE4
+导出文件如下所示：
+内容如下：
+只需要添加一个Option选项（/TYPE4）
+，即可输出绝对地址为Intel格式
+（*.hex）的文件，无需进行额外处理。
+Data.SAVE.IntelHex命令格式如下：
+可选项（Option）中的TYPE4含义如下：
+题外话
+再次感谢
+“
+止匕木”
+小伙伴的分享，“开心果 Need Car”乐于分享工程中遇到的、想到的问题以及一些工具的使用技巧。然而，个人精力有限，很多问题也并非最优解。感谢各位小伙伴的交流和分享，欢迎大家指正和交流。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：351~400
+基于IAR的多核调试及基础操作入门（视频篇）
+结合工程实际，理解信息安全（Security）的基础概念
+基于Davinci的HSM开发实践（5）：HSM与Host的IPC通信简介
+Flexray总线基础#05：为什么要进行节点间时钟同步？
+基于Davinci的HSM开发实践（1）：从安装到完成编译
+怎能不了解数据压缩？从LZSS无损压缩算法开始
+CAN总线科普，Busoff与CC状态切换的本质
+如何避免cache造成的核间数据不一致？
+诊断，为什么读到的DTC故障状态是0x20?
+Bootloader开发：如何提高软件刷写效率？
+这些芯片内存（Memory）区，你真的用过？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
