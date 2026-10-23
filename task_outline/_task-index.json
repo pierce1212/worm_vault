@@ -304,12 +304,21 @@
     },
     "tcc-82fdbf26-23ce-4a2a-bd55-e54c8cd15ef2": {
       "path": "task_outline/工作任务.md",
-      "title": "zephyr 开发教程",
+      "title": "各种 RTOS 例程研究",
       "aliases": [
-        "zephyr 开发教程"
+        "zephyr 开发教程",
+        "RT 开发教程",
+        "RT OS 开发教程",
+        "RT O",
+        "ge'zhong",
+        "各种 RTO",
+        "各种 RTOSli'cheng",
+        "各种 RTOS li'cheng",
+        "各种 RTOS 例程",
+        "各种 RTOS 例程研究"
       ],
-      "hash": "4e920b43",
-      "updated": "2026-10-12 13:50"
+      "hash": "beee758b",
+      "updated": "2026-10-22 18:05"
     },
     "tcc-121b6551-3b50-42d6-8c8b-4d9a1497a2e3": {
       "path": "task_outline/工作任务.md",
@@ -949,12 +958,12 @@
     },
     "tcc-c51c5cd2-b947-42cb-b860-5d929b1737ae": {
       "path": "task_outline/工作任务.md",
-      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "title": "",
       "aliases": [
         "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。"
       ],
-      "hash": "7a96d043",
-      "updated": "2026-10-10 14:40"
+      "hash": "6eccbcb6",
+      "updated": "2026-10-22 17:32"
     },
     "tcc-c31bd5ca-d1ab-47e1-a169-a68293fd7c06": {
       "path": "task_outline/工作任务.md",
@@ -1403,6 +1412,42 @@
       ],
       "hash": "8a7efefd",
       "updated": "2026-10-22 16:54"
+    },
+    "tcc-5d59955e-8a34-4d98-8656-daff041b4b11": {
+      "path": "task_outline/工作任务.md",
+      "title": "- [ ] Rust 构建 RT-OS 教程（wechat 上有",
+      "aliases": [
+        "- [ ] Rust 构建 RT-OS 教程（wechat 上有"
+      ],
+      "hash": "c656eb7d",
+      "updated": "2026-10-22 17:31"
+    },
+    "tcc-72baf420-9cb9-4fe5-bd9c-8b21b7682955": {
+      "path": "task_outline/工作任务.md",
+      "title": "Rust 构建 RT-OS 教程（wechat 上有",
+      "aliases": [
+        "Rust 构建 RT-OS 教程（wechat 上有"
+      ],
+      "hash": "a2bca137",
+      "updated": "2026-10-22 17:31"
+    },
+    "tcc-17d7cc26-8e2f-4d00-8b17-0e75f56949da": {
+      "path": "task_outline/工作任务.md",
+      "title": "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。",
+      "aliases": [
+        "熟练使用FreeRTOS/RT-Thread等实时操作系统，熟悉信号量、消息队列、任务优先级配置。"
+      ],
+      "hash": "cc9afc33",
+      "updated": "2026-10-22 17:32"
+    },
+    "tcc-4d7f22e8-b7b3-4758-a4ce-6d2fa3d853ac": {
+      "path": "task_outline/工作任务.md",
+      "title": "基于RTOS实现多任务调度、中断管理、实时数据采集、闭环控制逻辑，保障运动控制实时性与稳定性。",
+      "aliases": [
+        "基于RTOS实现多任务调度、中断管理、实时数据采集、闭环控制逻辑，保障运动控制实时性与稳定性。"
+      ],
+      "hash": "2b41307c",
+      "updated": "2026-10-22 18:05"
     }
   }
 }
