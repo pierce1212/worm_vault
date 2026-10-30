@@ -1,0 +1,3 @@
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+原链接已失效，未取得正文；为保证目录完整而保留此条目。
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490724&idx=1&sn=40f0d558677eac1b9f326704e85cd59f&chksm=fa2a42d0cd5dcbc6038112aea20eca6af0ddc346228d859dc78982a872d7abccafa52b5faa42&scene=21#wechat_redirect

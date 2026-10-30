@@ -1,0 +1,21 @@
+公众号分类学习资料
+原归档共609个条目；信息安全已整理132条，本次整理其余477条。
+每类可整体复制，图片和正文均在本类内。
+
+01_AUTOSAR架构与配置：11条；{"saved": 11}
+02_C与C++编程基础：20条；{"saved": 20}
+03_编译链接与工程构建：27条；{"saved": 25, "paywall": 2}
+04_MCU中断多核与操作系统：40条；{"saved": 40}
+05_电源管理与功能安全：21条；{"saved": 21}
+06_CAN LIN FlexRay与通信栈：63条；{"saved": 60, "paywall": 3}
+07_网络管理与唤醒休眠：61条；{"saved": 59, "unavailable": 1, "paywall": 1}
+08_车载以太网SOMEIP与DDS：27条；{"saved": 27}
+09_UDS诊断与故障管理：68条；{"saved": 65, "paywall": 3}
+10_Bootloader与OTA升级：40条；{"saved": 33, "paywall": 7}
+11_Flash与NvM存储：31条；{"saved": 28, "paywall": 3}
+12_调试测试与开发工具：38条；{"saved": 32, "paywall": 1, "wechat_only": 5}
+13_作者随笔与经验交流：19条；{"saved": 19}
+14_作者原始文章汇总目录：11条；{"saved": 11}
+
+双击index.html打开总导航；每个分类也有自己的index.html。
+已失效条目与同题名可读条目保留各自记录，不将它们视为同一版本。

@@ -1,0 +1,43 @@
+AUTOSAR架构与配置
+条目数：11
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+先认识架构与回调接口，再看配置阶段、ARXML和工具接入。
+
+01 认识AUTOSAR与工程全貌
+001. Autosar，好吗？ | 2023-01-20 | 正文已保存 | 起步推荐
+本地：文章/001_Autosar，好吗？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491113&idx=1&sn=667636d47ec566ac98f2ade3554b5666&chksm=fa2a405dcd5dc94b7d8d66993fed5913728a4222a0c442e55441ec09bc672c0700998f84cb6e&scene=21#wechat_redirect
+002. 一颗汽车“大脑”的成长之路：ECU 软件从工厂到上路的全过程 | 2026-05-05 | 正文已保存 | 起步推荐
+本地：文章/002_一颗汽车“大脑”的成长之路：ECU 软件从工厂到上路的全过程/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498158&idx=1&sn=9aeaa43c4793f30486a95d72810fe986&scene=21#wechat_redirect
+003. 闲话CP Autosar技术面试问题（一） | 2025-06-30 | 正文已保存
+本地：文章/003_闲话CP Autosar技术面试问题（一）/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496994&idx=1&sn=6c90fa8cdfc80464c70f70692a1ea8a5&chksm=fa29ab56cd5e2240b4d95804025090fe28f1c74f3df8d537230b1ac3bdf8f696cefd7d2e2c12#rd
+004. 闲话CP Autosar技术面试问题（二） | 2025-07-04 | 正文已保存
+本地：文章/004_闲话CP Autosar技术面试问题（二）/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497105&idx=1&sn=0a850d1742f1ce4fa121e0e7b340c615&chksm=fa29abe5cd5e22f30cce5afc1b7c22f40d0343d8c698ddbf6a2e8fc60880724fcfa3651b05b2#rd
+
+02 接口与配置基础
+005. Autosar概念：Callout与Callback，请不要混肴 | 2022-03-14 | 正文已保存 | 起步推荐
+本地：文章/005_Autosar概念：Callout与Callback，请不要混肴/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485853&idx=1&sn=a1762916cb3e9d90712964e634aea845&chksm=fa2a57e9cd5ddeff2c00c7949d7930dada15cb9880b35674a8ee6ab3786fb9c87e7ceb2daf07&scene=21#wechat_redirect
+006. Autosar基础：如何理解PostBuild、Precompile、Linktime？ | 2024-01-29 | 正文已保存 | 起步推荐
+本地：文章/006_Autosar基础：如何理解PostBuild、Precompile、L/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493894&idx=1&sn=6512bcc48e0dc0e69678928afa7c4159&chksm=fa29b772cd5e3e647a6e0b6502b89c9d8706d1625d62631e563c1c0b7bad26052cb0a9d03056&scene=21#wechat_redirect
+007. 始于ARXML文件的开发 | 2025-05-10 | 正文已保存 | 起步推荐
+本地：文章/007_始于ARXML文件的开发/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496731&idx=1&sn=bc78786779d108f221776b67af5b8e7c&scene=21#wechat_redirect
+
+03 配置工具与模型集成
+008. MATLAB:自定义库&自定义C MEX S-Function,简单易学 | 2022-02-16 | 正文已保存
+本地：文章/008_MATLAB_自定义库&自定义C MEX S-Function,简单易学/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485544&idx=1&sn=269f2ac91a026e52da2d24435f776a33&chksm=fa2a561ccd5ddf0a89a6ffc3c0aad8ac99fc8322ac4c145d049a857b4465ad6a019e1d75d065&scene=21#wechat_redirect
+009. Matlab:手写C MEX S-Function，没那么难 | 2022-02-21 | 正文已保存
+本地：文章/009_Matlab_手写C MEX S-Function，没那么难/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485631&idx=1&sn=b4c1c069aa98ec115cd0c2ec6d53cd70&chksm=fa2a56cbcd5ddfdd03cb7283608540680bd54bf624fb07f1d8d9071595c796e961774e1de87b&scene=21#wechat_redirect
+010. 玩EB tresos，为什么生成不了*.epc文件？ | 2025-04-10 | 正文已保存
+本地：文章/010_玩EB tresos，为什么生成不了_.epc文件？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496654&idx=1&sn=e514578e4269196f5e1160c54925d4d6&chksm=fa29adbacd5e24acce24b8d4b879ff6922824cc6a4b4764703ce227bbfd0726bded5adbaed8c#rd
+011. EB Tresos，修改Mcal版本号的非常规操作 | 2025-04-21 | 正文已保存
+本地：文章/011_EB Tresos，修改Mcal版本号的非常规操作/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496694&idx=1&sn=22d72fb5b059318faf2548cb0723d0c3&chksm=fa29ad82cd5e24942d9aef502c2828eea8de430a654a8ab9863036fd035c5a716758b3a013cc#rd

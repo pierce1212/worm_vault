@@ -1,0 +1,195 @@
+网络管理与唤醒休眠
+条目数：61
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+先理解网络管理的目的和状态机，再看唤醒、休眠与PN局部网络，最后读纠错和测试。
+
+01 网络管理基础与状态机
+001. Autosar网络管理：为什么要网络管理 | 2022-09-16 | 正文已保存 | 起步推荐
+本地：文章/001_Autosar网络管理：为什么要网络管理/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489704&idx=1&sn=ed7f7de143dd3648a9626f43b088c067&chksm=fa2a46dccd5dcfca54eba4d7e97f345c72aa84933af0e4a41cfb0d45bb8be9ce5a6919496f3a&scene=21#wechat_redirect
+002. Autosar网络管理：基础问题知多少 | 2022-04-21 | 正文已保存 | 起步推荐
+本地：文章/002_Autosar网络管理：基础问题知多少/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486784&idx=1&sn=bf632b1d953d812193a355a7b4e85b1e&chksm=fa2a5334cd5dda220361c955fa9f42850979a105977c0a97a8ae5fb5327bbbbd8e06c194f215&scene=21#wechat_redirect
+003. 网络管理中，这几个概念你清楚吗 | 2021-10-04 | 正文已保存 | 起步推荐
+本地：文章/003_网络管理中，这几个概念你清楚吗/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483713&idx=1&sn=8e8573ae9029f2c45e17ae8027d507a0&chksm=fa2a5f35cd5dd623d33c058b333b7e7470a25ed5e38c2e0bb9e49bdec98ce016eaf7b4447b8e&scene=21#wechat_redirect
+004. AUTOSAR网络管理与Transceiver/Controller关系 | 2021-10-01 | 正文已保存 | 起步推荐
+本地：文章/004_AUTOSAR网络管理与Transceiver_Controller关系/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483701&idx=1&sn=0e1499eee129b8a3a1da862c66d1f74b&chksm=fa2a5f41cd5dd657dececa2cdce89cb5e01f34e1be46ecd1672a58dac68fd01208e768e46941&scene=21#wechat_redirect
+005. Autosar网络管理：CanNM网络状态机真的全看懂了？ | 2022-07-27 | 正文已保存 | 起步推荐
+本地：文章/005_Autosar网络管理：CanNM网络状态机真的全看懂了？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489129&idx=1&sn=e48a7aad6abfac17d6e0966ac70c4ab8&chksm=fa2a481dcd5dc10bb25cc38560a902361ec7edd8fe353e872a72fe6b8910e27c7b6e619f6b82&scene=21#wechat_redirect
+006. Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解 | 2022-12-09 | 正文已保存 | 起步推荐
+本地：文章/006_Autosar网络管理：网络管理报文CBV(Control Bit Ve/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490747&idx=1&sn=aba9d447f40ac8321f48946ce9f1ad37&chksm=fa2a42cfcd5dcbd9b8cc2dc98c25b76052cc0ec198028173f94dbb91caf480f91a3537a6e4b6&scene=21#wechat_redirect
+007. 网络管理为什么需要ECU保持激活一段时间 | 2021-10-02 | 正文已保存
+本地：文章/007_网络管理为什么需要ECU保持激活一段时间/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483708&idx=1&sn=d09f54361827d6282e3ea33cb2a6e8ab&chksm=fa2a5f48cd5dd65ed0b9994a2fb09fe8b7749780ed931e8a11983db85bb30d9797538a2252b1&scene=21#wechat_redirect
+008. Autosar网络管理：网络管理报文的收/发与网络管理时间配置参数解析 | 2022-05-29 | 正文已保存
+本地：文章/008_Autosar网络管理：网络管理报文的收_发与网络管理时间配置参数解析/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488000&idx=1&sn=fae533f0404e3c5cf4d570e9d625ba6d&chksm=fa2a4c74cd5dc562ba7be2c1e59dab384aaaf00efd597ed2d724c0ed56fc5c3a06447299ae1d&scene=21#wechat_redirect
+009. Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解 | 日期未取得 | 原链接已失效
+本地：文章/009_Autosar网络管理：网络管理报文CBV(Control Bit Ve/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490724&idx=1&sn=40f0d558677eac1b9f326704e85cd59f&chksm=fa2a42d0cd5dcbc6038112aea20eca6af0ddc346228d859dc78982a872d7abccafa52b5faa42&scene=21#wechat_redirect
+010. Autosar网络管理：CanNM网络状态变化都要告知ComM吗？ | 2022-12-02 | 正文已保存
+本地：文章/010_Autosar网络管理：CanNM网络状态变化都要告知ComM吗？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490649&idx=1&sn=362bafbadf3834ba090569d7bbb43b22&chksm=fa2a422dcd5dcb3be71ab82e2d20bdafd24179adc8c47c89c3363bd1d1a9ecb516a7e40e87eb&scene=21#wechat_redirect
+011. Autosar网络管理：Bus Load Reduction Mechanism干啥的？ | 2022-06-05 | 正文已保存
+本地：文章/011_Autosar网络管理：Bus Load Reduction Mecha/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488141&idx=1&sn=92ee9839fd99da880a9a5fd5eb96e5a7&chksm=fa2a4cf9cd5dc5ef85c5130c736d765168063a6c1b1c0b326f526985eeb458c678e46894744b&scene=21#wechat_redirect
+012. Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？ | 2022-05-04 | 正文已保存
+本地：文章/012_Autosar网络管理：RepeatMessageRequestBit作/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487349&idx=1&sn=0f92da2bdcb0274256f8bf681ab8fcd6&chksm=fa2a5101cd5dd8170b4b7f1a8596b28f160bdb86ac0e996f18a6e032e09d0216f1ba134019af&scene=21#wechat_redirect
+013. 勘误篇(一)：Autosar网络管理：RepeatMessageRequestBit作用，你清楚吗？ | 2022-05-07 | 正文已保存
+本地：文章/013_勘误篇(一)：Autosar网络管理：RepeatMessageRequ/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487447&idx=1&sn=0fa6ba9f73244ef1a8ab4ea4a17b6923&chksm=fa2a51a3cd5dd8b54a0ab073a13b9eb12d7dcc9d80587f59b8ce482fca278d66f8e80625ecfc&scene=21#wechat_redirect
+
+02 供电、唤醒与休眠流程
+014. Autosar网络管理，你不能不清楚节点的唤醒方式 | 2022-01-05 | 正文已保存 | 起步推荐
+本地：文章/014_Autosar网络管理，你不能不清楚节点的唤醒方式/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484642&idx=1&sn=caab0c96dfcdc40909015becb48e66ca&chksm=fa2a5a96cd5dd380b9bd345cd282073d0969b665b53661fce84e1954169acde2986f9068c727&scene=21#wechat_redirect
+015. 从EcuM角度看唤醒源状态切换 | 2021-11-07 | 正文已保存 | 起步推荐
+本地：文章/015_从EcuM角度看唤醒源状态切换/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483759&idx=1&sn=29f2b1ceb5baaf05f63c20b6807d24b5&chksm=fa2a5f1bcd5dd60d0bb5dd0a414782975f30767b5d0f429b2f3955a2803d419e310188663df9&scene=21#wechat_redirect
+016. Can Wakeup时序，简单点说（一） | 2022-03-21 | 正文已保存 | 起步推荐
+本地：文章/016_Can Wakeup时序，简单点说（一）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486083&idx=1&sn=b861ffa051e705a9934f42be81011e13&chksm=fa2a54f7cd5ddde10ee15d33303bd70b47276584dcfaaa1315998a822a2170a57170924b34f9&scene=21#wechat_redirect
+017. Autosar网络管理：你知道ECU如何被供电的吗？ | 2022-03-16 | 正文已保存
+本地：文章/017_Autosar网络管理：你知道ECU如何被供电的吗？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485928&idx=1&sn=d7c219c662c4eba1671fe1db8e9ae873&chksm=fa2a579ccd5dde8a20964f8fa568836701df424a487cdbf5989c7bfe484aa2ec98aac01f6aff&scene=21#wechat_redirect
+018. （节点唤醒==网络唤醒）？FALSE:TRUE； | 2021-11-13 | 正文已保存
+本地：文章/018_（节点唤醒==网络唤醒）？FALSE_TRUE；/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483765&idx=1&sn=eddd18684737ed67aff7da4b7b6bd501&chksm=fa2a5f01cd5dd61735d991cf0e4a34a14d8fbb6f81274e5f8c96a6cf93ad5c80b363c6d06c25&scene=21#wechat_redirect
+019. Autosar网络管理：唤醒源的Check和Set | 2022-04-08 | 正文已保存
+本地：文章/019_Autosar网络管理：唤醒源的Check和Set/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486550&idx=1&sn=7005420549c282d303587799ad9f5a8a&chksm=fa2a5222cd5ddb34affecc231964686d81efbc6a7420f2437c56dbd5e42b7fd62a8eb3d6e8cf&scene=21#wechat_redirect
+020. Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？ | 2022-05-01 | 正文已保存
+本地：文章/020_Autosar网络管理：一帧有效的网络管理报文是如何唤醒网络的？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487235&idx=1&sn=a4734e29214629e8b38e2772d041cc57&chksm=fa2a5177cd5dd861998ba8e445dad5a524a63d1368e1892997022b15c01c25b613976103c8f1&scene=21#wechat_redirect
+021. Autosar网络管理：CAN FD帧能否唤醒网络？ | 2022-05-26 | 正文已保存
+本地：文章/021_Autosar网络管理：CAN FD帧能否唤醒网络？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487943&idx=1&sn=12ff7b088289e9b1af1ca8ac7e9e9b6d&chksm=fa2a4fb3cd5dc6a56826a8ed00b27746bbdf49bd86f9f4637e94fd5ede7b821e0becfd315e56&scene=21#wechat_redirect
+022. Autosar网络管理：主动唤醒源/被动唤醒源与网络主动唤醒/被动唤醒的关系 | 2022-07-30 | 正文已保存
+本地：文章/022_Autosar网络管理：主动唤醒源_被动唤醒源与网络主动唤醒_被动唤醒的/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489138&idx=1&sn=6975890311fad819099b92c96df00c77&chksm=fa2a4806cd5dc11017a8c3bd833a596005101c028d55467134baaff978653e7bb31c12493956&scene=21#wechat_redirect
+023. Autosar网络管理：诊断报文能否唤醒网络？ | 2022-08-29 | 正文已保存
+本地：文章/023_Autosar网络管理：诊断报文能否唤醒网络？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489549&idx=1&sn=b1d5dfa2029e1733a1b04b6ff1f8cefb&chksm=fa2a4679cd5dcf6f0c1c74b4ab91c20da74bb336ea2695f8785b568bd94914bca43cdb51344d&scene=21#wechat_redirect
+024. Autosar网络管理：被动唤醒和Passive Channel QA | 2022-09-11 | 正文已保存
+本地：文章/024_Autosar网络管理：被动唤醒和Passive Channel QA/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489662&idx=1&sn=b054f7120d721fd1f2327f0f74c114af&chksm=fa2a460acd5dcf1ce5dd8c59a422adf73ece06a8e17dcdb57e7e81d3eea9f28d18a4ea0cfded&scene=21#wechat_redirect
+025. Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？ | 2022-12-27 | 正文已保存
+本地：文章/025_Autosar网络管理：Bus Sleep模式下，如何接收网络管理报文？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490883&idx=1&sn=b849717d534e0bbe8944e09d78eeabe9&chksm=fa2a4337cd5dca21037b09ef20fe6261f31481c3786ca6117d4327c31a9e99bc3deb78ed3f9a&scene=21#wechat_redirect
+026. Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？ | 2023-01-02 | 正文已保存
+本地：文章/026_Autosar网络管理：节点收到NM Msg，是如何被动唤醒的？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490941&idx=1&sn=460e2f2e58e8809197a73a9f87cd4f21&chksm=fa2a4309cd5dca1fcdd0c9df38414469379ee825e8079b5f384ca0948ab6d2af542e831b196f#rd
+027. Autosar EcuM：ECU的启动、关闭流程 | 2023-01-30 | 正文已保存
+本地：文章/027_Autosar EcuM：ECU的启动、关闭流程/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491161&idx=1&sn=59986333142cc5793f06fc8a2dbb8d41&chksm=fa2a402dcd5dc93b9f25ac2311e0f2ff6c16b38951b80bf9c5588078c1b9002fe2f66e151768&scene=21#wechat_redirect
+028. Autosar EcuM：APP由RUN到POST_RUN浅析 | 2023-02-10 | 正文已保存
+本地：文章/028_Autosar EcuM：APP由RUN到POST_RUN浅析/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491219&idx=1&sn=c2574d9d8784242842adc08f6ba5163a&chksm=fa2a40e7cd5dc9f16a0d603b0301a13c3eee9c5f71084f5a6bbae7ae7172e05d639dcdd261b2&scene=21#wechat_redirect
+029. Autosar网络管理：再说CAN FD帧能否唤醒网络？ | 2023-02-08 | 正文已保存
+本地：文章/029_Autosar网络管理：再说CAN FD帧能否唤醒网络？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491214&idx=1&sn=42a4358d446f91ad29225d38ebedecff&chksm=fa2a40facd5dc9ec4ad42a1d3c6c9be74e9cffcf81055904b28b996d7e4506ea12c725c4139a&scene=21#wechat_redirect
+030. Autosar网络管理：为什么需要2帧网络管理报文唤醒网络？ | 2023-04-10 | 正文已保存
+本地：文章/030_Autosar网络管理：为什么需要2帧网络管理报文唤醒网络？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491833&idx=1&sn=3c001adc4f5e7f2d9962268b97e94658&chksm=fa29be8dcd5e379bdca9d2fcc435b5aefcf97a18da9963f0d754f2e2d7fa0166542284cd6030&scene=21#wechat_redirect
+031. 从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理 | 2023-04-28 | 正文已保存
+本地：文章/031_从CAN Transceiver角度，理解两帧网络管理报文唤醒网络的原理/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491959&idx=1&sn=ed290e8d3a90f0ea28a94f931893120c&chksm=fa29bf03cd5e361550f4d3a39a88573a9574963a2b86ef874d700ea3ad31eef26b7438c034c0&scene=21#wechat_redirect
+032. 嵌入式开发：如何识别PowerOn唤醒和总线唤醒 | 2023-04-03 | 正文已保存
+本地：文章/032_嵌入式开发：如何识别PowerOn唤醒和总线唤醒/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491804&idx=1&sn=ecb41d63e5299f141723a961cc0a1777&chksm=fa29bea8cd5e37bee17b73895f14c291217d92e9d50bbb2e7733b90154f9cd9384af9e5b42aa&scene=21#wechat_redirect
+033. Autosar网络关系：网络主动唤醒细细碎 | 2023-08-14 | 正文已保存
+本地：文章/033_Autosar网络关系：网络主动唤醒细细碎/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492768&idx=1&sn=6ff6e837b4b39be77f789644e1728768&chksm=fa29bad4cd5e33c2e065a74c04f8b6c459601372c450bf3ef8527a85edd025928e2058ce946b&scene=21#wechat_redirect
+034. 工程问题：ECU休眠过程中，网络状态不同步引发的功能失效 | 2023-08-25 | 正文已保存
+本地：文章/034_工程问题：ECU休眠过程中，网络状态不同步引发的功能失效/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492858&idx=1&sn=d97fb845ba9aa179911bd6d9d137f346&chksm=fa29ba8ecd5e3398cf77407e8bcb79ba7bc7a328b204baf5bcde3e6a489ce9ac91e6e8be53aa&scene=21#wechat_redirect
+035. 无效唤醒，ECU需要立即休眠吗？ | 2024-07-22 | 付费 · 仅公开试读
+本地：文章/035_无效唤醒，ECU需要立即休眠吗？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495251&idx=1&sn=07a51cb32ec57dd01952c47b258ee3f7&chksm=fa29b027cd5e3931777017f2bfb2981dee5bd6cee1938e581eb34b0b5899872c2dab4dc0bc5c&scene=21#wechat_redirect
+036. 控制器的节点类型，还有ABCD之分？ | 2024-09-06 | 正文已保存
+本地：文章/036_控制器的节点类型，还有ABCD之分？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495639&idx=1&sn=01e6a72fde342149f166fa559baffdcd&chksm=fa29b1a3cd5e38b5ab3894e3896377c3b6f06ee72c78d2648236a2ae3667de589ec758698391&scene=21#wechat_redirect
+
+03 PN局部网络与路由
+037. Autosar网络管理：Partial Network基础 | 2022-07-06 | 正文已保存 | 起步推荐
+本地：文章/037_Autosar网络管理：Partial Network基础/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488696&idx=1&sn=33bb533107d4eb07a77c1cea5169fe64&chksm=fa2a4acccd5dc3da7776c36b928fe40c8a329634836a745cda514346ba299fc2f648fe80b296&scene=21#wechat_redirect
+038. Autosar网络管理：Partial Network基础 之 ERA/EIRA、PNC Gateway | 2022-07-11 | 正文已保存 | 起步推荐
+本地：文章/038_Autosar网络管理：Partial Network基础 之 ERA_/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488858&idx=1&sn=163dd2e1d9000507d5a726543a8d5c21&chksm=fa2a4b2ecd5dc238db82f4e6ba7be2accd7e50b5e30f0f506b860b0351c097df8b3f5510c1bd&scene=21#wechat_redirect
+039. Autosar网络管理：从ComM模块看Partial Networking | 2022-02-28 | 正文已保存
+本地：文章/039_Autosar网络管理：从ComM模块看Partial Networki/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485690&idx=1&sn=41fbe614aa3b2b5d3961e291b86db03c&chksm=fa2a568ecd5ddf988f4039202a519a311c52ae19492db4121d405219661a6fde6ffedb57e3bf&scene=21#wechat_redirect
+040. Autosar网络管理：从CanNM模块看Partial Networking | 2022-02-26 | 正文已保存
+本地：文章/040_Autosar网络管理：从CanNM模块看Partial Network/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485683&idx=1&sn=47c6527a7b6dabb3d60a3ca5f17d2c3b&chksm=fa2a5687cd5ddf91c55c850897f28e09c1697acdcd912009c1ef97787993f8bb2058a48a7b8f&scene=21#wechat_redirect
+041. Autosar网络管理：CanNM PN功能 | 2022-01-16 | 正文已保存
+本地：文章/041_Autosar网络管理：CanNM PN功能/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484915&idx=1&sn=3bd7013e8fd42df0f8e3a0775c4d433a&chksm=fa2a5b87cd5dd291f68216955dfd7930926be9934d6c3f007e443502550921de7fdfe82d63b9&scene=21#wechat_redirect
+042. Autosar网络管理PN：路由超时大Bug | 2022-01-18 | 正文已保存
+本地：文章/042_Autosar网络管理PN：路由超时大Bug/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484944&idx=1&sn=796eb70b20d845359f5e019656773d1a&chksm=fa2a5864cd5dd17285e66df13316d623d54c04647e9a19bd697311df110883dbf8cb7a91a0ea&scene=21#wechat_redirect
+043. Autosar网络管理：没说清楚的PN功能，再说一遍 | 2022-03-25 | 正文已保存
+本地：文章/043_Autosar网络管理：没说清楚的PN功能，再说一遍/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486194&idx=1&sn=1c0c73bf8bd8ed68a75dd4bac515652e&chksm=fa2a5486cd5ddd9076d94688176f27ba699c29d0aeb763858a301467562c451b1af7bd588e66&scene=21#wechat_redirect
+044. Autosar网络管理：CanNmPnResetTime对关联Tx PDU的发送影响 | 2022-07-13 | 正文已保存
+本地：文章/044_Autosar网络管理：CanNmPnResetTime对关联Tx PD/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488904&idx=1&sn=3c2edb2298cdbeee772471a70241f56c&chksm=fa2a4bfccd5dc2ea2beb373cfea36e63d37e0882d664794e1b86c4de49f7a21b89c653362b1d&scene=21#wechat_redirect
+045. Autosar网络管理：PNC = 0，为何不能路由？ | 2022-09-18 | 正文已保存
+本地：文章/045_Autosar网络管理：PNC = 0，为何不能路由？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489724&idx=1&sn=4589d25d6373e18da36ff7ff499ae464&chksm=fa2a46c8cd5dcfde544ea6836e1edc54461e6e608b2c9db720c3fed5d1ab11cfceb0af720bad&scene=21#wechat_redirect
+046. Autosar PN网络管理：PNC信息的收/发流程 | 2022-09-23 | 正文已保存
+本地：文章/046_Autosar PN网络管理：PNC信息的收_发流程/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489767&idx=1&sn=964678c0928fffacf4681911fb533843&chksm=fa2a4693cd5dcf8510069928c7adde39c26029295e67ff24244d9603659f40fb5b020d5f5220&scene=21#wechat_redirect
+047. Autosar网络管理：ERA/EIRA问题QA | 2022-08-17 | 正文已保存
+本地：文章/047_Autosar网络管理：ERA_EIRA问题QA/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489285&idx=1&sn=284490bc7494012a4b62fbdc63a21823&chksm=fa2a4971cd5dc067134144f819405f188d6ea7667ca8571a65bbd423ec86edbfefd5ab58c24b&scene=21#wechat_redirect
+048. Autosar网络管理：如何理解局部网络的VFC？ | 2023-07-30 | 正文已保存
+本地：文章/048_Autosar网络管理：如何理解局部网络的VFC？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492674&idx=1&sn=b59503fe6740bed637e6bf7cea46fe2c&chksm=fa29ba36cd5e3320693403e9cf9b49fd3804e1b87743dd2bcb0fc2500a88a5099555be9cad19&scene=21#wechat_redirect
+049. Autosar网络管理：为什么PN功能更节能？ | 2023-08-23 | 正文已保存
+本地：文章/049_Autosar网络管理：为什么PN功能更节能？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492854&idx=1&sn=136b23f7746612e9c9a6eb80c323a1c2&chksm=fa29ba82cd5e33945b8baabc52b74e8d81e52b02cdba242e8763390d77a6a91fbe2d65d4a18b&scene=21#wechat_redirect
+
+04 时序、故障恢复与勘误
+050. Autosar网络管理：确保第一帧是网络管理报文方法 | 2022-02-12 | 正文已保存
+本地：文章/050_Autosar网络管理：确保第一帧是网络管理报文方法/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485362&idx=1&sn=36ba60564be3450103d2575922f3e1d4&chksm=fa2a59c6cd5dd0d004ff096c6127049f345227e20b7843f0d2f8638f9ade44fe205d2f872b9a&scene=21#wechat_redirect
+051. Autosar网络管理：网管节点路由时间解读 | 2022-02-19 | 正文已保存
+本地：文章/051_Autosar网络管理：网管节点路由时间解读/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485612&idx=1&sn=e69784d13da7a0d34ad68b02ebdfe923&chksm=fa2a56d8cd5ddfcec37a54767789a96de4bdba5d7ab02e73310f3ca0a0798abadbd1f9386379&scene=21#wechat_redirect
+052. Autosar网络管理:优化ECU启动时间切入点 | 2022-02-24 | 正文已保存
+本地：文章/052_Autosar网络管理_优化ECU启动时间切入点/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485663&idx=1&sn=49e283ab9a35570196ba5c711ea3f5c0&chksm=fa2a56abcd5ddfbdc7957393f7c38f0defde09bf272a234173a42a3e58100b1fb26b8fadc118&scene=21#wechat_redirect
+053. Autosar网络管理：说说Busoff那点事 | 2022-03-09 | 正文已保存
+本地：文章/053_Autosar网络管理：说说Busoff那点事/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485790&idx=1&sn=edb25567e52d9f4c3f31788033d90b1e&chksm=fa2a572acd5dde3ca104329bda62db64b0b946b3332fe59e137598caf0829a7520479f075a8f&scene=21#wechat_redirect
+054. Autosar通信：网络管理报文和应用报文，谁先发？ | 2022-04-15 | 正文已保存
+本地：文章/054_Autosar通信：网络管理报文和应用报文，谁先发？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486740&idx=1&sn=b544701acdfe85701d08db240f2a7be9&chksm=fa2a5360cd5dda768d9b9abd6970500df872a9578396d7b9e8180afd2952f1a6d7f86090fd7c&scene=21#wechat_redirect
+055. Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次 | 2022-04-25 | 正文已保存
+本地：文章/055_Autosar网络管理：节点外发第一帧网络管理报文处理策略，再说一次/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486922&idx=1&sn=9d117fafa7061f1be1c3e18f9f4bc48f&chksm=fa2a53becd5ddaa88bf47a4bfc1d9b7568a4428010a0e63abbd7f5e45e8a31e56b726b1cab93&scene=21#wechat_redirect
+056. Autosar开发：CanSM模块如何处理Busoff？ | 2022-06-09 | 正文已保存
+本地：文章/056_Autosar开发：CanSM模块如何处理Busoff？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488189&idx=1&sn=f5ffc7640ca31d059e6dc0510559c6e7&chksm=fa2a4cc9cd5dc5dfb1d0f428f27c1b732f31ef9219d9074361bc05bc31ebe707e4a5c295c22f&scene=21#wechat_redirect
+057. Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Message Bit状态 | 2022-06-18 | 正文已保存
+本地：文章/057_Autosar网络管理：网络唤醒时间测试和被动唤醒时，Repeat Me/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488335&idx=1&sn=76d48dd4dd329a78efd8b769f8d1e682&chksm=fa2a4d3bcd5dc42d6c5886f05daa6ce6748244fed2e3483c235396d0c5eddcc9f83a7d859258&scene=21#wechat_redirect
+058. Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？ | 2022-06-22 | 正文已保存
+本地：文章/058_Autosar网络管理：网络管理报文真的能保持节点网络状态，不休眠吗？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488418&idx=1&sn=71fdca5ab4735096f76884647177d8c8&chksm=fa2a4dd6cd5dc4c0edbe4aa4fe8697ecc5419dea1e7341013deb9f93d46a5a934a5ab689691f&scene=21#wechat_redirect
+059. Autosar网络管理：问题纠错篇 | 2022-08-05 | 正文已保存
+本地：文章/059_Autosar网络管理：问题纠错篇/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489201&idx=1&sn=ba21135b8e23b5315a07a764d309b00f&chksm=fa2a48c5cd5dc1d39b3d94355d32ed3616f234183b3aaaff254d4c169fe932a81bb70d2d635c&scene=21#wechat_redirect
+060. Autosar网络管理：网络问题QA | 2022-08-07 | 正文已保存
+本地：文章/060_Autosar网络管理：网络问题QA/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489209&idx=1&sn=2219467f52033537a5172dc7b6a68280&chksm=fa2a48cdcd5dc1dbe8d3925e2c8a3747e4a3bbe5d5ef8ec556f6452c6025e086d45243e536b9&scene=21#wechat_redirect
+061. Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送时机 | 2022-08-11 | 正文已保存
+本地：文章/061_Autosar开发问题QA：网络状态跳转、CAN DLC、3E 80发送/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489238&idx=1&sn=ae8969b236713a55cf15637c430b82bf&chksm=fa2a48a2cd5dc1b46f6763e0e49c306b3a112c22b9a4633212868ad1929a849871c3f199bee7&scene=21#wechat_redirect

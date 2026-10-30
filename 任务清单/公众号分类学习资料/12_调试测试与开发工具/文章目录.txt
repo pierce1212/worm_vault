@@ -1,0 +1,130 @@
+调试测试与开发工具
+条目数：38
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+先学观察与定位，再按手头工具选择Trace32、UDE、CANoe或标定工具；视频条目单独标注。
+
+01 调试思路与观测方法
+001. Debug手段：使用I/O测量代码执行时间 | 2023-01-23 | 正文已保存 | 起步推荐
+本地：文章/001_Debug手段：使用I_O测量代码执行时间/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491114&idx=1&sn=422873827c18ca8ba7313a011f583aac&chksm=fa2a405ecd5dc948cd0373d97e3b5f387ca13d65ad20769279f235b38f66a79a82d757c4cfa8&scene=21#wechat_redirect
+002. 嵌入式开发：测量代码运行时间的第三种方法 | 2023-07-23 | 正文已保存 | 起步推荐
+本地：文章/002_嵌入式开发：测量代码运行时间的第三种方法/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492646&idx=1&sn=5e6d68fecdbd82978003b935d418d358&chksm=fa29ba52cd5e3344439c9153ffbbda0a9a585a6901ef50be449e3e6b11feea6a97aeb5f2ea7f&scene=21#wechat_redirect
+003. 工程偶发类问题，如何破局？ | 2023-11-17 | 正文已保存 | 起步推荐
+本地：文章/003_工程偶发类问题，如何破局？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493481&idx=1&sn=a3147496c252e42e8c77038729d9980f&chksm=fa29b91dcd5e300bcbbb11c85d8c203eecbdfb27149fdf91352635b0969aa70793c287f2994f&scene=21#wechat_redirect
+004. Debug调试：确认故障发生时间的一种方法 | 2023-08-02 | 正文已保存
+本地：文章/004_Debug调试：确认故障发生时间的一种方法/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492683&idx=1&sn=68a1db2555f8d09c91d7d84239278533&chksm=fa29ba3fcd5e3329d18906717405c7db859cd8bdd7701b80db391c4db64eb294a7f279c19817&scene=21#wechat_redirect
+005. MCU开发利器：调试系统之UART | 2023-08-16 | 正文已保存
+本地：文章/005_MCU开发利器：调试系统之UART/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492796&idx=1&sn=650f36d5e2f7151537909c5cf181853d&chksm=fa29bac8cd5e33de34a81d84833830ff56bf6f0cc3c7b31390aa5f0ca3b618edad55d6899e42&scene=21#wechat_redirect
+006. MCU调试系统核心：重定向Printf()接口 | 2023-09-18 | 正文已保存
+本地：文章/006_MCU调试系统核心：重定向Printf()接口/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493036&idx=1&sn=607680413b582e8e1de86544b164deb5&chksm=fa29bbd8cd5e32ce592c98338ca52cf1658baf420b83387225d0dbb669dca6af57e62a6b3810&scene=21#wechat_redirect
+
+02 TRACE32与Lauterbach
+007. TRACE32调试：基础调试技巧之SystemMode、SNOOPer | 2023-05-12 | 正文已保存 | 起步推荐
+本地：文章/007_TRACE32调试：基础调试技巧之SystemMode、SNOOPer/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492128&idx=1&sn=8682abb3f4bf187351b1f41869aee7c4&chksm=fa29bc54cd5e354241bbf4471a576768e673af257dfd5e92dd88881d635ffb70d2f48987e721&scene=21#wechat_redirect
+008. Trace32实用操作：Profile使用、Data.Load.*、CPU负载查看 | 2024-01-15 | 正文已保存 | 起步推荐
+本地：文章/008_Trace32实用操作：Profile使用、Data.Load._、CP/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493797&idx=1&sn=7883d92e73f04120c62b57ea83ed0c91&chksm=fa29b6d1cd5e3fc7bbb72bd8fb52dda1879127058864858f9443b65863f7a0aa5a4d0e1c4f20&scene=21#wechat_redirect
+009. TRACE32：多核调试配置 | 2023-02-22 | 正文已保存
+本地：文章/009_TRACE32：多核调试配置/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491393&idx=1&sn=7c82fbe1c728992e4bb814f430decc6a&chksm=fa2a4135cd5dc82313a45665cf84905ddb39cc4cc4daed4d882d62269f54b2f0b18db8fcc719&scene=21#wechat_redirect
+010. TRACE32调试技巧：如何加载自定应调试界面 | 2023-06-18 | 正文已保存
+本地：文章/010_TRACE32调试技巧：如何加载自定应调试界面/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492333&idx=1&sn=543a3578f2194231332ba3729b0243c2&chksm=fa29bc99cd5e358fc2bec579fb408191150cc7caed039ba290229e7184e2d3b32ae54e34a693&scene=21#wechat_redirect
+011. Debug手段：基于Lauterbach的Onchip调试 | 2023-10-27 | 正文已保存
+本地：文章/011_Debug手段：基于Lauterbach的Onchip调试/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493370&idx=1&sn=dbd003c101f8880ae064022c83407833&chksm=fa29b88ecd5e3198ef5649f43c42e3749744c96fd90054207ecdea5988093ec2215c50f5cd5a&scene=21#wechat_redirect
+012. 调试技巧：Trace32也可以当串口用（Printf功能） | 2024-02-18 | 付费 · 仅公开试读
+本地：文章/012_调试技巧：Trace32也可以当串口用（Printf功能）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494012&idx=1&sn=8f4d36416f7afa6c85239277cce79852&chksm=fa29b708cd5e3e1ee920556d4cb0f77a95e33f4c0144932890b55b6ed37a1e4ab5160f1c7ab2&scene=21#wechat_redirect
+013. Lauterbach如何刷写UCB，你知道？ | 2024-10-13 | 正文已保存
+本地：文章/013_Lauterbach如何刷写UCB，你知道？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495902&idx=1&sn=a976c4c94c6de691915a2a9b2694b7d6&scene=21#wechat_redirect
+014. 别人的*.elf文件，该如何使用Lauterbach进行白盒调试？ | 2024-11-09 | 正文已保存
+本地：文章/014_别人的_.elf文件，该如何使用Lauterbach进行白盒调试？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496102&idx=1&sn=be6ae8d48ea7b8e88d39ddea06f0b819&chksm=fa29afd2cd5e26c4022fbca24b0e8f5743b1b196bad1262e8a01100b5d75d9934b8be709f01e#rd
+015. Lauterbach实用技巧，Hex文件导出及UCB写操作 | 2025-04-14 | 正文已保存
+本地：文章/015_Lauterbach实用技巧，Hex文件导出及UCB写操作/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496657&idx=1&sn=e61d6782035352d2a62285e1bfd70074&chksm=fa29ada5cd5e24b39503b02146e86297a530cc825347aadaab124edf0c1f226c549fa936ac0f#rd
+016. Lauterbach实用技巧，Hex文件导出（补充篇） | 2025-04-17 | 正文已保存
+本地：文章/016_Lauterbach实用技巧，Hex文件导出（补充篇）/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496679&idx=1&sn=df78b57df6e5f6f841e13e16f5b2db64&chksm=fa29ad93cd5e2485a1162a1bc983e515d72cd858930fe61ae4d74371257684065c66be237e1a#rd
+017. Cached段启动，导致调试断点失效 | 2023-06-04 | 正文已保存
+本地：文章/017_Cached段启动，导致调试断点失效/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492277&idx=1&sn=a60ddf2fe5b10e242b446ead120ea34b&chksm=fa29bcc1cd5e35d78d9053710d16fbffee1a5196e993269dc09e8540609060372caa31f6d4c3&scene=21#wechat_redirect
+
+03 其他调试器与烧录工具
+018. 穷玩Aurix控制器：Memtool基础使用操作 | 2023-10-10 | 正文已保存
+本地：文章/018_穷玩Aurix控制器：Memtool基础使用操作/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493194&idx=1&sn=d559f810dcf84553f289ef78bd56bb64&chksm=fa29b83ecd5e3128f59f529904c539708383e4bae9155343b2662fa3e10eb6c78d3df708729b&scene=21#wechat_redirect
+019. 基于IAR的多核调试及基础操作入门（视频篇） | 2025-01-03 | 正文已保存
+本地：文章/019_基于IAR的多核调试及基础操作入门（视频篇）/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496372&idx=1&sn=f55cbd7ce150c2418174b14a652e4dbb&chksm=fa29acc0cd5e25d66b910d2ab92921357e15eadfbed3bcf2c701eba4e98fa8681fb9e01ff0b9#rd
+020. 穷玩英飞凌片子，Memtool/UDE不能用？ | 2025-06-19 | 正文已保存
+本地：文章/020_穷玩英飞凌片子，Memtool_UDE不能用？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496920&idx=1&sn=5efd4261bad2805b2708f60c4aacc4c6&chksm=fa29aaaccd5e23bab1ec91500e18781cd3815a9321b9ac32927f8a5ddc6593d0eaa27c3f2b2e#rd
+021. UDE或者APP的界面显示bug（工具栏显示太小）如何解？ | 2025-08-04 | 正文已保存
+本地：文章/021_UDE或者APP的界面显示bug（工具栏显示太小）如何解？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497269&idx=1&sn=b3bd7a481f1a4824e8baffc050bc14ee&chksm=fa29a841cd5e2157df2862076e52a8b92ef60b42380b176011d0a43bf75375c035cc8dffc594#rd
+022. 如何基于PLS UDE调试他人的镜像文件（*.out/*.elf）？ | 2026-01-12 | 正文已保存
+本地：文章/022_如何基于PLS UDE调试他人的镜像文件（_.out__.elf）？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497870&idx=1&sn=a98e124c67592c38047b2c49283aceb5&chksm=fa29a6facd5e2fec5bd93c62439b0288d861b0c92e718edff464ea63f670a3931d58223d313c#rd
+
+04 CANoe测试与自动化
+023. CANoe基础：如何显示*.blf数据的时间戳 | 2023-07-06 | 正文已保存 | 起步推荐
+本地：文章/023_CANoe基础：如何显示_.blf数据的时间戳/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492407&idx=1&sn=cb36238e95cb282a465f817f87884b63&chksm=fa29bd43cd5e3455d5a7ddf3af93c96adbaaaf90f5bd89cbacc66a42de6131d6dfab9804bead#wechat_redirect
+024. CANoe基础：数据Replay及录制操作 | 2023-07-19 | 正文已保存 | 起步推荐
+本地：文章/024_CANoe基础：数据Replay及录制操作/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492590&idx=1&sn=a0e044c40a141648405d5dadbbf43957&chksm=fa29bd9acd5e348cb22525eda9b78a7c7a65ed40af6cc15bc0d1df82c7a48028ca9d3331ef78&scene=21#wechat_redirect
+025. 基于CANoe的Automation测试 | 2026-01-26 | 正文已保存 | 起步推荐
+本地：文章/025_基于CANoe的Automation测试/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497943&idx=1&sn=bfe816bb6a5d6b115c68512577b263dc&chksm=fa29a6a3cd5e2fb5bff42ddca4417361787a0ae128cac860abc2119d73b698bbcab8b54dad54#wechat_redirect
+026. 基于CANoe的Python操作入门指南 | 2026-05-11 | 正文已保存 | 起步推荐
+本地：文章/026_基于CANoe的Python操作入门指南/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498169&idx=1&sn=f83aaa7ab5cfbe23797169aa30fd0d42&chksm=fa29a7cdcd5e2edb56e344cc3c7116e43e4424eb3658d5d77724b5c306ce553b5d6a5d6c94ab#rd
+027. CANoe使用：如何配置CAN、Flexray、Lin唤醒帧 | 2023-03-08 | 正文已保存
+本地：文章/027_CANoe使用：如何配置CAN、Flexray、Lin唤醒帧/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491641&idx=1&sn=896a181bc2a82a0e774511ea720c1e4b&chksm=fa29be4dcd5e375ba36756527071724e6b590562417ee50cab820cb277e4012b30f715b2f290&scene=21#wechat_redirect
+
+05 镜像处理、测量与标定
+028. 嵌入式开发：避免Xcp报文被阻塞的一种开发技巧 | 2022-10-05 | 正文已保存
+本地：文章/028_嵌入式开发：避免Xcp报文被阻塞的一种开发技巧/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489843&idx=1&sn=d3e2a1c058c48b453715144427e1f5e3&chksm=fa2a4747cd5dce51640e01f15cf2b38d5754d46aa1739f3eeae3df981f65131717b14571e352&scene=21#wechat_redirect
+029. INCA基础操作：文件刷写 | 2023-07-03 | 正文已保存
+本地：文章/029_INCA基础操作：文件刷写/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492396&idx=1&sn=f10ebb231234171d01fcc7138368a14f&chksm=fa29bd58cd5e344edc1894711fc4b0bdd993fd62c8269a23bb663bbd40140d1cd14a7e9b4ac4&scene=21#wechat_redirect
+030. INCA基础操作：测量数据分析 | 2023-07-14 | 正文已保存
+本地：文章/030_INCA基础操作：测量数据分析/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492566&idx=1&sn=0bacedacaaa2b489ba0170db40e8f92c&chksm=fa29bda2cd5e34b40441edd9553b6ecf362f906c240d298dab5615881283013562b7294ddae7&scene=21#wechat_redirect
+031. HexView使用技巧：*.hex文件转换*.bin文件 | 2023-12-29 | 正文已保存
+本地：文章/031_HexView使用技巧：_.hex文件转换_.bin文件/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493737&idx=1&sn=d7ac3817dfeab5f661a67832b6803410&chksm=fa29b61dcd5e3f0b8c8919f1a48b0848f7e62932a2cca9da0d44db31d5f892a95cc893363918&scene=21#wechat_redirect
+032. 如何基于HexView完成自动化填充？ | 2025-03-14 | 正文已保存
+本地：文章/032_如何基于HexView完成自动化填充？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496575&idx=1&sn=3b278baf7e6e9e4d310a097274f7d5b0&scene=21#wechat_redirect
+033. hexView无法Compare问题的修复方式 | 2025-11-21 | 正文已保存
+本地：文章/033_hexView无法Compare问题的修复方式/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497699&idx=1&sn=dc4f0b91e650eb22c2f1b3519dd18f4b&chksm=fa29a997cd5e20811ffca229b34c28854618b77016c11bc999214a75165606e02bd3d115218d#wechat_redirect
+
+06 硬件维修视频
+034. 更换芯片(一)_吹掉坏芯片 | 2025-06-28 | 视频 · 需微信查看
+本地：文章/034_更换芯片(一)_吹掉坏芯片/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497001&idx=1&sn=758eaba5b449e2f0009838430f216e2a&scene=21#wechat_redirect
+035. 更换芯片（二）_清洁芯片 | 2025-06-29 | 视频 · 需微信查看
+本地：文章/035_更换芯片（二）_清洁芯片/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497068&idx=1&sn=aff01f490c6e7c2c33a26962d1c4f6c8&scene=21#wechat_redirect
+036. 更换芯片（三）_芯片Pin脚上锡膏 | 2025-07-01 | 视频 · 需微信查看
+本地：文章/036_更换芯片（三）_芯片Pin脚上锡膏/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497071&idx=1&sn=478e9a6a035b6cfa3e4df30158cf04eb&scene=21#wechat_redirect
+037. 更换芯片（四）_清洁PCB | 2025-07-06 | 视频 · 需微信查看
+本地：文章/037_更换芯片（四）_清洁PCB/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497111&idx=1&sn=13e2c17b55db7fc98d28166ba8ce4e7f&scene=21#wechat_redirect
+038. 更换芯片（五）_芯片焊回及测试 | 2025-07-10 | 视频 · 需微信查看
+本地：文章/038_更换芯片（五）_芯片焊回及测试/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497129&idx=1&sn=d9a4483c35923c40edf484d45ec5eafa&scene=21#wechat_redirect

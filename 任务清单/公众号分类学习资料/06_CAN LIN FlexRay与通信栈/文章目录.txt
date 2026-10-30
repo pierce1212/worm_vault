@@ -1,0 +1,203 @@
+CAN LIN FlexRay与通信栈
+条目数：63
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+先学总线帧与采样，再学收发链路、COM信号，最后分析错误恢复和不同总线。
+
+01 CAN基础、采样与仲裁
+001. CAN通信基础：采样原理 | 2022-10-23 | 正文已保存 | 起步推荐
+本地：文章/001_CAN通信基础：采样原理/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490188&idx=1&sn=e5a49a08f870ccfb4c305fc9735c9c95&chksm=fa2a44f8cd5dcdeeceb86c2b9af8355fc6db72a99748219c6d3ca4f9ef4e0a74e4ffd3c794e7&scene=21#wechat_redirect
+002. CAN/CANFD的Bit Time深聊 | 2022-01-10 | 正文已保存 | 起步推荐
+本地：文章/002_CAN_CANFD的Bit Time深聊/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484810&idx=1&sn=3d5307e3ed2cb69cdca2427f05d7deac&chksm=fa2a5bfecd5dd2e80f9d21c9c7093d67cc0c4d597c48d204a094e9fccd40c38d445b86583b5b&scene=21#wechat_redirect
+003. CAN总线仲裁原理 | 2022-08-02 | 正文已保存 | 起步推荐
+本地：文章/003_CAN总线仲裁原理/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489165&idx=1&sn=9f9c3edaeab7611c228e4d76ab8e8d2e&chksm=fa2a48f9cd5dc1efc810269798bfaa0a3c31fc71c99ec59d67ab3f33ad91818e8516f4cad777&scene=21#wechat_redirect
+004. CAN通信基础：Tx Comfirmation、Rx Indication以及Ack | 2022-09-04 | 正文已保存 | 起步推荐
+本地：文章/004_CAN通信基础：Tx Comfirmation、Rx Indicatio/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489611&idx=1&sn=c0bac365da85592b44fc066aaf7bd0f2&chksm=fa2a463fcd5dcf29daf086565413619adfde83dce491defd0cd88e963151b2bd404be9459f22&scene=21#wechat_redirect
+005. CAN通信基础概念：Mailbox与Hardware Object | 2022-11-20 | 正文已保存 | 起步推荐
+本地：文章/005_CAN通信基础概念：Mailbox与Hardware Object/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490579&idx=1&sn=0fc38c00683587444525023f43c6a429&chksm=fa2a4267cd5dcb7173671e2afaaf48415a10f1582f1c7a763d8c339d64747985e7a09d9b3a92&scene=21#wechat_redirect
+006. CAN总线采样点分析 | 2021-10-14 | 正文已保存
+本地：文章/006_CAN总线采样点分析/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483733&idx=1&sn=55e2c3f110b0ee6261428606b5bb8c1d&chksm=fa2a5f21cd5dd637b4ebf5c38c55eac98705278d54d6ed07cb97facfe471332876c3ae8f6c03&scene=21#wechat_redirect
+007. CAN FD第二采样点SSP | 2021-11-27 | 正文已保存
+本地：文章/007_CAN FD第二采样点SSP/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483778&idx=1&sn=008abfa12a9f9a2231ebdbe877268b0a&chksm=fa2a5ff6cd5dd6e082724c05724528a3847d552dbed6721286a002ffdd16378b3a494719f0df&scene=21#wechat_redirect
+008. 通信栈基础：CAN发送报文如何赢得总线使用权 | 2022-06-30 | 正文已保存
+本地：文章/008_通信栈基础：CAN发送报文如何赢得总线使用权/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488627&idx=1&sn=6d799d65cf7c2618b681199e7b87be7d&chksm=fa2a4a07cd5dc31194bc2ae6703aa658a27cebb8549c4428d2eb36daa7e9147988a3b3ef2cb4&scene=21#wechat_redirect
+009. Autosar通信栈：FullCAN和BasicCAN基础 | 2022-06-20 | 正文已保存
+本地：文章/009_Autosar通信栈：FullCAN和BasicCAN基础/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488397&idx=1&sn=cbf642001c3547a5be871976b9cec230&chksm=fa2a4df9cd5dc4ef38b4011a7b0d6c61d9e1d0699b14ae2b675a146dadf01c3110e743f41d32&scene=21#wechat_redirect
+010. CAN通信基础：L-PDU，到底如何理解？ | 2022-12-21 | 正文已保存
+本地：文章/010_CAN通信基础：L-PDU，到底如何理解？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490810&idx=1&sn=34ab9c4dfb5e86105ad61a6838c9afc8&chksm=fa2a428ecd5dcb98bc39cd9e633e86104d7c5778f725502608fe75d9dbd394598bd1dce9e7a5&scene=21#wechat_redirect
+011. CAN XL抢先看，从Frame格式开始 | 2022-12-11 | 正文已保存
+本地：文章/011_CAN XL抢先看，从Frame格式开始/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490754&idx=1&sn=e65ea0632bab1cc69c178ffc8c57735f&chksm=fa2a42b6cd5dcba09b44c1a7bcd9cd97cfe8794e3b71cd4ac47b60d7c6a64abd4d4fdd73fcf8&scene=21#wechat_redirect
+012. CAN的采样点和bit参数设置，如何“抄”？ | 2025-11-27 | 正文已保存
+本地：文章/012_CAN的采样点和bit参数设置，如何“抄”？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497705&idx=1&sn=01e5cd70883d7925213e0dd933468a81&chksm=fa29a99dcd5e208b81780b46e40ef57b72f9f4f9f2246123bb083811daaf43c81de89fc36fe5#wechat_redirect
+
+02 控制器与收发机制
+013. Vector代码这样过滤CanID Range，你Get到没？ | 2021-12-28 | 正文已保存
+本地：文章/013_Vector代码这样过滤CanID Range，你Get到没？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484415&idx=1&sn=fa61cf742eea5843605b453b82117f7f&chksm=fa2a5d8bcd5dd49d3ecfcbecb820d5a12d05cf77d0cb9d6b7bab0c3ec43e5bd7304b81b5e7fa&scene=21#wechat_redirect
+014. MCMCAN：CAN hardware object配置规则 | 2022-11-04 | 正文已保存
+本地：文章/014_MCMCAN：CAN hardware object配置规则/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490354&idx=1&sn=49314155734c1f16db9e84d091e83764&chksm=fa2a4546cd5dcc50283378780f530492cbf0d93c0c386313e5b449c1a292e80e03e12aac8562&scene=21#wechat_redirect
+015. 英飞凌tc397：MCMCAN发送处理机制（Tx Handing） | 2022-06-24 | 正文已保存
+本地：文章/015_英飞凌tc397：MCMCAN发送处理机制（Tx Handing）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488466&idx=1&sn=5dec50f219a14d5aa4ab6c118934d383&chksm=fa2a4da6cd5dc4b006b8929fac321e94eae1bc6108c7ebcaa0462e8b1f3428bc2ee022e775fe&scene=21#wechat_redirect
+016. CAN通信：Basic CAN与FIFO | 2022-09-13 | 正文已保存
+本地：文章/016_CAN通信：Basic CAN与FIFO/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489683&idx=1&sn=992967af223228245cbb919d4c289505&chksm=fa2a46e7cd5dcff1e20d0e1e516853c13109dba0f8e41bbf452413ce55c917a188040e45a77a&scene=21#wechat_redirect
+017. 基于Tricore的CANFD入门工程 | 2023-07-08 | 正文已保存
+本地：文章/017_基于Tricore的CANFD入门工程/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492422&idx=1&sn=e7aa1232bbe55475388548f0590627cc&chksm=fa29bd32cd5e342481b7c800f85c97d48ff6cd062426dcf24af15e92ce195d695afa32faa810&scene=21#wechat_redirect
+018. 工程问题：Full CAN与Basic CAN配置错误，导致信号跳变 | 2023-09-11 | 正文已保存
+本地：文章/018_工程问题：Full CAN与Basic CAN配置错误，导致信号跳变/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492968&idx=1&sn=a0bba072b321689241990a7f2caeaa12&chksm=fa29bb1ccd5e320a0c7eeb85520b3a41d4163d9d549318643fbf8a732d002a61b9e7265771a2&scene=21#wechat_redirect
+019. 英飞凌TC4xx之CAN模块新特性：硬件周期发送 | 2024-07-17 | 正文已保存
+本地：文章/019_英飞凌TC4xx之CAN模块新特性：硬件周期发送/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495222&idx=1&sn=0f6e300d9b8c0ff2892daa058cb1d82e&chksm=fa29b042cd5e395426050aa7fbfce4337f1299e42fe0281eb1ba87458eac7edfc81e878f27a2&scene=21#wechat_redirect
+020. 英飞凌TC4xx之CAN硬件路由CRE | 2024-07-24 | 正文已保存
+本地：文章/020_英飞凌TC4xx之CAN硬件路由CRE/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495265&idx=1&sn=60ff1977246c9f31d80e23f62383c8ec&chksm=fa29b015cd5e3903ec0ee64fd716046ab73c64a60be096496b980530033ca9813addcbc31af1&scene=21#wechat_redirect
+021. 【经验】关于RH850 F1KM系列CAN接收中断实践指南 | 2026-04-24 | 正文已保存
+本地：文章/021_【经验】关于RH850 F1KM系列CAN接收中断实践指南/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498134&idx=1&sn=66396b6bba7731e2e7faf428dd6d372e&chksm=fa29a7e2cd5e2ef4ff9ecb3424231cdf77f2660825d20748bca77cbac9163f7c94100edb3cc5#rd
+
+03 AUTOSAR通信栈与COM
+022. Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚 | 2022-04-11 | 正文已保存 | 起步推荐
+本地：文章/022_Autosar通信栈：I-PDU、N-PDU、L-PDU，要掰扯清楚/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486611&idx=1&sn=84d01b03b4118bf109be9ed6e7c6d02a&chksm=fa2a52e7cd5ddbf151a0d569e85b629f6f8da89cb882711187cc9cca443138c85039d21b8485&scene=21#wechat_redirect
+023. Autosar通信栈：基础问题知多少 | 2022-05-13 | 正文已保存 | 起步推荐
+本地：文章/023_Autosar通信栈：基础问题知多少/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487659&idx=1&sn=67ae5b10fe05f8184ea9729722e52af3&chksm=fa2a4edfcd5dc7c9e652fa08c5b9a337806859cdb77552034e9a12026f1a95d9f33b9a2c08fc&scene=21#wechat_redirect
+024. Autosar通信模块COM:Update-Bits详解 | 2022-11-27 | 正文已保存 | 起步推荐
+本地：文章/024_Autosar通信模块COM_Update-Bits详解/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490618&idx=1&sn=bb5e8c87ad1f81037e070159ad481110&chksm=fa2a424ecd5dcb585b0db577be48fa1de6eb19184e30a34973b9806208603fce03c85436e31c&scene=21#wechat_redirect
+025. Autosar通信栈：基础问题知多少(二) | 2022-05-19 | 正文已保存
+本地：文章/025_Autosar通信栈：基础问题知多少(二)/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487865&idx=1&sn=da1486df2193434f4ea2076f6b96c8ec&chksm=fa2a4f0dcd5dc61b74c116ac381268000f32d0753a659741540308c3aca027f9e63e907119ff&scene=21#wechat_redirect
+026. Autosar通信栈：发送返回OK和发送确认是一回事吗 | 2022-05-23 | 正文已保存
+本地：文章/026_Autosar通信栈：发送返回OK和发送确认是一回事吗/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487913&idx=1&sn=a5e02e3ae6887dd7f14ac617ad6b4623&chksm=fa2a4fddcd5dc6cb2e7f894df52815da7aabb2daf503448f1096f8ed65ccb034b95a826cc56e&scene=21#wechat_redirect
+027. Autosar Com基于Update Bit路由功能浅谈 | 2021-12-04 | 正文已保存
+本地：文章/027_Autosar Com基于Update Bit路由功能浅谈/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483786&idx=1&sn=d1205e96b585546901036086c9432d5c&chksm=fa2a5ffecd5dd6e8483b1668b7b85b2059220031f904fbfae563a8626ec23bd9ec130a59d31c&scene=21#wechat_redirect
+028. Autosar通信栈基础：如何理解和使用Update bit | 2023-09-28 | 正文已保存
+本地：文章/028_Autosar通信栈基础：如何理解和使用Update bit/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493107&idx=1&sn=10a0430ea0e54b20ffa8f11aa30eb641&chksm=fa29bb87cd5e3291a1b7b971b05fc22ce499db30ee50b2f46728f2fb5c147c01b0f397f29f88&scene=21#wechat_redirect
+029. 工程开发问题（五）：UB(Update-Bits)、UD(Update Deadline)的需求理解及实现 | 2022-06-27 | 正文已保存
+本地：文章/029_工程开发问题（五）：UB(Update-Bits)、UD(Update/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488494&idx=1&sn=85a345c2ca4b56eaed903efad6c36f1e&chksm=fa2a4d9acd5dc48c069b491e3a3152a16e9555f8ed9793ee9e358d9d1245da0fb2514e51017e&scene=21#wechat_redirect
+030. 通信问题：为什么周期Signal值会有抖动？ | 2023-01-15 | 正文已保存
+本地：文章/030_通信问题：为什么周期Signal值会有抖动？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491084&idx=1&sn=c230f49b3b168fc5bc9d5b815376c0aa&chksm=fa2a4078cd5dc96e4f03806a4e4766488dc5447ac3d86b71211698bdc034f3dfd9b518f62324&scene=21#wechat_redirect
+031. 通信栈开发：任务（Task）抖动导致的UB失效问题 | 2023-04-14 | 正文已保存
+本地：文章/031_通信栈开发：任务（Task）抖动导致的UB失效问题/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491876&idx=1&sn=94ea5497c543aa91470a2c2abbdbd75c&chksm=fa29bf50cd5e36461c1be511a12472e45f1bdd17d33918e1f601bdbd63a795a499f23199deaa&scene=21#wechat_redirect
+032. Autosar通信，如何理解PNC、UB与信号的关系 | 2024-07-10 | 正文已保存
+本地：文章/032_Autosar通信，如何理解PNC、UB与信号的关系/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495151&idx=1&sn=6077e123f08b49a9869c8b324b528a21&chksm=fa29b39bcd5e3a8dc8690358ef2b85bc300d12290a0544e8d6094e639dd8470cd2daeacfd123&scene=21#wechat_redirect
+033. Autosar通信，信号长度过长如何配置？ | 2025-04-01 | 正文已保存
+本地：文章/033_Autosar通信，信号长度过长如何配置？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496628&idx=1&sn=e0133de71af6315b51d53faf8309eb3a&chksm=fa29adc0cd5e24d6fbd7feae95a40b96ee56c9b4dd9542cab47383c98eae8e9be7a4993d4fac#rd
+034. Autosar通信栈：Polling模式为什么容易引发丢帧？ | 2022-06-26 | 正文已保存
+本地：文章/034_Autosar通信栈：Polling模式为什么容易引发丢帧？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488471&idx=1&sn=5c6e29734b5698611dc17f1b85c29b8d&chksm=fa2a4da3cd5dc4b5ab687e9c9a5b3a0c6fb8ad384353167f38f1618364f876f3d4416cbab2a8&scene=21#wechat_redirect
+
+04 CAN错误处理与工程排查
+035. CAN通信基础：错误帧 | 2022-09-09 | 正文已保存
+本地：文章/035_CAN通信基础：错误帧/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489656&idx=1&sn=1334b271d5630c54572614a70379b323&chksm=fa2a460ccd5dcf1a181d140a791ba6fe157fe3351155ec5a61858f454106b3e978e0c01e383a&scene=21#wechat_redirect
+036. CAN通信：Busoff问题知多少 | 2022-09-06 | 正文已保存
+本地：文章/036_CAN通信：Busoff问题知多少/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489626&idx=1&sn=206bbad2b433dd8fd7463430d6dd4c84&chksm=fa2a462ecd5dcf380552a152ea820173d2e07d6c258ecfa373cbc752f7b5636a4f0c870f0333&scene=21#wechat_redirect
+037. CAN通信：Busoff以后，为什么要等待128次连续11个隐性位？ | 2022-10-01 | 正文已保存
+本地：文章/037_CAN通信：Busoff以后，为什么要等待128次连续11个隐性位？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489823&idx=1&sn=9bbb5ae8e2729e71d62b49e669fc2c47&chksm=fa2a476bcd5dce7d0b7f3438190ea783bfed0afc2a0b887020b40ec47e63055debb4750283cb&scene=21#wechat_redirect
+038. Busoff后的快/慢恢复机制 | 2023-03-01 | 正文已保存
+本地：文章/038_Busoff后的快_慢恢复机制/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491469&idx=1&sn=f7ce96c01a17eb788ef18966f72b0fdb&chksm=fa2a41f9cd5dc8ef44ce73233c12d983aec3522f7b45b660a816eafd15be32c7351d6fd056e6#wechat_redirect
+039. CAN FD通信：数据段错误，错误帧的速率是500Kbps还是2Mbps？ | 2023-01-18 | 正文已保存
+本地：文章/039_CAN FD通信：数据段错误，错误帧的速率是500Kbps还是2Mbps/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491103&idx=1&sn=3cfe7e72c259664ab484d13796f8a84f&chksm=fa2a406bcd5dc97d20bcada7fa5277b007668df69670ca4a3ffb245adf13088206f7f1466bb2&scene=21#wechat_redirect
+040. 工程思考：CAN Transceiver不工作，节点还会Busoff吗？ | 2023-10-30 | 正文已保存
+本地：文章/040_工程思考：CAN Transceiver不工作，节点还会Busoff吗？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493383&idx=1&sn=bcf00baf46b90511de3ef77c7cd74d72&chksm=fa29b973cd5e30654a7d9c5842c4dede8366c3252d8e76ffd0b95416b51f3847fdd0a249ae0e&scene=21#wechat_redirect
+041. 工程问题： CAN Transceiver模式选择不当，导致ECU不在线 | 2023-11-01 | 正文已保存
+本地：文章/041_工程问题： CAN Transceiver模式选择不当，导致ECU不在线/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493406&idx=1&sn=404acfa0fe870f6a28d96e7445f485f5&chksm=fa29b96acd5e307c7a4845d199a9728071ddfab84a94cb9eff43c929e6d69382a9ff3633b2ea&scene=21#wechat_redirect
+042. 工程问题：电压瞬时异常导致的busoff与通信丢失 | 2024-05-17 | 付费 · 仅公开试读
+本地：文章/042_工程问题：电压瞬时异常导致的busoff与通信丢失/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494644&idx=1&sn=9809bc3289bf44ef15d97c9bb5fedd0e&chksm=fa29b580cd5e3c968deaa82d4a1eb7d88f8959cca6a79110591755b3598ebc8f1adedd37b83d&scene=21#wechat_redirect
+043. CAN总线科普，Busoff与CC状态切换的本质 | 2024-08-30 | 付费 · 仅公开试读
+本地：文章/043_CAN总线科普，Busoff与CC状态切换的本质/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495619&idx=1&sn=433e91214456f5b12a05f2a8c3ff7199&scene=21#wechat_redirect
+044. 工程问题，CAN Busoff恢复不成功导致的通信中断 | 2024-09-04 | 付费 · 仅公开试读
+本地：文章/044_工程问题，CAN Busoff恢复不成功导致的通信中断/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495630&idx=1&sn=c519101003d5a1e82289f3a3611e8a9d&chksm=fa29b1bacd5e38ac326f8ce888938da64c34070ec048ee9cc9f0688876f6fa3bc8ea82bcaa0b#rd
+045. 基于VH6501的BusOff快慢恢复测试 | 2021-10-09 | 正文已保存
+本地：文章/045_基于VH6501的BusOff快慢恢复测试/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483725&idx=1&sn=de1567ac1a03acbaef4a68a4a5175675&chksm=fa2a5f39cd5dd62f7e909cceb891ebc88dbb11022ec9f05d3d143a8834482f70f7e8d398b6ff&scene=21#wechat_redirect
+046. 如何理解通信使能与迟滞电压的关系 | 2024-12-02 | 正文已保存
+本地：文章/046_如何理解通信使能与迟滞电压的关系/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496226&idx=1&sn=be19f04c3b340abe570dfb00872b0919&chksm=fa29ac56cd5e2540f38d54f987fd58040c337e40438ee31183f82009d763dc52352014243985#rd
+047. 低优先级的诊断报文，不影响通信？ | 2024-06-26 | 正文已保存
+本地：文章/047_低优先级的诊断报文，不影响通信？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495012&idx=1&sn=6b10cd80fd40a25621665ccebc8bb3dd&chksm=fa29b310cd5e3a06cc242a388adc6c16c3371026485ec10b30469cfb3d40aade5c40bf611bd6&scene=21#wechat_redirect
+048. CAN物理层测试：延时补偿、位干扰 | 2022-07-16 | 正文已保存
+本地：文章/048_CAN物理层测试：延时补偿、位干扰/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488945&idx=1&sn=078793260c62822bff28ef9edb1a1066&chksm=fa2a4bc5cd5dc2d3e66900335c19b635c9cc99c343387622dc8472089682264813882531a78f&scene=21#wechat_redirect
+
+05 LIN与FlexRay
+049. Lin基础：从Lin Frame开始 | 2022-12-13 | 正文已保存 | 起步推荐
+本地：文章/049_Lin基础：从Lin Frame开始/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490764&idx=1&sn=883ba798aa6be269d5d1fca248665e44&chksm=fa2a42b8cd5dcbae390f7d482b0f617493977dda1272b8f217177babe44aee4ad0c430f168c8&scene=21#wechat_redirect
+050. Lin总线基础#1：基本构成及时间参数 | 2024-07-01 | 正文已保存 | 起步推荐
+本地：文章/050_Lin总线基础#1：基本构成及时间参数/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495047&idx=1&sn=914312074b041090c5ed0cdc78b40e06&chksm=fa29b3f3cd5e3ae58958c22cca4a836002f2e647405e03600a32db69ac4b152888e8817c77ab&scene=21#wechat_redirect
+051. Flexray总线：Frame结构，几张图就能看明白 | 2022-02-18 | 正文已保存 | 起步推荐
+本地：文章/051_Flexray总线：Frame结构，几张图就能看明白/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485593&idx=1&sn=53cfd7f0eb1bb584e633da63d1baf845&chksm=fa2a56edcd5ddffb83d4c0ec701c7bc8c3fb0df5d112414767ac9197cff45c9699a52b0a55c5&scene=21#wechat_redirect
+052. Lin总线Transceiver基础 | 2023-04-23 | 正文已保存
+本地：文章/052_Lin总线Transceiver基础/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491917&idx=1&sn=0968726b9b877367d13afb5c776a3dc2&chksm=fa29bf39cd5e362f6e1adf01d6bf60e37d29558755a304e8caa52eab4f364ee5251ab309ab7a&scene=21#wechat_redirect
+053. Lin总线基础：为什么Master节点需要外接上拉电阻 | 2023-08-04 | 正文已保存
+本地：文章/053_Lin总线基础：为什么Master节点需要外接上拉电阻/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492714&idx=1&sn=fd7fb0fc66bf3b8e29c7c018a4690818&chksm=fa29ba1ecd5e330812cd45451b2ecd59f7f207075628d29a40bbfe9d21b69e9cebf99a5e621f&scene=21#wechat_redirect
+054. 嵌入式开发：Lin总线入门实践 | 2023-08-30 | 正文已保存
+本地：文章/054_嵌入式开发：Lin总线入门实践/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492882&idx=1&sn=6206a45afc5737f0b934797da87aa8b2&chksm=fa29bb66cd5e32706b60fb9dd30b102e5e6e2ef3dc5b8c348e10888fe0052dfa574a880bb2b4&scene=21#wechat_redirect
+055. Lin总线基础#2：节点是如何唤醒的？ | 2024-07-12 | 正文已保存
+本地：文章/055_Lin总线基础#2：节点是如何唤醒的？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495165&idx=1&sn=0d0e43c38809fb23664093af0d641c09&chksm=fa29b389cd5e3a9fc10ba7b1480b7c1dce443cf0bfa4f81199e7e1c830c5c577182d64cef7d2&scene=21#wechat_redirect
+056. 工程问题：基于Lin节点丢失，剖析我的解bug思路？ | 2024-07-05 | 正文已保存
+本地：文章/056_工程问题：基于Lin节点丢失，剖析我的解bug思路？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495111&idx=1&sn=00e167e9dd6cf6a49b45d5a76f06fde3&chksm=fa29b3b3cd5e3aa501670700ee0e97531208b479553bc3deb33d4b9578ad1acf26be6f975bf7&scene=21#wechat_redirect
+057. Flexray总线基础#01：Flexray节点基本组成及唤醒 | 2024-05-22 | 正文已保存
+本地：文章/057_Flexray总线基础#01：Flexray节点基本组成及唤醒/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494674&idx=1&sn=490d1b25cd1fa8f50834376c3fea9de1&chksm=fa29b266cd5e3b70efeefb7bf15686e61aa8d5c728c85487a23eb13e987052a068fb4759b2f7&scene=21#wechat_redirect
+058. Flexray总线基础#02：Flexray节点启动时序 | 2024-06-04 | 正文已保存
+本地：文章/058_Flexray总线基础#02：Flexray节点启动时序/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494729&idx=1&sn=08f6cc48b15f0b5b13e0cc2e7be32ad0&chksm=fa29b23dcd5e3b2b8eb0a552554e46d3943917a0098ebb6df49565d799660cd74c36a569ce2c&scene=21#wechat_redirect
+059. Flexray总线基础#03：基础概念图解 | 2024-05-25 | 正文已保存
+本地：文章/059_Flexray总线基础#03：基础概念图解/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494706&idx=1&sn=66b589519dd756ed054a64697d3a0c76&chksm=fa29b246cd5e3b501a40d03487f6f8d273fcb82c20e62f724323f84cc521627e19f20b22c986&scene=21#wechat_redirect
+060. Flexray总线基础#04：结合工程实际需求，解读时间参数概念 | 2024-06-22 | 正文已保存
+本地：文章/060_Flexray总线基础#04：结合工程实际需求，解读时间参数概念/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494939&idx=1&sn=d123e94deaa5847f10357736eabc2418&chksm=fa29b36fcd5e3a79923c0b717274e96c77cd7818dfd9ed601c30c9b1bf7069710a112dd14bd7&scene=21#wechat_redirect
+061. Flexray总线基础#05：为什么要进行节点间时钟同步？ | 2024-08-14 | 正文已保存
+本地：文章/061_Flexray总线基础#05：为什么要进行节点间时钟同步？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495439&idx=1&sn=f9efaa150253e522aa553c7bd5554ac4&chksm=fa29b17bcd5e386d2072c78959e869ca8f1a96fc3ce1232954b842e73390aa49c175f189bb50&scene=21#wechat_redirect
+062. 工程开发问题（七）：Flexray网络状态切换错误，通信异常 | 2022-07-19 | 正文已保存
+本地：文章/062_工程开发问题（七）：Flexray网络状态切换错误，通信异常/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488954&idx=1&sn=ff07bd826e514cc2f70605a9f2124594&chksm=fa2a4bcecd5dc2d81f605918b23a52dfcd946ed0efbb5b103f514608d289e5de6f617aa02e48&scene=21#wechat_redirect
+063. CAN和CAN FD组网思考 | 2023-08-11 | 正文已保存
+本地：文章/063_CAN和CAN FD组网思考/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492727&idx=1&sn=66104d0bceec459529520d3bfed3d0bb&chksm=fa29ba03cd5e3315635e5bf299c7ad8a79c55ff9463ade3d9aaf593effee6df279c009a6d545&scene=21#wechat_redirect

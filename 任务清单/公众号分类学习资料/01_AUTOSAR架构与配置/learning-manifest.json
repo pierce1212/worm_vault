@@ -1,0 +1,300 @@
+{
+  "created": "2026-10-30",
+  "account": "开心果 Need Car",
+  "name": "AUTOSAR架构与配置",
+  "id": "01",
+  "counts": {
+    "saved": 11
+  },
+  "total": 11,
+  "core_ids": [
+    "2247491113",
+    "2247498158",
+    "2247485853",
+    "2247493894",
+    "2247496731"
+  ],
+  "groups": [
+    {
+      "id": "01",
+      "name": "认识AUTOSAR与工程全貌",
+      "items": [
+        194,
+        464,
+        421,
+        423
+      ]
+    },
+    {
+      "id": "02",
+      "name": "接口与配置基础",
+      "items": [
+        58,
+        315,
+        412
+      ]
+    },
+    {
+      "id": "03",
+      "name": "配置工具与模型集成",
+      "items": [
+        47,
+        50,
+        405,
+        408
+      ]
+    }
+  ],
+  "articles": [
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491113&idx=1&sn=667636d47ec566ac98f2ade3554b5666&chksm=fa2a405dcd5dc94b7d8d66993fed5913728a4222a0c442e55441ec09bc672c0700998f84cb6e&scene=21#wechat_redirect",
+      "title": "Autosar，好吗？",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491119&idx=1&sn=15698cb9d2c5e39eca455f3bdcb933b2&chksm=fa2a405bcd5dc94d43ee463a9b4df8f50948a835a13de4ae0387a04264ab952f108e2ed2dedf#wechat_redirect",
+      "status": "saved",
+      "date": "2023-01-20T18:53:00+08:00",
+      "file": "articles/ffb66a11460052fe/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247491113",
+      "source_index": 194,
+      "stage": "01",
+      "stage_name": "认识AUTOSAR与工程全貌",
+      "core": true,
+      "order": 1,
+      "article_folder": "001_Autosar，好吗？",
+      "reader": "文章/001_Autosar，好吗？/index.html",
+      "author_albums": [
+        "Autosar",
+        "感悟"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498158&idx=1&sn=9aeaa43c4793f30486a95d72810fe986&scene=21#wechat_redirect",
+      "title": "一颗汽车“大脑”的成长之路：ECU 软件从工厂到上路的全过程",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498166&idx=1&sn=549cade2469d5c91485cd480f2cb23be&chksm=fa29a7c2cd5e2ed4c1738a9398363bebfadbad9b68e27427a5cfd57e1e93f414bcada3cab6ef#rd",
+      "status": "saved",
+      "date": "2026-05-05T06:45:00+08:00",
+      "file": "articles/35fb22b1841e6ef9/article.html",
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 1,
+      "id": "2247498158",
+      "source_index": 464,
+      "stage": "01",
+      "stage_name": "认识AUTOSAR与工程全貌",
+      "core": true,
+      "order": 2,
+      "article_folder": "002_一颗汽车“大脑”的成长之路：ECU 软件从工厂到上路的全过程",
+      "reader": "文章/002_一颗汽车“大脑”的成长之路：ECU 软件从工厂到上路的全过程/index.html",
+      "author_albums": []
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496994&idx=1&sn=6c90fa8cdfc80464c70f70692a1ea8a5&chksm=fa29ab56cd5e2240b4d95804025090fe28f1c74f3df8d537230b1ac3bdf8f696cefd7d2e2c12#rd",
+      "title": "闲话CP Autosar技术面试问题（一）",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-06-30T06:36:00+08:00",
+      "file": "articles/7409c08778d1c911/article.html",
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496994&idx=1&sn=6c90fa8cdfc80464c70f70692a1ea8a5&scene=21#wechat_redirect"
+      ],
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 6,
+      "id": "2247496994",
+      "source_index": 421,
+      "stage": "01",
+      "stage_name": "认识AUTOSAR与工程全貌",
+      "core": false,
+      "order": 3,
+      "article_folder": "003_闲话CP Autosar技术面试问题（一）",
+      "reader": "文章/003_闲话CP Autosar技术面试问题（一）/index.html",
+      "author_albums": [
+        "Autosar"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497105&idx=1&sn=0a850d1742f1ce4fa121e0e7b340c615&chksm=fa29abe5cd5e22f30cce5afc1b7c22f40d0343d8c698ddbf6a2e8fc60880724fcfa3651b05b2#rd",
+      "title": "闲话CP Autosar技术面试问题（二）",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-07-04T06:32:00+08:00",
+      "file": "articles/9c259bba62841e54/article.html",
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497105&idx=1&sn=0a850d1742f1ce4fa121e0e7b340c615&scene=21#wechat_redirect"
+      ],
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 3,
+      "id": "2247497105",
+      "source_index": 423,
+      "stage": "01",
+      "stage_name": "认识AUTOSAR与工程全貌",
+      "core": false,
+      "order": 4,
+      "article_folder": "004_闲话CP Autosar技术面试问题（二）",
+      "reader": "文章/004_闲话CP Autosar技术面试问题（二）/index.html",
+      "author_albums": [
+        "Autosar"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485853&idx=1&sn=a1762916cb3e9d90712964e634aea845&chksm=fa2a57e9cd5ddeff2c00c7949d7930dada15cb9880b35674a8ee6ab3786fb9c87e7ceb2daf07&scene=21#wechat_redirect",
+      "title": "Autosar概念：Callout与Callback，请不要混肴",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2022-03-14T13:24:00+08:00",
+      "file": "articles/b36f36e5a4592bff/article.html",
+      "image_failures": [],
+      "image_count": 7,
+      "content_scope": "full",
+      "id": "2247485853",
+      "source_index": 58,
+      "stage": "02",
+      "stage_name": "接口与配置基础",
+      "core": true,
+      "order": 5,
+      "article_folder": "005_Autosar概念：Callout与Callback，请不要混肴",
+      "reader": "文章/005_Autosar概念：Callout与Callback，请不要混肴/index.html",
+      "author_albums": [
+        "Autosar"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493894&idx=1&sn=6512bcc48e0dc0e69678928afa7c4159&chksm=fa29b772cd5e3e647a6e0b6502b89c9d8706d1625d62631e563c1c0b7bad26052cb0a9d03056&scene=21#wechat_redirect",
+      "title": "Autosar基础：如何理解PostBuild、Precompile、Linktime？",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494500&idx=1&sn=87a45c146a652de434c194b1c1355705&chksm=fa29b510cd5e3c0699f17ce9da4707396fb074e826b4ea9ba76fe67896905f1f02d96af77183#rd",
+      "status": "saved",
+      "date": "2024-01-29T18:33:00+08:00",
+      "file": "articles/48da5446433829cb/article.html",
+      "image_failures": [],
+      "image_count": 6,
+      "content_scope": "full",
+      "id": "2247493894",
+      "source_index": 315,
+      "stage": "02",
+      "stage_name": "接口与配置基础",
+      "core": true,
+      "order": 6,
+      "article_folder": "006_Autosar基础：如何理解PostBuild、Precompile、L",
+      "reader": "文章/006_Autosar基础：如何理解PostBuild、Precompile、L/index.html",
+      "author_albums": []
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496731&idx=1&sn=bc78786779d108f221776b67af5b8e7c&scene=21#wechat_redirect",
+      "title": "始于ARXML文件的开发",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-05-10T06:36:00+08:00",
+      "file": "articles/51dbf300fe817dd6/article.html",
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 5,
+      "id": "2247496731",
+      "source_index": 412,
+      "stage": "02",
+      "stage_name": "接口与配置基础",
+      "core": true,
+      "order": 7,
+      "article_folder": "007_始于ARXML文件的开发",
+      "reader": "文章/007_始于ARXML文件的开发/index.html",
+      "author_albums": []
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485544&idx=1&sn=269f2ac91a026e52da2d24435f776a33&chksm=fa2a561ccd5ddf0a89a6ffc3c0aad8ac99fc8322ac4c145d049a857b4465ad6a019e1d75d065&scene=21#wechat_redirect",
+      "title": "MATLAB:自定义库&自定义C MEX S-Function,简单易学",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2022-02-16T20:02:00+08:00",
+      "file": "articles/fe2dfe2c77b00931/article.html",
+      "image_failures": [],
+      "image_count": 20,
+      "content_scope": "full",
+      "id": "2247485544",
+      "source_index": 47,
+      "stage": "03",
+      "stage_name": "配置工具与模型集成",
+      "core": false,
+      "order": 8,
+      "article_folder": "008_MATLAB_自定义库&自定义C MEX S-Function,简单易学",
+      "reader": "文章/008_MATLAB_自定义库&自定义C MEX S-Function,简单易学/index.html",
+      "author_albums": [
+        "matlab",
+        "嵌入式开发"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485631&idx=1&sn=b4c1c069aa98ec115cd0c2ec6d53cd70&chksm=fa2a56cbcd5ddfdd03cb7283608540680bd54bf624fb07f1d8d9071595c796e961774e1de87b&scene=21#wechat_redirect",
+      "title": "Matlab:手写C MEX S-Function，没那么难",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2022-02-21T19:16:00+08:00",
+      "file": "articles/b6a6822affd1bee5/article.html",
+      "image_failures": [],
+      "image_count": 11,
+      "content_scope": "full",
+      "id": "2247485631",
+      "source_index": 50,
+      "stage": "03",
+      "stage_name": "配置工具与模型集成",
+      "core": false,
+      "order": 9,
+      "article_folder": "009_Matlab_手写C MEX S-Function，没那么难",
+      "reader": "文章/009_Matlab_手写C MEX S-Function，没那么难/index.html",
+      "author_albums": [
+        "matlab"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496654&idx=1&sn=e514578e4269196f5e1160c54925d4d6&chksm=fa29adbacd5e24acce24b8d4b879ff6922824cc6a4b4764703ce227bbfd0726bded5adbaed8c#rd",
+      "title": "玩EB tresos，为什么生成不了*.epc文件？",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-04-10T06:39:00+08:00",
+      "file": "articles/1e3edc1c3502d082/article.html",
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496654&idx=1&sn=e514578e4269196f5e1160c54925d4d6&scene=21#wechat_redirect"
+      ],
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 7,
+      "id": "2247496654",
+      "source_index": 405,
+      "stage": "03",
+      "stage_name": "配置工具与模型集成",
+      "core": false,
+      "order": 10,
+      "article_folder": "010_玩EB tresos，为什么生成不了_.epc文件？",
+      "reader": "文章/010_玩EB tresos，为什么生成不了_.epc文件？/index.html",
+      "author_albums": [
+        "EB"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496694&idx=1&sn=22d72fb5b059318faf2548cb0723d0c3&chksm=fa29ad82cd5e24942d9aef502c2828eea8de430a654a8ab9863036fd035c5a716758b3a013cc#rd",
+      "title": "EB Tresos，修改Mcal版本号的非常规操作",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-04-21T06:34:00+08:00",
+      "file": "articles/a4f43fa91bcf485f/article.html",
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496694&idx=1&sn=22d72fb5b059318faf2548cb0723d0c3&scene=21#wechat_redirect"
+      ],
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 6,
+      "id": "2247496694",
+      "source_index": 408,
+      "stage": "03",
+      "stage_name": "配置工具与模型集成",
+      "core": false,
+      "order": 11,
+      "article_folder": "011_EB Tresos，修改Mcal版本号的非常规操作",
+      "reader": "文章/011_EB Tresos，修改Mcal版本号的非常规操作/index.html",
+      "author_albums": [
+        "EB"
+      ]
+    }
+  ]
+}

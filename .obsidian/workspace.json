@@ -38,23 +38,9 @@
               "icon": "lucide-file",
               "title": "obsidian_tasks_command_center"
             }
-          },
-          {
-            "id": "da13ad24e83ef20f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "daliy record/2026.10.30 信息安全硬件模块.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026.10.30 信息安全硬件模块"
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -116,7 +102,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 314
+    "width": 464
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -249,36 +235,39 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "da13ad24e83ef20f",
+  "active": "b5d3aba5c0cc225e",
   "lastOpenFiles": [
+    "任务清单/wechat公众号文章梳理/2026.10.22 CAN总线采样点分析.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.10.30 boot当前的代码了解.md",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/dca95b9c775e09e6b228.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/b03eef4264dfa9f95ce5.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/53a33e9ea6b4baa01303.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/46c6d91ebb3a698ed773.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/25f8bcf470bfe43aa8d8.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/eec478476bf4d159e0d3.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/c717c740f60046f410aa.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/b64ea7db3d508164f04e.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/b6f5706557a4fbd992cf.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/95945eb4d97774b10481.jpeg",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/index.html",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/018_别来无恙/index.html",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/018_别来无恙/正文.txt",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/正文.txt",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/016_超哥/正文.txt",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/017_拉呱/正文.txt",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/016_超哥/index.html",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/017_拉呱/index.html",
+    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images",
+    "daliy record/2026.10.30 信息安全硬件模块.md",
+    "daliy record/2026-05-08 三腔驱动开发.md",
+    "daliy record/打卡记录/2026-10 wechat公众号文章梳理 7fa493b9.md",
     "debug/开发测试记录/2026.07.08 CAN FD 异常唤醒测试报告.md",
-    "output/playwright/patch-record-title.cjs",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/8469b1cffcf6e9bd66c8.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/c0a234e1e8b7055d34e3.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/dbf8f2d1da0e636e4ede.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/68165cf0719ea7db552e.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/9d42cd965de91e61431a.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/0cbb9dc6313fe8e0f481.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/56f6d4d5fab6548190dd.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images/04f16db1ab2ba38a6863.png",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571/images",
-    "任务清单/信息安全学习资料/articles/ce2c01b35c768571",
-    "任务清单/信息安全学习资料/articles/cd1c2e0e8e43895f/images/d989bc6fe291c4ff6ffb.png",
-    "任务清单/信息安全学习资料/articles/cd1c2e0e8e43895f/images/29d7d3c39d1aea1cdc29.png",
-    "任务清单/信息安全学习资料/articles/cd1c2e0e8e43895f/images",
-    "任务清单/信息安全学习资料/articles/cd1c2e0e8e43895f",
-    "任务清单/信息安全学习资料/articles/cce90740d7249eff/images",
-    "任务清单/信息安全学习资料/articles/cce90740d7249eff",
-    "任务清单/信息安全学习资料/articles/cab50715bbf46ed3/images",
-    "任务清单/信息安全学习资料/articles/cab50715bbf46ed3",
-    "任务清单/信息安全学习资料/articles/bccb88e274a025b2/images",
     "hardware/其他芯片学习笔记/RSM8900_RTC_StudyNotes.md",
     "task_outline/任务详情.md",
-    "daliy record/2026.10.30 boot当前的代码了解.md",
     "task_outline/今日任务.md",
-    "daliy record/2026.10.30 信息安全硬件模块.md",
     "task_outline/工作任务.md",
-    "task_outline/obsidian_tasks_command_center.md",
     "AI/提示词.md",
     "2026.10.30 S32K324.md",
     "daliy record/2026.10.27 boot+信息安全（hex生成脚本）.md",
@@ -294,8 +283,6 @@
     "daliy record/2026.09.08  诊断调查表测试（五）.md",
     "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
     "daliy record/2026.09.01 诊断调查表（二）.md",
-    "daliy record/2026.09.04 ASPICE后续安排.md",
-    "00_Inbox/灵感/灵感收集箱.md",
     "未命名.canvas",
     "未命名 1.canvas"
   ]

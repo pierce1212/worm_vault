@@ -1,0 +1,7 @@
+Autosar网络管理：网络管理报文CBV(Control Bit Vector)字节详解
+日期未取得 | 原链接已失效
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490724&idx=1&sn=40f0d558677eac1b9f326704e85cd59f&chksm=fa2a42d0cd5dcbc6038112aea20eca6af0ddc346228d859dc78982a872d7abccafa52b5faa42&scene=21#wechat_redirect
+
+无效唤醒，ECU需要立即休眠吗？
+2024-07-22 | 付费 · 仅公开试读
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495251&idx=1&sn=07a51cb32ec57dd01952c47b258ee3f7&chksm=fa29b027cd5e3931777017f2bfb2981dee5bd6cee1938e581eb34b0b5899872c2dab4dc0bc5c&scene=21#wechat_redirect

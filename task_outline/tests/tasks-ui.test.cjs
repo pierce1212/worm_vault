@@ -478,6 +478,21 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator('.tcc-achievement-shell').screenshot({ path: path.join(output, 'habit-achievements-mobile.png') });
     assert(await page.locator('.tcc-achievement-shell').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
+    await page.evaluate(async () => {
+      luxon.Settings.now = () => new Date('2026-10-30T12:00:00+08:00').getTime();
+      testState.memory.set('task_outline/工作任务.md', '## 今日任务\n- [/] boot+信息安全\n  - [/] boot当前的代码了解 📅 2026-10-30\n    - [ ] 调用入口确认\n');
+      await renderTest('today');
+    });
+    await page.locator('[data-today-list] .tcc-today-children > summary').click();
+    await page.getByRole('button', { name: 'boot当前的代码了解', exact: true }).click();
+    await page.evaluate(() => renderTest('detail'));
+    await page.getByRole('button', { name: '创建任务记录', exact: true }).click();
+    assert.equal(await page.locator('dialog input[name=name]').inputValue(), 'boot+信息安全 - boot当前的代码了解');
+    await page.locator('dialog').screenshot({ path: path.join(output, 'child-record-parent-title.png') });
+    await saveDialog();
+    const childRecordPath = await page.evaluate(() => testState.opened.at(-1));
+    assert.equal(childRecordPath, 'daliy record/2026.10.30 boot+信息安全 - boot当前的代码了解.md');
+    assert((await page.evaluate(p => testState.memory.get(p), childRecordPath)).includes('# boot+信息安全 - boot当前的代码了解'));
     assert.deepEqual(errors, []);
     console.log('PASS: three views, quick edit, child creation, note logging, completion, acceptance, maintenance filter, blocking/restart and mobile editor.');
   } finally {

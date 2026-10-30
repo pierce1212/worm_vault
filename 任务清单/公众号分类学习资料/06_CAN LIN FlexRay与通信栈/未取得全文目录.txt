@@ -1,0 +1,11 @@
+工程问题：电压瞬时异常导致的busoff与通信丢失
+2024-05-17 | 付费 · 仅公开试读
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494644&idx=1&sn=9809bc3289bf44ef15d97c9bb5fedd0e&chksm=fa29b580cd5e3c968deaa82d4a1eb7d88f8959cca6a79110591755b3598ebc8f1adedd37b83d&scene=21#wechat_redirect
+
+CAN总线科普，Busoff与CC状态切换的本质
+2024-08-30 | 付费 · 仅公开试读
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495619&idx=1&sn=433e91214456f5b12a05f2a8c3ff7199&scene=21#wechat_redirect
+
+工程问题，CAN Busoff恢复不成功导致的通信中断
+2024-09-04 | 付费 · 仅公开试读
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495630&idx=1&sn=c519101003d5a1e82289f3a3611e8a9d&chksm=fa29b1bacd5e38ac326f8ce888938da64c34070ec048ee9cc9f0688876f6fa3bc8ea82bcaa0b#rd

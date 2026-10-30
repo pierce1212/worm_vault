@@ -1,0 +1,279 @@
+{
+  "created": "2026-10-30",
+  "account": "开心果 Need Car",
+  "name": "作者原始文章汇总目录",
+  "id": "14",
+  "counts": {
+    "saved": 11
+  },
+  "total": 11,
+  "core_ids": [],
+  "groups": [
+    {
+      "id": "01",
+      "name": "原始汇总目录",
+      "items": [
+        69,
+        100,
+        149,
+        196,
+        247,
+        291,
+        334,
+        372,
+        394,
+        429,
+        455
+      ]
+    }
+  ],
+  "articles": [
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "title": "Autosar往期精彩文章汇总：1~70",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486611&idx=1&sn=84d01b03b4118bf109be9ed6e7c6d02a&chksm=fa2a52e7cd5ddbf151a0d569e85b629f6f8da89cb882711187cc9cca443138c85039d21b8485&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2022-04-09T09:00:00+08:00",
+      "file": "articles/cafaf8d7287624ee/article.html",
+      "image_failures": [],
+      "image_count": 1,
+      "content_scope": "full",
+      "id": "2247486551",
+      "source_index": 69,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 1,
+      "article_folder": "001_Autosar往期精彩文章汇总：1~70",
+      "reader": "文章/001_Autosar往期精彩文章汇总：1~70/index.html",
+      "author_albums": [
+        "Autosar",
+        "文章"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488190&idx=1&sn=c9913a494a74aeed1ba76a6928a28b7e&chksm=fa2a4ccacd5dc5dcaa9fe80ddf504444fedfbf51d345dc5afef8084dad5233055aa2e077b48e&scene=178&cur_album_id=2434132054117498881&search_click_id=#rd",
+      "title": "Autosar往期精彩文章汇总：71~100",
+      "discovered_from": "",
+      "status": "saved",
+      "date": "2022-06-10T08:35:00+08:00",
+      "file": "articles/5127e1d685a3a9a7/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247488190",
+      "source_index": 100,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 2,
+      "article_folder": "002_Autosar往期精彩文章汇总：71~100",
+      "reader": "文章/002_Autosar往期精彩文章汇总：71~100/index.html",
+      "author_albums": []
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489836&idx=1&sn=4bad34eda0ba5f990c9209bbac787513&chksm=fa2a4758cd5dce4e9cd10d42eb33bb1c63dd85c5b3b11da55b7fd0f8bbfb272a433f93c8f9d9#wechat_redirect",
+      "title": "Autosar往期精彩文章汇总：101~150",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2022-10-04T10:08:00+08:00",
+      "file": "articles/bbe2f45e3a342626/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247489836",
+      "source_index": 149,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 3,
+      "article_folder": "003_Autosar往期精彩文章汇总：101~150",
+      "reader": "文章/003_Autosar往期精彩文章汇总：101~150/index.html",
+      "author_albums": [
+        "Autosar",
+        "嵌入式开发",
+        "文章",
+        "汽车电子"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491119&idx=1&sn=15698cb9d2c5e39eca455f3bdcb933b2&chksm=fa2a405bcd5dc94d43ee463a9b4df8f50948a835a13de4ae0387a04264ab952f108e2ed2dedf#wechat_redirect",
+      "title": "Autosar往期精彩文章汇总：151~200",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489836&idx=1&sn=4bad34eda0ba5f990c9209bbac787513&chksm=fa2a4758cd5dce4e9cd10d42eb33bb1c63dd85c5b3b11da55b7fd0f8bbfb272a433f93c8f9d9#wechat_redirect",
+      "status": "saved",
+      "date": "2023-01-25T07:46:00+08:00",
+      "file": "articles/ac17e9eb2aa519cb/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247491119",
+      "source_index": 196,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 4,
+      "article_folder": "004_Autosar往期精彩文章汇总：151~200",
+      "reader": "文章/004_Autosar往期精彩文章汇总：151~200/index.html",
+      "author_albums": [
+        "合集",
+        "文章"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492295&idx=1&sn=5ccf8c82dfa78ec2c10226d2779696fe&chksm=fa29bcb3cd5e35a50979a915191e3b7f4bc4e6687b0fd2faacc19216c4f4e26984828a90f83c&scene=21#wechat_redirect",
+      "title": "Autosar往期精彩文章汇总：201~251",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492319&idx=1&sn=0d825db0a6dee7bbb8e2b7f396acbba4&chksm=fa29bcabcd5e35bd5121444c2205a42945acaa58927b80a20558e1096330a704afdfa300c067&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2023-06-13T08:29:00+08:00",
+      "file": "articles/c4d13aa668ed566e/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247492295",
+      "source_index": 247,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 5,
+      "article_folder": "005_Autosar往期精彩文章汇总：201~251",
+      "reader": "文章/005_Autosar往期精彩文章汇总：201~251/index.html",
+      "author_albums": [
+        "合集"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493391&idx=1&sn=68dc84b89534eb2e25b6d5554153e63a&chksm=fa29b97bcd5e306d7b8fcb7d505a48aa26c09ce95963dcf734adbb71614a0c30bc7077273aa2#rd",
+      "title": "Autosar往期精彩文章汇总：252~302",
+      "discovered_from": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2339844393865887745#wechat_redirect",
+      "status": "saved",
+      "date": "2023-10-31T07:05:00+08:00",
+      "file": "articles/68a310ce1767927c/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247493391",
+      "source_index": 291,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 6,
+      "article_folder": "006_Autosar往期精彩文章汇总：252~302",
+      "reader": "文章/006_Autosar往期精彩文章汇总：252~302/index.html",
+      "author_albums": [
+        "文章"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494500&idx=1&sn=87a45c146a652de434c194b1c1355705&chksm=fa29b510cd5e3c0699f17ce9da4707396fb074e826b4ea9ba76fe67896905f1f02d96af77183#rd",
+      "title": "Autosar往期精彩文章汇总：303~350",
+      "discovered_from": "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUyNDU4NTc1NQ==&action=getalbum&album_id=2339844393865887745#wechat_redirect",
+      "status": "saved",
+      "date": "2024-04-14T10:32:00+08:00",
+      "file": "articles/485f0d5c20423479/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247494500",
+      "source_index": 334,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 7,
+      "article_folder": "007_Autosar往期精彩文章汇总：303~350",
+      "reader": "文章/007_Autosar往期精彩文章汇总：303~350/index.html",
+      "author_albums": [
+        "文章"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495480&idx=1&sn=b04d11e22e82f1dc3798c80a4e83b354&chksm=fa29b14ccd5e385a0c1c55b9f5da542c2fc2755233d6bd1638cb82c50b4bba30ecaac23631de#wechat_redirect",
+      "title": "Autosar往期精彩文章汇总：351~400",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496443&idx=1&sn=e42e361825507bd723194aa6b2887be5&chksm=fa29ac8fcd5e2599ae154e38a6698f73dd62864b5f52435993db1ec09fb4885ada57b5bcfe4e#wechat_redirect",
+      "status": "saved",
+      "date": "2024-08-19T06:38:00+08:00",
+      "file": "articles/7ba1fb61b38fdb81/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247495480",
+      "source_index": 372,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 8,
+      "article_folder": "008_Autosar往期精彩文章汇总：351~400",
+      "reader": "文章/008_Autosar往期精彩文章汇总：351~400/index.html",
+      "author_albums": [
+        "合集",
+        "文章"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496443&idx=1&sn=e42e361825507bd723194aa6b2887be5&chksm=fa29ac8fcd5e2599ae154e38a6698f73dd62864b5f52435993db1ec09fb4885ada57b5bcfe4e#wechat_redirect",
+      "title": "Autosar往期精彩文章汇总：401~450",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-01-18T06:38:00+08:00",
+      "file": "articles/ab182aecfd35997c/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247496443",
+      "source_index": 394,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 9,
+      "article_folder": "009_Autosar往期精彩文章汇总：401~450",
+      "reader": "文章/009_Autosar往期精彩文章汇总：401~450/index.html",
+      "author_albums": [
+        "合集"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&chksm=fa29a840cd5e2156c5a3f76bde54ddfe8b2da9e398a4625430692471bccf25083cf7064a95f9#rd",
+      "title": "Autosar往期精彩文章汇总：451~510",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497269&idx=1&sn=b3bd7a481f1a4824e8baffc050bc14ee&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-08-02T06:33:00+08:00",
+      "file": "articles/3ed93b354d289333/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect"
+      ],
+      "content_scope": "full",
+      "id": "2247497268",
+      "source_index": 429,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 10,
+      "article_folder": "010_Autosar往期精彩文章汇总：451~510",
+      "reader": "文章/010_Autosar往期精彩文章汇总：451~510/index.html",
+      "author_albums": [
+        "合集"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497979&idx=1&sn=e96223d8d127c59e1cf37cc45f4f4731&scene=21#wechat_redirect",
+      "title": "Autosar往期精彩文章汇总：511~565",
+      "discovered_from": "https://mp.weixin.qq.com/s/ITmz2GwR7uWn4noYys_8fQ",
+      "status": "saved",
+      "date": "2026-02-24T06:21:00+08:00",
+      "file": "articles/ed52099544c95098/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247497979",
+      "source_index": 455,
+      "stage": "01",
+      "stage_name": "原始汇总目录",
+      "core": false,
+      "order": 11,
+      "article_folder": "011_Autosar往期精彩文章汇总：511~565",
+      "reader": "文章/011_Autosar往期精彩文章汇总：511~565/index.html",
+      "author_albums": []
+    }
+  ]
+}

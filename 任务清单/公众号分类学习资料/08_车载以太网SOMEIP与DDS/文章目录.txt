@@ -1,0 +1,95 @@
+车载以太网SOMEIP与DDS
+条目数：27
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+先理解PHY和IP通信，再看嵌入式收发实现，最后进入服务发现与DDS。
+
+01 以太网物理层与IP基础
+001. 车载以太网：姗姗来迟的以太网 | 2023-03-17 | 正文已保存 | 起步推荐
+本地：文章/001_车载以太网：姗姗来迟的以太网/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491716&idx=1&sn=f89c7f4e3f2fa3793ae7e07ddc5e60ed&chksm=fa29bef0cd5e37e637f1b7c866f2d1636970197481c03f2e89603e0406097f5ef176edbb54de&scene=21#wechat_redirect
+002. Autosar以太网：Ethernet Transceiver基础（一） | 2022-01-20 | 正文已保存 | 起步推荐
+本地：文章/002_Autosar以太网：Ethernet Transceiver基础（一）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485030&idx=1&sn=aecc6321b0c37a9a15191f409de942d9&chksm=fa2a5812cd5dd104dbebe7d8831c1fa4701c4f27daa0d5d128c6a3844141d77d6ca75c93bec0&scene=21#wechat_redirect
+003. 以太网学习笔记：如何理解PHY的Link Up | 2022-10-20 | 正文已保存 | 起步推荐
+本地：文章/003_以太网学习笔记：如何理解PHY的Link Up/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490141&idx=1&sn=7df662dea10173fde1bdbe54802e394d&chksm=fa2a4429cd5dcd3f28c7586b8783b1ee6522e5ea94635d8d2ba14c80efaa6f974fe4b07a2e28&scene=21#wechat_redirect
+004. 以太网基础：为什么需要ARP？ | 2023-11-20 | 正文已保存 | 起步推荐
+本地：文章/004_以太网基础：为什么需要ARP？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493489&idx=1&sn=c80c9842535d1ca60d580a3018d493a7&chksm=fa29b905cd5e301363d588a39969ab2a92a13dae0c3c1e862621b4130880c8b04cb367e2b6c7&scene=21#wechat_redirect
+005. 以太网基础：为什么需要ICMP？ | 2023-12-14 | 正文已保存 | 起步推荐
+本地：文章/005_以太网基础：为什么需要ICMP？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493644&idx=1&sn=a77572b67dbcb281d652c9c819b816ad&chksm=fa29b678cd5e3f6e6420fbd04f9120f3b0b6c301c7ddcb46cfeef34d527fc2223cb11e723109&scene=21#wechat_redirect
+006. 以太网笔记：快速以太网100Base-TX接口及编码 | 2023-02-12 | 正文已保存
+本地：文章/006_以太网笔记：快速以太网100Base-TX接口及编码/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491238&idx=1&sn=a396bbd11495acb006e0d2af40ed2686&chksm=fa2a40d2cd5dc9c444ab636f153d03c71d2e1eefd7472e402d0c482f402336177e765f65d430&scene=21#wechat_redirect
+007. 以太网基础：RJ45如何与车规级以太网Phy连接？ | 2023-11-24 | 正文已保存
+本地：文章/007_以太网基础：RJ45如何与车规级以太网Phy连接？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493549&idx=1&sn=248ac5c5dccdbf0049ea49a5b7d476e3&chksm=fa29b9d9cd5e30cf8b4d86bed99a5d0530545f9402e96e864ca897eed7ab5f0b9b8077ec0669&scene=21#wechat_redirect
+008. 以太网基础：为什么需要VLAN？ | 2023-12-04 | 正文已保存
+本地：文章/008_以太网基础：为什么需要VLAN？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493621&idx=1&sn=ca9ab17f3c9741aa0cc894982f334636&chksm=fa29b981cd5e30978de999a0bb218f2e564b1971da59432e1f44fdfdfe28b498b6e88332df31&scene=21#wechat_redirect
+009. 以太网基础：Auto-Negotiation影响启动时间？ | 2024-03-29 | 正文已保存
+本地：文章/009_以太网基础：Auto-Negotiation影响启动时间？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494417&idx=1&sn=b4d188c2e99a1b722eaa1437f6611678&chksm=fa29b565cd5e3c73ee89b8960533cfdc847097cd7c171b6341f328874e8fb7b934bb070c13d1&scene=21#wechat_redirect
+
+02 LwIP与DMA实现
+010. 英飞凌tc397：基于Lwip以太网数据接收，小白级讲解 | 2022-02-08 | 正文已保存 | 起步推荐
+本地：文章/010_英飞凌tc397：基于Lwip以太网数据接收，小白级讲解/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485317&idx=1&sn=f9a4ea4dbfcb063776e557759b63350a&chksm=fa2a59f1cd5dd0e70dc7e126421f1adcb490137e7f1235f355cd3ca522df5d3bf7683c13c3c7&scene=21#wechat_redirect
+011. 以太网基础：DMA Descriptor到底在描述什么？ | 2023-12-01 | 正文已保存 | 起步推荐
+本地：文章/011_以太网基础：DMA Descriptor到底在描述什么？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493602&idx=1&sn=66e0208e4f30fae1e9a18a2bf1f50333&chksm=fa29b996cd5e3080fb2fe340ab852272cabdd8478f14451fbdf9436560b6771ad3bbe4402ee7&scene=21#wechat_redirect
+012. 嵌入式以太网：Lwip内存管理之内存堆 | 2022-02-10 | 正文已保存
+本地：文章/012_嵌入式以太网：Lwip内存管理之内存堆/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485354&idx=1&sn=368d5ba9f0f8b881545169cb44bcd4c8&chksm=fa2a59decd5dd0c8db1ca29c0cb02f116c961e21863cc7969475ffe5949b4acf178adf96ca2e&scene=21#wechat_redirect
+013. 基于Tricore的UDP/TCP入门工程 | 2023-08-07 | 正文已保存
+本地：文章/013_基于Tricore的UDP_TCP入门工程/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492718&idx=1&sn=c9a21cd9fff16553ce98cdf425f17fc8&chksm=fa29ba1acd5e330c8fe39d9188e4f95a9a014abc04f4e1ae2639031dfb07f96aa638b29f1099&scene=21#wechat_redirect
+014. 基于Aurix的以太网实践：TCP Client实现坑点 | 2023-08-21 | 正文已保存
+本地：文章/014_基于Aurix的以太网实践：TCP Client实现坑点/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492827&idx=1&sn=c09b4fe01e538f7f460a166f54f4212c&chksm=fa29baafcd5e33b953660724c81ff6d313f9655499ce3a455af505aaab42bf88cb7c0052db34&scene=21#wechat_redirect
+015. 以太网基础：基于Lwip+Tc3xx的组播实现 | 2023-11-22 | 正文已保存
+本地：文章/015_以太网基础：基于Lwip+Tc3xx的组播实现/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493523&idx=1&sn=e1a9dbb2d295d303e9fa2b7f2d7d8719&chksm=fa29b9e7cd5e30f1f4c92bfeedd14e1b4ca639725083df7de59b7ff72f044776458eda2e5604&scene=21#wechat_redirect
+016. 深刻理解以太网发送，必经DMA Transmit Descriptor | 2024-06-06 | 正文已保存
+本地：文章/016_深刻理解以太网发送，必经DMA Transmit Descriptor/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494743&idx=1&sn=e4295e87208675eb04550c5b5f023fdd&chksm=fa29b223cd5e3b358f960a8bf0f387afa255ae3e7b612f948ae0e94e7fd62e55f5ea7e86176a&scene=21#wechat_redirect
+
+03 SOMEIP与服务发现
+017. SOME/IP-SD分析—Find Service | 2021-12-18 | 正文已保存 | 起步推荐
+本地：文章/017_SOME_IP-SD分析—Find Service/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484230&idx=1&sn=c39f40e3e19e2243503242ea93e2904c&chksm=fa2a5d32cd5dd4242b936ed20093cd71b3edcee73f3ccf93515e3e57b2d488cf9e0871764f90&scene=21#wechat_redirect
+018. 基于SomeIp SD的Subscribe/Notify 数据交互 | 2021-10-29 | 正文已保存 | 起步推荐
+本地：文章/018_基于SomeIp SD的Subscribe_Notify 数据交互/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483752&idx=1&sn=21ae9e0414c30c5fd0b0cd5d3a91386a&chksm=fa2a5f1ccd5dd60afda1c16a31700f85b8af56190dba84285f69eb8504bceb9dce457e5697bf&scene=21#wechat_redirect
+019. Wireshark分析SOME/IP，试试这个方式 | 2021-12-15 | 正文已保存
+本地：文章/019_Wireshark分析SOME_IP，试试这个方式/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484202&idx=1&sn=62bd2f3da2bdad6097abb1e686be5de6&chksm=fa2a5d5ecd5dd4484506970e555792551cf725e17354882e9fbbc8668f357d93bddc447d74d4&scene=21#wechat_redirect
+020. Ubuntu里玩VSOME/IP踩过的坑 | 2022-01-08 | 正文已保存
+本地：文章/020_Ubuntu里玩VSOME_IP踩过的坑/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484780&idx=1&sn=0ea469645a93e4abd25d1442630ccc49&chksm=fa2a5b18cd5dd20eb3cc1cce4ff8d3dae6e74417fa65dcc525d73f7db50494f52141f53ed63e&scene=21#wechat_redirect
+
+04 DDS模型与实践
+021. DDS概述及DCPS模型 | 2023-02-19 | 正文已保存 | 起步推荐
+本地：文章/021_DDS概述及DCPS模型/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491355&idx=1&sn=1f5ca8dad43e652927b5f3d32b65930d&chksm=fa2a416fcd5dc879cc9f306e024daefb2fdcaf6c1e175b3c9f4d034976ca334a374d74130750#wechat_redirect
+022. 开源Fast-DDS安装示例及DDS模型架构 | 2023-02-26 | 正文已保存
+本地：文章/022_开源Fast-DDS安装示例及DDS模型架构/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491422&idx=1&sn=33978a7e81633c56a897cf4f07fbc8ae&chksm=fa2a412acd5dc83c9570822bffb9a804f098d05961b7eb9e772649cd06f31a2621218c2ddfc0&scene=21#wechat_redirect
+023. DDS开发笔记：基于Ubuntu20.4跑micro-xrce-dds（一） | 2022-05-17 | 正文已保存
+本地：文章/023_DDS开发笔记：基于Ubuntu20.4跑micro-xrce-dds（/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487834&idx=1&sn=c36e4285d795ea86c507677fc65d3e8a&chksm=fa2a4f2ecd5dc63817a7636125ac727f5cf81653f7ccaec6863b2e9962810933b21cc993a4c1&scene=21#wechat_redirect
+024. 安装eProsima Fast DDS坑点 | 2023-03-22 | 正文已保存
+本地：文章/024_安装eProsima Fast DDS坑点/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491748&idx=1&sn=76622a01085deed6f59e152992caba47&chksm=fa29bed0cd5e37c6bceda04e6e26702321b97f6f30b1b8d1bfaadcc84759d3ad2f1b96c498d2&scene=21#wechat_redirect
+
+05 设备配置与抓包
+025. 基于VN5650的以太网配置 | 2023-05-06 | 正文已保存
+本地：文章/025_基于VN5650的以太网配置/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492006&idx=1&sn=978b718fdd09782e9db29e4c40c39006&chksm=fa29bfd2cd5e36c4c4c6d2b855e4a9acc83847085bf5c0f63d96e5fda8336c31c306edcbe9e0&scene=21#wechat_redirect
+026. 基于VN5650 TAP模式监控以太网数据交互 | 2023-05-21 | 正文已保存
+本地：文章/026_基于VN5650 TAP模式监控以太网数据交互/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492167&idx=1&sn=d8e0e62d3ea0b441306e9df15a9c28e2&chksm=fa29bc33cd5e35251c2c7aff0b680e11efc6b483fd14247c8f749853c956e4a0c742533252d4&scene=21#wechat_redirect
+027. CANoe基础：仿真节点VLAN配置、UDP Capl编写 | 2023-12-07 | 正文已保存
+本地：文章/027_CANoe基础：仿真节点VLAN配置、UDP Capl编写/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493631&idx=1&sn=6a88fd38df588acd2abc6dcb550805e0&chksm=fa29b98bcd5e309dce07855eec698ff05fe9f91c44eb10be198ca0d4dd3e99689a094f9914aa&scene=21#wechat_redirect

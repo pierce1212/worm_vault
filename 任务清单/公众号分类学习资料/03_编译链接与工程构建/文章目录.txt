@@ -1,0 +1,93 @@
+编译链接与工程构建
+条目数：27
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+沿着源码、构建、链接、镜像的流程学习；工具问题放在对应机制之后。
+
+01 CMake与Makefile入门
+001. CMake实践（一） | 2021-12-29 | 正文已保存 | 起步推荐
+本地：文章/001_CMake实践（一）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484466&idx=1&sn=1c34ca5c310a1a27e7cca17e88252c02&chksm=fa2a5a46cd5dd35096edfaf9d5b0273a33f2ae430fac4e15f11fc181347ceed4bd409737d874&scene=21#wechat_redirect
+002. CMake实践（二） | 2021-12-30 | 正文已保存 | 起步推荐
+本地：文章/002_CMake实践（二）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484530&idx=1&sn=0719bd9011376f4354b36c48b0a26d35&chksm=fa2a5a06cd5dd310966c06b8b8e364192d277bb182d2e7d182079b5646d25e46d64f6ad1430a&scene=21#wechat_redirect
+003. CMake实践（三）— 变量 | 2022-01-03 | 正文已保存 | 起步推荐
+本地：文章/003_CMake实践（三）— 变量/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484585&idx=1&sn=16c5954113edb72182a485915ad2f926&chksm=fa2a5addcd5dd3cbbc21af925d7d433e66bca4a61d1c335c461283640e613c36c13f63973166&scene=21#wechat_redirect
+004. CMake在Windows下的使用 | 2022-01-02 | 正文已保存 | 起步推荐
+本地：文章/004_CMake在Windows下的使用/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484580&idx=1&sn=bf921e191d16b2acca69d77807585a57&chksm=fa2a5ad0cd5dd3c6c528bc4a6f6d6796e65647faa7579125f3e3ebbd1aaeb4a43bd64d8b70ac&scene=21#wechat_redirect
+005. 交叉编译对应的Makefile编写 | 2023-04-08 | 正文已保存 | 起步推荐
+本地：文章/005_交叉编译对应的Makefile编写/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491831&idx=1&sn=4a96a7b555e0dfc35252c75845ade535&chksm=fa29be83cd5e37953295346fbd5f0f43902f756fbac40d873b35d4b195b4aadde14dc81aba77&scene=21#wechat_redirect
+006. 基于Makefile的C、C++混编 | 2023-05-01 | 正文已保存 | 起步推荐
+本地：文章/006_基于Makefile的C、C++混编/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491961&idx=1&sn=5ca6eab35d88050e5db1c1e27b821b4c&chksm=fa29bf0dcd5e361ba3c2f621a6594e1379e6360044d511887647a57e3e865cafb770d53298fa&scene=21#wechat_redirect
+007. 基于CMake，交叉编译C、C++ | 2023-02-24 | 正文已保存
+本地：文章/007_基于CMake，交叉编译C、C++/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491412&idx=1&sn=166e161734caaa3b5262e42821432e47&chksm=fa2a4120cd5dc836956e1e97ec2f3ff1c6d249ddf6089f3cbf35d0067f89b555fd517fb05417#wechat_redirect
+008. 嵌入式开发：VSCode中，基于CMake开发 | 2023-03-05 | 正文已保存
+本地：文章/008_嵌入式开发：VSCode中，基于CMake开发/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491602&idx=1&sn=68d2019e595af2207b1c15b172704ccc&chksm=fa29be66cd5e377029674253e1cc90626116c348aefa512bc799856aa322d1d3e72180aa6ef6&scene=21#wechat_redirect
+
+02 编译器、库与汇编
+009. 嵌入式开发：基于Visual Studio的*.dll文件生成，不求人 | 2022-03-28 | 正文已保存
+本地：文章/009_嵌入式开发：基于Visual Studio的_.dll文件生成，不求人/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486253&idx=1&sn=02971849ac7a0dfa19e859f236d3e472&chksm=fa2a5559cd5ddc4f6d1e2986e69b0ec625f251eaf773cd77cad40905c2b56737df2b4367c236&scene=21#wechat_redirect
+010. 嵌入式开发：读懂C语言封装的汇编很重要 | 2022-10-07 | 正文已保存
+本地：文章/010_嵌入式开发：读懂C语言封装的汇编很重要/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489902&idx=1&sn=e3c839bee87394090b05d35374146038&chksm=fa2a471acd5dce0c1e2e18f12f29c665a7f216068a4d9b75ea1320a0011d320f7722a1472299&scene=21#wechat_redirect
+011. 如何基于HighTec将源文件（*.c）打包成静态库文件（*.a） | 2023-01-11 | 正文已保存
+本地：文章/011_如何基于HighTec将源文件（_.c）打包成静态库文件（_.a）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491023&idx=1&sn=a08631111638d4efdaf307e5216ce9fc&chksm=fa2a43bbcd5dcaadc5a75c15655ff20cf9d1076432a493bb95c533c293b31ff79687ce6c72c6&scene=21#wechat_redirect
+012. Hightec基础实用技巧 | 2023-04-20 | 正文已保存
+本地：文章/012_Hightec基础实用技巧/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491907&idx=1&sn=bd0b98ccfb8e771f4030b92d3ed9f3f3&chksm=fa29bf37cd5e3621d3a821dfbe5a91de57b1cca9934c200d76b11473f09c2c6dc0b8bb0c51a3&scene=21#wechat_redirect
+013. Hightec基础：生成静态库（*.a）的第二种方法 | 2024-02-26 | 正文已保存
+本地：文章/013_Hightec基础：生成静态库（_.a）的第二种方法/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494035&idx=1&sn=8a63a26ffa4960ca43b07f2755624b5d&chksm=fa29b7e7cd5e3ef1f210abe8613175eea014f1b883e80aac06ca3c388a51a141928d8bf0ef51&scene=21#wechat_redirect
+014. 安装后的Tasking，不能正常启动 | 2025-03-28 | 正文已保存
+本地：文章/014_安装后的Tasking，不能正常启动/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496604&idx=1&sn=ca081dba0d84d349905a61fcf634ae85&chksm=fa29ade8cd5e24fe85b21f235db38a76bdae6ab0593319541df23732df6aa6d6ce5e5ab35ea6#rd
+
+03 链接脚本、段与内存放置
+015. 如何基于HighTec，在链接文件（*.lsl）中设置自定义段 | 2022-11-17 | 正文已保存 | 起步推荐
+本地：文章/015_如何基于HighTec，在链接文件（_.lsl）中设置自定义段/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490499&idx=1&sn=352c77e16a1ed5f1fb1a57f82382b681&chksm=fa2a45b7cd5dcca153e7325b00c5cc9283c76100bae439b5944f7e5f04059096659bbb1c5cad&scene=21#wechat_redirect
+016. C语言引用来链接文件符号（symbol）知多少？ | 2023-06-01 | 正文已保存 | 起步推荐
+本地：文章/016_C语言引用来链接文件符号（symbol）知多少？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492259&idx=1&sn=16ec1931933512b8ed051bf856ad862c&chksm=fa29bcd7cd5e35c12db2378236bd0d59246d481ca69b83fe457cea2cbd4967b731f1c833fc80&scene=21#wechat_redirect
+017. Hightec基础使用技巧：*.hex、*.bin文件生成及自定义Section | 2023-12-26 | 正文已保存 | 起步推荐
+本地：文章/017_Hightec基础使用技巧：_.hex、_.bin文件生成及自定义Sec/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493733&idx=1&sn=9cbb5d758d552143955729612b7be659&chksm=fa29b611cd5e3f070dba88e056d64c8c1cec27f3a68aa71cc6314e6088cb6ba548ca4180c357&scene=21#wechat_redirect
+018. 如何使用链接文件设置填充值（Fill Value） | 2023-05-30 | 正文已保存
+本地：文章/018_如何使用链接文件设置填充值（Fill Value）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492246&idx=1&sn=5d4dbbe713d2a4aa21e170e5262723e8&chksm=fa29bce2cd5e35f4b3863e05de31edbbc5637ec72ca08964142b1631bea3756c3273726296e3&scene=21#wechat_redirect
+019. Tasking基础：将变量放入指定内存的两种方式 | 2024-01-09 | 正文已保存
+本地：文章/019_Tasking基础：将变量放入指定内存的两种方式/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493771&idx=1&sn=fac0c3cda6e7b1404bb8c41014712ba7&chksm=fa29b6ffcd5e3fe99ea8c660d2df40b2eb4357830534a0ef6bfd105f1dfd4892a1c290dca6d7&scene=21#wechat_redirect
+020. Tasking基础：将常量放入指定PFlash位置 | 2024-05-28 | 正文已保存
+本地：文章/020_Tasking基础：将常量放入指定PFlash位置/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494713&idx=1&sn=4cd73c77fee4b49bc1934ff71ac92a91&chksm=fa29b24dcd5e3b5b1abf89966003d25e7710e99d2d2e75f01f818dc101dc57f140e77bc536d5&scene=21#wechat_redirect
+021. Tasking基础，为什么常量无法放到指定内存区？ | 2025-04-07 | 正文已保存
+本地：文章/021_Tasking基础，为什么常量无法放到指定内存区？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496648&idx=1&sn=9f6c7178dc5dd30755e957e94cc796ee&chksm=fa29adbccd5e24aab7b71ec9b0ed41f828f5179cf574fb9766b8770a7156c93692045b8fb4e1#rd
+
+04 版本信息与工程集成
+022. VSCode实用技巧：local-history及.gitignore | 2024-03-22 | 正文已保存
+本地：文章/022_VSCode实用技巧：local-history及.gitignore/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494224&idx=1&sn=dd77f395c5e2896783981d1cce58389f&chksm=fa29b424cd5e3d3234e9fecd4a72ec062808f12cc2eaa3170beb97c038d9ae073ff14e169c9a&scene=21#wechat_redirect
+023. 如何基于IAR编译器添加编译时间戳和软件版本号？ | 2025-04-25 | 正文已保存
+本地：文章/023_如何基于IAR编译器添加编译时间戳和软件版本号？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496711&idx=1&sn=fc89bb4b31bc01a0fdfe020e7534b65f&chksm=fa29aa73cd5e2365e6c23aa576f6b34d153282ba3236d0118c8f553fb3dc02e761c3682fd6fc#rd
+024. 如何基于Tasking编译器添加编译时间戳和软件版本号？ | 2025-05-01 | 付费 · 仅公开试读
+本地：文章/024_如何基于Tasking编译器添加编译时间戳和软件版本号？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496720&idx=1&sn=5252099fcd0905f784f439f6ccca7565&chksm=fa29aa64cd5e23725e4bdc727f11345ef726e3c5bc44da31ff0ddb63e2ffa9dca9b3b470e5d5#rd
+025. 如何基于Hightec编译器添加编译时间戳和软件版本号？ | 2025-05-07 | 付费 · 仅公开试读
+本地：文章/025_如何基于Hightec编译器添加编译时间戳和软件版本号？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496721&idx=1&sn=80dba2cfca8df6287ce34f24c9839f73&chksm=fa29aa65cd5e2373dfbab2d9c593699beaed96008e18c0b5f51c48fb2af7efb124d92d70d93a#rd
+026. Clangd+CMake+Tasking+VSCode构建工程的琐碎 | 2025-10-27 | 正文已保存
+本地：文章/026_Clangd+CMake+Tasking+VSCode构建工程的琐碎/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497610&idx=1&sn=4dc3a72517f05ce02090388f1d003105&chksm=fa29a9fecd5e20e815079fb1f63ee46ef8d2e33f316d1ceeb305a5e9b6051be97fa3aa91cb41#rd
+027. Clangd+CMake+Tasking+VSCode构建工程之Ninja路径识别bug | 2025-11-10 | 正文已保存
+本地：文章/027_Clangd+CMake+Tasking+VSCode构建工程之Ninj/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497657&idx=1&sn=f227432e49d97c906c4f1713492201c5&chksm=fa29a9cdcd5e20db00acb4c264ab774abf501c8913493e1c31bb89f08257db23d186fef6eeae#rd

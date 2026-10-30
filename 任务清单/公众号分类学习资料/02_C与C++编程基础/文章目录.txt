@@ -1,0 +1,72 @@
+C与C++编程基础
+条目数：20
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+先掌握整数、结构体和指针，再读回调、容器与效率技巧。
+
+01 整数、位运算与宏
+001. C语言实用技巧：0x02 - 0xFE = ? | 2022-02-04 | 正文已保存 | 起步推荐
+本地：文章/001_C语言实用技巧：0x02 - 0xFE = _/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485283&idx=1&sn=3f5c46be7c456301a57218323e85fcbb&chksm=fa2a5917cd5dd001057afe9a91c26438350eb98e386bbd65481ff4302192f8e37641632bbdad&scene=21#wechat_redirect
+002. C语言开发实用技巧：准确分包&巧妙读Bit值 | 2022-01-15 | 正文已保存 | 起步推荐
+本地：文章/002_C语言开发实用技巧：准确分包&巧妙读Bit值/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484897&idx=1&sn=d1c84a7c172cd927cab10357ac96fecf&chksm=fa2a5b95cd5dd283907d82dcb023d6badfd1b2782b3ae6459a11fdf70ef2361f023003d8e693&scene=21#wechat_redirect
+003. C语言的#很“秀” | 2021-12-09 | 正文已保存
+本地：文章/003_C语言的#很“秀”/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483815&idx=1&sn=953ea1ef8247509bb32daf1412db487d&chksm=fa2a5fd3cd5dd6c5d98fa0a7d281e5fc7b36c1dba1a56244c97a1e9fd3c364cb6077e5be8299&scene=21#wechat_redirect
+004. C语言基础：&、>>在工程中的巧用 | 2023-01-13 | 正文已保存
+本地：文章/004_C语言基础：&、__在工程中的巧用/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491076&idx=1&sn=231ea20562eaee6376268a5cfd0fa535&chksm=fa2a4070cd5dc9663beed8c577fcfb04728aef0ed48236fee9a89cd7b97d827dfbb5ec655d61&scene=21#wechat_redirect
+005. C语言基础：do{...}while(0)的使用，很秀 | 2023-01-27 | 正文已保存
+本地：文章/005_C语言基础：do{...}while(0)的使用，很秀/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491125&idx=1&sn=6fcc81ec4f7f5731d7b500821c0e9f3e&chksm=fa2a4041cd5dc95763150e31c9a5d177ddda279bcb78cd03dcf09a76ead494b67cb0823ca1e5#wechat_redirect
+006. C语言基础：uint32 Argu和uint8 Argu[4]效果真的一样？ | 2024-06-16 | 正文已保存
+本地：文章/006_C语言基础：uint32 Argu和uint8 Argu[4]效果真的一/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494837&idx=1&sn=90b658cd0511f7964168c39c61ce5843&chksm=fa29b2c1cd5e3bd70207e744381724ea3345cf9e4447c730d2900cba792efc171b977e49e913&scene=21#wechat_redirect
+007. C语言基础，起个别名就忘了怎么用了？ | 2025-02-28 | 正文已保存
+本地：文章/007_C语言基础，起个别名就忘了怎么用了？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496535&idx=1&sn=19b53e4c6e85b56cf156b5a00eebe142&chksm=fa29ad23cd5e24355e5a3ae15558e9f6da0042fd45ab95143ced3af1b565207c712ed098a485#rd
+
+02 结构体、指针与地址
+008. 结构体，重新认识一下 | 2021-12-24 | 正文已保存 | 起步推荐
+本地：文章/008_结构体，重新认识一下/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484294&idx=1&sn=63ab89fc23db64bba26ee69beb8613bb&chksm=fa2a5df2cd5dd4e4195b07baff5d74eff4151c85fb050c06e8c1c6abe5ce2d7fb5da4342246b&scene=21#wechat_redirect
+009. 嵌入式开发：void*在工程中的应用 | 2023-01-04 | 正文已保存 | 起步推荐
+本地：文章/009_嵌入式开发：void_在工程中的应用/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490957&idx=1&sn=df043e3ac7dd65f457f63ea6426975d0&chksm=fa2a43f9cd5dcaefd773d23b575c9a78441e0040d5d082f7863d23af9f12189b027c95afc401&scene=21#wechat_redirect
+010. C语言基础，指针操作与地址偏移的深入探讨 | 2024-12-27 | 正文已保存 | 起步推荐
+本地：文章/010_C语言基础，指针操作与地址偏移的深入探讨/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496362&idx=1&sn=1932bf7dfce3f03da699730d812cddf5&chksm=fa29acdecd5e25c83ed837d5d9db950d0ae86277f13e6c32dfcd646af9642699b48f7fb08210#rd
+011. C语言基础：计算Struct成员偏移量的"骚操作" | 2023-08-28 | 正文已保存
+本地：文章/011_C语言基础：计算Struct成员偏移量的_骚操作_/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492870&idx=1&sn=5e5c445dc545a74ec66bf723e97992b0&chksm=fa29bb72cd5e326483076f5f0ac1c622f891030ca698adc122f3f0398ed13fd12bebcfc3ebd2&scene=21#wechat_redirect
+012. C语言基础：指针数组 | 2023-12-11 | 正文已保存
+本地：文章/012_C语言基础：指针数组/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493643&idx=1&sn=89a0bb765ea013a20f88c82bd0cff09c&chksm=fa29b67fcd5e3f69cc232c7d5357df12a87ad41a894db52754d9e0bf60d440d3200d284ef057&scene=21#wechat_redirect
+
+03 函数对象与回调
+013. Autosar里的函数指针(C)和std::function(C++) | 2021-11-19 | 正文已保存 | 起步推荐
+本地：文章/013_Autosar里的函数指针(C)和std__function(C++)/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483769&idx=1&sn=28be2271d524c2c9939623e8e9047767&chksm=fa2a5f0dcd5dd61b89c84129b6268b5573e9ceb2aebde46419b5020171a65c75903887f27004&scene=21#wechat_redirect
+014. 匿名函数Lambda认识一下 | 2021-12-22 | 正文已保存
+本地：文章/014_匿名函数Lambda认识一下/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484250&idx=1&sn=b2b665d317dbb41d8ef89b495726da5d&chksm=fa2a5d2ecd5dd438c404fdf47cd8492b1ae868eb2fcd01ecc43dc350640ec573f88e59246016&scene=21#wechat_redirect
+015. C语言基础：函数指针数组 | 2024-04-24 | 正文已保存
+本地：文章/015_C语言基础：函数指针数组/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494558&idx=1&sn=c12df57a170a78728766310694472c8c&chksm=fa29b5eacd5e3cfc76985c08e00487a295a26674fe00551bf85e82dade4dafcbbb13e4ac8e71&scene=21#wechat_redirect
+
+04 数据结构与算法技巧
+016. C语言基础：链表 | 2023-06-21 | 正文已保存 | 起步推荐
+本地：文章/016_C语言基础：链表/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492336&idx=1&sn=90aeb42ad130e0a16ecec62d5b521236&chksm=fa29bc84cd5e35925ab8102c38ac95c7eb47963d73a00fa964561123224cd908b61022ec5e48&scene=21#wechat_redirect
+017. C语言基础：图解双向链表操作 | 2023-09-02 | 正文已保存 | 起步推荐
+本地：文章/017_C语言基础：图解双向链表操作/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492901&idx=1&sn=29884cd1e8447d3ecd2472c5e1e72d45&chksm=fa29bb51cd5e3247879e5787b25ae4cddb60957be421c015bc0b2b4bec098b623f3c5325a07f&scene=21#wechat_redirect
+018. C语言基础：利用uint8设计循环队列 | 2024-01-05 | 正文已保存 | 起步推荐
+本地：文章/018_C语言基础：利用uint8设计循环队列/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493765&idx=1&sn=6882aac7dbd340087ebb596f3689525d&chksm=fa29b6f1cd5e3fe74ca0a4982a896755d180bcb8e0b7f07c3454531b438d0517ffbf4d5b4072&scene=21#wechat_redirect
+019. C语言基础：减少for循环，提升执行效率 | 2024-05-12 | 正文已保存
+本地：文章/019_C语言基础：减少for循环，提升执行效率/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494603&idx=1&sn=9b31c8d269bd73a32864a139890c39a7&chksm=fa29b5bfcd5e3ca98188668f976169383b7032ca7b7828088736175b9831208e785d955e8a15&scene=21#wechat_redirect
+020. 怎能不了解数据压缩？从LZSS无损压缩算法开始 | 2024-11-19 | 正文已保存
+本地：文章/020_怎能不了解数据压缩？从LZSS无损压缩算法开始/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496131&idx=1&sn=bdb3c7e6a58d4347594eb1dcf5807827&chksm=fa29afb7cd5e26a12651b96a8240ce7db58cf1474349c727eea10b489cc603426df78683eeab#rd

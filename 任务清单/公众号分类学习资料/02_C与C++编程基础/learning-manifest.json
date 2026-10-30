@@ -1,0 +1,525 @@
+{
+  "created": "2026-10-30",
+  "account": "开心果 Need Car",
+  "name": "C与C++编程基础",
+  "id": "02",
+  "counts": {
+    "saved": 20
+  },
+  "total": 20,
+  "core_ids": [
+    "2247485283",
+    "2247484897",
+    "2247484294",
+    "2247490957",
+    "2247496362",
+    "2247483769",
+    "2247492336",
+    "2247492901",
+    "2247493765"
+  ],
+  "groups": [
+    {
+      "id": "01",
+      "name": "整数、位运算与宏",
+      "items": [
+        14,
+        31,
+        41,
+        191,
+        197,
+        348,
+        396
+      ]
+    },
+    {
+      "id": "02",
+      "name": "结构体、指针与地址",
+      "items": [
+        19,
+        187,
+        275,
+        303,
+        392
+      ]
+    },
+    {
+      "id": "03",
+      "name": "函数对象与回调",
+      "items": [
+        11,
+        18,
+        335
+      ]
+    },
+    {
+      "id": "04",
+      "name": "数据结构与算法技巧",
+      "items": [
+        250,
+        277,
+        309,
+        338,
+        386
+      ]
+    }
+  ],
+  "articles": [
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485283&idx=1&sn=3f5c46be7c456301a57218323e85fcbb&chksm=fa2a5917cd5dd001057afe9a91c26438350eb98e386bbd65481ff4302192f8e37641632bbdad&scene=21#wechat_redirect",
+      "title": "C语言实用技巧：0x02 - 0xFE = ?",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2022-02-04T18:09:00+08:00",
+      "file": "articles/ed1a06d4e5dd8d2c/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247485283",
+      "source_index": 41,
+      "stage": "01",
+      "stage_name": "整数、位运算与宏",
+      "core": true,
+      "order": 1,
+      "article_folder": "001_C语言实用技巧：0x02 - 0xFE = _",
+      "reader": "文章/001_C语言实用技巧：0x02 - 0xFE = _/index.html",
+      "author_albums": [
+        "c语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484897&idx=1&sn=d1c84a7c172cd927cab10357ac96fecf&chksm=fa2a5b95cd5dd283907d82dcb023d6badfd1b2782b3ae6459a11fdf70ef2361f023003d8e693&scene=21#wechat_redirect",
+      "title": "C语言开发实用技巧：准确分包&巧妙读Bit值",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2022-01-15T11:19:00+08:00",
+      "file": "articles/8354f15eb31a365e/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247484897",
+      "source_index": 31,
+      "stage": "01",
+      "stage_name": "整数、位运算与宏",
+      "core": true,
+      "order": 2,
+      "article_folder": "002_C语言开发实用技巧：准确分包&巧妙读Bit值",
+      "reader": "文章/002_C语言开发实用技巧：准确分包&巧妙读Bit值/index.html",
+      "author_albums": [
+        "c语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483815&idx=1&sn=953ea1ef8247509bb32daf1412db487d&chksm=fa2a5fd3cd5dd6c5d98fa0a7d281e5fc7b36c1dba1a56244c97a1e9fd3c364cb6077e5be8299&scene=21#wechat_redirect",
+      "title": "C语言的#很“秀”",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2021-12-09T12:16:00+08:00",
+      "file": "articles/75b58362ff4423a1/article.html",
+      "image_failures": [],
+      "image_count": 1,
+      "content_scope": "full",
+      "id": "2247483815",
+      "source_index": 14,
+      "stage": "01",
+      "stage_name": "整数、位运算与宏",
+      "core": false,
+      "order": 3,
+      "article_folder": "003_C语言的#很“秀”",
+      "reader": "文章/003_C语言的#很“秀”/index.html",
+      "author_albums": [
+        "autosar",
+        "c语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491076&idx=1&sn=231ea20562eaee6376268a5cfd0fa535&chksm=fa2a4070cd5dc9663beed8c577fcfb04728aef0ed48236fee9a89cd7b97d827dfbb5ec655d61&scene=21#wechat_redirect",
+      "title": "C语言基础：&、>>在工程中的巧用",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491119&idx=1&sn=15698cb9d2c5e39eca455f3bdcb933b2&chksm=fa2a405bcd5dc94d43ee463a9b4df8f50948a835a13de4ae0387a04264ab952f108e2ed2dedf#wechat_redirect",
+      "status": "saved",
+      "date": "2023-01-13T16:06:00+08:00",
+      "file": "articles/b13c7ef9ab36b318/article.html",
+      "image_failures": [],
+      "image_count": 5,
+      "content_scope": "full",
+      "id": "2247491076",
+      "source_index": 191,
+      "stage": "01",
+      "stage_name": "整数、位运算与宏",
+      "core": false,
+      "order": 4,
+      "article_folder": "004_C语言基础：&、__在工程中的巧用",
+      "reader": "文章/004_C语言基础：&、__在工程中的巧用/index.html",
+      "author_albums": [
+        "C语言",
+        "嵌入式开发"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491125&idx=1&sn=6fcc81ec4f7f5731d7b500821c0e9f3e&chksm=fa2a4041cd5dc95763150e31c9a5d177ddda279bcb78cd03dcf09a76ead494b67cb0823ca1e5#wechat_redirect",
+      "title": "C语言基础：do{...}while(0)的使用，很秀",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485283&idx=1&sn=3f5c46be7c456301a57218323e85fcbb&chksm=fa2a5917cd5dd001057afe9a91c26438350eb98e386bbd65481ff4302192f8e37641632bbdad&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2023-01-27T15:46:00+08:00",
+      "file": "articles/20d9ae9514e528ad/article.html",
+      "image_failures": [],
+      "image_count": 1,
+      "content_scope": "full",
+      "id": "2247491125",
+      "source_index": 197,
+      "stage": "01",
+      "stage_name": "整数、位运算与宏",
+      "core": false,
+      "order": 5,
+      "article_folder": "005_C语言基础：do{...}while(0)的使用，很秀",
+      "reader": "文章/005_C语言基础：do{...}while(0)的使用，很秀/index.html",
+      "author_albums": [
+        "c语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494837&idx=1&sn=90b658cd0511f7964168c39c61ce5843&chksm=fa29b2c1cd5e3bd70207e744381724ea3345cf9e4447c730d2900cba792efc171b977e49e913&scene=21#wechat_redirect",
+      "title": "C语言基础：uint32 Argu和uint8 Argu[4]效果真的一样？",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495480&idx=1&sn=b04d11e22e82f1dc3798c80a4e83b354&chksm=fa29b14ccd5e385a0c1c55b9f5da542c2fc2755233d6bd1638cb82c50b4bba30ecaac23631de#wechat_redirect",
+      "status": "saved",
+      "date": "2024-06-16T09:45:00+08:00",
+      "file": "articles/983e10b3cd668ef5/article.html",
+      "image_failures": [],
+      "image_count": 4,
+      "content_scope": "full",
+      "id": "2247494837",
+      "source_index": 348,
+      "stage": "01",
+      "stage_name": "整数、位运算与宏",
+      "core": false,
+      "order": 6,
+      "article_folder": "006_C语言基础：uint32 Argu和uint8 Argu[4]效果真的一",
+      "reader": "文章/006_C语言基础：uint32 Argu和uint8 Argu[4]效果真的一/index.html",
+      "author_albums": [
+        "C语言"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496535&idx=1&sn=19b53e4c6e85b56cf156b5a00eebe142&chksm=fa29ad23cd5e24355e5a3ae15558e9f6da0042fd45ab95143ced3af1b565207c712ed098a485#rd",
+      "title": "C语言基础，起个别名就忘了怎么用了？",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497268&idx=1&sn=aee71480337b32876e4c5b9f204fd34a&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2025-02-28T06:29:00+08:00",
+      "file": "articles/8919243d58570b7e/article.html",
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496535&idx=1&sn=19b53e4c6e85b56cf156b5a00eebe142&scene=21#wechat_redirect"
+      ],
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 0,
+      "id": "2247496535",
+      "source_index": 396,
+      "stage": "01",
+      "stage_name": "整数、位运算与宏",
+      "core": false,
+      "order": 7,
+      "article_folder": "007_C语言基础，起个别名就忘了怎么用了？",
+      "reader": "文章/007_C语言基础，起个别名就忘了怎么用了？/index.html",
+      "author_albums": [
+        "C语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484294&idx=1&sn=63ab89fc23db64bba26ee69beb8613bb&chksm=fa2a5df2cd5dd4e4195b07baff5d74eff4151c85fb050c06e8c1c6abe5ce2d7fb5da4342246b&scene=21#wechat_redirect",
+      "title": "结构体，重新认识一下",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2021-12-24T20:00:00+08:00",
+      "file": "articles/d5d92440a468e39e/article.html",
+      "image_failures": [],
+      "image_count": 3,
+      "content_scope": "full",
+      "id": "2247484294",
+      "source_index": 19,
+      "stage": "02",
+      "stage_name": "结构体、指针与地址",
+      "core": true,
+      "order": 8,
+      "article_folder": "008_结构体，重新认识一下",
+      "reader": "文章/008_结构体，重新认识一下/index.html",
+      "author_albums": [
+        "C"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490957&idx=1&sn=df043e3ac7dd65f457f63ea6426975d0&chksm=fa2a43f9cd5dcaefd773d23b575c9a78441e0040d5d082f7863d23af9f12189b027c95afc401&scene=21#wechat_redirect",
+      "title": "嵌入式开发：void*在工程中的应用",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491119&idx=1&sn=15698cb9d2c5e39eca455f3bdcb933b2&chksm=fa2a405bcd5dc94d43ee463a9b4df8f50948a835a13de4ae0387a04264ab952f108e2ed2dedf#wechat_redirect",
+      "status": "saved",
+      "date": "2023-01-04T09:29:00+08:00",
+      "file": "articles/d98af46e4b0aff9e/article.html",
+      "image_failures": [],
+      "image_count": 1,
+      "content_scope": "full",
+      "id": "2247490957",
+      "source_index": 187,
+      "stage": "02",
+      "stage_name": "结构体、指针与地址",
+      "core": true,
+      "order": 9,
+      "article_folder": "009_嵌入式开发：void_在工程中的应用",
+      "reader": "文章/009_嵌入式开发：void_在工程中的应用/index.html",
+      "author_albums": [
+        "C语言",
+        "嵌入式开发"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496362&idx=1&sn=1932bf7dfce3f03da699730d812cddf5&chksm=fa29acdecd5e25c83ed837d5d9db950d0ae86277f13e6c32dfcd646af9642699b48f7fb08210#rd",
+      "title": "C语言基础，指针操作与地址偏移的深入探讨",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496443&idx=1&sn=e42e361825507bd723194aa6b2887be5&chksm=fa29ac8fcd5e2599ae154e38a6698f73dd62864b5f52435993db1ec09fb4885ada57b5bcfe4e#wechat_redirect",
+      "status": "saved",
+      "date": "2024-12-27T06:57:00+08:00",
+      "file": "articles/a3c061be75525619/article.html",
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496362&idx=1&sn=1932bf7dfce3f03da699730d812cddf5&scene=21#wechat_redirect"
+      ],
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 0,
+      "id": "2247496362",
+      "source_index": 392,
+      "stage": "02",
+      "stage_name": "结构体、指针与地址",
+      "core": true,
+      "order": 10,
+      "article_folder": "010_C语言基础，指针操作与地址偏移的深入探讨",
+      "reader": "文章/010_C语言基础，指针操作与地址偏移的深入探讨/index.html",
+      "author_albums": [
+        "C语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492870&idx=1&sn=5e5c445dc545a74ec66bf723e97992b0&chksm=fa29bb72cd5e326483076f5f0ac1c622f891030ca698adc122f3f0398ed13fd12bebcfc3ebd2&scene=21#wechat_redirect",
+      "title": "C语言基础：计算Struct成员偏移量的\"骚操作\"",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493391&idx=1&sn=68dc84b89534eb2e25b6d5554153e63a&chksm=fa29b97bcd5e306d7b8fcb7d505a48aa26c09ce95963dcf734adbb71614a0c30bc7077273aa2#rd",
+      "status": "saved",
+      "date": "2023-08-28T07:09:00+08:00",
+      "file": "articles/733f49b479e13078/article.html",
+      "image_failures": [],
+      "image_count": 5,
+      "content_scope": "full",
+      "id": "2247492870",
+      "source_index": 275,
+      "stage": "02",
+      "stage_name": "结构体、指针与地址",
+      "core": false,
+      "order": 11,
+      "article_folder": "011_C语言基础：计算Struct成员偏移量的_骚操作_",
+      "reader": "文章/011_C语言基础：计算Struct成员偏移量的_骚操作_/index.html",
+      "author_albums": [
+        "C语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493643&idx=1&sn=89a0bb765ea013a20f88c82bd0cff09c&chksm=fa29b67fcd5e3f69cc232c7d5357df12a87ad41a894db52754d9e0bf60d440d3200d284ef057&scene=21#wechat_redirect",
+      "title": "C语言基础：指针数组",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494500&idx=1&sn=87a45c146a652de434c194b1c1355705&chksm=fa29b510cd5e3c0699f17ce9da4707396fb074e826b4ea9ba76fe67896905f1f02d96af77183#rd",
+      "status": "saved",
+      "date": "2023-12-11T06:47:00+08:00",
+      "file": "articles/e04ce8097d3373a7/article.html",
+      "image_failures": [],
+      "image_count": 4,
+      "content_scope": "full",
+      "id": "2247493643",
+      "source_index": 303,
+      "stage": "02",
+      "stage_name": "结构体、指针与地址",
+      "core": false,
+      "order": 12,
+      "article_folder": "012_C语言基础：指针数组",
+      "reader": "文章/012_C语言基础：指针数组/index.html",
+      "author_albums": [
+        "c语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483769&idx=1&sn=28be2271d524c2c9939623e8e9047767&chksm=fa2a5f0dcd5dd61b89c84129b6268b5573e9ceb2aebde46419b5020171a65c75903887f27004&scene=21#wechat_redirect",
+      "title": "Autosar里的函数指针(C)和std::function(C++)",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2021-11-19T20:52:00+08:00",
+      "file": "articles/310c76cd09db605a/article.html",
+      "image_failures": [],
+      "image_count": 0,
+      "content_scope": "full",
+      "id": "2247483769",
+      "source_index": 11,
+      "stage": "03",
+      "stage_name": "函数对象与回调",
+      "core": true,
+      "order": 13,
+      "article_folder": "013_Autosar里的函数指针(C)和std__function(C++)",
+      "reader": "文章/013_Autosar里的函数指针(C)和std__function(C++)/index.html",
+      "author_albums": [
+        "AUTOSAR",
+        "c++"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484250&idx=1&sn=b2b665d317dbb41d8ef89b495726da5d&chksm=fa2a5d2ecd5dd438c404fdf47cd8492b1ae868eb2fcd01ecc43dc350640ec573f88e59246016&scene=21#wechat_redirect",
+      "title": "匿名函数Lambda认识一下",
+      "discovered_from": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486551&idx=1&sn=40fc1e2bb6d0b5f54258a12d2d69380f&chksm=fa2a5223cd5ddb35193056aab8cf114ed54753e7424b515eeddcdaec3f59afbb54e89bbccd12&scene=21#wechat_redirect",
+      "status": "saved",
+      "date": "2021-12-22T20:30:00+08:00",
+      "file": "articles/12ce947047baa11b/article.html",
+      "image_failures": [],
+      "image_count": 4,
+      "content_scope": "full",
+      "id": "2247484250",
+      "source_index": 18,
+      "stage": "03",
+      "stage_name": "函数对象与回调",
+      "core": false,
+      "order": 14,
+      "article_folder": "014_匿名函数Lambda认识一下",
+      "reader": "文章/014_匿名函数Lambda认识一下/index.html",
+      "author_albums": [
+        "嵌入式开发"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494558&idx=1&sn=c12df57a170a78728766310694472c8c&chksm=fa29b5eacd5e3cfc76985c08e00487a295a26674fe00551bf85e82dade4dafcbbb13e4ac8e71&scene=21#wechat_redirect",
+      "title": "C语言基础：函数指针数组",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495480&idx=1&sn=b04d11e22e82f1dc3798c80a4e83b354&chksm=fa29b14ccd5e385a0c1c55b9f5da542c2fc2755233d6bd1638cb82c50b4bba30ecaac23631de#wechat_redirect",
+      "status": "saved",
+      "date": "2024-04-24T06:22:00+08:00",
+      "file": "articles/621bdc3cb1cff63c/article.html",
+      "image_failures": [],
+      "image_count": 1,
+      "content_scope": "full",
+      "id": "2247494558",
+      "source_index": 335,
+      "stage": "03",
+      "stage_name": "函数对象与回调",
+      "core": false,
+      "order": 15,
+      "article_folder": "015_C语言基础：函数指针数组",
+      "reader": "文章/015_C语言基础：函数指针数组/index.html",
+      "author_albums": [
+        "c语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492336&idx=1&sn=90aeb42ad130e0a16ecec62d5b521236&chksm=fa29bc84cd5e35925ab8102c38ac95c7eb47963d73a00fa964561123224cd908b61022ec5e48&scene=21#wechat_redirect",
+      "title": "C语言基础：链表",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493391&idx=1&sn=68dc84b89534eb2e25b6d5554153e63a&chksm=fa29b97bcd5e306d7b8fcb7d505a48aa26c09ce95963dcf734adbb71614a0c30bc7077273aa2#rd",
+      "status": "saved",
+      "date": "2023-06-21T15:55:00+08:00",
+      "file": "articles/ef9ac6d2dadff1d2/article.html",
+      "image_failures": [],
+      "image_count": 4,
+      "content_scope": "full",
+      "id": "2247492336",
+      "source_index": 250,
+      "stage": "04",
+      "stage_name": "数据结构与算法技巧",
+      "core": true,
+      "order": 16,
+      "article_folder": "016_C语言基础：链表",
+      "reader": "文章/016_C语言基础：链表/index.html",
+      "author_albums": [
+        "C语言",
+        "链表"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492901&idx=1&sn=29884cd1e8447d3ecd2472c5e1e72d45&chksm=fa29bb51cd5e3247879e5787b25ae4cddb60957be421c015bc0b2b4bec098b623f3c5325a07f&scene=21#wechat_redirect",
+      "title": "C语言基础：图解双向链表操作",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493391&idx=1&sn=68dc84b89534eb2e25b6d5554153e63a&chksm=fa29b97bcd5e306d7b8fcb7d505a48aa26c09ce95963dcf734adbb71614a0c30bc7077273aa2#rd",
+      "status": "saved",
+      "date": "2023-09-02T07:25:00+08:00",
+      "file": "articles/6a778dc276ee363b/article.html",
+      "image_failures": [],
+      "image_count": 13,
+      "content_scope": "full",
+      "id": "2247492901",
+      "source_index": 277,
+      "stage": "04",
+      "stage_name": "数据结构与算法技巧",
+      "core": true,
+      "order": 17,
+      "article_folder": "017_C语言基础：图解双向链表操作",
+      "reader": "文章/017_C语言基础：图解双向链表操作/index.html",
+      "author_albums": [
+        "c语言",
+        "链表"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493765&idx=1&sn=6882aac7dbd340087ebb596f3689525d&chksm=fa29b6f1cd5e3fe74ca0a4982a896755d180bcb8e0b7f07c3454531b438d0517ffbf4d5b4072&scene=21#wechat_redirect",
+      "title": "C语言基础：利用uint8设计循环队列",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494500&idx=1&sn=87a45c146a652de434c194b1c1355705&chksm=fa29b510cd5e3c0699f17ce9da4707396fb074e826b4ea9ba76fe67896905f1f02d96af77183#rd",
+      "status": "saved",
+      "date": "2024-01-05T07:34:00+08:00",
+      "file": "articles/041cf947c8ecd000/article.html",
+      "image_failures": [],
+      "image_count": 3,
+      "content_scope": "full",
+      "id": "2247493765",
+      "source_index": 309,
+      "stage": "04",
+      "stage_name": "数据结构与算法技巧",
+      "core": true,
+      "order": 18,
+      "article_folder": "018_C语言基础：利用uint8设计循环队列",
+      "reader": "文章/018_C语言基础：利用uint8设计循环队列/index.html",
+      "author_albums": [
+        "C语言"
+      ]
+    },
+    {
+      "url": "http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494603&idx=1&sn=9b31c8d269bd73a32864a139890c39a7&chksm=fa29b5bfcd5e3ca98188668f976169383b7032ca7b7828088736175b9831208e785d955e8a15&scene=21#wechat_redirect",
+      "title": "C语言基础：减少for循环，提升执行效率",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495480&idx=1&sn=b04d11e22e82f1dc3798c80a4e83b354&chksm=fa29b14ccd5e385a0c1c55b9f5da542c2fc2755233d6bd1638cb82c50b4bba30ecaac23631de#wechat_redirect",
+      "status": "saved",
+      "date": "2024-05-12T08:28:00+08:00",
+      "file": "articles/fe2a4795adda8c3d/article.html",
+      "image_failures": [],
+      "image_count": 1,
+      "content_scope": "full",
+      "id": "2247494603",
+      "source_index": 338,
+      "stage": "04",
+      "stage_name": "数据结构与算法技巧",
+      "core": false,
+      "order": 19,
+      "article_folder": "019_C语言基础：减少for循环，提升执行效率",
+      "reader": "文章/019_C语言基础：减少for循环，提升执行效率/index.html",
+      "author_albums": [
+        "c语言",
+        "嵌入式开发"
+      ]
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496131&idx=1&sn=bdb3c7e6a58d4347594eb1dcf5807827&chksm=fa29afb7cd5e26a12651b96a8240ce7db58cf1474349c727eea10b489cc603426df78683eeab#rd",
+      "title": "怎能不了解数据压缩？从LZSS无损压缩算法开始",
+      "discovered_from": "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496443&idx=1&sn=e42e361825507bd723194aa6b2887be5&chksm=fa29ac8fcd5e2599ae154e38a6698f73dd62864b5f52435993db1ec09fb4885ada57b5bcfe4e#wechat_redirect",
+      "status": "saved",
+      "date": "2024-11-19T06:32:00+08:00",
+      "file": "articles/bef17a320da0e530/article.html",
+      "content_scope": "full",
+      "image_failures": [],
+      "image_count": 4,
+      "alternate_urls": [
+        "https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496131&idx=1&sn=bdb3c7e6a58d4347594eb1dcf5807827&scene=21#wechat_redirect"
+      ],
+      "id": "2247496131",
+      "source_index": 386,
+      "stage": "04",
+      "stage_name": "数据结构与算法技巧",
+      "core": false,
+      "order": 20,
+      "article_folder": "020_怎能不了解数据压缩？从LZSS无损压缩算法开始",
+      "reader": "文章/020_怎能不了解数据压缩？从LZSS无损压缩算法开始/index.html",
+      "author_albums": [
+        "Bootloader"
+      ]
+    }
+  ]
+}

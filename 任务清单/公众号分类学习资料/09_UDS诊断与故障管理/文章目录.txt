@@ -1,0 +1,216 @@
+UDS诊断与故障管理
+条目数：68
+编排日期：2026-10-30；原归档采集截至2026-10-21。
+先掌握会话、寻址和响应，再学传输时间参数、DEM事件与DTC，最后排查工程问题。
+
+01 会话、服务与诊断描述
+001. 为什么汽车诊断系统需要多个诊断地址？ | 2026-09-14 | 正文已保存 | 起步推荐
+本地：文章/001_为什么汽车诊断系统需要多个诊断地址？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498270&idx=1&sn=4e6b503652eab750faa671509f81d165&chksm=fa29a46acd5e2d7c90299092f57a3462312530e67c9bfe75541eca8196e8da6a32e5ca4c9995#rd
+002. UDS基础：正响应抑制位（suppressPosRspMsgIndicationBit）详解 | 2023-07-28 | 正文已保存 | 起步推荐
+本地：文章/002_UDS基础：正响应抑制位（suppressPosRspMsgIndica/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492673&idx=1&sn=5f876f0abe3e5d040e440022d1f1a4df&chksm=fa29ba35cd5e33231b4d8a16ec8fd41d30fb451b0b5e17424aaca497f8adb4348e84991e923a&scene=21#wechat_redirect
+003. 诊断基础：NRC0x78（Pending）问题知多少？ | 2022-12-30 | 正文已保存 | 起步推荐
+本地：文章/003_诊断基础：NRC0x78（Pending）问题知多少？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490935&idx=1&sn=5b5bf71aff6891f786e2597f2e21d9a1&chksm=fa2a4303cd5dca15376272b8c1b1f22db4adddaf1b3c15afd1290bcb1d0763dbc8d8113032ed&scene=21#wechat_redirect
+004. UDS诊断服务0x10中的P2与P2*解析 | 2026-10-12 | 正文已保存 | 起步推荐
+本地：文章/004_UDS诊断服务0x10中的P2与P2_解析/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498311&idx=1&sn=059cab4802d006fc6cfa70db6f4130ea&chksm=fa29a433cd5e2d25fcf9e3491170e6db301eac725c5916cb657ef4964f18108470f3a1bbdfe8#rd
+005. Uds诊断：P2server与P4server时间，说点你不知道的 | 2022-03-18 | 正文已保存 | 起步推荐
+本地：文章/005_Uds诊断：P2server与P4server时间，说点你不知道的/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486054&idx=1&sn=25e44b7c22a946efc8073f784deda11d&chksm=fa2a5412cd5ddd0492e4996f86a6953c46a01d8c815f60a2b48b18c85f28475f967b982e51fa&scene=21#wechat_redirect
+006. UDS之$2E服务：NRC13和NRC33优先级 | 2022-01-12 | 正文已保存
+本地：文章/006_UDS之$2E服务：NRC13和NRC33优先级/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484896&idx=1&sn=5d913f04fae7de2e636d0861ef79314e&chksm=fa2a5b94cd5dd2829fd7d8b45e977fb00995a375c04416c15c71cad3bc6beb0a97fdf4c451c1&scene=21#wechat_redirect
+007. Uds诊断：这10个诊断问题，你能回答几个？ | 2022-03-23 | 正文已保存
+本地：文章/007_Uds诊断：这10个诊断问题，你能回答几个？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486116&idx=1&sn=22bca31380b532115b7f2a6874f1247c&chksm=fa2a54d0cd5dddc6b6529bf81c9876292811e75bd4345e4139ef2d697778dea1f5220644b386&scene=21#wechat_redirect
+008. Uds诊断：这10个诊断问题，你能回答几个？（二） | 2022-04-05 | 正文已保存
+本地：文章/008_Uds诊断：这10个诊断问题，你能回答几个？（二）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486426&idx=1&sn=7db9bdc3c50d31f1a81634bac7977b60&chksm=fa2a55aecd5ddcb8e4e466f406e9d7172b8e0d0a3a9152292fa70cd94128975bd968ea772d71&scene=21#wechat_redirect
+009. Uds诊断：这5个诊断问题，你能回答几个？（三） | 2022-04-23 | 正文已保存
+本地：文章/009_Uds诊断：这5个诊断问题，你能回答几个？（三）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486815&idx=1&sn=c8d51c832cab06f8b9bc4bc77606edd5&chksm=fa2a532bcd5dda3d1854e893805a0401d4d19fe721ebcfb515d4ace6f65fc88a18c3bf7f7b09&scene=21#wechat_redirect
+010. Uds诊断：这5个诊断问题，你能回答几个？（四） | 2022-05-06 | 正文已保存
+本地：文章/010_Uds诊断：这5个诊断问题，你能回答几个？（四）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487421&idx=1&sn=02df1b9411219e5f4f200f02734d0386&chksm=fa2a51c9cd5dd8dffab67ebe584c9d880ca462dd79c42f8b41e9a7a9acd0f5749d5ba83b587b&scene=21#wechat_redirect
+011. Uds诊断：这几个诊断问题，你能回答几个？（五） | 2022-06-07 | 正文已保存
+本地：文章/011_Uds诊断：这几个诊断问题，你能回答几个？（五）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488170&idx=1&sn=cef7562dbdc27cf882f600252d786bc0&chksm=fa2a4cdecd5dc5c8f0c7e0aeb0fb02ea94808db12f87d7683c1af05e278caf6933e29ad359d2&scene=21#wechat_redirect
+012. 诊断，功能寻址仅用于单帧（SingleFrame）传输 | 2026-03-31 | 正文已保存
+本地：文章/012_诊断，功能寻址仅用于单帧（SingleFrame）传输/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498087&idx=1&sn=d8ae16c7ea974736692e059526b1cf67&chksm=fa29a713cd5e2e05b095d472eb54683a144376571b776d803aaafe498ce928237c3abbab6a12#rd
+013. 不支持的 DID，UDS 22 服务是否可以不回复？ | 2026-04-10 | 正文已保存
+本地：文章/013_不支持的 DID，UDS 22 服务是否可以不回复？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498118&idx=1&sn=1f8caa76095a29b05f57f7073b67e550&chksm=fa29a7f2cd5e2ee472e7cebec27b114803d9cc2c82fc54e736a0e2ccf74ec551182f4dcdef2c#rd
+014. 0x3E 与 S3 Timer 的实现细节 | 2026-04-28 | 正文已保存
+本地：文章/014_0x3E 与 S3 Timer 的实现细节/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498146&idx=1&sn=7361234f7f2ad3ea7028bbe207bf55da&chksm=fa29a7d6cd5e2ec05516def3593eeccf028eb054f4484d3e22a752bf594baf37896ae4965d2c#rd
+015. 刷写时，为什么需要发送0x3E 80报文来维持会话？ | 2025-08-13 | 正文已保存
+本地：文章/015_刷写时，为什么需要发送0x3E 80报文来维持会话？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497324&idx=1&sn=beadba5c5bca50bdf51660c85af2969d&chksm=fa29a818cd5e210efb41d56752da26f5f7f574fd098f8cd2eb5e4c53714af9b2d988b3d059c2#rd
+016. 刷写测试时，为什么需要保持 0x3E 80 的发送？ | 2026-04-21 | 正文已保存
+本地：文章/016_刷写测试时，为什么需要保持 0x3E 80 的发送？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498131&idx=1&sn=5b45f58a5fbd840e6089760cb4ec123f&chksm=fa29a7e7cd5e2ef1ee7811481e8228d59c4e2bb76ad046beaaf96b1ba0e3964ab64bf20ebf54#rd
+017. ODX和PDX是什么？傻傻分不清楚 | 2025-08-08 | 正文已保存
+本地：文章/017_ODX和PDX是什么？傻傻分不清楚/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497316&idx=1&sn=54b92a27800420a24572462b5197ff49&chksm=fa29a810cd5e210646ea5cd2b56dc991158ae8c167557b2faf6c6be3c0062f15e18e9c182a4f#rd
+018. 终于等到CANdelaStudio的“Check Consistency”配置功能 | 2025-08-22 | 正文已保存
+本地：文章/018_终于等到CANdelaStudio的“Check Consistency/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497365&idx=1&sn=bcfc93a8c6eeea466b0942c74d0f199a&chksm=fa29a8e1cd5e21f7baf6e812a5301ff370527523ab5ef5d38be58af30d9d37c54fc6faee9641#rd
+019. 诊断交互文件之DEXT | 2025-09-04 | 正文已保存
+本地：文章/019_诊断交互文件之DEXT/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497412&idx=1&sn=78d5ab45691bb2df7b7484019cee0f40&chksm=fa29a8b0cd5e21a6aec580aae1f843a313be67de1640d453be4f33d6fb28aaa6611595bac132#rd
+020. 是否需要禁用UDS 0x23/0x3D服务？ | 2025-09-12 | 正文已保存
+本地：文章/020_是否需要禁用UDS 0x23_0x3D服务？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497430&idx=1&sn=5d7372ca7ea083d618ff379349a8eb57&chksm=fa29a8a2cd5e21b431233e41bf1ab9347b6bec775e48ef9fe2e20915c0566a720d4aace32a61#rd
+
+02 传输、路由与时间参数
+021. 用“节奏”和“批量”管理诊断通信—通俗理解 STmin 与 BlockSize | 2026-05-14 | 正文已保存 | 起步推荐
+本地：文章/021_用“节奏”和“批量”管理诊断通信—通俗理解 STmin 与 BlockS/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498170&idx=1&sn=8e83ea5787eac2557c1dafe224e13580&chksm=fa29a7cecd5e2ed88d03aad145c70dc9821436bb4f2fb213496cc1ed5b39cb1f7ca471888fc5#rd
+022. Uds诊断问题：偶发单帧不响应分析及解决策略 | 2022-03-05 | 正文已保存
+本地：文章/022_Uds诊断问题：偶发单帧不响应分析及解决策略/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485760&idx=1&sn=0d206634be631dd09fc367ee56f1b162&chksm=fa2a5734cd5dde223d604bdbc017eb66e35c4dd0204455af0d3ca2ae20a208bfe3bf57344116&scene=21#wechat_redirect
+023. Uds诊断：Gateway节点响应$10 02服务时机，要精准拿捏 | 2022-04-18 | 正文已保存
+本地：文章/023_Uds诊断：Gateway节点响应$10 02服务时机，要精准拿捏/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247486743&idx=1&sn=77da3d9bec151a29fbcbcf037562acce&chksm=fa2a5363cd5dda750fc7720d589c7c14493bc762b1a92de8afee040a9d3595865368cbf9bdfd&scene=21#wechat_redirect
+024. Uds诊断：Gateway节点的Timing，不简单 | 2022-05-03 | 正文已保存
+本地：文章/024_Uds诊断：Gateway节点的Timing，不简单/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487271&idx=1&sn=4f6eb24af19a58db30a9b254356d2061&chksm=fa2a5153cd5dd84551f666ef14f13bdac57d53fa2f2df96a07dc2f7c30662f6c23338edc4dc7&scene=21#wechat_redirect
+025. 工程开发问题（一）：诊断指令不路由 | 2022-05-22 | 正文已保存
+本地：文章/025_工程开发问题（一）：诊断指令不路由/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247487878&idx=1&sn=9acc4f6ce4e3ad5e8904e5a7c37935a4&chksm=fa2a4ff2cd5dc6e4fb95ee4855ef61dfa81d7723325cc893268b7d0864de0701a13385b7bcdb&scene=21#wechat_redirect
+026. 工程开发问题（八）：不满足STmin时间要求，中断接收丢帧 | 2022-07-21 | 正文已保存
+本地：文章/026_工程开发问题（八）：不满足STmin时间要求，中断接收丢帧/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489044&idx=1&sn=783f65777cb5c0722adb2c90da17b54d&chksm=fa2a4860cd5dc1763d044b3446a90c063c45344c4466ab0ecd9d41cac4b0963669c3dcf5cd5e&scene=21#wechat_redirect
+027. Uds诊断：Unexpected N_PDU处理策略 | 2022-08-13 | 正文已保存
+本地：文章/027_Uds诊断：Unexpected N_PDU处理策略/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489253&idx=1&sn=fae2e42f8e2d32b2f675146ffa076294&chksm=fa2a4891cd5dc187b3bbd6addca716213d69c7da412743b1d63ff1fd93dedcecd52f649c96c4&scene=21#wechat_redirect
+028. 诊断开发：Polling方式引发的诊断丢帧 | 2022-10-16 | 正文已保存
+本地：文章/028_诊断开发：Polling方式引发的诊断丢帧/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490055&idx=1&sn=30fafcd5d1e7b956867226a501758f47&chksm=fa2a4473cd5dcd65c467b27c1b009f737f624530560b448f3799e39f2b4b3e57972468a4ef50&scene=21#wechat_redirect
+029. 诊断开发：采样点引发的连续帧错序问题 | 2022-11-08 | 正文已保存
+本地：文章/029_诊断开发：采样点引发的连续帧错序问题/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490397&idx=1&sn=2f37656494a491bcbf9d5ba73b4f23cf&chksm=fa2a4529cd5dcc3f1a26ffea993430160b6757dd09cab95ccd14459eb4b8cfcc683538b30142&scene=21#wechat_redirect
+030. 诊断QA：CAN和CAN FD的诊断报文能否混用？ | 2022-11-23 | 正文已保存
+本地：文章/030_诊断QA：CAN和CAN FD的诊断报文能否混用？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490601&idx=1&sn=424a4c0c391597f0adc64971a765650c&chksm=fa2a425dcd5dcb4be0b33be818d6ff27077b6ce517ac02d7acfb4b93116b8901b3529c74991f&scene=21#wechat_redirect
+031. 诊断基础：不同会话(Session)，诊断报文如何维持网络状态？ | 2022-12-15 | 正文已保存
+本地：文章/031_诊断基础：不同会话(Session)，诊断报文如何维持网络状态？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490801&idx=1&sn=41a3d3da9867298b0cbcd34bac7e2773&chksm=fa2a4285cd5dcb9310c99604eff9fbb4740eddc96978df1386a3190e39e551ae162c27706666&scene=21#wechat_redirect
+032. Autosar CanTp:什么是Connection？ | 2022-12-18 | 正文已保存
+本地：文章/032_Autosar CanTp_什么是Connection？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490806&idx=1&sn=90dd653a20e16944fb7ff6cfaceb7e62&chksm=fa2a4282cd5dcb946568e05575e34723e359192ba35e6bf7a3c0e2991b5c84014cad2aca681c&scene=21#wechat_redirect
+033. Polling模式，为什么会引发诊断丢帧 | 2023-06-16 | 正文已保存
+本地：文章/033_Polling模式，为什么会引发诊断丢帧/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492319&idx=1&sn=0d825db0a6dee7bbb8e2b7f396acbba4&chksm=fa29bcabcd5e35bd5121444c2205a42945acaa58927b80a20558e1096330a704afdfa300c067&scene=21#wechat_redirect
+034. 诊断，如何速记多帧传输中的时间参数？ | 2025-03-17 | 正文已保存
+本地：文章/034_诊断，如何速记多帧传输中的时间参数？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496583&idx=1&sn=b39fc8b3cbab5d33fbb65166ca220177&chksm=fa29adf3cd5e24e5dba059f80da1e8b76d7ad55e3cf89ac2cf9fd021862cf1aecb103767be4d#rd
+035. 编程会话中的 queued request：为什么“支持队列”意味着更高的接收能力要求？ | 2026-05-08 | 正文已保存
+本地：文章/035_编程会话中的 queued request：为什么“支持队列”意味着更高/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247498166&idx=1&sn=549cade2469d5c91485cd480f2cb23be&chksm=fa29a7c2cd5e2ed4c1738a9398363bebfadbad9b68e27427a5cfd57e1e93f414bcada3cab6ef#rd
+
+03 DEM事件、DTC与快照
+036. Autosar DEM诊断事件管理（一） | 2022-02-06 | 正文已保存 | 起步推荐
+本地：文章/036_Autosar DEM诊断事件管理（一）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485284&idx=1&sn=380915845cde1c5699ceb63e036bcfb6&chksm=fa2a5910cd5dd0063563456f971986ee4d8ec80522fa9ac8dbb6f111be539992f9477176d6c0&scene=21#wechat_redirect
+037. DEM 事件去抖：基于Counter | 2022-02-14 | 正文已保存 | 起步推荐
+本地：文章/037_DEM 事件去抖：基于Counter/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485364&idx=1&sn=6f09f47692da02550993a53fd90c2f66&chksm=fa2a59c0cd5dd0d6272a5f8beff202900fed299da1e25fb14c4c947ac87311290737f3b2c418&scene=21#wechat_redirect
+038. 诊断基础：如何理解Operation Cycle？ | 2022-11-15 | 正文已保存 | 起步推荐
+本地：文章/038_诊断基础：如何理解Operation Cycle？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490450&idx=1&sn=70d12e49e9cfd90f2ddd871b9076b8fc&chksm=fa2a45e6cd5dccf0f345bbbc9ca4acec673017e9027439a038787538728051c23e8e331f2632&scene=21#wechat_redirect
+039. UDS基础：快照数据（Snapshot）格式详解 | 2023-07-11 | 正文已保存 | 起步推荐
+本地：文章/039_UDS基础：快照数据（Snapshot）格式详解/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492469&idx=1&sn=8a05a0ac7eebe53f995917f0a25e0f44&chksm=fa29bd01cd5e34177cd38a167a7fd9aea59c8c672c1f910473a2b431908afa647f822111b924&scene=21#wechat_redirect
+040. DTC问题排查模板（一）：诊断需求明确 | 2024-02-29 | 正文已保存 | 起步推荐
+本地：文章/040_DTC问题排查模板（一）：诊断需求明确/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494050&idx=1&sn=3bf8dfcf0df2177b7b4a398ca37d0fb9&chksm=fa29b7d6cd5e3ec05532f73a14ad934ecbb836ee598670a5463be7c525a54d356f793489f793&scene=21#wechat_redirect
+041. 通信诊断监控开启条件 | 2021-10-05 | 正文已保存
+本地：文章/041_通信诊断监控开启条件/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483718&idx=1&sn=892cd65b90afa81690a144becb08dc13&chksm=fa2a5f32cd5dd6242273879e347699707a665f9a98d37c8b1ba424463eeca1c6e4295e67d8fa&scene=21#wechat_redirect
+042. 故障快照信息上传云端浅谈 | 2021-10-23 | 正文已保存
+本地：文章/042_故障快照信息上传云端浅谈/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247483738&idx=1&sn=b809daf9b32967dd3c68eec3c5736a81&chksm=fa2a5f2ecd5dd63823c261c16f10848cc4c80ca2136a160f89282c0ce87edcca45af1437dac8&scene=21#wechat_redirect
+043. 诊断激活：诊断电压与诊断开启时间关系 | 2022-01-06 | 正文已保存
+本地：文章/043_诊断激活：诊断电压与诊断开启时间关系/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247484744&idx=1&sn=8238951cdc9f9cb8b01feb8ddbbb809d&chksm=fa2a5b3ccd5dd22a99fcdbad3ced8b2cdf0fee73ddc6248c5bd619e093763a14e056dfac8f84&scene=21#wechat_redirect
+044. 从开发的角度看电子驻车制动（EPB） | 2022-02-02 | 正文已保存
+本地：文章/044_从开发的角度看电子驻车制动（EPB）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485282&idx=1&sn=1e1afd0c36b32867c6d16bf4db882db0&chksm=fa2a5916cd5dd000acd3110fe1ef7d9661a8b0e75e4395f51e275115d39965f7242a8fd01b76&scene=21#wechat_redirect
+045. CANdelaStudio支持AUTOSAR DEM模块Event的描述 | 2022-02-22 | 正文已保存
+本地：文章/045_CANdelaStudio支持AUTOSAR DEM模块Event的描述/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485658&idx=1&sn=baa96dce1c338189ec2cbe4b63f717ff&chksm=fa2a56aecd5ddfb8d1bcd655ef25688d7f970e669be433e713dd2e5023da5ae34572a765c250&scene=21#wechat_redirect
+046. Autosar DEM诊断事件管理（二） | 2022-03-02 | 正文已保存
+本地：文章/046_Autosar DEM诊断事件管理（二）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485731&idx=1&sn=3f1e35d756a3c8279e4cd74a4ee41c6d&chksm=fa2a5757cd5dde41fd0220fde8aa2e033cba69ed60ca5577779fc905f2fe37d4e338fef8ffcb&scene=21#wechat_redirect
+047. Uds诊断：不同Operation Cycle下的DTC状态位变化 | 2022-05-31 | 正文已保存
+本地：文章/047_Uds诊断：不同Operation Cycle下的DTC状态位变化/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247488085&idx=1&sn=3e438139c35d3a16513b4f4f4a9b571e&chksm=fa2a4c21cd5dc53726ee39168f375e343f2b126a9f90e3bdc402fe197b86a6fee042d804d0af&scene=21#wechat_redirect
+048. 诊断基础：Event内存管理 | 2022-11-30 | 正文已保存
+本地：文章/048_诊断基础：Event内存管理/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490634&idx=1&sn=2fe62bac88d235a3b855c32e54dbc1f8&chksm=fa2a423ecd5dcb281cd5851643ea93b18e0fd7f18b3bc67afe844f6cdceabda697ac28742137&scene=21#wechat_redirect
+049. 诊断开发：老化（Aging）和愈合（Healing） | 2023-04-17 | 正文已保存
+本地：文章/049_诊断开发：老化（Aging）和愈合（Healing）/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247491880&idx=1&sn=71805b125c51a8bbb3c8cb460871ded7&chksm=fa29bf5ccd5e364a7e4eebb3faae5b0a0691f80e0d1b873ef6c1ed5f69712f46502e7d2ec47b&scene=21#wechat_redirect
+050. UDS之Snapshot：全局快照和私有快照的区别和联系 | 2023-07-21 | 正文已保存
+本地：文章/050_UDS之Snapshot：全局快照和私有快照的区别和联系/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492642&idx=1&sn=ad97bf13cb92ecc0f6d0178352cb9e39&chksm=fa29ba56cd5e334004e167269534e76786f65f95b9c3cb41826e9cce6f49cb1f2ebc31dbde5c&scene=21#wechat_redirect
+051. 诊断基础：快照数据于DTC关系及存储时机 | 2024-03-14 | 正文已保存
+本地：文章/051_诊断基础：快照数据于DTC关系及存储时机/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494214&idx=1&sn=33bffa3ae0d74917d7cd1d9784fadcc8&chksm=fa29b432cd5e3d2487fdd85db98c86e08b1a24616a780dddad7e6245689f2ae3783a75520c7a&scene=21#wechat_redirect
+052. 工程问题排查模板之DTC（二）：诊断前置检查条件 | 2024-03-18 | 正文已保存
+本地：文章/052_工程问题排查模板之DTC（二）：诊断前置检查条件/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494223&idx=1&sn=9faf91e02c26162871b281cb71c75452&chksm=fa29b43bcd5e3d2d74bcc5d3e260671c88622669285aa9a34fc84a2b234ade5a4929849e76c1&scene=21#wechat_redirect
+053. DTC问题排查模板（三）：故障如何去抖？ | 2024-03-25 | 正文已保存
+本地：文章/053_DTC问题排查模板（三）：故障如何去抖？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494386&idx=1&sn=48b525f1f11fcd2f7c0c3f41ea9da493&chksm=fa29b486cd5e3d9059aabd3e2843183ecd8a7a6afd4cca9757a44ffc8f4a00e96931fefc7206&scene=21#wechat_redirect
+054. 诊断基础：你还见过怎样的快照数据（Snapshot Data）采样和存储策略？ | 2024-04-04 | 正文已保存
+本地：文章/054_诊断基础：你还见过怎样的快照数据（Snapshot Data）采样和存储/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494419&idx=1&sn=281eb5650f55071bd4d7eebe2961b603&chksm=fa29b567cd5e3c71b4894519fcd4fcf4b76e48440382dd505e0cb48958695c86434715ee9d07&scene=21#wechat_redirect
+055. 诊断基础：事件（Event）状态、DTC状态变化该如何理解？ | 2024-04-07 | 正文已保存
+本地：文章/055_诊断基础：事件（Event）状态、DTC状态变化该如何理解？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494438&idx=1&sn=06ba3e987e253f073e95223920561418&chksm=fa29b552cd5e3c4408e9460e7f1a39cd890c7fff5870e14611d51845a8aa4f3118b3dbdde221&scene=21#wechat_redirect
+056. 诊断基础：DEM的故障存储策略与NVM | 2024-04-30 | 正文已保存
+本地：文章/056_诊断基础：DEM的故障存储策略与NVM/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494577&idx=1&sn=95ddeb43dcefbae59d7b9636000e0a4e&chksm=fa29b5c5cd5e3cd3044fb04eb56f36f46bab930b7443d2320fef58e2b02e12b5228a28ef1248&scene=21#wechat_redirect
+057. 诊断，为什么读到的DTC故障状态是0x20? | 2024-07-19 | 正文已保存
+本地：文章/057_诊断，为什么读到的DTC故障状态是0x20_/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495237&idx=1&sn=9fbec9b27d7c7e11eb8eef5b78e85952&chksm=fa29b031cd5e3927160bef924e2e50892c43f74e47ba3e69902d2e5f072a9109ace48f395bed&scene=21#wechat_redirect
+058. 诊断，到底该如何理解"一个操作循环"概念？ | 2024-07-29 | 付费 · 仅公开试读
+本地：文章/058_诊断，到底该如何理解_一个操作循环_概念？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495282&idx=1&sn=236d3439d3c02c22711e159b1e6e62d3&chksm=fa29b006cd5e39103999245d7a76b8f345899c1939bfcc31b4ff6e6a45d97f70327318a1e8d8&scene=21#wechat_redirect
+059. 诊断，为什么无效唤醒会加速DTC信息清除？ | 2024-08-05 | 付费 · 仅公开试读
+本地：文章/059_诊断，为什么无效唤醒会加速DTC信息清除？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495333&idx=1&sn=2de9902a9392467f8493d082c9cc5e20&chksm=fa29b0d1cd5e39c7a932d65c5516a14185597427ea1ee15e4f0a549b260e794679d06ac6c7a2&scene=21#wechat_redirect
+060. 诊断，读到的DTC状态是0x6C，又该如何理解？ | 2024-08-12 | 正文已保存
+本地：文章/060_诊断，读到的DTC状态是0x6C，又该如何理解？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495436&idx=1&sn=26cd90db9f46aaf7f3cae48657097ff2&chksm=fa29b178cd5e386eba12e59c708f88863c14ff5a2c754e52f1753efc7ad724248072744aee3b&scene=21#wechat_redirect
+061. 如何理解诊断合理性检查（Rationality Checks）？ | 2025-11-03 | 正文已保存
+本地：文章/061_如何理解诊断合理性检查（Rationality Checks）？/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497623&idx=1&sn=6503489fd5c770b8a1c1493d803a97c8&chksm=fa29a9e3cd5e20f571d21b1600eda1fc99d4d2047794ccfd3d8289a581932a302854dfaa76de#rd
+
+04 诊断工程问题复盘
+062. 工程开发问题（十）：数组越界引发的DTC不上报问题 | 2022-08-15 | 正文已保存
+本地：文章/062_工程开发问题（十）：数组越界引发的DTC不上报问题/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247489264&idx=1&sn=b7a5553276bbef99a65931ae219abf24&chksm=fa2a4884cd5dc192855ddf5e67afee00c28c016d2301869f3325413e76a7c2f97ce0bbb06149&scene=21#wechat_redirect
+063. 工程问题：PWM诊断失效，导致故障不记录 | 2023-08-18 | 正文已保存
+本地：文章/063_工程问题：PWM诊断失效，导致故障不记录/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247492815&idx=1&sn=e6c87a9c4ff6b6b3da7d417deed26038&chksm=fa29babbcd5e33adcf20eeb986f4ccb08727a3a0f86a17b04b971c2d0f8ad1b25cade616fc28&scene=21#wechat_redirect
+064. 工程问题：读取DID导致ECU不在线 | 2023-10-13 | 正文已保存
+本地：文章/064_工程问题：读取DID导致ECU不在线/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493224&idx=1&sn=4936c7322aa943b953ebcf4d77d39ae3&chksm=fa29b81ccd5e310a0d74a63cbf2dce11d5243d1affa11d8ef26a8811f50294ed629977230b05&scene=21#wechat_redirect
+065. 工程问题：实现与需求偏离，导致EPB故障 | 2023-11-07 | 正文已保存
+本地：文章/065_工程问题：实现与需求偏离，导致EPB故障/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493417&idx=1&sn=a447601f1e3f7ca4a45f8dffe3dc9208&chksm=fa29b95dcd5e304bac3c8464b1277d7bd935e4eb1226f88d306e6dfffc1561e8fa8a3a8f941c&scene=21#wechat_redirect
+066. 工程问题：读个DID，MCU怎么就Reset了呢？ | 2024-01-25 | 正文已保存
+本地：文章/066_工程问题：读个DID，MCU怎么就Reset了呢？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247493876&idx=1&sn=cd23b80d8d71d84b42956a527ecb93a6&chksm=fa29b680cd5e3f960ca97bc03b8f0e3d59830cacecb5b5a15f93d6376cc6cf3ff185068d39f9&scene=21#wechat_redirect
+067. 诊断，很“炫”的退出编程会话方式 | 2025-11-17 | 正文已保存
+本地：文章/067_诊断，很“炫”的退出编程会话方式/index.html
+原文：https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497687&idx=1&sn=d457ec947f58d3470e806d110297ece3&chksm=fa29a9a3cd5e20b537f0e20d265bc1ab55457913c7595f9a5eb0a2b13e4a3dabd883223ee18e#rd
+068. 如何诊断对地短路、对电源短路以及开路故障？ | 2024-07-15 | 付费 · 仅公开试读
+本地：文章/068_如何诊断对地短路、对电源短路以及开路故障？/index.html
+原文：http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495205&idx=1&sn=bb5a99ebe4eb7bff3380ed74ad9f128a&chksm=fa29b051cd5e394757697ed16a621ea8b27699cd1964374a0794e291c486581d277cf82bfe0f&scene=21#wechat_redirect

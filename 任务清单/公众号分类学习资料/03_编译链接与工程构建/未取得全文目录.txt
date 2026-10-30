@@ -1,0 +1,7 @@
+如何基于Tasking编译器添加编译时间戳和软件版本号？
+2025-05-01 | 付费 · 仅公开试读
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496720&idx=1&sn=5252099fcd0905f784f439f6ccca7565&chksm=fa29aa64cd5e23725e4bdc727f11345ef726e3c5bc44da31ff0ddb63e2ffa9dca9b3b470e5d5#rd
+
+如何基于Hightec编译器添加编译时间戳和软件版本号？
+2025-05-07 | 付费 · 仅公开试读
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496721&idx=1&sn=80dba2cfca8df6287ce34f24c9839f73&chksm=fa29aa65cd5e2373dfbab2d9c593699beaed96008e18c0b5f51c48fb2af7efb124d92d70d93a#rd

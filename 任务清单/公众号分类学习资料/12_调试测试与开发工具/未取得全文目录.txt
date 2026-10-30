@@ -1,0 +1,23 @@
+调试技巧：Trace32也可以当串口用（Printf功能）
+2024-02-18 | 付费 · 仅公开试读
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247494012&idx=1&sn=8f4d36416f7afa6c85239277cce79852&chksm=fa29b708cd5e3e1ee920556d4cb0f77a95e33f4c0144932890b55b6ed37a1e4ab5160f1c7ab2&scene=21#wechat_redirect
+
+更换芯片(一)_吹掉坏芯片
+2025-06-28 | 视频 · 需微信查看
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497001&idx=1&sn=758eaba5b449e2f0009838430f216e2a&scene=21#wechat_redirect
+
+更换芯片（二）_清洁芯片
+2025-06-29 | 视频 · 需微信查看
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497068&idx=1&sn=aff01f490c6e7c2c33a26962d1c4f6c8&scene=21#wechat_redirect
+
+更换芯片（三）_芯片Pin脚上锡膏
+2025-07-01 | 视频 · 需微信查看
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497071&idx=1&sn=478e9a6a035b6cfa3e4df30158cf04eb&scene=21#wechat_redirect
+
+更换芯片（四）_清洁PCB
+2025-07-06 | 视频 · 需微信查看
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497111&idx=1&sn=13e2c17b55db7fc98d28166ba8ce4e7f&scene=21#wechat_redirect
+
+更换芯片（五）_芯片焊回及测试
+2025-07-10 | 视频 · 需微信查看
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497129&idx=1&sn=d9a4483c35923c40edf484d45ec5eafa&scene=21#wechat_redirect
