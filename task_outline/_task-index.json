@@ -342,8 +342,8 @@
       "path": "task_outline/工作任务.md",
       "title": "",
       "aliases": [],
-      "hash": "85bb01c9",
-      "updated": "2026-10-12 13:21"
+      "hash": "860b87bd",
+      "updated": "2026-10-30 09:18"
     },
     "tcc-f25f9464-6782-48b8-b775-c19ed1a9a233": {
       "path": "task_outline/工作任务.md",
@@ -469,8 +469,8 @@
       "aliases": [
         "英语学习"
       ],
-      "hash": "da50cdd4",
-      "updated": "2026-10-18 17:33"
+      "hash": "ca0cad45",
+      "updated": "2026-10-26 10:53"
     },
     "tcc-ac100cca-134f-485e-9b6b-6392186ac4ea": {
       "path": "task_outline/工作任务.md",
@@ -1203,8 +1203,8 @@
         "boot+信息安全 ^tcc-ea 25 fd 7 b-6 f 30-470 a-b 996-38 e 2578 bbe 81",
         "boot+信息安全"
       ],
-      "hash": "ef8473ef",
-      "updated": "2026-10-20 14:23"
+      "hash": "eac3f76f",
+      "updated": "2026-10-30 14:22"
     },
     "tcc-afd6be86-445c-4f3e-84f4-17dad0e03025": {
       "path": "task_outline/工作任务.md",
@@ -1370,12 +1370,16 @@
     },
     "tcc-790158f7-607c-44fa-969d-f81c1033fce5": {
       "path": "task_outline/工作任务.md",
-      "title": "MU 外设了解",
+      "title": "HSE 硬件安全模块了解",
       "aliases": [
-        "MU 外设了解"
+        "MU 外设了解",
+        "HS了解",
+        "HSE 了解",
+        "HSE 硬件an'quan了解",
+        "HSE 硬件安全模块了解"
       ],
-      "hash": "17d10a16",
-      "updated": "2026-10-20 14:23"
+      "hash": "eda401b1",
+      "updated": "2026-10-30 14:21"
     },
     "tcc-384abd5d-6ccf-41f8-baa0-6ab1f81a4c77": {
       "path": "task_outline/工作任务.md",
@@ -1448,6 +1452,68 @@
       ],
       "hash": "2b41307c",
       "updated": "2026-10-22 18:05"
+    },
+    "tcc-b15bc408-1a85-47e1-a0b3-fb2f88b1f703": {
+      "path": "task_outline/工作任务.md",
+      "title": "我有个想法就是，如果我日常一直都是看英文使用英文，会不会英语进步就很快了，就是我打字都想着英文打字？",
+      "aliases": [
+        "我有个想法就是，如果我日常一直都是看英文使用英文，会不会英语进步就很快了，就是我打字都想着英文打字？"
+      ],
+      "hash": "126b6d62",
+      "updated": "2026-10-26 10:53"
+    },
+    "tcc-d626b429-a4eb-45c5-ab46-1c20a5b23b36": {
+      "path": "task_outline/工作任务.md",
+      "title": "硬件相关故障协助测试",
+      "aliases": [
+        "硬件相关故障协助测试"
+      ],
+      "hash": "324b58b3",
+      "updated": "2026-10-29 15:25"
+    },
+    "tcc-0dfea135-e29c-41be-a563-2d919141188c": {
+      "path": "task_outline/工作任务.md",
+      "title": "DID DTC 需要进行需求评审 ^tcc-c7f0a242-5017-4823-b448-ec828d16123f",
+      "aliases": [
+        "^tcc-c7f0a242-5017-4823-b448-ec828d16123f",
+        "DU ^tcc-c7f0a242-5017-4823-b448-ec828d16123f",
+        "DID DT ^tcc-c7f0a242-5017-4823-b448-ec828d16123f",
+        "DID DTC ^tcc-c7f0a242-5017-4823-b448-ec828d16123f",
+        "DID DTC 需要jin'xing ^tcc-c7f0a242-5017-4823-b448-ec828d16123f",
+        "DID DTC 需要进行需求 ^tcc-c7f0a242-5017-4823-b448-ec828d16123f",
+        "DID DTC 需要进行需求评审 ^tcc-c7f0a242-5017-4823-b448-ec828d16123f"
+      ],
+      "hash": "a2cf6005",
+      "updated": "2026-10-30 09:18"
+    },
+    "tcc-5830587d-c26f-44fd-b03b-6902bc758029": {
+      "path": "task_outline/工作任务.md",
+      "title": "DID DTC 需要进行需求评审",
+      "aliases": [
+        "DID DTC 需要进行需求评审 🛫",
+        "DID DTC 需要进行需求评审",
+        "DID DTC 需要进行需求评审 📅"
+      ],
+      "hash": "99c726d7",
+      "updated": "2026-10-30 09:18"
+    },
+    "tcc-50db68c3-9f8e-4efb-b390-ca7a8c36ff35": {
+      "path": "task_outline/工作任务.md",
+      "title": "hex生成梳理",
+      "aliases": [
+        "hex生成梳理"
+      ],
+      "hash": "80e7a6bd",
+      "updated": "2026-10-30 13:34"
+    },
+    "tcc-4e7f2317-0281-4d1d-9ce0-56a473375605": {
+      "path": "task_outline/工作任务.md",
+      "title": "boot当前的代码了解",
+      "aliases": [
+        "boot当前的代码了解"
+      ],
+      "hash": "7eaf36ca",
+      "updated": "2026-10-30 14:22"
     }
   }
 }

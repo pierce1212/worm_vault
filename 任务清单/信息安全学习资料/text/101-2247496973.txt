@@ -1,0 +1,32 @@
+避免TC3xx HSM锁板的一种方案
+2025-06-26T06:39:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496973&idx=1&sn=babc8363bd1dac0ecb36fd0095adc94e&chksm=fa29ab79cd5e226ff4a7995e10d97e77164aaaaedd4d1c8526cdf482968a25d79d6008bc9501#rd
+
+【仅保存公开试读，付费全文未获取】
+
+使用英飞凌Aurix系列的芯片，板子变成砖多数是因为UCB（User Configuration Block，用户配置块）操作不当导致的。UCB有Orig和Copy之分，Copy是Orig的备份，可以增加冗余安全性。本文从一个具体的问题讨论避免HSM锁板的一种方案。
+1、问题背景
+HSM软件分为HSM Bootloader和HSM Application，这两个程序由不同的工程师开发，两者开发的进度不同。具体说：在项目的某个节点（假设：T1），
+HSM Bootloader，没有开发好，但是
+HSM Application已经开发好
+。此时使用
+HSM Application作为HSM Core的启动地址。在T2阶段，
+HSM Bootloader开发完成，此时，需要将
+HSM Core的启动地址设置为
+HSM Bootloader。之后，HSM程序由HSM Bootloader跳转
+HSM Application。问题示意如下：
+按照传统做法，
+HSM Bootloader没有开发好时，
+需要先将
+HSM Core的启动地址设置为
+HSM Application。当
+HSM Bootloader开发好时，
+再
+将HSM Core的启动地址设置为
+HSM
+Bootloader
+。但是，
+修改启动地址是一个需要倍加小心的动作，稍有不慎就会导致锁板子
+。这类问题，在开发、测试、工厂试生产等阶段均可能发生。因此，针对如上问题场景，
+能否有方法避免锁板或者降低锁板的风险呢？
+2、方案描述

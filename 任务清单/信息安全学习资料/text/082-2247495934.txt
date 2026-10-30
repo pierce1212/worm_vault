@@ -1,0 +1,18 @@
+基于Davinci的HSM开发实践（6）：真随机数、HASH算法配置及调试
+2024-10-16T11:32:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495934&idx=1&sn=eebb6e988d5e84344853bd537a669a81&scene=21#wechat_redirect
+
+【仅保存公开试读，付费全文未获取】
+
+TRN（
+true random number，真随机数
+）和 HASH是信息安全最为常用的两个算法。比如：UDS的$27服务，获取随机种子时会用到随机数；对某些数据块完整性校验时，可使用可靠性更高的HASH算法。但是，基于Davinci工具，如何配置这两个功能呢？本文主要讨论：
+1、何如在HSM端配置真随机与HASH
+2、如何在Host端配置真随机与HASH
+3、如何将HSM端的配置信息同步到Host端
+4、如何在Host端使用真随机和HASH
+5、开发过程中的一些调试技巧
+6、如何修改Makefile，使用远程服务器的license（RLM）
+本文的Host指Bootloader程序或者Application程序，本文搭配视频讲解，使初学者可以更快入门和上手。
+1、TRN、HASH配置及操作视频
+TRN、HASH配置操作，视频如下：

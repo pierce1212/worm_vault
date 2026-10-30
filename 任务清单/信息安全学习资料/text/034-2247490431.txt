@@ -1,0 +1,143 @@
+UDS：Security Access service (0x27)，值得深聊
+2022-11-13T14:07:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247490431&idx=1&sn=274087b9b5461c6187e3546b46ea646a&chksm=fa2a450bcd5dcc1d4242b077cb6df41320af24af84771221547f7f5c117f28c287a131ca060f&scene=21#wechat_redirect
+
+做诊断开发的朋友，对Security Access service（0x27）服务，应该最熟悉不过。但是，有时就是这样让我们觉得熟悉的服务，遇到问题时，还是会限于自己的固有认知（说白了，就是理解不透彻，说的就是我自己）。关于0x27服务的随机种子生成，前文聊过，可以参考前文
+Uds诊断：$27服务，ECU如何产生随机种子
+。本文，针对0x27服务，深聊一下其与
+Diagnostic Session Control
+（0x10）、
+Security
+之间的一些关系。这里先抛两个问题：
+0x27服务的Seed，何时可以返回全0？
+非默认会话跳转相同非默认会话（eg:10 03再次进入10 03），需要重新解锁吗？
+1、0x27服务的Seed，何时可以返回全0？
+回答这个问题之前，先看一个数据流，
+数据流一
+如下所示：
+#Sending
+Request
+: 10 03
+Complete
+Response
+:50
+03 00 32 01
+F4
+#Sending
+Request
+: 27 11
+Complete
+Response
+:67
+11 21 94 83
+#Sending
+Request
+: 27 12
+CC
+1
+D
+E7
+Complete
+Response
+:67
+12
+#Sending
+Request
+: 10 03
+Complete
+Response
+:50
+03 00 32 01
+F4
+#Sending
+Request
+: 27 11
+Complete
+Response
+:67
+11 00 00 00
+如上的数据流，Line10，Server响应Seed的时候，
+Seed的值全部为0
+。对于如上的数据流，有问题吗？
+答
+：
+有。
+分析另一个数据流，
+数据流二
+如下所示：
+#Sending
+Request
+: 10 03
+Complete
+Response
+:50
+03 00 32 01
+F4
+#Sending
+Request
+: 27 11
+Complete
+Response
+:67
+11 21 94 83
+#Sending
+Request
+: 27 12
+CC
+1
+D
+E7
+Complete
+Response
+:67
+12
+#Sending
+Request
+: 27 11
+Complete
+Response
+:67
+11 00 00 00
+对于"数据流二"，Lin8，Server响应Seed的时候，Seed的值全部为0还有问题吗？
+答
+：
+没有
+。如何理解呢？参考14229-1的规范解释，如下所示：
+如上的解释是说：
+如果Server已经处于解锁状态（Unlock）,在此会话下，再次收到Client的种子请求
+（本例：27 11），
+可以返回0
+，以此告知上位机，当前会话已经解锁。
+如上的讨论中，为什么"数据流一"是不对的呢？搞清楚这个问题，需要讨论第二个问题。
+2、非默认会话再次跳转相同非默认会话，需要重新解锁吗？
+对于这个问题，看一下14229-1给的解释，如下所示：
+解释：
+当Server从非默认会话跳转非默认会话，包括相同会话的再次重入（eg：10 03再次进入10 03）,
+Server需要重新初始化Session
+，这意味着：
+进入的非默认会话
+需要重新安全解锁
+，即：重新执行0x27服务。所以，数据流一中，重新进入拓展会话，需要重新解锁，第一次获取的种子不应该是0值。数据流二中，在非默认会话下，已经安全解锁，再次获取种子，可以返回0。
+聊到这，我们做一个拓展思考：
+既然已经解锁，请求种子会返回0值，那么，种子的随机性测试又应该怎样做呢？
+如果会话已经解锁，种子（Seed）确实会返回0值。
+所以，测试中，进入非默认会话以后，可以多次执行请求种子子服务，而不执行Key的对比子服务，这样即可验证种子的随机性。
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：1~70
+Autosar往期精彩文章汇总：71~100
+Autosar往期精彩文章汇总：101~150
+Bootloader开发：uC如何烧录第一个程序？
+CAN通信基础：采样原理
+以太网学习笔记：如何理解PHY的Link Up
+NVM存储：Flash操作注意事项
+Boot开发：App诊断请求（$10 02/82）信息"传递"给Boot方式（四）
+嵌入式开发：读懂C语言封装的汇编很重要
+嵌入式开发：避免Xcp报文被阻塞的一种开发技巧
+嵌入式开发：.bss段数据为什么会被清零？
+嵌入式开发：Multicore启动及同步
+NVM基础概念
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

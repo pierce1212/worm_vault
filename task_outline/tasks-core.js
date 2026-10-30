@@ -246,6 +246,9 @@ function create({ app, paths, folder, DateTime, setIcon }) {
       else result = node;
       stack.push({ indent, node });
     }
+    result.ancestors = parsed.tasks
+      .filter(item => item.line < root.line && endOfTask(parsed.lines, item.line) > root.line)
+      .map(item => ({ ...item, path: file.path }));
     return result;
   }
 

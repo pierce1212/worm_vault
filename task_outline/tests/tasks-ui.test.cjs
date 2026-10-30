@@ -11,7 +11,7 @@ const plugin = fs.readFileSync(path.join(root, '.obsidian/plugins/dataview/main.
 const luxon = plugin.slice(plugin.indexOf('// these'), plugin.indexOf('////////////////////', plugin.indexOf('var Luxon =')));
 const fixture = '## 今日任务\n- [/] CAN 对标 拓普需求更新 🛫 2026-09-17 📅 2026-09-20\n  - [ ] 确认唤醒配置\n- [/] 存储栈 📅 2026-09-19\n## 长期任务\n- [ ] 长期项目\n  - [ ] 阶段一\n';
 const payload = { core: source('tasks-core.js'), records: source('task-records.js'), todayModule: source('tasks-today.js'), checkins: source('task-checkins.js'), css: source('tasks-command-center.css'), fixture,
-  dashboard: script('obsidian_tasks_command_center.md'), detail: script('任务详情.md'), review: script('复习时间轴.md'), today: script('今日任务.md') };
+  dashboard: script('obsidian_tasks_command_center.md'), detail: script('任务详情.md'), review: script('复习时间轴.md'), today: script('今日任务.md'), achievements: script('打卡成就.md') };
 
 (async () => {
   const server = http.createServer((req, res) => { res.setHeader('Content-Type', 'text/html; charset=utf-8'); res.end('<!doctype html><html><meta charset="utf-8"><body class="tasks-command-center"><main id="view"></main></body></html>'); });
@@ -62,7 +62,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
       window.renderTest = async (mode = testState.mode) => {
         testState.mode = mode;
         document.getElementById('view').innerHTML = '';
-        const names = { dashboard: 'obsidian_tasks_command_center.md', detail: '任务详情.md', review: '复习时间轴.md', today: '今日任务.md' };
+        const names = { dashboard: 'obsidian_tasks_command_center.md', detail: '任务详情.md', review: '复习时间轴.md', today: '今日任务.md', achievements: '打卡成就.md' };
         const recordPages = [...memory.entries()].filter(([path]) => path.startsWith('daliy record/') && path.endsWith('.md')).map(([path, content]) => ({ ...JSON.parse(content.match(/^---\n([\s\S]*?)\n---/)[1]), file: { path, name: path.split('/').at(-1).replace(/\.md$/, ''), tasks: [], lists: [] } }));
         window.dv = { luxon, container: document.getElementById('view'), current: () => ({ file: { path: 'task_outline/' + names[mode] } }), pages: () => wrap([{ file: { path: taskPath, tasks: parse(memory.get(taskPath)).tasks } }, ...recordPages]) };
         const code = payload[mode].replace('enabled: true', 'enabled: false');
@@ -356,12 +356,19 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     assert(await page.locator('dialog').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
     await saveDialog();
     assert.match(await page.locator('.tcc-habit-row').innerText(), /本周 1\/5 天 · 25 分钟/);
+    assert.match(await page.locator('.tcc-reward-feedback').innerText(), /\+10 成长值/);
+    assert.match(await page.locator('.tcc-reward-feedback').innerText(), /迈出第一步/);
+    assert.match(await page.locator('.tcc-habit-completed summary').innerText(), /今日已完成 1/);
+    await page.locator('.tcc-reward-feedback').screenshot({ path: path.join(output, 'checkin-success-feedback.png') });
+    await page.getByRole('button', { name: '关闭反馈', exact: true }).click();
     assert.equal(await page.evaluate(() => [...testState.memory.keys()].filter(p => p.startsWith('任务清单/')).length), 0, 'text records must be opt-in');
     await page.getByRole('button', { name: '修改记录', exact: true }).click();
     assert.equal(await page.locator('dialog input[name=minutes]').inputValue(), '25');
     await page.locator('dialog input[name=minutes]').fill('30');
     await saveDialog();
     assert.match(await page.locator('.tcc-habit-row').innerText(), /本周 1\/5 天 · 30 分钟/);
+    assert.match(await page.locator('.tcc-reward-feedback').innerText(), /记录已更新/);
+    assert(!/\+10/.test(await page.locator('.tcc-reward-feedback').innerText()), 'editing must not announce another XP award');
     await page.getByRole('button', { name: '修改记录', exact: true }).click();
     await page.locator('dialog input[name=day]').fill('2026-10-12');
     await page.locator('dialog input[name=minutes]').fill('20');
@@ -452,6 +459,25 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.getByRole('checkbox', { name: '开启每日打卡', exact: true }).uncheck();
     await saveDialog();
     assert.equal(await page.locator('.tcc-habit-history article').count(), 3, 'disabling habit mode preserves history');
+    await page.getByRole('button', { name: '全部习惯的完成记录', exact: true }).click();
+    assert.equal(await page.evaluate(() => testState.opened.at(-1)), 'task_outline/打卡成就.md');
+    await page.evaluate(() => renderTest('achievements'));
+    assert.match(await page.locator('.tcc-growth-level').innerText(), /20 成长值/);
+    assert.equal(await page.locator('.tcc-achievement-entry').count(), 2);
+    assert.equal(await page.locator('.tcc-growth-days button').count(), 28);
+    await page.locator('[data-history-rest]').check();
+    assert.equal(await page.locator('.tcc-achievement-entry').count(), 3);
+    await page.locator('[data-reward-day="2026-10-13"]').click();
+    assert.equal(await page.locator('.tcc-achievement-entry').count(), 1);
+    assert.match(await page.locator('.tcc-achievement-entry').innerText(), /休息日/);
+    await page.getByRole('button', { name: '重置筛选', exact: true }).click();
+    assert.equal(await page.locator('.tcc-achievement-entry').count(), 2);
+    if (await page.getByRole('button', { name: '关闭反馈', exact: true }).count()) await page.getByRole('button', { name: '关闭反馈', exact: true }).click();
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.locator('.tcc-achievement-shell').screenshot({ path: path.join(output, 'habit-achievements-desktop.png') });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('.tcc-achievement-shell').screenshot({ path: path.join(output, 'habit-achievements-mobile.png') });
+    assert(await page.locator('.tcc-achievement-shell').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
     assert.deepEqual(errors, []);
     console.log('PASS: three views, quick edit, child creation, note logging, completion, acceptance, maintenance filter, blocking/restart and mobile editor.');
   } finally {

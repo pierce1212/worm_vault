@@ -1,0 +1,112 @@
+车规级芯片，为什么要选择BGA封装？
+2025-09-25T06:22:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497481&idx=1&sn=fcf29602bdb492fc67c92ba709ec6f76&chksm=fa29a97dcd5e206ba4acc8157ab9df551d9cb3defc9eeb765070ef8b20d6e2d472eef961a4c2#rd
+
+谈到芯片，我们更多的是关注芯片的性能，资源多少等内容。很少在意它的封装。然而，这不起眼的封装中，确藏着大大的学问。本文，聊一聊芯片的封装，了解芯片相关的一些名词。
+对于芯片的封装，我们接触最多的封装样式有两种：
+BGA
+（Ball Grid Array，球栅阵列）封装和
+QFP
+（
+Quad Flat Package，
+四边扁平封装）。
+1、芯片封装样式
+BGA是一种适用于高引脚数、高性能的芯片的
+封装形式
+。相比QFP，
+BGA 封装具有更好的散热性和电气性能，但焊接和维修难度更高
+。
+BGA封装样式，如下所示：
+QFP样式封装，如下所示：
+看完
+BGA和
+QFP样式，我们应该可以想到问题的答案：从“飞线”的角度看，
+BGA封装几乎无法将芯片Pin脚引出来，所以，攻击者也无法通过Pin捕获信息。这也从一定程度上做到了信息安全防护
+。
+当然，BGA还可以细分不同的样式：PG-BGA packages，PG-FBGA packages，PG-LFBGA packages。
+PG
+：Plastic Green，环保型塑料，不含铅（Lead-free），不含卤素（Halogen-free）等。
+Fine-pitch
+（细间距） 是指引脚或焊盘之间的间距非常小，通常用于高密度、高性能的芯片封装或连接器设计中。当引脚间距（pitch）小于 0.65 mm时，就被称为fine-pitch。
+一个SAK型号的芯片可以采用BGA封装，也可以采用QFP、LQFP等样式封装
+。
+比如：SAK-TC397XX-96F300N AA采用QFP封装，SAK-TC397XX-96F300N AB采用BGA封装。
+TC36x AA芯片不同的封装格式，如下所示：
+（一）PG-QFP-XX 封装解析
+PG-QFP-176 封装
+更准确地称为PG-TQFP-176-801，塑料薄型四边扁平封装（Thin Quad Flat Package, TQFP），具有 176 个引脚。
+PG-LFBGA-292中各名词解释：
+PG
+：Plastic Green（环保塑料封装）
+LFBGA
+：Low-profile Fine-pitch Ball Grid Array（低轮廓细间距球栅阵列封装）
+292
+：表示该封装有 292 个焊球（引脚）
+（二）QFP和BGA内部结构
+QFP的内部如下所示：
+die
+（芯粒）
+是指从一整块硅晶圆（wafer）上切割下来的、具有完整电路功能的
+单个芯片核心
+。
+Lead Frame（引线框架）
+主要用于将芯片内部的
+裸片（die）
+与外部电路连接起来。
+Bond Wire（键合线）
+是一种非常细的金属线，用于将芯片内部的裸片（die）与封装引脚（如 lead frame 或 BGA 焊球）连接起来，实现电信号的传输。
+Exposed Pad（裸焊盘）
+是指封装底部一个
+裸露的金属区域
+，它直接连接到芯片内部的金属层。
+BGA的内部如下所示：
+Die Attach（芯粒粘接）
+是指将芯片的裸片（die）固定在封装基底（如 lead frame 或基板）上的过程。
+Solder Mask（焊锡掩膜）
+是一种覆盖在PCB表面铜层上的保护层，
+是一种绝缘涂层，通常是绿色（也有红色、蓝色、黑色等），覆盖在 PCB 的非焊接区域上。
+Via
+是在PCB中钻出的微小孔洞，内部填充或镀上金属（通常是铜），用于连接不同层上的导电路径（如信号线、电源线、地线）。
+Through Via（通孔）：
+从顶层贯穿到底层
+Blind Via（盲孔）：
+从外层连接到内
+层，但不贯穿整个板，
+Buried Via（埋孔）：
+仅连接内层之间，不与外层相连。
+Laminate（层压基板）
+指的是由多层有机材料（如环氧树脂+玻璃纤维）通过热压方式层层叠加而成的基板，用于承载芯片（die）并实现芯片与外部电路之间的电气连接。
+Mold Compound（封装胶体）
+是一种用于将芯片内部结构（如 die、bond wire、lead frame 等）
+包裹和保护起来的塑料材料
+，是封装成型过程中不可或缺的一部分。
+Solder Ball（焊球）
+是一种用于实现芯片与电路板之间电气和机械连接的金属球体，广泛应用于
+BGA（Ball Grid Array）
+和类似封装形式中。
+Copper Pad（铜焊盘）
+是指用于电连接和机械支撑的铜质区域，通常位于芯片封装或 PCB（印刷电路板）上，是连接芯片内部结构与外部电路的关键接口。
+Solder Junction（焊接连接点）
+是指通过焊料（solder）将两个导电部件（如芯片引脚与 PCB 焊盘）连接在一起所形成的焊点。
+Substrate（基板）
+是指位于芯片（die）和电路板（PCB）之间的中间层结构，主要用于
+电气连接、机械支撑和热管理
+。
+参考资料
+(1)https://www.infineon.com/package/PG-LFBGA-292-10
+(2)https://www.infineon.com/package/PG-TQFP-176-801
+(3)https://www.infineon.com/assets/row/public/packages/73/package_download/infineon-board-assembly-recommendations-qfp-package-en.pdf
+(4)https://www.infineon.com/assets/row/public/packages/73/package_download/infineon-board-assembly-recommendations-bga-package-en.pdf
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+SecOC报文是否可以替代E2E报文？
+不直接存储Password本身的一种安全认证方案
+是否需要禁用UDS 0x23/0x3D服务？
+如何诊断对地短路、对电源短路以及开路故障？
+工程问题，CAN Busoff恢复不成功导致的通信中断
+工程问题：电压瞬时异常导致的busoff与通信丢失

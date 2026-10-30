@@ -3,6 +3,32 @@ const VERSION = 1;
 const esc = value => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const safeName = value => String(value).replace(/[\x00-\x1f<>:"/\\|?*]/g, "_").replace(/[. ]+$/, "").slice(0, 80) || "长期任务";
 const quote = value => String(value ?? "").replace(/\r\n/g, "\n").split("\n").map(line => `> ${line}`).join("\n");
+const MILESTONES = [
+  [1, "迈出第一步"], [3, "渐入状态"], [7, "七次积累"], [14, "稳步前进"],
+  [30, "三十次坚持"], [60, "持续精进"], [100, "百次积累"]
+];
+
+function growth(entries, now) {
+  const end = now.toFormat("yyyy-LL-dd"), weekStart = now.startOf("week").toFormat("yyyy-LL-dd");
+  const unique = new Map();
+  for (const entry of entries) if (entry.day <= end) unique.set(`${entry.taskId ?? "habit"}:${entry.day}`, entry);
+  const all = [...unique.values()];
+  const done = all.filter(entry => entry.kind === "done");
+  const xp = done.length * 10;
+  const calendarStart = now.startOf("week").minus({ weeks: 3 });
+  return {
+    count: done.length, xp, level: Math.floor(xp / 100) + 1, levelProgress: xp % 100,
+    activeDays: new Set(done.map(entry => entry.day)).size,
+    minutes: done.reduce((sum, entry) => sum + entry.minutes, 0),
+    weekCount: done.filter(entry => entry.day >= weekStart).length,
+    milestones: MILESTONES.map(([count, label]) => ({ count, label, unlocked: done.length >= count })),
+    calendar: Array.from({ length: 28 }, (_, index) => {
+      const day = calendarStart.plus({ days: index }).toFormat("yyyy-LL-dd");
+      const records = all.filter(entry => entry.day === day);
+      return { day, count: records.filter(entry => entry.kind === "done").length, rest: records.some(entry => entry.kind === "rest"), future: day > end };
+    })
+  };
+}
 
 function renderEntry(entry) {
   const links = entry.noteLinks ?? entry.notePaths ?? (entry.notePath ? [entry.notePath] : []);
@@ -10,7 +36,7 @@ function renderEntry(entry) {
 }
 
 function create({ app, core, DateTime, parseYaml, stringifyYaml, titleOf, folder = "daliy record/打卡记录" }) {
-  let cache = new Map(), queue = Promise.resolve();
+  let cache = new Map(), history = new Map(), loadErrors = [], queue = Promise.resolve();
   const serial = action => { const job = queue.then(action); queue = job.catch(() => {}); return job; };
   const today = () => DateTime.now().startOf("day");
   const noteRoot = "任务清单";
@@ -104,21 +130,25 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, titleOf, folder
 
   async function load(tasks) {
     const ids = new Set(tasks.map(core.identity));
-    const next = new Map(), errors = [];
+    const next = new Map(), allHistory = new Map(), errors = [];
     for (const file of files()) {
       try {
         const doc = parse(await app.vault.read(file), file.path);
         const key = doc.metadata.related_task_id;
-        if (doc.metadata.tcc_checkin_version !== VERSION || !ids.has(key)) continue;
-        const entries = next.get(key) ?? [];
+        if (doc.metadata.tcc_checkin_version !== VERSION || typeof key !== "string" || !key.startsWith("tcc:")) continue;
+        const record = allHistory.get(key) ?? { name: doc.metadata.related_task || "历史习惯", entries: [] };
+        const entries = record.entries;
+        if (doc.entries.some(entry => entries.some(item => item.day === entry.day))) throw new Error("同一任务的同一天存在重复打卡");
         for (const entry of doc.entries) {
-          if (entries.some(item => item.day === entry.day)) throw new Error("同一任务的同一天存在重复打卡");
           entries.push({ ...entry, path: file.path });
         }
-        next.set(key, entries);
+        allHistory.set(key, record);
+        if (ids.has(key)) next.set(key, entries);
       } catch (error) { errors.push(`${file.path}：${error.message}`); }
     }
     cache = next;
+    history = allHistory;
+    loadErrors = errors;
     return errors;
   }
 
@@ -127,7 +157,57 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, titleOf, folder
     const entries = (cache.get(core.identity(task)) ?? []).filter(entry => entry.day <= now.toFormat("yyyy-LL-dd")).slice().sort((a, b) => b.day.localeCompare(a.day));
     const completed = entries.filter(entry => entry.kind === "done");
     const week = completed.filter(entry => entry.day >= start.toFormat("yyyy-LL-dd"));
-    return { entries, count: completed.length, minutes: completed.reduce((sum, entry) => sum + entry.minutes, 0), weekCount: week.length, weekMinutes: week.reduce((sum, entry) => sum + entry.minutes, 0), goal: core.habit(task).goal, current: entries.find(entry => entry.day === now.toFormat("yyyy-LL-dd")) };
+    return { entries, count: completed.length, minutes: completed.reduce((sum, entry) => sum + entry.minutes, 0), weekCount: week.length, weekMinutes: week.reduce((sum, entry) => sum + entry.minutes, 0), goal: core.habit(task).goal, current: entries.find(entry => entry.day === now.toFormat("yyyy-LL-dd")), growth: growth(entries, now) };
+  }
+
+  function overview(tasks) {
+    const known = new Map(tasks.map(task => [core.identity(task), task]));
+    const keys = new Set([...history.keys(), ...tasks.filter(task => core.habit(task).enabled).map(core.identity)]);
+    const habits = [...keys].map(key => {
+      const task = known.get(key), stored = history.get(key);
+      const entries = (stored?.entries ?? cache.get(key) ?? []).filter(entry => entry.day <= today().toFormat("yyyy-LL-dd"));
+      return { key, task, name: task ? titleOf(task.text) : stored?.name ?? "历史习惯", entries, growth: growth(entries, today()), goal: task ? core.habit(task).goal : null };
+    }).sort((a, b) => b.growth.count - a.growth.count || a.name.localeCompare(b.name, "zh-CN"));
+    const entries = habits.flatMap(item => item.entries.map(entry => ({ ...entry, taskId: item.key, name: item.name, task: item.task })));
+    entries.sort((a, b) => b.day.localeCompare(a.day) || a.name.localeCompare(b.name, "zh-CN"));
+    return { habits, entries, growth: growth(entries, today()), errors: loadErrors.slice() };
+  }
+
+  function growthHtml(data, task = null, readOnly = false) {
+    const attribute = task ? `data-habit-checkin="${esc(core.identity(task))}"` : "";
+    return `<div class="tcc-growth-level"><strong>Lv. ${data.level}</strong><span>${data.xp} 成长值</span><progress max="100" value="${data.levelProgress}" aria-label="当前等级进度"></progress><small>距下一级 ${100 - data.levelProgress}</small></div>
+      <div class="tcc-growth-calendar"><h3>最近四周</h3><div class="tcc-growth-days">${data.calendar.map(item => `<button type="button" ${attribute} ${task ? `data-checkin-day="${item.day}"` : `data-reward-day="${item.day}"`} data-count="${Math.min(4, item.count)}" class="${item.rest && !item.count ? "rest" : ""}" ${item.future || readOnly ? "disabled" : ""} title="${item.day} · ${item.future ? "未到日期" : item.count ? `完成 ${item.count} 项` : item.rest ? "休息日" : "暂无记录"}" aria-label="${item.day}">${Number(item.day.slice(-2))}</button>`).join("")}</div></div>
+      <div class="tcc-growth-badges">${data.milestones.map(item => `<span class="${item.unlocked ? "unlocked" : "locked"}" title="累计完成 ${item.count} 次"><span data-tcc-icon="${item.unlocked ? "award" : "lock"}"></span><b>${item.label}</b><small>${Math.min(data.count, item.count)}/${item.count} 次</small></span>`).join("")}</div>`;
+  }
+
+  function feedback(task, payload, before, after, beforeTotal = before.growth, afterTotal = after.growth) {
+    const previous = before.entries.find(entry => entry.day === payload.day);
+    const newDone = payload.kind === "done" && previous?.kind !== "done";
+    const unlocked = after.growth.milestones.filter(item => item.unlocked && before.count < item.count);
+    return {
+      xp: newDone ? 10 : 0,
+      title: payload.kind === "rest" ? "休息已记录" : newDone ? `${payload.day === today().toFormat("yyyy-LL-dd") ? "今日打卡完成" : "补记完成"} · +10 成长值` : "记录已更新",
+      detail: `${titleOf(task.text)} · 本周 ${after.weekCount}/${after.goal} 天${after.weekCount >= after.goal ? " · 本周目标已达成" : ""}`,
+      badges: [...new Set([...unlocked.map(item => item.label), ...(afterTotal.milestones ?? []).filter(item => item.unlocked && (beforeTotal.count ?? 0) < item.count).map(item => item.label)])],
+      levelUp: afterTotal.level > beforeTotal.level, level: afterTotal.level
+    };
+  }
+
+  function celebrate(result, sourceFile) {
+    document.querySelectorAll(".tcc-reward-feedback").forEach(node => node.remove());
+    const notice = document.createElement("aside");
+    notice.className = "tcc-reward-feedback tasks-command-center";
+    notice.setAttribute("role", "status");
+    notice.setAttribute("aria-live", "polite");
+    notice.innerHTML = `<span class="tcc-reward-mark" data-tcc-icon="${result.xp ? "circle-check" : "check"}"></span><div><strong>${esc(result.title)}</strong><p>${esc(result.detail)}</p>${result.badges.length ? `<p>解锁：${esc(result.badges.join("、"))}</p>` : ""}${result.levelUp ? `<p>成长等级提升：Lv. ${result.level}</p>` : ""}<button type="button" data-reward-open>查看成就</button></div><button type="button" data-dismiss aria-label="关闭反馈" title="关闭"><span data-tcc-icon="x">×</span></button>`;
+    document.body.appendChild(notice);
+    core.icons(notice);
+    notice.querySelector("[data-dismiss]").addEventListener("click", () => notice.remove());
+    notice.querySelector("[data-reward-open]").addEventListener("click", () => {
+      app.workspace.openLinkText(`${sourceFile.slice(0, sourceFile.lastIndexOf("/") + 1)}打卡成就.md`, sourceFile, false);
+      notice.remove();
+    });
+    setTimeout(() => notice.remove(), 7000);
   }
 
   async function ensureFolder(target = folder) {
@@ -310,21 +390,26 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, titleOf, folder
 
   function todayHtml(items) {
     if (!items.length) return "";
-    return `<section class="tcc-habits"><h3>今日打卡 <span>${items.length}</span></h3>${items.map(({ task, parent }) => {
-      const data = stats(task);
-      return `<div class="tcc-habit-row"><div><button type="button" class="tcc-today-title" data-today-detail="${esc(core.identity(task))}">${esc(titleOf(task.text))}</button>${parent ? `<small>所属：${esc(titleOf(parent.text))}</small>` : ""}<p>本周 ${data.weekCount}/${data.goal} 天 · ${data.weekMinutes} 分钟</p></div><span class="tcc-habit-status ${data.current ? "recorded" : ""}">${data.current ? data.current.kind === "rest" ? "今日休息" : `已打卡 · ${data.current.minutes} 分钟` : "今日未打卡"}</span><div class="tcc-habit-buttons">${textLink(data.current)}${button(task, data.current ? "修改记录" : "今日打卡")}</div></div>`;
-    }).join("")}</section>`;
+    const rows = items.map(item => ({ ...item, data: stats(item.task) }));
+    const completed = rows.filter(item => item.data.current?.kind === "done");
+    const pending = rows.filter(item => item.data.current?.kind !== "done");
+    const rests = rows.filter(item => item.data.current?.kind === "rest").length;
+    const target = items.length - rests;
+    const minutes = completed.reduce((sum, item) => sum + item.data.current.minutes, 0);
+    const render = ({ task, parent, data }) => `<div class="tcc-habit-row"><div><button type="button" class="tcc-today-title" data-today-detail="${esc(core.identity(task))}">${esc(titleOf(task.text))}</button>${parent ? `<small>所属：${esc(titleOf(parent.text))}</small>` : ""}<p>本周 ${data.weekCount}/${data.goal} 天 · ${data.weekMinutes} 分钟${data.weekCount >= data.goal ? " · 目标达成" : ""}</p>${data.current?.kind === "done" ? `<small class="tcc-completion-proof">已收获 10 成长值</small><p>${esc((data.current.reflection || data.current.content || "").slice(0, 140))}</p>` : ""}</div><span class="tcc-habit-status ${data.current ? "recorded" : ""}">${data.current ? data.current.kind === "rest" ? "今日休息" : `已打卡 · ${data.current.minutes} 分钟` : "今日未打卡"}</span><div class="tcc-habit-buttons">${textLink(data.current)}${button(task, data.current ? "修改记录" : "今日打卡")}</div></div>`;
+    return `<section class="tcc-habits"><div class="tcc-habit-heading"><h3>今日打卡 <span>${items.length}</span></h3><button type="button" data-habit-achievements>完成记录与成就</button></div><div class="tcc-daily-victory"><strong>今日完成 ${completed.length}/${target}</strong><progress value="${completed.length}" max="${Math.max(1, target)}" aria-label="今日打卡完成进度"></progress><span>${minutes} 分钟 · ${completed.length * 10} 成长值${rests ? ` · 休息 ${rests} 项` : ""}</span></div>${pending.map(render).join("")}${completed.length ? `<details class="tcc-habit-completed" open><summary>今日已完成 ${completed.length}</summary>${completed.map(render).join("")}</details>` : ""}</section>`;
   }
 
   function detailHtml(task) {
     const data = stats(task), enabled = core.habit(task).enabled;
     if (!enabled && !data.entries.length) return "";
     const paths = [...new Set(data.entries.map(entry => entry.path))];
-    return `<section class="tcc-detail-section tcc-habit-detail"><div class="tcc-section-head"><h2>打卡记录</h2>${enabled ? button(task, data.current ? "修改今日记录" : "今日打卡") : '<span>打卡模式已关闭</span>'}</div><div class="tcc-habit-stats"><span>本周 ${data.weekCount}/${data.goal} 天</span><span>本周 ${data.weekMinutes} 分钟</span><span>累计 ${data.count} 天</span><span>累计 ${data.minutes} 分钟</span></div><details class="tcc-habit-history" open><summary>最近记录</summary>${data.entries.slice(0, 31).map(entry => `<article><header><strong>${entry.day} · ${entry.kind === "rest" ? "休息日" : `${entry.minutes} 分钟`}</strong>${enabled ? button(task, "修改", entry.day) : ""}</header>${entry.content ? `<p>${esc(entry.content)}</p>` : ""}${entry.reflection ? `<p><b>收获与问题：</b>${esc(entry.reflection)}</p>` : ""}${entry.next ? `<p><b>下一步：</b>${esc(entry.next)}</p>` : ""}${textLink(entry)}</article>`).join("") || '<p class="tcc-empty">还没有打卡记录</p>'}</details><div class="tcc-habit-archives">${paths.map(path => `<button type="button" data-habit-path="${esc(path)}">${esc(path.split("/").at(-1).slice(0, 7))} 月度记录</button>`).join("")}</div></section>`;
+    return `<section class="tcc-detail-section tcc-habit-detail"><div class="tcc-section-head"><h2>打卡记录</h2>${enabled ? button(task, data.current ? "修改今日记录" : "今日打卡") : '<span>打卡模式已关闭</span>'}</div><div class="tcc-habit-stats"><span>本周 ${data.weekCount}/${data.goal} 天</span><span>本周 ${data.weekMinutes} 分钟</span><span>累计 ${data.count} 天</span><span>累计 ${data.minutes} 分钟</span></div>${growthHtml(data.growth, task, !enabled)}<button type="button" data-habit-achievements>全部习惯的完成记录</button><details class="tcc-habit-history" open><summary>最近记录</summary>${data.entries.slice(0, 31).map(entry => `<article><header><strong>${entry.day} · ${entry.kind === "rest" ? "休息日" : `${entry.minutes} 分钟`}</strong>${enabled ? button(task, "修改", entry.day) : ""}</header>${entry.content ? `<p>${esc(entry.content)}</p>` : ""}${entry.reflection ? `<p><b>收获与问题：</b>${esc(entry.reflection)}</p>` : ""}${entry.next ? `<p><b>下一步：</b>${esc(entry.next)}</p>` : ""}${textLink(entry)}</article>`).join("") || '<p class="tcc-empty">还没有打卡记录</p>'}</details><div class="tcc-habit-archives">${paths.map(path => `<button type="button" data-habit-path="${esc(path)}">${esc(path.split("/").at(-1).slice(0, 7))} 月度记录</button>`).join("")}</div></section>`;
   }
 
   function bind(root, tasks, sourceFile) {
     root.addEventListener("click", async event => {
+      if (event.target.closest("[data-habit-achievements]")) app.workspace.openLinkText(`${sourceFile.slice(0, sourceFile.lastIndexOf("/") + 1)}打卡成就.md`, sourceFile, false);
       const archive = event.target.closest("[data-habit-path]");
       if (archive) app.workspace.openLinkText(archive.dataset.habitPath, sourceFile, false);
       const note = event.target.closest("[data-habit-note-path]");
@@ -400,6 +485,8 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, titleOf, folder
         let saved = false, notePath = "";
         try {
           const payload = Object.fromEntries(new FormData(form));
+          const before = stats(task);
+          const beforeTotal = overview(tasks).growth;
           const withTextRecord = form.elements.withTextRecord.checked;
           const journalPath = await saveEntry(task, { ...payload, expected, withTextRecord });
           saved = true;
@@ -416,10 +503,13 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, titleOf, folder
           }
           const errors = await load(tasks);
           expected = (cache.get(core.identity(task)) ?? []).find(item => item.day === payload.day)?.raw ?? expected;
-          if (errors.length) throw new Error(errors.join("；"));
+          if (!(cache.get(core.identity(task)) ?? []).some(item => item.day === payload.day)) throw new Error(errors.join("；") || "保存后的打卡记录未能读取，请重新打开页面核对");
+          const result = feedback(task, payload, before, stats(task), beforeTotal, overview(tasks).growth);
           await core.refresh();
           if (notePath) app.workspace.openLinkText(notePath, sourceFile, false);
           dialog.close();
+          if (errors.length) result.detail += " · 部分历史记录读取不完整";
+          celebrate(result, sourceFile);
         } catch (failure) { error.textContent = saved ? `打卡已保存，后续操作未完成：${failure.message}` : failure.message; error.hidden = false; }
         finally { submit.disabled = false; }
       });
@@ -427,7 +517,7 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, titleOf, folder
     });
   }
 
-  return { load, stats, saveEntry, createTextRecord, attachTextRecord, resolveNotePath, parse, todayHtml, detailHtml, bind };
+  return { load, stats, overview, growthHtml, feedback, saveEntry, createTextRecord, attachTextRecord, resolveNotePath, parse, todayHtml, detailHtml, bind };
 }
 
-module.exports = { create, renderEntry };
+module.exports = { create, renderEntry, growth };

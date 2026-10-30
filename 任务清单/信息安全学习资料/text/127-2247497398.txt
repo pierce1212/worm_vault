@@ -1,0 +1,159 @@
+不可不识“指令集”
+2025-08-28T06:26:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497398&idx=1&sn=45b6b92e8ded56f8710e7a366ee0f116&chksm=fa29a8c2cd5e21d45c17a6150f38e28e5a07f6cd60adf80bdb4d2e91ea0b9f439b1f21022510#rd
+
+从事嵌入式行业的小伙伴，可能使用或者听到过诸如Tricore、ARM等架构的CPU。比如：Infineon（英飞凌）的TC1796、TC277、TC397 等芯片（
+基于
+Tricore架构
+）；
+Cortex-M3、M4等芯片（
+基于
+ARMv7-M架构
+）。这些架构和CPU是什么关系呢？架构和指令集又是什么关系？再有，指令集和CPU什么关系？
+带着这些疑问，本文聊一聊。
+1、架构（Architecture）和CPU关系
+架构
+通常
+对应一种或一类CPU类型
+。
+（一）架构定义了CPU的行为和能力
+架构（如 x86, ARM, RISC-V, TriCore）
+决定了CPU的指令集
+、寄存器布局、数据通路等。
+不同架构的CPU无法直接运行彼此的机器码
+。
+（二）一个架构可以有多个CPU型号
+例如：ARM架构下有Cortex-M、Cortex-A等不同系列CPU。
+TriCore架构下也有多个型号，如TC1796、TC277、TC397等。
+TriCore是一种CPU架构，同时也可以指代基于该架构的处理器核心
+，所以在实际应用中，TriCore既是架构，也是CPU的一种类型。
+（三）一个CPU类型属于某个架构
+比如：Intel Core i7属于x86架构，Infineon TC397属于TriCore架构。
+（四）架构影响软件兼容性
+软件必须针对特定架构编译才能运行
+。比如，
+Windows for x86无法在 ARM架构CPU上运行，除非有模拟或重新编译
+。
+架构和CPU关系如下所示：
+架构
+CPU实现
+ARMv7-M
+Cortex-M3、M4 等
+x86
+Intel Core i7、AMD Ryzen 等
+Tricore
+TC1796、TC277、TC397 等
+有些小伙伴觉得刷错软件的概率很小，尤其指令集不同的版本更是不可能刷错。说是如此，但是，不能排除这个小概率事件。在实际的工程中，有些OEM会在
+兼容性检查中 ，增加
+指令集的兼容性检查，以此避免刷错控制器
+。举例：控制器A用的英飞凌TC3xx芯片的Tricore架构，控制器B用的瑞萨RH850 U2A芯片的
+32位
+RISC架构。两者的软件指令集不同，即：不能兼容。通过指令集兼容性检查避免OEM工厂操作人员将控制器A的软件刷到控制器B。
+2、架构和指令集（Instruction Set Architecture, ISA）关系
+架构
+是
+处理器的整体设计
+，包括：数据通路（如寄存器、ALU、总线）、控制逻辑、存储系统（缓存、内存接口）、多核设计、功耗管理等。
+指令集
+是
+处理器能执行的所有指令的集合
+，是
+软件与硬件之间的接口
+。例如：加法、乘法、跳转、加载/存储等指令。每条指令的编码格式和执行语义。
+Tricore架构的部分指令如下所示：
+（一）架构实现指令集
+架构是对指令集的具体实现
+。比如，TriCore架构实现了TriCore ISA（TriCore Instruction Set Architecture）指令集。
+TriCore架构结合了微控制器的实时性（控制类指令）、DSP的计算能力（信号处理指令）、RISC的高效性（精简指令集）。
+不同架构可以实现相同的ISA
+，比如：多个厂商都可以实现ARM ISA。
+（二）指令集定义了架构的行为边界
+ISA决定了
+程序如何与处理器交互
+。架构必须遵守ISA的规范，确保软件兼容性。
+（三）架构可以扩展指令集
+某些架构在标准ISA基础上增加专用指令，比如：DSP指令、SIMD指令。
+3、CPU与指令集关系
+指令集是“语言”，CPU 是“说这种语言的机器”
+。
+（一）指令集（ISA）定义了：
+CPU能执行哪些指令（如加法、跳转、加载内存等），
+每条指令的格式和编码方式
+寄存器的数量和用途
+内存访问方式（如 load/store）
+（二）CPU是指令集的实现者
+CPU是一块实际的硬件芯片，它按照指令集的规范来执行程序
+。
+不同的CPU可以实现相同的指令集（比如多个厂商都可以制造ARMCPU）。
+4、程序与指令集关系理解
+我们使用高级语言（比如C语言）编写的软件程序可以在不同架构的CPU中运行，但是，这有一个基础条件：软件需要编译成目标CPU可以识别的指令集。
+假设：函数
+MPU_ExecuteAddress_0x80011000()需要在Tricore架构的CPU和RISC-V(32 bit)架构的CPU上运行。
+函数定义如下：
+uint32
+MPUTest
+[
+2
+] = {
+0x00
+};
+/* Function to be executed from address 0x80011000 */
+void
+MPU_ExecuteAddress_0x80011000
+(
+void
+)
+{
+unsigned
+int
+i =
+0x00
+;
+while
+(
+1
+) {
+i++;
+MPUTest
+[
+0
+] =
+MPUTest
+[
+0
+] + i;
+if
+(
+MPUTest
+[
+0
+] >
+0x100
+)
+{
+break
+;
+}
+}
+}
+将函数
+MPU_ExecuteAddress_0x80011000()编译，生成
+Tricore ISA程序，如下所示：
+将函数
+MPU_ExecuteAddress_0x80011000()编译，生成
+RISC-V(32 bit) ISA
+程序如下所示：
+可以看出：同样的软件程序，为了运行在不同架构的CPU上，需要将软件编译成对应的指令集，以便于CPU可以正确地执行软件程序。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+终于等到CANdelaStudio的“Check Consistency”配置功能
+功能安全，如何限定Task的访问内存区？（含源码）
+Flash Driver安全存放Flash内存区方案
+刷写时，为什么需要发送0x3E 80报文来维持会话？
+HSM Firmware更新的一种方案讨论
+诊断，为什么无效唤醒会加速DTC信息清除？

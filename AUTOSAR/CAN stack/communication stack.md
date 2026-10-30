@@ -6,7 +6,7 @@ Communication Stack 是 AUTOSAR BSW 中负责车载网络收发、诊断通信�
 ![](assets/communication%20stack/file-20260720145914667.png)
 
 
-![Communication Stack Overview](../../开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/communication-stack-overview.svg)
+![Communication Stack Overview](../../debug/开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/communication-stack-overview.svg)
 
 1. 通信数据传输
    - `Com`
@@ -29,7 +29,7 @@ Communication Stack 是 AUTOSAR BSW 中负责车载网络收发、诊断通信�
 
 ### 1.2 典型链路
 
-![Normal Signal TX/RX Chain](../../开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/signal-tx-rx-chain.svg)
+![Normal Signal TX/RX Chain](../../debug/开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/signal-tx-rx-chain.svg)
 
 - 信号通信
   - `App` -> `Com` -> `PduR` -> `CanIf` -> `CanDrv`
@@ -294,7 +294,7 @@ HOH 更像是对底层硬件对象的抽象映射，上层不用直接操作寄�
 
 `Dcm` = `Diagnostic Communication Manager`
 
-![Diagnostic Chain](../../开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/diagnostic-chain.svg)
+![Diagnostic Chain](../../debug/开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/diagnostic-chain.svg)
 
 ### 6.1 作用
 
@@ -340,7 +340,7 @@ HOH 更像是对底层硬件对象的抽象映射，上层不用直接操作寄�
 
 `ComM` = `Communication Manager`
 
-![Network Management Chain](../../开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/network-management-chain.svg)
+![Network Management Chain](../../debug/开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/network-management-chain.svg)
 
 ### 7.1 作用
 
@@ -468,7 +468,7 @@ PNC = `Partial Network Cluster`
 
 ## 10. Time Sync
 
-![Time Sync Chain](../../开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/time-sync-chain.svg)
+![Time Sync Chain](../../debug/开发测试记录/CAN信号自动测试脚本说明/communication-stack-assets/time-sync-chain.svg)
 
 ### 10.1 CanTSyn
 

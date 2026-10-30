@@ -1,0 +1,111 @@
+TC3xx启动模式的安全防护分析
+2025-07-16T06:33:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497150&idx=1&sn=c3defc291f4d4d1e35b0d73e77763dbb&scene=21#wechat_redirect
+
+软件开发过程中，很多时候，我们大都关注用户程序的启动地址，很少关注芯片CPU如何找到用户启动地址，本文聚焦一下用户启动地址以及芯片启动模式选择的安全问题。
+1、TC3xx启动流程
+TC3
+xx
+系列单片机固件（
+Platform Firmwar
+e
+）的启动流程包括
+SSW
+（
+Startup Software
+）和
+CHSW
+（
+Checker Software
+）
+。
+SSW
+是英飞凌厂商固化在
+B
+ootROM
+中的程序，芯片上电最先执行的部分。
+SSW
+不可编程（Non-programmable），但是可以通过
+UCB
+（
+U
+ser
+Configuration Block
+，用户配置块）修改用户配置信息，进而影响芯片的启动行为
+，
+eg
+：是否执行
+SWAP
+功能，是否使能
+HSM
+功能等等。注意：
+SSW
+由
+CPU0
+执行，其他
+CPU
+处于
+Halt
+状态。固件启动流程示意如下
+(1)
+：
+如上图可以看出，在执行用户程序（
+eg
+：用户的
+Bootloader
+程序）之前，需要花费一定的时间执行固件程序。在这个流程结束之后，
+会根据用户选择的启动模式，决定去哪块内存区执行用户程序
+。如果启动模式设置不当，就存在锁板的风险。
+（一）固件启动主流程
+固件启动主流程示意如下：
+如上图，在“Startup Mode evaluation”阶段，固件会检查BMHD
+（Boot Mode Header）有效性。TC3xx系列芯片中，BMHD一共有8个，4个ORIG和4个COPY，对应的UCBx及地址，如下所示：
+每个BMHD的结构如下所示：
+BMI（Boot Mode Index）具体结构信息如下所示：
+其中，HWCFG可以配置4种启动模式：
+内部Flash启动、Generic
+ASC Bootstrap、
+ASC Bootstrap、Generic Bootstrap
+，示意如下：
+这四种模式中，
+工程上常用Internal start from Flash模式
+，即：从用户指定的PFlash地址启动。
+其中，ABMHD（Alternate Boot Mode  Header）结构如下所示：
+基于ASC、CAN Boot，可配置的Pin，如下所示：
+如果将这四种启动模式以内、外方式区分。
+基于ASC、CAN Boot属于外部 启动，而这种模式最容易通过暴力破解方式攻击软件程序
+。
+为什么
+说
+ASC、CAN Boot会导致暴力破解呢？在Generic BootStrap Loader mode/ASC BootStrap Loader mode时，上位机通过指定Pin脚与MCU通讯，下载一
+段恶意
+程序
+到CPU0 PSPR（
+Program Scratchpad RAM
+）中，再通过与PSPR中的引导代码实现对内存的操作，进而攻击ECU（eg：植入恶意程序、恶意擦除程序等）。
+所以，如何缓解（
+mitigation
+）或者消除这样的攻击呢？
+禁止
+ASC、CAN Boot，使用指定内部启动地址（PFlash）的方式启动
+。所以，工程中对启动模式的要求就是禁用外部启动。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：401~450
+关于Tricore Aurix Debug口的UCB Confirmed状态的正确解读
+为什么软件不能回滚到低版本?
+Timer或者ADC可以生成安全的伪随机数（PRN）？
+避免TC3xx HSM锁板的一种方案
+伪随机数（Pseudo）/真随机数，如何生成？
+基于Davinci的HSM开发实践（4）：打通HSM与Host的IPC通信
+SRAM存储“1”和“0”原理浅析
+Flash操作实践：还不清楚EC是什么？
+诊断，为什么读到的DTC故障状态是0x20?
+诊断，到底该如何理解"一个操作循环"概念？
+参考资料
+(1)
+https://www.cnblogs.com/huaiquanzhang/articles/18243027

@@ -1,0 +1,52 @@
+SecOC报文是否可以替代E2E报文？
+2025-09-22T06:20:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497450&idx=1&sn=f7f0d0dd32ac03a3c62913da42d22192&chksm=fa29a89ecd5e2188898d891f169fce424b6f6af643a486558e0f2c69a4e808bf10240ef8dbda#rd
+
+在嵌入式软件开发的话题中，信息安全和功能安全是两个不可规避的话题。当然，有些小伙伴依然对SecOC
+（Secure Onboard Communication）
+和E2E
+（End-to-End）
+所属的范畴困顿。
+SecOC报文和E2E报文都是汽车电子架构中用于提升通信安全性的机制，但它们的设计目标、应用场景和实现方式有所不同。
+本文，简单讨论一下两者的异同，以及
+同一帧报文
+是否有必要同时设计成SecOC报文和E2E报文。
+1、SecOC和E2E异同
+SecOC属于信息安全范畴，E2E属于功能安全范畴
+。两者的异同如下所示：
+对于SecOC PDU，格式如下所示：
+其中，Secured I-PDU Header和Freshness Value属于可选部分，为了达到防止重放攻击的目的，一般不会忽略
+Freshness Value。同时，又需要兼顾总线带宽（比如，使用CAN传输），所以，
+往往会忽略
+Secured I-PDU Header
+。
+对于
+E2E Profile 1 variant 1A，CRC的计算范围和格式如下所示：
+之所以将SecOC和E2E报文进行对比，是想延伸一个话题：对于同一个PDU，是否有必要同时做SecOC报文和E2E报文？或者说，使用了SecOC报文，是否可以不再使用E2E报文？
+我们先来拆解E2E的报文的主要目的：
+1、确保数据的完整性。以
+E2E Profile 1为例，使用CRC8保护数据的完整性，这个算法相对于SecOC的MAC算法来说，抗碰撞性的能力弱了不少。
+2、E2E会使用Alive Counter/
+Rolling Counter防错序，这一点，SecOC的FreshValue完全可以覆盖，而且机制更严苛。
+所以，既然SecOC报文完全可以覆盖E2E的功能，
+对于同一个PDU来说，没有必要既设计成SecOC报文又设计成E2E报文
+？我目前的理解是这样的，如果有不同看法的小伙伴，可以评论区留言交流。
+当然，对于
+非同一帧PDU来说
+，设计成E2E报文还是SecOC报文，需要从实际的设计需求出发。如果，
+侧重数据完整性，在意实时性可以使用E2E保护
+。如果
+注重重放攻击，对安全性要求高，可以设计成SecOC报文
+，当然，SecOC安全性保护高，对CPU性能要求也高，也会占用更多的带宽和消耗更多的资源。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+Miyaguchi-Preneel是压缩函数还是哈希函数？
+不直接存储Password本身的一种安全认证方案
+是否需要禁用UDS 0x23/0x3D服务？
+刷写压测能否超过1000次，极限在哪？
+功能安全，如何限定Task的访问内存区？（含源码）

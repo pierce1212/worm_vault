@@ -34,12 +34,20 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
     });
   }
 
+  function recordName(task, requested = "") {
+    const prefix = (task.ancestors ?? []).map(item => titleOf(item.text)).join(" - ");
+    const name = String(requested || titleOf(task.text)).replace(/[\r\n]+/g, " ").trim();
+    return prefix && !name.startsWith(`${prefix} - `) ? `${prefix} - ${name}` : name;
+  }
+
   function properties(task) {
     const data = core.info(task), kids = flatten(task);
     const day = symbol => task.text.match(new RegExp(`${symbol}\\s*(\\d{4}-\\d{1,2}-\\d{1,2})`, "u"))?.[1] ?? "";
     const priority = core.priority(task).label;
     return {
       related_task: titleOf(task.text), related_task_id: core.identity(task),
+      task_ancestors: (task.ancestors ?? []).map(item => titleOf(item.text)),
+      task_ancestor_ids: (task.ancestors ?? []).map(core.identity),
       task_source: `[[${task.path}#^${task.id}]]`, task_status: core.state(task).label,
       task_priority: priority, task_start: day("🛫"), task_due: day("📅"),
       task_created: day("➕"), task_scheduled: day("⏳"), task_completed: day("✅"),
@@ -62,6 +70,7 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
       ["子任务完成", `${props.subtasks_done}/${props.subtasks_total}`]
     ];
     if (props.task_reason) rows.push(["延期 / 阻塞原因", md(props.task_reason)]);
+    if (props.task_ancestors.length) rows.unshift(["所属任务", md(props.task_ancestors.join(" / "))]);
     if (props.task_check) rows.push(["下次检查", props.task_check]);
     const kids = flatten(task);
     return `${START}\n## 当前任务\n\n| 属性 | 内容 |\n| --- | --- |\n${rows.map(([key, value]) => `| ${key} | ${value} |`).join("\n")}\n\n### 当前子任务\n\n${kids.length ? kids.map(item => `${"  ".repeat(item.depth)}- **${core.state(item.task).label}** · ${md(titleOf(item.task.text))}`).join("\n") : "暂无子任务"}\n${END}`;
@@ -95,7 +104,8 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
     const template = options?.template ?? old.tcc_template ?? "standard";
     if (!templates[template]) throw new Error("记录模板不受支持");
     const props = properties(task);
-    const body = updateBody(parsed.body, task, props, template, Boolean(options));
+    const updatedBody = updateBody(parsed.body, task, props, template, Boolean(options));
+    const body = options?.name ? `# ${md(options.name)}\n\n${updatedBody}` : updatedBody;
     const metadata = options ? { date: options.date, timeline: true, tcc_record_version: VERSION, tcc_template: template, ...props } : { ...old, ...props };
     const changed = Boolean(options) || JSON.stringify(metadata) !== JSON.stringify(old) || body !== parsed.body;
     if (!changed) return content;
@@ -116,7 +126,8 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
       if (!day.isValid) throw new Error("记录日期不正确");
       const template = options.template || "standard";
       if (!templates[template]) throw new Error("请选择记录模板");
-      const name = filename(options.name || titleOf(live.text));
+      const displayName = recordName(live, options.name);
+      const name = filename(displayName);
       const prefix = `${folder}/${day.toFormat("yyyy.LL.dd")} ${name}`;
       if (!app.vault.getAbstractFileByPath(folder)) {
         try { await app.vault.createFolder(folder); }
@@ -136,7 +147,7 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
           }
           continue;
         }
-        const record = compose("", live, { template, date: `${day.toFormat("yyyy-LL-dd")} ${DateTime.now().toFormat("HH:mm")}` });
+        const record = compose("", live, { template, name: displayName, date: `${day.toFormat("yyyy-LL-dd")} ${DateTime.now().toFormat("HH:mm")}` });
         try {
           await app.vault.create(path, record);
           known.add(path);
@@ -186,10 +197,16 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
 
   function bind(root, task, sourceFile) {
     const button = root.querySelector("[data-create-task-record]");
-    button?.addEventListener("click", () => {
+    button?.addEventListener("click", async () => {
+      if (button.disabled) return;
+      button.disabled = true;
+      const live = await core.attempt(() => core.snapshot(task), root);
+      button.disabled = false;
+      if (!live) return;
+      const defaultName = recordName(live);
       const dialog = document.createElement("dialog");
       dialog.className = "tcc-editor-dialog tasks-command-center";
-      dialog.innerHTML = `<form><header><h3>创建任务记录</h3><button type="button" data-close aria-label="关闭" title="关闭"><span data-tcc-icon="x">关闭</span></button></header><div class="tcc-editor-fields"><label class="tcc-editor-field"><span>记录名称</span><input name="name" value="${esc(titleOf(task.text))}" required></label><div class="tcc-editor-pair"><label class="tcc-editor-field"><span>日期</span><input type="date" name="day" value="${DateTime.now().toFormat("yyyy-LL-dd")}" required></label><label class="tcc-editor-field"><span>子任务模板</span><select name="template">${Object.entries(templates).map(([value, item]) => `<option value="${value}">${item.label}</option>`).join("")}</select></label></div><p class="tcc-record-location">${esc(folder)}</p></div><p role="alert" class="tcc-editor-error" hidden></p><footer><button type="button" data-close>取消</button><button type="submit">创建并打开</button></footer></form>`;
+      dialog.innerHTML = `<form><header><h3>创建任务记录</h3><button type="button" data-close aria-label="关闭" title="关闭"><span data-tcc-icon="x">关闭</span></button></header><div class="tcc-editor-fields"><label class="tcc-editor-field"><span>记录名称</span><input name="name" value="${esc(defaultName)}" required></label><div class="tcc-editor-pair"><label class="tcc-editor-field"><span>日期</span><input type="date" name="day" value="${DateTime.now().toFormat("yyyy-LL-dd")}" required></label><label class="tcc-editor-field"><span>子任务模板</span><select name="template">${Object.entries(templates).map(([value, item]) => `<option value="${value}">${item.label}</option>`).join("")}</select></label></div><p class="tcc-record-location">${esc(folder)}</p></div><p role="alert" class="tcc-editor-error" hidden></p><footer><button type="button" data-close>取消</button><button type="submit">创建并打开</button></footer></form>`;
       document.body.appendChild(dialog);
       core.icons(dialog);
       dialog.querySelectorAll("[data-close]").forEach(item => item.addEventListener("click", () => dialog.close()));

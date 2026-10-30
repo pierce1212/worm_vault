@@ -38,7 +38,7 @@ function setup(text) {
   assert.equal(core.state({ status: '/', text: 'Task [tcc_blocked:: true]' }).key, 'blocked');
   assert.equal(core.state({ status: '>', text: 'Task [tcc_blocked:: true]' }).key, 'postponed');
   assert.equal(core.state({ completed: true, text: 'Task [tcc_blocked:: true]' }).key, 'done');
-  for (const name of ['obsidian_tasks_command_center.md', '任务详情.md', '复习时间轴.md', '今日任务.md']) {
+  for (const name of ['obsidian_tasks_command_center.md', '任务详情.md', '复习时间轴.md', '今日任务.md', '打卡成就.md']) {
     const content = fs.readFileSync(path.join(root, 'task_outline', name), 'utf8');
     const source = content.match(/```dataviewjs\s*\n([\s\S]*?)\n```/)[1];
     new vm.Script('(async function(){' + source + '\n})');

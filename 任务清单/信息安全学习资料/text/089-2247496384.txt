@@ -1,0 +1,52 @@
+基于Davinci的HSM开发实践（13）：安全启动细节补充
+2025-01-07T06:36:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496384&idx=1&sn=d98ca96db7f0fabdcabfeeffba3c1a04&chksm=fa29acb4cd5e25a205784815ed664e6686ce0f8938f8b3afc0beb98db17ecee83bcef5746c56#rd
+
+安全启动（Secure Boot）是讨论信息安全必不可少的部分。安全启动确保执行程序的可靠和安全。在实际的工程开发中，安全启动的细节需要留意，本文就安全启动的一些细节，做一些补充。
+1、Secure Boot功能的核心模块
+基于Davinci开发HSM时，开发
+Secure Boot功能需要vHsm_Core模块，如下所示：
+其中，"CryptoPrimitives"中的vHsmSecureBoot是实现该功能的关键。关于Secure Boot的具体工程开发实践，可以参考前文《
+基于Davinci的HSM开发实践（11）：安全启动开发实践及问题
+》。
+2、信任链（Chain of Trust）
+安全启动的主要任务是确保执行程序的可靠性，即：程序没有被非法篡改。所以，软件启动过程中就需要对运行的每个进程进行完整性（integrity）校验。这个校验（validation）过程，一般基于Tags比对，这个
+Tag
+s可以是CMAC、Hash、Signature，甚至CRC都可以。但是，需要确保Tags的安全性，即：Tags需要存储在可信区域，eg：
+TEE（Trused Execution Environment，可信环境）
+。
+工程上的做法：Tags存储在HSM所属的NvM中。如果是第一次启动，
+自动将目标Secure Groups的Tags信息存储在NvM中
+。其中，Secure Groups与内存的关系如下所示：
+（一）信任锚（Hardware Trust Anchor）
+既然安全启动要确保执行的每个程序可信性，那么，信任链就会有一个信任的启点，即：信任锚（HTA）。工程上，一般选择对称密钥或者非对称密钥中的公钥作为
+信任锚，示意如下：
+3、信息安全开发QA
+Q1：开发阶段，有必要是使能安全启动吗？
+A1
+：可以不使能。我们知道：安全启动过程中，会对执行的每个进程进行校验（Verify），校验过程就会涉及到密钥。但是，开发并不一个工程师的单打独斗，而是不同工程师的协调配合，这个过程中，参与开发的工程师会不断的编译和调试软件，如果密钥不对或者被擦除会使得的程序无法启动，而这会给非信息安全工程师带来极大的困扰。所以，在软件开发的初期，可以不使能安全启动。
+Q2：HSM是否可以在启动阶段自动校验？
+A2
+：可以。对需要自动校验的Secure Groups使能"Autostart"功能，配置如下：
+而且，自动校验功能可以添加
+Autostart条件，
+A
+utostart条件激活配置如下：
+Q3：如何结束安全启动校验？
+A3
+：可以使用KeyElementSet()接口disable对应Group或者Segments的校验。Key Element设置为CRYPTO_KE_CUSTOM_VHSM_SECURE_BOOT_END。也可以使用KeyElementGet()接口校验安全启动的结果。
+往期
+精彩
+回顾
+基于IAR的多核调试及基础操作入门（视频篇）
+Autosar通信，如何理解PNC、UB与信号的关系
+如何理解通信使能与迟滞电压的关系
+信息安全，RSA在逐渐被EdDSA替换？
+如何避免cache造成的核间数据不一致？
+HSM的使能时机，也会导致锁芯片吗？
+工程问题，CAN Busoff恢复不成功导致的通信中断
+CAN总线科普，Busoff与CC状态切换的本质
+诊断，到底该如何理解"一个操作循环"概念？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

@@ -1,0 +1,286 @@
+Autosar功能安全之E2E：别再发愁E2E了，我侃侃
+2022-03-07T12:06:00+08:00
+http://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247485774&idx=1&sn=78e3a7f26df70fcc91dd00348ca83496&chksm=fa2a573acd5dde2cb6a484235da613549dcb04cdd6a762d3a9af1eca04a0463c180e6f237774&scene=21#wechat_redirect
+
+车圈的朋友对功能安全应该并不陌生，尤其这两年，功能安全话题的讨论相当火热。每个车圈的工程师也都能说两句，至于能说到什么程度就因人而异了。苦逼的开发工程师，是所用话题或者功能的践行者，我也不例外，本文我主要从自身的开发经验聊E2E，抛砖引玉！
+1
+为什么要上E2E
+目前，汽车对于我们大多数普通人，已不是什么不可企及的奢侈品了，从几万到一二十万的汽车，很多人已经可以消费的起。也可能是“物质基础决定上层建筑”，大家不仅买的起了，还更注重安全了，所以，E2E来了。
+我们知道，对于一帧报文的传输来说，数据很容易被模拟和仿造，如果报文被截获，且被恶意篡改，将极大地影响车辆驾/乘人员的人身安全。
+大背景我们简单的说这么多，网上很多比我说的好，不在这浪费大家时间。
+来，先直观的感受下Autosar中的E2E，E2E的功能不仅适用于板级间通信（Ecu之间），还适用于核间通信。
+E2E功能的实现是绕不过RTE的，不管是用复杂驱动(CDD)还是走正常的通信栈，既然按照Autosar架构来，你就得遵守规矩，走RTE。
+提示：
+E2E和SecOC是不同的范围议题，
+E2E属于功能安全
+，信息可以被截获，但是被篡改就会被识别出来，进而采取安全措施，只能确保车辆功能的安全；
+SecOC属于信息安全
+，需要对数据进行加密传输，只有接收端通过私钥才能解密，没有明文传输过程，加密算法相对复杂，别人很难知道传输的是啥。如果一帧报文既是E2E，又是SecOC报文，那安全等级就大大提高了，但是资源的消耗也将大大提高，所以一般在项目中，只会对重要的报文进行E2E或者SecOC配置。
+2
+E2E理解
+对于E2E报文，确保功能安全的本质是对信号的CRC计算。这里我们对比理解刷写中的CRC计算，对于刷写，我们会对刷写的内存区进行CRC计算，是对连续地址上的所有内容进行CRC计算，而E2E报文
+只对本PDU内的Signal计算
+，不是Signal的部分一般会要求数据填充，比如：Padding Value = 1。
+举例：
+要求对一个经典CAN报文（长度8 byte，发送报文，Message_A_Tx）进行E2E配置，要求CRC存放在Byte0位置，RC(Rolling Counter)存放在Byte1的Bit0~Bit3，未使用的部分填充1，Message_A_Tx包含信号Signal01、Signal02、Signal03、Signal04，最终要发送的该PDU经过E2E Library的封装，如下所示：
+一般在需求里会这样要求：
+对于E2E报文，未使用部分填充1；对于非E2E报文，未使用部分填充0。可能就是为了区别一下。
+如果项目中上了E2E，那么诊断部分的功能也会有额外的要求，为什么呢？因为要对接收到的E2E报文进行校验，这里的校验不仅仅是CRC校验，还包括RC的校验和信号有效性的校验，以此确保接收的数据是安全可靠的。毕竟进行E2E配置的报文都是注重安全性的报文，要求等级高，所以，在项目中，一个E2E报文有严格的检查时序：PDU有效->CRC有效->RC有效->处理。
+注意：
+PDU有效实际实现就是一个PDU对应一个有效位，按照Autosar，一个信号或者信号组对应一个Bit表示其有效性，这里不妨将其看作一个信号组，说白了就是为了降低开发难度。
+3
+E2E Capl测试脚本
+注意：
+本脚本对应算法CRC8_SAE_J1850，适用于Profile01。
+对于E2E的测试手段有多种，比如：
+方法一
+如果使用的是Canoe工具，可以利用数据库（*.arxml）和Vector插件进行E2E报文的仿真验证。
+方法二
+编写测试Capl测试脚本，脚本编写可以利用帮助中提供好的库函数计算也可以自己写，本文就是作者自己写的一套；
+还可以利用Python，利用PCan或者ZLG的接口，二次开发，实现E2E Frame的模拟。
+自己写时，需要对应项目的源码，直接找到源码部分，把算法移植过来用即可。本文不过的解释脚本，大家可以在此基础上改改用。
+具体Capl测试脚本如下所示：
+/*@!Encoding:936*/
+variables
+{
+/* the polynomial is 0x1D */
+const
+byte
+Crc_Poly =
+0x1D
+;
+byte
+Crc_DataPtrAddr =
+0x01
+;
+const
+byte
+DATAIDLEN =
+2
+;
+/*DataId 0x0000.Type:uint16*/
+byte
+DataId_ValueArr[DATAIDLEN] = {
+0x00
+,
+0x00
+};
+/*Start value shall be 0x00.*/
+byte
+Crc_InitValue =
+0xFF
+;
+/********************** Configuration Start Info **************************/
+byte
+RC_Value_0x1F1 =
+0xF0
+;
+const
+Msg_0x1F1_Len =
+0x7
+;
+msTimer Timer_0x1F1;
+const
+byte
+MsgCyclic_0x1F1 =
+20
+;
+message
+0x1F1
+Msg0x1F1 = {
+dlc =
+8
+,
+FDF =
+1
+,
+BRS =
+1
+,
+DIR = Tx
+};
+byte
+Msg0x1F1_DataArr[Msg_0x1F1_Len] = {
+0xF0
+,
+0
+,
+0
+,
+0
+,
+4
+,
+0x04
+,
+0
+};
+/************************ Configuration End Info ***************************/
+}
+byte
+CRC8_SAE_J1850_CalculateRuntime
+(
+byte
+data[],
+byte
+DataLen,
+byte
+Crc_Value,
+byte
+Crc_Poly
+)
+{
+dword Crc_DataPtrAddr;
+byte
+Crc_LoopCounter;
+byte
+Crc_CalcValue;
+Crc_CalcValue = Crc_Value;
+/* see Code */
+Crc_CalcValue = (
+0xFF
+^ Crc_CalcValue);
+/* Perform CRC calculation for each byte in Crc_DataPtr */
+for
+(Crc_DataPtrAddr =
+0
+; Crc_DataPtrAddr < DataLen; Crc_DataPtrAddr++)
+{
+/* XOR next byte of Crc_DataPtr with current CRC value. This is equivalent to calculating CRC value of
+* concatenated bytes */
+Crc_CalcValue ^= data[Crc_DataPtrAddr];
+/* Perform modulo-2 division, a bit at a time */
+for
+(Crc_LoopCounter =
+0
+; Crc_LoopCounter <
+8
+; Crc_LoopCounter++)
+{
+/*If MSB is 1, CRC value is XORed with polynomial */
+if
+(Crc_CalcValue &
+0x80
+)
+{
+Crc_CalcValue = (Crc_CalcValue <<
+1
+) ^ Crc_Poly;
+}
+else
+{
+Crc_CalcValue = (Crc_CalcValue <<
+1
+);
+}
+}
+}
+/* Final CRC value is XORed ,XOR value shall be 0x00 */
+return
+(Crc_CalcValue ^
+0xFF
+);
+}
+void
+Send_PDUInfo_DataReassembly
+(
+word CanId,
+byte
+data[],
+byte
+dataLen
+)
+{
+byte
+idx =
+0x00
+;
+byte
+localCrc =
+0x00
+;
+localCrc = Crc_InitValue;
+/* Calculate CRC for DataID */
+localCrc = CRC8_SAE_J1850_CalculateRuntime(DataId_ValueArr, DATAIDLEN, localCrc, Crc_Poly);
+/* rolling counter */
+data[
+0
+] = ((data[
+0
+] +
+1
+) &
+0x0F
+);
+/* fill CRC value */
+localCrc = CRC8_SAE_J1850_CalculateRuntime(data, dataLen, localCrc, Crc_Poly);
+/* Revert final XOR of CRC routine */
+localCrc ^=
+0xFF
+;
+switch
+(CanId)
+{
+case
+0x1F1
+:
+Msg0x1F1.
+byte
+(
+0
+) = localCrc;
+for
+(idx =
+0x00
+; idx < dataLen; idx++)
+{
+Msg0x1F1.
+byte
+(idx +
+1
+) = data[idx];
+}
+break
+;
+default
+:
+break
+;
+}
+}
+on
+timer Timer_0x1F1
+{
+output(Msg0x1F1);
+setTimer(Timer_0x1F1, MsgCyclic_0x1F1);
+Send_PDUInfo_DataReassembly(
+0x1F1
+, Msg0x1F1_DataArr, Msg_0x1F1_Len);
+}
+on
+start
+{
+Send_PDUInfo_DataReassembly(
+0x1F1
+, Msg0x1F1_DataArr, Msg_0x1F1_Len);
+setTimer(Timer_0x1F1, MsgCyclic_0x1F1);
+}
+先讲到这，如果觉得有用，请分享给他人，后续可能会基于Davnici讲解一下E2E如何配置以及注意事项。
+往期
+精彩
+回顾
+Uds诊断问题：偶发单帧不响应分析及解决策略
+Autosar DEM诊断事件管理（二）
+Autosar网络管理：从ComM模块看Partial Networking
+Autosar网络管理：从CanNM模块看Partial Networking
+Autosar网络管理:优化ECU启动时间切入点
+CANdelaStudio支持AUTOSAR DEM模块Event的描述
+Matlab:手写C MEX S-Function，没那么难
+Autosar网络管理：确保第一帧是网络管理报文方法
+UDS之刷写：你真清楚Application和Bootloader如何沟通？
+Autosar网络管理，你不能不清楚节点的唤醒方式
+通信诊断监控开启条件
+故障快照信息上传云端浅谈
+点击
+下方
+关注，一起聊聊Autosar/嵌入式

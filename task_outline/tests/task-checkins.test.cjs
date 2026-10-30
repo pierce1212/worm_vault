@@ -33,6 +33,13 @@ const store = checkinModule.create({ app, core, DateTime, parseYaml: JSON.parse,
   assert.equal(store.stats(task).minutes, 25);
   assert.equal(store.stats(task).goal, 5);
   assert.equal(store.stats(task).current.content, entry.content);
+  const initialGrowth = store.stats(task);
+  const firstReward = store.feedback(task, entry, { entries: [], count: 0, growth: { level: 1 } }, initialGrowth);
+  assert.equal(firstReward.xp, 10);
+  assert.deepEqual(firstReward.badges, ['迈出第一步']);
+  assert.equal(store.feedback(task, entry, initialGrowth, initialGrowth).xp, 0);
+  assert.equal(store.overview([task]).growth.xp, 10);
+  assert.equal(store.feedback(task, entry, initialGrowth, initialGrowth, { level: 1, count: 9 }, { level: 2, count: 10, milestones: [] }).levelUp, true);
   data.set(file, data.get(file) + '\n## 自由笔记\n![[screenshot.png]]\n');
   const old = store.stats(task).current.raw;
   assert.equal(await store.saveEntry(task, { ...entry, minutes: 30, expected: old }), file);
@@ -95,6 +102,9 @@ const store = checkinModule.create({ app, core, DateTime, parseYaml: JSON.parse,
   await assert.rejects(store.saveEntry(task, entry), /开启/);
   await store.load([task]);
   assert.equal(store.stats(task).count, 4, 'turning off habit mode retains history');
+  const historicalXP = store.overview([task]).growth.xp;
+  await store.load([]);
+  assert.equal(store.overview([]).growth.xp, historicalXP, 'archived or removed source tasks retain historical achievements');
   assert.equal(shared.scan(data.get(taskPath)).tasks[0].status, '/');
   assert.equal(shared.scan(data.get(taskPath)).tasks[1].status, ' ');
   const damaged = data.get(file).replace('<!-- /tcc-checkin:2026-10-14 -->', '');

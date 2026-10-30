@@ -1,0 +1,98 @@
+基于Davinci的HSM开发实践（5）：HSM与Host的IPC通信简介
+2024-10-09T09:06:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247495863&idx=1&sn=1a9af2b4ba46a35a84d7c79594239d0e&scene=21#wechat_redirect
+
+在Vector设计的IPC（Inter Processor Communication）通信中，需要一块
+全局共享RAM区
+用于两者信息交互。Host端请求HSM端服务及获取请求结果的流程，示意如下：
+所以，在开发信息安全时，遇到问题可以从信息交互的共享RAM区判断，即：Host端请求的信息是否准确，HSM端响应的信息是否准确，然后沿着这个点从Host端或者HSM端追对应的代码。
+提示
+：基于TC3xx
+1、Host请求Job服务
+服务请求既可以从SWC（Software Component）发起，也可以直接调用CSM（Crypto Service Manager）模块中的服务接口进行服务请求，示意如下：
+实际的使用中，尤其Bootloader开发中，很少按照CP Autosar架构设计SWC，因此，可以直接调用CSM中的服务接口进行服务请求，eg：Csm_Hash()、Csm_MacGenerate()等。
+如果是Application程序，可以通过Port端口连接SWC，发起服务请求。
+知道了服务的发起位置，在Host端追程序就不在有什么难点，遇到问题，顺着程序向下追查即可。
+2、HSM处理Job流程
+当Host将请求的服务信息写入共享RAM区域以后，会主动触发一个HSM
+一类中断
+，通知HSM去获取请求的Job信息，其中，该中断在vHsm_Hal_Irq.c文件中，如下所示：
+OS_ISR1(vHsm_Hal_ExternalRequestIsr)
+{
+vHsm_ExternalIsr(VHSM_CALL_CONTEXT_ISR1,
+0
+u);
+/* Clear Flag */
+HSM_BRIDGE->HT2HSMF = HSM_BRIDGE->HT2HSMF;
+}
+/* vHsm_Hal_ExternalRequestIsr */
+vHsm_ExternalIsr接口会进一步调用vHsm_Ipc_FetchJobs()接口（
+vHsm_Ipc.c
+文件
+）对Job信息进行解析，具体代码如下：
+简单说：接收并处理Host的请求信息（Job）。如果Job请求确认OK，则进行Job的处理。对于Job的接收和确认，主要在
+vHsm_Ipc_ReceiveJobRequest()接口中完成
+，根据使用的IPC协议版本进行数据的
+反序列化处理
+，即：对Host请求的信息进行获取，对于代码程序如下：
+提示：如果开发的功能达不到预期，可以对照共享RAM区中写入的数据，在此处进一步确认HSM获取的信息是否匹配Host请求的信息。
+对于Job的处理方式有两种方式：中断（Interrupt）或者轮询（Polling），使用轮询时，将Job的状态挂起（Pending），在对应的调度函数中处理，如下所示：
+对于待处理的Job主要分为两类：Crypto Job和KeyM Job，如下所示：
+之后，即可对两类Job进行处理，本文不再赘述。
+3、HSM如何知道Host的信息存放的位置
+HSM可以
+单向的访问Host内存
+，但是，HSM并不能直接对某个地址进行直接访问，而是需要特定的转换，示意如下：
+具体转换规则如下：
+Hostaddress = [SAHBASE]+(HSMaddress-SAHMEM)& 0xFFFF
+其中，
+SAHBASE寄存器存放Host的基地址
+，即：高16bit。当
+SAHBASE获得Host的基地址（eg：0xB0000000）以后，
+SAHMEM寄存器即可单向访问Host的内存空间(最大
+64KByte
+)。
+也就是可以通过0xF0050000~0xF005FFFF区间地址访问Host的64KByte空间
+。
+举例：
+假设Host和HSM设置的共享RAM区起始地址是0xB0000000，HSM的
+S
+AHBASE存储0xFFFF0000 & 0xB0000000 = 0x
+B000
+0000。之后，HSM可以
+通过
+0xF
+005000
+0
+~
+0xF
+005
+FFFF区间访问Host的
+0xB
+000000
+0
+~
+0xB
+000
+FFFF区间。如果共享RAM区只有16 KByte，则可以访问
+0xB
+000000
+0
+~
+0xB
+0003
+FFF。
+往期
+精彩
+回顾
+控制器的节点类型，还有ABCD之分？
+基于Davinci的HSM开发实践（4）：打通HSM与Host的IPC通信
+内存与ECC的那点事
+A/B分区，软件实现方案思考
+OEM为什么要不断提高刷写效率？
+信息安全，硬件Debug口，如何保护？
+如何诊断对地短路、对电源短路以及开路故障？
+Flexray总线基础#05：为什么要进行节点间时钟同步？
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答

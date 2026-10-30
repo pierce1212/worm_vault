@@ -1,0 +1,22 @@
+信息安全，AES128_GCM性能满足项目需求吗？
+2025-01-14T06:39:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247496402&idx=1&sn=4b33887e9e37379129a24ea89a1d06a0&chksm=fa29aca6cd5e25b0d00bdaa1ad0a8936aa0a0b717863f79383bae43a7056f77296b9ea5c04a7#rd
+
+【仅保存公开试读，付费全文未获取】
+
+前文《
+信息安全，为什么要用AES-GCM？
+》讨论了为什么要使用AES GCM（Galois/Counter Mode）以及
+AES
+GCM模式的基本原理。除此之外，由于AES-GCM
+算法加密速度快，且具有认证功能，因此，被广泛应用
+于TLS（Transport Layer Security，传输层安全协议）/SSL（Secure Sockets Layer，安全套接字层）协
+议等
+安全通信
+场景。
+本
+文在理论的基础上，实践测试一下本人开发的AES128_GCM加密和解密性能。同时，本文给出开发过程中使用的功能验证脚本。
+1、
+AES128
+GCM模式的加密/解密性能统计
+AES128 GCM模式的加密/解密性能统计如下所示：

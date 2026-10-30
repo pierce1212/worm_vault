@@ -1,0 +1,62 @@
+安全访问（0x27）的Online解锁方案
+2025-10-30T06:21:00+08:00
+https://mp.weixin.qq.com/s?__biz=MzUyNDU4NTc1NQ==&mid=2247497616&idx=1&sn=c5fba30b458dccf9f6e904488af8821c&chksm=fa29a9e4cd5e20f28a86684781af4879a87ea5d93f5f6cee850abbcf9d77e54badde74e08ad0#rd
+
+诊断的话题里，永远不缺安全访问（ScurityAccess,0x27）的讨论。
+该服务用于访问那些出于安全、排放或法规要求而受限的诊断功能或数据。
+SecurityAccess是一种基于挑战-响应（Challenge-Response）机制的安全认证流程，确保只有授权工具才能访问ECU的敏感功能。它是ECU安全架构中的核心组成部分。看似不难的一个诊断服务，在某些OEM（
+Original Equipment Manufacturer，
+原始设备制造商
+）中，却玩出了不一样的高度。
+比如：某些OEM具有自己的云服务器（Cloud Server），为了确保控制器访问的合法性，会设计
+Cloud Server+上位机（Tool）+控制器的安全访问
+方案，
+替代传统的
+上位机（Tool）+控制器的安全访问方案
+。在
+Cloud Server+上位机（Tool）+控制器的安全访问方案中，会有
+安全访问（0x27）的Online解锁。那么，
+安全访问（0x27）的Online解锁怎么玩的呢？有哪些值得学习的方法呢？本文，聊一聊这个话题。
+1、安全访问（0x27）的Online解锁
+在线解锁方案示例如下:
+Step1
+:Tool连接云服务器(Cloud Server)和控制器，Tool发送Seed请求;
+Step2
+:控制器收到Tool的Seed请求以后,响应随机Seed;
+Step3
+:Tool将收到的Seed经过处理，发送给Cloud Server，经过处理的Seed，也称为Challenge;
+Step4
+:
+Cloud Server使用共享密钥(shared Key)计算会话密钥(session_key_Tool)返回给Tool;
+Step5
+:Tool使用
+session_key_Tool
+对特定信息计算(eg:进行CMAC计算)生成对比用的Key_Tool，并且发送给控制器;
+Step6
+:控制器使用同样的算法生成
+session_key_ECU，并且也用同样的特性信息计算出
+Key_ECU;
+Step7
+:控制器比对
+Key_Tool和
+Key_ECU，如果一致，则会话解锁（Session  Unlock），否则，保持锁定状态。
+在云端服务器的参与下，
+控制器的解锁将变得
+可追溯(登录服务器的身份认证和留痕)
+和
+身份的进一步认证
+.这样带来的好处就是OEM可以更好地管控产品。这样的操作，也将极大地管控车辆后端市场的改装。
+点击
+下方
+关注，一起聊聊Autosar/嵌入式，如果需要，联系作者进群，给你更专业的解答
+往期
+精彩
+回顾
+Autosar往期精彩文章汇总：451~510
+Clangd+CMake+Tasking+VSCode构建工程的琐碎
+SecOC Vs E2E，讨论的再深入点？
+关于RSA密码学算法的通识问题QA
+信息安全视角，如何看“软件升级”这点事
+针对内存资源有限的一种软件升级方案
+不直接存储Password本身的一种安全认证方案
+HSM Firmware更新的一种方案讨论

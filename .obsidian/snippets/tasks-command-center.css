@@ -1,3 +1,68 @@
+.tasks-command-center .tcc-habit-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.tasks-command-center .tcc-daily-victory { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 12px 0; font-size: 13px; }
+.tasks-command-center .tcc-daily-victory strong { color: var(--tcc-green); }
+.tasks-command-center .tcc-daily-victory progress { width: 140px; height: 8px; accent-color: var(--tcc-green); }
+.tasks-command-center .tcc-habit-completed { margin: 10px 0; }
+.tasks-command-center .tcc-habit-completed > summary { color: var(--tcc-green); font-size: 14px; cursor: pointer; }
+.tasks-command-center .tcc-habit-completed .tcc-habit-row { border-left: 3px solid var(--tcc-green); padding-left: 12px; margin-top: 8px; }
+.tasks-command-center .tcc-habit-row .tcc-completion-proof { color: var(--tcc-green); }
+.tasks-command-center .tcc-growth-level { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 18px 0; border-block: 1px solid var(--tcc-border); margin: 14px 0; }
+.tasks-command-center .tcc-growth-level strong { color: var(--tcc-blue); font-size: 22px; }
+.tasks-command-center .tcc-growth-level progress { width: 180px; max-width: 100%; height: 10px; accent-color: var(--tcc-blue); }
+.tasks-command-center .tcc-growth-level small { color: var(--text-muted); }
+.tasks-command-center .tcc-growth-calendar h3 { font-size: 15px; margin: 16px 0 10px; }
+.tasks-command-center .tcc-growth-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; max-width: 420px; }
+.tasks-command-center .tcc-growth-days button { min-width: 0; min-height: 32px; padding: 5px; border-radius: 4px; border: 1px solid var(--tcc-border); background: var(--background-secondary); color: var(--text-muted); font-size: 12px; box-shadow: none; }
+.tasks-command-center .tcc-growth-days [data-count="1"] { background: color-mix(in srgb, var(--tcc-green) 30%, var(--background-primary)); color: var(--text-normal); }
+.tasks-command-center .tcc-growth-days [data-count="2"] { background: color-mix(in srgb, var(--tcc-green) 50%, var(--background-primary)); color: var(--text-normal); }
+.tasks-command-center .tcc-growth-days [data-count="3"],
+.tasks-command-center .tcc-growth-days [data-count="4"] { background: var(--tcc-green); color: #fff; }
+.tasks-command-center .tcc-growth-days .rest { border-style: dashed; border-color: var(--tcc-blue); }
+.tasks-command-center .tcc-growth-days button:disabled { opacity: .45; cursor: default; }
+.tasks-command-center .tcc-growth-badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 18px 0; }
+.tasks-command-center .tcc-growth-badges > span { display: grid; justify-items: start; gap: 5px; border: 1px solid var(--tcc-border); border-radius: 6px; padding: 10px; min-width: 0; }
+.tasks-command-center .tcc-growth-badges svg { width: 20px; height: 20px; }
+.tasks-command-center .tcc-growth-badges b { font-size: 13px; overflow-wrap: anywhere; }
+.tasks-command-center .tcc-growth-badges small { font-size: 12px; }
+.tasks-command-center .tcc-growth-badges .locked { color: var(--text-muted); }
+.tasks-command-center .tcc-growth-badges .unlocked { color: var(--tcc-amber); border-color: color-mix(in srgb, var(--tcc-amber) 65%, transparent); }
+.tasks-command-center .tcc-achievement-totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+.tasks-command-center .tcc-achievement-totals > span { display: grid; gap: 4px; color: var(--text-muted); font-size: 13px; }
+.tasks-command-center .tcc-achievement-totals strong { font-size: 26px; color: var(--text-normal); }
+.tasks-command-center .tcc-habit-breakdown { margin: 24px 0; }
+.tasks-command-center .tcc-habit-breakdown summary { cursor: pointer; font-size: 15px; }
+.tasks-command-center .tcc-habit-breakdown-list article { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--tcc-border); font-size: 13px; }
+.tasks-command-center .tcc-habit-breakdown-list small { display: block; color: var(--text-muted); }
+.tasks-command-center .tcc-achievement-history h3 { font-size: 18px; }
+.tasks-command-center .tcc-history-filters { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+.tasks-command-center .tcc-history-filters label { display: grid; gap: 6px; min-width: 0; font-size: 13px; color: var(--text-muted); }
+.tasks-command-center .tcc-history-filters input,
+.tasks-command-center .tcc-history-filters select { min-width: 0; max-width: 260px; min-height: 32px; }
+.tasks-command-center .tcc-history-filters .tcc-history-rest { display: flex; align-items: center; min-height: 32px; }
+.tasks-command-center .tcc-history-rest input { min-height: 0; }
+.tasks-command-center .tcc-achievement-history h4 { font-size: 14px; margin: 22px 0 4px; color: var(--text-muted); }
+.tasks-command-center .tcc-achievement-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; border-bottom: 1px solid var(--tcc-border); padding: 12px 0; }
+.tasks-command-center .tcc-achievement-entry strong { font-size: 14px; }
+.tasks-command-center .tcc-achievement-entry span { display: block; color: var(--tcc-green); font-size: 12px; margin-top: 4px; }
+.tasks-command-center .tcc-achievement-entry p { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tasks-command-center .tcc-achievement-entry-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: start; justify-content: flex-end; max-width: 300px; }
+.tasks-command-center [data-history-more][hidden] { display: none; }
+.tcc-reward-feedback { position: fixed; z-index: 10000; right: 20px; bottom: 20px; width: min(420px, calc(100vw - 24px)); box-sizing: border-box; display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px; gap: 10px; padding: 16px; border: 1px solid var(--tcc-green); border-radius: 8px; background: var(--background-primary); color: var(--text-normal); box-shadow: 0 8px 28px rgb(0 0 0 / .2); animation: tcc-reward-arrive 180ms ease-out; }
+.tcc-reward-feedback strong { font-size: 16px; overflow-wrap: anywhere; }
+.tcc-reward-feedback p { font-size: 13px; line-height: 1.5; margin: 6px 0; }
+.tcc-reward-feedback button { background: var(--background-secondary); color: var(--text-normal); border: 1px solid var(--tcc-border); border-radius: 5px; padding: 4px 8px; cursor: pointer; }
+.tcc-reward-feedback [data-dismiss] { align-self: start; padding: 4px; }
+.tcc-reward-feedback svg { width: 18px; height: 18px; }
+.tcc-reward-feedback .tcc-reward-mark { color: var(--tcc-green); }
+@keyframes tcc-reward-arrive { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .tcc-reward-feedback { animation: none; } }
+@media (max-width: 600px) {
+  .tasks-command-center .tcc-achievement-totals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tasks-command-center .tcc-achievement-entry { grid-template-columns: minmax(0, 1fr); }
+  .tasks-command-center .tcc-achievement-entry-actions { max-width: 100%; justify-content: flex-start; }
+  .tcc-reward-feedback { right: 12px; bottom: 12px; }
+}
+
 .tcc-editor-dialog .tcc-habit-toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .tcc-editor-dialog .tcc-habit-toggle input { width: 16px; height: 16px; margin: 0; }
 .tasks-command-center .tcc-habits { margin: 20px 0; border-block: 1px solid var(--tcc-border); }
@@ -47,7 +112,7 @@
 .tasks-command-center .tcc-today-header nav { display: flex; flex-wrap: wrap; gap: 8px; }
 .tasks-command-center .tcc-today-header button,
 .tasks-command-center .tcc-maintenance-strip [data-filter="today"] { display: inline-flex; align-items: center; gap: 6px; }
-.tasks-command-center .tcc-today-shell button:not(.tcc-state-badge):not(.tcc-today-title) {
+.tasks-command-center .tcc-today-shell button:not(.tcc-state-badge):not(.tcc-today-title):not([data-count]) {
   min-height: 32px;
   padding: 6px 10px;
   border: 1px solid var(--tcc-border);
