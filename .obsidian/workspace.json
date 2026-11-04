@@ -14,7 +14,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task_outline/今日任务.md",
+                "file": "移民计划/task_outline/今日任务.md",
                 "mode": "preview",
                 "source": false
               },
@@ -24,23 +24,77 @@
             }
           },
           {
-            "id": "b5d3aba5c0cc225e",
+            "id": "f61b992f857a2144",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task_outline/obsidian_tasks_command_center.md",
+                "file": "移民计划/task_outline/任务详情.md",
                 "mode": "source",
                 "source": false
               },
-              "pinned": true,
               "icon": "lucide-file",
-              "title": "obsidian_tasks_command_center"
+              "title": "任务详情"
+            }
+          },
+          {
+            "id": "7b8f3442e2ce0261",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot"
+            }
+          },
+          {
+            "id": "6b982a3323d60b3c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daliy record/2026.10.30 boot+信息安全 - boot当前的代码了解.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026.10.30 boot+信息安全 - boot当前的代码了解"
+            }
+          },
+          {
+            "id": "3b77e5396733cefb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "移民计划/task_outline/任务详情.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "任务详情"
+            }
+          },
+          {
+            "id": "737538883dab327f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "移民计划/task_outline/任务详情.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "任务详情"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -74,7 +128,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "vpn",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -102,7 +156,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 464
+    "width": 405
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -235,54 +289,54 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "b5d3aba5c0cc225e",
+  "active": "737538883dab327f",
   "lastOpenFiles": [
-    "任务清单/wechat公众号文章梳理/2026.10.22 CAN总线采样点分析.md",
-    "task_outline/obsidian_tasks_command_center.md",
-    "daliy record/2026.10.30 boot当前的代码了解.md",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/dca95b9c775e09e6b228.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/b03eef4264dfa9f95ce5.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/53a33e9ea6b4baa01303.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/46c6d91ebb3a698ed773.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images/25f8bcf470bfe43aa8d8.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/eec478476bf4d159e0d3.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/c717c740f60046f410aa.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/b64ea7db3d508164f04e.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/b6f5706557a4fbd992cf.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images/95945eb4d97774b10481.jpeg",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/index.html",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/018_别来无恙/index.html",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/018_别来无恙/正文.txt",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/正文.txt",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/019_为什么常想去云南/images",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/016_超哥/正文.txt",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/017_拉呱/正文.txt",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/016_超哥/index.html",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/017_拉呱/index.html",
-    "任务清单/公众号分类学习资料/13_作者随笔与经验交流/文章/015_泰国Phuket，囧途与旅途/images",
-    "daliy record/2026.10.30 信息安全硬件模块.md",
-    "daliy record/2026-05-08 三腔驱动开发.md",
-    "daliy record/打卡记录/2026-10 wechat公众号文章梳理 7fa493b9.md",
-    "debug/开发测试记录/2026.07.08 CAN FD 异常唤醒测试报告.md",
-    "hardware/其他芯片学习笔记/RSM8900_RTC_StudyNotes.md",
-    "task_outline/任务详情.md",
-    "task_outline/今日任务.md",
-    "task_outline/工作任务.md",
-    "AI/提示词.md",
-    "2026.10.30 S32K324.md",
-    "daliy record/2026.10.27 boot+信息安全（hex生成脚本）.md",
-    "任务清单/wechat公众号文章梳理/2026.10.30  Com Update Bit  & 英飞凌TriCore中断向量表的深度剖析.md",
-    "daliy record/2026.09.11  BE13看门狗测试.md",
-    "daliy record/2026.10.27 硬件相关故障协助测试&唤醒排查.md",
-    "任务清单/wechat公众号文章梳理/2026.10.29 CANFD第二采样点SSP.md",
-    "任务清单/wechat公众号文章梳理/2026.10.22 基于VH6501的BusOff快慢恢复测试.md",
-    "任务清单/wechat公众号文章梳理/2026.10.29  从EcuM角度看唤醒源状态切换.md",
-    "task_outline/打卡成就.md",
-    "project items/EEA5.0_ECU_bootloader及刷新规范_V1.35_完整理解与需求审查报告.md",
-    "daliy record/2026.07.29 DTC 配置以及使用开发.md",
+    "移民计划/task_outline/今日任务.md",
+    "daliy record/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot.md",
+    "Untitled 2.md",
+    "daliy record/assets/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot/file-20261104142652643.png",
+    "daliy record/assets/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot/file-20261104141624691.png",
+    "daliy record/assets/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot",
+    "daliy record/2026.10.30 boot+信息安全 - boot当前的代码了解.md",
+    "移民计划/task_outline/任务详情.md",
+    "移民计划/task_outline/obsidian_tasks_command_center.md",
+    "daliy record/2026.11.03 CC busoff之后的硬件排查.md",
+    "daliy record/2026.11.04  ISOLAR cobra.md",
+    "00_Inbox/生活随想/2026.11.4 AI的挑战.md",
+    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/file-20261104104646559.png",
+    "debug/2026.11.04 调试器的一些用法.md",
     "daliy record/2026.09.08  诊断调查表测试（五）.md",
-    "daliy record/2026.09.18 BE 13 驱动故障诊断.md",
-    "daliy record/2026.09.01 诊断调查表（二）.md",
+    "debug/2026.07.23 debug skills.md",
+    "debug/TRACE32_Lauterbach_Online_Training_2022_学习笔记.md",
+    "00_Inbox/灵感/投资心得.md",
+    "daliy record/assets/2026.11.04  ISOLAR cobra/file-20261104102849353.png",
+    "daliy record/assets/2026.11.04  ISOLAR cobra",
+    "00_Inbox/生活随想/assets/2026.11.4 AI的挑战/file-20261104101810169.png",
+    "00_Inbox/生活随想/assets/2026.11.4 AI的挑战",
+    "00_Inbox/灵感/灵感收集箱.md",
+    "00_Inbox/灵感/健康.md",
+    "00_Inbox/灵感/人生感悟.md",
+    "00_Inbox/灵感/DONE.md",
+    "00_Inbox/灵感/password.md",
+    "00_Inbox/灵感/TODO.md",
+    "Untitled 1.md",
+    "Untitled.md",
+    "00_Inbox/灵感/assets/password",
+    "daliy record/2026.11.02 busoff的形成原因以及出现busoff之后恢复不了怎么办.md",
+    "任务清单/英语学习/一些资料.md",
+    "机器人开发/控制算法/FOC控制.md",
+    "机器人开发/控制算法/assets/FOC控制/file-20261103221945418.png",
+    "机器人开发/控制算法/assets/FOC控制/file-20261103221914819.png",
+    "机器人开发/控制算法/assets/FOC控制",
+    "机器人开发/控制算法/assets",
+    "任务清单/英语学习/英语计划.md",
+    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/file-20261103170454064.png",
+    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/file-20261103170408015.png",
+    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/mermaid-diagram.png",
+    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查",
+    "daliy record/assets/2026.10.30 boot+信息安全 - boot当前的代码了解",
+    "daliy record/assets/2026.11.02 电力交易前景分析",
+    "daliy record/assets/2026.11.02 busoff的形成原因以及出现busoff之后恢复不了怎么办",
     "未命名.canvas",
     "未命名 1.canvas"
   ]
