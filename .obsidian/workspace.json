@@ -4,97 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "22ce85b037959661",
+        "id": "9fc8cfd6ce76fec6",
         "type": "tabs",
         "children": [
           {
-            "id": "7ca00279879900a4",
+            "id": "1c61ad4295114794",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "移民计划/task_outline/今日任务.md",
+                "file": "task_outline/今日任务.md",
                 "mode": "preview",
                 "source": false
               },
-              "pinned": true,
               "icon": "lucide-file",
               "title": "今日任务"
             }
-          },
-          {
-            "id": "f61b992f857a2144",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "移民计划/task_outline/任务详情.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "任务详情"
-            }
-          },
-          {
-            "id": "7b8f3442e2ce0261",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "daliy record/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot"
-            }
-          },
-          {
-            "id": "6b982a3323d60b3c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "daliy record/2026.10.30 boot+信息安全 - boot当前的代码了解.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026.10.30 boot+信息安全 - boot当前的代码了解"
-            }
-          },
-          {
-            "id": "3b77e5396733cefb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "移民计划/task_outline/任务详情.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "任务详情"
-            }
-          },
-          {
-            "id": "737538883dab327f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "移民计划/task_outline/任务详情.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "任务详情"
-            }
           }
-        ],
-        "currentTab": 5
+        ]
       }
     ],
     "direction": "vertical"
@@ -156,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 405
+    "width": 403
   },
   "right": {
     "id": "c6f6e55c44198497",
@@ -191,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "daliy record/2026.10.27 boot+信息安全.md",
+                "file": "daliy record/2026.11.17 电机FOC驱动算法 - EYOU电机试用.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -234,13 +161,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "daliy record/2026.07.13 UDS扩展会话超时进入默认会话排查.md",
+                "file": "daliy record/2026.11.17 电机FOC驱动算法 - EYOU电机试用.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2026.07.13 UDS扩展会话超时进入默认会话排查 的大纲"
+              "title": "Outline"
             }
           },
           {
@@ -264,7 +191,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -289,54 +216,56 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "737538883dab327f",
+  "active": "1c61ad4295114794",
   "lastOpenFiles": [
-    "移民计划/task_outline/今日任务.md",
-    "daliy record/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot.md",
-    "Untitled 2.md",
-    "daliy record/assets/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot/file-20261104142652643.png",
-    "daliy record/assets/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot/file-20261104141624691.png",
-    "daliy record/assets/2026.11.04 boot+信息安全 - 了解什么是安全启动secBoot",
-    "daliy record/2026.10.30 boot+信息安全 - boot当前的代码了解.md",
-    "移民计划/task_outline/任务详情.md",
-    "移民计划/task_outline/obsidian_tasks_command_center.md",
-    "daliy record/2026.11.03 CC busoff之后的硬件排查.md",
-    "daliy record/2026.11.04  ISOLAR cobra.md",
-    "00_Inbox/生活随想/2026.11.4 AI的挑战.md",
-    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/file-20261104104646559.png",
-    "debug/2026.11.04 调试器的一些用法.md",
-    "daliy record/2026.09.08  诊断调查表测试（五）.md",
-    "debug/2026.07.23 debug skills.md",
-    "debug/TRACE32_Lauterbach_Online_Training_2022_学习笔记.md",
-    "00_Inbox/灵感/投资心得.md",
-    "daliy record/assets/2026.11.04  ISOLAR cobra/file-20261104102849353.png",
-    "daliy record/assets/2026.11.04  ISOLAR cobra",
-    "00_Inbox/生活随想/assets/2026.11.4 AI的挑战/file-20261104101810169.png",
-    "00_Inbox/生活随想/assets/2026.11.4 AI的挑战",
-    "00_Inbox/灵感/灵感收集箱.md",
-    "00_Inbox/灵感/健康.md",
-    "00_Inbox/灵感/人生感悟.md",
-    "00_Inbox/灵感/DONE.md",
-    "00_Inbox/灵感/password.md",
-    "00_Inbox/灵感/TODO.md",
-    "Untitled 1.md",
-    "Untitled.md",
-    "00_Inbox/灵感/assets/password",
-    "daliy record/2026.11.02 busoff的形成原因以及出现busoff之后恢复不了怎么办.md",
-    "任务清单/英语学习/一些资料.md",
-    "机器人开发/控制算法/FOC控制.md",
-    "机器人开发/控制算法/assets/FOC控制/file-20261103221945418.png",
-    "机器人开发/控制算法/assets/FOC控制/file-20261103221914819.png",
-    "机器人开发/控制算法/assets/FOC控制",
-    "机器人开发/控制算法/assets",
-    "任务清单/英语学习/英语计划.md",
-    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/file-20261103170454064.png",
-    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/file-20261103170408015.png",
-    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查/mermaid-diagram.png",
-    "daliy record/assets/2026.11.03 CC busoff之后的硬件排查",
-    "daliy record/assets/2026.10.30 boot+信息安全 - boot当前的代码了解",
-    "daliy record/assets/2026.11.02 电力交易前景分析",
-    "daliy record/assets/2026.11.02 busoff的形成原因以及出现busoff之后恢复不了怎么办",
+    "task_outline/任务详情.md",
+    "task_outline/今日任务.md",
+    "task_outline/obsidian_tasks_command_center.md",
+    "task_outline/工作任务.md",
+    "daliy record/2026.11.16 奇瑞文档复核.md",
+    "Untitled.canvas",
+    "ECU电压上报追溯库/ECU 电压上报.canvas",
+    "ECU电压上报追溯库/生成画布.cjs",
+    "ECU电压上报追溯库/条目/UT-09.md",
+    "ECU电压上报追溯库/条目/UNIT-04.md",
+    "ECU电压上报追溯库/条目/SYS-014.md",
+    "ECU电压上报追溯库/条目/SWT-06.md",
+    "ECU电压上报追溯库/条目/SWA-03.md",
+    "ECU电压上报追溯库/条目/SW-021.md",
+    "ECU电压上报追溯库/条目/ST-12.md",
+    "ECU电压上报追溯库/条目/SIT-03.md",
+    "ECU电压上报追溯库/条目/RUN-41.md",
+    "ECU电压上报追溯库/条目/RUN-32.md",
+    "ECU电压上报追溯库/条目/RUN-27.md",
+    "ECU电压上报追溯库/条目/RUN-24.md",
+    "ECU电压上报追溯库/条目/RUN-20.md",
+    "ECU电压上报追溯库/条目/RUN-18.md",
+    "ECU电压上报追溯库/条目/PCB-02.md",
+    "ECU电压上报追溯库/条目/HWT-03.md",
+    "ECU电压上报追溯库/条目/HWD-02.md",
+    "ECU电压上报追溯库/条目/HW-008.md",
+    "ECU电压上报追溯库/条目/HIT-02.md",
+    "ECU电压上报追溯库/条目/DD-05.md",
+    "ECU电压上报追溯库/条目",
+    "ECU电压上报追溯库/使用说明.md",
+    "ECU电压上报追溯库",
+    "daliy record/assets/2026.11.18 BE13驱动电机过流排查/file-20261118174156313.png",
+    "daliy record/assets/2026.11.18 BE13驱动电机过流排查/file-20261118173626643.png",
+    "daliy record/assets/2026.11.18 BE13驱动电机过流排查/file-20261118171712745.png",
+    "daliy record/assets/2026.11.18 BE13驱动电机过流排查/file-20261118171704947.png",
+    "daliy record/assets/2026.11.18 BE13驱动电机过流排查",
+    "daliy record/assets/2026.11.17 电机FOC驱动算法 - EYOU电机试用/file-20261117171251876.png",
+    "daliy record/assets/2026.11.17 电机FOC驱动算法 - EYOU电机试用",
+    "daliy record/assets/2026.11.17 14服务NRC故障排查/file-20261117100302169.png",
+    "daliy record/assets/2026.11.17 14服务NRC故障排查/file-20261117100103674.png",
+    "daliy record/assets/2026.11.17 14服务NRC故障排查",
+    "daliy record/assets/2026.11.16 奇瑞文档复核/file-20261116150934234.png",
+    "daliy record/assets/2026.11.16 奇瑞文档复核",
+    "daliy record/assets/2026.11.16 搞懂ITCM DTCM BACKDOOR的机制/file-20261116113334366.png",
+    "daliy record/assets/2026.11.16 搞懂ITCM DTCM BACKDOOR的机制",
+    "daliy record/assets/2026.11.13 boot+信息安全 - SHA-256 AEC-CMAC AES 128-CMAC/file-20261113171845487.png",
+    "daliy record/assets/2026.11.13 boot+信息安全 - SHA-256 AEC-CMAC AES 128-CMAC",
+    "daliy record/assets/2026.11.13 boot+信息安全 - 了解什么是安全调试/安全调试secure debug.docx",
     "未命名.canvas",
     "未命名 1.canvas"
   ]

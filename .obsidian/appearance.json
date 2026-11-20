@@ -3,5 +3,6 @@
     "tasks-command-center",
     "hide-output-folders"
   ],
-  "theme": "obsidian"
+  "theme": "obsidian",
+  "showRibbon": true
 }

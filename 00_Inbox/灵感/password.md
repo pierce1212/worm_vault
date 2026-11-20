@@ -13,3 +13,10 @@
 - 2026-09-03 17:17 | zrx20260520@gmail.com    wucfeb-1tEfqi-byknum | next:  | #idea/inbox 
 
 ![](assets/DONE/file-20261028090655260.png)
+
+
+向日葵：工作机-1751862741 - zp 520        家庭： 616760005 - zp 520
+微软账号： nvtc 140 - zy 1234567890 ZY         86199--zhoupeng 520
+
+ 
+rustdesk: 73567866 --ZHOUpeng 520                  374140736  g 9 mimn  ZHOUpeng 520 

@@ -1,0 +1,1 @@
+![](assets/words/file-20261109095130955.png)![](assets/words/file-20261109095130947.png)![](assets/words/file-20261109095130937.png)
