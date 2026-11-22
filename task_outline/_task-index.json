@@ -133,8 +133,8 @@
       "aliases": [
         "XCP"
       ],
-      "hash": "b6bc3ad8",
-      "updated": "2026-10-12 13:51"
+      "hash": "5da0a0b",
+      "updated": "2026-11-20 10:34"
     },
     "tcc-4f46aa7e-db7d-4f41-a100-b769edfdd1ee": {
       "path": "task_outline/工作任务.md",
@@ -1406,8 +1406,8 @@
       "aliases": [
         "奇瑞DTC规范需求问题排查和待确认项"
       ],
-      "hash": "5879bfa5",
-      "updated": "2026-10-22 16:54"
+      "hash": "801ffdf",
+      "updated": "2026-11-20 10:53"
     },
     "tcc-fa1666bf-3a4d-4aca-bc0d-573d0059c423": {
       "path": "task_outline/工作任务.md",
@@ -1803,13 +1803,14 @@
     },
     "tcc-b7e9ce49-4b0d-4481-9574-7490d3e27e79": {
       "path": "task_outline/工作任务.md",
-      "title": "谐波减速电机驱动",
+      "title": "关节模组--谐波减速电机驱动",
       "aliases": [
         "电机FOC驱动算法",
-        "谐波减速电机驱动"
+        "谐波减速电机驱动",
+        "关节模组--谐波减速电机驱动"
       ],
-      "hash": "bfde533c",
-      "updated": "2026-11-19 16:12"
+      "hash": "52b177ff",
+      "updated": "2026-11-20 14:00"
     },
     "tcc-2a64d725-0614-4122-b88d-f6fb2d4e17bf": {
       "path": "task_outline/工作任务.md",
@@ -1918,6 +1919,168 @@
       ],
       "hash": "96fea3a4",
       "updated": "2026-11-19 16:11"
+    },
+    "tcc-97df474e-a462-43d7-b7f6-0905368369d3": {
+      "path": "task_outline/工作任务.md",
+      "title": "演讲的艺术",
+      "aliases": [
+        "演讲的艺术"
+      ],
+      "hash": "fa4d76f3",
+      "updated": "2026-11-20 09:51"
+    },
+    "tcc-52f91dfc-5d65-4211-a283-1077b6c285dc": {
+      "path": "task_outline/工作任务.md",
+      "title": "如何提高中气，为什么说话总是底气不足的样子",
+      "aliases": [
+        "如何提高中气，为什么说话总是底气不足的样子"
+      ],
+      "hash": "aacc02ba",
+      "updated": "2026-11-20 09:46"
+    },
+    "tcc-36c20e45-c3b5-4173-86cb-283c9b57f078": {
+      "path": "task_outline/工作任务.md",
+      "title": "表达有条理",
+      "aliases": [
+        "表达有条理"
+      ],
+      "hash": "2ad85858",
+      "updated": "2026-11-20 09:50"
+    },
+    "tcc-c833fae9-5f5f-41c3-b93f-1722488616ae": {
+      "path": "task_outline/工作任务.md",
+      "title": "沟通有对象感",
+      "aliases": [
+        "沟通有对象感"
+      ],
+      "hash": "e9e0185a",
+      "updated": "2026-11-20 09:50"
+    },
+    "tcc-be83288a-8379-43b7-90af-eaaa7a74b6db": {
+      "path": "task_outline/工作任务.md",
+      "title": "声音有张力",
+      "aliases": [
+        "声音有张力"
+      ],
+      "hash": "112fc91f",
+      "updated": "2026-11-20 09:51"
+    },
+    "tcc-47921a1b-92e6-45cd-8f41-efdac559274d": {
+      "path": "task_outline/工作任务.md",
+      "title": "如何提高中气，为什么说话总是底气不足的样子",
+      "aliases": [
+        "如何提高中气，为什么说话总是底气不足的样子"
+      ],
+      "hash": "c76c23b5",
+      "updated": "2026-11-20 09:51"
+    },
+    "tcc-4f528bc2-6ee0-4094-a7df-e825c6341ca4": {
+      "path": "task_outline/工作任务.md",
+      "title": "电机控制算法工程师・十大经典面试问题",
+      "aliases": [
+        "电机控制算法工程师・十大经典面试问题"
+      ],
+      "hash": "c70c8523",
+      "updated": "2026-11-20 09:57"
+    },
+    "tcc-962da65e-b682-4928-8a31-e5d5f4b8fc78": {
+      "path": "task_outline/工作任务.md",
+      "title": "怎么通过Bode图定量整定PID参数",
+      "aliases": [
+        "怎么通过Bode图定量整定PID参数"
+      ],
+      "hash": "b44cbad5",
+      "updated": "2026-11-20 10:08"
+    },
+    "tcc-cc56d528-8ae2-4d09-ab2c-b37e89660411": {
+      "path": "task_outline/工作任务.md",
+      "title": "测PMSM电机参数 测 PMSM 绕组参数",
+      "aliases": [
+        "测PMSM电机参数 测 PMSM 绕组参数"
+      ],
+      "hash": "d22ed850",
+      "updated": "2026-11-20 10:18"
+    },
+    "tcc-768db2a5-e451-47c1-a751-b9e778f3d2f7": {
+      "path": "task_outline/工作任务.md",
+      "title": "AI 全面学习",
+      "aliases": [
+        "AI 全面学习"
+      ],
+      "hash": "3c59667b",
+      "updated": "2026-11-20 10:33"
+    },
+    "tcc-9c7f9331-3294-4a87-84c2-2b129ed69b7b": {
+      "path": "task_outline/工作任务.md",
+      "title": "基于MLP+GRU神经网络的引擎传感器时序预测项目",
+      "aliases": [
+        "基于MLP+GRU神经网络的引擎传感器时序预测项目"
+      ],
+      "hash": "c0f1584d",
+      "updated": "2026-11-20 10:32"
+    },
+    "tcc-26599f9b-fe7a-4f4d-8c69-d854f46c219a": {
+      "path": "task_outline/工作任务.md",
+      "title": "HF开源机器鸭Microduck",
+      "aliases": [
+        "HF开源机器鸭Microduck"
+      ],
+      "hash": "e82a7349",
+      "updated": "2026-11-20 10:32"
+    },
+    "tcc-33fb015e-9ec7-4446-8953-9b4e691d7f67": {
+      "path": "task_outline/工作任务.md",
+      "title": "研究一款 AI 本地大模型 GLM 5.3",
+      "aliases": [
+        "研究一款 AI 本地大模型 GLM 5.3"
+      ],
+      "hash": "3451a1ae",
+      "updated": "2026-11-20 10:33"
+    },
+    "tcc-258270a0-af5c-4b34-89fb-54de1bb4a28a": {
+      "path": "task_outline/工作任务.md",
+      "title": "SKY-001",
+      "aliases": [
+        "SKY-001"
+      ],
+      "hash": "979f765d",
+      "updated": "2026-11-20 10:33"
+    },
+    "tcc-918010e7-41da-4e8e-ad00-9d0331acd622": {
+      "path": "task_outline/工作任务.md",
+      "title": "机器人手指--空心杯电机",
+      "aliases": [
+        "机器人手指--空心杯电机"
+      ],
+      "hash": "f7a7a8b0",
+      "updated": "2026-11-20 10:49"
+    },
+    "tcc-62373fb4-2e68-40b8-b2fa-bc28931efedd": {
+      "path": "task_outline/工作任务.md",
+      "title": "关节模组--通信",
+      "aliases": [
+        "关节模组--通信"
+      ],
+      "hash": "1f4a127e",
+      "updated": "2026-11-20 11:06"
+    },
+    "tcc-d75f9ca4-7c07-4a83-8f4c-dcf0b5c448c5": {
+      "path": "task_outline/工作任务.md",
+      "title": "为什么汽车用CAN而机器人用EtherCAT",
+      "aliases": [
+        "为什么汽车用CAN而机器人用EtherCAT"
+      ],
+      "hash": "7451ee98",
+      "updated": "2026-11-20 11:06"
+    },
+    "tcc-3cdf8f8e-285a-44e8-acce-9e62d4f831dd": {
+      "path": "task_outline/工作任务.md",
+      "title": "相关的物理原理",
+      "aliases": [
+        "相关的物理原理"
+      ],
+      "hash": "1db706d2",
+      "updated": "2026-11-20 14:00"
     }
   }
 }

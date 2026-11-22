@@ -1,7 +1,8 @@
 /* Managed task snapshots never replace the editable body of a work record. */
 const START = "<!-- tcc:task-summary:start -->";
 const END = "<!-- tcc:task-summary:end -->";
-const VERSION = 1;
+const VERSION = 1; // Only legacy records opt into live synchronization.
+const DAILY_VERSION = 2;
 const templates = {
   standard: { label: "工作记录", body: "**目标**\n\n\n**实施过程**\n\n\n**验证结果**\n\n\n**问题与下一步**\n\n" },
   debug: { label: "故障排查", body: "**现象与复现条件**\n\n\n**排查过程与证据**\n\n\n**原因与修复方案**\n\n\n**回归验证**\n\n" },
@@ -61,6 +62,11 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
     };
   }
 
+  function folderChoices() {
+    const folders = app.vault.getAllLoadedFiles().filter(node => Array.isArray(node.children)).map(node => node.path);
+    return [...new Set([folder, "/", ...folders.filter(path => path !== "/").sort((a, b) => a.localeCompare(b, "zh-CN"))])];
+  }
+
   function summary(task, props) {
     const rows = [
       ["任务", `[[${task.path}#^${task.id}\\|${md(props.related_task)}]]`],
@@ -79,7 +85,7 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
   function updateBody(body, task, props, template, fresh) {
     const start = body.indexOf(START), end = body.indexOf(END);
     if (!fresh && (start < 0 || end < start || body.indexOf(START, start + START.length) >= 0 || body.indexOf(END, end + END.length) >= 0)) {
-      throw new Error("自动任务摘要标记缺失或重复，请保留标记后再同步");
+      return null;
     }
     const block = summary(task, props);
     let next = fresh ? `${block}\n\n## 本次记录\n\n${templates[template].body}\n## 子任务记录\n\n`
@@ -90,8 +96,9 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
       const close = `<!-- tcc:subtask:${item.task.id}:end-heading -->`;
       const heading = `${marker}${newline}### ${md(item.names.join(" / "))}${newline}${close}`;
       const at = next.indexOf(marker), stop = next.indexOf(close);
-      if (at >= 0 && stop >= at) next = next.slice(0, at) + heading + next.slice(stop + close.length);
-      else if (at >= 0 || stop >= 0) throw new Error("子任务标题标记不完整，正文已保留，请检查记录");
+      if (at >= 0 && stop > at && next.indexOf(marker, at + marker.length) < 0 && next.indexOf(close, stop + close.length) < 0)
+        next = next.slice(0, at) + heading + next.slice(stop + close.length);
+      else if (at >= 0 || stop >= 0) return null;
       else next += `${newline}${heading}${newline}${newline}${templates[template].body.replace(/\n/g, newline)}`;
     }
     return next;
@@ -105,6 +112,8 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
     if (!templates[template]) throw new Error("记录模板不受支持");
     const props = properties(task);
     const updatedBody = updateBody(parsed.body, task, props, template, Boolean(options));
+    // A manually edited legacy record without safe boundaries is no longer managed.
+    if (updatedBody === null) return content;
     const body = options?.name ? `# ${md(options.name)}\n\n${updatedBody}` : updatedBody;
     const metadata = options ? { date: options.date, timeline: true, tcc_record_version: VERSION, tcc_template: template, ...props } : { ...old, ...props };
     const changed = Boolean(options) || JSON.stringify(metadata) !== JSON.stringify(old) || body !== parsed.body;
@@ -124,12 +133,13 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
       const live = await core.snapshot(task);
       const day = DateTime.fromISO(options.day || DateTime.now().toFormat("yyyy-LL-dd"));
       if (!day.isValid) throw new Error("记录日期不正确");
-      const template = options.template || "standard";
-      if (!templates[template]) throw new Error("请选择记录模板");
+      const destination = options.folder ?? folder;
+      if (destination !== folder && destination !== "/" && !Array.isArray(app.vault.getAbstractFileByPath(destination)?.children))
+        throw new Error("所选文件夹不存在，请重新选择存放位置");
       const displayName = recordName(live, options.name);
       const name = filename(displayName);
-      const prefix = `${folder}/${day.toFormat("yyyy.LL.dd")} ${name}`;
-      if (!app.vault.getAbstractFileByPath(folder)) {
+      const prefix = `${destination === "/" ? "" : destination + "/"}${day.toFormat("yyyy.LL.dd")} ${name}`;
+      if (destination === folder && !app.vault.getAbstractFileByPath(folder)) {
         try { await app.vault.createFolder(folder); }
         catch (error) { if (!app.vault.getAbstractFileByPath(folder)) throw error; }
       }
@@ -140,14 +150,23 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
           let saved;
           try { saved = readDocument(await app.vault.read(existing)).metadata; }
           catch { continue; }
-          if (saved.tcc_record_version === VERSION && saved.related_task_id === core.identity(live)) {
+          if ([VERSION, DAILY_VERSION].includes(saved.tcc_record_version) && saved.related_task_id === core.identity(live)) {
             await synchronizeFile(existing, live);
             known.add(path);
             return { path, created: false };
           }
           continue;
         }
-        const record = compose("", live, { template, name: displayName, date: `${day.toFormat("yyyy-LL-dd")} ${DateTime.now().toFormat("HH:mm")}` });
+        const progress = options.progress == null || options.progress === "" ? core.completion(live).percent : Number(options.progress);
+        if (!Number.isInteger(progress) || progress < 0 || progress > 100) throw new Error("完成进度应为 0 到 100 的整数");
+        const note = String(options.summary ?? "").trim();
+        const metadata = {
+          date: `${day.toFormat("yyyy-LL-dd")} ${DateTime.now().toFormat("HH:mm")}`,
+          related_task: titleOf(live.text), task_priority: core.priority(live).label, task_status: core.state(live).label,
+          task_progress: progress, ...(note ? { summary: note } : {}),
+          related_task_id: core.identity(live), tcc_record_version: DAILY_VERSION
+        };
+        const record = `---\n${stringifyYaml(metadata).trimEnd()}\n---\n# ${md(displayName)}\n\n`;
         try {
           await app.vault.create(path, record);
           known.add(path);
@@ -161,11 +180,12 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
   async function syncAll() {
     return serial(async () => {
       const errors = [], snapshots = new Map();
-      const records = (app.vault.getMarkdownFiles?.() ?? []).filter(file => file.path.startsWith(`${folder}/`));
+      const records = app.vault.getMarkdownFiles?.() ?? [];
       for (const file of records) {
         try {
           const cached = app.metadataCache.getFileCache?.(file);
-          if (!known.has(file.path) && cached && cached.frontmatter?.tcc_record_version !== VERSION) continue;
+          if (!known.has(file.path) && cached?.frontmatter?.tcc_record_version !== VERSION &&
+              (cached || !file.path.startsWith(`${folder}/`))) continue;
           const metadata = readDocument(await app.vault.read(file)).metadata;
           if (metadata.tcc_record_version !== VERSION || typeof metadata.related_task_id !== "string") continue;
           const key = metadata.related_task_id;
@@ -178,6 +198,24 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
       }
       return errors;
     });
+  }
+
+  function reportSync(container, errors) {
+    let details = container.querySelector("[data-record-sync-issues]");
+    if (!errors.length) { details?.remove(); return; }
+    if (!details) {
+      details = document.createElement("details");
+      details.dataset.recordSyncIssues = "";
+      container.prepend(details);
+    }
+    const summary = document.createElement("summary"), list = document.createElement("ul");
+    summary.textContent = `任务记录同步：${errors.length} 条提示`;
+    for (const error of errors) {
+      const item = document.createElement("li");
+      item.textContent = error;
+      list.appendChild(item);
+    }
+    details.replaceChildren(summary, list);
   }
 
   function watch(paths, key, report) {
@@ -197,7 +235,7 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
     registry.set(key, { dispose() { active = false; clearTimeout(timer); refs.forEach(ref => app.vault.offref(ref)); } });
   }
 
-  function bind(root, task, sourceFile) {
+  function bind(root, task, sourceFile, displayedPercent) {
     const button = root.querySelector("[data-create-task-record]");
     button?.addEventListener("click", async () => {
       if (button.disabled) return;
@@ -208,8 +246,24 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
       const defaultName = recordName(live);
       const dialog = document.createElement("dialog");
       dialog.className = "tcc-editor-dialog tasks-command-center";
-      dialog.innerHTML = `<form><header><h3>创建任务记录</h3><button type="button" data-close aria-label="关闭" title="关闭"><span data-tcc-icon="x">关闭</span></button></header><div class="tcc-editor-fields"><label class="tcc-editor-field"><span>记录名称</span><input name="name" value="${esc(defaultName)}" required></label><div class="tcc-editor-pair"><label class="tcc-editor-field"><span>日期</span><input type="date" name="day" value="${DateTime.now().toFormat("yyyy-LL-dd")}" required></label><label class="tcc-editor-field"><span>子任务模板</span><select name="template">${Object.entries(templates).map(([value, item]) => `<option value="${value}">${item.label}</option>`).join("")}</select></label></div><p class="tcc-record-location">${esc(folder)}</p></div><p role="alert" class="tcc-editor-error" hidden></p><footer><button type="button" data-close>取消</button><button type="submit">创建并打开</button></footer></form>`;
+      dialog.innerHTML = `<form><header><h3>创建任务记录</h3><button type="button" data-close aria-label="关闭" title="关闭"><span data-tcc-icon="x">关闭</span></button></header><div class="tcc-editor-fields"><label class="tcc-editor-field"><span>记录名称</span><input name="name" value="${esc(defaultName)}" required></label><div class="tcc-editor-pair"><label class="tcc-editor-field"><span>日期</span><input type="date" name="day" value="${DateTime.now().toFormat("yyyy-LL-dd")}" required></label><label class="tcc-editor-field"><span>存放位置</span><select name="folder">${folderChoices().map(path => `<option value="${esc(path)}">${esc(path === "/" ? "库根目录" : path)}</option>`).join("")}</select></label></div><label class="tcc-editor-field"><span>完成进度（%）</span><input name="progress" type="number" min="0" max="100" step="1" value="${esc(displayedPercent ?? core.completion(live).percent)}" required></label><label class="tcc-editor-field"><span>今日做了什么（可选）</span><input name="summary"></label></div><p role="alert" class="tcc-editor-error" hidden></p><footer><button type="button" data-close>取消</button><button type="submit">创建并打开</button></footer></form>`;
       document.body.appendChild(dialog);
+      const messages = { name: "请输入记录名称", day: "请选择有效日期", progress: "完成进度应为 0 到 100 的整数" };
+      for (const input of dialog.querySelectorAll("input[required]")) {
+        const hint = document.createElement("small");
+        hint.id = `tcc-record-${input.name}-${crypto.randomUUID()}`;
+        hint.textContent = messages[input.name];
+        hint.hidden = true;
+        hint.setAttribute("aria-live", "polite");
+        input.setAttribute("aria-describedby", hint.id);
+        input.after(hint);
+        const validate = () => {
+          if (input.name === "name") input.setCustomValidity(input.value.trim() ? "" : messages.name);
+          hint.hidden = input.validity.valid;
+          input.setAttribute("aria-invalid", String(!input.validity.valid));
+        };
+        for (const event of ["input", "blur", "invalid"]) input.addEventListener(event, validate);
+      }
       core.icons(dialog);
       dialog.querySelectorAll("[data-close]").forEach(item => item.addEventListener("click", () => dialog.close()));
       dialog.addEventListener("close", () => dialog.remove(), { once: true });
@@ -232,7 +286,7 @@ function create({ app, core, DateTime, parseYaml, stringifyYaml, folder = "daliy
     });
   }
 
-  return { createRecord, syncAll, watch, bind, compose, readDocument };
+  return { createRecord, syncAll, reportSync, watch, bind, compose, readDocument };
 }
 
-module.exports = { create, templates };
+module.exports = { create };

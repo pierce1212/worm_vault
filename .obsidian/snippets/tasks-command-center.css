@@ -245,7 +245,13 @@
   border-radius: 6px;
   background: var(--tcc-panel-strong);
 }
-.tasks-command-center .tcc-node-row > strong { min-width: 0; font-size: 14px; overflow-wrap: anywhere; }
+.tasks-command-center .tcc-node-tree .tcc-node-row > button.tcc-node-title {
+  display: block; min-width: 0; width: fit-content; max-width: 100%; height: auto;
+  margin: 0; padding: 4px 0; border: 0; background: transparent; box-shadow: none;
+  color: var(--link-color); font-size: 14px; font-weight: 600; text-align: start;
+  white-space: normal; overflow-wrap: anywhere; cursor: pointer;
+}
+.tasks-command-center .tcc-node-row > .tcc-node-title:is(:hover, :focus-visible) { text-decoration: underline; }
 .tasks-command-center .tcc-node-row > input {
   appearance: auto;
   width: 16px;
@@ -253,8 +259,7 @@
   margin: 0;
   accent-color: var(--tcc-green);
 }
-.tasks-command-center .tcc-node-row[data-state="done"] > strong,
-.tasks-command-center .tcc-node-row[data-state="cancelled"] > strong {
+.tasks-command-center .tcc-node-tree .tcc-node-row:is([data-state="done"], [data-state="cancelled"]) > button.tcc-node-title {
   color: var(--tcc-muted);
   text-decoration: line-through;
 }

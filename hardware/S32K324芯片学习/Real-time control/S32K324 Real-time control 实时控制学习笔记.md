@@ -157,7 +157,7 @@ Reference Manual Chapter 59.4.2 给出的摘要很关键：
 
 这里 `AIPS_SLOW_CLK = 40 MHz = CORE_CLK / 4`，满足 RM 建议。
 
-![[../../attachments/fig59-1_pcmc_typical_configuration_page2297.png]]
+![[../../../attachments/fig59-1_pcmc_typical_configuration_page2297.png]]
 
 图源：NXP S32K3xx Reference Manual Rev.9, Chapter 59, Figure 233 “Block diagram”, PDF page 2297。
 
@@ -180,7 +180,7 @@ STM 是系统软件最常用的 free-running time base。Reference Manual Chapte
 
 ### 3.2 STM 功能结构
 
-![[../../attachments/fig67-1_stm_block_diagram_page2800.png]]
+![[../../../attachments/fig67-1_stm_block_diagram_page2800.png]]
 
 图源：NXP S32K3xx Reference Manual Rev.9, Chapter 67, Figure 381 “Block diagram”, PDF page 2800。
 
@@ -353,7 +353,7 @@ PIT 是周期中断定时器。Reference Manual Chapter 68 说明：
 
 ### 4.2 PIT 功能结构
 
-![[../../attachments/fig68-1_pit_block_diagram_page2809.png]]
+![[../../../attachments/fig68-1_pit_block_diagram_page2809.png]]
 
 图源：NXP S32K3xx Reference Manual Rev.9, Chapter 68, Figure 382 “Block diagram”, PDF page 2809。
 
@@ -479,7 +479,7 @@ RTC 是 always-on domain 的 free-running counter，用于 time keeping、低功
 
 ### 5.2 RTC 功能结构
 
-![[../../attachments/fig69-1_rtc_block_diagram_page2834.png]]
+![[../../../attachments/fig69-1_rtc_block_diagram_page2834.png]]
 
 图源：NXP S32K3xx Reference Manual Rev.9, Chapter 69, Figure 387 “Block diagram”, PDF page 2834。
 

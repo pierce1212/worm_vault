@@ -48,7 +48,8 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
       }
       const wrap = items => ({ array: () => items, where: fn => wrap(items.filter(fn)), file: { tasks: { where: fn => ({ array: () => items.flatMap(p => p.file.tasks ?? []).filter(fn) }) } } });
       window.app = { vault: {
-        configDir: '.obsidian', getAbstractFileByPath: path => memory.has(path) ? { path } : null,
+        configDir: '.obsidian', getAbstractFileByPath: path => path === '项目/测试' ? { path, children: [] } : memory.has(path) ? { path } : null,
+        getAllLoadedFiles: () => [{ path: '项目/测试', children: [] }],
         read: async file => memory.get(file.path),
         create: async (path, text) => { memory.set(path, text); return { path }; },
         createFolder: async path => memory.set(path, ''),
@@ -63,7 +64,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
         testState.mode = mode;
         document.getElementById('view').innerHTML = '';
         const names = { dashboard: 'obsidian_tasks_command_center.md', detail: '任务详情.md', review: '复习时间轴.md', today: '今日任务.md', achievements: '打卡成就.md' };
-        const recordPages = [...memory.entries()].filter(([path]) => path.startsWith('daliy record/') && path.endsWith('.md')).map(([path, content]) => ({ ...JSON.parse(content.match(/^---\n([\s\S]*?)\n---/)[1]), file: { path, name: path.split('/').at(-1).replace(/\.md$/, ''), tasks: [], lists: [] } }));
+        const recordPages = [...memory.entries()].filter(([path]) => (path.startsWith('daliy record/') || path.startsWith('项目/测试/')) && path.endsWith('.md')).map(([path, content]) => ({ ...JSON.parse(content.match(/^---\n([\s\S]*?)\n---/)[1]), file: { path, name: path.split('/').at(-1).replace(/\.md$/, ''), tasks: [], lists: [] } }));
         window.dv = { luxon, container: document.getElementById('view'), current: () => ({ file: { path: 'task_outline/' + names[mode] } }), pages: () => wrap([{ file: { path: taskPath, tasks: parse(memory.get(taskPath)).tasks } }, ...recordPages]) };
         const code = payload[mode].replace('enabled: true', 'enabled: false');
         await new (Object.getPrototypeOf(async function() {}).constructor)('dv', 'app', code)(dv, app);
@@ -127,7 +128,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await accepted.click({ position: { x: 20, y: 20 } });
     await page.evaluate(() => renderTest('detail'));
     assert.match(await page.locator('.tcc-detail-hero h2').innerText(), /CAN 对标/);
-    assert.equal(await page.locator('.tcc-node-tree button').count(), 2);
+    assert.equal(await page.locator('.tcc-node-tree .tcc-node-title').count(), 2);
     await page.evaluate(() => renderTest('review'));
     await page.evaluate(() => renderTest('dashboard'));
     await page.setViewportSize({ width: 1280, height: 900 });
@@ -175,15 +176,24 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.locator('dialog [data-close]').first().click();
     await page.evaluate(() => renderTest('detail'));
     await page.getByRole('button', { name: '创建任务记录', exact: true }).click();
-    await page.locator('dialog select[name=template]').selectOption('debug');
+    assert.equal(await page.locator('dialog select[name=template]').count(), 0);
+    const progressInput = page.locator('dialog input[name=progress]');
+    await progressInput.fill('101');
+    assert.equal(await progressInput.getAttribute('aria-invalid'), 'true');
+    assert(await page.getByText('完成进度应为 0 到 100 的整数', { exact: true }).isVisible());
+    await progressInput.fill('50');
+    assert.equal(await progressInput.getAttribute('aria-invalid'), 'false');
+    await page.locator('dialog select[name=folder]').selectOption('项目/测试');
+    await page.locator('dialog input[name=summary]').fill('验证唤醒时序');
+    await page.locator('dialog input[name=progress]').fill('45');
     await page.locator('dialog').screenshot({ path: path.join(output, 'create-task-record-mobile.png') });
     assert(await page.locator('dialog').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
     await saveDialog();
     const createdPath = await page.evaluate(() => testState.opened.at(-1));
-    assert(createdPath.startsWith('daliy record/2026.09.16 CAN 对标'));
+    assert(createdPath.startsWith('项目/测试/2026.09.16 CAN 对标'));
     const createdRecord = await page.evaluate(p => testState.memory.get(p), createdPath);
-    assert(createdRecord.includes('### 确认唤醒配置'));
-    assert(createdRecord.includes('**现象与复现条件**'));
+    assert(createdRecord.includes('验证唤醒时序'));
+    assert(!createdRecord.includes('## '));
     assert.equal(await page.locator('.tcc-related-docs [role=link]').count(), 1);
     await page.locator('.tcc-related-docs [role=link]').focus();
     await page.keyboard.press('Enter');
@@ -193,11 +203,13 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.locator('dialog input[name=next]').fill('新增记录之后的下一步');
     await saveDialog();
     const refreshedRecord = await page.evaluate(p => testState.memory.get(p), createdPath);
-    assert(refreshedRecord.includes('新增记录之后的下一步'));
+    assert(!refreshedRecord.includes('新增记录之后的下一步'));
+    assert.equal(JSON.parse(refreshedRecord.split('---')[1]).task_progress, 45);
     assert(refreshedRecord.includes('用户手写记录必须保留'));
     await page.getByRole('button', { name: '创建任务记录', exact: true }).click();
+    await page.locator('dialog select[name=folder]').selectOption('项目/测试');
     await saveDialog();
-    assert.equal(await page.evaluate(() => [...testState.memory.keys()].filter(p => p.startsWith('daliy record/') && p.endsWith('.md')).length), 1);
+    assert.equal(await page.evaluate(() => [...testState.memory.keys()].filter(p => p.startsWith('项目/测试/') && p.endsWith('.md')).length), 1);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.locator('.tcc-detail-grid').screenshot({ path: path.join(output, 'task-record-properties-desktop.png') });
     await page.evaluate(async () => {
@@ -316,7 +328,7 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     assert.equal(await futureRow.count(), 0);
     await page.locator('[data-scope=today]').click();
     const plannedRows = page.locator('[data-today-list] > .tcc-today-row');
-    assert.deepEqual(await plannedRows.locator(':scope > .tcc-today-main > .tcc-today-title').allTextContents(), ['今日最高优先级', '今日高优先级', '长期父任务', '无日期进行中']);
+    assert.deepEqual(await plannedRows.locator(':scope > .tcc-today-main > .tcc-today-title').allTextContents(), ['无日期进行中', '今日最高优先级', '今日高优先级', '长期父任务']);
     assert.equal(await page.locator('.tcc-today-secondary[open]').count(), 0);
     await page.locator('.tcc-today-shell').screenshot({ path: path.join(output, 'today-tasks-desktop.png') });
     await page.setViewportSize({ width: 390, height: 844 });
@@ -497,6 +509,21 @@ const payload = { core: source('tasks-core.js'), records: source('task-records.j
     await page.locator('[data-today-list] .tcc-today-children > summary').click();
     await page.getByRole('button', { name: 'boot当前的代码了解', exact: true }).click();
     await page.evaluate(() => renderTest('detail'));
+    const heroTitle = page.locator('.tcc-detail-hero h2');
+    const up = page.getByRole('button', { name: '返回父任务', exact: true });
+    await up.click();
+    assert.equal(await heroTitle.innerText(), 'boot+信息安全');
+    assert.equal(await up.count(), 0);
+    await page.getByRole('button', { name: 'boot当前的代码了解', exact: true }).click();
+    const grandchild = page.getByRole('button', { name: '调用入口确认', exact: true });
+    await grandchild.focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await heroTitle.innerText(), '调用入口确认');
+    assert(await heroTitle.evaluate(el => el === document.activeElement));
+    await page.evaluate(() => renderTest('detail'));
+    assert.equal(await heroTitle.innerText(), '调用入口确认');
+    await up.click();
+    assert.equal(await heroTitle.innerText(), 'boot当前的代码了解');
     await page.getByRole('button', { name: '创建任务记录', exact: true }).click();
     assert.equal(await page.locator('dialog input[name=name]').inputValue(), 'boot+信息安全 - boot当前的代码了解');
     await page.locator('dialog').screenshot({ path: path.join(output, 'child-record-parent-title.png') });

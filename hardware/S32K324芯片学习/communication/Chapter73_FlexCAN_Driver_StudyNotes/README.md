@@ -151,7 +151,7 @@ CAN Driver 的 EB 配置至少要看 3 个 xdm：
 | `Can_43_FLEXCAN_Ipw_PBcfg.c` | IP wrapper 配置 |
 | `FlexCAN_Ip_PBcfg.c` | `FlexCAN_Ip` 的底层控制器配置 |
 
-![EB 配置路径](assets/eb_configuration_path.png)
+![EB 配置路径](../../safety/Chapter51_ERM_StudyNotes/assets/eb_configuration_path.png)
 
 建议学习顺序：
 

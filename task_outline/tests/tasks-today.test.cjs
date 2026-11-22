@@ -36,12 +36,19 @@ const all = roots.flatMap(root => [root, ...core.children(root)]);
 const result = build(all, { core, DateTime, today });
 assert.deepEqual(new Set(result.all.map(item => item.task)), new Set(roots));
 assert.equal(result.all.length, roots.length);
-assert(result.all.every((item, i) => !i || result.all[i - 1].priority.score >= item.priority.score));
+for (const list of [result.all, result.planned]) {
+  const todo = item => core.state(item.task).key === 'todo';
+  assert.deepEqual(list, [...list.filter(item => !todo(item)), ...list.filter(todo)]);
+  for (const group of [list.filter(todo), list.filter(item => !todo(item))]) {
+    assert(group.every((item, i) => !i || group[i - 1].priority.score > item.priority.score ||
+      (group[i - 1].priority.score === item.priority.score && group[i - 1].due <= item.due)));
+  }
+}
 assert.deepEqual(new Set(result.habits.map(item => item.task)), new Set([dailyHabit, nestedHabit]));
 assert.equal(result.habits.find(item => item.task === nestedHabit).parent, habitParent);
-assert.deepEqual(result.planned.slice(0, 3).map(entry => entry.task), [highest, parent, due]);
-assert.equal(result.planned[1].childPriority, true);
-assert.equal(result.planned[1].priority.label, '高', 'future children must not inflate today priority');
+assert.deepEqual(result.planned.slice(0, 4).map(entry => entry.task), [doing, highest, parent, due]);
+assert.equal(result.planned[2].childPriority, true);
+assert.equal(result.planned[2].priority.label, '高', 'future children must not inflate today priority');
 assert.deepEqual(new Set(result.planned.map(entry => entry.task)), new Set([highest, parent, due, doing, started, scheduledLate]));
 assert.deepEqual(result.overdue.map(entry => entry.task), [overdue]);
 assert.deepEqual(result.done.map(entry => entry.task), [done]);

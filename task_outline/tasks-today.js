@@ -61,7 +61,10 @@ function build(tasks, { core, DateTime, today }) {
       if (late.length) overdue.push(entry(task, late, ["逾期待安排"]));
     }
   }
-  const compare = (a, b) => b.priority.score - a.priority.score || a.due - b.due || key(a.task).localeCompare(key(b.task), "zh-CN", { numeric: true });
+  const isTodo = item => core.state(item.task).key === "todo";
+  const compare = (a, b) => Number(isTodo(a)) - Number(isTodo(b))
+    || b.priority.score - a.priority.score || a.due - b.due
+    || key(a.task).localeCompare(key(b.task), "zh-CN", { numeric: true });
   habits.sort((a, b) => core.priority(b.task).score - core.priority(a.task).score || key(a.task).localeCompare(key(b.task), "zh-CN", { numeric: true }));
   const all = roots.map(task => entry(task, core.children(task).filter(active),
     [task.section?.subpath, core.habit(task).enabled ? "每日打卡" : ""].filter(Boolean))).sort(compare);

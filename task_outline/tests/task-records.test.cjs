@@ -15,7 +15,7 @@ const data = new Map([[sourcePath, '## Today\n- [/] Parent ⏫ 📅 2026-09-20\n
 const listeners = new Map();
 let writes = 0;
 const app = { vault: {
-  getAbstractFileByPath: p => data.has(p) ? { path: p } : null,
+  getAbstractFileByPath: p => p === '项目/电机' ? { path: p, children: [] } : data.has(p) ? { path: p } : null,
   read: async file => data.get(file.path),
   create: async (p, content) => { assert(!data.has(p)); data.set(p, content); return { path: p }; },
   createFolder: async p => { data.set(p, ''); },
@@ -38,10 +38,16 @@ const store = records.create({ app, core, DateTime, parseYaml: JSON.parse, strin
   assert.equal(record.metadata.related_task_id, core.identity(task));
   assert.equal(record.metadata.task_status, '进行中');
   assert.equal(record.metadata.task_priority, '高');
-  assert.equal(record.metadata.subtasks_total, 3);
-  assert.equal(record.metadata.subtasks_done, 1);
-  assert(record.body.includes('### Child B / Nested'));
-  assert(record.body.includes('**现象与复现条件**'));
+  assert.equal(record.metadata.task_progress, 33);
+  assert.deepEqual(Object.keys(record.metadata).sort(), ['date','related_task','related_task_id','task_priority','task_progress','task_status','tcc_record_version'].sort());
+  assert.equal(record.body, '# Parent\n\n');
+  const custom = await store.createRecord(task, { folder: '项目/电机', progress: 45, summary: '验证启动时序' });
+  assert.equal(custom.path, '项目/电机/2026.09.18 Parent.md');
+  const snapshotText = data.get(custom.path);
+  assert.equal(store.readDocument(snapshotText).metadata.summary, '验证启动时序');
+  assert.equal(store.readDocument(snapshotText).metadata.task_progress, 45);
+  assert.equal((await store.createRecord(task, {folder:'/'})).path, '2026.09.18 Parent.md');
+  await assert.rejects(store.createRecord(task, { folder: '../other' }), /文件夹/);
   assert(!record.body.includes('- [ ]'), 'record summaries must not create duplicate actionable tasks');
   const repeated = await store.createRecord(task, { day: '2026-09-18', template: 'standard' });
   assert.equal(repeated.created, false);
@@ -55,7 +61,7 @@ const store = records.create({ app, core, DateTime, parseYaml: JSON.parse, strin
   assert.equal(childRecord.path, 'daliy record/2026.09.18 Parent - Child B.md');
   assert(store.readDocument(data.get(childRecord.path)).body.startsWith('# Parent - Child B\n'));
   assert.equal(store.readDocument(data.get(childRecord.path)).metadata.related_task_id, core.identity(childTask));
-  assert.deepEqual(store.readDocument(data.get(childRecord.path)).metadata.task_ancestors, ['Parent']);
+  assert.equal(store.readDocument(data.get(childRecord.path)).metadata.task_ancestors, undefined);
   assert.equal((await store.createRecord(childTask, { name: 'Parent - Child B' })).path, childRecord.path, 'do not add the parent prefix twice');
   assert.equal((await store.createRecord(childTask, { name: '排查笔记' })).path, 'daliy record/2026.09.18 Parent - 排查笔记.md');
   const nestedRecord = await store.createRecord({ ...nested, path: sourcePath });
@@ -64,6 +70,11 @@ const store = records.create({ app, core, DateTime, parseYaml: JSON.parse, strin
   assert.deepEqual((await core.snapshot({ ...unrelated, path: sourcePath })).ancestors, []);
   const childOriginalTitle = store.readDocument(data.get(childRecord.path)).body.split('\n')[0];
   const manual = '\n## 手写结论\n\n正文必须保留。\n![[my-image.png]]\n';
+  // Exercise existing v1 notes as well as the immutable v2 snapshot above.
+  for (const [path, source] of [[created.path, task], [childRecord.path, childTask]]) {
+    const current = store.readDocument(data.get(path));
+    data.set(path, store.compose('', await core.snapshot(source), { template: 'standard', date: current.metadata.date, name: current.body.split('\n')[0].slice(2) }));
+  }
   data.set(created.path, data.get(created.path) + manual);
   const oldDate = store.readDocument(data.get(created.path)).metadata.date;
   await core.save({ ...child, path: sourcePath }, { title: 'Renamed B', status: 'x' });
@@ -71,6 +82,7 @@ const store = records.create({ app, core, DateTime, parseYaml: JSON.parse, strin
   await core.save(task, { title: 'Renamed parent', next: 'Next action' });
   await core.initialize();
   assert.deepEqual(await store.syncAll(), []);
+  assert.equal(data.get(custom.path), snapshotText);
   const synced = store.readDocument(data.get(created.path));
   assert.equal(synced.metadata.related_task, 'Renamed parent');
   assert.equal(synced.metadata.date, oldDate);
@@ -96,10 +108,19 @@ const store = records.create({ app, core, DateTime, parseYaml: JSON.parse, strin
   await store.syncAll();
   assert(!/(?<!\r)\n/.test(data.get(created.path)), 'preserve line endings');
   const completeContent = data.get(created.path);
-  data.set(created.path, completeContent.replace('<!-- tcc:task-summary:end -->', ''));
-  const damaged = data.get(created.path);
-  assert.equal((await store.syncAll()).length, 1);
-  assert.equal(data.get(created.path), damaged, 'damaged managed markers must never cause body replacement');
+  for (const edited of [
+    completeContent.replace('<!-- tcc:task-summary:end -->', ''),
+    completeContent.replace('<!-- tcc:task-summary:start -->', '$&$&'),
+    completeContent.replace(/<!-- tcc:subtask:[^>]+:end-heading -->/, ''),
+    completeContent.replace(/<!-- tcc:subtask:[^>]+:heading -->/, '$&$&')
+  ]) {
+    assert.notEqual(edited, completeContent);
+    data.set(created.path, edited);
+    assert.deepEqual(await store.syncAll(), []);
+    assert.equal(data.get(created.path), edited, 'skip customized notes without changing a byte');
+  }
+  data.set(created.path, completeContent.replace('"standard"', '"unknown-template"'));
+  assert.match((await store.syncAll()).join(' '), /记录模板不受支持/);
   data.set(created.path, completeContent);
   const unsafeName = await store.createRecord(task, { name: '../../Other: record', template: 'headings' });
   assert(unsafeName.path.startsWith('daliy record/2026.09.18 '));

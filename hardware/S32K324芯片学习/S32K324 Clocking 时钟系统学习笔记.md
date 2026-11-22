@@ -67,7 +67,7 @@ S32K324 的时钟系统可以理解成一套“水厂供水系统”：
 4. EB tresos 的 Mcu 模块就是配置界面：把这些源、MUX、分频器、门控、参考频率点写成 MCAL 配置，最后生成代码。
 5. 应用代码通过 `Mcu_InitClock()`、`Mcu_GetPllStatus()`、`Mcu_DistributePllClock()` 等 API 让配置真正生效。
 
-![[../attachments/s32k324_clock_learning_path.png]]
+![[../../attachments/s32k324_clock_learning_path.png]]
 
 图源：根据 NXP S32K3xx Reference Manual Rev.9 Chapter 24-30 和本工程 `Mcu.xdm` 摘要绘制。
 
@@ -96,7 +96,7 @@ S32K324 使用手册 24.3.11 的图：
 - 图号：Figure 68
 - 来源：NXP S32K3xx Reference Manual Rev.9, Chapter 24 Clocking, 24.3.11, PDF page 908
 
-![[../attachments/fig24-1_clock_source_generation_page908.png]]
+![[../../attachments/fig24-1_clock_source_generation_page908.png]]
 
 这张图非常重要。建议第一次看不要急着追每一根线，而是先抓住 5 类东西：
 
@@ -201,7 +201,7 @@ FXOSC 是高速外部晶振控制器。它可以接晶体，也可以配合外�
 
 - 来源：NXP S32K3xx Reference Manual Rev.9, Chapter 28 FXOSC, 28.2.1 Block diagram, PDF page 1147
 
-![[../attachments/fig28-1_fxosc_block_page1147.png]]
+![[../../attachments/fig28-1_fxosc_block_page1147.png]]
 
 本工程 EB 配置：
 
@@ -273,7 +273,7 @@ PLL 是锁相环。它的作用是把低频参考时钟倍频成高频系统时�
 
 - 来源：NXP S32K3xx Reference Manual Rev.9, Chapter 30 PLLDIG, 30.2.1 Block diagram, PDF page 1157
 
-![[../attachments/fig30-1_plldig_block_page1157.png]]
+![[../../attachments/fig30-1_plldig_block_page1157.png]]
 
 手册中的关键点：
 
@@ -331,7 +331,7 @@ MC_CGM，全称 Clock Generation Module，是 S32K324 时钟分配的核心。
 
 - 来源：NXP S32K3xx Reference Manual Rev.9, Chapter 24 Clocking, 24.3.1 Clock source generation
 
-![[../attachments/fig24-1_clock_source_generation_page908.png]]
+![[../../attachments/fig24-1_clock_source_generation_page908.png]]
 
 > 这张截图同时包含 S32K324 clock system diagram，所以也可作为总览图使用。
 
@@ -384,7 +384,7 @@ STM1_CLK       = 40 MHz
 
 - 来源：NXP S32K3xx Reference Manual Rev.9, Chapter 24 Clocking, 24.3.4 Other clocks, PDF page 939
 
-![[../attachments/fig24-4_other_clocks_page939.png]]
+![[../../attachments/fig24-4_other_clocks_page939.png]]
 
 本工程 Mcu.xdm 中几个典型 MUX：
 
@@ -516,7 +516,7 @@ STM1_CLK = 40 MHz
 
 ## 6.1 EB 配置和芯片手册的对应关系
 
-![[../attachments/eb_tresos_mcu_clock_config_map.png]]
+![[../../attachments/eb_tresos_mcu_clock_config_map.png]]
 
 图源：根据本工程 `E:/github/ECAS_RTA_S32K324GHS_Heating/BasicSoftware/integration/mcal/MCAL_Cfg/config/Mcu.xdm` 摘要绘制。
 
@@ -627,7 +627,7 @@ QSPI_MEM_CLK   = 160 MHz
 
 ### 6.3.0 EB tresos 界面图解：McuClockSettingConfig / General
 
-![[../attachments/eb_tresos_mcu_clock_general_annotated_source.png]]
+![[../../attachments/eb_tresos_mcu_clock_general_annotated_source.png]]
 
 图源：用户提供的 EB tresos 工程截图，工程 `ECAS_RTA_S32K324GHS_Heating`，Mcu 模块 `McuClockSettingConfig -> General` 页面，截图保存于 `C:/Users/Administrator/AppData/Local/hermes/images/clip_20260513_091742_1.png`。
 
